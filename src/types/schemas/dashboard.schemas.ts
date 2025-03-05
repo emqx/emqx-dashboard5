@@ -1,33 +1,3 @@
-export type PostLogout401Code = typeof PostLogout401Code[keyof typeof PostLogout401Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostLogout401Code = {
-  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
-} as const
-
-export type PostLogout401 = {
-  code?: PostLogout401Code
-  message?: string
-}
-
-export type PostLogoutBody = {
-  username?: string
-}
-
-export type PostLogoutBackend = typeof PostLogoutBackend[keyof typeof PostLogoutBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostLogoutBackend = {
-  local: 'local',
-  ldap: 'ldap',
-  oidc: 'oidc',
-  saml: 'saml',
-} as const
-
-export type PostLogoutParams = {
-  backend?: PostLogoutBackend
-}
-
 export type PostUsersUsernameChangePwd404Code =
   typeof PostUsersUsernameChangePwd404Code[keyof typeof PostUsersUsernameChangePwd404Code]
 
@@ -142,6 +112,50 @@ export type PutUsersUsernameParams = {
   backend?: PutUsersUsernameBackend
 }
 
+export type PostUsers200 = {
+  username?: string
+  role?: string
+  description?: string
+  backend?: string
+}
+
+export type PostUsersBody = {
+  username?: string
+  password?: string
+  role?: string
+  description?: string
+}
+
+export type PostLogout401Code = typeof PostLogout401Code[keyof typeof PostLogout401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogout401Code = {
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+} as const
+
+export type PostLogout401 = {
+  code?: PostLogout401Code
+  message?: string
+}
+
+export type PostLogoutBody = {
+  username?: string
+}
+
+export type PostLogoutBackend = typeof PostLogoutBackend[keyof typeof PostLogoutBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogoutBackend = {
+  local: 'local',
+  ldap: 'ldap',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type PostLogoutParams = {
+  backend?: PostLogoutBackend
+}
+
 export type PostLogin401Code = typeof PostLogin401Code[keyof typeof PostLogin401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -179,23 +193,9 @@ export type PostLoginBody = {
   password?: string
 }
 
-export type PostUsers200 = {
-  username?: string
-  role?: string
-  description?: string
-  backend?: string
-}
-
-export type PostUsersBody = {
-  username?: string
-  password?: string
-  role?: string
-  description?: string
-}
-
 export interface DashboardUser {
-  username?: string
-  role?: string
-  description?: string
   backend?: string
+  description?: string
+  role?: string
+  username?: string
 }

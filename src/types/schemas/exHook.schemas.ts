@@ -1,40 +1,3 @@
-export type GetExhooksNameHooks400Code =
-  typeof GetExhooksNameHooks400Code[keyof typeof GetExhooksNameHooks400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetExhooksNameHooks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetExhooksNameHooks400 = {
-  code?: GetExhooksNameHooks400Code
-  message?: string
-}
-
-export type PostExhooks500Code = typeof PostExhooks500Code[keyof typeof PostExhooks500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostExhooks500Code = {
-  BAD_RPC: 'BAD_RPC',
-} as const
-
-export type PostExhooks500 = {
-  code?: PostExhooks500Code
-  message?: string
-}
-
-export type PostExhooks400Code = typeof PostExhooks400Code[keyof typeof PostExhooks400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostExhooks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostExhooks400 = {
-  code?: PostExhooks400Code
-  message?: string
-}
-
 export type PostExhooksNameMove500Code =
   typeof PostExhooksNameMove500Code[keyof typeof PostExhooksNameMove500Code]
 
@@ -58,6 +21,19 @@ export const PostExhooksNameMove400Code = {
 
 export type PostExhooksNameMove400 = {
   code?: PostExhooksNameMove400Code
+  message?: string
+}
+
+export type GetExhooksNameHooks400Code =
+  typeof GetExhooksNameHooks400Code[keyof typeof GetExhooksNameHooks400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetExhooksNameHooks400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetExhooksNameHooks400 = {
+  code?: GetExhooksNameHooks400Code
   message?: string
 }
 
@@ -135,6 +111,38 @@ export type GetExhooksName404 = {
   message?: string
 }
 
+export type PostExhooks500Code = typeof PostExhooks500Code[keyof typeof PostExhooks500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostExhooks500Code = {
+  BAD_RPC: 'BAD_RPC',
+} as const
+
+export type PostExhooks500 = {
+  code?: PostExhooks500Code
+  message?: string
+}
+
+export type PostExhooks400Code = typeof PostExhooks400Code[keyof typeof PostExhooks400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostExhooks400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostExhooks400 = {
+  code?: PostExhooks400Code
+  message?: string
+}
+
+export type ExhookSslConfVerify = typeof ExhookSslConfVerify[keyof typeof ExhookSslConfVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ExhookSslConfVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
 export type ExhookSslConfServerNameIndication = string | 'disable'
 
 export type ExhookSslConfPartialChain =
@@ -164,33 +172,25 @@ export const ExhookSslConfLogLevel = {
   all: 'all',
 } as const
 
-export type ExhookSslConfVerify = typeof ExhookSslConfVerify[keyof typeof ExhookSslConfVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ExhookSslConfVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
 export interface ExhookSslConf {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
-  keyfile?: string
-  verify?: ExhookSslConfVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
   ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: ExhookSslConfLogLevel
-  hibernate_after?: string
-  partial_chain?: ExhookSslConfPartialChain
-  verify_peer_ext_key_usage?: string
+  depth?: number
   enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: ExhookSslConfLogLevel
+  partial_chain?: ExhookSslConfPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
   server_name_indication?: ExhookSslConfServerNameIndication
+  verify?: ExhookSslConfVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export interface ExhookSocketOptions {
@@ -199,8 +199,6 @@ export interface ExhookSocketOptions {
   recbuf?: string
   sndbuf?: string
 }
-
-export type ExhookServerConfigAutoReconnect = string | 'false'
 
 export type ExhookServerConfigFailedAction =
   typeof ExhookServerConfigFailedAction[keyof typeof ExhookServerConfigFailedAction]
@@ -211,16 +209,18 @@ export const ExhookServerConfigFailedAction = {
   ignore: 'ignore',
 } as const
 
+export type ExhookServerConfigAutoReconnect = string | 'false'
+
 export interface ExhookServerConfig {
-  name: string
-  enable?: boolean
-  url: string
-  request_timeout?: string
-  failed_action?: ExhookServerConfigFailedAction
-  ssl?: ExhookSslConf
-  socket_options?: ExhookSocketOptions
   auto_reconnect?: ExhookServerConfigAutoReconnect
+  enable?: boolean
+  failed_action?: ExhookServerConfigFailedAction
+  name: string
   pool_size?: number
+  request_timeout?: string
+  socket_options?: ExhookSocketOptions
+  ssl?: ExhookSslConf
+  url: string
 }
 
 export type ExhookNodeStatusStatus =
@@ -245,15 +245,15 @@ export interface ExhookMoveReq {
 }
 
 export interface ExhookMetrics {
-  succeed?: number
   failed?: number
-  rate?: number
   max_rate?: number
+  rate?: number
+  succeed?: number
 }
 
 export interface ExhookNodeMetrics {
-  node?: string
   metrics?: ExhookMetrics
+  node?: string
 }
 
 export type ExhookListHookInfoParams = {
@@ -261,10 +261,10 @@ export type ExhookListHookInfoParams = {
 }
 
 export interface ExhookListHookInfo {
-  name?: string
-  params?: ExhookListHookInfoParams
   metrics?: ExhookMetrics
+  name?: string
   node_metrics?: ExhookNodeMetrics[]
+  params?: ExhookListHookInfoParams
 }
 
 export type ExhookHookInfoParams = {
@@ -276,8 +276,6 @@ export interface ExhookHookInfo {
   params?: ExhookHookInfoParams
 }
 
-export type ExhookDetailServerInfoAutoReconnect = string | 'false'
-
 export type ExhookDetailServerInfoFailedAction =
   typeof ExhookDetailServerInfoFailedAction[keyof typeof ExhookDetailServerInfoFailedAction]
 
@@ -287,18 +285,20 @@ export const ExhookDetailServerInfoFailedAction = {
   ignore: 'ignore',
 } as const
 
+export type ExhookDetailServerInfoAutoReconnect = string | 'false'
+
 export interface ExhookDetailServerInfo {
+  auto_reconnect?: ExhookDetailServerInfoAutoReconnect
+  enable?: boolean
+  failed_action?: ExhookDetailServerInfoFailedAction
+  hooks?: ExhookHookInfo[]
   metrics?: ExhookMetrics
+  name: string
   node_metrics?: ExhookNodeMetrics[]
   node_status?: ExhookNodeStatus[]
-  hooks?: ExhookHookInfo[]
-  name: string
-  enable?: boolean
-  url: string
-  request_timeout?: string
-  failed_action?: ExhookDetailServerInfoFailedAction
-  ssl?: ExhookSslConf
-  socket_options?: ExhookSocketOptions
-  auto_reconnect?: ExhookDetailServerInfoAutoReconnect
   pool_size?: number
+  request_timeout?: string
+  socket_options?: ExhookSocketOptions
+  ssl?: ExhookSslConf
+  url: string
 }

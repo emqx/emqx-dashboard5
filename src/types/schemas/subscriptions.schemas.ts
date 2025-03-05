@@ -41,12 +41,12 @@ export type GetSubscriptionsParams = {
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
-  node?: string
-  topic?: string
   clientid?: string
-  qos?: number
+  durable?: boolean
   nl?: number
+  node?: string
+  qos?: number
   rap?: number
   rh?: number
-  durable?: boolean
+  topic?: string
 }

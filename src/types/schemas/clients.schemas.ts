@@ -1,53 +1,30 @@
-export type GetClients400Code = typeof GetClients400Code[keyof typeof GetClients400Code]
+export type GetSessionsCount400Code =
+  typeof GetSessionsCount400Code[keyof typeof GetSessionsCount400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClients400Code = {
-  INVALID_PARAMETER: 'INVALID_PARAMETER',
+export const GetSessionsCount400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type GetClients400 = {
-  code?: GetClients400Code
+export type GetSessionsCount400 = {
+  code?: GetSessionsCount400Code
   message?: string
 }
 
-export type GetClientsConnState = typeof GetClientsConnState[keyof typeof GetClientsConnState]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsConnState = {
-  connected: 'connected',
-  idle: 'idle',
-  disconnected: 'disconnected',
-} as const
-
-export type GetClientsParams = {
-  page?: PublicPageParameter
-  node?: string
-  limit?: PublicLimitParameter
-  username?: string[]
-  ip_address?: string
-  conn_state?: GetClientsConnState
-  clean_start?: boolean
-  proto_ver?: string
-  like_clientid?: string
-  like_username?: string
-  gte_created_at?: number | string
-  lte_created_at?: number | string
-  gte_connected_at?: number | string
-  lte_connected_at?: number | string
-  clientid?: string[]
-  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
+export type GetSessionsCountParams = {
+  since?: number
 }
 
-export type GetClientsClientidSubscriptions404Code =
-  typeof GetClientsClientidSubscriptions404Code[keyof typeof GetClientsClientidSubscriptions404Code]
+export type PostClientsClientidUnsubscribeBulk404Code =
+  typeof PostClientsClientidUnsubscribeBulk404Code[keyof typeof PostClientsClientidUnsubscribeBulk404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidSubscriptions404Code = {
+export const PostClientsClientidUnsubscribeBulk404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type GetClientsClientidSubscriptions404 = {
-  code?: GetClientsClientidSubscriptions404Code
+export type PostClientsClientidUnsubscribeBulk404 = {
+  code?: PostClientsClientidUnsubscribeBulk404Code
   message?: string
 }
 
@@ -64,61 +41,43 @@ export type PostClientsClientidUnsubscribe404 = {
   message?: string
 }
 
-export type GetClientsClientidInflightMessages501Code =
-  typeof GetClientsClientidInflightMessages501Code[keyof typeof GetClientsClientidInflightMessages501Code]
+export type GetClientsClientidSubscriptions404Code =
+  typeof GetClientsClientidSubscriptions404Code[keyof typeof GetClientsClientidSubscriptions404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidInflightMessages501Code = {
-  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
-} as const
-
-export type GetClientsClientidInflightMessages501 = {
-  code?: GetClientsClientidInflightMessages501Code
-  message?: string
-}
-
-export type GetClientsClientidInflightMessages404Code =
-  typeof GetClientsClientidInflightMessages404Code[keyof typeof GetClientsClientidInflightMessages404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidInflightMessages404Code = {
+export const GetClientsClientidSubscriptions404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
-  CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
 } as const
 
-export type GetClientsClientidInflightMessages404 = {
-  code?: GetClientsClientidInflightMessages404Code
+export type GetClientsClientidSubscriptions404 = {
+  code?: GetClientsClientidSubscriptions404Code
   message?: string
 }
 
-export type GetClientsClientidInflightMessages400Code =
-  typeof GetClientsClientidInflightMessages400Code[keyof typeof GetClientsClientidInflightMessages400Code]
+export type PostClientsClientidSubscribeBulk404Code =
+  typeof PostClientsClientidSubscribeBulk404Code[keyof typeof PostClientsClientidSubscribeBulk404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidInflightMessages400Code = {
-  INVALID_PARAMETER: 'INVALID_PARAMETER',
+export const PostClientsClientidSubscribeBulk404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type GetClientsClientidInflightMessages400 = {
-  code?: GetClientsClientidInflightMessages400Code
+export type PostClientsClientidSubscribeBulk404 = {
+  code?: PostClientsClientidSubscribeBulk404Code
   message?: string
 }
 
-export type GetClientsClientidInflightMessagesPayload =
-  typeof GetClientsClientidInflightMessagesPayload[keyof typeof GetClientsClientidInflightMessagesPayload]
+export type PostClientsClientidSubscribe404Code =
+  typeof PostClientsClientidSubscribe404Code[keyof typeof PostClientsClientidSubscribe404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidInflightMessagesPayload = {
-  none: 'none',
-  base64: 'base64',
-  plain: 'plain',
+export const PostClientsClientidSubscribe404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type GetClientsClientidInflightMessagesParams = {
-  payload?: GetClientsClientidInflightMessagesPayload
-  max_payload_bytes?: string
-  position?: PublicPositionParameter
-  limit?: PublicLimitParameter
+export type PostClientsClientidSubscribe404 = {
+  code?: PostClientsClientidSubscribe404Code
+  message?: string
 }
 
 export type GetClientsClientidMqueueMessages501Code =
@@ -178,42 +137,86 @@ export type GetClientsClientidMqueueMessagesParams = {
   limit?: PublicLimitParameter
 }
 
-export type PostClientsClientidSubscribe404Code =
-  typeof PostClientsClientidSubscribe404Code[keyof typeof PostClientsClientidSubscribe404Code]
+export type GetClientsClientidInflightMessages501Code =
+  typeof GetClientsClientidInflightMessages501Code[keyof typeof GetClientsClientidInflightMessages501Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostClientsClientidSubscribe404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+export const GetClientsClientidInflightMessages501Code = {
+  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
 } as const
 
-export type PostClientsClientidSubscribe404 = {
-  code?: PostClientsClientidSubscribe404Code
+export type GetClientsClientidInflightMessages501 = {
+  code?: GetClientsClientidInflightMessages501Code
   message?: string
 }
 
-export type PostClientsClientidSubscribeBulk404Code =
-  typeof PostClientsClientidSubscribeBulk404Code[keyof typeof PostClientsClientidSubscribeBulk404Code]
+export type GetClientsClientidInflightMessages404Code =
+  typeof GetClientsClientidInflightMessages404Code[keyof typeof GetClientsClientidInflightMessages404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostClientsClientidSubscribeBulk404Code = {
+export const GetClientsClientidInflightMessages404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+  CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
 } as const
 
-export type PostClientsClientidSubscribeBulk404 = {
-  code?: PostClientsClientidSubscribeBulk404Code
+export type GetClientsClientidInflightMessages404 = {
+  code?: GetClientsClientidInflightMessages404Code
   message?: string
 }
 
-export type PostClientsClientidUnsubscribeBulk404Code =
-  typeof PostClientsClientidUnsubscribeBulk404Code[keyof typeof PostClientsClientidUnsubscribeBulk404Code]
+export type GetClientsClientidInflightMessages400Code =
+  typeof GetClientsClientidInflightMessages400Code[keyof typeof GetClientsClientidInflightMessages400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostClientsClientidUnsubscribeBulk404Code = {
+export const GetClientsClientidInflightMessages400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+} as const
+
+export type GetClientsClientidInflightMessages400 = {
+  code?: GetClientsClientidInflightMessages400Code
+  message?: string
+}
+
+export type GetClientsClientidInflightMessagesPayload =
+  typeof GetClientsClientidInflightMessagesPayload[keyof typeof GetClientsClientidInflightMessagesPayload]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidInflightMessagesPayload = {
+  none: 'none',
+  base64: 'base64',
+  plain: 'plain',
+} as const
+
+export type GetClientsClientidInflightMessagesParams = {
+  payload?: GetClientsClientidInflightMessagesPayload
+  max_payload_bytes?: string
+  position?: PublicPositionParameter
+  limit?: PublicLimitParameter
+}
+
+export type DeleteClientsClientidAuthorizationCache404Code =
+  typeof DeleteClientsClientidAuthorizationCache404Code[keyof typeof DeleteClientsClientidAuthorizationCache404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClientsClientidAuthorizationCache404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type PostClientsClientidUnsubscribeBulk404 = {
-  code?: PostClientsClientidUnsubscribeBulk404Code
+export type DeleteClientsClientidAuthorizationCache404 = {
+  code?: DeleteClientsClientidAuthorizationCache404Code
+  message?: string
+}
+
+export type GetClientsClientidAuthorizationCache404Code =
+  typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetClientsClientidAuthorizationCache404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+} as const
+
+export type GetClientsClientidAuthorizationCache404 = {
+  code?: GetClientsClientidAuthorizationCache404Code
   message?: string
 }
 
@@ -243,54 +246,51 @@ export type GetClientsClientid404 = {
   message?: string
 }
 
-export type DeleteClientsClientidAuthorizationCache404Code =
-  typeof DeleteClientsClientidAuthorizationCache404Code[keyof typeof DeleteClientsClientidAuthorizationCache404Code]
+export type GetClients400Code = typeof GetClients400Code[keyof typeof GetClients400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClientsClientidAuthorizationCache404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+export const GetClients400Code = {
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
 } as const
 
-export type DeleteClientsClientidAuthorizationCache404 = {
-  code?: DeleteClientsClientidAuthorizationCache404Code
+export type GetClients400 = {
+  code?: GetClients400Code
   message?: string
 }
 
-export type GetClientsClientidAuthorizationCache404Code =
-  typeof GetClientsClientidAuthorizationCache404Code[keyof typeof GetClientsClientidAuthorizationCache404Code]
+export type GetClientsConnState = typeof GetClientsConnState[keyof typeof GetClientsConnState]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetClientsClientidAuthorizationCache404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+export const GetClientsConnState = {
+  connected: 'connected',
+  idle: 'idle',
+  disconnected: 'disconnected',
 } as const
-
-export type GetClientsClientidAuthorizationCache404 = {
-  code?: GetClientsClientidAuthorizationCache404Code
-  message?: string
-}
-
-export type GetSessionsCount400Code =
-  typeof GetSessionsCount400Code[keyof typeof GetSessionsCount400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSessionsCount400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetSessionsCount400 = {
-  code?: GetSessionsCount400Code
-  message?: string
-}
-
-export type GetSessionsCountParams = {
-  since?: number
-}
 
 export type PublicPositionParameter = string | 'end_of_data' | 'none'
 
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
+
+export type GetClientsParams = {
+  page?: PublicPageParameter
+  node?: string
+  limit?: PublicLimitParameter
+  username?: string[]
+  ip_address?: string
+  conn_state?: GetClientsConnState
+  clean_start?: boolean
+  proto_ver?: string
+  like_clientid?: string
+  like_username?: string
+  gte_created_at?: number | string
+  lte_created_at?: number | string
+  gte_connected_at?: number | string
+  lte_connected_at?: number | string
+  clientid?: string[]
+  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
+}
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
   typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[keyof typeof EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem]
@@ -363,30 +363,30 @@ export type EmqxMgmtApiClientsRequestedClientFieldsParameter =
   | 'all'
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
-
-export type PublicContinuationMetaPosition = string | 'end_of_data' | 'none'
 
 export type PublicContinuationMetaStart = string | 'none'
 
+export type PublicContinuationMetaPosition = string | 'end_of_data' | 'none'
+
 export interface PublicContinuationMeta {
-  start: PublicContinuationMetaStart
   position?: PublicContinuationMetaPosition
+  start: PublicContinuationMetaStart
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
-  node?: string
-  topic?: string
   clientid?: string
-  qos?: number
+  durable?: boolean
   nl?: number
+  node?: string
+  qos?: number
   rap?: number
   rh?: number
-  durable?: boolean
+  topic?: string
 }
 
 export interface EmqxMgmtApiClientsUnsubscribe {
@@ -394,25 +394,25 @@ export interface EmqxMgmtApiClientsUnsubscribe {
 }
 
 export interface EmqxMgmtApiClientsSubscribe {
-  topic: string
-  qos?: number
   nl?: number
+  qos?: number
   rap?: number
   rh?: number
+  topic: string
 }
 
 export type EmqxMgmtApiClientsMqueueMessageMqueuePriority = 'infinity' | number
 
 export interface EmqxMgmtApiClientsMqueueMessage {
-  msgid?: string
-  topic?: string
-  qos?: number
-  publish_at?: number
   from_clientid?: string
   from_username?: string
-  payload?: string
   inserted_at?: string
   mqueue_priority?: EmqxMgmtApiClientsMqueueMessageMqueuePriority
+  msgid?: string
+  payload?: string
+  publish_at?: number
+  qos?: number
+  topic?: string
 }
 
 export interface EmqxMgmtApiClientsMqueueMessages {
@@ -421,14 +421,14 @@ export interface EmqxMgmtApiClientsMqueueMessages {
 }
 
 export interface EmqxMgmtApiClientsMessage {
-  msgid?: string
-  topic?: string
-  qos?: number
-  publish_at?: number
   from_clientid?: string
   from_username?: string
-  payload?: string
   inserted_at?: string
+  msgid?: string
+  payload?: string
+  publish_at?: number
+  qos?: number
+  topic?: string
 }
 
 export interface EmqxMgmtApiClientsInflightMessages {
@@ -451,6 +451,7 @@ export interface EmqxMgmtApiClientsClient {
   connected_at?: EmqxMgmtApiClientsClientConnectedAt
   created_at?: EmqxMgmtApiClientsClientCreatedAt
   disconnected_at?: EmqxMgmtApiClientsClientDisconnectedAt
+  durable?: boolean
   expiry_interval?: number
   heap_size?: number
   inflight_cnt?: number
@@ -460,9 +461,11 @@ export interface EmqxMgmtApiClientsClient {
   is_expired?: boolean
   keepalive?: number
   mailbox_len?: number
+  mountpoint?: string
   mqueue_dropped?: number
   mqueue_len?: number
   mqueue_max?: number
+  n_streams?: number
   node?: string
   port?: number
   proto_name?: string
@@ -488,19 +491,16 @@ export interface EmqxMgmtApiClientsClient {
   'send_msg.qos2'?: number
   send_oct?: number
   send_pkt?: number
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  username?: string
-  mountpoint?: string
-  durable?: boolean
-  n_streams?: number
   seqno_q1_comm?: number
   seqno_q1_dup?: number
   seqno_q1_next?: number
   seqno_q2_comm?: number
   seqno_q2_dup?: number
-  seqno_q2_rec?: number
   seqno_q2_next?: number
+  seqno_q2_rec?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }
 
 export interface EmqxMgmtApiClientsClients {

@@ -1,116 +1,3 @@
-export type DeleteSsoBackend404Code =
-  typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type DeleteSsoBackend404 = {
-  code?: DeleteSsoBackend404Code
-  message?: string
-}
-
-export type PutSsoBackend404Code = typeof PutSsoBackend404Code[keyof typeof PutSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type PutSsoBackend404 = {
-  code?: PutSsoBackend404Code
-  message?: string
-}
-
-export type PutSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
-
-export type PutSsoBackendBody = DashboardSaml | SsoOidc | SsoLdap
-
-export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type GetSsoBackend404 = {
-  code?: GetSsoBackend404Code
-  message?: string
-}
-
-export type GetSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
-
-export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSsoRunning200Item = {
-  ldap: 'ldap',
-  oidc: 'oidc',
-  saml: 'saml',
-} as const
-
-export type PostSsoLoginBackend404Code =
-  typeof PostSsoLoginBackend404Code[keyof typeof PostSsoLoginBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLoginBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type PostSsoLoginBackend404 = {
-  code?: PostSsoLoginBackend404Code
-  message?: string
-}
-
-export type PostSsoLoginBackend401Code =
-  typeof PostSsoLoginBackend401Code[keyof typeof PostSsoLoginBackend401Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLoginBackend401Code = {
-  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
-} as const
-
-export type PostSsoLoginBackend401 = {
-  code?: PostSsoLoginBackend401Code
-  message?: string
-}
-
-export type PostSsoLoginBackend302Code =
-  typeof PostSsoLoginBackend302Code[keyof typeof PostSsoLoginBackend302Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLoginBackend302Code = {
-  REDIRECT: 'REDIRECT',
-} as const
-
-export type PostSsoLoginBackend302 = {
-  code?: PostSsoLoginBackend302Code
-  message?: string
-}
-
-export type PostSsoLoginBackend200LicenseEdition =
-  typeof PostSsoLoginBackend200LicenseEdition[keyof typeof PostSsoLoginBackend200LicenseEdition]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLoginBackend200LicenseEdition = {
-  opensource: 'opensource',
-  enterprise: 'enterprise',
-} as const
-
-export type PostSsoLoginBackend200License = {
-  edition?: PostSsoLoginBackend200LicenseEdition
-}
-
-export type PostSsoLoginBackend200 = {
-  role?: string
-  token?: string
-  version?: string
-  license?: PostSsoLoginBackend200License
-}
-
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
-
 export type GetSsoSamlMetadata404Code =
   typeof GetSsoSamlMetadata404Code[keyof typeof GetSsoSamlMetadata404Code]
 
@@ -179,6 +66,15 @@ export type PostSsoSamlAcs302 = {
   message?: string
 }
 
+export type GetSsoRunning200Item = typeof GetSsoRunning200Item[keyof typeof GetSsoRunning200Item]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoRunning200Item = {
+  ldap: 'ldap',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
 export type GetSsoOidcCallback404Code =
   typeof GetSsoOidcCallback404Code[keyof typeof GetSsoOidcCallback404Code]
 
@@ -237,7 +133,107 @@ export type GetSsoOidcCallback200 = {
   license?: GetSsoOidcCallback200License
 }
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+export type PostSsoLoginBackend404Code =
+  typeof PostSsoLoginBackend404Code[keyof typeof PostSsoLoginBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoLoginBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type PostSsoLoginBackend404 = {
+  code?: PostSsoLoginBackend404Code
+  message?: string
+}
+
+export type PostSsoLoginBackend401Code =
+  typeof PostSsoLoginBackend401Code[keyof typeof PostSsoLoginBackend401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoLoginBackend401Code = {
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+} as const
+
+export type PostSsoLoginBackend401 = {
+  code?: PostSsoLoginBackend401Code
+  message?: string
+}
+
+export type PostSsoLoginBackend302Code =
+  typeof PostSsoLoginBackend302Code[keyof typeof PostSsoLoginBackend302Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoLoginBackend302Code = {
+  REDIRECT: 'REDIRECT',
+} as const
+
+export type PostSsoLoginBackend302 = {
+  code?: PostSsoLoginBackend302Code
+  message?: string
+}
+
+export type PostSsoLoginBackend200LicenseEdition =
+  typeof PostSsoLoginBackend200LicenseEdition[keyof typeof PostSsoLoginBackend200LicenseEdition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoLoginBackend200LicenseEdition = {
+  opensource: 'opensource',
+  enterprise: 'enterprise',
+} as const
+
+export type PostSsoLoginBackend200License = {
+  edition?: PostSsoLoginBackend200LicenseEdition
+}
+
+export type PostSsoLoginBackend200 = {
+  role?: string
+  token?: string
+  version?: string
+  license?: PostSsoLoginBackend200License
+}
+
+export type DeleteSsoBackend404Code =
+  typeof DeleteSsoBackend404Code[keyof typeof DeleteSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type DeleteSsoBackend404 = {
+  code?: DeleteSsoBackend404Code
+  message?: string
+}
+
+export type PutSsoBackend404Code = typeof PutSsoBackend404Code[keyof typeof PutSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type PutSsoBackend404 = {
+  code?: PutSsoBackend404Code
+  message?: string
+}
+
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
+
+export type GetSsoBackend404Code = typeof GetSsoBackend404Code[keyof typeof GetSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type GetSsoBackend404 = {
+  code?: GetSsoBackend404Code
+  message?: string
+}
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoOidcProvider = typeof SsoOidcProvider[keyof typeof SsoOidcProvider]
 
@@ -259,6 +255,8 @@ export const SsoOidcPreferredAuthMethodsItem = {
   none: 'none',
 } as const
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
 export type SsoOidcBackend = typeof SsoOidcBackend[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -267,20 +265,20 @@ export const SsoOidcBackend = {
 } as const
 
 export interface SsoOidc {
-  enable?: boolean
   backend: SsoOidcBackend
-  issuer: string
+  client_jwks?: SsoOidcClientJwks
   clientid: string
-  secret: string
-  scopes?: string[]
-  name_var?: string
   dashboard_addr?: string
-  session_expiry?: string
-  require_pkce?: boolean
+  enable?: boolean
+  fallback_methods?: string[]
+  issuer: string
+  name_var?: string
   preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
   provider?: SsoOidcProvider
-  fallback_methods?: string[]
-  client_jwks?: SsoOidcClientJwks
+  require_pkce?: boolean
+  scopes?: string[]
+  secret: string
+  session_expiry?: string
 }
 
 export type SsoLoginBackend = typeof SsoLoginBackend[keyof typeof SsoLoginBackend]
@@ -293,6 +291,8 @@ export const SsoLoginBackend = {
 export interface SsoLogin {
   backend: SsoLoginBackend
 }
+
+export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
 
 export type SsoLdapBackend = typeof SsoLdapBackend[keyof typeof SsoLdapBackend]
 
@@ -309,9 +309,17 @@ export const SsoClientFileJwksType = {
 } as const
 
 export interface SsoClientFileJwks {
-  type: SsoClientFileJwksType
   file: string
+  type: SsoClientFileJwksType
 }
+
+export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
 
 export type LdapSslServerNameIndication = string | 'disable'
 
@@ -341,47 +349,39 @@ export const LdapSslLogLevel = {
   all: 'all',
 } as const
 
-export type LdapSslVerify = typeof LdapSslVerify[keyof typeof LdapSslVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
-  keyfile?: string
-  verify?: LdapSslVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
   ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: LdapSslLogLevel
-  hibernate_after?: string
-  partial_chain?: LdapSslPartialChain
-  verify_peer_ext_key_usage?: string
+  depth?: number
   enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: LdapSslLogLevel
+  partial_chain?: LdapSslPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
   server_name_indication?: LdapSslServerNameIndication
+  verify?: LdapSslVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export interface SsoLdap {
-  enable?: boolean
   backend: SsoLdapBackend
-  query_timeout?: string
-  server: string
-  pool_size?: number
-  username: string
-  password?: string
   base_dn: string
+  enable?: boolean
   filter?: string
+  password?: string
+  pool_size?: number
+  query_timeout?: string
   request_timeout?: string
+  server: string
   ssl?: LdapSsl
+  username: string
 }
 
 export type DashboardSamlBackend = typeof DashboardSamlBackend[keyof typeof DashboardSamlBackend]
@@ -392,13 +392,13 @@ export const DashboardSamlBackend = {
 } as const
 
 export interface DashboardSaml {
-  enable?: boolean
   backend: DashboardSamlBackend
   dashboard_addr?: string
+  enable?: boolean
   idp_metadata_url?: string
-  sp_sign_request?: boolean
-  sp_public_key?: string
   sp_private_key?: string
+  sp_public_key?: string
+  sp_sign_request?: boolean
 }
 
 export type DashboardLoginBackend = typeof DashboardLoginBackend[keyof typeof DashboardLoginBackend]
@@ -423,8 +423,8 @@ export const DashboardSsoBackendStatusBackend = {
 } as const
 
 export interface DashboardSsoBackendStatus {
-  enable?: boolean
   backend: DashboardSsoBackendStatusBackend
-  running?: boolean
+  enable?: boolean
   last_error?: string
+  running?: boolean
 }

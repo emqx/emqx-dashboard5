@@ -51,16 +51,16 @@ export type GetGcpDevicesParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
 
 export interface EmqxGcpDeviceApiKey {
+  expires_at: number
   key: string
   key_type: string
-  expires_at: number
 }
 
 export interface EmqxGcpDeviceApiImportResult {
@@ -70,37 +70,37 @@ export interface EmqxGcpDeviceApiImportResult {
 
 export interface EmqxGcpDeviceApiGcpExportedDevice {
   blocked: boolean
-  deviceid: string
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  deviceid: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDeviceInfo {
-  deviceid: string
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  deviceid: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDeviceAllInfo {
+  config: string
   created_at: number
   deviceid: string
-  registry?: string
-  project?: string
-  location?: string
   keys?: EmqxGcpDeviceApiKey[]
-  config: string
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDevice {
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }

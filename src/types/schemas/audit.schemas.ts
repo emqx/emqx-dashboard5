@@ -61,10 +61,10 @@ export type GetAuditParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
 
 export type AuditHttpRequestMethod =
@@ -95,15 +95,6 @@ export interface AuditAuditList {
   meta?: PublicMeta
 }
 
-export type AuditAuditHttpMethod = typeof AuditAuditHttpMethod[keyof typeof AuditAuditHttpMethod]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuditAuditHttpMethod = {
-  post: 'post',
-  put: 'put',
-  delete: 'delete',
-} as const
-
 export type AuditAuditOperationResult =
   typeof AuditAuditOperationResult[keyof typeof AuditAuditOperationResult]
 
@@ -111,6 +102,15 @@ export type AuditAuditOperationResult =
 export const AuditAuditOperationResult = {
   success: 'success',
   failure: 'failure',
+} as const
+
+export type AuditAuditHttpMethod = typeof AuditAuditHttpMethod[keyof typeof AuditAuditHttpMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuditAuditHttpMethod = {
+  post: 'post',
+  put: 'put',
+  delete: 'delete',
 } as const
 
 export type AuditAuditFrom = typeof AuditAuditFrom[keyof typeof AuditAuditFrom]
@@ -126,18 +126,18 @@ export const AuditAuditFrom = {
 export type AuditAuditCreatedAt = number | string
 
 export interface AuditAudit {
+  args?: string[]
   created_at?: AuditAuditCreatedAt
-  node?: string
+  duration_ms?: number
+  failure?: string[]
   from?: AuditAuditFrom
+  http_method?: AuditAuditHttpMethod
+  http_request?: AuditHttpRequest
+  http_status_code?: number
+  node?: string
+  operation_id?: string
+  operation_result?: AuditAuditOperationResult
+  operation_type?: string
   source?: string
   source_ip?: string
-  operation_id?: string
-  operation_type?: string
-  operation_result?: AuditAuditOperationResult
-  http_status_code?: number
-  http_method?: AuditAuditHttpMethod
-  duration_ms?: number
-  args?: string[]
-  failure?: string[]
-  http_request?: AuditHttpRequest
 }

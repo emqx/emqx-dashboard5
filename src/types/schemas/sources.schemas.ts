@@ -1,3 +1,60 @@
+export type PutSourcesIdMetricsReset404Code =
+  typeof PutSourcesIdMetricsReset404Code[keyof typeof PutSourcesIdMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesIdMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSourcesIdMetricsReset404 = {
+  code?: PutSourcesIdMetricsReset404Code
+  message?: string
+}
+
+export type GetSourcesIdMetrics404Code =
+  typeof GetSourcesIdMetrics404Code[keyof typeof GetSourcesIdMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSourcesIdMetrics404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetSourcesIdMetrics404 = {
+  code?: GetSourcesIdMetrics404Code
+  message?: string
+}
+
+export type GetSourcesIdMetrics200 = {
+  metrics?: BridgeMetrics
+  node_metrics?: BridgeNodeMetrics[]
+}
+
+export type PutSourcesIdEnableEnable503Code =
+  typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesIdEnableEnable503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PutSourcesIdEnableEnable503 = {
+  code?: PutSourcesIdEnableEnable503Code
+  message?: string
+}
+
+export type PutSourcesIdEnableEnable404Code =
+  typeof PutSourcesIdEnableEnable404Code[keyof typeof PutSourcesIdEnableEnable404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSourcesIdEnableEnable404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSourcesIdEnableEnable404 = {
+  code?: PutSourcesIdEnableEnable404Code
+  message?: string
+}
+
 export type PostSourcesIdOperation503Code =
   typeof PostSourcesIdOperation503Code[keyof typeof PostSourcesIdOperation503Code]
 
@@ -49,92 +106,6 @@ export type PostSourcesIdOperation400 = {
   code?: PostSourcesIdOperation400Code
   message?: string
 }
-
-export type GetSourcesIdMetrics404Code =
-  typeof GetSourcesIdMetrics404Code[keyof typeof GetSourcesIdMetrics404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSourcesIdMetrics404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetSourcesIdMetrics404 = {
-  code?: GetSourcesIdMetrics404Code
-  message?: string
-}
-
-export type GetSourcesIdMetrics200 = {
-  metrics?: BridgeMetrics
-  node_metrics?: BridgeNodeMetrics[]
-}
-
-export type PostSourcesProbe400Code =
-  typeof PostSourcesProbe400Code[keyof typeof PostSourcesProbe400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesProbe400Code = {
-  TEST_FAILED: 'TEST_FAILED',
-} as const
-
-export type PostSourcesProbe400 = {
-  code?: PostSourcesProbe400Code
-  message?: string
-}
-
-export type PostSourcesProbeBody =
-  | BridgeRabbitmqPostSource
-  | BridgeMqttPublisherPostSource
-  | KafkaConsumerPostSource
-  | GcpPubsubConsumerPostSource
-
-export type PutSourcesIdEnableEnable503Code =
-  typeof PutSourcesIdEnableEnable503Code[keyof typeof PutSourcesIdEnableEnable503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSourcesIdEnableEnable503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type PutSourcesIdEnableEnable503 = {
-  code?: PutSourcesIdEnableEnable503Code
-  message?: string
-}
-
-export type PutSourcesIdEnableEnable404Code =
-  typeof PutSourcesIdEnableEnable404Code[keyof typeof PutSourcesIdEnableEnable404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSourcesIdEnableEnable404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutSourcesIdEnableEnable404 = {
-  code?: PutSourcesIdEnableEnable404Code
-  message?: string
-}
-
-export type PutSourcesIdMetricsReset404Code =
-  typeof PutSourcesIdMetricsReset404Code[keyof typeof PutSourcesIdMetricsReset404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSourcesIdMetricsReset404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutSourcesIdMetricsReset404 = {
-  code?: PutSourcesIdMetricsReset404Code
-  message?: string
-}
-
-export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof GetSourceTypes200Item]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSourceTypes200Item = {
-  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
-  kafka_consumer: 'kafka_consumer',
-  mqtt: 'mqtt',
-  rabbitmq: 'rabbitmq',
-} as const
 
 export type DeleteSourcesId503Code =
   typeof DeleteSourcesId503Code[keyof typeof DeleteSourcesId503Code]
@@ -217,16 +188,16 @@ export type PutSourcesId400 = {
 }
 
 export type PutSourcesId200 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type PutSourcesIdBody =
-  | BridgeRabbitmqPutSource
   | BridgeMqttPublisherPutSource
-  | KafkaConsumerPutSource
+  | BridgeRabbitmqPutSource
   | GcpPubsubConsumerPutSource
+  | KafkaConsumerPutSource
 
 export type GetSourcesId404Code = typeof GetSourcesId404Code[keyof typeof GetSourcesId404Code]
 
@@ -241,10 +212,29 @@ export type GetSourcesId404 = {
 }
 
 export type GetSourcesId200 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
+
+export type PostSourcesProbe400Code =
+  typeof PostSourcesProbe400Code[keyof typeof PostSourcesProbe400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesProbe400Code = {
+  TEST_FAILED: 'TEST_FAILED',
+} as const
+
+export type PostSourcesProbe400 = {
+  code?: PostSourcesProbe400Code
+  message?: string
+}
+
+export type PostSourcesProbeBody =
+  | BridgeMqttPublisherPostSource
+  | BridgeRabbitmqPostSource
+  | GcpPubsubConsumerPostSource
+  | KafkaConsumerPostSource
 
 export type PostSources400Code = typeof PostSources400Code[keyof typeof PostSources400Code]
 
@@ -259,22 +249,32 @@ export type PostSources400 = {
 }
 
 export type PostSources201 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type PostSourcesBody =
-  | BridgeRabbitmqPostSource
   | BridgeMqttPublisherPostSource
-  | KafkaConsumerPostSource
+  | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
+  | KafkaConsumerPostSource
 
 export type GetSources200Item =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
+
+export type GetSourceTypes200Item = typeof GetSourceTypes200Item[keyof typeof GetSourceTypes200Item]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSourceTypes200Item = {
+  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
+  kafka_consumer: 'kafka_consumer',
+  mqtt: 'mqtt',
+  rabbitmq: 'rabbitmq',
+} as const
 
 export type PostNodesNodeSourcesIdOperation503Code =
   typeof PostNodesNodeSourcesIdOperation503Code[keyof typeof PostNodesNodeSourcesIdOperation503Code]
@@ -337,15 +337,6 @@ export const KafkaConsumerSourceParametersValueEncodingMode = {
   base64: 'base64',
 } as const
 
-export type KafkaConsumerSourceParametersKeyEncodingMode =
-  typeof KafkaConsumerSourceParametersKeyEncodingMode[keyof typeof KafkaConsumerSourceParametersKeyEncodingMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const KafkaConsumerSourceParametersKeyEncodingMode = {
-  none: 'none',
-  base64: 'base64',
-} as const
-
 export type KafkaConsumerSourceParametersOffsetResetPolicy =
   typeof KafkaConsumerSourceParametersOffsetResetPolicy[keyof typeof KafkaConsumerSourceParametersOffsetResetPolicy]
 
@@ -355,24 +346,33 @@ export const KafkaConsumerSourceParametersOffsetResetPolicy = {
   earliest: 'earliest',
 } as const
 
+export type KafkaConsumerSourceParametersKeyEncodingMode =
+  typeof KafkaConsumerSourceParametersKeyEncodingMode[keyof typeof KafkaConsumerSourceParametersKeyEncodingMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerSourceParametersKeyEncodingMode = {
+  none: 'none',
+  base64: 'base64',
+} as const
+
 export interface KafkaConsumerSourceParameters {
-  topic: string
   group_id?: string
-  max_wait_time?: string
-  max_batch_bytes?: string
-  offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
-  offset_commit_interval_seconds?: string
   key_encoding_mode?: KafkaConsumerSourceParametersKeyEncodingMode
+  max_batch_bytes?: string
+  max_wait_time?: string
+  offset_commit_interval_seconds?: string
+  offset_reset_policy?: KafkaConsumerSourceParametersOffsetResetPolicy
+  topic: string
   value_encoding_mode?: KafkaConsumerSourceParametersValueEncodingMode
 }
 
 export interface KafkaConsumerPutSource {
-  parameters: KafkaConsumerSourceParameters
-  enable?: boolean
   connector: string
-  tags?: string[]
   description?: string
+  enable?: boolean
+  parameters: KafkaConsumerSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
 }
 
 export type KafkaConsumerPostSourceType =
@@ -384,15 +384,23 @@ export const KafkaConsumerPostSourceType = {
 } as const
 
 export interface KafkaConsumerPostSource {
-  type: KafkaConsumerPostSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
   parameters: KafkaConsumerSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
+  type: KafkaConsumerPostSourceType
 }
+
+export type KafkaConsumerGetSourceType =
+  typeof KafkaConsumerGetSourceType[keyof typeof KafkaConsumerGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const KafkaConsumerGetSourceType = {
+  kafka_consumer: 'kafka_consumer',
+} as const
 
 export type KafkaConsumerGetSourceStatus =
   typeof KafkaConsumerGetSourceStatus[keyof typeof KafkaConsumerGetSourceStatus]
@@ -405,26 +413,18 @@ export const KafkaConsumerGetSourceStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export type KafkaConsumerGetSourceType =
-  typeof KafkaConsumerGetSourceType[keyof typeof KafkaConsumerGetSourceType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const KafkaConsumerGetSourceType = {
-  kafka_consumer: 'kafka_consumer',
-} as const
-
 export interface KafkaConsumerGetSource {
-  type: KafkaConsumerGetSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
-  status?: KafkaConsumerGetSourceStatus
-  status_reason?: string
   node_status?: BridgeNodeStatus[]
   parameters: KafkaConsumerSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  status?: KafkaConsumerGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: KafkaConsumerGetSourceType
 }
 
 export type GcpPubsubConsumerSourceResourceOptsRequestTtl = 'infinity' | string
@@ -435,17 +435,17 @@ export interface GcpPubsubConsumerSourceResourceOpts {
 }
 
 export interface GcpPubsubConsumerSourceParameters {
-  topic: string
   pull_max_messages?: number
+  topic: string
 }
 
 export interface GcpPubsubConsumerPutSource {
-  parameters: GcpPubsubConsumerSourceParameters
-  enable?: boolean
   connector: string
-  tags?: string[]
   description?: string
+  enable?: boolean
+  parameters: GcpPubsubConsumerSourceParameters
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
+  tags?: string[]
 }
 
 export type GcpPubsubConsumerPostSourceType =
@@ -457,15 +457,23 @@ export const GcpPubsubConsumerPostSourceType = {
 } as const
 
 export interface GcpPubsubConsumerPostSource {
-  type: GcpPubsubConsumerPostSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
   parameters: GcpPubsubConsumerSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
+  tags?: string[]
+  type: GcpPubsubConsumerPostSourceType
 }
+
+export type GcpPubsubConsumerGetSourceType =
+  typeof GcpPubsubConsumerGetSourceType[keyof typeof GcpPubsubConsumerGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubConsumerGetSourceType = {
+  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
+} as const
 
 export type GcpPubsubConsumerGetSourceStatus =
   typeof GcpPubsubConsumerGetSourceStatus[keyof typeof GcpPubsubConsumerGetSourceStatus]
@@ -476,14 +484,6 @@ export const GcpPubsubConsumerGetSourceStatus = {
   disconnected: 'disconnected',
   connecting: 'connecting',
   inconsistent: 'inconsistent',
-} as const
-
-export type GcpPubsubConsumerGetSourceType =
-  typeof GcpPubsubConsumerGetSourceType[keyof typeof GcpPubsubConsumerGetSourceType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubConsumerGetSourceType = {
-  gcp_pubsub_consumer: 'gcp_pubsub_consumer',
 } as const
 
 export type BridgeNodeStatusStatus =
@@ -504,17 +504,17 @@ export interface BridgeNodeStatus {
 }
 
 export interface GcpPubsubConsumerGetSource {
-  type: GcpPubsubConsumerGetSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
-  status?: GcpPubsubConsumerGetSourceStatus
-  status_reason?: string
   node_status?: BridgeNodeStatus[]
   parameters: GcpPubsubConsumerSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
+  status?: GcpPubsubConsumerGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: GcpPubsubConsumerGetSourceType
 }
 
 export interface BridgeMetrics {
@@ -523,36 +523,36 @@ export interface BridgeMetrics {
   'dropped.queue_full'?: number
   'dropped.resource_not_found'?: number
   'dropped.resource_stopped'?: number
-  matched?: number
-  queuing?: number
-  retried?: number
   failed?: number
   inflight?: number
-  success?: number
+  matched?: number
+  queuing?: number
   rate?: number
-  rate_max?: number
   rate_last5m?: number
+  rate_max?: number
   received?: number
+  retried?: number
+  success?: number
 }
 
 export interface BridgeNodeMetrics {
-  node?: string
   metrics?: BridgeMetrics
+  node?: string
 }
 
 export interface BridgeRabbitmqSourceParameters {
+  no_ack?: boolean
   queue: string
   wait_for_publish_confirmations?: boolean
-  no_ack?: boolean
 }
 
 export interface BridgeRabbitmqPutSource {
-  parameters: BridgeRabbitmqSourceParameters
-  enable?: boolean
   connector: string
-  tags?: string[]
   description?: string
+  enable?: boolean
+  parameters: BridgeRabbitmqSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
 }
 
 export type BridgeRabbitmqPostSourceType =
@@ -564,15 +564,23 @@ export const BridgeRabbitmqPostSourceType = {
 } as const
 
 export interface BridgeRabbitmqPostSource {
-  type: BridgeRabbitmqPostSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
   parameters: BridgeRabbitmqSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
+  type: BridgeRabbitmqPostSourceType
 }
+
+export type BridgeRabbitmqGetSourceType =
+  typeof BridgeRabbitmqGetSourceType[keyof typeof BridgeRabbitmqGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeRabbitmqGetSourceType = {
+  rabbitmq: 'rabbitmq',
+} as const
 
 export type BridgeRabbitmqGetSourceStatus =
   typeof BridgeRabbitmqGetSourceStatus[keyof typeof BridgeRabbitmqGetSourceStatus]
@@ -585,26 +593,18 @@ export const BridgeRabbitmqGetSourceStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export type BridgeRabbitmqGetSourceType =
-  typeof BridgeRabbitmqGetSourceType[keyof typeof BridgeRabbitmqGetSourceType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeRabbitmqGetSourceType = {
-  rabbitmq: 'rabbitmq',
-} as const
-
 export interface BridgeRabbitmqGetSource {
-  type: BridgeRabbitmqGetSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
-  status?: BridgeRabbitmqGetSourceStatus
-  status_reason?: string
   node_status?: BridgeNodeStatus[]
   parameters: BridgeRabbitmqSourceParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: ActionsAndSourcesSourceResourceOpts
+  status?: BridgeRabbitmqGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: BridgeRabbitmqGetSourceType
 }
 
 export interface BridgeMqttPublisherSourceResourceOpts {
@@ -621,29 +621,37 @@ export const BridgeMqttPublisherPostSourceType = {
 
 export interface BridgeMqttPublisherIngressParameters {
   no_local?: boolean
-  topic: string
   qos?: number
+  topic: string
 }
 
 export interface BridgeMqttPublisherPutSource {
-  parameters: BridgeMqttPublisherIngressParameters
-  enable?: boolean
   connector: string
-  tags?: string[]
   description?: string
+  enable?: boolean
+  parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
+  tags?: string[]
 }
 
 export interface BridgeMqttPublisherPostSource {
-  type: BridgeMqttPublisherPostSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
   parameters: BridgeMqttPublisherIngressParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
+  tags?: string[]
+  type: BridgeMqttPublisherPostSourceType
 }
+
+export type BridgeMqttPublisherGetSourceType =
+  typeof BridgeMqttPublisherGetSourceType[keyof typeof BridgeMqttPublisherGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMqttPublisherGetSourceType = {
+  mqtt: 'mqtt',
+} as const
 
 export type BridgeMqttPublisherGetSourceStatus =
   typeof BridgeMqttPublisherGetSourceStatus[keyof typeof BridgeMqttPublisherGetSourceStatus]
@@ -656,26 +664,18 @@ export const BridgeMqttPublisherGetSourceStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export type BridgeMqttPublisherGetSourceType =
-  typeof BridgeMqttPublisherGetSourceType[keyof typeof BridgeMqttPublisherGetSourceType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeMqttPublisherGetSourceType = {
-  mqtt: 'mqtt',
-} as const
-
 export interface BridgeMqttPublisherGetSource {
-  type: BridgeMqttPublisherGetSourceType
+  connector: string
+  description?: string
+  enable?: boolean
   name: string
-  status?: BridgeMqttPublisherGetSourceStatus
-  status_reason?: string
   node_status?: BridgeNodeStatus[]
   parameters: BridgeMqttPublisherIngressParameters
-  enable?: boolean
-  connector: string
-  tags?: string[]
-  description?: string
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
+  status?: BridgeMqttPublisherGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: BridgeMqttPublisherGetSourceType
 }
 
 export interface ActionsAndSourcesSourceResourceOpts {
@@ -689,14 +689,14 @@ export interface ActionsAndSourcesResponseNodeStatus {
 }
 
 export interface ActionsAndSourcesResponseSummary {
-  enable?: boolean
-  name?: string
-  type?: string
-  description?: string
   created_at?: number
+  description?: string
+  enable?: boolean
   last_modified_at?: number
+  name?: string
   node_status?: ActionsAndSourcesResponseNodeStatus[]
   rules?: string[]
   status?: string
   status_reason?: string
+  type?: string
 }

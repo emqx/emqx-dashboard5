@@ -12,9 +12,9 @@ export type PutMqttAutoSubscribe409 = {
 }
 
 export interface AutoSubscribeTopic {
-  topic: string
-  qos?: number
-  rh?: number
-  rap?: number
   nl?: number
+  qos?: number
+  rap?: number
+  rh?: number
+  topic: string
 }

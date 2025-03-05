@@ -62,10 +62,10 @@ export type GetBannedParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
 
 export type EmqxMgmtApiBannedBanUntilOneOf = number | string
@@ -89,9 +89,9 @@ export const EmqxMgmtApiBannedBanAs = {
 
 export interface EmqxMgmtApiBannedBan {
   as: EmqxMgmtApiBannedBanAs
-  who: string
+  at?: EmqxMgmtApiBannedBanAt
   by?: string
   reason?: string
-  at?: EmqxMgmtApiBannedBanAt
   until?: EmqxMgmtApiBannedBanUntil
+  who: string
 }

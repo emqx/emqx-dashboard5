@@ -11,6 +11,19 @@ export type PostMessageTransformationsTransformationNameMetricsReset404 = {
   message?: string
 }
 
+export type GetMessageTransformationsTransformationNameMetrics404Code =
+  typeof GetMessageTransformationsTransformationNameMetrics404Code[keyof typeof GetMessageTransformationsTransformationNameMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMessageTransformationsTransformationNameMetrics404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMessageTransformationsTransformationNameMetrics404 = {
+  code?: GetMessageTransformationsTransformationNameMetrics404Code
+  message?: string
+}
+
 export type PostMessageTransformationsTransformationNameEnableEnable404Code =
   typeof PostMessageTransformationsTransformationNameEnableEnable404Code[keyof typeof PostMessageTransformationsTransformationNameEnableEnable404Code]
 
@@ -79,19 +92,6 @@ export type PostMessageTransformationsReorder400 = {
   message?: string
 }
 
-export type GetMessageTransformationsTransformationNameMetrics404Code =
-  typeof GetMessageTransformationsTransformationNameMetrics404Code[keyof typeof GetMessageTransformationsTransformationNameMetrics404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageTransformationsTransformationNameMetrics404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMessageTransformationsTransformationNameMetrics404 = {
-  code?: GetMessageTransformationsTransformationNameMetrics404Code
-  message?: string
-}
-
 export type PostMessageTransformationsDryrun400Code =
   typeof PostMessageTransformationsDryrun400Code[keyof typeof PostMessageTransformationsDryrun400Code]
 
@@ -144,6 +144,8 @@ export type PutMessageTransformations400 = {
   message?: string
 }
 
+export type MessageTransformationTransformationTopics = string[] | string
+
 export type MessageTransformationTransformationPayloadEncoder =
   typeof MessageTransformationTransformationPayloadEncoder[keyof typeof MessageTransformationTransformationPayloadEncoder]
 
@@ -176,8 +178,6 @@ export const MessageTransformationTransformationFailureAction = {
   ignore: 'ignore',
 } as const
 
-export type MessageTransformationTransformationTopics = string[] | string
-
 export interface MessageTransformationOperation {
   key: string
   value: string
@@ -201,16 +201,16 @@ export interface MessageTransformationLogFailure {
 }
 
 export interface MessageTransformationTransformation {
-  tags?: string[]
   description?: string
   enable?: boolean
-  name: string
-  topics: MessageTransformationTransformationTopics
   failure_action: MessageTransformationTransformationFailureAction
   log_failure?: MessageTransformationLogFailure
+  name: string
+  operations?: MessageTransformationOperation[]
   payload_decoder?: MessageTransformationTransformationPayloadDecoder
   payload_encoder?: MessageTransformationTransformationPayloadEncoder
-  operations?: MessageTransformationOperation[]
+  tags?: string[]
+  topics: MessageTransformationTransformationTopics
 }
 
 export interface MessageTransformationHttpApiReorder {
@@ -218,16 +218,16 @@ export interface MessageTransformationHttpApiReorder {
 }
 
 export interface MessageTransformationHttpApiNodeMetrics {
-  node?: string
-  matched?: number
-  succeeded?: number
   failed?: number
+  matched?: number
+  node?: string
+  succeeded?: number
 }
 
 export interface MessageTransformationHttpApiMetrics {
+  failed?: number
   matched?: number
   succeeded?: number
-  failed?: number
 }
 
 export interface MessageTransformationHttpApiGetMetrics {
@@ -236,8 +236,8 @@ export interface MessageTransformationHttpApiGetMetrics {
 }
 
 export interface MessageTransformationHttpApiDryrunTransformation {
-  transformation: MessageTransformationTransformation
   message: MessageTransformationHttpApiDryrunInputMessage
+  transformation: MessageTransformationTransformation
 }
 
 export type MessageTransformationHttpApiDryrunInputMessageUserProperty = { [key: string]: any }

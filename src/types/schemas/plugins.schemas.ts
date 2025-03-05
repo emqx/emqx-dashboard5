@@ -17,6 +17,20 @@ export type PostPluginsInstallBody = {
   plugin?: Blob
 }
 
+export type GetPluginsNameSchema404Code =
+  typeof GetPluginsNameSchema404Code[keyof typeof GetPluginsNameSchema404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameSchema404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
+} as const
+
+export type GetPluginsNameSchema404 = {
+  code?: GetPluginsNameSchema404Code
+  message?: string
+}
+
 export type PostPluginsNameMove400Code =
   typeof PostPluginsNameMove400Code[keyof typeof PostPluginsNameMove400Code]
 
@@ -27,19 +41,6 @@ export const PostPluginsNameMove400Code = {
 
 export type PostPluginsNameMove400 = {
   code?: PostPluginsNameMove400Code
-  message?: string
-}
-
-export type PutPluginsNameAction404Code =
-  typeof PutPluginsNameAction404Code[keyof typeof PutPluginsNameAction404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutPluginsNameAction404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutPluginsNameAction404 = {
-  code?: PutPluginsNameAction404Code
   message?: string
 }
 
@@ -98,6 +99,19 @@ export type GetPluginsNameConfig400 = {
   message?: string
 }
 
+export type PutPluginsNameAction404Code =
+  typeof PutPluginsNameAction404Code[keyof typeof PutPluginsNameAction404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameAction404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutPluginsNameAction404 = {
+  code?: PutPluginsNameAction404Code
+  message?: string
+}
+
 export type DeletePluginsName404Code =
   typeof DeletePluginsName404Code[keyof typeof DeletePluginsName404Code]
 
@@ -136,20 +150,6 @@ export type GetPluginsName404 = {
   message?: string
 }
 
-export type GetPluginsNameSchema404Code =
-  typeof GetPluginsNameSchema404Code[keyof typeof GetPluginsNameSchema404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetPluginsNameSchema404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
-} as const
-
-export type GetPluginsNameSchema404 = {
-  code?: GetPluginsNameSchema404Code
-  message?: string
-}
-
 export type PluginsRunningStatusStatus =
   typeof PluginsRunningStatusStatus[keyof typeof PluginsRunningStatusStatus]
 
@@ -179,19 +179,19 @@ export interface PluginsBuilder {
 }
 
 export interface PluginsPlugin {
-  name: string
   author?: string[]
   builder?: PluginsBuilder
   built_on_otp_release?: string
   compatibility?: PluginsPluginCompatibility
-  git_commit_or_build_date?: string
+  description: string
   functionality?: string[]
+  git_commit_or_build_date?: string
   git_ref?: string
   metadata_vsn?: string
-  rel_vsn: string
-  rel_apps: string[]
-  repo?: string
-  description: string
-  running_status: PluginsRunningStatus[]
+  name: string
   readme?: string
+  rel_apps: string[]
+  rel_vsn: string
+  repo?: string
+  running_status: PluginsRunningStatus[]
 }

@@ -123,20 +123,20 @@ export type GetApiKey200ExpiredAtOneOf = number | string
 
 export type GetApiKey200ExpiredAt = GetApiKey200ExpiredAtOneOf | 'infinity'
 
+export type ApiKeyAppExpiredAtOneOf = number | string
+
+export type ApiKeyAppExpiredAt = ApiKeyAppExpiredAtOneOf | 'infinity'
+
 export type ApiKeyAppCreatedAt = number | string
 
 export interface ApiKeyApp {
-  name?: string
   api_key?: string
   api_secret?: string
-  expired_at?: ApiKeyAppExpiredAt
   created_at?: ApiKeyAppCreatedAt
   desc?: string
   enable?: boolean
   expired?: boolean
+  expired_at?: ApiKeyAppExpiredAt
+  name?: string
   role?: string
 }
-
-export type ApiKeyAppExpiredAtOneOf = number | string
-
-export type ApiKeyAppExpiredAt = ApiKeyAppExpiredAtOneOf | 'infinity'

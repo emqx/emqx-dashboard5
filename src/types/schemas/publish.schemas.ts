@@ -12,32 +12,32 @@ export const EmqxMgmtApiPublishPublishMessagePayloadEncoding = {
 } as const
 
 export interface EmqxMgmtApiPublishPublishMessage {
-  payload_encoding?: EmqxMgmtApiPublishPublishMessagePayloadEncoding
-  topic: string
-  qos?: number
   /** @deprecated */
   clientid?: string
   payload: string
+  payload_encoding?: EmqxMgmtApiPublishPublishMessagePayloadEncoding
   properties?: EmqxMgmtApiPublishMessageProperties
+  qos?: number
   retain?: boolean
+  topic: string
 }
 
 export interface EmqxMgmtApiPublishPublishError {
-  reason_code?: number
   message?: string
+  reason_code?: number
 }
 
-export type PostPublishBulk400 = EmqxMgmtApiPublishPublishError[] | EmqxMgmtApiPublishBadRequest
+export type PostPublishBulk400 = EmqxMgmtApiPublishBadRequest | EmqxMgmtApiPublishPublishError[]
 
 export type EmqxMgmtApiPublishMessagePropertiesUserProperties = { [key: string]: any }
 
 export interface EmqxMgmtApiPublishMessageProperties {
-  payload_format_indicator?: number
-  message_expiry_interval?: number
-  response_topic?: string
-  correlation_data?: string
-  user_properties?: EmqxMgmtApiPublishMessagePropertiesUserProperties
   content_type?: string
+  correlation_data?: string
+  message_expiry_interval?: number
+  payload_format_indicator?: number
+  response_topic?: string
+  user_properties?: EmqxMgmtApiPublishMessagePropertiesUserProperties
 }
 
 export interface EmqxMgmtApiPublishBadRequest {

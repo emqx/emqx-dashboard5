@@ -1,64 +1,3 @@
-export type GetGatewaysNameClients404Code =
-  typeof GetGatewaysNameClients404Code[keyof typeof GetGatewaysNameClients404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetGatewaysNameClients404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type GetGatewaysNameClients404 = {
-  code?: GetGatewaysNameClients404Code
-  message?: string
-}
-
-export type GetGatewaysNameClients400Code =
-  typeof GetGatewaysNameClients400Code[keyof typeof GetGatewaysNameClients400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetGatewaysNameClients400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetGatewaysNameClients400 = {
-  code?: GetGatewaysNameClients400Code
-  message?: string
-}
-
-export type GetGatewaysNameClients200Data =
-  | EmqxGatewayApiClientsExprotoClient[]
-  | EmqxGatewayApiClientsLwm2mClient[]
-  | EmqxGatewayApiClientsCoapClient[]
-  | EmqxGatewayApiClientsMqttsnClient[]
-  | EmqxGatewayApiClientsStompClient[]
-
-export type GetGatewaysNameClients200 = {
-  data?: GetGatewaysNameClients200Data
-  meta?: PublicMeta
-}
-
-export type GetGatewaysNameClientsParams = {
-  node?: string
-  clientid?: string
-  username?: string
-  ip_address?: string
-  conn_state?: string
-  proto_ver?: string
-  clean_start?: boolean
-  like_clientid?: string
-  like_username?: string
-  gte_created_at?: number | string
-  lte_created_at?: number | string
-  gte_connected_at?: number | string
-  lte_connected_at?: number | string
-  endpoint_name?: string
-  like_endpoint_name?: string
-  gte_lifetime?: string
-  lte_lifetime?: string
-  page?: number
-  limit?: number
-}
-
 export type DeleteGatewaysNameClientsClientidSubscriptionsTopic404Code =
   typeof DeleteGatewaysNameClientsClientidSubscriptionsTopic404Code[keyof typeof DeleteGatewaysNameClientsClientidSubscriptionsTopic404Code]
 
@@ -194,256 +133,317 @@ export type GetGatewaysNameClientsClientid400 = {
   message?: string
 }
 
-export interface PublicMeta {
+export type GetGatewaysNameClientsClientid200 =
+  | EmqxGatewayApiClientsCoapClient
+  | EmqxGatewayApiClientsExprotoClient
+  | EmqxGatewayApiClientsLwm2mClient
+  | EmqxGatewayApiClientsMqttsnClient
+  | EmqxGatewayApiClientsStompClient
+
+export type GetGatewaysNameClients404Code =
+  typeof GetGatewaysNameClients404Code[keyof typeof GetGatewaysNameClients404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetGatewaysNameClients404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type GetGatewaysNameClients404 = {
+  code?: GetGatewaysNameClients404Code
+  message?: string
+}
+
+export type GetGatewaysNameClients400Code =
+  typeof GetGatewaysNameClients400Code[keyof typeof GetGatewaysNameClients400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetGatewaysNameClients400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetGatewaysNameClients400 = {
+  code?: GetGatewaysNameClients400Code
+  message?: string
+}
+
+export type GetGatewaysNameClientsParams = {
+  node?: string
+  clientid?: string
+  username?: string
+  ip_address?: string
+  conn_state?: string
+  proto_ver?: string
+  clean_start?: boolean
+  like_clientid?: string
+  like_username?: string
+  gte_created_at?: number | string
+  lte_created_at?: number | string
+  gte_connected_at?: number | string
+  lte_connected_at?: number | string
+  endpoint_name?: string
+  like_endpoint_name?: string
+  gte_lifetime?: string
+  lte_lifetime?: string
   page?: number
   limit?: number
+}
+
+export interface PublicMeta {
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
+}
+
+export type GetGatewaysNameClients200 = {
+  data?: GetGatewaysNameClients200Data
+  meta?: PublicMeta
 }
 
 export interface EmqxGatewayApiClientsSubscription {
-  topic?: string
-  qos?: number
   nl?: number
+  qos?: number
   rap?: number
   rh?: number
   sub_props?: EmqxGatewayApiClientsExtraSubProps
+  topic?: string
 }
 
-export type EmqxGatewayApiClientsStompClientCreatedAt = number | string
-
 export type EmqxGatewayApiClientsStompClientDisconnectedAt = number | string
+
+export type EmqxGatewayApiClientsStompClientCreatedAt = number | string
 
 export type EmqxGatewayApiClientsStompClientConnectedAt = number | string
 
 export interface EmqxGatewayApiClientsStompClient {
-  node?: string
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  proto_name?: string
-  proto_ver?: string
-  ip_address?: string
-  port?: number
-  is_bridge?: boolean
-  connected_at?: EmqxGatewayApiClientsStompClientConnectedAt
-  disconnected_at?: EmqxGatewayApiClientsStompClientDisconnectedAt
-  connected?: boolean
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  created_at?: EmqxGatewayApiClientsStompClientCreatedAt
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  mqueue_dropped?: number
   awaiting_rel_cnt?: number
   awaiting_rel_max?: number
-  recv_oct?: number
-  recv_cnt?: number
-  recv_pkt?: number
-  recv_msg?: number
-  send_oct?: number
-  send_cnt?: number
-  send_pkt?: number
-  send_msg?: number
-  mailbox_len?: number
+  clean_start?: boolean
+  clientid?: string
+  connected?: boolean
+  connected_at?: EmqxGatewayApiClientsStompClientConnectedAt
+  created_at?: EmqxGatewayApiClientsStompClientCreatedAt
+  disconnected_at?: EmqxGatewayApiClientsStompClientDisconnectedAt
+  expiry_interval?: number
   heap_size?: number
+  inflight_cnt?: number
+  inflight_max?: number
+  ip_address?: string
+  is_bridge?: boolean
+  keepalive?: number
+  mailbox_len?: number
+  mountpoint?: string
+  mqueue_dropped?: number
+  mqueue_len?: number
+  mqueue_max?: number
+  node?: string
+  port?: number
+  proto_name?: string
+  proto_ver?: string
+  recv_cnt?: number
+  recv_msg?: number
+  recv_oct?: number
+  recv_pkt?: number
   reductions?: number
+  send_cnt?: number
+  send_msg?: number
+  send_oct?: number
+  send_pkt?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }
 
-export type GetGatewaysNameClientsClientid200 =
-  | EmqxGatewayApiClientsExprotoClient
-  | EmqxGatewayApiClientsLwm2mClient
-  | EmqxGatewayApiClientsCoapClient
-  | EmqxGatewayApiClientsMqttsnClient
-  | EmqxGatewayApiClientsStompClient
-
-export type EmqxGatewayApiClientsMqttsnClientCreatedAt = number | string
+export type GetGatewaysNameClients200Data =
+  | EmqxGatewayApiClientsExprotoClient[]
+  | EmqxGatewayApiClientsLwm2mClient[]
+  | EmqxGatewayApiClientsCoapClient[]
+  | EmqxGatewayApiClientsMqttsnClient[]
+  | EmqxGatewayApiClientsStompClient[]
 
 export type EmqxGatewayApiClientsMqttsnClientDisconnectedAt = number | string
+
+export type EmqxGatewayApiClientsMqttsnClientCreatedAt = number | string
 
 export type EmqxGatewayApiClientsMqttsnClientConnectedAt = number | string
 
 export interface EmqxGatewayApiClientsMqttsnClient {
-  node?: string
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  proto_name?: string
-  proto_ver?: string
-  ip_address?: string
-  port?: number
-  is_bridge?: boolean
-  connected_at?: EmqxGatewayApiClientsMqttsnClientConnectedAt
-  disconnected_at?: EmqxGatewayApiClientsMqttsnClientDisconnectedAt
-  connected?: boolean
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  created_at?: EmqxGatewayApiClientsMqttsnClientCreatedAt
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  mqueue_dropped?: number
   awaiting_rel_cnt?: number
   awaiting_rel_max?: number
-  recv_oct?: number
-  recv_cnt?: number
-  recv_pkt?: number
-  recv_msg?: number
-  send_oct?: number
-  send_cnt?: number
-  send_pkt?: number
-  send_msg?: number
-  mailbox_len?: number
+  clean_start?: boolean
+  clientid?: string
+  connected?: boolean
+  connected_at?: EmqxGatewayApiClientsMqttsnClientConnectedAt
+  created_at?: EmqxGatewayApiClientsMqttsnClientCreatedAt
+  disconnected_at?: EmqxGatewayApiClientsMqttsnClientDisconnectedAt
+  expiry_interval?: number
   heap_size?: number
+  inflight_cnt?: number
+  inflight_max?: number
+  ip_address?: string
+  is_bridge?: boolean
+  keepalive?: number
+  mailbox_len?: number
+  mountpoint?: string
+  mqueue_dropped?: number
+  mqueue_len?: number
+  mqueue_max?: number
+  node?: string
+  port?: number
+  proto_name?: string
+  proto_ver?: string
+  recv_cnt?: number
+  recv_msg?: number
+  recv_oct?: number
+  recv_pkt?: number
   reductions?: number
+  send_cnt?: number
+  send_msg?: number
+  send_oct?: number
+  send_pkt?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }
 
-export type EmqxGatewayApiClientsLwm2mClientCreatedAt = number | string
-
 export type EmqxGatewayApiClientsLwm2mClientDisconnectedAt = number | string
+
+export type EmqxGatewayApiClientsLwm2mClientCreatedAt = number | string
 
 export type EmqxGatewayApiClientsLwm2mClientConnectedAt = number | string
 
 export interface EmqxGatewayApiClientsLwm2mClient {
-  endpoint_name?: string
-  lifetime?: number
-  node?: string
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  proto_name?: string
-  proto_ver?: string
-  ip_address?: string
-  port?: number
-  is_bridge?: boolean
-  connected_at?: EmqxGatewayApiClientsLwm2mClientConnectedAt
-  disconnected_at?: EmqxGatewayApiClientsLwm2mClientDisconnectedAt
-  connected?: boolean
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  created_at?: EmqxGatewayApiClientsLwm2mClientCreatedAt
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  mqueue_dropped?: number
   awaiting_rel_cnt?: number
   awaiting_rel_max?: number
-  recv_oct?: number
-  recv_cnt?: number
-  recv_pkt?: number
-  recv_msg?: number
-  send_oct?: number
-  send_cnt?: number
-  send_pkt?: number
-  send_msg?: number
-  mailbox_len?: number
+  clean_start?: boolean
+  clientid?: string
+  connected?: boolean
+  connected_at?: EmqxGatewayApiClientsLwm2mClientConnectedAt
+  created_at?: EmqxGatewayApiClientsLwm2mClientCreatedAt
+  disconnected_at?: EmqxGatewayApiClientsLwm2mClientDisconnectedAt
+  endpoint_name?: string
+  expiry_interval?: number
   heap_size?: number
+  inflight_cnt?: number
+  inflight_max?: number
+  ip_address?: string
+  is_bridge?: boolean
+  keepalive?: number
+  lifetime?: number
+  mailbox_len?: number
+  mountpoint?: string
+  mqueue_dropped?: number
+  mqueue_len?: number
+  mqueue_max?: number
+  node?: string
+  port?: number
+  proto_name?: string
+  proto_ver?: string
+  recv_cnt?: number
+  recv_msg?: number
+  recv_oct?: number
+  recv_pkt?: number
   reductions?: number
+  send_cnt?: number
+  send_msg?: number
+  send_oct?: number
+  send_pkt?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }
 
 export interface EmqxGatewayApiClientsExtraSubProps {
   subid?: string
 }
 
-export type EmqxGatewayApiClientsExprotoClientCreatedAt = number | string
-
 export type EmqxGatewayApiClientsExprotoClientDisconnectedAt = number | string
+
+export type EmqxGatewayApiClientsExprotoClientCreatedAt = number | string
 
 export type EmqxGatewayApiClientsExprotoClientConnectedAt = number | string
 
 export interface EmqxGatewayApiClientsExprotoClient {
-  node?: string
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  proto_name?: string
-  proto_ver?: string
-  ip_address?: string
-  port?: number
-  is_bridge?: boolean
-  connected_at?: EmqxGatewayApiClientsExprotoClientConnectedAt
-  disconnected_at?: EmqxGatewayApiClientsExprotoClientDisconnectedAt
-  connected?: boolean
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  created_at?: EmqxGatewayApiClientsExprotoClientCreatedAt
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  mqueue_dropped?: number
   awaiting_rel_cnt?: number
   awaiting_rel_max?: number
-  recv_oct?: number
-  recv_cnt?: number
-  recv_pkt?: number
-  recv_msg?: number
-  send_oct?: number
-  send_cnt?: number
-  send_pkt?: number
-  send_msg?: number
-  mailbox_len?: number
+  clean_start?: boolean
+  clientid?: string
+  connected?: boolean
+  connected_at?: EmqxGatewayApiClientsExprotoClientConnectedAt
+  created_at?: EmqxGatewayApiClientsExprotoClientCreatedAt
+  disconnected_at?: EmqxGatewayApiClientsExprotoClientDisconnectedAt
+  expiry_interval?: number
   heap_size?: number
+  inflight_cnt?: number
+  inflight_max?: number
+  ip_address?: string
+  is_bridge?: boolean
+  keepalive?: number
+  mailbox_len?: number
+  mountpoint?: string
+  mqueue_dropped?: number
+  mqueue_len?: number
+  mqueue_max?: number
+  node?: string
+  port?: number
+  proto_name?: string
+  proto_ver?: string
+  recv_cnt?: number
+  recv_msg?: number
+  recv_oct?: number
+  recv_pkt?: number
   reductions?: number
+  send_cnt?: number
+  send_msg?: number
+  send_oct?: number
+  send_pkt?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }
 
-export type EmqxGatewayApiClientsCoapClientCreatedAt = number | string
-
 export type EmqxGatewayApiClientsCoapClientDisconnectedAt = number | string
+
+export type EmqxGatewayApiClientsCoapClientCreatedAt = number | string
 
 export type EmqxGatewayApiClientsCoapClientConnectedAt = number | string
 
 export interface EmqxGatewayApiClientsCoapClient {
-  node?: string
-  clientid?: string
-  username?: string
-  mountpoint?: string
-  proto_name?: string
-  proto_ver?: string
-  ip_address?: string
-  port?: number
-  is_bridge?: boolean
-  connected_at?: EmqxGatewayApiClientsCoapClientConnectedAt
-  disconnected_at?: EmqxGatewayApiClientsCoapClientDisconnectedAt
-  connected?: boolean
-  keepalive?: number
-  clean_start?: boolean
-  expiry_interval?: number
-  created_at?: EmqxGatewayApiClientsCoapClientCreatedAt
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  mqueue_dropped?: number
   awaiting_rel_cnt?: number
   awaiting_rel_max?: number
-  recv_oct?: number
-  recv_cnt?: number
-  recv_pkt?: number
-  recv_msg?: number
-  send_oct?: number
-  send_cnt?: number
-  send_pkt?: number
-  send_msg?: number
-  mailbox_len?: number
+  clean_start?: boolean
+  clientid?: string
+  connected?: boolean
+  connected_at?: EmqxGatewayApiClientsCoapClientConnectedAt
+  created_at?: EmqxGatewayApiClientsCoapClientCreatedAt
+  disconnected_at?: EmqxGatewayApiClientsCoapClientDisconnectedAt
+  expiry_interval?: number
   heap_size?: number
+  inflight_cnt?: number
+  inflight_max?: number
+  ip_address?: string
+  is_bridge?: boolean
+  keepalive?: number
+  mailbox_len?: number
+  mountpoint?: string
+  mqueue_dropped?: number
+  mqueue_len?: number
+  mqueue_max?: number
+  node?: string
+  port?: number
+  proto_name?: string
+  proto_ver?: string
+  recv_cnt?: number
+  recv_msg?: number
+  recv_oct?: number
+  recv_pkt?: number
   reductions?: number
+  send_cnt?: number
+  send_msg?: number
+  send_oct?: number
+  send_pkt?: number
+  subscriptions_cnt?: number
+  subscriptions_max?: number
+  username?: string
 }

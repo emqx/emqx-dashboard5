@@ -9,22 +9,22 @@ export type GetAlarmsParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
 
 export type EmqxMgmtApiAlarmsAlarmDetails = { [key: string]: any }
 
 export interface EmqxMgmtApiAlarmsAlarm {
-  node?: string
-  name?: string
-  message?: string
-  details?: EmqxMgmtApiAlarmsAlarmDetails
-  duration?: number
   activate_at?: string
   deactivate_at?: string
+  details?: EmqxMgmtApiAlarmsAlarmDetails
+  duration?: number
+  message?: string
+  name?: string
+  node?: string
 }
 
 export type GetAlarms200 = {

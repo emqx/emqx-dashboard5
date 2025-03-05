@@ -1,27 +1,25 @@
-export type PutMqttRetainer400Code =
-  typeof PutMqttRetainer400Code[keyof typeof PutMqttRetainer400Code]
+export type GetMqttRetainerMessages400Code =
+  typeof GetMqttRetainerMessages400Code[keyof typeof GetMqttRetainerMessages400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMqttRetainer400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
+export const GetMqttRetainerMessages400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type PutMqttRetainer400 = {
-  code?: PutMqttRetainer400Code
+export type GetMqttRetainerMessages400 = {
+  code?: GetMqttRetainerMessages400Code
   message?: string
 }
 
-export type GetMqttRetainer404Code =
-  typeof GetMqttRetainer404Code[keyof typeof GetMqttRetainer404Code]
+export type GetMqttRetainerMessages200 = {
+  data?: RetainerMessageSummary[]
+  meta?: PublicMeta
+}
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttRetainer404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMqttRetainer404 = {
-  code?: GetMqttRetainer404Code
-  message?: string
+export type GetMqttRetainerMessagesParams = {
+  topic?: string
+  page?: number
+  limit?: number
 }
 
 export type DeleteMqttRetainerMessageTopic404Code =
@@ -76,31 +74,41 @@ export type GetMqttRetainerMessageTopic400 = {
   message?: string
 }
 
-export type GetMqttRetainerMessages400Code =
-  typeof GetMqttRetainerMessages400Code[keyof typeof GetMqttRetainerMessages400Code]
+export type PutMqttRetainer400Code =
+  typeof PutMqttRetainer400Code[keyof typeof PutMqttRetainer400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttRetainerMessages400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
+export const PutMqttRetainer400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
-export type GetMqttRetainerMessages400 = {
-  code?: GetMqttRetainerMessages400Code
+export type PutMqttRetainer400 = {
+  code?: PutMqttRetainer400Code
   message?: string
 }
 
-export type GetMqttRetainerMessages200 = {
-  data?: RetainerMessageSummary[]
-  meta?: PublicMeta
-}
+export type GetMqttRetainer404Code =
+  typeof GetMqttRetainer404Code[keyof typeof GetMqttRetainer404Code]
 
-export type GetMqttRetainerMessagesParams = {
-  topic?: string
-  page?: number
-  limit?: number
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttRetainer404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMqttRetainer404 = {
+  code?: GetMqttRetainer404Code
+  message?: string
 }
 
 export type RetainerRetainerMsgExpiryIntervalOverride = string | 'disabled'
+
+export type RetainerMnesiaConfigType =
+  typeof RetainerMnesiaConfigType[keyof typeof RetainerMnesiaConfigType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RetainerMnesiaConfigType = {
+  built_in_database: 'built_in_database',
+} as const
 
 export type RetainerMnesiaConfigStorageType =
   typeof RetainerMnesiaConfigStorageType[keyof typeof RetainerMnesiaConfigStorageType]
@@ -111,57 +119,49 @@ export const RetainerMnesiaConfigStorageType = {
   disc: 'disc',
 } as const
 
-export type RetainerMnesiaConfigType =
-  typeof RetainerMnesiaConfigType[keyof typeof RetainerMnesiaConfigType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RetainerMnesiaConfigType = {
-  built_in_database: 'built_in_database',
-} as const
-
 export interface RetainerMnesiaConfig {
-  type?: RetainerMnesiaConfigType
-  storage_type?: RetainerMnesiaConfigStorageType
-  max_retained_messages?: number
-  index_specs?: number[]
   enable?: boolean
+  index_specs?: number[]
+  max_retained_messages?: number
+  storage_type?: RetainerMnesiaConfigStorageType
+  type?: RetainerMnesiaConfigType
 }
 
 export interface RetainerRetainer {
+  allow_never_expire?: boolean
+  backend?: RetainerMnesiaConfig
+  delivery_rate?: string
   enable?: boolean
+  max_payload_size?: string
+  max_publish_rate?: string
+  msg_clear_interval?: string
   msg_expiry_interval?: string
   msg_expiry_interval_override?: RetainerRetainerMsgExpiryIntervalOverride
-  allow_never_expire?: boolean
-  msg_clear_interval?: string
-  max_payload_size?: string
   stop_publish_clear_msg?: boolean
-  delivery_rate?: string
-  max_publish_rate?: string
-  backend?: RetainerMnesiaConfig
 }
 
 export interface RetainerMessageSummary {
-  msgid?: string
-  topic?: string
-  qos?: number
-  publish_at?: string
   from_clientid?: string
   from_username?: string
+  msgid?: string
+  publish_at?: string
+  qos?: number
+  topic?: string
 }
 
 export interface RetainerMessage {
-  payload?: string
-  msgid?: string
-  topic?: string
-  qos?: number
-  publish_at?: string
   from_clientid?: string
   from_username?: string
+  msgid?: string
+  payload?: string
+  publish_at?: string
+  qos?: number
+  topic?: string
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }

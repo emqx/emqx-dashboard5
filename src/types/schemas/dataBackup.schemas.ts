@@ -1,24 +1,3 @@
-export type PostDataFiles400Code = typeof PostDataFiles400Code[keyof typeof PostDataFiles400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostDataFiles400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostDataFiles400 = {
-  code?: PostDataFiles400Code
-  message?: string
-}
-
-export type PostDataFilesBody = {
-  filename?: Blob
-}
-
-export type GetDataFilesParams = {
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-}
-
 export type PostDataImport400Code = typeof PostDataImport400Code[keyof typeof PostDataImport400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -28,30 +7,6 @@ export const PostDataImport400Code = {
 
 export type PostDataImport400 = {
   code?: PostDataImport400Code
-  message?: string
-}
-
-export type PostDataExport500Code = typeof PostDataExport500Code[keyof typeof PostDataExport500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostDataExport500Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostDataExport500 = {
-  code?: PostDataExport500Code
-  message?: string
-}
-
-export type PostDataExport400Code = typeof PostDataExport400Code[keyof typeof PostDataExport400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostDataExport400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostDataExport400 = {
-  code?: PostDataExport400Code
   message?: string
 }
 
@@ -123,20 +78,65 @@ export type GetDataFilesFilenameParams = {
   node?: string
 }
 
+export type PostDataFiles400Code = typeof PostDataFiles400Code[keyof typeof PostDataFiles400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataFiles400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostDataFiles400 = {
+  code?: PostDataFiles400Code
+  message?: string
+}
+
+export type PostDataFilesBody = {
+  filename?: Blob
+}
+
+export type PostDataExport500Code = typeof PostDataExport500Code[keyof typeof PostDataExport500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataExport500Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostDataExport500 = {
+  code?: PostDataExport500Code
+  message?: string
+}
+
+export type PostDataExport400Code = typeof PostDataExport400Code[keyof typeof PostDataExport400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataExport400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostDataExport400 = {
+  code?: PostDataExport400Code
+  message?: string
+}
+
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
+export type GetDataFilesParams = {
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
+}
+
 export interface PublicMeta {
-  page?: number
-  limit?: number
   count?: number
   hasnext: boolean
+  limit?: number
+  page?: number
 }
 
 export interface EmqxMgmtApiDataBackupImportRequestBody {
-  node?: string
   filename: string
+  node?: string
 }
 
 export interface EmqxMgmtApiDataBackupFilesResponse {
@@ -145,12 +145,12 @@ export interface EmqxMgmtApiDataBackupFilesResponse {
 }
 
 export interface EmqxMgmtApiDataBackupExportRequestBody {
-  table_sets?: string[]
   root_keys?: string[]
+  table_sets?: string[]
 }
 
 export interface EmqxMgmtApiDataBackupBackupFileInfo {
-  node: string
-  filename: string
   created_at: string
+  filename: string
+  node: string
 }

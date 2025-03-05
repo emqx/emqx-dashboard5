@@ -9,10 +9,10 @@ export type GetSlowSubscriptionsParams = {
 
 export interface SlowSubscribersStatisticsRecord {
   clientid?: string
-  node?: string
-  topic?: string
-  timespan?: number
   last_update_time?: number
+  node?: string
+  timespan?: number
+  topic?: string
 }
 
 export type GetSlowSubscriptions200 = {
@@ -31,8 +31,8 @@ export const SlowSubsSlowSubsStatsType = {
 
 export interface SlowSubsSlowSubs {
   enable?: boolean
-  threshold?: string
   expire_interval?: string
-  top_k_num?: number
   stats_type?: SlowSubsSlowSubsStatsType
+  threshold?: string
+  top_k_num?: number
 }

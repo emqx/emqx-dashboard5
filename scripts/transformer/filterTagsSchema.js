@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const { isObject, get, set } = require('lodash')
 
 const paramRefReg = /^#\/components\/parameters\//
@@ -214,6 +213,59 @@ const specialHandlers = new Map([
   ['Metrics', handleMetricsJSON],
 ])
 
+const sortObj = (rawObj) => {
+  const sortedKeys = Object.keys(rawObj).sort((a, b) => a.localeCompare(b))
+  const sortedObj = sortedKeys.reduce((obj, key) => {
+    obj[key] = rawObj[key]
+    return obj
+  }, {})
+  return sortedObj
+}
+
+const sortOneofRefs = (oneofRefs) => {
+  const sortedRefs = oneofRefs.sort((a, b) => a.$ref.localeCompare(b.$ref))
+  return sortedRefs
+}
+
+const sortDataContent = (data) => {
+  if (data.content) {
+    Object.values(data.content).forEach((content) => {
+      if (content.schema && content.schema.oneOf) {
+        content.schema.oneOf = sortOneofRefs(content.schema.oneOf)
+      }
+    })
+  }
+}
+
+const sortResult = (swaggerObj) => {
+  const { paths, components } = swaggerObj
+  swaggerObj.paths = sortObj(paths)
+  Object.values(paths).forEach((path) => {
+    Object.values(path).forEach((method) => {
+      if (method.responses) {
+        Object.values(method.responses).forEach((response) => {
+          sortDataContent(response)
+        })
+      }
+      if (method.requestBody) {
+        sortDataContent(method.requestBody)
+      }
+    })
+  })
+
+  const { parameters, schemas } = components
+  components.parameters = sortObj(parameters)
+
+  components.schemas = sortObj(schemas)
+  Object.values(components.schemas).forEach((schema) => {
+    if (schema.properties) {
+      schema.properties = sortObj(schema.properties)
+    }
+  })
+
+  return swaggerObj
+}
+
 const filterTargetSchema = (swaggerJSON, tag) => {
   const filteredUselessPathsJSON = filterUselessRequest(swaggerJSON, tag)
   const targetRequestArr = getTargetRequestArr(filteredUselessPathsJSON, tag)
@@ -227,7 +279,7 @@ const filterTargetSchema = (swaggerJSON, tag) => {
   if (specialHandler) {
     ret = specialHandler(ret)
   }
-  return removeAllDesc(ret)
+  return sortResult(removeAllDesc(ret))
 }
 
 module.exports = filterTargetSchema
