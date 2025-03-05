@@ -30,7 +30,7 @@
       class="table-with-draggable"
     >
       <template #operation-column>
-        <el-table-column :label="$t('Base.operation')">
+        <el-table-column :label="$t('Base.operation')" min-width="212">
           <template #default="{ row, $index }">
             <TableButton @click="handleEdit(row, $index)">
               {{ $t('Base.edit') }}
@@ -92,7 +92,7 @@
     </div>
     <el-dialog
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      width="1300px"
+      :width="isTypeAll ? '800px' : '1300px'"
       v-model="dialogVisible"
     >
       <el-form
@@ -103,54 +103,72 @@
         require-asterisk-position="right"
       >
         <template v-if="isTypeAll">
-          <el-form-item prop="action" :label="$t('Auth.action')">
-            <el-select v-model="record.action">
-              <el-option
-                v-for="{ label, value } in actionOpts"
-                :key="value"
-                :value="value"
-                :label="label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="permission" :label="$t('Auth.permission')">
-            <el-select v-model="record.permission">
-              <el-option
-                v-for="{ label, value } in permissionOpts"
-                :key="value"
-                :value="value"
-                :label="label"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="topic">
-            <template #label>
-              {{ $t('Base.topic') }}
-              <InfoTooltip :content="$t('Auth.topicTips', ['{username}', '{clientid}'])" />
-            </template>
-            <el-input v-model="record.topic" />
-          </el-form-item>
-          <el-form-item prop="qos" label="QoS">
-            <el-select v-model="record.qos" multiple>
-              <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="retain" label="Retain" clearable>
-            <el-select v-model="record.retain">
-              <el-option :value="true" label="true" />
-              <el-option :value="false" label="false" />
-              <el-option value="all" :label="t('Base.all')" />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="clientid_re" :label="t('Clients.clientIdReg')">
-            <el-input v-model="record.clientid_re" />
-          </el-form-item>
-          <el-form-item prop="username_re" :label="t('Clients.usernameReg')">
-            <el-input v-model="record.username_re" />
-          </el-form-item>
-          <el-form-item prop="ipaddr" :label="t('Clients.ipAddressRange')">
-            <el-input v-model="record.ipaddr" />
-          </el-form-item>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item prop="action" :label="$t('Auth.action')">
+                <el-select v-model="record.action">
+                  <el-option
+                    v-for="{ label, value } in actionOpts"
+                    :key="value"
+                    :value="value"
+                    :label="label"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="permission" :label="$t('Auth.permission')">
+                <el-select v-model="record.permission">
+                  <el-option
+                    v-for="{ label, value } in permissionOpts"
+                    :key="value"
+                    :value="value"
+                    :label="label"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="topic">
+                <template #label>
+                  {{ $t('Base.topic') }}
+                  <InfoTooltip :content="$t('Auth.topicTips', ['{username}', '{clientid}'])" />
+                </template>
+                <el-input v-model="record.topic" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="qos" label="QoS">
+                <el-select v-model="record.qos" multiple>
+                  <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="retain" label="Retain" clearable>
+                <el-select v-model="record.retain">
+                  <el-option :value="true" label="true" />
+                  <el-option :value="false" label="false" />
+                  <el-option value="all" :label="t('Base.all')" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="clientid_re" :label="t('Clients.clientIdReg')">
+                <el-input v-model="record.clientid_re" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="username_re" :label="t('Clients.usernameReg')">
+                <el-input v-model="record.username_re" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="ipaddr" :label="t('Clients.ipAddressRange')">
+                <el-input v-model="record.ipaddr" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </template>
         <template v-else>
           <el-form-item

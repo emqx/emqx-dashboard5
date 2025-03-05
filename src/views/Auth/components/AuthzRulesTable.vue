@@ -1,6 +1,6 @@
 <template>
   <el-table :data="data">
-    <el-table-column :label="tl('action')" min-width="80px">
+    <el-table-column :label="tl('action')" min-width="80">
       <template #default="{ row }">
         <el-select v-if="isEdit" v-model="row.action">
           <el-option
@@ -13,7 +13,7 @@
         <template v-else>{{ getLabelFromValueInOptionList(row.action, actionOpts) }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="permission" :label="tl('permission')" min-width="80px">
+    <el-table-column prop="permission" :label="tl('permission')" min-width="104">
       <template #default="{ row }">
         <el-select v-if="isEdit" v-model="row.permission">
           <el-option
@@ -28,13 +28,13 @@
         </template>
       </template>
     </el-table-column>
-    <el-table-column prop="topic" :label="t('Base.topic')">
+    <el-table-column prop="topic" :label="t('Base.topic')" min-width="80">
       <template #default="{ row }">
         <el-input v-if="isEdit" v-model="row.topic" />
         <template v-else>{{ row.topic }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="qos" label="QoS">
+    <el-table-column prop="qos" label="QoS" min-width="70">
       <template #default="{ row }">
         <el-select v-if="isEdit" v-model="row.qos" multiple>
           <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
@@ -42,7 +42,7 @@
         <template v-else>{{ row.qos?.join?.(', ') }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="retain" label="Retain">
+    <el-table-column prop="retain" label="Retain" min-width="80">
       <template #default="{ row }">
         <el-select v-if="isEdit" v-model="row.retain">
           <el-option :value="true" label="true" />
@@ -52,19 +52,19 @@
         <template v-else>{{ row.retain === 'all' ? retainAllLabel : row.retain }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="clientid_re" :label="t('Clients.clientIdReg')">
+    <el-table-column prop="clientid_re" :label="t('Clients.clientIdReg')" min-width="136">
       <template #default="{ row }">
         <el-input v-if="isEdit" v-model="row.clientid_re" />
         <template v-else>{{ row.clientid_re }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="username_re" :label="t('Clients.usernameReg')">
+    <el-table-column prop="username_re" :label="t('Clients.usernameReg')" min-width="148">
       <template #default="{ row }">
         <el-input v-if="isEdit" v-model="row.username_re" />
         <template v-else>{{ row.username_re }}</template>
       </template>
     </el-table-column>
-    <el-table-column prop="ipaddr" :label="t('Clients.ipAddressRange')">
+    <el-table-column prop="ipaddr" :label="t('Clients.ipAddressRange')" min-width="148">
       <template #default="{ row }">
         <el-input v-if="isEdit" v-model="row.ipaddr" />
         <template v-else>{{ row.ipaddr }}</template>
@@ -76,7 +76,6 @@
 
 <script setup lang="ts">
 import { BuiltInDBRule } from '@/types/auth'
-import {} from 'vue'
 
 defineProps<{
   data: Array<BuiltInDBRule>
