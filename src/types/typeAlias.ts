@@ -1,4 +1,8 @@
 import { GetAuthentication200Item, AuthnBuiltinDb } from './schemas/authentication.schemas'
+import {
+  EmqxAuthzApiMnesiaRuleItemAction,
+  EmqxAuthzApiMnesiaRuleItemPermission,
+} from './schemas/authorization.schemas'
 import { PostGatewaysNameListenersBody } from './schemas/gatewayListeners.schemas'
 import {
   EmqxGatewayApiUpdateCoap,
@@ -20,3 +24,7 @@ export type GatewayListener = PostGatewaysNameListenersBody
 /* AUTHENTICATION */
 export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
+
+/* AUTHORIZATION */
+export const AuthzRulePermission = EmqxAuthzApiMnesiaRuleItemPermission
+export const AuthzRuleAction = EmqxAuthzApiMnesiaRuleItemAction
