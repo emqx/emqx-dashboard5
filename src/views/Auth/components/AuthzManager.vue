@@ -226,7 +226,6 @@ import {
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
 import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
-import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType, QoSLevel } from '@/types/enum'
 import AuthzRulesTable from './AuthzRulesTable.vue'
@@ -261,7 +260,7 @@ const recordForm = ref()
 const tableData = ref([])
 const allTableData = ref<BuiltInDBRule[]>([])
 const rulesData = ref<BuiltInDBRule[]>([])
-const createRawRuleItem = () => ({
+const createRawRuleItem = (): BuiltInDBRule => ({
   topic: '',
   permission: AuthzRulePermission.allow,
   action: AuthzRuleAction.publish,
@@ -350,11 +349,7 @@ const handleCancel = function () {
   rulesData.value = []
 }
 const addColumn = () => {
-  rulesData.value.push({
-    permission: AuthzRulePermission.allow,
-    action: AuthzRuleAction.publish,
-    topic: '',
-  })
+  rulesData.value.push(createRawRuleItem())
 }
 const deleteItem = (row: BuiltInDBItem, index: number) => {
   rulesData.value.splice(index, 1)
@@ -379,12 +374,7 @@ const handleSubmit = function () {
         ElMessage.success(t('Base.updateSuccess'))
       }
     } else {
-      data.permission = record.value.permission
-      data.action = record.value.action
-      data.topic = record.value.topic
-      data.clientid_re = record.value.clientid_re
-      data.username_re = record.value.username_re
-      data.ipaddr = record.value.ipaddr
+      Object.assign(data, pick(record.value, Object.keys(createRawRuleItem())))
       const rules = cloneDeep(allTableData.value)
       if (!isEdit.value) {
         rules.push(data as BuiltInDBRule)
@@ -399,31 +389,30 @@ const handleSubmit = function () {
     loadData()
   })
 }
-const handleDelete = function (row: BuiltInDBItem, index: number) {
-  MB.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    confirmButtonClass: 'confirm-danger',
-    type: 'warning',
-  })
-    .then(async () => {
-      if (!isTypeAll.value) {
-        const key = getKeyByCurrentType()
-        await deleteBuiltInDatabaseData(type.value, row[key]).catch(() => {
-          // ignore error
-        })
-      } else {
-        const rules = cloneDeep(allTableData.value)
-        rules.splice(index, 1)
-        await updateAllBuiltInDatabaseData({
-          rules,
-        })
-      }
-      resetPageAndLoadData()
-    })
-    .catch(() => {
-      // ignore error
-    })
+
+const { confirmDel } = useOperationConfirm()
+const submitDel = async (row: BuiltInDBItem, index: number) => {
+  try {
+    if (!isTypeAll.value) {
+      const key = getKeyByCurrentType()
+      await deleteBuiltInDatabaseData(type.value, row[key])
+    } else {
+      const rules = cloneDeep(allTableData.value)
+      rules.splice(index, 1)
+      await updateAllBuiltInDatabaseData({ rules })
+    }
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+const handleDelete = async function (row: BuiltInDBItem, index: number) {
+  try {
+    await confirmDel(() => submitDel(row, index))
+    resetPageAndLoadData()
+  } catch (error) {
+    //
+  }
 }
 const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) {
   dialogVisible.value = true
@@ -437,9 +426,7 @@ const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) 
   } else {
     const _row = row as BuiltInDBRule
     editIndex.value = index
-    record.value.permission = _row.permission
-    record.value.action = _row.action
-    record.value.topic = _row.topic
+    record.value = Object.assign(record.value, cloneDeep(_row))
   }
 }
 const swapArray = (arr: BuiltInDBRule[], fromIndex: number, toIndex: number) => {
