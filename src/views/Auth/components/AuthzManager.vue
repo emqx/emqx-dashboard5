@@ -225,6 +225,7 @@ import {
   updateBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
 } from '@/api/auth'
+import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
 import { ElMessageBox as MB } from 'element-plus'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType, QoSLevel } from '@/types/enum'
@@ -236,11 +237,6 @@ interface AllTableDataItem {
   action: string
   permission: string
   topic: string
-}
-
-const enum Permission {
-  Allow = 'allow',
-  Deny = 'deny',
 }
 
 const { t } = useI18n()
@@ -265,34 +261,29 @@ const recordForm = ref()
 const tableData = ref([])
 const allTableData = ref<BuiltInDBRule[]>([])
 const rulesData = ref<BuiltInDBRule[]>([])
-const record = reactive({
-  clientid: '',
-  username: '',
-  rules: [],
-  permission: Permission.Allow,
-  action: 'publish',
+const createRawRuleItem = () => ({
   topic: '',
+  permission: AuthzRulePermission.allow,
+  action: AuthzRuleAction.publish,
   qos: [QoSLevel.QoS0, QoSLevel.QoS1, QoSLevel.QoS2],
   retain: 'all',
   clientid_re: '',
   username_re: '',
   ipaddr: '',
 })
+const createRawRecord = () => ({
+  clientid: '',
+  username: '',
+  rules: [],
+  ...createRawRuleItem(),
+})
+const record = ref(createRawRecord())
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 const editIndex = ref(0)
 const searchVal = ref('')
 
-const actionOpts = [
-  { value: 'publish', label: t('Auth.publish') },
-  { value: 'subscribe', label: t('Auth.subscribe') },
-  { value: 'all', label: t('Auth.all') },
-]
-
-const permissionOpts = [
-  { value: Permission.Allow, label: t('Base.allow') },
-  { value: Permission.Deny, label: t('Base.deny') },
-]
+const { actionOpts, permissionOpts } = useAuthzManager()
 
 const isTypeAll = computed(() => type.value === BuiltInDBType.All)
 
@@ -355,18 +346,13 @@ const handleAdd = function () {
 }
 const handleCancel = function () {
   dialogVisible.value = false
-  record.clientid = ''
-  record.username = ''
-  record.permission = Permission.Allow
-  record.action = 'publish'
-  record.topic = ''
-  record.rules = []
+  record.value = createRawRecord()
   rulesData.value = []
 }
 const addColumn = () => {
   rulesData.value.push({
-    permission: Permission.Allow,
-    action: 'publish',
+    permission: AuthzRulePermission.allow,
+    action: AuthzRuleAction.publish,
     topic: '',
   })
 }
@@ -383,7 +369,7 @@ const handleSubmit = function () {
     } = {}
     if (type.value !== BuiltInDBType.All) {
       const key = getKeyByCurrentType()
-      data[key] = record[key]
+      data[key] = record.value[key]
       data.rules = rulesData.value
       if (!isEdit.value) {
         await createBuiltInDatabaseData(type.value, [data])
@@ -393,12 +379,12 @@ const handleSubmit = function () {
         ElMessage.success(t('Base.updateSuccess'))
       }
     } else {
-      data.permission = record.permission
-      data.action = record.action
-      data.topic = record.topic
-      data.clientid_re = record.clientid_re
-      data.username_re = record.username_re
-      data.ipaddr = record.ipaddr
+      data.permission = record.value.permission
+      data.action = record.value.action
+      data.topic = record.value.topic
+      data.clientid_re = record.value.clientid_re
+      data.username_re = record.value.username_re
+      data.ipaddr = record.value.ipaddr
       const rules = cloneDeep(allTableData.value)
       if (!isEdit.value) {
         rules.push(data as BuiltInDBRule)
@@ -446,14 +432,14 @@ const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) 
   if (!isTypeAll.value) {
     const _row = row as BuiltInDBItem
     const key = getKeyByCurrentType()
-    record[key] = _row[key]
+    record.value[key] = _row[key]
     rulesData.value = cloneDeep(_row.rules)
   } else {
     const _row = row as BuiltInDBRule
     editIndex.value = index
-    record.permission = _row.permission
-    record.action = _row.action
-    record.topic = _row.topic
+    record.value.permission = _row.permission
+    record.value.action = _row.action
+    record.value.topic = _row.topic
   }
 }
 const swapArray = (arr: BuiltInDBRule[], fromIndex: number, toIndex: number) => {

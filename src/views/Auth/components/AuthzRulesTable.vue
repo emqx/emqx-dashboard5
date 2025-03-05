@@ -85,16 +85,7 @@ defineProps<{
 
 const { t, tl } = useI18nTl('Auth')
 
-const actionOpts = [
-  { value: 'publish', label: tl('publish') },
-  { value: 'subscribe', label: tl('subscribe') },
-  { value: 'all', label: tl('all') },
-]
-
-const permissionOpts = [
-  { value: 'allow', label: t('Base.allow') },
-  { value: 'deny', label: t('Base.deny') },
-]
+const { actionOpts, permissionOpts } = useAuthzManager()
 
 const retainAllLabel = t('Base.all')
 </script>
