@@ -3,11 +3,11 @@ name: build enterprise package
 on:
   pull_request:
     branches:
-      - 'enterprise'
+      - '**enterprise**'
       - 'dev/e/*'
   push:
     branches:
-      - 'enterprise'
+      - '**enterprise**'
       - 'dev/e/*'
   workflow_call:
 
