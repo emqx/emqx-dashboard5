@@ -136,6 +136,7 @@ export default (
         'password',
         'keepalive',
         'proto_ver',
+        'static_clientids',
         'clean_start',
         'ssl',
         'retry_interval',
