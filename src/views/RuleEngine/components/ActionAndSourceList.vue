@@ -8,7 +8,7 @@
       row-key="id"
       @sort-change="handleSortChange"
     >
-      <el-table-column :label="t('Base.tableNo')" width="56">
+      <el-table-column :label="t('Base.tableNo')" width="60">
         <template #default="{ $index }">
           {{ $index + 1 }}
         </template>
