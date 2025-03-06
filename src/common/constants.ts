@@ -296,10 +296,12 @@ const websocketUnexposedOptions = {
 export const unexposedConfigs = {
   tcp: {
     ...defaultUnexposedConfig,
+    parse_unit: 'chunk',
     tcp_options: tcpUnexposedOptions,
   },
   ssl: {
     ...defaultUnexposedConfig,
+    parse_unit: 'chunk',
     tcp_options: {
       ...tcpUnexposedOptions,
     },
