@@ -53,6 +53,7 @@ export interface Prometheus {
     vm_system_info: string
   }
   enable_basic_auth: boolean
+  latency_buckets: string
   push_gateway: {
     headers: {
       Authorization: string
