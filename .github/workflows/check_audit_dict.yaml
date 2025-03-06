@@ -41,7 +41,7 @@ jobs:
 
       - name: run script that checks the audit dict
         run: |
-          node ./scripts/checkAuditDict.js
+          node ./scripts/checkAuditDict.cjs
 
       - name: check for script errors
         if: ${{ failure() }}
