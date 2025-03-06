@@ -1,5 +1,31 @@
+export type PostSchemaValidationsValidationNameMetricsReset404Code =
+  (typeof PostSchemaValidationsValidationNameMetricsReset404Code)[keyof typeof PostSchemaValidationsValidationNameMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaValidationsValidationNameMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostSchemaValidationsValidationNameMetricsReset404 = {
+  code?: PostSchemaValidationsValidationNameMetricsReset404Code
+  message?: string
+}
+
+export type GetSchemaValidationsValidationNameMetrics404Code =
+  (typeof GetSchemaValidationsValidationNameMetrics404Code)[keyof typeof GetSchemaValidationsValidationNameMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSchemaValidationsValidationNameMetrics404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetSchemaValidationsValidationNameMetrics404 = {
+  code?: GetSchemaValidationsValidationNameMetrics404Code
+  message?: string
+}
+
 export type PostSchemaValidationsValidationNameEnableEnable404Code =
-  typeof PostSchemaValidationsValidationNameEnableEnable404Code[keyof typeof PostSchemaValidationsValidationNameEnableEnable404Code]
+  (typeof PostSchemaValidationsValidationNameEnableEnable404Code)[keyof typeof PostSchemaValidationsValidationNameEnableEnable404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaValidationsValidationNameEnableEnable404Code = {
@@ -12,7 +38,7 @@ export type PostSchemaValidationsValidationNameEnableEnable404 = {
 }
 
 export type PostSchemaValidationsValidationNameEnableEnable400Code =
-  typeof PostSchemaValidationsValidationNameEnableEnable400Code[keyof typeof PostSchemaValidationsValidationNameEnableEnable400Code]
+  (typeof PostSchemaValidationsValidationNameEnableEnable400Code)[keyof typeof PostSchemaValidationsValidationNameEnableEnable400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaValidationsValidationNameEnableEnable400Code = {
@@ -24,47 +50,8 @@ export type PostSchemaValidationsValidationNameEnableEnable400 = {
   message?: string
 }
 
-export type PostSchemaValidations400Code =
-  typeof PostSchemaValidations400Code[keyof typeof PostSchemaValidations400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSchemaValidations400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-} as const
-
-export type PostSchemaValidations400 = {
-  code?: PostSchemaValidations400Code
-  message?: string
-}
-
-export type PutSchemaValidations404Code =
-  typeof PutSchemaValidations404Code[keyof typeof PutSchemaValidations404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSchemaValidations404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutSchemaValidations404 = {
-  code?: PutSchemaValidations404Code
-  message?: string
-}
-
-export type PutSchemaValidations400Code =
-  typeof PutSchemaValidations400Code[keyof typeof PutSchemaValidations400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSchemaValidations400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutSchemaValidations400 = {
-  code?: PutSchemaValidations400Code
-  message?: string
-}
-
 export type DeleteSchemaValidationsValidationName404Code =
-  typeof DeleteSchemaValidationsValidationName404Code[keyof typeof DeleteSchemaValidationsValidationName404Code]
+  (typeof DeleteSchemaValidationsValidationName404Code)[keyof typeof DeleteSchemaValidationsValidationName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteSchemaValidationsValidationName404Code = {
@@ -77,7 +64,7 @@ export type DeleteSchemaValidationsValidationName404 = {
 }
 
 export type GetSchemaValidationsValidationName404Code =
-  typeof GetSchemaValidationsValidationName404Code[keyof typeof GetSchemaValidationsValidationName404Code]
+  (typeof GetSchemaValidationsValidationName404Code)[keyof typeof GetSchemaValidationsValidationName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSchemaValidationsValidationName404Code = {
@@ -89,21 +76,8 @@ export type GetSchemaValidationsValidationName404 = {
   message?: string
 }
 
-export type PostSchemaValidationsValidationNameMetricsReset404Code =
-  typeof PostSchemaValidationsValidationNameMetricsReset404Code[keyof typeof PostSchemaValidationsValidationNameMetricsReset404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSchemaValidationsValidationNameMetricsReset404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PostSchemaValidationsValidationNameMetricsReset404 = {
-  code?: PostSchemaValidationsValidationNameMetricsReset404Code
-  message?: string
-}
-
 export type PostSchemaValidationsReorder400Code =
-  typeof PostSchemaValidationsReorder400Code[keyof typeof PostSchemaValidationsReorder400Code]
+  (typeof PostSchemaValidationsReorder400Code)[keyof typeof PostSchemaValidationsReorder400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaValidationsReorder400Code = {
@@ -111,28 +85,65 @@ export const PostSchemaValidationsReorder400Code = {
 } as const
 
 export type PostSchemaValidationsReorder400 = {
+  code?: PostSchemaValidationsReorder400Code
+  duplicated?: string[]
+  message?: string
   not_found?: string[]
   not_reordered?: string[]
-  duplicated?: string[]
-  code?: PostSchemaValidationsReorder400Code
+}
+
+export type PostSchemaValidations400Code =
+  (typeof PostSchemaValidations400Code)[keyof typeof PostSchemaValidations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaValidations400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostSchemaValidations400 = {
+  code?: PostSchemaValidations400Code
   message?: string
 }
 
-export type GetSchemaValidationsValidationNameMetrics404Code =
-  typeof GetSchemaValidationsValidationNameMetrics404Code[keyof typeof GetSchemaValidationsValidationNameMetrics404Code]
+export type PutSchemaValidations404Code =
+  (typeof PutSchemaValidations404Code)[keyof typeof PutSchemaValidations404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSchemaValidationsValidationNameMetrics404Code = {
+export const PutSchemaValidations404Code = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type GetSchemaValidationsValidationNameMetrics404 = {
-  code?: GetSchemaValidationsValidationNameMetrics404Code
+export type PutSchemaValidations404 = {
+  code?: PutSchemaValidations404Code
   message?: string
 }
 
+export type PutSchemaValidations400Code =
+  (typeof PutSchemaValidations400Code)[keyof typeof PutSchemaValidations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSchemaValidations400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutSchemaValidations400 = {
+  code?: PutSchemaValidations400Code
+  message?: string
+}
+
+export type SchemaValidationValidationTopics = string[] | string
+
+export type SchemaValidationValidationStrategy =
+  (typeof SchemaValidationValidationStrategy)[keyof typeof SchemaValidationValidationStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaValidationValidationStrategy = {
+  any_pass: 'any_pass',
+  all_pass: 'all_pass',
+} as const
+
 export type SchemaValidationValidationFailureAction =
-  typeof SchemaValidationValidationFailureAction[keyof typeof SchemaValidationValidationFailureAction]
+  (typeof SchemaValidationValidationFailureAction)[keyof typeof SchemaValidationValidationFailureAction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationValidationFailureAction = {
@@ -141,19 +152,8 @@ export const SchemaValidationValidationFailureAction = {
   ignore: 'ignore',
 } as const
 
-export type SchemaValidationValidationStrategy =
-  typeof SchemaValidationValidationStrategy[keyof typeof SchemaValidationValidationStrategy]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaValidationValidationStrategy = {
-  any_pass: 'any_pass',
-  all_pass: 'all_pass',
-} as const
-
-export type SchemaValidationValidationTopics = string[] | string
-
 export type SchemaValidationLogFailureLevel =
-  typeof SchemaValidationLogFailureLevel[keyof typeof SchemaValidationLogFailureLevel]
+  (typeof SchemaValidationLogFailureLevel)[keyof typeof SchemaValidationLogFailureLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationLogFailureLevel = {
@@ -170,19 +170,19 @@ export interface SchemaValidationLogFailure {
 }
 
 export interface SchemaValidationValidation {
-  tags?: string[]
+  checks: SchemaValidationValidationChecksItem[]
   description?: string
   enable?: boolean
-  name: string
-  topics: SchemaValidationValidationTopics
-  strategy: SchemaValidationValidationStrategy
   failure_action: SchemaValidationValidationFailureAction
   log_failure?: SchemaValidationLogFailure
-  checks: SchemaValidationValidationChecksItem[]
+  name: string
+  strategy: SchemaValidationValidationStrategy
+  tags?: string[]
+  topics: SchemaValidationValidationTopics
 }
 
 export type SchemaValidationCheckSqlType =
-  typeof SchemaValidationCheckSqlType[keyof typeof SchemaValidationCheckSqlType]
+  (typeof SchemaValidationCheckSqlType)[keyof typeof SchemaValidationCheckSqlType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationCheckSqlType = {
@@ -190,12 +190,12 @@ export const SchemaValidationCheckSqlType = {
 } as const
 
 export interface SchemaValidationCheckSql {
-  type?: SchemaValidationCheckSqlType
   sql: string
+  type?: SchemaValidationCheckSqlType
 }
 
 export type SchemaValidationCheckProtobufType =
-  typeof SchemaValidationCheckProtobufType[keyof typeof SchemaValidationCheckProtobufType]
+  (typeof SchemaValidationCheckProtobufType)[keyof typeof SchemaValidationCheckProtobufType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationCheckProtobufType = {
@@ -203,13 +203,13 @@ export const SchemaValidationCheckProtobufType = {
 } as const
 
 export interface SchemaValidationCheckProtobuf {
-  type?: SchemaValidationCheckProtobufType
-  schema: string
   message_type: string
+  schema: string
+  type?: SchemaValidationCheckProtobufType
 }
 
 export type SchemaValidationCheckJsonType =
-  typeof SchemaValidationCheckJsonType[keyof typeof SchemaValidationCheckJsonType]
+  (typeof SchemaValidationCheckJsonType)[keyof typeof SchemaValidationCheckJsonType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationCheckJsonType = {
@@ -217,8 +217,21 @@ export const SchemaValidationCheckJsonType = {
 } as const
 
 export interface SchemaValidationCheckJson {
-  type?: SchemaValidationCheckJsonType
   schema: string
+  type?: SchemaValidationCheckJsonType
+}
+
+export type SchemaValidationCheckAvroType =
+  (typeof SchemaValidationCheckAvroType)[keyof typeof SchemaValidationCheckAvroType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaValidationCheckAvroType = {
+  avro: 'avro',
+} as const
+
+export interface SchemaValidationCheckAvro {
+  schema: string
+  type?: SchemaValidationCheckAvroType
 }
 
 export type SchemaValidationValidationChecksItem =
@@ -227,34 +240,27 @@ export type SchemaValidationValidationChecksItem =
   | SchemaValidationCheckJson
   | SchemaValidationCheckSql
 
-export type SchemaValidationCheckAvroType =
-  typeof SchemaValidationCheckAvroType[keyof typeof SchemaValidationCheckAvroType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaValidationCheckAvroType = {
-  avro: 'avro',
-} as const
-
-export interface SchemaValidationCheckAvro {
-  type?: SchemaValidationCheckAvroType
-  schema: string
-}
-
 export interface SchemaValidationHttpApiReorder {
   order: string[]
 }
 
 export interface SchemaValidationHttpApiNodeMetrics {
-  node?: string
-  matched?: number
-  succeeded?: number
+  /** @minimum 0 */
   failed?: number
+  /** @minimum 0 */
+  matched?: number
+  node?: string
+  /** @minimum 0 */
+  succeeded?: number
 }
 
 export interface SchemaValidationHttpApiMetrics {
-  matched?: number
-  succeeded?: number
+  /** @minimum 0 */
   failed?: number
+  /** @minimum 0 */
+  matched?: number
+  /** @minimum 0 */
+  succeeded?: number
 }
 
 export interface SchemaValidationHttpApiGetMetrics {

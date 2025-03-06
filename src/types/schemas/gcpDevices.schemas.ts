@@ -1,5 +1,5 @@
 export type PutGcpDevicesDeviceid400Code =
-  typeof PutGcpDevicesDeviceid400Code[keyof typeof PutGcpDevicesDeviceid400Code]
+  (typeof PutGcpDevicesDeviceid400Code)[keyof typeof PutGcpDevicesDeviceid400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutGcpDevicesDeviceid400Code = {
@@ -12,7 +12,7 @@ export type PutGcpDevicesDeviceid400 = {
 }
 
 export type GetGcpDevicesDeviceid404Code =
-  typeof GetGcpDevicesDeviceid404Code[keyof typeof GetGcpDevicesDeviceid404Code]
+  (typeof GetGcpDevicesDeviceid404Code)[keyof typeof GetGcpDevicesDeviceid404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetGcpDevicesDeviceid404Code = {
@@ -24,7 +24,8 @@ export type GetGcpDevicesDeviceid404 = {
   message?: string
 }
 
-export type PostGcpDevices400Code = typeof PostGcpDevices400Code[keyof typeof PostGcpDevices400Code]
+export type PostGcpDevices400Code =
+  (typeof PostGcpDevices400Code)[keyof typeof PostGcpDevices400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGcpDevices400Code = {
@@ -51,56 +52,66 @@ export type GetGcpDevicesParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
+  /** @minimum 0 */
   count?: number
   hasnext: boolean
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  limit?: number
+  /** @minimum 1 */
+  page?: number
 }
 
 export interface EmqxGcpDeviceApiKey {
+  /** @minimum 0 */
+  expires_at: number
   key: string
   key_type: string
-  expires_at: number
 }
 
 export interface EmqxGcpDeviceApiImportResult {
+  /** @minimum 0 */
   errors: number
+  /** @minimum 0 */
   imported: number
 }
 
 export interface EmqxGcpDeviceApiGcpExportedDevice {
   blocked: boolean
-  deviceid: string
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  deviceid: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDeviceInfo {
-  deviceid: string
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  deviceid: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDeviceAllInfo {
+  config: string
+  /** @minimum 0 */
   created_at: number
   deviceid: string
-  registry?: string
-  project?: string
-  location?: string
   keys?: EmqxGcpDeviceApiKey[]
-  config: string
+  location?: string
+  project?: string
+  registry?: string
 }
 
 export interface EmqxGcpDeviceApiGcpDevice {
-  registry?: string
-  project?: string
-  location?: string
-  keys?: EmqxGcpDeviceApiKey[]
   config: string
+  keys?: EmqxGcpDeviceApiKey[]
+  location?: string
+  project?: string
+  registry?: string
 }

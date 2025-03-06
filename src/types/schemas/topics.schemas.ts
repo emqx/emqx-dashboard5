@@ -1,9 +1,5 @@
-export type GetTopics200 = {
-  data?: EmqxMgmtApiTopicsTopic[]
-  meta?: PublicMeta
-}
-
-export type GetTopicsTopic404Code = typeof GetTopicsTopic404Code[keyof typeof GetTopicsTopic404Code]
+export type GetTopicsTopic404Code =
+  (typeof GetTopicsTopic404Code)[keyof typeof GetTopicsTopic404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTopicsTopic404Code = {
@@ -13,6 +9,11 @@ export const GetTopicsTopic404Code = {
 export type GetTopicsTopic404 = {
   code?: GetTopicsTopic404Code
   message?: string
+}
+
+export type GetTopics200 = {
+  data?: EmqxMgmtApiTopicsTopic[]
+  meta?: PublicMeta
 }
 
 export type PublicPageParameter = number
@@ -27,14 +28,20 @@ export type GetTopicsParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
+  /** @minimum 0 */
   count?: number
   hasnext: boolean
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  limit?: number
+  /** @minimum 1 */
+  page?: number
 }
 
 export interface EmqxMgmtApiTopicsTopic {
-  topic: string
   node: string
   session?: string
+  topic: string
 }

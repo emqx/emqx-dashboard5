@@ -1,5 +1,5 @@
 export type PutMqttAutoSubscribe409Code =
-  typeof PutMqttAutoSubscribe409Code[keyof typeof PutMqttAutoSubscribe409Code]
+  (typeof PutMqttAutoSubscribe409Code)[keyof typeof PutMqttAutoSubscribe409Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutMqttAutoSubscribe409Code = {
@@ -12,9 +12,25 @@ export type PutMqttAutoSubscribe409 = {
 }
 
 export interface AutoSubscribeTopic {
-  topic: string
-  qos?: number
-  rh?: number
-  rap?: number
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
   nl?: number
+  /**
+   * @minimum 0
+   * @maximum 2
+   */
+  qos?: number
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  rap?: number
+  /**
+   * @minimum 0
+   * @maximum 2
+   */
+  rh?: number
+  topic: string
 }

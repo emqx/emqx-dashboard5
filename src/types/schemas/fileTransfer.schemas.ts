@@ -24,20 +24,6 @@ export type GetFileTransferFilesClientidFileid404 = {
   message?: string
 }
 
-export type PutFileTransfer400Code =
-  (typeof PutFileTransfer400Code)[keyof typeof PutFileTransfer400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutFileTransfer400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
-  INVALID_CONFIG: 'INVALID_CONFIG',
-} as const
-
-export type PutFileTransfer400 = {
-  code?: PutFileTransfer400Code
-  message?: string
-}
-
 export type GetFileTransferFiles503Code =
   (typeof GetFileTransferFiles503Code)[keyof typeof GetFileTransferFiles503Code]
 
@@ -62,11 +48,6 @@ export const GetFileTransferFiles400Code = {
 export type GetFileTransferFiles400 = {
   code?: GetFileTransferFiles400Code
   message?: string
-}
-
-export type GetFileTransferFilesParams = {
-  following?: FileTransferFollowingParameter
-  limit?: PublicLimitParameter
 }
 
 export type GetFileTransferFile503Code =
@@ -95,9 +76,28 @@ export type GetFileTransferFile404 = {
   message?: string
 }
 
+export type PutFileTransfer400Code =
+  (typeof PutFileTransfer400Code)[keyof typeof PutFileTransfer400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutFileTransfer400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+  INVALID_CONFIG: 'INVALID_CONFIG',
+} as const
+
+export type PutFileTransfer400 = {
+  code?: PutFileTransfer400Code
+  message?: string
+}
+
 export type PublicLimitParameter = number
 
 export type FileTransferFollowingParameter = string
+
+export type GetFileTransferFilesParams = {
+  following?: FileTransferFollowingParameter
+  limit?: PublicLimitParameter
+}
 
 export type FileTransferFileRefParameter = string
 
@@ -108,18 +108,23 @@ export type GetFileTransferFileParams = {
   fileref: FileTransferFileRefParameter
 }
 
-export type S3TransportOptionsHeaders = { [key: string]: any }
+export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
 export interface S3TransportOptions {
-  ipv6_probe?: boolean
   connect_timeout?: string
-  pool_size?: number
-  /** @deprecated */
+  /**
+   * @deprecated
+   * @minimum 1
+   */
   enable_pipelining?: number
-  ssl?: EmqxSslClientOpts
   headers?: S3TransportOptionsHeaders
+  ipv6_probe?: boolean
+  /** @minimum 0 */
   max_retries?: number
+  /** @minimum 1 */
+  pool_size?: number
   request_timeout?: string
+  ssl?: EmqxSslClientOpts
 }
 
 export type FileTransferS3ExporterAcl =
@@ -146,17 +151,18 @@ export const FileTransferS3ExporterAccessMethod = {
 
 export interface FileTransferS3Exporter {
   access_key_id?: string
-  secret_access_key?: string
-  host: string
-  port: number
   access_method?: FileTransferS3ExporterAccessMethod
-  transport_options?: S3TransportOptions
-  min_part_size?: string
-  max_part_size?: string
-  url_expire_time?: string
-  bucket: string
   acl?: FileTransferS3ExporterAcl
+  bucket: string
   enable?: boolean
+  host: string
+  max_part_size?: string
+  min_part_size?: string
+  /** @minimum 1 */
+  port: number
+  secret_access_key?: string
+  transport_options?: S3TransportOptions
+  url_expire_time?: string
 }
 
 export interface FileTransferLocalStorageSegmentsGc {
@@ -166,13 +172,13 @@ export interface FileTransferLocalStorageSegmentsGc {
 }
 
 export interface FileTransferLocalStorageSegments {
-  root?: string
   gc?: FileTransferLocalStorageSegmentsGc
+  root?: string
 }
 
 export interface FileTransferLocalStorageExporter {
-  root?: string
   enable?: boolean
+  root?: string
 }
 
 export interface FileTransferLocalStorageExporterBackend {
@@ -181,9 +187,9 @@ export interface FileTransferLocalStorageExporterBackend {
 }
 
 export interface FileTransferLocalStorage {
-  segments?: FileTransferLocalStorageSegments
-  exporter?: FileTransferLocalStorageExporterBackend
   enable?: boolean
+  exporter?: FileTransferLocalStorageExporterBackend
+  segments?: FileTransferLocalStorageSegments
 }
 
 export interface FileTransferStorageBackend {
@@ -191,12 +197,21 @@ export interface FileTransferStorageBackend {
 }
 
 export interface FileTransferFileTransfer {
+  assemble_timeout?: string
   enable?: boolean
   init_timeout?: string
-  store_segment_timeout?: string
-  assemble_timeout?: string
   storage?: FileTransferStorageBackend
+  store_segment_timeout?: string
 }
+
+export type EmqxSslClientOptsVerify =
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
@@ -205,8 +220,8 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: 'true',
-  false: 'false',
+  true: true,
+  false: false,
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
 } as const
@@ -228,32 +243,24 @@ export const EmqxSslClientOptsLogLevel = {
   all: 'all',
 } as const
 
-export type EmqxSslClientOptsVerify =
-  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
-  keyfile?: string
-  verify?: EmqxSslClientOptsVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
   ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: EmqxSslClientOptsLogLevel
-  hibernate_after?: string
-  partial_chain?: EmqxSslClientOptsPartialChain
-  verify_peer_ext_key_usage?: string
+  /** @minimum 0 */
+  depth?: number
   enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: EmqxSslClientOptsLogLevel
+  partial_chain?: EmqxSslClientOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
   server_name_indication?: EmqxSslClientOptsServerNameIndication
+  verify?: EmqxSslClientOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
