@@ -913,3 +913,9 @@ label.custom-required::after {
   color: var(--el-color-danger);
   margin-left: 4px;
 }
+
+.el-table__cell.overflow-visible {
+  .cell {
+    overflow: visible;
+  }
+}

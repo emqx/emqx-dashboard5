@@ -38,14 +38,21 @@
         </template>
       </template>
     </el-table-column>
-    <el-table-column prop="topic" :label="t('Base.topic')" min-width="80">
+    <el-table-column
+      prop="topic"
+      :label="t('Base.topic')"
+      min-width="80"
+      class-name="overflow-visible"
+    >
       <template #header v-if="isEdit">
         <label class="custom-required">
           {{ t('Base.topic') }}
         </label>
       </template>
-      <template #default="{ row }">
-        <el-input v-if="isEdit" v-model="row.topic" />
+      <template #default="{ row, $index }">
+        <el-form-item v-if="isEdit" :prop="`rules.${$index}.topic`" :rules="topicRules">
+          <el-input v-model="row.topic" />
+        </el-form-item>
         <template v-else>{{ row.topic }}</template>
       </template>
     </el-table-column>
@@ -119,4 +126,7 @@ const { t, tl } = useI18nTl('Auth')
 const { actionOpts, permissionOpts } = useAuthzManager()
 
 const retainAllLabel = t('Base.all')
+
+const { createRequiredRule } = useFormRules()
+const topicRules = createRequiredRule(t('Base.topic'))
 </script>
