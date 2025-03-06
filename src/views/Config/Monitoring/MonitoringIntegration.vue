@@ -118,6 +118,16 @@
                 </el-col>
               </el-row>
             </el-collapse-transition>
+            <el-row>
+              <el-col :span="21" class="custom-col">
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel :label="tl('latencyBuckets')" :desc="tl('latencyBucketsDesc')" />
+                  </template>
+                  <el-input v-model="prometheusFormData.latency_buckets" />
+                </el-form-item>
+              </el-col>
+            </el-row>
           </template>
           <!-- OpenTelemetry -->
           <template v-if="selectedPlatform === 'OpenTelemetry'">
@@ -374,6 +384,7 @@ const prometheusFormData: Ref<Prometheus> = ref({
     vm_system_info: 'disabled',
   },
   enable_basic_auth: false,
+  latency_buckets: '10ms, 100ms, 1s, 5s, 30s',
   push_gateway: {
     headers: {
       Authorization: '',

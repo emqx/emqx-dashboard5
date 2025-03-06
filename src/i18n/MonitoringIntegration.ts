@@ -164,6 +164,14 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '启用或禁用 Prometheus 抓取 API 的基本认证，不适用于 Pushgateway',
     en: 'Enable or disable basic authentication for Prometheus scrape API, not for Pushgateway',
   },
+  latencyBuckets: {
+    zh: '延迟区间',
+    en: 'Latency Buckets',
+  },
+  latencyBucketsDesc: {
+    zh: '用逗号分隔的延迟直方图区间时间值。',
+    en: 'Comma separated duration values for latency histogram buckets.',
+  },
   featureSelection: {
     zh: '功能选择',
     en: 'Feature Selection',
