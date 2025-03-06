@@ -1,5 +1,5 @@
 export type GetSubscriptions500Code =
-  typeof GetSubscriptions500Code[keyof typeof GetSubscriptions500Code]
+  (typeof GetSubscriptions500Code)[keyof typeof GetSubscriptions500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSubscriptions500Code = {
@@ -12,7 +12,7 @@ export type GetSubscriptions500 = {
 }
 
 export type GetSubscriptions400Code =
-  typeof GetSubscriptions400Code[keyof typeof GetSubscriptions400Code]
+  (typeof GetSubscriptions400Code)[keyof typeof GetSubscriptions400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSubscriptions400Code = {
@@ -41,12 +41,16 @@ export type GetSubscriptionsParams = {
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {
-  node?: string
-  topic?: string
   clientid?: string
-  qos?: number
+  durable?: boolean
   nl?: number
+  node?: string
+  /**
+   * @minimum 0
+   * @maximum 2
+   */
+  qos?: number
   rap?: number
   rh?: number
-  durable?: boolean
+  topic?: string
 }

@@ -1,42 +1,5 @@
-export type GetExhooksNameHooks400Code =
-  typeof GetExhooksNameHooks400Code[keyof typeof GetExhooksNameHooks400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetExhooksNameHooks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetExhooksNameHooks400 = {
-  code?: GetExhooksNameHooks400Code
-  message?: string
-}
-
-export type PostExhooks500Code = typeof PostExhooks500Code[keyof typeof PostExhooks500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostExhooks500Code = {
-  BAD_RPC: 'BAD_RPC',
-} as const
-
-export type PostExhooks500 = {
-  code?: PostExhooks500Code
-  message?: string
-}
-
-export type PostExhooks400Code = typeof PostExhooks400Code[keyof typeof PostExhooks400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostExhooks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostExhooks400 = {
-  code?: PostExhooks400Code
-  message?: string
-}
-
 export type PostExhooksNameMove500Code =
-  typeof PostExhooksNameMove500Code[keyof typeof PostExhooksNameMove500Code]
+  (typeof PostExhooksNameMove500Code)[keyof typeof PostExhooksNameMove500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostExhooksNameMove500Code = {
@@ -49,7 +12,7 @@ export type PostExhooksNameMove500 = {
 }
 
 export type PostExhooksNameMove400Code =
-  typeof PostExhooksNameMove400Code[keyof typeof PostExhooksNameMove400Code]
+  (typeof PostExhooksNameMove400Code)[keyof typeof PostExhooksNameMove400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostExhooksNameMove400Code = {
@@ -61,8 +24,21 @@ export type PostExhooksNameMove400 = {
   message?: string
 }
 
+export type GetExhooksNameHooks400Code =
+  (typeof GetExhooksNameHooks400Code)[keyof typeof GetExhooksNameHooks400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetExhooksNameHooks400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetExhooksNameHooks400 = {
+  code?: GetExhooksNameHooks400Code
+  message?: string
+}
+
 export type DeleteExhooksName500Code =
-  typeof DeleteExhooksName500Code[keyof typeof DeleteExhooksName500Code]
+  (typeof DeleteExhooksName500Code)[keyof typeof DeleteExhooksName500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteExhooksName500Code = {
@@ -75,7 +51,7 @@ export type DeleteExhooksName500 = {
 }
 
 export type DeleteExhooksName404Code =
-  typeof DeleteExhooksName404Code[keyof typeof DeleteExhooksName404Code]
+  (typeof DeleteExhooksName404Code)[keyof typeof DeleteExhooksName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteExhooksName404Code = {
@@ -87,7 +63,8 @@ export type DeleteExhooksName404 = {
   message?: string
 }
 
-export type PutExhooksName500Code = typeof PutExhooksName500Code[keyof typeof PutExhooksName500Code]
+export type PutExhooksName500Code =
+  (typeof PutExhooksName500Code)[keyof typeof PutExhooksName500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutExhooksName500Code = {
@@ -99,7 +76,8 @@ export type PutExhooksName500 = {
   message?: string
 }
 
-export type PutExhooksName404Code = typeof PutExhooksName404Code[keyof typeof PutExhooksName404Code]
+export type PutExhooksName404Code =
+  (typeof PutExhooksName404Code)[keyof typeof PutExhooksName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutExhooksName404Code = {
@@ -111,7 +89,8 @@ export type PutExhooksName404 = {
   message?: string
 }
 
-export type PutExhooksName400Code = typeof PutExhooksName400Code[keyof typeof PutExhooksName400Code]
+export type PutExhooksName400Code =
+  (typeof PutExhooksName400Code)[keyof typeof PutExhooksName400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutExhooksName400Code = {
@@ -123,7 +102,8 @@ export type PutExhooksName400 = {
   message?: string
 }
 
-export type GetExhooksName404Code = typeof GetExhooksName404Code[keyof typeof GetExhooksName404Code]
+export type GetExhooksName404Code =
+  (typeof GetExhooksName404Code)[keyof typeof GetExhooksName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetExhooksName404Code = {
@@ -135,20 +115,53 @@ export type GetExhooksName404 = {
   message?: string
 }
 
+export type PostExhooks500Code = (typeof PostExhooks500Code)[keyof typeof PostExhooks500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostExhooks500Code = {
+  BAD_RPC: 'BAD_RPC',
+} as const
+
+export type PostExhooks500 = {
+  code?: PostExhooks500Code
+  message?: string
+}
+
+export type PostExhooks400Code = (typeof PostExhooks400Code)[keyof typeof PostExhooks400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostExhooks400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostExhooks400 = {
+  code?: PostExhooks400Code
+  message?: string
+}
+
+export type ExhookSslConfVerify = (typeof ExhookSslConfVerify)[keyof typeof ExhookSslConfVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ExhookSslConfVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
 export type ExhookSslConfServerNameIndication = string | 'disable'
 
 export type ExhookSslConfPartialChain =
-  typeof ExhookSslConfPartialChain[keyof typeof ExhookSslConfPartialChain]
+  (typeof ExhookSslConfPartialChain)[keyof typeof ExhookSslConfPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfPartialChain = {
-  true: 'true',
-  false: 'false',
+  true: true,
+  false: false,
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
 } as const
 
-export type ExhookSslConfLogLevel = typeof ExhookSslConfLogLevel[keyof typeof ExhookSslConfLogLevel]
+export type ExhookSslConfLogLevel =
+  (typeof ExhookSslConfLogLevel)[keyof typeof ExhookSslConfLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfLogLevel = {
@@ -164,33 +177,26 @@ export const ExhookSslConfLogLevel = {
   all: 'all',
 } as const
 
-export type ExhookSslConfVerify = typeof ExhookSslConfVerify[keyof typeof ExhookSslConfVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ExhookSslConfVerify = {
-  verify_peer: 'verify_peer',
-  verify_none: 'verify_none',
-} as const
-
 export interface ExhookSslConf {
   cacertfile?: string
   /** @deprecated */
   cacerts?: boolean
   certfile?: string
-  keyfile?: string
-  verify?: ExhookSslConfVerify
-  reuse_sessions?: boolean
-  depth?: number
-  password?: string
-  versions?: string[]
   ciphers?: string[]
-  secure_renegotiate?: boolean
-  log_level?: ExhookSslConfLogLevel
-  hibernate_after?: string
-  partial_chain?: ExhookSslConfPartialChain
-  verify_peer_ext_key_usage?: string
+  /** @minimum 0 */
+  depth?: number
   enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: ExhookSslConfLogLevel
+  partial_chain?: ExhookSslConfPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
   server_name_indication?: ExhookSslConfServerNameIndication
+  verify?: ExhookSslConfVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export interface ExhookSocketOptions {
@@ -200,10 +206,8 @@ export interface ExhookSocketOptions {
   sndbuf?: string
 }
 
-export type ExhookServerConfigAutoReconnect = string | 'false'
-
 export type ExhookServerConfigFailedAction =
-  typeof ExhookServerConfigFailedAction[keyof typeof ExhookServerConfigFailedAction]
+  (typeof ExhookServerConfigFailedAction)[keyof typeof ExhookServerConfigFailedAction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookServerConfigFailedAction = {
@@ -211,20 +215,23 @@ export const ExhookServerConfigFailedAction = {
   ignore: 'ignore',
 } as const
 
+export type ExhookServerConfigAutoReconnect = string | false
+
 export interface ExhookServerConfig {
-  name: string
-  enable?: boolean
-  url: string
-  request_timeout?: string
-  failed_action?: ExhookServerConfigFailedAction
-  ssl?: ExhookSslConf
-  socket_options?: ExhookSocketOptions
   auto_reconnect?: ExhookServerConfigAutoReconnect
+  enable?: boolean
+  failed_action?: ExhookServerConfigFailedAction
+  name: string
+  /** @minimum 1 */
   pool_size?: number
+  request_timeout?: string
+  socket_options?: ExhookSocketOptions
+  ssl?: ExhookSslConf
+  url: string
 }
 
 export type ExhookNodeStatusStatus =
-  typeof ExhookNodeStatusStatus[keyof typeof ExhookNodeStatusStatus]
+  (typeof ExhookNodeStatusStatus)[keyof typeof ExhookNodeStatusStatus]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookNodeStatusStatus = {
@@ -245,15 +252,15 @@ export interface ExhookMoveReq {
 }
 
 export interface ExhookMetrics {
-  succeed?: number
   failed?: number
-  rate?: number
   max_rate?: number
+  rate?: number
+  succeed?: number
 }
 
 export interface ExhookNodeMetrics {
-  node?: string
   metrics?: ExhookMetrics
+  node?: string
 }
 
 export type ExhookListHookInfoParams = {
@@ -261,10 +268,10 @@ export type ExhookListHookInfoParams = {
 }
 
 export interface ExhookListHookInfo {
-  name?: string
-  params?: ExhookListHookInfoParams
   metrics?: ExhookMetrics
+  name?: string
   node_metrics?: ExhookNodeMetrics[]
+  params?: ExhookListHookInfoParams
 }
 
 export type ExhookHookInfoParams = {
@@ -276,10 +283,8 @@ export interface ExhookHookInfo {
   params?: ExhookHookInfoParams
 }
 
-export type ExhookDetailServerInfoAutoReconnect = string | 'false'
-
 export type ExhookDetailServerInfoFailedAction =
-  typeof ExhookDetailServerInfoFailedAction[keyof typeof ExhookDetailServerInfoFailedAction]
+  (typeof ExhookDetailServerInfoFailedAction)[keyof typeof ExhookDetailServerInfoFailedAction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookDetailServerInfoFailedAction = {
@@ -287,18 +292,21 @@ export const ExhookDetailServerInfoFailedAction = {
   ignore: 'ignore',
 } as const
 
+export type ExhookDetailServerInfoAutoReconnect = string | false
+
 export interface ExhookDetailServerInfo {
+  auto_reconnect?: ExhookDetailServerInfoAutoReconnect
+  enable?: boolean
+  failed_action?: ExhookDetailServerInfoFailedAction
+  hooks?: ExhookHookInfo[]
   metrics?: ExhookMetrics
+  name: string
   node_metrics?: ExhookNodeMetrics[]
   node_status?: ExhookNodeStatus[]
-  hooks?: ExhookHookInfo[]
-  name: string
-  enable?: boolean
-  url: string
-  request_timeout?: string
-  failed_action?: ExhookDetailServerInfoFailedAction
-  ssl?: ExhookSslConf
-  socket_options?: ExhookSocketOptions
-  auto_reconnect?: ExhookDetailServerInfoAutoReconnect
+  /** @minimum 1 */
   pool_size?: number
+  request_timeout?: string
+  socket_options?: ExhookSocketOptions
+  ssl?: ExhookSslConf
+  url: string
 }

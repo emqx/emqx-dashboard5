@@ -222,10 +222,16 @@ const sortObj = (rawObj) => {
   return sortedObj
 }
 
+const sortArr = (arr) => {
+  return arr.sort((a, b) => a.localeCompare(b))
+}
+
 const sortOneofRefs = (oneofRefs) => {
   const sortedRefs = oneofRefs.sort((a, b) => {
-    if (a.$ref && b.$ref) {
-      return a.$ref.localeCompare(b.$ref)
+    const aValue = a.$ref || (a.enum && a.enum[0])
+    const bValue = b.$ref || (b.enum && b.enum[0])
+    if (aValue && bValue) {
+      return aValue.localeCompare(bValue)
     }
     return 0
   })
@@ -255,6 +261,13 @@ const sortResult = (swaggerObj) => {
       if (method.requestBody) {
         sortDataContent(method.requestBody)
       }
+      if (method.parameters && Array.isArray(method.parameters)) {
+        method.parameters.forEach((parameter) => {
+          if (parameter.schema && parameter.schema.enum && Array.isArray(parameter.schema.enum)) {
+            parameter.schema.enum = sortArr(parameter.schema.enum)
+          }
+        })
+      }
     })
   })
 
@@ -265,6 +278,11 @@ const sortResult = (swaggerObj) => {
   Object.values(components.schemas).forEach((schema) => {
     if (schema.properties) {
       schema.properties = sortObj(schema.properties)
+      Object.values(schema.properties).forEach((property) => {
+        if (property.oneOf) {
+          property.oneOf = sortOneofRefs(property.oneOf)
+        }
+      })
     }
   })
 
@@ -284,7 +302,9 @@ const filterTargetSchema = (swaggerJSON, tag) => {
   if (specialHandler) {
     ret = specialHandler(ret)
   }
-  return sortResult(removeAllDesc(ret))
+  const returnData = sortResult(removeAllDesc(ret))
+  console.log(JSON.stringify(returnData))
+  return returnData
 }
 
 export default filterTargetSchema

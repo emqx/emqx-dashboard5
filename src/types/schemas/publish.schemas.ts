@@ -3,7 +3,7 @@ export interface EmqxMgmtApiPublishPublishOk {
 }
 
 export type EmqxMgmtApiPublishPublishMessagePayloadEncoding =
-  typeof EmqxMgmtApiPublishPublishMessagePayloadEncoding[keyof typeof EmqxMgmtApiPublishPublishMessagePayloadEncoding]
+  (typeof EmqxMgmtApiPublishPublishMessagePayloadEncoding)[keyof typeof EmqxMgmtApiPublishPublishMessagePayloadEncoding]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiPublishPublishMessagePayloadEncoding = {
@@ -12,32 +12,40 @@ export const EmqxMgmtApiPublishPublishMessagePayloadEncoding = {
 } as const
 
 export interface EmqxMgmtApiPublishPublishMessage {
-  payload_encoding?: EmqxMgmtApiPublishPublishMessagePayloadEncoding
-  topic: string
-  qos?: number
   /** @deprecated */
   clientid?: string
   payload: string
+  payload_encoding?: EmqxMgmtApiPublishPublishMessagePayloadEncoding
   properties?: EmqxMgmtApiPublishMessageProperties
+  /**
+   * @minimum 0
+   * @maximum 2
+   */
+  qos?: number
   retain?: boolean
+  topic: string
 }
 
 export interface EmqxMgmtApiPublishPublishError {
-  reason_code?: number
   message?: string
+  reason_code?: number
 }
 
 export type PostPublishBulk400 = EmqxMgmtApiPublishPublishError[] | EmqxMgmtApiPublishBadRequest
 
-export type EmqxMgmtApiPublishMessagePropertiesUserProperties = { [key: string]: any }
+export type EmqxMgmtApiPublishMessagePropertiesUserProperties = { [key: string]: unknown }
 
 export interface EmqxMgmtApiPublishMessageProperties {
-  payload_format_indicator?: number
-  message_expiry_interval?: number
-  response_topic?: string
-  correlation_data?: string
-  user_properties?: EmqxMgmtApiPublishMessagePropertiesUserProperties
   content_type?: string
+  correlation_data?: string
+  message_expiry_interval?: number
+  /**
+   * @minimum 0
+   * @maximum 1
+   */
+  payload_format_indicator?: number
+  response_topic?: string
+  user_properties?: EmqxMgmtApiPublishMessagePropertiesUserProperties
 }
 
 export interface EmqxMgmtApiPublishBadRequest {

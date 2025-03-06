@@ -1,5 +1,5 @@
 export type PostGatewaysCoapClientsClientidRequest504Code =
-  typeof PostGatewaysCoapClientsClientidRequest504Code[keyof typeof PostGatewaysCoapClientsClientidRequest504Code]
+  (typeof PostGatewaysCoapClientsClientidRequest504Code)[keyof typeof PostGatewaysCoapClientsClientidRequest504Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGatewaysCoapClientsClientidRequest504Code = {
@@ -12,7 +12,7 @@ export type PostGatewaysCoapClientsClientidRequest504 = {
 }
 
 export type PostGatewaysCoapClientsClientidRequest404Code =
-  typeof PostGatewaysCoapClientsClientidRequest404Code[keyof typeof PostGatewaysCoapClientsClientidRequest404Code]
+  (typeof PostGatewaysCoapClientsClientidRequest404Code)[keyof typeof PostGatewaysCoapClientsClientidRequest404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGatewaysCoapClientsClientidRequest404Code = {
@@ -26,23 +26,13 @@ export type PostGatewaysCoapClientsClientidRequest404 = {
 
 export type PostGatewaysCoapClientsClientidRequest200 = {
   id?: number
-  token?: string
   method?: string
   payload?: string
+  token?: string
 }
 
-export type PostGatewaysCoapClientsClientidRequestBodyContentType =
-  typeof PostGatewaysCoapClientsClientidRequestBodyContentType[keyof typeof PostGatewaysCoapClientsClientidRequestBodyContentType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGatewaysCoapClientsClientidRequestBodyContentType = {
-  'text/plain': 'text/plain',
-  'application/json': 'application/json',
-  'application/octet-stream': 'application/octet-stream',
-} as const
-
 export type PostGatewaysCoapClientsClientidRequestBodyMethod =
-  typeof PostGatewaysCoapClientsClientidRequestBodyMethod[keyof typeof PostGatewaysCoapClientsClientidRequestBodyMethod]
+  (typeof PostGatewaysCoapClientsClientidRequestBodyMethod)[keyof typeof PostGatewaysCoapClientsClientidRequestBodyMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGatewaysCoapClientsClientidRequestBodyMethod = {
@@ -52,10 +42,20 @@ export const PostGatewaysCoapClientsClientidRequestBodyMethod = {
   delete: 'delete',
 } as const
 
+export type PostGatewaysCoapClientsClientidRequestBodyContentType =
+  (typeof PostGatewaysCoapClientsClientidRequestBodyContentType)[keyof typeof PostGatewaysCoapClientsClientidRequestBodyContentType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysCoapClientsClientidRequestBodyContentType = {
+  'text/plain': 'text/plain',
+  'application/json': 'application/json',
+  'application/octet-stream': 'application/octet-stream',
+} as const
+
 export type PostGatewaysCoapClientsClientidRequestBody = {
-  token?: string
-  method?: PostGatewaysCoapClientsClientidRequestBodyMethod
-  timeout?: string
   content_type?: PostGatewaysCoapClientsClientidRequestBodyContentType
+  method?: PostGatewaysCoapClientsClientidRequestBodyMethod
   payload?: string
+  timeout?: string
+  token?: string
 }

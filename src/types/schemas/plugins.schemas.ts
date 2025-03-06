@@ -1,13 +1,33 @@
-export type PutPluginsNameAction404Code =
-  (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
+export type PostPluginsInstall400Code =
+  (typeof PostPluginsInstall400Code)[keyof typeof PostPluginsInstall400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutPluginsNameAction404Code = {
-  NOT_FOUND: 'NOT_FOUND',
+export const PostPluginsInstall400Code = {
+  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
+  ALREADY_INSTALLED: 'ALREADY_INSTALLED',
+  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
 } as const
 
-export type PutPluginsNameAction404 = {
-  code?: PutPluginsNameAction404Code
+export type PostPluginsInstall400 = {
+  code?: PostPluginsInstall400Code
+  message?: string
+}
+
+export type PostPluginsInstallBody = {
+  plugin?: Blob
+}
+
+export type GetPluginsNameSchema404Code =
+  (typeof GetPluginsNameSchema404Code)[keyof typeof GetPluginsNameSchema404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameSchema404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
+} as const
+
+export type GetPluginsNameSchema404 = {
+  code?: GetPluginsNameSchema404Code
   message?: string
 }
 
@@ -21,45 +41,6 @@ export const PostPluginsNameMove400Code = {
 
 export type PostPluginsNameMove400 = {
   code?: PostPluginsNameMove400Code
-  message?: string
-}
-
-export type DeletePluginsName404Code =
-  (typeof DeletePluginsName404Code)[keyof typeof DeletePluginsName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeletePluginsName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeletePluginsName404 = {
-  code?: DeletePluginsName404Code
-  message?: string
-}
-
-export type DeletePluginsName400Code =
-  (typeof DeletePluginsName400Code)[keyof typeof DeletePluginsName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeletePluginsName400Code = {
-  PARAM_ERROR: 'PARAM_ERROR',
-} as const
-
-export type DeletePluginsName400 = {
-  code?: DeletePluginsName400Code
-  message?: string
-}
-
-export type GetPluginsName404Code =
-  (typeof GetPluginsName404Code)[keyof typeof GetPluginsName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetPluginsName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetPluginsName404 = {
-  code?: GetPluginsName404Code
   message?: string
 }
 
@@ -118,69 +99,56 @@ export type GetPluginsNameConfig400 = {
   message?: string
 }
 
-export type PostPluginsClusterSync404Code =
-  (typeof PostPluginsClusterSync404Code)[keyof typeof PostPluginsClusterSync404Code]
+export type PutPluginsNameAction404Code =
+  (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsClusterSync404Code = {
+export const PutPluginsNameAction404Code = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type PostPluginsClusterSync404 = {
-  code?: PostPluginsClusterSync404Code
+export type PutPluginsNameAction404 = {
+  code?: PutPluginsNameAction404Code
   message?: string
 }
 
-export type PostPluginsClusterSync400Code =
-  (typeof PostPluginsClusterSync400Code)[keyof typeof PostPluginsClusterSync400Code]
+export type DeletePluginsName404Code =
+  (typeof DeletePluginsName404Code)[keyof typeof DeletePluginsName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsClusterSync400Code = {
-  BAD_NODE: 'BAD_NODE',
-  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
-} as const
-
-export type PostPluginsClusterSync400 = {
-  code?: PostPluginsClusterSync400Code
-  message?: string
-}
-
-export type PostPluginsInstall400Code =
-  (typeof PostPluginsInstall400Code)[keyof typeof PostPluginsInstall400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsInstall400Code = {
-  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
-  ALREADY_INSTALLED: 'ALREADY_INSTALLED',
-  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
-} as const
-
-export type PostPluginsInstall400 = {
-  code?: PostPluginsInstall400Code
-  message?: string
-}
-
-export type PostPluginsInstallBody = {
-  plugin?: Blob
-}
-
-export type GetPluginsNameSchema404Code =
-  (typeof GetPluginsNameSchema404Code)[keyof typeof GetPluginsNameSchema404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetPluginsNameSchema404Code = {
+export const DeletePluginsName404Code = {
   NOT_FOUND: 'NOT_FOUND',
-  FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
 } as const
 
-export type GetPluginsNameSchema404 = {
-  code?: GetPluginsNameSchema404Code
+export type DeletePluginsName404 = {
+  code?: DeletePluginsName404Code
   message?: string
 }
 
-export interface PluginsSyncRequest {
-  name: string
-  node: string
+export type DeletePluginsName400Code =
+  (typeof DeletePluginsName400Code)[keyof typeof DeletePluginsName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeletePluginsName400Code = {
+  PARAM_ERROR: 'PARAM_ERROR',
+} as const
+
+export type DeletePluginsName400 = {
+  code?: DeletePluginsName400Code
+  message?: string
+}
+
+export type GetPluginsName404Code =
+  (typeof GetPluginsName404Code)[keyof typeof GetPluginsName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetPluginsName404 = {
+  code?: GetPluginsName404Code
+  message?: string
 }
 
 export type PluginsRunningStatusStatus =
@@ -197,7 +165,7 @@ export interface PluginsRunningStatus {
   status?: PluginsRunningStatusStatus
 }
 
-export type PluginsPositionPosition = string | 'rear' | 'front'
+export type PluginsPositionPosition = string | 'front' | 'rear'
 
 export interface PluginsPosition {
   position?: PluginsPositionPosition

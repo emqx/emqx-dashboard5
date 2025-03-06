@@ -1,5 +1,5 @@
 export type DeleteBannedAsWho404Code =
-  typeof DeleteBannedAsWho404Code[keyof typeof DeleteBannedAsWho404Code]
+  (typeof DeleteBannedAsWho404Code)[keyof typeof DeleteBannedAsWho404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteBannedAsWho404Code = {
@@ -11,7 +11,7 @@ export type DeleteBannedAsWho404 = {
   message?: string
 }
 
-export type PostBanned400Code = typeof PostBanned400Code[keyof typeof PostBanned400Code]
+export type PostBanned400Code = (typeof PostBanned400Code)[keyof typeof PostBanned400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostBanned400Code = {
@@ -28,7 +28,7 @@ export type PostBanned200 = {
   data?: EmqxMgmtApiBannedBan[]
 }
 
-export type GetBanned400Code = typeof GetBanned400Code[keyof typeof GetBanned400Code]
+export type GetBanned400Code = (typeof GetBanned400Code)[keyof typeof GetBanned400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetBanned400Code = {
@@ -62,10 +62,16 @@ export type GetBannedParams = {
 }
 
 export interface PublicMeta {
-  page?: number
-  limit?: number
+  /** @minimum 0 */
   count?: number
   hasnext: boolean
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  limit?: number
+  /** @minimum 1 */
+  page?: number
 }
 
 export type EmqxMgmtApiBannedBanUntilOneOf = number | string
@@ -75,7 +81,7 @@ export type EmqxMgmtApiBannedBanUntil = EmqxMgmtApiBannedBanUntilOneOf | 'infini
 export type EmqxMgmtApiBannedBanAt = number | string
 
 export type EmqxMgmtApiBannedBanAs =
-  typeof EmqxMgmtApiBannedBanAs[keyof typeof EmqxMgmtApiBannedBanAs]
+  (typeof EmqxMgmtApiBannedBanAs)[keyof typeof EmqxMgmtApiBannedBanAs]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiBannedBanAs = {
@@ -89,9 +95,9 @@ export const EmqxMgmtApiBannedBanAs = {
 
 export interface EmqxMgmtApiBannedBan {
   as: EmqxMgmtApiBannedBanAs
-  who: string
+  at?: EmqxMgmtApiBannedBanAt
   by?: string
   reason?: string
-  at?: EmqxMgmtApiBannedBanAt
   until?: EmqxMgmtApiBannedBanUntil
+  who: string
 }
