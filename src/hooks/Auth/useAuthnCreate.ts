@@ -45,6 +45,7 @@ export default function useAuthnCreate() {
       pool_size: 8,
       connect_timeout: '15s',
       request_timeout: '5s',
+      max_inactive: '10s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
       ...(type === 'scram'

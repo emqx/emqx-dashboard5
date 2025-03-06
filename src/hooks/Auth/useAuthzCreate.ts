@@ -71,6 +71,7 @@ export default function useAuthzCreate() {
       pool_size: 8,
       connect_timeout: '15s',
       request_timeout: '30s',
+      max_inactive: '10s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
     }

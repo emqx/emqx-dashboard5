@@ -95,6 +95,30 @@ export default {
     desc: 'If the size is out of the preset value, EMQX will disconnect the current connection',
     label: 'Max Packet Size',
   },
+  max_conn_rate: {
+    desc: 'Used to limit the rate at which EMQX accepts connections. Once the limit is reached, EMQX will pause fetching connections from the accept queue, delaying or rejecting new connections. If empty, it means no limit.\n\nFor example:\n\n- `1000/s` means accepting up to 1000 connections per second.\n- `1000/10s` means accepting up to 1000 connections every 10 seconds.',
+    label: 'Maximum Connection Rate',
+  },
+  max_conn_burst: {
+    desc: 'The maximum number of connections that can be accepted in a burst. If empty, it means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 connections in 60 minutes.',
+    label: 'Maximum Connection Burst',
+  },
+  messages_rate: {
+    desc: 'Used to limit the number of messages a single client can send to EMQX per second, Once the limit is reached, EMQX will pause reading data from the receive-buffer, thus slowing down or even temporarily hanging the sender.\n\nFor example:\n\n- `500/s` means only 500 messages will be received per second, and the remaining messages will be delayed.\n- `500/10s`: Only 500 messages will be received every 10 seconds and the remaining messages will be delayed.',
+    label: 'Messages Publish Rate',
+  },
+  messages_burst: {
+    desc: 'Number of messages that can be sent in a burst. If empty, it means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 messages to be sent in 60 minutes.',
+    label: 'Messages Publish Burst',
+  },
+  bytes_rate: {
+    desc: 'Used to limit the number of bytes a single client can send to EMQX per second, Once the limit is reached, EMQX will pause reading data from the receive-buffer, thus slowing down or even temporarily hanging the sender.\n\nThe unit of the bytes could be: B, KB, MB, GB.\n\nFor example:\n\n- `500KB/s` means only 500 kilobytes per second will be received, and the remaining bytes will be delayed.\n- `500MB/10s` means only 500 megabytes will be received every 10 seconds, and the remaining bytes will be delayed.',
+    label: 'Data Publish Rate',
+  },
+  bytes_burst: {
+    desc: 'Number of bytes that can be sent in a burst. If empty, it means no limit.\n\nFor example: `100MB/60m` means allowing up to 100 megabytes of data to be sent in 60 minutes.',
+    label: 'Data Publish Burst',
+  },
   /* MQTT END */
   /* SESSION START */
   max_subscriptions: {

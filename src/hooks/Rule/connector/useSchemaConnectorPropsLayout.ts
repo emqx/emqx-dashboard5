@@ -45,6 +45,7 @@ export default (
     'pool_type',
     'pool_size',
     'connect_timeout',
+    'max_inactive',
     'max_retries',
     ...connectorResourceOptFields,
   ]

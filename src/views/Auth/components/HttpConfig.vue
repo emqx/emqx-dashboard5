@@ -93,6 +93,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="t('BridgeSchema.common.max_inactive.label')"
+                    :desc="t('BridgeSchema.common.max_inactive.desc')"
+                  />
+                </template>
+                <time-input-with-unit-select v-model="httpConfig.max_inactive" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('Auth.httpPipelining')">
                 <CustomInputNumber v-model="httpConfig.enable_pipelining" />
               </el-form-item>
@@ -207,6 +218,7 @@ export default defineComponent({
     stringifyBody()
 
     return {
+      t,
       tl,
       httpConfig,
       needHelp,
