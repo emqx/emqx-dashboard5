@@ -98,7 +98,7 @@
       <el-form
         ref="recordForm"
         :model="record"
-        :rules="getRules()"
+        :rules="formRules"
         label-position="top"
         require-asterisk-position="right"
       >
@@ -186,7 +186,12 @@
             <el-input v-model="record.username" :disabled="isEdit" />
           </el-form-item>
           <el-form-item>
-            <AuthzRulesTable class="form-table shadow-none" :data="rulesData" :type="type" is-edit>
+            <AuthzRulesTable
+              class="form-table shadow-none"
+              :data="record.rules"
+              :type="type"
+              is-edit
+            >
               <template #operation-column>
                 <el-table-column align="right" min-width="144">
                   <template #header>
@@ -206,7 +211,7 @@
                     <el-button
                       link
                       type="primary"
-                      :disabled="$index === rulesData.length - 1"
+                      :disabled="$index === record.rules.length - 1"
                       @click="handleDown(row, $index)"
                     >
                       {{ $t('Base.down') }}
@@ -256,6 +261,12 @@ interface AllTableDataItem {
   topic: string
 }
 
+interface Record extends BuiltInDBRule {
+  clientid: string
+  username: string
+  rules: BuiltInDBRule[]
+}
+
 const { t } = useI18n()
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)
@@ -277,7 +288,6 @@ const typeList = [
 const recordForm = ref()
 const tableData = ref([])
 const allTableData = ref<BuiltInDBRule[]>([])
-const rulesData = ref<BuiltInDBRule[]>([])
 const createRawRuleItem = (): BuiltInDBRule => ({
   topic: '',
   permission: AuthzRulePermission.allow,
@@ -288,7 +298,7 @@ const createRawRuleItem = (): BuiltInDBRule => ({
   username_re: '',
   ipaddr: '',
 })
-const createRawRecord = () => ({
+const createRawRecord = (): Record => ({
   clientid: '',
   username: '',
   rules: [],
@@ -307,14 +317,12 @@ const isTypeAll = computed(() => type.value === BuiltInDBType.All)
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
 const { createRequiredRule } = useFormRules()
-const getRules = function () {
-  return {
-    clientid: createRequiredRule(t('Base.clientid')),
-    username: createRequiredRule(t('Base.username')),
-    permission: createRequiredRule(t('Auth.permission'), 'select'),
-    action: createRequiredRule(t('Auth.action'), 'select'),
-    topic: createRequiredRule(t('Base.topic')),
-  }
+const formRules = {
+  clientid: createRequiredRule(t('Base.clientid')),
+  username: createRequiredRule(t('Base.username')),
+  permission: createRequiredRule(t('Auth.permission'), 'select'),
+  action: createRequiredRule(t('Auth.action'), 'select'),
+  topic: createRequiredRule(t('Base.topic')),
 }
 watch(type, () => {
   searchVal.value = ''
@@ -364,13 +372,12 @@ const handleAdd = function () {
 const handleCancel = function () {
   dialogVisible.value = false
   record.value = createRawRecord()
-  rulesData.value = []
 }
 const addColumn = () => {
-  rulesData.value.push(createRawRuleItem())
+  record.value.rules.push(createRawRuleItem())
 }
 const deleteItem = (row: BuiltInDBItem, index: number) => {
-  rulesData.value.splice(index, 1)
+  record.value.rules.splice(index, 1)
 }
 const handleSubmit = function () {
   recordForm.value.validate(async (valid: boolean) => {
@@ -383,7 +390,7 @@ const handleSubmit = function () {
     if (type.value !== BuiltInDBType.All) {
       const key = getKeyByCurrentType()
       data[key] = record.value[key]
-      data.rules = rulesData.value
+      data.rules = record.value.rules
       if (!isEdit.value) {
         await createBuiltInDatabaseData(type.value, [data])
         ElMessage.success(t('Base.createSuccess'))
@@ -440,7 +447,7 @@ const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) 
     const _row = row as BuiltInDBItem
     const key = getKeyByCurrentType()
     record.value[key] = _row[key]
-    rulesData.value = cloneDeep(_row.rules)
+    record.value.rules = cloneDeep(_row.rules)
   } else {
     const _row = row as BuiltInDBRule
     editIndex.value = index
@@ -455,13 +462,13 @@ const handleUp = (row: BuiltInDBItem, index: number) => {
   if (index === 0) {
     return
   }
-  swapArray(rulesData.value, index, index - 1)
+  swapArray(record.value.rules, index, index - 1)
 }
 const handleDown = (row: BuiltInDBItem, index: number) => {
-  if (index === rulesData.value.length - 1) {
+  if (index === record.value.rules.length - 1) {
     return
   }
-  swapArray(rulesData.value, index, index + 1)
+  swapArray(record.value.rules, index, index + 1)
 }
 
 const getCurrSearchValTip = (type: BuiltInDBType) => {
