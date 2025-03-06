@@ -119,6 +119,9 @@ p.description {
   &.with-padding-top {
     padding-top: 32px;
   }
+  &.with-padding-bottom {
+    padding-bottom: 32px;
+  }
 }
 
 .app-wrapper-compact {
@@ -915,6 +918,18 @@ code {
 
   .vue-flow__handle {
     --vf-handle: #babcbe;
+  }
+}
+
+label.custom-required::after {
+  content: '*';
+  color: var(--el-color-danger);
+  margin-left: 4px;
+}
+
+.el-table__cell.overflow-visible {
+  .cell {
+    overflow: visible;
   }
 }
 

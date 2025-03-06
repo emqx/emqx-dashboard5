@@ -290,6 +290,7 @@ declare global {
   const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
   const useAuthz: typeof import('./hooks/Auth/useAuthz')['default']
   const useAuthzCreate: typeof import('./hooks/Auth/useAuthzCreate')['default']
+  const useAuthzManager: typeof import('./hooks/Auth/useAuthzManager')['default']
   const useAvailableProviders: typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']
   const useBackgroundCircle: typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']
   const useBannedType: typeof import('./hooks/Auth/useBannedType')['default']
@@ -835,6 +836,7 @@ declare module 'vue' {
     readonly useAuthnMechanismType: UnwrapRef<typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']>
     readonly useAuthz: UnwrapRef<typeof import('./hooks/Auth/useAuthz')['default']>
     readonly useAuthzCreate: UnwrapRef<typeof import('./hooks/Auth/useAuthzCreate')['default']>
+    readonly useAuthzManager: UnwrapRef<typeof import('./hooks/Auth/useAuthzManager')['default']>
     readonly useAvailableProviders: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']>
     readonly useBackgroundCircle: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']>
     readonly useBannedType: UnwrapRef<typeof import('./hooks/Auth/useBannedType')['default']>
