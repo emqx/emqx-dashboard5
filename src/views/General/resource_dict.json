@@ -336,6 +336,30 @@
     }
   },
   {
+    "method": "post",
+    "path": "/authentication/node_cache/reset",
+    "operation_label": {
+      "en": "Authentication",
+      "zh": "认证"
+    },
+    "operation_name_label": {
+      "en": "Reset node-wise authentication cache",
+      "zh": "重置节点认证缓存"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/authentication/settings",
+    "operation_label": {
+      "en": "Authentication",
+      "zh": "认证"
+    },
+    "operation_name_label": {
+      "en": "Update authentication settings.",
+      "zh": "更新认证配置"
+    }
+  },
+  {
     "method": "delete",
     "path": "/authorization/cache",
     "operation_label": {
@@ -525,6 +549,30 @@
     "operation_name_label": {
       "en": "Delete rule for clientid",
       "zh": "删除指定客户端 ID 的授权规则"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/authorization/node_cache/reset",
+    "operation_label": {
+      "en": "Authorization",
+      "zh": "授权"
+    },
+    "operation_name_label": {
+      "en": "Reset node-wise authorization cache.",
+      "zh": "重置节点授权缓存"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/authorization/node_cache",
+    "operation_label": {
+      "en": "Authorization",
+      "zh": "授权"
+    },
+    "operation_name_label": {
+      "en": "Update settings of node-wise authorization cache.",
+      "zh": "更新节点授权缓存设置"
     }
   },
   {
@@ -2148,6 +2196,30 @@
     }
   },
   {
+    "method": "delete",
+    "path": "/users/:username/mfa",
+    "operation_label": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "operation_name_label": {
+      "en": "Delete MFA state for a dashboard user",
+      "zh": "删除 Dashboard 用户的 MFA"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/users/:username/mfa",
+    "operation_label": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "operation_name_label": {
+      "en": "Setup MFA for a dashboard user.",
+      "zh": "设置 Dashboard 用户的 MFA"
+    }
+  },
+  {
     "method": "post",
     "path": "/sso/saml/acs",
     "operation_label": {
@@ -2541,6 +2613,18 @@
     "operation_name_label": {
       "en": "Clear monitor (statistics) data for the whole cluster",
       "zh": "清除集群监控（统计）数据"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/telemetry/status",
+    "operation_label": {
+      "en": "Telemetry",
+      "zh": "遥测"
+    },
+    "operation_name_label": {
+      "en": "Enable or disable telemetry",
+      "zh": "启用或禁用遥测"
     }
   }
 ]
