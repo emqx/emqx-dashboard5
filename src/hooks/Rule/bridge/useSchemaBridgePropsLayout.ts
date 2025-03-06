@@ -102,6 +102,7 @@ export default (
   ])
 
   const pulsarAdvancedProps = getPathArrInParameters([
+    'max_inflight',
     'send_buffer',
     'batch_size',
     'max_batch_bytes',

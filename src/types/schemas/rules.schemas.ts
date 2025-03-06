@@ -230,6 +230,7 @@ export interface RuleEngineRuleInfo {
   id: string
   from?: string[]
   created_at?: string
+  last_modified_at?: string
   name?: string
   sql: string
   actions?: RuleEngineRuleInfoActionsItem[]

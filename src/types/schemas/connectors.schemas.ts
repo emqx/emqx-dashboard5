@@ -2394,6 +2394,7 @@ export interface ConnectorMqttPutConnector {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts
@@ -2449,6 +2450,7 @@ export interface ConnectorMqttPostConnector {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts
@@ -2519,6 +2521,7 @@ export interface ConnectorMqttGetConnector {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts

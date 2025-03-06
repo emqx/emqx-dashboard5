@@ -1738,6 +1738,7 @@ export interface BridgePulsarPutProducer {
   ssl?: EmqxSslClientOpts
   message?: PulsarProducerPulsarMessage
   sync_timeout?: string
+  max_inflight?: number
   pulsar_topic: string
   batch_size?: number
   compression?: BridgePulsarPutProducerCompression
@@ -1812,6 +1813,7 @@ export interface BridgePulsarPostProducer {
   ssl?: EmqxSslClientOpts
   message?: PulsarProducerPulsarMessage
   sync_timeout?: string
+  max_inflight?: number
   pulsar_topic: string
   batch_size?: number
   compression?: BridgePulsarPostProducerCompression
@@ -1883,6 +1885,7 @@ export interface BridgePulsarGetProducer {
   ssl?: EmqxSslClientOpts
   message?: PulsarProducerPulsarMessage
   sync_timeout?: string
+  max_inflight?: number
   pulsar_topic: string
   batch_size?: number
   compression?: BridgePulsarGetProducerCompression
@@ -2247,6 +2250,7 @@ export interface BridgeMqttPut {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts
@@ -2301,6 +2305,7 @@ export interface BridgeMqttPost {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts
@@ -2359,6 +2364,7 @@ export interface BridgeMqttGet {
   password?: string
   clean_start?: boolean
   keepalive?: string
+  connect_timeout?: string
   retry_interval?: string
   max_inflight?: number
   ssl?: EmqxSslClientOpts
