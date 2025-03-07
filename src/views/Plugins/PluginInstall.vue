@@ -1,10 +1,10 @@
 <template>
   <div class="plugin-install app-wrapper">
     <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
+    <TipContainer>
+      <MarkdownContent :content="tl('pluginInstallGuidance')" />
+    </TipContainer>
     <el-card class="app-card plugin-install-card">
-      <TipContainer>
-        <MarkdownContent :content="tl('pluginInstallGuidance')" />
-      </TipContainer>
       <el-upload
         class="plugin-uploader"
         drag
@@ -54,6 +54,9 @@ import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
 import DetailHeader from '@/components/DetailHeader.vue'
+import CustomMessage from '@/common/CustomMessage'
+import { getErrorMessage } from '@/common/http'
+import xss from 'xss'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -82,8 +85,21 @@ const submit = async () => {
     await installPlugin(file.value as File)
     ElMessage.success(tl('successfulInstallation'))
     router.push({ name: 'plugins' })
-  } catch (error) {
-    console.error(error)
+  } catch (error: any) {
+    const { data, status } = error?.response ?? {}
+    if (status === 403) {
+      if (data?.code === 'FORBIDDEN') {
+        const cmd = data.message.match(/`(.*?)`/)?.[1]
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: xss(t('Plugins.pluginInstallForbidden', { code: cmd })),
+          customClass: 'markdown-body',
+          type: 'error',
+        })
+      } else {
+        CustomMessage.error(getErrorMessage(data, status))
+      }
+    }
   } finally {
     isUploading.value = false
   }
@@ -100,14 +116,17 @@ const submit = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 32px;
+  padding-top: 48px;
   padding-bottom: 64px;
 }
 .tip-container {
-  width: 970px;
   margin-bottom: 24px;
+  :deep(.result-tip) {
+    align-items: flex-start;
+  }
   :deep(.icon-tip) {
     margin-right: 8px;
+    margin-top: 3px;
   }
   :deep(.markdown-body) {
     font-size: 14px;
@@ -128,7 +147,7 @@ const submit = async () => {
   opacity: 0.78;
 }
 .plugin-uploader {
-  width: 400px;
+  width: 440px;
   margin-left: auto;
   margin-right: auto;
   .icon-plus {
@@ -164,5 +183,11 @@ const submit = async () => {
   & > :not(:last-child) {
     margin-right: 16px;
   }
+}
+</style>
+
+<style lang="scss">
+.el-message.markdown-body {
+  background: #ffe9e7;
 }
 </style>
