@@ -2,6 +2,9 @@
   <div class="plugin-install app-wrapper">
     <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
     <el-card class="app-card plugin-install-card">
+      <TipContainer>
+        <MarkdownContent :content="tl('pluginInstallGuidance')" />
+      </TipContainer>
       <el-upload
         class="plugin-uploader"
         drag
@@ -20,7 +23,14 @@
         </div>
         <p class="file-name" v-else>{{ file.name }}</p>
       </el-upload>
-      <p class="upload-tip">{{ tl('uploadTip') }}</p>
+      <div class="upload-tip">
+        <p>{{ tl('pluginInstallCommand') }}</p>
+        <CodeView
+          :class="{ empty: !file }"
+          :code="!file ? tl('pleaseUploadPluginFirst') : `emqx ctl plugins allow ${fileName}`"
+          :show-copy-btn="!!file"
+        />
+      </div>
       <div class="btns">
         <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
@@ -35,6 +45,9 @@
 
 <script setup lang="ts">
 import { computed, ref, Ref } from 'vue'
+import CodeView from '@/components/CodeView.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import TipContainer from '@/components/TipContainer.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -51,6 +64,8 @@ const cancel = () => router.push({ name: 'plugins' })
 
 const file: Ref<undefined | File> = ref(undefined)
 const fileList = computed(() => (file.value && file.value.name ? [file] : []))
+
+const fileName = computed(() => file.value?.name?.replace(/\.tar\.gz$/, ''))
 
 const setFile = (selectedFile: File) => {
   file.value = selectedFile
@@ -82,17 +97,35 @@ const submit = async () => {
   text-align: center;
 }
 :deep(.el-card__body) {
-  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
   padding-bottom: 64px;
 }
+.tip-container {
+  width: 970px;
+  margin-bottom: 24px;
+  :deep(.icon-tip) {
+    margin-right: 8px;
+  }
+  :deep(.markdown-body) {
+    font-size: 14px;
+    background-color: transparent;
+  }
+}
+
 .plugin-uploader {
   margin-bottom: 24px;
 }
 .upload-tip {
-  width: 540px;
+  width: 500px;
   margin-bottom: 24px;
   font-size: 14px;
   line-height: 20px;
+}
+.code-view.empty {
+  opacity: 0.78;
 }
 .plugin-uploader {
   width: 400px;
