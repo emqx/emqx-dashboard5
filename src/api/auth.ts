@@ -139,4 +139,36 @@ export function updateAllBuiltInDatabaseData(body = {}) {
   return http.post('/authorization/sources/built_in_database/rules/all', body)
 }
 
+export function loadAuthnSettings() {
+  return http.get('/authentication/settings')
+}
+
+export function updateAuthnSettings(body = {}) {
+  return http.put('/authentication/settings', body)
+}
+
+export function loadAuthnCacheStatus() {
+  return http.get('/authentication/node_cache/status')
+}
+
+export function resetAuthnCacheStatus() {
+  return http.post('/authentication/node_cache/reset')
+}
+
+export function loadAuthzSettings() {
+  return http.get('/authorization/node_cache')
+}
+
+export function updateAuthzSettings(body = {}) {
+  return http.put('/authorization/node_cache', body)
+}
+
+export function loadAuthzCacheStatus() {
+  return http.get('/authorization/node_cache/status')
+}
+
+export function resetAuthzCacheStatus() {
+  return http.post('/authorization/node_cache/reset')
+}
+
 export default {}

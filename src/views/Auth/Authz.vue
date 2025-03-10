@@ -2,6 +2,7 @@
   <div class="authz app-wrapper">
     <div class="section-header">
       <div></div>
+      <NodeCache type="authz" />
       <el-button :icon="Setting" @click="showSettingDrawer = true">
         {{ $t('Base.setting') }}
       </el-button>
@@ -80,6 +81,7 @@ import { ElMessageBox as MB } from 'element-plus'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
 import AuthzSettingDrawer from './components/AuthzSettingDrawer.vue'
+import NodeCache from './components/NodeCache.vue'
 
 const { t } = useI18n()
 
