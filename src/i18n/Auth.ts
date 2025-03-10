@@ -99,6 +99,38 @@ export default {
     zh: '下移',
     en: 'Move down',
   },
+  nodeCacheSettings: {
+    zh: '外部资源缓存设置',
+    en: 'External Resource Cache Settings',
+  },
+  enableNodeCache: {
+    zh: '启用外部资源缓存',
+    en: 'Enable External Resource Cache',
+  },
+  nodeCacheMaxCount: {
+    zh: '缓存最大数量',
+    en: 'Maximum Number of Cached Items',
+  },
+  cleanupInterval: {
+    zh: '清理间隔',
+    en: 'Cleanup Interval',
+  },
+  maxMemory: {
+    zh: '最大内存',
+    en: 'Maximum Memory',
+  },
+  statUpdateInterval: {
+    zh: '统计更新间隔',
+    en: 'Statistics Update Interval',
+  },
+  cacheTTL: {
+    zh: '缓存过期时间',
+    en: 'Cache TTL',
+  },
+  nodeCacheStatus: {
+    zh: '外部资源缓存状态',
+    en: 'External Resource Cache Status',
+  },
   authzSetting: {
     zh: '授权设置',
     en: 'Authorization Settings',
@@ -606,5 +638,47 @@ export default {
   allImportSuc: {
     zh: '成功导入 {total} 条数据',
     en: 'Successfully imported {total} records',
+  },
+
+  // Node Cache Metrics
+  cacheMetrics: {
+    zh: '缓存指标',
+    en: 'Cache Metrics',
+  },
+  cacheCount: {
+    zh: '缓存条目数',
+    en: 'Cache Entries',
+  },
+  cacheMemory: {
+    zh: '内存占用',
+    en: 'Memory Usage',
+  },
+  cacheHits: {
+    zh: '缓存命中',
+    en: 'Cache Hits',
+  },
+  cacheInserts: {
+    zh: '缓存插入',
+    en: 'Cache Inserts',
+  },
+  cacheMisses: {
+    zh: '缓存未命中',
+    en: 'Cache Misses',
+  },
+  currentRate: {
+    zh: '（当前）',
+    en: '(current)',
+  },
+  last5mRate: {
+    zh: '（5 分钟）',
+    en: '(5 mins)',
+  },
+  bytes: {
+    zh: '字节',
+    en: 'bytes',
+  },
+  refresh: {
+    zh: '刷新',
+    en: 'Refresh',
   },
 }

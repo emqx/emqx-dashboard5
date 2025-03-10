@@ -2,6 +2,7 @@
   <div class="authn app-wrapper">
     <div class="section-header">
       <div></div>
+      <NodeCache type="authn" />
       <CreateButton @click="$router.push({ name: 'authentication-create' })" />
     </div>
     <el-table
@@ -73,6 +74,7 @@ import { AuthnItem } from '@/types/auth'
 import { ElMessageBox as MB } from 'element-plus'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
+import NodeCache from './components/NodeCache.vue'
 
 const router = useRouter()
 const { t } = useI18n()
