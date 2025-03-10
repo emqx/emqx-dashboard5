@@ -68,7 +68,7 @@ const readBlobResponse = async (data) => {
   }
 }
 
-const getErrorMessage = (data, status) => {
+export const getErrorMessage = (data, status) => {
   if (!data) {
     return `${status} Network error`
   }

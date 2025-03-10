@@ -1,6 +1,9 @@
 <template>
   <div class="plugin-install app-wrapper">
     <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
+    <TipContainer>
+      <MarkdownContent :content="tl('pluginInstallGuidance')" />
+    </TipContainer>
     <el-card class="app-card plugin-install-card">
       <el-upload
         class="object-uploader plugin-uploader"
@@ -20,7 +23,14 @@
         </div>
         <p class="file-name" v-else>{{ file.name }}</p>
       </el-upload>
-      <p class="upload-tip">{{ tl('uploadTip') }}</p>
+      <div class="upload-tip">
+        <p>{{ tl('pluginInstallCommand') }}</p>
+        <CodeView
+          :class="{ empty: !file }"
+          :code="!file ? tl('pleaseUploadPluginFirst') : `emqx ctl plugins allow ${fileName}`"
+          :show-copy-btn="!!file"
+        />
+      </div>
       <div class="btns">
         <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
@@ -40,12 +50,18 @@
 
 <script setup lang="ts">
 import { computed, ref, Ref } from 'vue'
+import CodeView from '@/components/CodeView.vue'
+import MarkdownContent from '@/components/MarkdownContent.vue'
+import TipContainer from '@/components/TipContainer.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
 import DetailHeader from '@/components/DetailHeader.vue'
+import CustomMessage from '@/common/CustomMessage'
+import { getErrorMessage } from '@/common/http'
+import xss from 'xss'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -56,6 +72,8 @@ const cancel = () => router.push({ name: 'plugins' })
 
 const file: Ref<undefined | File> = ref(undefined)
 const fileList = computed(() => (file.value && file.value.name ? [file] : []))
+
+const fileName = computed(() => file.value?.name?.replace(/\.tar\.gz$/, ''))
 
 const setFile = (selectedFile: File) => {
   file.value = selectedFile
@@ -72,8 +90,21 @@ const submit = async () => {
     await installPlugin(file.value as File)
     ElMessage.success(tl('successfulInstallation'))
     router.push({ name: 'plugins' })
-  } catch (error) {
-    console.error(error)
+  } catch (error: any) {
+    const { data, status } = error?.response ?? {}
+    if (status === 403) {
+      if (data?.code === 'FORBIDDEN') {
+        const cmd = data.message.match(/`(.*?)`/)?.[1]
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: xss(t('Plugins.pluginInstallForbidden', { code: cmd })),
+          customClass: 'markdown-body',
+          type: 'error',
+        })
+      } else {
+        CustomMessage.error(getErrorMessage(data, status))
+      }
+    }
   } finally {
     isUploading.value = false
   }
@@ -87,11 +118,64 @@ const submit = async () => {
   text-align: center;
 }
 :deep(.el-card__body) {
-  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 48px;
   padding-bottom: 64px;
 }
-.plugin-uploader {
+.tip-container {
   margin-bottom: 24px;
+  :deep(.result-tip) {
+    align-items: flex-start;
+  }
+  :deep(.icon-tip) {
+    margin-right: 8px;
+    margin-top: 3px;
+  }
+  :deep(.markdown-body) {
+    font-size: 14px;
+    background-color: transparent;
+  }
+}
+
+.upload-tip {
+  width: 500px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.code-view.empty {
+  opacity: 0.78;
+}
+.plugin-uploader {
+  width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+  .icon-plus {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-right: auto;
+    margin-left: auto;
+    color: var(--color-text-placeholder);
+    margin-bottom: 12px;
+  }
+  .upload-placeholder {
+    color: var(--color-text-placeholder);
+    font-size: 16px;
+  }
+  :deep(.el-upload) {
+    width: 100%;
+    .el-upload-dragger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 200px;
+    }
+  }
 }
 .file-name {
   padding: 0 28px;
@@ -102,5 +186,11 @@ const submit = async () => {
   & > :not(:last-child) {
     margin-right: 16px;
   }
+}
+</style>
+
+<style lang="scss">
+.el-message.markdown-body {
+  background: #ffe9e7;
 }
 </style>
