@@ -26,11 +26,11 @@
           </el-table-column>
           <el-table-column
             :prop="isAuthn ? 'metrics.success' : 'metrics.allow'"
-            :label="tl('success')"
+            :label="t('Base.allow')"
           />
           <el-table-column
             :prop="isAuthn ? 'metrics.failed' : 'metrics.deny'"
-            :label="tl('ErrNum')"
+            :label="t('Base.deny')"
           />
           <el-table-column prop="metrics.rate" :label="`${$t('Base.rateNow')} (QPS)`" />
         </el-table>
@@ -114,7 +114,7 @@ const nodeStatusTableData = ({ node_metrics }: MetricsData) => {
   })
 }
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const setNodeConnectingStatusMap = () => {
   nodeConnectingStatusMap.value = props.metrics.node_status.reduce((obj, nodeStatusItem) => {

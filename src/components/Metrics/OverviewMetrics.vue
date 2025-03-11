@@ -224,12 +224,10 @@ const { t, tl } = useI18nTl('RuleEngine')
 
 const metricsData = ref<MetricsData>({ metrics: {}, node_metrics: [] })
 
-const CLUSTER = 'cluster'
-const clusterOpt = { label: t('BasicConfig.cluster'), value: CLUSTER }
-const nodeOpts = computed(() => [
-  clusterOpt,
-  ...(metricsData.value?.node_metrics || []).map(({ node }) => ({ value: node, label: node })),
-])
+const { CLUSTER, getNodeOpts } = useNodeOpts()
+const nodeOpts = computed(() =>
+  getNodeOpts((metricsData.value?.node_metrics || []).map(({ node }) => node)),
+)
 const selectedNode = ref(CLUSTER)
 const handleNodeChange = () => {
   rateData = getInitRateData()
