@@ -66,10 +66,6 @@
       </el-main>
     </el-container>
   </el-container>
-  <LicenseTipDialog
-    v-model="showLicenseTipDialog"
-    :max-connection="store.state.licenseData.max_connections"
-  />
   <QuickPanel v-model="showQuickPanel" />
 </template>
 
@@ -82,7 +78,6 @@ import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'v
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import LeftBar from './LeftBar.vue'
-import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
 
@@ -94,7 +89,6 @@ export default defineComponent({
   components: {
     NavHeader,
     LeftBar,
-    LicenseTipDialog,
     EMQXVersion,
     QuickPanel,
   },
