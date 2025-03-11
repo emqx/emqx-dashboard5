@@ -18,9 +18,6 @@
           <span class="icon-key">K</span>
         </div>
       </div>
-      <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
-        {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
-      </el-button>
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="func-item">
           <el-badge :is-dot="!!alertCount">
@@ -82,7 +79,7 @@
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
 import { useStore } from 'vuex'
-import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
+import { Bell, Setting, Search } from '@element-plus/icons-vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -96,7 +93,6 @@ import Help from '../Settings/Help.vue'
 export default defineComponent({
   name: 'NavHeader',
   components: {
-    Right,
     Bell,
     Setting,
     Settings,
