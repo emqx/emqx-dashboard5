@@ -1,8 +1,13 @@
 <template>
-  <el-dropdown>
-    <el-button @click="openNodeCacheSettings">{{ tl('nodeCacheSettings') }}</el-button>
+  <el-dropdown
+    split-button
+    @click="openNodeCacheSettings"
+    placement="bottom-end"
+    class="node-cache-dropdown"
+  >
+    {{ tl('nodeCacheSettings') }}
     <template #dropdown>
-      <el-button @click="openNodeCacheStatus">{{ tl('nodeCacheStatus') }}</el-button>
+      <el-button size="large" @click="openNodeCacheStatus">{{ tl('nodeCacheStatus') }}</el-button>
     </template>
   </el-dropdown>
   <el-drawer
@@ -30,6 +35,7 @@
           v-model="record.max_count"
           :items="[{ type: 'number' }, { symbols: [UNLIMITED], type: 'enum' }]"
           :disabled="!record.enable"
+          :disabled-label="t('Extension.unlimited')"
         />
       </el-form-item>
 
@@ -61,88 +67,119 @@
     class="node-cache-status-drawer"
     :size="900"
     :title="tl('nodeCacheStatus')"
-    v-loading="isCacheMetricsLoading"
   >
-    <div class="metrics-header">
-      <h2 class="metrics-title">{{ tl('cacheMetrics') }}</h2>
-      <RefreshButton @click="loadCacheMetrics" />
+    <div v-loading="isCacheMetricsLoading">
+      <div class="metrics-header">
+        <div class="vertical-align-center">
+          <el-select v-model="selectedNode">
+            <el-option
+              v-for="{ label, value } in nodeOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
+          <el-tooltip :content="t('Base.refresh')" placement="top">
+            <RefreshButton class="icon-button" no-text @click="loadCacheMetrics" />
+          </el-tooltip>
+          <el-tooltip :content="tl('resetNodeCacheStatus')" placement="top">
+            <el-button class="icon-button" :icon="Close" @click="resetCacheMetrics"></el-button>
+          </el-tooltip>
+        </div>
+      </div>
+      <el-row :gutter="24">
+        <el-col :span="12">
+          <el-card>
+            <p class="metric-label">{{ tl('cacheMemory') }}</p>
+            <div class="metric-value">
+              <p class="metric-value-num">
+                {{ getSizeNum(metrics.memory) }}
+                <span class="metric-unit">{{ getSizeUnit(metrics.memory) }}</span>
+              </p>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <p class="metric-label">{{ tl('cacheCount') }}</p>
+            <div class="metric-value">
+              <p class="metric-value-num">{{ formatNumber(metrics.count) }}</p>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <p class="metric-label">{{ tl('cacheHits') }}</p>
+            <div class="metric-value">
+              <p class="metric-value-num">{{ formatNumber(metrics.hits.value) }}</p>
+            </div>
+            <div class="metric-rate">
+              <span class="rate-item current">
+                {{ getRateValueStr(metrics.hits.rate.current) }} ({{ tl('currentRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.hits.rate.last5m) }} ({{ tl('last5mRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.hits.rate.max) }} ({{ t('Dashboard.maximum') }})
+              </span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <p class="metric-label">{{ tl('cacheMisses') }}</p>
+            <div class="metric-value">
+              <p class="metric-value-num">{{ formatNumber(metrics.misses.value) }}</p>
+            </div>
+            <div class="metric-rate">
+              <span class="rate-item current">
+                {{ getRateValueStr(metrics.misses.rate.current) }} ({{ tl('currentRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.misses.rate.last5m) }} ({{ tl('last5mRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.misses.rate.max) }} ({{ t('Dashboard.maximum') }})
+              </span>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card>
+            <p class="metric-label">{{ tl('cacheInserts') }}</p>
+            <div class="metric-value">
+              <p class="metric-value-num">{{ formatNumber(metrics.inserts.value) }}</p>
+            </div>
+            <div class="metric-rate">
+              <span class="rate-item current">
+                {{ getRateValueStr(metrics.inserts.rate.current, 'Auth.insertUnit') }}
+                ({{ tl('currentRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.inserts.rate.last5m, 'Auth.insertUnit') }}
+                ({{ tl('last5mRate') }})
+              </span>
+              <span class="rate-item">
+                {{ getRateValueStr(metrics.inserts.rate.max, 'Auth.insertUnit') }}
+                ({{ t('Dashboard.maximum') }})
+              </span>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-table :data="nodeMetrics" style="width: 100%">
+        <el-table-column prop="node" :label="t('Base.node')" />
+        <el-table-column prop="metrics.memory" :label="tl('cacheMemory')">
+          <template #default="{ row }">
+            {{ getSizeNum(row.metrics.memory) }}
+            <span class="metric-unit">{{ getSizeUnit(row.metrics.memory) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="metrics.count" :label="tl('cacheCount')" />
+        <el-table-column prop="metrics.hits.value" :label="tl('cacheHits')" />
+      </el-table>
     </div>
-    <el-row :gutter="24">
-      <el-col :span="12">
-        <el-card>
-          <p class="metric-label">{{ tl('cacheMemory') }}</p>
-          <div class="metric-value">
-            <p class="metric-value-num">
-              {{ metrics.memory }} <span class="metric-unit">{{ tl('bytes') }}</span>
-            </p>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card>
-          <p class="metric-label">{{ tl('cacheCount') }}</p>
-          <div class="metric-value">
-            <p class="metric-value-num">{{ metrics.count }}</p>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card>
-          <p class="metric-label">{{ tl('cacheHits') }}</p>
-          <div class="metric-value">
-            <p class="metric-value-num">{{ metrics.hits.value }}</p>
-          </div>
-          <div class="metric-rate">
-            <span class="rate-item current">
-              {{ getRateValueStr(metrics.hits.rate.current) }} {{ tl('currentRate') }}
-            </span>
-            <span class="rate-item">
-              {{ getRateValueStr(metrics.hits.rate.last5m) }} {{ tl('last5mRate') }}
-            </span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card>
-          <p class="metric-label">{{ tl('cacheMisses') }}</p>
-          <div class="metric-value">
-            <p class="metric-value-num">{{ metrics.misses.value }}</p>
-          </div>
-          <div class="metric-rate">
-            <span class="rate-item current">
-              {{ getRateValueStr(metrics.misses.rate.current) }} {{ tl('currentRate') }}
-            </span>
-            <span class="rate-item">
-              {{ getRateValueStr(metrics.misses.rate.last5m) }} {{ tl('last5mRate') }}
-            </span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card>
-          <p class="metric-label">{{ tl('cacheInserts') }}</p>
-          <div class="metric-value">
-            <p class="metric-value-num">{{ metrics.inserts.value }}</p>
-          </div>
-          <div class="metric-rate">
-            <span class="rate-item current">
-              {{ getRateValueStr(metrics.inserts.rate.current) }} {{ tl('currentRate') }}
-            </span>
-            <span class="rate-item">
-              {{ getRateValueStr(metrics.inserts.rate.last5m) }} {{ tl('last5mRate') }}
-            </span>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-table :data="nodeMetrics" style="width: 100%">
-      <el-table-column prop="node" :label="t('Base.node')" />
-      <el-table-column prop="metrics.memory" :label="tl('cacheMemory')" />
-      <el-table-column prop="metrics.count" :label="tl('cacheCount')" />
-      <el-table-column prop="metrics.hits.value" :label="tl('cacheHits')" />
-      <el-table-column prop="metrics.misses.value" :label="tl('cacheMisses')" />
-      <el-table-column prop="metrics.inserts.value" :label="tl('cacheInserts')" />
-    </el-table>
     <template #footer>
       <el-button @click="cancelSettings">
         {{ t('APIKey.close') }}
@@ -162,6 +199,8 @@ import {
   updateAuthnSettings,
   updateAuthzSettings,
 } from '@/api/auth'
+import { useSizeMetric } from '@/hooks/useMetrics'
+import { Close } from '@element-plus/icons-vue'
 
 type NodeCacheConfig = {
   enable?: boolean
@@ -253,8 +292,19 @@ const totalMetrics = ref({
   node_metrics: [],
 })
 
-const metrics = computed(() => totalMetrics.value.metrics)
+const { CLUSTER, getNodeOpts } = useNodeOpts()
+const nodeOpts = computed(() => getNodeOpts((nodeMetrics.value || []).map(({ node }) => node)))
+const selectedNode = ref(CLUSTER)
+
 const nodeMetrics = computed(() => totalMetrics.value.node_metrics)
+const metrics = computed(() => {
+  if (selectedNode.value === CLUSTER) {
+    return totalMetrics.value.metrics
+  }
+  return nodeMetrics.value.find(({ node }) => node === selectedNode.value)?.metrics
+})
+
+const { getSizeNum, getSizeUnit } = useSizeMetric()
 
 const requestCacheMetrics = () => (isAuthz.value ? loadAuthnCacheStatus() : loadAuthzCacheStatus())
 const requestResetCacheMetrics = () =>
@@ -274,39 +324,53 @@ const loadCacheMetrics = async () => {
 
 const resetCacheMetrics = async () => {
   try {
+    await ElMessageBox.confirm(tl('resetNodeCacheStatusConfirm'))
     await requestResetCacheMetrics()
+    ElMessage.success(t('RuleEngine.resetSuccessfully'))
+    loadCacheMetrics()
   } catch (error) {
     //
   }
 }
 
-const getRateValueStr = (val: number) => `${val}${tl('rateUnit', { val })}`
+const getRateValueStr = (val: number, unit = 'Auth.rateUnit') =>
+  `${formatNumber(val)} ${t(unit, val)}`
 </script>
 
 <style lang="scss">
+.node-cache-dropdown {
+  .el-dropdown__caret-button {
+    &:hover {
+      border-left-width: 1px;
+      border-left-style: solid;
+    }
+  }
+  .el-button-group > .el-button:hover {
+    z-index: 10;
+  }
+}
 .node-cache-status-drawer {
   .el-card {
-    margin-bottom: 20px;
-    transition: all 0.3s;
+    margin-bottom: 24px;
   }
-
+  .el-select {
+    width: 200px;
+    margin-right: 12px;
+  }
   .metric-label {
     margin-top: 8px;
     margin-bottom: 12px;
     color: var(--el-text-color-secondary);
   }
-
   .metric-value {
     display: flex;
     align-items: baseline;
-    font-weight: 600;
-
+    font-weight: 400;
     .metric-value-num {
       font-size: 22px;
       color: var(--el-text-color-primary);
       margin: 0;
     }
-
     .metric-unit {
       font-size: 14px;
       font-weight: normal;
@@ -319,36 +383,31 @@ const getRateValueStr = (val: number) => `${val}${tl('rateUnit', { val })}`
     margin-top: 12px;
     display: flex;
     align-items: center;
-
     .rate-item {
+      position: relative;
+      margin-right: 12px;
       color: var(--el-text-color-secondary);
-
+      &:not(:last-child):after {
+        position: absolute;
+        content: '';
+        width: 1px;
+        height: 12px;
+        background-color: var(--el-border-color);
+        right: -6px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.75;
+      }
       &.current {
-        margin-right: 12px;
         color: var(--el-color-primary);
       }
     }
   }
 
-  // 添加一个标题
   .metrics-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-bottom: 20px;
-  }
-
-  .metrics-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-    color: var(--el-text-color-primary);
-  }
-
-  // 添加刷新按钮样式
-  .refresh-button {
-    margin-left: 10px;
-    font-size: 14px;
   }
 }
 </style>

@@ -319,6 +319,38 @@ export const useChartDataUtils = (): {
   }
 }
 
+export const useSizeMetric = () => {
+  const getSizeStr = (bytes: number) => transMemorySizeNumToStr(bytes, 2)
+  const numPartReg = /^-?\d+(\.\d+)?/
+  const getSizeNumPart = (size: string) => numPartReg.exec(size)?.[0] || '0'
+  const getSizeUnitPart = (size: string) => size.replace(numPartReg, '') || 'Bytes'
+
+  const getSizeNum = (size: number) => formatNumber(getSizeNumPart(getSizeStr(size)))
+  const getSizeUnit = (size: number) => getSizeUnitPart(getSizeStr(size))
+
+  return {
+    getSizeStr,
+    getSizeNumPart,
+    getSizeUnitPart,
+    getSizeNum,
+    getSizeUnit,
+  }
+}
+
+export const useNodeOpts = () => {
+  const { tl } = useI18nTl('BasicConfig')
+  const CLUSTER = 'cluster'
+  const clusterOpt = { label: tl('cluster'), value: CLUSTER }
+  const getNodeOpts = (nodes: Array<string>) => [
+    clusterOpt,
+    ...nodes.map((node) => ({ value: node, label: node })),
+  ]
+  return {
+    CLUSTER,
+    getNodeOpts,
+  }
+}
+
 interface Rate {
   unitKey: string
   current: string
@@ -392,10 +424,7 @@ export const useBridgeMetrics = (): {
 }
 
 export const useActionQueueMetrics = () => {
-  const getSizeStr = (bytes: number) => transMemorySizeNumToStr(bytes, 2)
-  const numPartReg = /^-?\d+(\.\d+)?/
-  const getSizeNumPart = (size: string) => numPartReg.exec(size)?.[0] || '0'
-  const getSizeUnitPart = (size: string) => size.replace(numPartReg, '') || 'Bytes'
+  const { getSizeStr, getSizeNumPart, getSizeUnitPart } = useSizeMetric()
 
   const queueBytesDataLength = 20
   const completeQueueBytesDataData = (

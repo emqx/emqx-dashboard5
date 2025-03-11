@@ -540,8 +540,8 @@ export default {
     en: 'Number of times client authorization data is not found. If the authorizer execution fails, the count will also increase',
   },
   rateUnit: {
-    zh: '次/秒 | 次/秒',
-    en: 'time/sec | times/sec',
+    zh: '次/秒',
+    en: 'times/sec | time/sec | times/sec',
   },
   authnRateBarDesc: {
     zh: '近一分钟内认证次数趋势',
@@ -641,10 +641,6 @@ export default {
   },
 
   // Node Cache Metrics
-  cacheMetrics: {
-    zh: '缓存指标',
-    en: 'Cache Metrics',
-  },
   cacheCount: {
     zh: '缓存条目数',
     en: 'Cache Entries',
@@ -666,12 +662,16 @@ export default {
     en: 'Cache Misses',
   },
   currentRate: {
-    zh: '（当前）',
-    en: '(current)',
+    zh: '当前',
+    en: 'current',
   },
   last5mRate: {
-    zh: '（5 分钟）',
-    en: '(5 mins)',
+    zh: '5 分钟',
+    en: '5 mins',
+  },
+  insertUnit: {
+    zh: '条/秒',
+    en: 'entries/sec | entry/sec | entries/sec',
   },
   bytes: {
     zh: '字节',
@@ -680,5 +680,13 @@ export default {
   refresh: {
     zh: '刷新',
     en: 'Refresh',
+  },
+  resetNodeCacheStatus: {
+    zh: '重置节点缓存状态',
+    en: 'Reset Node Cache Status',
+  },
+  resetNodeCacheStatusConfirm: {
+    zh: '确定要重置节点缓存状态吗？',
+    en: 'Are you sure you want to reset the node cache status?',
   },
 }

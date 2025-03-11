@@ -322,6 +322,7 @@ declare global {
   const useMockData: typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
+  const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
   const useNodesGraph: typeof import('./hooks/Overview/useNodesGraph')['default']
   const useOperationConfirm: typeof import('./hooks/useOperationConfirm')['default']
   const usePagination: typeof import('./hooks/usePagination')['default']
@@ -360,6 +361,7 @@ declare global {
   const useSchemaRecord: typeof import('./hooks/Schema/useSchemaRecord')['default']
   const useShowLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']
   const useShowTextByDifferent: typeof import('./hooks/useShowTextByDifferent')['default']
+  const useSizeMetric: typeof import('./hooks/useMetrics')['useSizeMetric']
   const useSlots: typeof import('vue')['useSlots']
   const useSortableTable: typeof import('./hooks/useSortableTable')['default']
   const useSourceList: typeof import('./hooks/Rule/action/useSourceList')['default']
@@ -753,6 +755,7 @@ declare module 'vue' {
     readonly useMockData: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
+    readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
     readonly useNodesGraph: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['default']>
     readonly useOperationConfirm: UnwrapRef<typeof import('./hooks/useOperationConfirm')['default']>
     readonly usePagination: UnwrapRef<typeof import('./hooks/usePagination')['default']>
@@ -791,6 +794,7 @@ declare module 'vue' {
     readonly useSchemaRecord: UnwrapRef<typeof import('./hooks/Schema/useSchemaRecord')['default']>
     readonly useShowLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']>
     readonly useShowTextByDifferent: UnwrapRef<typeof import('./hooks/useShowTextByDifferent')['default']>
+    readonly useSizeMetric: UnwrapRef<typeof import('./hooks/useMetrics')['useSizeMetric']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSortableTable: UnwrapRef<typeof import('./hooks/useSortableTable')['default']>
     readonly useSourceList: UnwrapRef<typeof import('./hooks/Rule/action/useSourceList')['default']>

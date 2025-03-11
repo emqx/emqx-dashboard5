@@ -647,6 +647,10 @@ export default {
     zh: '，',
     en: ', ',
   },
+  wordBdy: {
+    zh: '',
+    en: ' ',
+  },
   lastModified: {
     zh: '更新时间',
     en: 'Last Modified',
