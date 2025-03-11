@@ -107,6 +107,10 @@ export default {
     zh: '启用外部资源缓存',
     en: 'Enable External Resource Cache',
   },
+  enableNodeCacheDesc: {
+    zh: '启用外部资源缓存后，EMQX 将缓存外部资源（如 MySQL、MongoDB 等）的查询结果，以提高效率；对于本地数据源，如内置数据库或文件等不进行缓存。',
+    en: 'After enabling external resource cache, EMQX will cache the query results of external resources (such as MySQL, MongoDB, etc.), to improve efficiency; for local data sources, such as built-in databases or file, are not cached.',
+  },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
     en: 'Maximum Number of Cached Items',
@@ -136,16 +140,16 @@ export default {
     en: 'Authorization Settings',
   },
   enableCache: {
-    zh: '启用缓存',
-    en: 'Enable Cache',
+    zh: '启用客户端缓存',
+    en: 'Enable Client Cache',
   },
   clearCache: {
-    zh: '清除缓存',
-    en: 'Clear cache',
+    zh: '清除客户端缓存',
+    en: 'Clear Client Cache',
   },
   clearCacheDesc: {
-    zh: '清除当前所有授权结果缓存。',
-    en: 'Clears all current authorization result caches.',
+    zh: '清除当前所有客户端缓存。',
+    en: 'Clears all current client caches.',
   },
   clearCacheConfirm: {
     zh: '是否确认清除缓存',

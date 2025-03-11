@@ -25,7 +25,10 @@
       v-loading="isSettingsLoading"
       :label-width="236"
     >
-      <el-form-item :label="tl('enableNodeCache')">
+      <el-form-item>
+        <template #label>
+          <FormItemLabel :label="tl('enableNodeCache')" :desc="tl('enableNodeCacheDesc')" />
+        </template>
         <el-switch v-model="record.enable" />
       </el-form-item>
 
@@ -65,7 +68,7 @@
     destroy-on-close
     append-to-body
     class="node-cache-status-drawer"
-    :size="900"
+    :size="960"
     :title="tl('nodeCacheStatus')"
   >
     <div v-loading="isCacheMetricsLoading">
@@ -385,7 +388,7 @@ const getRateValueStr = (val: number, unit = 'Auth.rateUnit') =>
     align-items: center;
     .rate-item {
       position: relative;
-      margin-right: 12px;
+      margin-right: 24px;
       color: var(--el-text-color-secondary);
       &:not(:last-child):after {
         position: absolute;
@@ -393,7 +396,7 @@ const getRateValueStr = (val: number, unit = 'Auth.rateUnit') =>
         width: 1px;
         height: 12px;
         background-color: var(--el-border-color);
-        right: -6px;
+        right: -12px;
         top: 50%;
         transform: translateY(-50%);
         opacity: 0.75;
