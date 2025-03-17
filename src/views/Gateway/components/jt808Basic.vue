@@ -154,7 +154,7 @@ const createDefault = () => ({
     },
     up_topic: 'jt808/${clientid}/${phone}/up',
     dn_topic: 'jt808/${clientid}/${phone}/dn',
-    ignore_unsupported_frames: false,
+    ignore_unsupported_frames: true,
   },
   mountpoint: 'jt808/${clientid}/',
   retry_interval: '8s',
