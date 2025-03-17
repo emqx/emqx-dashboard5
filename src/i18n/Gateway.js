@@ -494,6 +494,14 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '下行主题',
     en: 'Down Topic',
   },
+  ignoreUnsupportedFrames: {
+    zh: '忽略不支持的帧',
+    en: 'Ignore Unsupported Frames',
+  },
+  ignoreUnsupportedFramesDesc: {
+    zh: '是否忽略不支持的帧。设置为 `true` 时，不支持的帧将被记录并忽略；设置为 `false` 时，网关在收到不支持的帧时将断开客户端连接。默认值为 `false。`',
+    en: 'Whether to ignore unsupported frames. When set to `true`, unsupported frames will be logged and ignored; when set to `false`, the gateway will disconnect the client when receiving an unsupported frame. The default value is `false`.',
+  },
   defaultHeartbeatInterval: {
     zh: '默认心跳间隔',
     en: 'Default Heartbeat Interval',
