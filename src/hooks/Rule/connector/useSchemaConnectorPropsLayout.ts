@@ -223,7 +223,10 @@ export default (
       ['server', 'dbname', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
-    [BridgeType.TDengine]: createOrderObj(['server', 'username', 'password'], fieldStartIndex),
+    [BridgeType.TDengine]: createOrderObj(
+      ['server', 'username', 'password', 'token'],
+      fieldStartIndex,
+    ),
     [BridgeType.OracleDatabase]: createOrderObj(
       ['server', 'service_name', 'sid', 'username', 'password'],
       fieldStartIndex,
