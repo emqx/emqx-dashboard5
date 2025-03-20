@@ -6,17 +6,18 @@
     :width="`${licenseTipWidth}px`"
   >
     <div class="tip-content">
-      <i18n-t
-        v-if="!isLicenseExpiry"
-        class="tip"
-        keypath="Dashboard.licenseEvaluationTip"
-        tag="p"
-        scope="global"
-      >
-        <strong>{{ maxSessions }}</strong>
-        <a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
-        <a href="mailto:contact@emqx.io"> contact@emqx.io </a>
-      </i18n-t>
+      <template v-if="!isLicenseExpiry">
+        <p class="tip" v-if="isCommunityLicense">{{ tl('communityLicenseTip') }}</p>
+        <MarkdownContent
+          class="tip"
+          v-if="!isCommunityLicense"
+          :content="tl('licenseEvaluationTip', { n: `<strong> ${maxSessions} </strong>` })"
+        />
+        <MarkdownContent
+          class="tip"
+          :content="tl('applyLicenseContent', { link: appleLicenseLink })"
+        />
+      </template>
       <i18n-t v-else class="tip" keypath="Dashboard.licenseExpiryTip" tag="p" scope="global">
         <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
       </i18n-t>
@@ -58,7 +59,10 @@ const licenseTipVisible = computed({
 
 const license = computed(() => store.state.licenseData)
 const isLicenseExpiry = computed(() => license.value.expiry)
-const licenseTipWidth = computed(() => (isLicenseExpiry.value ? 600 : 520))
+const licenseTipWidth = computed(() => (isLicenseExpiry.value ? 600 : 580))
+const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
+
+const appleLicenseLink = `<a href="${docMap.applyLicense}" target="_blank">${tl('licenseApply')}</a>`
 
 const router = useRouter()
 const goLicense = () => {
@@ -69,6 +73,9 @@ const goLicense = () => {
 
 <style lang="scss">
 .license-dialog {
+  padding-top: 28px;
+  padding-left: 24px;
+  padding-right: 24px;
   .el-dialog__header {
     display: none;
   }
@@ -84,6 +91,23 @@ const goLicense = () => {
     span {
       display: inline-block;
       margin-left: 10px;
+    }
+  }
+  .tip:not(:last-child) {
+    margin-bottom: 4px;
+  }
+  .markdown-content.tip {
+    .markdown-body {
+      color: var(--color-text-secondary);
+    }
+    a {
+      color: var(--color-primary);
+    }
+    p {
+      margin-bottom: 4px;
+    }
+    ul {
+      padding-left: 1em;
     }
   }
 

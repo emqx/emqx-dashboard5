@@ -27,7 +27,7 @@
           <el-descriptions-item :label="tl('EMQXVersion')">
             <EMQXVersion />
           </el-descriptions-item>
-          <template v-if="!isEvaluationLicense">
+          <template v-if="!isEvaluationLicense && !isCommunityLicense">
             <el-descriptions-item :label="tl('customer')">
               <span>
                 {{ licenseData.customer }}
@@ -61,10 +61,17 @@
         <!-- EVALUATION -->
         <el-alert v-if="isEvaluationLicense" show-icon :closable="false" type="info">
           <template #title>
-            <i18n-t keypath="Dashboard.licenseEvaluationTip" scope="global">
-              {{ licenseData.max_sessions
-              }}<a :href="docMap.applyLicense" target="_blank">{{ tl('upgradeLicense') }}</a>
-            </i18n-t>
+            <MarkdownContent
+              :content="
+                tl('licenseEvaluationTip', { n: `<strong> ${licenseData.max_sessions} </strong>` })
+              "
+            />
+          </template>
+        </el-alert>
+        <!-- COMMUNITY -->
+        <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
+          <template #title>
+            {{ tl('communityLicenseTip') }}
           </template>
         </el-alert>
 
@@ -182,6 +189,7 @@ const licenseConfig = ref<LicenseConfig>({
 })
 const licenseData: ComputedRef<LicenseData> = computed(() => store.state.licenseData)
 const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
+const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
 const licenseConfigForm = ref<HTMLFormElement | null>(null)
 
 const licensePercentage = computed(() => {
@@ -327,6 +335,20 @@ html[lang='zh'] .license .el-descriptions .el-descriptions__label {
     }
     .el-alert {
       padding: 12px 14px;
+      align-items: flex-start;
+      .el-alert__icon {
+        margin-top: 3px;
+      }
+    }
+    .markdown-body {
+      font-size: 14px;
+      background-color: transparent;
+      p {
+        margin-bottom: 4px;
+      }
+      ul {
+        padding-left: 1em;
+      }
     }
     .el-tag.el-tag--warning {
       margin-left: 12px;
