@@ -29,7 +29,7 @@ export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
 }
 
 // License
-export function loadLicenseInfo(): LicenseData {
+export function loadLicenseInfo(): Promise<LicenseData> {
   return http.get('/license')
 }
 export function updateLicense(key: string) {

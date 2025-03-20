@@ -256,8 +256,28 @@ export default {
     en: 'For Trial',
   },
   licenseEvaluationTip: {
-    zh: `当前正在使用评估 License，限制为 {0} 个并发会话。此 License 仅供评估使用，不可用于生产环境。如需申请新的 License，请{1}，或通过邮件 {2} 联系 EMQ 客服。`,
-    en: `Using an evaluation license limited to {0} concurrent sessions. This license is for evaluation purposes only and not permitted for production use. Please {1}, or contact EMQ customer services via email {2}.`,
+    zh: `当前正在使用评估 License，此 License 不允许用于商业用途。运行限制：
+ - 最多 {n} 个并发会话
+ - 运行时间限制为 30 天，超过后需要重启节点以重新获得连接数配额。`,
+    en: `Using an evaluation license, this license is not permitted for commercial use. Limitations:
+ - At most {0} concurrent sessions.
+ - A 30-day uptime limit, must restart the node to regain the sessions quota.`,
+  },
+  communityLicenseTip: {
+    en: `Using a single-node community license, this license is not permitted for commercial use.`,
+    zh: `当前正在使用单节点社区版 License，此 License 不允许用于商业用途。`,
+  },
+  applyLicenseContent: {
+    zh: `访问 {link} 申请 License 用于：
+ - 商业用途
+ - 教育或非营利用途（集群部署，免费）`,
+    en: `Visit {link} to apply a license for: 
+ - Commercial use
+ - Education or Non-profit use (clustered deployment, free of charge)`,
+  },
+  licenseApply: {
+    zh: '许可证申请页面',
+    en: 'license application page',
   },
   upgradeLicense: {
     zh: '访问许可证申请页面',

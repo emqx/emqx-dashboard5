@@ -324,6 +324,7 @@ export enum TimeUnit {
 export enum LicenseType {
   Trial = 'trial',
   Official = 'official',
+  Community = 'community',
 }
 
 export enum BuiltInDBType {
@@ -370,7 +371,9 @@ export enum LicenseCustomerType {
   Small = 0,
   Medium,
   Large,
+  Education = 5,
   Evaluation = 10,
+  Developer = 11,
 }
 
 export enum Role {

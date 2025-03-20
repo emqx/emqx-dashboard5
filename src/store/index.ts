@@ -1,7 +1,7 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
 import { UserInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
-import { TestRuleTarget, LicenseCustomerType } from '@/types/enum'
+import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 
 const getLang = () => {
@@ -224,6 +224,9 @@ export default createStore({
     },
     isEvaluationLicense(state) {
       return state.licenseData.customer_type === LicenseCustomerType.Evaluation
+    },
+    isCommunityLicense(state) {
+      return state.licenseData.type === LicenseType.Community
     },
   },
 })

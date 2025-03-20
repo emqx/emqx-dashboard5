@@ -153,7 +153,10 @@ export default defineComponent({
     }
 
     const tryOpenLicenseDialog = () => {
-      showLicenseTipDialog.value = isEvaluationLicense.value || store.state.licenseData.expiry
+      showLicenseTipDialog.value =
+        isEvaluationLicense.value ||
+        store.state.licenseData.expiry ||
+        store.getters.isCommunityLicense
     }
 
     onMounted(async () => {

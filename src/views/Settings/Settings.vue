@@ -46,7 +46,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col v-if="!IS_ENTERPRISE" :span="24">
+        <el-col v-if="!isCommunityLicense" :span="24">
           <el-form-item>
             <template #label>
               <FormItemLabel
@@ -91,6 +91,9 @@ const store = useStore()
 record.lang = store.state.lang
 record.theme = store.state.theme
 record.syncOsTheme = store.state.syncOsTheme
+
+const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -129,7 +132,7 @@ const themeOption = [
 const saveLoading = ref(false)
 const { t } = useI18n()
 const loadData = async () => {
-  if (IS_ENTERPRISE) {
+  if (isCommunityLicense.value) {
     return
   }
   const res = await getTeleStatus()
