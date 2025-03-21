@@ -29,9 +29,7 @@
               {{ transMsNumToSimpleStr(node.uptime) }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('version')">
-              <a :href="releaseNoteLink(node.version)" target="_blank">
-                {{ node.version }}
-              </a>
+              {{ node.version }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('role')">{{ node.role }}</el-descriptions-item>
             <el-descriptions-item :label="tl('maxFds')">{{ node.max_fds }}</el-descriptions-item>
@@ -128,7 +126,7 @@ import { useRoute } from 'vue-router'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NodeStatus } from '@/types/enum'
 import useDurationStr from '@/hooks/useDurationStr'
-import { IS_ENTERPRISE } from '@/common/constants'
+// import { IS_ENTERPRISE } from '@/common/constants'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)
@@ -144,15 +142,15 @@ const nodeName = computed(() => {
 
 const { tl } = useI18nTl('Dashboard')
 
-const { locale } = useI18n()
+// const { locale } = useI18n()
 
 const { transMsNumToSimpleStr } = useDurationStr()
 
-const releaseNoteLink = (version: string) => {
-  const lang = locale.value === 'zh' ? 'zh' : 'en'
-  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
-  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
-}
+// const releaseNoteLink = (version: string) => {
+//   const lang = locale.value === 'zh' ? 'zh' : 'en'
+//   const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
+//   return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
+// }
 
 const loadNode = async () => {
   nodeLoading.value = true
