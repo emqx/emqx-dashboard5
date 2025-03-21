@@ -300,7 +300,7 @@ html[lang='en'] .license .el-descriptions .el-descriptions__label {
   width: 105px;
 }
 html[lang='zh'] .license .el-descriptions .el-descriptions__label {
-  width: 123px;
+  width: 125px;
 }
 .license {
   .el-card__body {

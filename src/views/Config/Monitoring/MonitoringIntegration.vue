@@ -269,14 +269,14 @@
             <el-col :span="21">
               <el-form-item>
                 <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
-                  <template #docUse>
+                  <!-- <template #docUse>
                     <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
                   </template>
                   <template #docIntegration>
                     <a :href="docMap.datadogIntegration" target="_blank">
                       {{ tl('datadogIntegration') }}
                     </a>
-                  </template>
+                  </template> -->
                 </i18n-t>
               </el-form-item>
             </el-col>

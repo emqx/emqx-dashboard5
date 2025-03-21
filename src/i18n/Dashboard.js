@@ -104,8 +104,8 @@ export default {
     en: 'Version',
   },
   EMQXVersion: {
-    zh: 'EMQX 版本信息：',
-    en: 'EMQX Version:',
+    zh: '版本信息：',
+    en: 'Version:',
   },
   basic: {
     zh: '基础信息',
@@ -244,8 +244,8 @@ export default {
     en: 'Expire At:',
   },
   beforeTheCertificateExpires: {
-    zh: '证书到期前 EMQ 将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
-    en: 'EMQ will send license expiration reminder by email. Please pay attention to the contact email inbox.',
+    zh: '证书到期前将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
+    en: 'Will send license expiration reminder by email. Please pay attention to the contact email inbox.',
   },
   forTrialEdition: {
     zh: '当前 License 为试用版',

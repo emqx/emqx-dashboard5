@@ -58,9 +58,7 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    <a :href="releaseNoteLink" target="_blank">
-                      {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
-                    </a>
+                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
                   </span>
                 </div>
                 <div class="node-item">
@@ -129,7 +127,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadStats } from '@/api/common'
-import { IS_ENTERPRISE } from '@/common/constants'
+// import { IS_ENTERPRISE } from '@/common/constants'
 import { calcPercentage } from '@/common/tools'
 import useDurationStr from '@/hooks/useDurationStr'
 import useSyncPolling from '@/hooks/useSyncPolling'
@@ -137,7 +135,7 @@ import useClusterNodes from '@/hooks/useClusterNodes'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
 import { computed, ref, Ref } from 'vue'
 import { Right } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
+// import { useI18n } from 'vue-i18n'
 import NodesGraph from './NodesGraph.vue'
 import useEditionConfigs from '@/hooks/useEditionConfigs'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
@@ -146,7 +144,7 @@ type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
 const { edition } = useEditionConfigs()
 
-const { locale } = useI18n()
+// const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
 
@@ -202,24 +200,24 @@ let calcMemoryPercentage = computed(() => {
   )
 })
 
-const versionReg = /(?<version>\d\.\d+\.\d+)/
-const getVersion = (version: string) => {
-  if (!version) {
-    return ''
-  }
-  const matchRes = version.match(versionReg)
-  return matchRes && matchRes.groups?.version ? matchRes.groups?.version : ''
-}
+// const versionReg = /(?<version>\d\.\d+\.\d+)/
+// const getVersion = (version: string) => {
+//   if (!version) {
+//     return ''
+//   }
+//   const matchRes = version.match(versionReg)
+//   return matchRes && matchRes.groups?.version ? matchRes.groups?.version : ''
+// }
 
-const getReleaseNoteLinkByVersion = (version: string) => {
-  const lang = locale.value === 'zh' ? 'zh' : 'en'
-  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
-  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
-}
+// const getReleaseNoteLinkByVersion = (version: string) => {
+//   const lang = locale.value === 'zh' ? 'zh' : 'en'
+//   const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
+//   return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
+// }
 
-const releaseNoteLink = computed(() =>
-  getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node?.version)),
-)
+// const releaseNoteLink = computed(() =>
+//   getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node?.version)),
+// )
 
 const loadData = async () => {
   try {

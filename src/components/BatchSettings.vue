@@ -18,11 +18,6 @@
             <div>{{ $t('Base.downloadTemplatePrompt') }}</div>
             <ul>
               <li>{{ $t('Base.batchSettingDownloadFirst') }}</li>
-              <i18n-t keypath="Base.moreImportInstructions" tag="li">
-                <template #link>
-                  <a :href="checkDocMap[type]" target="_blank">{{ $t('Base.helpDocs') }}</a>
-                </template>
-              </i18n-t>
             </ul>
           </template>
           <template #description>
@@ -64,7 +59,7 @@
 
 <script setup lang="ts">
 import { BATCH_UPLOAD_CSV_MAX_ROWS } from '@/common/constants'
-import useDocLink from '@/hooks/useDocLink'
+// import useDocLink from '@/hooks/useDocLink'
 import useI18nTl from '@/hooks/useI18nTl'
 import { BatchSettingDatabaseType } from '@/types/enum'
 import { useBatchSettings } from '@emqx/shared-ui-utils'
@@ -83,14 +78,14 @@ const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
 const fileList = ref<any[]>([])
 const importLoading = ref(false)
-const { docMap } = useDocLink()
+// const { docMap } = useDocLink()
 
-const checkDocMap = {
-  [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
-  [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
-  [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
-  [BatchSettingDatabaseType.Datalayers]: docMap.datalayersBatchSettings,
-}
+// const checkDocMap = {
+//   [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
+//   [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
+//   [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
+//   [BatchSettingDatabaseType.Datalayers]: docMap.datalayersBatchSettings,
+// }
 
 const dbNameMap = {
   [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',

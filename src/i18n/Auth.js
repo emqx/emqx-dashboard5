@@ -349,7 +349,7 @@ export default {
   },
   delAuthnConfirm: {
     zh: '删除该认证器后，可能导致非法客户端连接至当前服务器，{additionalTip}是否确认删除？',
-    en: 'Deleting this authenticator may result in unauthorized clients connecting to the EMQX server, {additionalTip}continue? ',
+    en: 'Deleting this authenticator may result in unauthorized clients connecting to the server, {additionalTip}continue? ',
   },
   delAuthzConfirm: {
     zh: '删除该授权后，可能影响客户端发布和订阅操作的权限控制，{additionalTip}是否确认删除？',

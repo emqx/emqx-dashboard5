@@ -2,7 +2,7 @@
   <div class="nav-header">
     <div class="header-left">
       <router-link :class="['logo']" to="/">
-        <img src="@/assets/img/tongtech.svg" alt="emqx-logo" />
+        <img src="@/assets/img/tongtech.svg" alt="logo" />
       </router-link>
       <h1 class="header-title">{{ t('Base.tongTitle') }}</h1>
     </div>
@@ -26,17 +26,6 @@
             </router-link>
           </el-badge>
         </div>
-      </el-tooltip>
-
-      <el-tooltip
-        effect="dark"
-        :content="$t('components.help')"
-        placement="bottom"
-        :show-arrow="false"
-      >
-        <a href="javascript:;" @click="handleShowHelp" class="link-help">
-          <i class="iconfont icon-question"></i>
-        </a>
       </el-tooltip>
 
       <el-tooltip
