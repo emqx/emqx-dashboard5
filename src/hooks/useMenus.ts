@@ -78,7 +78,7 @@ const useMenus = (): {
     { title: 'users', path: '/users' },
     { title: 'audit-log', path: '/audit-log' },
     { title: 'api-key', path: '/api-key' },
-    { title: 'license', path: '/license' },
+    // { title: 'license', path: '/license' },
     { title: 'sso', path: '/sso' },
     { title: 'backup', path: '/backup' },
     { title: 'hot-upgrade', path: '/hot-upgrade' },
