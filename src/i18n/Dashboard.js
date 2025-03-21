@@ -550,16 +550,16 @@ export default {
   },
   /* message */
   messages_delayed: {
-    zh: 'EMQX 存储的延迟发布的消息数量',
-    en: 'Number of delay-published messages stored by EMQX Broker',
+    zh: '中间件存储的延迟发布的消息数量',
+    en: 'Number of delay-published messages stored by middleware',
   },
   messages_delivered: {
-    zh: 'EMQX 内部转发到订阅进程的消息数量',
-    en: 'Number of messages forwarded to the subscription process internally by EMQX Broker',
+    zh: '中间件内部转发到订阅进程的消息数量',
+    en: 'Number of messages forwarded to the subscription process internally by middleware',
   },
   messages_dropped: {
-    zh: 'EMQX 内部转发到订阅进程前丢弃的消息总数',
-    en: 'Total number of messages dropped by EMQX Broker before forwarding to the subscription process',
+    zh: '中间件内部转发到订阅进程前丢弃的消息总数',
+    en: 'Total number of messages dropped by middleware before forwarding to the subscription process',
   },
   messages_dropped_no_subscribers: {
     zh: '由于没有订阅者而被丢弃的消息数量',
@@ -820,8 +820,8 @@ export default {
     en: 'Message transformation succeeded',
   },
   multiVersionWarning: {
-    zh: '当前集群下存在不同 EMQX 版本的节点，请前往',
-    en: 'Different versions of EMQX nodes exist in the cluster, please go to ',
+    zh: '当前集群下存在不同中间件版本的节点，请前往',
+    en: 'Different versions of middleware nodes exist in the cluster, please go to ',
   },
   checkVersionInfo: {
     zh: '查看各节点的版本信息。',

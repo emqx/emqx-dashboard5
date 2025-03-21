@@ -12,8 +12,8 @@ export default {
     en: 'Enable Pushgateway',
   },
   enablePushgatewayDesc: {
-    zh: '启用后，EMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
-    en: 'After enabling, EMQX will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
+    zh: '启用后，中间件将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
+    en: 'After enabling, middleware will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
   },
   interval: {
     zh: '采集间隔',
@@ -70,8 +70,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Prometheus and Grafana setup help',
   },
   promSetupHelpDesc: {
-    zh: 'EMQX 支持将数据集成到 Prometheus 服务中来监控数据，可以使用 Grafana 来可视化监控数据。通常使用默认方法即可完成配置，也可选择使用 Pushgateway。',
-    en: 'EMQX supports integrating data into the Prometheus service to monitor data, and you can use Grafana to visualize monitoring data. Usually the default method can be used to complete the configuration, or you can choose to use Pushgateway.',
+    zh: '中间件支持将数据集成到 Prometheus 服务中来监控数据，可以使用 Grafana 来可视化监控数据。通常使用默认方法即可完成配置，也可选择使用 Pushgateway。',
+    en: 'Middleware supports integrating data into the Prometheus service to monitor data, and you can use Grafana to visualize monitoring data. Usually the default method can be used to complete the configuration, or you can choose to use Pushgateway.',
   },
   pushgatewayInstall: {
     zh: '安装 Pushgateway 或 Node Exporter 服务',
@@ -94,8 +94,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Configure Prometheus',
   },
   promConfigDesc: {
-    zh: '生成 Prometheus 配置文件，包括 EMQX 服务地址，以及 EMQX 提供监控数据 API 的 Path。',
-    en: 'Generate a Prometheus configuration file, including the EMQX service address, and the Path of the EMQX monitoring metrics data API.',
+    zh: '生成 Prometheus 配置文件，包括中间件服务地址，以及中间件提供监控数据 API 的 Path。',
+    en: 'Generate a Prometheus configuration file, including the middleware service address, and the Path of the middleware monitoring metrics data API.',
   },
   promStepTwo: {
     zh: '在 Prometheus 的配置文件中添加 Pushgateway 服务的地址，Node Exporter 和 Prometheus 的地址在有需要的情况下再添加。',
@@ -130,8 +130,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Please configure the Pushgateway address',
   },
   emqxRequired: {
-    zh: '请配置 EMQX 地址',
-    en: 'Please configure the EMQX address',
+    zh: '请配置中间件地址',
+    en: 'Please configure the middleware address',
   },
   metricsPathRequired: {
     zh: '请配置 metrics API path',
@@ -171,8 +171,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Traces All Messages',
   },
   tracesFilterTracesAllDesc: {
-    zh: '当启用时，EMQX 将追踪所有发布的消息，如果无法从消息中提取追踪ID，则会生成一个新的追踪ID。当禁用时，只有在发布时带有追踪上下文（Trace context）的消息才会被追踪。',
-    en: 'When enabled, the EMQX will trace all published messages. If a trace ID cannot be extracted from the message, a new trace ID will be generated. When disabled, only messages with trace context at the time of publishing will be traced.',
+    zh: '当启用时，中间件将追踪所有发布的消息，如果无法从消息中提取追踪ID，则会生成一个新的追踪ID。当禁用时，只有在发布时带有追踪上下文（Trace context）的消息才会被追踪。',
+    en: 'When enabled, the middleware will trace all published messages. If a trace ID cannot be extracted from the message, a new trace ID will be generated. When disabled, only messages with trace context at the time of publishing will be traced.',
   },
   logsEnable: {
     zh: '日志',
@@ -219,8 +219,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Cluster Identifier',
   },
   clusterIdentifierDesc: {
-    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
-    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的中间件集群。',
+    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different middleware clusters.",
   },
   alreadyExists: {
     zh: '已存在',

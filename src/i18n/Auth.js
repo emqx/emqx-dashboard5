@@ -464,16 +464,16 @@ export default {
     en: 'Local Password Comparison',
   },
   methodHashDesc: {
-    zh: 'EMQX 查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
-    en: "EMQX queries LDAP to retrieve the client's password and then compares it locally.",
+    zh: '中间件查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
+    en: "Middleware queries LDAP to retrieve the client's password and then compares it locally.",
   },
   methodBindLabel: {
     zh: 'LDAP绑定验证',
     en: 'LDAP Bind Authentication',
   },
   methodBindDesc: {
-    zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
-    en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
+    zh: '中间件直接使用 LDAP 绑定验证用户名和密码。',
+    en: 'Middleware directly uses LDAP binding to authenticate the username and password.',
   },
   authnTotalDesc: {
     zh: '认证器被触发执行的总次数',
@@ -612,8 +612,8 @@ export default {
     en: 'Principal',
   },
   principalDesc: {
-    zh: "服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net{'@'}MY.REALM.COM`。\n注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。",
-    en: "Kerberos principal for server. For example, `mqtt/cluster1.my.net{'@'}MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.",
+    zh: "服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net{'@'}MY.REALM.COM`。\n注意：使用的 realm 必须在中间件节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。",
+    en: "Kerberos principal for server. For example, `mqtt/cluster1.my.net{'@'}MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in middleware nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.",
   },
   cinfoAuthDesc: {
     zh: '使用 Client Information 进行认证',
