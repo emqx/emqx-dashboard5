@@ -942,8 +942,8 @@ export default {
     en: 'SysKeeper Proxy',
   },
   sysKeeperProxyDesc: {
-    zh: 'SysKeeper 接收器用于创建监听器并接收转发器的连接，消息将按照转发配置发布到 EMQX 本地主题，请配套转发器使用。',
-    en: 'The SysKeeper Proxy is used to create a listener and receive connections from the Forwarder. The messages will be published to the local topics of EMQX according to the forwarding configuration. Please use it together with the Forwarder.',
+    zh: 'SysKeeper 接收器用于创建监听器并接收转发器的连接，消息将按照转发配置发布到中间件本地主题，请配套转发器使用。',
+    en: 'The SysKeeper Proxy is used to create a listener and receive connections from the Forwarder. The messages will be published to the local topics of middleware according to the forwarding configuration. Please use it together with the Forwarder.',
   },
   sysKeeperForwarder: {
     zh: 'SysKeeper 转发器',
@@ -978,10 +978,10 @@ export default {
     en: 'specify the format and content of the data so that it can be parsed and written to {database}, placeholder supported.',
   },
   timestampDesc: {
-    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
+    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则中间件使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
 如果使用任何其他时间戳，则其精度必须与“精度”字段中选择的值完全匹配。</br>
 建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 {database} 数据记录。`,
-    en: `The UNIX timestamp for the data. EMQX uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
+    en: `The UNIX timestamp for the data. Middleware uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
 If any other timestamp is used, its precision must exactly match the value chosen in the 'precision' field.</br>
 It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an {database} data record for each message.`,
   },
@@ -1094,8 +1094,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: 'Kerberos keytab 文件',
   },
   kerberosPrincipalDesc: {
-    en: `SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in EMQX nodes.`,
-    zh: `SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在 EMQX 服务器的 /etc/krb5.conf 中`,
+    en: `SASL GSSAPI authentication Kerberos principal. For example <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>, NOTE: The realm in use has to be configured in /etc/krb5.conf in middleware nodes.`,
+    zh: `SASL GSSAPI 认证方法的 Kerberos principal，例如 <code>client_name{'@'}MY.KERBEROS.REALM.MYDOMAIN.COM</code>注意：这里使用的 realm 需要配置在中间件服务器的 /etc/krb5.conf 中`,
   },
   autoRestartIntervalDesc: {
     en: 'The auto restart interval after the resource is disconnected. ',
@@ -1110,8 +1110,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Fill in the file path',
   },
   kerberosKeytabFileDesc: {
-    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in EMQX nodes, and the EMQX service runner user requires read permission.',
-    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到 EMQX 服务器中，且运行 EMQX 服务的系统账户需要有读取权限。',
+    en: 'SASL GSSAPI authentication Kerberos keytab file path. NOTE: This file has to be placed in middleware nodes, and the middleware service runner user requires read permission.',
+    zh: 'SASL GSSAPI 认证方法的 Kerberos keytab 文件。注意：该文件需要上传到中间件服务器中，且运行中间件服务的系统账户需要有读取权限。',
   },
   mechanism: {
     en: 'Mechanism',

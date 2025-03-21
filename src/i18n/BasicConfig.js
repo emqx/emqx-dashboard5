@@ -33,15 +33,15 @@ export default {
   },
   readOnlyTip: {
     zh: '此配置项不支持热配置，请到配置文件内修改并重启服务',
-    en: 'This configuration does not support online-reload. Please update the config file and restart EMQX.',
+    en: 'This configuration does not support online-reload. Please update the config file and restart middleware.',
   },
   telemetry: {
     zh: '遥测数据',
     en: 'Telemetry',
   },
   telemetryTip: {
-    zh: '遥测收集有关 EMQX 使用情况的信息，与我们共享这些指标可以帮助我们更好地了解您如何使用我们的产品，并可以持续地帮助我们改进产品',
-    en: 'Telemetry collects information about EMQX usage. Sharing these metrics helps us to better understand how EMQX is used, so we can continuously improve it.',
+    zh: '遥测收集有关使用情况的信息，与我们共享这些指标可以帮助我们更好地了解您如何使用我们的产品，并可以持续地帮助我们改进产品',
+    en: 'Telemetry collects information about usage. Sharing these metrics helps us to better understand how middleware is used, so we can continuously improve it.',
   },
   enableTelemetry: {
     zh: '启动遥测',
@@ -169,16 +169,16 @@ export default {
     en: 'Linked (remote) cluster name. Must be exactly equal to the value of `cluster.name` configured at the remote cluster. Must **not** be equal to the local `cluster.name`. All configured cluster link names must be unique.',
   },
   serverAddressDesc: {
-    zh: '远程 EMQX 服务的 MQTT 主机和端口。',
-    en: 'MQTT host and port of the remote EMQX broker.',
+    zh: '远程中间件服务的 MQTT 主机和端口。',
+    en: 'MQTT host and port of the remote middleware.',
   },
   clientIdPrefix: {
     zh: '客户端 ID 前缀',
     en: 'Client ID Prefix',
   },
   clientIdPrefixDesc: {
-    zh: '如果省略，则默认使用本地的 `cluster.name`。EMQX 会在连接集群时维护多个连接，并自动在基础客户端 ID 后添加不同的后缀。',
-    en: 'If omitted, local `cluster.name` is used. EMQX maintains several connections between linked clusters, so distinct suffixes are automatically appended to the base client ID.',
+    zh: '如果省略，则默认使用本地的 `cluster.name`。中间件会在连接集群时维护多个连接，并自动在基础客户端 ID 后添加不同的后缀。',
+    en: 'If omitted, local `cluster.name` is used. The middleware maintains several connections between linked clusters, so distinct suffixes are automatically appended to the base client ID.',
   },
   disabledDeleteTopicTopic: {
     zh: '请先禁用再删除主题',
@@ -193,8 +193,8 @@ export default {
     en: 'Execution status and efficiency of message forwarding on each node',
   },
   linkingTopicsDesc: {
-    zh: '由连接的远程 EMQX 服务转发至本地代理的 MQTT 主题。仅当本地 EMQX 服务有匹配的订阅者时，消息才会被转发。<br />支持通配符。如果在连接的一侧设置空主题列表，可实现单向连接：空主题列表的一侧不会接收远程消息，但可以根据另一侧配置的主题，将相关消息转发给其连接方。',
-    en: "MQTT topics to be forwarded by the linked remote EMQX broker to the local broker. Messages are only forwarded if the local EMQX broker has matching subscriber(s).<br />Wildcards are supported. Setting empty topics list on one side of the link can be used to establish unidirectional links: the side with the empty topics won't receive remote messages, but it can forward relevant messages to its linked counterpart (according to the topics configured on that side of the link).",
+    zh: '由连接的远程中间件服务转发至本地代理的 MQTT 主题。仅当本地中间件服务有匹配的订阅者时，消息才会被转发。<br />支持通配符。如果在连接的一侧设置空主题列表，可实现单向连接：空主题列表的一侧不会接收远程消息，但可以根据另一侧配置的主题，将相关消息转发给其连接方。',
+    en: "MQTT topics to be forwarded by the linked remote middleware to the local broker. Messages are only forwarded if the local middleware has matching subscriber(s).<br />Wildcards are supported. Setting empty topics list on one side of the link can be used to establish unidirectional links: the side with the empty topics won't receive remote messages, but it can forward relevant messages to its linked counterpart (according to the topics configured on that side of the link).",
   },
   routes: {
     zh: '路由',

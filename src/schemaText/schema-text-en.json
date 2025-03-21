@@ -13,7 +13,7 @@
       "label": "Cluster DNS"
     },
     "cluster_dns_name": {
-      "desc": "The domain name from which to discover peer EMQX nodes' IP addresses.\nApplicable when <code>cluster.discovery_strategy = dns</code>",
+      "desc": "The domain name from which to discover peer middleware nodes' IP addresses.\nApplicable when <code>cluster.discovery_strategy = dns</code>",
       "label": "Cluster Dns Name"
     },
     "rpc_keyfile": {
@@ -53,7 +53,7 @@
       "label": "Max Depth"
     },
     "desc_log": {
-      "desc": "EMQX logging supports multiple sinks for the log events.\nEach sink is represented by a _log handler_, which can be configured independently.",
+      "desc": "Middleware logging supports multiple sinks for the log events.\nEach sink is represented by a _log handler_, which can be configured independently.",
       "label": "Log"
     },
     "common_handler_flush_qlen": {
@@ -69,7 +69,7 @@
       "label": "K8s Namespace"
     },
     "node_name": {
-      "desc": "Unique name of the EMQX node. It must follow <code>%name%{'@'}FQDN</code> or\n<code>%name%{'@'}IPv4</code> format.",
+      "desc": "Unique name of the middleware node. It must follow <code>%name%{'@'}FQDN</code> or\n<code>%name%{'@'}IPv4</code> format.",
       "label": "Node Name"
     },
     "rpc_port_discovery": {
@@ -145,7 +145,7 @@
       "label": "Cluster Etcd"
     },
     "cluster_name": {
-      "desc": "Human-friendly name of the EMQX cluster.",
+      "desc": "Human-friendly name of the middleware cluster.",
       "label": "Cluster Name"
     },
     "log_rotation_enable": {
@@ -165,7 +165,7 @@
       "label": "Default Shard Transport"
     },
     "cluster_static_seeds": {
-      "desc": "List EMQX node names in the static cluster. See <code>node.name</code>.",
+      "desc": "List middleware node names in the static cluster. See <code>node.name</code>.",
       "label": "Cluster Static Seeds"
     },
     "log_overload_kill_qlen": {
@@ -189,7 +189,7 @@
       "label": "Timestamp Format"
     },
     "cluster_k8s_service_name": {
-      "desc": "EMQX broker service name.",
+      "desc": "Middleware broker service name.",
       "label": "K8s Service Name"
     },
     "common_handler_rotation_count": {
@@ -197,7 +197,7 @@
       "label": "Max Log Files Number"
     },
     "node_cookie": {
-      "desc": "Secret cookie is a random string that should be the same on all nodes in\nthe given EMQX cluster, but unique per EMQX cluster. It is used to prevent EMQX nodes that\nbelong to different clusters from accidentally connecting to each other.",
+      "desc": "Secret cookie is a random string that should be the same on all nodes in\nthe given middleware cluster, but unique per middleware cluster. It is used to prevent middleware nodes that\nbelong to different clusters from accidentally connecting to each other.",
       "label": "Node Cookie"
     },
     "db_role": {
@@ -209,11 +209,11 @@
       "label": "RPC TCP Server Port"
     },
     "desc_console_handler": {
-      "desc": "Log handler that prints log events to the EMQX console.",
+      "desc": "Log handler that prints log events to the middleware console.",
       "label": "Console Handler"
     },
     "node_applications": {
-      "desc": "List of Erlang applications that shall be rebooted when the EMQX broker joins the cluster.",
+      "desc": "List of Erlang applications that shall be rebooted when the middleware broker joins the cluster.",
       "label": "Application"
     },
     "log_burst_limit_max_count": {
@@ -225,7 +225,7 @@
       "label": "RPC TCP Client Num"
     },
     "cluster_k8s_address_type": {
-      "desc": "Address type used for connecting to the discovered nodes.\nSetting <code>cluster.k8s.address_type</code> to <code>ip</code> will\nmake EMQX to discover IP addresses of peer nodes from Kubernetes API.",
+      "desc": "Address type used for connecting to the discovered nodes.\nSetting <code>cluster.k8s.address_type</code> to <code>ip</code> will\nmake middleware to discover IP addresses of peer nodes from Kubernetes API.",
       "label": "K8s Address Type"
     },
     "rpc_socket_sndbuf": {
@@ -249,7 +249,7 @@
       "label": "Log File Name"
     },
     "node_dist_net_ticktime": {
-      "desc": "This is the approximate time an EMQX node may be unresponsive until it is considered down and thereby disconnected.",
+      "desc": "This is the approximate time an middleware node may be unresponsive until it is considered down and thereby disconnected.",
       "label": "Dist Net TickTime"
     },
     "desc_cluster_k8s": {
@@ -277,7 +277,7 @@
       "label": "Report Type"
     },
     "node_data_dir": {
-      "desc": "Path to the persistent data directory.<br/>\nPossible auto-created subdirectories are:<br/>\n- `mnesia/<node_name>`: EMQX's built-in database directory.<br/>\nFor example, `mnesia/emqx{'@'}127.0.0.1`.<br/>\nThere should be only one such subdirectory.<br/>\nMeaning, in case the node is to be renamed (to e.g. `emqx{'@'}10.0.1.1`),<br/>\nthe old dir should be deleted first.<br/>\n- `configs`: Generated configs at boot time, and cluster/local override configs.<br/>\n- `patches`: Hot-patch beam files are to be placed here.<br/>\n- `trace`: Trace log files.<br/>\n\n**NOTE**: One data dir cannot be shared by two or more EMQX nodes.",
+      "desc": "Path to the persistent data directory.<br/>\nPossible auto-created subdirectories are:<br/>\n- `mnesia/<node_name>`: middleware's built-in database directory.<br/>\nFor example, `mnesia/emqx{'@'}127.0.0.1`.<br/>\nThere should be only one such subdirectory.<br/>\nMeaning, in case the node is to be renamed (to e.g. `emqx{'@'}10.0.1.1`),<br/>\nthe old dir should be deleted first.<br/>\n- `configs`: Generated configs at boot time, and cluster/local override configs.<br/>\n- `patches`: Hot-patch beam files are to be placed here.<br/>\n- `trace`: Trace log files.<br/>\n\n**NOTE**: One data dir cannot be shared by two or more middleware nodes.",
       "label": "Node Data Dir"
     },
     "cluster_k8s_suffix": {
@@ -289,7 +289,7 @@
       "label": "RPC Module"
     },
     "cluster_etcd_prefix": {
-      "desc": "Key prefix used for EMQX service discovery.",
+      "desc": "Key prefix used for middleware service discovery.",
       "label": "Cluster Etcd Prefix"
     },
     "cluster_mcast_iface": {
@@ -325,7 +325,7 @@
       "label": "Log Overload Kill"
     },
     "authorization": {
-      "desc": "Authorization a.k.a. ACL.<br/>\nIn EMQX, MQTT client access control is extremely flexible.<br/>\nAn out-of-the-box set of authorization data sources are supported.\nFor example,<br/>\n'file' source is to support concise and yet generic ACL rules in a file;<br/>\n'built_in_database' source can be used to store per-client customizable rule sets,\nnatively in the EMQX node;<br/>\n'http' source to make EMQX call an external HTTP API to make the decision;<br/>\n'PostgreSQL' etc. to look up clients or rules from external databases",
+      "desc": "Authorization a.k.a. ACL.<br/>\nIn middleware, MQTT client access control is extremely flexible.<br/>\nAn out-of-the-box set of authorization data sources are supported.\nFor example,<br/>\n'file' source is to support concise and yet generic ACL rules in a file;<br/>\n'built_in_database' source can be used to store per-client customizable rule sets,\nnatively in the middleware node;<br/>\n'http' source to make middleware call an external HTTP API to make the decision;<br/>\n'PostgreSQL' etc. to look up clients or rules from external databases",
       "label": "Authorization"
     },
     "rpc_socket_keepalive_idle": {
@@ -409,7 +409,7 @@
       "label": "Log Level"
     },
     "desc_rpc": {
-      "desc": "EMQX uses a library called <code>gen_rpc</code> for inter-broker communication.<br/>\nMost of the time the default config should work,\nbut in case you need to do performance fine-tuning or experiment a bit,\nthis is where to look.",
+      "desc": "Middleware uses a library called <code>gen_rpc</code> for inter-broker communication.<br/>\nMost of the time the default config should work,\nbut in case you need to do performance fine-tuning or experiment a bit,\nthis is where to look.",
       "label": "RPC"
     },
     "rpc_ssl_server_port": {
@@ -417,7 +417,7 @@
       "label": "RPC SSL Server Port"
     },
     "desc_cluster": {
-      "desc": "EMQX nodes can form a cluster to scale up the total capacity.<br/>\n      Here holds the configs to instruct how individual nodes can discover each other.",
+      "desc": "Middleware nodes can form a cluster to scale up the total capacity.<br/>\n      Here holds the configs to instruct how individual nodes can discover each other.",
       "label": "Cluster"
     },
     "common_handler_sync_mode_qlen": {
@@ -636,7 +636,7 @@
       "label": "Enable flapping detection"
     },
     "sysmon_top_db_password": {
-      "desc": "EMQX user password in the PostgreSQL database",
+      "desc": "Middleware user password in the PostgreSQL database",
       "label": "DB Password"
     },
     "fields_ws_opts_check_origins": {
@@ -652,7 +652,7 @@
       "label": "Acceptors Num"
     },
     "fields_ws_opts_mqtt_path": {
-      "desc": "WebSocket's MQTT protocol path. So the address of EMQX Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
+      "desc": "WebSocket's MQTT protocol path. So the address of middleware Broker's WebSocket is:\n<code>ws://{'{'}ip{'}'}:{'{'}port{'}'}/mqtt</code>",
       "label": "WS MQTT Path"
     },
     "sysmon_os_procmem_high_watermark": {
@@ -859,7 +859,7 @@
       "label": "Enable/disable congestion alarm"
     },
     "fields_ws_opts_proxy_port_header": {
-      "desc": "HTTP header used to pass information about the client port. Relevant when the EMQX cluster is deployed behind a load-balancer.",
+      "desc": "HTTP header used to pass information about the client port. Relevant when the middleware cluster is deployed behind a load-balancer.",
       "label": "Proxy port header"
     },
     "overload_protection_enable": {
@@ -874,7 +874,7 @@
       "desc": "Time interval of publishing `$SYS` messages."
     },
     "mqtt_await_rel_timeout": {
-      "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
+      "desc": "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, middleware will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
       "label": "Max Awaiting PUBREL Timeout"
     },
     "fields_listeners_ssl": {
@@ -914,7 +914,7 @@
       "label": "Server resumption level"
     },
     "fields_ws_opts_proxy_address_header": {
-      "desc": "HTTP header used to pass information about the client IP address.\nRelevant when the EMQX cluster is deployed behind a load-balancer.",
+      "desc": "HTTP header used to pass information about the client IP address.\nRelevant when the middleware cluster is deployed behind a load-balancer.",
       "label": "Proxy address header"
     },
     "sysmon_os_sysmem_high_watermark": {
@@ -1187,7 +1187,7 @@
       "label": "Allow origin absence"
     },
     "mqtt_listener_proxy_protocol_timeout": {
-      "desc": "Timeout for proxy protocol. EMQX will close the TCP connection if proxy protocol packet is not received within the timeout.",
+      "desc": "Timeout for proxy protocol. middleware will close the TCP connection if proxy protocol packet is not received within the timeout.",
       "label": "Proxy protocol timeout"
     },
     "fields_mqtt_quic_listener_idle_timeout": {
@@ -1206,7 +1206,7 @@
       "label": "Process low watermark"
     },
     "mqtt_max_packet_size": {
-      "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
+      "desc": "If the size is out of the preset value, middleware will disconnect the current connection",
       "label": "Max Packet Size"
     },
     "sysmon_vm_long_gc": {
@@ -1251,7 +1251,7 @@
       "label": "CRL Cache Refresh Interval"
     },
     "mqtt_listener_proxy_protocol": {
-      "desc": "Enable the Proxy Protocol V1/2 if the EMQX cluster is deployed behind HAProxy or Nginx.<br/>\nSee: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
+      "desc": "Enable the Proxy Protocol V1/2 if the middleware cluster is deployed behind HAProxy or Nginx.<br/>\nSee: https://www.haproxy.com/blog/haproxy/proxy-protocol/",
       "label": "Proxy protocol"
     },
     "mqtt_listener_access_rules": {
@@ -1320,7 +1320,7 @@
     },
     "client_attrs_init_expression": {
       "label": "Attribute Expression",
-      "desc": "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(clientid, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `user_property.{'{'}NAME{'}'}`: User properties in the CONNECT packet.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs."
+      "desc": "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(clientid, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `user_property.{'{'}NAME{'}'}`: User properties in the CONNECT packet.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in middleware docs."
     },
     "mqtt_keepalive_check_interval": {
       "label": "Keep Alive Check Interval",
@@ -1332,16 +1332,16 @@
     },
     "mqtt_clientid_override": {
       "label": "Client ID Override Expression",
-      "desc": "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs."
+      "desc": "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in middleware docs."
     }
   },
   "ssl_opts": {
     "user_lookup_fun": {
-      "desc": "EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.",
+      "desc": "Middleware-internal callback that is used to lookup pre-shared key (PSK) identity.",
       "label": "SSL PSK user lookup fun"
     },
     "cacertfile": {
-      "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
+      "desc": "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart middleware to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
       "label": "CACertfile"
     },
     "verify": {
@@ -1395,7 +1395,7 @@
       "label": "SSL log level"
     },
     "ciphers": {
-      "desc": "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
+      "desc": "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by middleware config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
       "label": "Cipher Suites"
     },
     "partial_chain": {
