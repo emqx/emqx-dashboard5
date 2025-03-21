@@ -57,9 +57,7 @@
                 </div>
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
-                  <span class="node-item-content">
-                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
-                  </span>
+                  <span class="node-item-content"> v1.0.0 </span>
                 </div>
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('maxFds') }}: </label>

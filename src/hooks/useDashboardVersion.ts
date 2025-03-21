@@ -13,7 +13,7 @@ export default (): {
       })
       const version = versionContent.match(versionReg)?.[1]
       if (version) {
-        console.log('🔎 Dashboard Version:', version)
+        // console.log('🔎 Dashboard Version:', version)
       }
     } catch (error) {
       //

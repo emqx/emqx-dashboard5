@@ -26,7 +26,11 @@
           {{ transMsNumToSimpleStr(row.uptime) }}
         </template>
       </el-table-column>
-      <el-table-column prop="version" :label="tl('version')" width="90"> </el-table-column>
+      <el-table-column :label="tl('version')" width="90">
+        <template #default>
+          <span> v1.0.0 </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="connections" :label="t('Clients.connect')" min-width="120" />
       <el-table-column :label="`Erlang ${tl('process')}`" min-width="160">
         <template #default="{ row }">

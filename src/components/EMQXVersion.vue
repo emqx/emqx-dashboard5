@@ -1,6 +1,6 @@
 <template>
   <span class="emqx-version">
-    <el-tooltip :disabled="!versionInfo.isMutiVersion" placement="top">
+    <!-- <el-tooltip :disabled="!versionInfo.isMutiVersion" placement="top">
       <template #content>
         <span>{{ $t('Dashboard.multiVersionWarning') }}</span>
         <router-link to="/dashboard/nodes">{{ $t('Dashboard.nodeList') }}</router-link>
@@ -9,7 +9,8 @@
       <span :class="{ dot: versionInfo.isMutiVersion }">
         {{ versionInfo.latestVersion }}
       </span>
-    </el-tooltip>
+    </el-tooltip> -->
+    <span> v1.0.0 </span>
   </span>
 </template>
 

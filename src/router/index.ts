@@ -348,21 +348,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // License
-  {
-    path: '/license',
-    component: Layout,
-    meta: {
-      hideKey: 'license',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'license',
-        component: () => import('@/views/General/License.vue'),
-      },
-    ],
-  },
+  // {
+  //   path: '/license',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'license',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'license',
+  //       component: () => import('@/views/General/License.vue'),
+  //     },
+  //   ],
+  // },
   // SSO
   {
     path: '/sso',

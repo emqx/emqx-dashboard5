@@ -48,7 +48,9 @@ const router = useRouter()
 const createdSSOList: Ref<Array<DashboardSsoBackendStatus>> = ref([])
 const isLoading = ref(false)
 
-const SSOBackendList = Object.entries(DashboardSsoBackendStatusBackend).map(([, value]) => value)
+const SSOBackendList = Object.entries(DashboardSsoBackendStatusBackend)
+  .map(([, value]) => value)
+  .filter((backend) => /tong/i.test(backend))
 const SSOList: ComputedRef<Array<SSOItem>> = computed(() => {
   return SSOBackendList.map((backend) => {
     const createdItem = createdSSOList.value.find((item) => item.backend === backend)
