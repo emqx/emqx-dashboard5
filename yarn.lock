@@ -1204,9 +1204,9 @@
   uid ""
 
 "@emqx/shared-ui-i18n@~0.0.36":
-  version "0.0.40"
-  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.40.tgz#153c383f9ca05ea4f4fbeb523bbc1c752fd72572"
-  integrity sha512-KBQ26unVHP6YzaLG940DBZ+lpGOat8C55HgbkkmKnMYxrDbkC/98Jn5Gh1+PHc6c+dbJjBhDwAo/Emtw5Fsifw==
+  version "0.0.41"
+  resolved "https://registry.yarnpkg.com/@emqx/shared-ui-i18n/-/shared-ui-i18n-0.0.41.tgz#809b1fae7a9a206cbbda8d1d00587793c20e4b2d"
+  integrity sha512-fGI3GK/dWtVJLEhZr8/ApjIL8DxvzcUpPLnJDepoqujMQD0/TWwbCIkJmCPGbG7czM0pl3sy7qChxilz6BoEmA==
 
 "@emqx/shared-ui-utils@^0.0.16":
   version "0.0.16"
