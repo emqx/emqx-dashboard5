@@ -219,7 +219,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$header-heigh: 52px;
+$header-heigh: 54px;
 
 .nav-header {
   display: flex;
@@ -272,10 +272,10 @@ $header-heigh: 52px;
 .header-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: 22px;
   letter-spacing: 0.5px;
-  font-weight: normal;
-  color: #d3d5d8;
+  font-weight: 600;
+  color: #fff;
 }
 
 .pull-right {
