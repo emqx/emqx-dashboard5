@@ -57,6 +57,7 @@ import type {
   ClusterLink,
   ClusterLinkLinkConfigResponse,
   ClusterLinkLinkMetricsResponse,
+  GetCluster200,
   PutClusterLinksLinkNameBody,
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
@@ -153,3 +154,6 @@ export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
 /* DASHBOARD */
 export type User = DashboardUser
 export const UserMFA = DashboardUserMfa
+
+/*  CLUSTER */
+export type ClusterInfo = GetCluster200

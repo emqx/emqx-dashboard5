@@ -14,6 +14,7 @@ import {
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
+import { ClusterInfo } from '@/types/typeAlias'
 
 //account
 export function login(user: {
@@ -133,12 +134,12 @@ export async function clearHistoryAlarm() {
 }
 
 // invite node
-export const getClusterNodes = () => {
+export const getClusterNodes = (): Promise<ClusterInfo> => {
   return http.get('/cluster')
 }
 
 export const inviteNode = (nodeName: string) => {
-  return http.put(`/cluster/${encodeURIComponent(nodeName)}/invite`).catch()
+  return http.put(`/cluster/${encodeURIComponent(nodeName)}/invite`, { timeout: 60000 })
 }
 
 // remove cluster node

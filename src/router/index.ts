@@ -1,7 +1,6 @@
 import store from '@/store'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
-// const Cluster =()=> import('@/views/Config/BasicConfig/Cluster.vue')
 // const Dashboard =()=> import('@/views/Config/BasicConfig/Dashboard.vue')
 // const Limiter =()=> import('@/views/Config/BasicConfig/Limiter.vue')
 
@@ -604,21 +603,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   // configs
-  // {
-  //   path: '/cluster',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'cluster',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'cluster',
-  //       component: Cluster,
-  //     },
-  //   ],
-  // },
+  {
+    path: '/cluster',
+    component: Layout,
+    meta: {
+      hideKey: 'cluster',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'cluster',
+        component: () => import('@/views/Config/BasicConfig/Cluster.vue'),
+      },
+    ],
+  },
   {
     path: '/listener',
     component: Layout,
