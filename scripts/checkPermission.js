@@ -38,7 +38,6 @@ const fileExclude = [
   'FromSelectList.vue',
   'HelpDrawer.vue',
   'Cluster.vue',
-  'InviteNode.vue',
   'Login.vue',
   'FlowList.vue',
   'ObjectArrayEditor.vue',

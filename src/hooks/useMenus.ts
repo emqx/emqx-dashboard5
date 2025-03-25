@@ -29,6 +29,7 @@ export default (): {
       title: 'clusterSettings',
       children: [
         { title: 'mqtt', path: '/mqtt' },
+        { title: 'cluster', path: '/cluster' },
         { title: 'listener', path: '/listener' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
