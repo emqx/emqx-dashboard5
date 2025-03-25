@@ -1,7 +1,7 @@
 export default {
   tongTitle: {
-    zh: '消息协同服务标准中间件',
-    en: 'Message Collaboration Service Standard Middleware',
+    zh: 'TongIIoT-MQ 管理控制台',
+    en: 'TongIIoT-MQ Management Console',
   },
   forgetPassword: {
     zh: '忘记密码？',
@@ -708,16 +708,16 @@ export default {
     en: ' ',
   },
   tongTechAuthGuidance: {
-    zh: '请在{configFile}中，{add}或启用东方通单点登录，并重启服务',
-    en: 'Please {add} or enable TongTech Auth in the {configFile} and restart the service',
+    zh: '请在{configFile}中，{add}或启用统一认证，并重启服务',
+    en: 'Please {add} or enable unified authentication in the {configFile} and restart the service',
   },
   configFile: {
     zh: '配置文件',
     en: 'configuration file',
   },
   tongTechAuthConfigComment: {
-    zh: '东方通单点登录配置参数，请确保参数在 dashboard > sso 层级下',
-    en: 'TongTech SSO configuration parameters, please ensure the parameters are under the dashboard > sso hierarchy',
+    zh: '统一认证配置参数，请确保参数在 dashboard > sso 层级下',
+    en: 'Unified authentication configuration parameters, please ensure the parameters are under the dashboard > sso hierarchy',
   },
   jumping: {
     zh: '跳转中...',

@@ -264,8 +264,8 @@ export default {
     en: 'Enable {backend} SSO',
   },
   tongtech: {
-    zh: '东方通',
-    en: 'TongTech',
+    zh: '统一认证',
+    en: 'Unified Authentication',
   },
   baseDN: {
     zh: '基本 DN',
@@ -364,8 +364,8 @@ export default {
     en: 'Auth Server Address',
   },
   authServerAddrDesc: {
-    zh: '东方通认证服务器的基本 URL。示例：http://168.1.15.162:9000',
-    en: 'The Base URL of the TongAuth Server. Example: http://168.1.15.162:9000',
+    zh: '统一认证服务器的基本 URL。示例：http://168.1.15.162:9000',
+    en: 'The Base URL of the unified authentication server. Example: http://168.1.15.162:9000',
   },
   JWK: {
     zh: 'JSON Web 密钥',
