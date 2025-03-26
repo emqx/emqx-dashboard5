@@ -245,12 +245,20 @@ export const getKeyPartsFromSQL = (sqlStr: string) => {
   let whereStr = undefined
   let matchResult = null
 
+  const notInQuoteReg = /(?:[^"']|"[^"]*"|'[^']*')/
+  const normalSQLReg = new RegExp(
+    `^SELECT(?<select>${notInQuoteReg.source}+?)[\\s\\n]FROM(?<from>${notInQuoteReg.source}+)`,
+    'i',
+  )
+  const withConditionSQLReg = new RegExp(
+    `${normalSQLReg.source}([\\s\\n]WHERE(?<where>${notInQuoteReg.source}+))`,
+    'i',
+  )
+
   if (isForeachReg.test(sql)) {
     matchResult = sql.match(/(?<foreach>(.|\n)+)FROM(?<from>(.|\n)+)/)
   } else {
-    matchResult =
-      sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)(WHERE(?<where>(.|\n)+))/i) ||
-      sql.match(/^SELECT(?<select>(.|\n)+)FROM(?<from>(.|\n)+)/i)
+    matchResult = sql.match(withConditionSQLReg) || sql.match(normalSQLReg)
   }
   if (matchResult) {
     const { groups } = matchResult
