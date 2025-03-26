@@ -176,7 +176,6 @@ export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -197,7 +196,6 @@ export type PostGatewaysNameListenersIdAuthenticationBody =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -272,7 +270,6 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -293,7 +290,6 @@ export type PutGatewaysNameListenersIdAuthenticationBody =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -341,7 +337,6 @@ export type GetGatewaysNameListenersIdAuthentication200 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -482,6 +477,22 @@ export type PostGatewaysNameListeners400 = {
   code?: PostGatewaysNameListeners400Code
   message?: string
 }
+
+export type PostGatewaysNameListeners201 =
+  | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
+
+export type PostGatewaysNameListenersBody =
+  | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type GetGatewaysNameListeners404Code =
   (typeof GetGatewaysNameListeners404Code)[keyof typeof GetGatewaysNameListeners404Code]
@@ -1153,22 +1164,6 @@ export interface EmqxGatewayApiDtlsListener {
   udp_options?: GatewayUdpOpts
 }
 
-export type PostGatewaysNameListeners201 =
-  | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiSslListener
-  | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
-
-export type PostGatewaysNameListenersBody =
-  | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiSslListener
-  | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
-
 export type EmqxGatewayApiListenersUdpListenerType =
   (typeof EmqxGatewayApiListenersUdpListenerType)[keyof typeof EmqxGatewayApiListenersUdpListenerType]
 
@@ -1760,40 +1755,6 @@ export interface AuthnMongoRs {
   use_legacy_protocol?: AuthnMongoRsUseLegacyProtocol
   username?: string
   w_mode?: AuthnMongoRsWMode
-}
-
-export type AuthnLdapDeprecatedMechanism =
-  (typeof AuthnLdapDeprecatedMechanism)[keyof typeof AuthnLdapDeprecatedMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedMechanism = {
-  password_based: 'password_based',
-} as const
-
-export type AuthnLdapDeprecatedBackend =
-  (typeof AuthnLdapDeprecatedBackend)[keyof typeof AuthnLdapDeprecatedBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface AuthnLdapDeprecated {
-  backend: AuthnLdapDeprecatedBackend
-  base_dn: string
-  enable?: boolean
-  filter?: string
-  is_superuser_attribute?: string
-  mechanism: AuthnLdapDeprecatedMechanism
-  password?: string
-  password_attribute?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
 }
 
 export type AuthnLdapMethod = AuthnBindMethod | AuthnHashMethod

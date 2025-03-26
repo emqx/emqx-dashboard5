@@ -175,6 +175,7 @@ export type PostTraceBody = {
   ip_address?: string
   name: string
   payload_encode?: PostTraceBodyPayloadEncode
+  payload_limit?: number
   ruleid?: string
   start_at?: PostTraceBodyStartAt
   topic?: string
@@ -233,6 +234,7 @@ export interface TraceTrace {
   log_size?: TraceTraceLogSizeItem[]
   name: string
   payload_encode?: TraceTracePayloadEncode
+  payload_limit?: number
   ruleid?: string
   start_at?: TraceTraceStartAt
   status?: TraceTraceStatus

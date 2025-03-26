@@ -303,7 +303,6 @@ export type PutAuthenticationIdBody =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -340,7 +339,6 @@ export type GetAuthenticationId200 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -378,78 +376,6 @@ export type PostAuthentication400 = {
   code?: PostAuthentication400Code
   message?: string
 }
-
-export type PostAuthentication200 =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnLdapDeprecated
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScram
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-
-export type PostAuthenticationBody =
-  | AuthnBuiltinDbApi
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnLdapDeprecated
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScram
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-
-export type GetAuthentication200Item =
-  | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
-  | AuthnGcpDevice
-  | AuthnLdapDeprecated
-  | AuthnLdap
-  | AuthnScram
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
 
 export type PublicPageParameter = number
 
@@ -711,6 +637,29 @@ export interface AuthnScramRestapiPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type GetAuthentication200Item =
+  | AuthnCinfo
+  | AuthnKerberos
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
+  | AuthnGcpDevice
+  | AuthnLdap
+  | AuthnScram
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type AuthnScramRestapiGetMethod =
   (typeof AuthnScramRestapiGetMethod)[keyof typeof AuthnScramRestapiGetMethod]
@@ -1064,6 +1013,52 @@ export interface AuthnMysql {
   username?: string
 }
 
+export type PostAuthentication200 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+
+export type PostAuthenticationBody =
+  | AuthnBuiltinDbApi
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+
 export type AuthnMongoSingleWMode =
   (typeof AuthnMongoSingleWMode)[keyof typeof AuthnMongoSingleWMode]
 
@@ -1323,40 +1318,6 @@ export interface AuthnMetricsStatusFields {
   node_status?: AuthnNodeStatus
   resource_metrics?: AuthnResourceMetrics
   status?: AuthnMetricsStatusFieldsStatus
-}
-
-export type AuthnLdapDeprecatedMechanism =
-  (typeof AuthnLdapDeprecatedMechanism)[keyof typeof AuthnLdapDeprecatedMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedMechanism = {
-  password_based: 'password_based',
-} as const
-
-export type AuthnLdapDeprecatedBackend =
-  (typeof AuthnLdapDeprecatedBackend)[keyof typeof AuthnLdapDeprecatedBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface AuthnLdapDeprecated {
-  backend: AuthnLdapDeprecatedBackend
-  base_dn: string
-  enable?: boolean
-  filter?: string
-  is_superuser_attribute?: string
-  mechanism: AuthnLdapDeprecatedMechanism
-  password?: string
-  password_attribute?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
 }
 
 export type AuthnLdapMethod = AuthnBindMethod | AuthnHashMethod

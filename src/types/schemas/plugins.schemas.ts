@@ -6,6 +6,7 @@ export const PostPluginsInstall400Code = {
   UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
   ALREADY_INSTALLED: 'ALREADY_INSTALLED',
   BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+  FORBIDDEN: 'FORBIDDEN',
 } as const
 
 export type PostPluginsInstall400 = {

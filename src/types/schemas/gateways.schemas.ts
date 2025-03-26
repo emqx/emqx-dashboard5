@@ -247,6 +247,7 @@ export type GatewayJt808ProtoAuth = GatewayAnonymousFalse | GatewayAnonymousTrue
 export interface GatewayJt808Proto {
   auth?: GatewayJt808ProtoAuth
   dn_topic: string
+  ignore_unsupported_frames?: boolean
   up_topic: string
 }
 
