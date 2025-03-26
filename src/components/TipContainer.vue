@@ -2,7 +2,8 @@
   <div class="tip-container">
     <p class="result-tip">
       <el-icon class="icon-tip"><WarningFilled /></el-icon>
-      <span>{{ content }}</span>
+      <span v-if="!$slots.default">{{ content }}</span>
+      <slot v-else />
     </p>
   </div>
 </template>

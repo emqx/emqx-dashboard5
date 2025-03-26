@@ -13,7 +13,7 @@ export const queryPluginDetail = (nameWithVersion: string): Promise<PluginDetail
 export const installPlugin = (file: File): Promise<void> => {
   const form = new FormData()
   form.append('plugin', file)
-  return http.post(`/plugins/install`, form)
+  return http.post(`/plugins/install`, form, { errorsHandleCustom: [403] })
 }
 
 export const uninstallPlugin = (nameWithVersion: string): Promise<void> => {

@@ -1,6 +1,9 @@
 <template>
   <div class="plugin-install app-wrapper">
     <detail-header :item="{ name: t('components.plugin-install'), path: '/plugins' }" />
+    <TipContainer>
+      <MarkdownContent :content="tl('pluginInstallGuidance')" />
+    </TipContainer>
     <el-card class="app-card plugin-install-card">
       <el-upload
         class="plugin-uploader"
@@ -20,7 +23,14 @@
         </div>
         <p class="file-name" v-else>{{ file.name }}</p>
       </el-upload>
-      <p class="upload-tip">{{ tl('uploadTip') }}</p>
+      <div class="upload-tip">
+        <p>{{ tl('pluginInstallCommand') }}</p>
+        <CodeView
+          :class="{ empty: !file }"
+          :code="!file ? tl('pleaseUploadPluginFirst') : `emqx ctl plugins allow ${fileName}`"
+          :show-copy-btn="!!file"
+        />
+      </div>
       <div class="btns">
         <el-button @click="cancel">
           {{ tl('cancel', 'Base') }}
@@ -36,6 +46,9 @@
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
+import CustomMessage from '@/common/CustomMessage'
+import { getErrorMessage } from '@/common/http'
+import xss from 'xss'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -46,6 +59,8 @@ const cancel = () => router.push({ name: 'plugins' })
 
 const file: Ref<undefined | File> = ref(undefined)
 const fileList = computed(() => (file.value && file.value.name ? [file] : []))
+
+const fileName = computed(() => file.value?.name?.replace(/\.tar\.gz$/, ''))
 
 const setFile = (selectedFile: File) => {
   file.value = selectedFile
@@ -62,8 +77,21 @@ const submit = async () => {
     await installPlugin(file.value as File)
     ElMessage.success(tl('successfulInstallation'))
     router.push({ name: 'plugins' })
-  } catch (error) {
-    console.error(error)
+  } catch (error: any) {
+    const { data, status } = error?.response ?? {}
+    if (status === 403) {
+      if (data?.code === 'FORBIDDEN') {
+        const cmd = data.message.match(/`(.*?)`/)?.[1]
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: xss(t('Plugins.pluginInstallForbidden', { code: cmd })),
+          customClass: 'markdown-body',
+          type: 'error',
+        })
+      } else {
+        CustomMessage.error(getErrorMessage(data, status))
+      }
+    }
   } finally {
     isUploading.value = false
   }
@@ -77,20 +105,41 @@ const submit = async () => {
   text-align: center;
 }
 :deep(.el-card__body) {
-  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 48px;
   padding-bottom: 64px;
 }
+.tip-container {
+  margin-bottom: 24px;
+  :deep(.result-tip) {
+    align-items: flex-start;
+  }
+  :deep(.icon-tip) {
+    margin-right: 8px;
+    margin-top: 3px;
+  }
+  :deep(.markdown-body) {
+    font-size: 14px;
+    background-color: transparent;
+  }
+}
+
 .plugin-uploader {
   margin-bottom: 24px;
 }
 .upload-tip {
-  width: 540px;
+  width: 500px;
   margin-bottom: 24px;
   font-size: 14px;
   line-height: 20px;
 }
+.code-view.empty {
+  opacity: 0.78;
+}
 .plugin-uploader {
-  width: 400px;
+  width: 440px;
   margin-left: auto;
   margin-right: auto;
   .icon-plus {
@@ -126,5 +175,11 @@ const submit = async () => {
   & > :not(:last-child) {
     margin-right: 16px;
   }
+}
+</style>
+
+<style lang="scss">
+.el-message.markdown-body {
+  background: #ffe9e7;
 }
 </style>
