@@ -2626,5 +2626,65 @@
       "en": "Enable or disable telemetry",
       "zh": "启用或禁用遥测"
     }
+  },
+  {
+    "method": "post",
+    "path": "/mt/bulk_import_configs",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Upsert namespace configurations in bulk",
+      "zh": "批量更新命名空间配置"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/mt/ns/:ns/config",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Update managed namespace configuration",
+      "zh": "更新命名空间配置"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/mt/ns/:ns/kick_all_clients",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Kick all clients in namespace (async)",
+      "zh": "踢除命名空间中的所有客户端（异步）"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/mt/ns/:ns",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Delete managed namespace",
+      "zh": "删除命名空间"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/mt/ns/:ns",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Create managed namespace",
+      "zh": "创建命名空间"
+    }
   }
 ]
