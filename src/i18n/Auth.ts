@@ -99,21 +99,57 @@ export default {
     zh: '下移',
     en: 'Move down',
   },
+  nodeCacheSettings: {
+    zh: '外部资源缓存设置',
+    en: 'External Resource Cache Settings',
+  },
+  enableNodeCache: {
+    zh: '启用外部资源缓存',
+    en: 'Enable External Resource Cache',
+  },
+  enableNodeCacheDesc: {
+    zh: '启用外部资源缓存后，EMQX 将缓存外部资源（如 MySQL、MongoDB 等）的查询结果，以提高效率；对于本地数据源，如内置数据库或文件等不进行缓存。',
+    en: 'After enabling external resource cache, EMQX will cache the query results of external resources (such as MySQL, MongoDB, etc.), to improve efficiency; for local data sources, such as built-in databases or file, are not cached.',
+  },
+  nodeCacheMaxCount: {
+    zh: '缓存最大数量',
+    en: 'Maximum Number of Cached Items',
+  },
+  cleanupInterval: {
+    zh: '清理间隔',
+    en: 'Cleanup Interval',
+  },
+  maxMemory: {
+    zh: '最大内存',
+    en: 'Maximum Memory',
+  },
+  statUpdateInterval: {
+    zh: '统计更新间隔',
+    en: 'Statistics Update Interval',
+  },
+  cacheTTL: {
+    zh: '缓存过期时间',
+    en: 'Cache TTL',
+  },
+  nodeCacheStatus: {
+    zh: '外部资源缓存状态',
+    en: 'External Resource Cache Status',
+  },
   authzSetting: {
     zh: '授权设置',
     en: 'Authorization Settings',
   },
   enableCache: {
-    zh: '启用缓存',
-    en: 'Enable Cache',
+    zh: '启用客户端缓存',
+    en: 'Enable Client Cache',
   },
   clearCache: {
-    zh: '清除缓存',
-    en: 'Clear cache',
+    zh: '清除客户端缓存',
+    en: 'Clear Client Cache',
   },
   clearCacheDesc: {
-    zh: '清除当前所有授权结果缓存。',
-    en: 'Clears all current authorization result caches.',
+    zh: '清除当前所有客户端缓存。',
+    en: 'Clears all current client caches.',
   },
   clearCacheConfirm: {
     zh: '是否确认清除缓存',
@@ -512,8 +548,8 @@ export default {
     en: 'Number of times client authorization data is not found. If the authorizer execution fails, the count will also increase',
   },
   rateUnit: {
-    zh: '次/秒 | 次/秒',
-    en: 'time/sec | times/sec',
+    zh: '次/秒',
+    en: 'times/sec | time/sec | times/sec',
   },
   authnRateBarDesc: {
     zh: '近一分钟内认证次数趋势',
@@ -610,6 +646,56 @@ export default {
   allImportSuc: {
     zh: '成功导入 {total} 条数据',
     en: 'Successfully imported {total} records',
+  },
+
+  // Node Cache Metrics
+  cacheCount: {
+    zh: '缓存条目数',
+    en: 'Cache Entries',
+  },
+  cacheMemory: {
+    zh: '内存占用',
+    en: 'Memory Usage',
+  },
+  cacheHits: {
+    zh: '缓存命中',
+    en: 'Cache Hits',
+  },
+  cacheInserts: {
+    zh: '缓存插入',
+    en: 'Cache Inserts',
+  },
+  cacheMisses: {
+    zh: '缓存未命中',
+    en: 'Cache Misses',
+  },
+  currentRate: {
+    zh: '当前',
+    en: 'current',
+  },
+  last5mRate: {
+    zh: '5 分钟',
+    en: '5 mins',
+  },
+  insertUnit: {
+    zh: '条/秒',
+    en: 'entries/sec | entry/sec | entries/sec',
+  },
+  bytes: {
+    zh: '字节',
+    en: 'bytes',
+  },
+  refresh: {
+    zh: '刷新',
+    en: 'Refresh',
+  },
+  resetNodeCacheStatus: {
+    zh: '重置节点缓存状态',
+    en: 'Reset Node Cache Status',
+  },
+  resetNodeCacheStatusConfirm: {
+    zh: '确定要重置节点缓存状态吗？',
+    en: 'Are you sure you want to reset the node cache status?',
   },
   principal: {
     zh: '主体',

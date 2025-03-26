@@ -671,12 +671,12 @@ export default {
     en: 'The number of messages that were dropped because the length exceeded the limit when sending',
   },
   delivery_dropped_queue_full: {
-    zh: '发送时由于消息队列满而被丢弃的 QoS 不为 0 的消息数量',
-    en: 'Number of messages with a non-zero QoS that were dropped because the message queue was full when sending',
+    zh: '发送时由于消息队列满而被丢弃的消息数量',
+    en: 'Number of messages that were dropped because the message queue was full when sending',
   },
   delivery_dropped_qos_0_msg: {
-    zh: '发送时由于消息队列满而被丢弃的 QoS 为 0 的消息数量',
-    en: 'Number of messages with QoS of 0 that were dropped because the message queue was full when sending',
+    zh: '发送时由于mqtt.mqueue_store_qos0设置为 false 而被丢弃的 QoS 为 0 的消息数量',
+    en: 'Number of messages with QoS of 0 that were dropped because mqtt.mqueue_store_qos0=false when sending',
   },
   delivery_dropped_expired: {
     zh: '发送时由于消息过期而被丢弃的消息数量',

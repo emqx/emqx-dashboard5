@@ -105,7 +105,7 @@ export default defineComponent({
                 data.rules[item.path].push({
                   validator(rules: any, value: any, cb: (errors?: Error) => void) {
                     // just validate the set_as_attr..
-                    SchemaFormCom.value?.validateField?.s([client_attrs_init.path])
+                    SchemaFormCom.value?.validateField?.([client_attrs_init.path])
                     cb()
                   },
                 })

@@ -53,7 +53,7 @@
         <el-form-item v-if="isEdit" :prop="`rules.${$index}.topic`" :rules="topicRules">
           <el-input v-model="row.topic" />
         </el-form-item>
-        <template v-else>{{ row.topic }}</template>
+        <template v-else>{{ replaceSpaceForHTML(row.topic) }}</template>
       </template>
     </el-table-column>
     <el-table-column prop="qos" label="QoS" :min-width="isEdit ? 210 : 70">
