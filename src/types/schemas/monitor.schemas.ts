@@ -291,6 +291,7 @@ export interface OpentelemetryE2eTracingOptions {
   sample_ratio?: string
   /** @minimum 1 */
   topic_match_rules_max?: number
+  trace_rule_engine?: boolean
 }
 
 export type EmqxSslClientOptsVerify =

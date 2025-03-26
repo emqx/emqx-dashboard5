@@ -256,7 +256,6 @@ export type PostGatewaysNameAuthentication201 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -277,7 +276,6 @@ export type PostGatewaysNameAuthenticationBody =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -352,7 +350,6 @@ export type PutGatewaysNameAuthentication200 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -373,7 +370,6 @@ export type PutGatewaysNameAuthenticationBody =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -421,7 +417,6 @@ export type GetGatewaysNameAuthentication200 =
   | AuthnJwtPublicKey
   | AuthnKerberos
   | AuthnLdap
-  | AuthnLdapDeprecated
   | AuthnMongoRs
   | AuthnMongoSharded
   | AuthnMongoSingle
@@ -1054,40 +1049,6 @@ export interface AuthnMongoRs {
   use_legacy_protocol?: AuthnMongoRsUseLegacyProtocol
   username?: string
   w_mode?: AuthnMongoRsWMode
-}
-
-export type AuthnLdapDeprecatedMechanism =
-  (typeof AuthnLdapDeprecatedMechanism)[keyof typeof AuthnLdapDeprecatedMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedMechanism = {
-  password_based: 'password_based',
-} as const
-
-export type AuthnLdapDeprecatedBackend =
-  (typeof AuthnLdapDeprecatedBackend)[keyof typeof AuthnLdapDeprecatedBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnLdapDeprecatedBackend = {
-  ldap: 'ldap',
-} as const
-
-export interface AuthnLdapDeprecated {
-  backend: AuthnLdapDeprecatedBackend
-  base_dn: string
-  enable?: boolean
-  filter?: string
-  is_superuser_attribute?: string
-  mechanism: AuthnLdapDeprecatedMechanism
-  password?: string
-  password_attribute?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
 }
 
 export type AuthnLdapMethod = AuthnBindMethod | AuthnHashMethod

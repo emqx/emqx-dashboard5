@@ -922,7 +922,7 @@ export interface BridgeTdenginePut {
   database: string
   enable?: boolean
   local_topic?: string
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: ResourceSchemaCreationOpts
@@ -947,7 +947,7 @@ export interface BridgeTdenginePost {
   enable?: boolean
   local_topic?: string
   name: string
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: ResourceSchemaCreationOpts
@@ -985,7 +985,7 @@ export interface BridgeTdengineGet {
   local_topic?: string
   name: string
   node_status?: BridgeNodeStatus[]
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: ResourceSchemaCreationOpts

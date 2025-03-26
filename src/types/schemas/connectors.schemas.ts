@@ -530,12 +530,13 @@ export interface TdengineConnectorPut {
   auto_reconnect?: boolean
   description?: string
   enable?: boolean
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: TdengineConnectorConnectorResourceOpts
   server: string
   tags?: string[]
+  token?: string
   username?: string
 }
 
@@ -545,12 +546,13 @@ export interface TdengineConnectorPost {
   description?: string
   enable?: boolean
   name: string
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: TdengineConnectorConnectorResourceOpts
   server: string
   tags?: string[]
+  token?: string
   type: TdengineConnectorPostType
   username?: string
 }
@@ -562,7 +564,7 @@ export interface TdengineConnectorGet {
   enable?: boolean
   name: string
   node_status?: BridgeNodeStatus[]
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: TdengineConnectorConnectorResourceOpts
@@ -570,6 +572,7 @@ export interface TdengineConnectorGet {
   status?: TdengineConnectorGetStatus
   status_reason?: string
   tags?: string[]
+  token?: string
   type: TdengineConnectorGetType
   username?: string
 }

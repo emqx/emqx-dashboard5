@@ -24,16 +24,6 @@ export type PutSchemaRegistryName404 = {
   message?: string
 }
 
-export type PutSchemaRegistryName200 =
-  | SchemaRegistryAvro
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-
-export type PutSchemaRegistryNameBody =
-  | SchemaRegistryAvro
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-
 export type GetSchemaRegistryName404Code =
   (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
 
@@ -46,11 +36,6 @@ export type GetSchemaRegistryName404 = {
   code?: GetSchemaRegistryName404Code
   message?: string
 }
-
-export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetAvro
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
 
 export type PutSchemaRegistryExternalRegistryName404Code =
   (typeof PutSchemaRegistryExternalRegistryName404Code)[keyof typeof PutSchemaRegistryExternalRegistryName404Code]
@@ -112,6 +97,12 @@ export type PostSchemaRegistry400 = {
   message?: string
 }
 
+export type GetSchemaRegistry200Item =
+  | SchemaRegistryGetExternalHttp
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
+
 export type SchemaRegistryProtobufType =
   (typeof SchemaRegistryProtobufType)[keyof typeof SchemaRegistryProtobufType]
 
@@ -125,6 +116,90 @@ export interface SchemaRegistryProtobuf {
   source: string
   type: SchemaRegistryProtobufType
 }
+
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
+export type SchemaRegistryPostProtobufType =
+  (typeof SchemaRegistryPostProtobufType)[keyof typeof SchemaRegistryPostProtobufType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPostProtobufType = {
+  protobuf: 'protobuf',
+} as const
+
+export interface SchemaRegistryPostProtobuf {
+  description?: string
+  name: string
+  source: string
+  type: SchemaRegistryPostProtobufType
+}
+
+export type SchemaRegistryPostJsonType =
+  (typeof SchemaRegistryPostJsonType)[keyof typeof SchemaRegistryPostJsonType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPostJsonType = {
+  json: 'json',
+} as const
+
+export interface SchemaRegistryPostJson {
+  description?: string
+  name: string
+  source: string
+  type: SchemaRegistryPostJsonType
+}
+
+export type SchemaRegistryPostExternalHttpType =
+  (typeof SchemaRegistryPostExternalHttpType)[keyof typeof SchemaRegistryPostExternalHttpType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPostExternalHttpType = {
+  external_http: 'external_http',
+} as const
+
+export interface SchemaRegistryPostExternalHttp {
+  description?: string
+  name: string
+  parameters: SchemaRegistryExternalHttpParams
+  type: SchemaRegistryPostExternalHttpType
+}
+
+export type SchemaRegistryPostAvroType =
+  (typeof SchemaRegistryPostAvroType)[keyof typeof SchemaRegistryPostAvroType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPostAvroType = {
+  avro: 'avro',
+} as const
+
+export interface SchemaRegistryPostAvro {
+  description?: string
+  name: string
+  source: string
+  type: SchemaRegistryPostAvroType
+}
+
+export type PostSchemaRegistry201 =
+  | SchemaRegistryPostAvro
+  | SchemaRegistryPostExternalHttp
+  | SchemaRegistryPostJson
+  | SchemaRegistryPostProtobuf
+
+export type PostSchemaRegistryBody =
+  | SchemaRegistryPostAvro
+  | SchemaRegistryPostExternalHttp
+  | SchemaRegistryPostJson
+  | SchemaRegistryPostProtobuf
 
 export type SchemaRegistryJsonType =
   (typeof SchemaRegistryJsonType)[keyof typeof SchemaRegistryJsonType]
@@ -170,10 +245,22 @@ export interface SchemaRegistryGetJson {
   type: SchemaRegistryGetJsonType
 }
 
-export type PostSchemaRegistryBody =
-  | SchemaRegistryGetAvro
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
+export type SchemaRegistryGetExternalHttpType =
+  (typeof SchemaRegistryGetExternalHttpType)[keyof typeof SchemaRegistryGetExternalHttpType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryGetExternalHttpType = {
+  external_http: 'external_http',
+} as const
+
+export interface SchemaRegistryGetExternalHttp {
+  description?: string
+  name: string
+  node_status?: SchemaRegistryApiNodeStatus[]
+  parameters: SchemaRegistryExternalHttpParams
+  status?: string
+  type: SchemaRegistryGetExternalHttpType
+}
 
 export type SchemaRegistryGetAvroType =
   (typeof SchemaRegistryGetAvroType)[keyof typeof SchemaRegistryGetAvroType]
@@ -190,15 +277,11 @@ export interface SchemaRegistryGetAvro {
   type: SchemaRegistryGetAvroType
 }
 
-export type PostSchemaRegistry201 =
+export type GetSchemaRegistryName200 =
   | SchemaRegistryGetAvro
+  | SchemaRegistryGetExternalHttp
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
-
-export type GetSchemaRegistry200Item =
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
 
 export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
   (typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType)[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]
@@ -207,11 +290,6 @@ export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
 export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType = {
   confluent: 'confluent',
 } as const
-
-export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
-  password: string
-  username: string
-}
 
 export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
   | SchemaRegistryConfluentSchemaRegistryAuthBasic
@@ -222,6 +300,53 @@ export interface SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry 
   name: string
   type?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType
   url: string
+}
+
+export type SchemaRegistryExternalHttpParamsPoolType =
+  (typeof SchemaRegistryExternalHttpParamsPoolType)[keyof typeof SchemaRegistryExternalHttpParamsPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryExternalHttpParamsPoolType = {
+  random: 'random',
+  hash: 'hash',
+} as const
+
+export type SchemaRegistryExternalHttpParamsHeaders = { [key: string]: unknown }
+
+export interface SchemaRegistryExternalHttpParams {
+  connect_timeout?: string
+  /** @minimum 1 */
+  enable_pipelining?: number
+  external_params?: string
+  headers?: SchemaRegistryExternalHttpParamsHeaders
+  max_inactive?: string
+  /** @minimum 0 */
+  max_retries?: number
+  /** @minimum 1 */
+  pool_size?: number
+  pool_type?: SchemaRegistryExternalHttpParamsPoolType
+  request_timeout?: string
+  ssl?: EmqxSslClientOpts
+  url: string
+}
+
+export type SchemaRegistryExternalHttpType =
+  (typeof SchemaRegistryExternalHttpType)[keyof typeof SchemaRegistryExternalHttpType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryExternalHttpType = {
+  external_http: 'external_http',
+} as const
+
+export interface SchemaRegistryExternalHttp {
+  description?: string
+  parameters: SchemaRegistryExternalHttpParams
+  type: SchemaRegistryExternalHttpType
+}
+
+export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
+  password: string
+  username: string
 }
 
 export type SchemaRegistryConfluentSchemaRegistryType =
@@ -254,4 +379,70 @@ export interface SchemaRegistryAvro {
   description?: string
   source: string
   type: SchemaRegistryAvroType
+}
+
+export interface SchemaRegistryApiNodeStatus {
+  node?: string
+  status?: string
+}
+
+export type EmqxSslClientOptsVerify =
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_peer: 'verify_peer',
+  verify_none: 'verify_none',
+} as const
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsPartialChain =
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  true: true,
+  false: false,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+} as const
+
+export type EmqxSslClientOptsLogLevel =
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  emergency: 'emergency',
+  alert: 'alert',
+  critical: 'critical',
+  error: 'error',
+  warning: 'warning',
+  notice: 'notice',
+  info: 'info',
+  debug: 'debug',
+  none: 'none',
+  all: 'all',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: EmqxSslClientOptsLogLevel
+  partial_chain?: EmqxSslClientOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+  verify?: EmqxSslClientOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
