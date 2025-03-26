@@ -61,8 +61,11 @@ export default (): {
     { title: 'flowDesigner', path: '/flow' },
     { title: 'rules', path: '/rule' },
     { title: 'connector', path: '/connector' },
-    { title: 'schema-validation', path: '/schema-validation' },
+  ]
+
+  const smartDataHub = [
     { title: 'schema', path: '/schema' },
+    { title: 'schema-validation', path: '/schema-validation' },
     { title: 'message-transform', path: '/message-transform' },
   ]
 
@@ -99,6 +102,11 @@ export default (): {
       title: 'ruleengine',
       icon: 'icon-integration',
       children: integration,
+    },
+    {
+      title: 'smart-data-hub',
+      icon: 'icon-data-hub',
+      children: smartDataHub,
     },
     {
       title: 'management',

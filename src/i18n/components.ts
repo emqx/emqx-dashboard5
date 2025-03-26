@@ -87,6 +87,10 @@ export default {
     zh: '保留消息',
     en: 'Retained Messages',
   },
+  'smart-data-hub': {
+    zh: '数据智能中心',
+    en: 'Smart Data Hub',
+  },
   'schema-validation': {
     zh: 'Schema 验证',
     en: 'Schema Validation',
