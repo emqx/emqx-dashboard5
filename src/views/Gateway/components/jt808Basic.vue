@@ -92,6 +92,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="tl('ignoreUnsupportedFrames')"
+                :desc="tl('ignoreUnsupportedFramesDesc')"
+                desc-marked
+              />
+            </template>
+            <el-switch v-model="jValue.proto.ignore_unsupported_frames" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('allowAnonymous')">
             <el-switch v-model="jValue.proto.auth.allow_anonymous" />
           </el-form-item>
@@ -137,6 +149,7 @@ const createDefault = () => ({
     },
     up_topic: 'jt808/${clientid}/${phone}/up',
     dn_topic: 'jt808/${clientid}/${phone}/dn',
+    ignore_unsupported_frames: true,
   },
   mountpoint: 'jt808/${clientid}/',
   retry_interval: '8s',

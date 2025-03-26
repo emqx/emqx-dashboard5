@@ -76,7 +76,7 @@ const readBlobResponse = async (data: Blob) => {
   }
 }
 
-const getErrorMessage = (data: AxiosResponse['data'], status: number) => {
+export const getErrorMessage = (data: AxiosResponse['data'], status: number) => {
   if (!data) {
     return `${status} Network error`
   }
