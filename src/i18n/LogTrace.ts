@@ -119,6 +119,14 @@ export default {
     zh: '确定跟踪日志文件中 Payload 格式。<br/>\n`text`：基于文本的协议或纯文本协议。\n建议在 Payload 为 JSON 编码时使用<br/>\n`hex`：二进制十六进制编码。当 Payload 是自定义二进制协议时，建议使用此选项<br/>\n`hidden`：Payload 被模糊化为 `******`',
     en: 'Determine the format of the payload format in the trace log file.<br/>\n`text`: Text-based protocol or plain text protocol.\n It is recommended when payload is JSON encoded.<br/>\n`hex`: Binary hexadecimal encode. It is recommended when payload is a custom binary protocol.<br/>\n`hidden`: payload is obfuscated as `******`',
   },
+  payloadLimit: {
+    zh: 'Payload 限制',
+    en: 'Payload Limit',
+  },
+  payloadLimitDesc: {
+    zh: '确定跟踪日志文件中 Payload 的最大字节数。<br/>\n当 Payload 编码为 `HEX` 或 `Text` 时有效。超出限制的 Payload 将在日志中被截断。默认值为 `1024 B`',
+    en: "Determine the maximum bytes of the payload will be printed in the trace file. It's only effective when payload_encode is `HEX` or `Text`. The payload will be truncated when it exceeds the limit. The default value is `1024 B`",
+  },
   formatter: {
     zh: '日志格式',
     en: 'Formatter',
