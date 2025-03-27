@@ -68,7 +68,16 @@
           {{ getEncodeTypeLabelByValue(row.payload_encode) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="220">
+      <el-table-column :label="tl('payloadLimit')" :min-width="100">
+        <template #default="{ row }">
+          {{
+            row.payload_limit === 0
+              ? t('Extension.unlimited')
+              : row.payload_limit && `${row.payload_limit} B`
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('Base.operation')" :min-width="188">
         <template #default="{ row }">
           <TableButton @click="download(row)" :loading="row.isLoading">
             {{ $t('LogTrace.download') }}
@@ -181,6 +190,18 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item prop="payload_limit">
+              <template #label>
+                <FormItemLabel
+                  :label="tl('payloadLimit')"
+                  :desc="tl('payloadLimitDesc')"
+                  desc-marked
+                />
+              </template>
+              <PayloadLimitInput v-model="record.payload_limit" />
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
@@ -207,6 +228,7 @@ import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import dayjs from 'dayjs'
+import PayloadLimitInput from './components/PayloadLimitInput.vue'
 
 const DEFAULT_DURATION = 30 * 60 * 1000
 
@@ -220,6 +242,7 @@ const createRawTraceForm = () => ({
   startTime: ['', ''] as [string, string],
   payload_encode: TraceEncodeType.Text,
   formatter: LogTraceFormatter.Text,
+  payload_limit: 1024,
 })
 
 type TraceItemInTable = TraceItem & {
@@ -227,6 +250,7 @@ type TraceItemInTable = TraceItem & {
 }
 
 export default defineComponent({
+  components: { PayloadLimitInput },
   setup() {
     const { t } = useI18n()
     const traceTbLoading = ref(false)

@@ -39,6 +39,7 @@ export type TraceFormRecord = {
   startTime: [string, string] | [Date, Date]
   payload_encode: TraceEncodeType
   formatter?: LogTraceFormatter
+  payload_limit?: number
 }
 
 export interface TraceItem {
