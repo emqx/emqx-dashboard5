@@ -6,11 +6,11 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "42696476",
+      "icon_id": "43825233",
       "name": "Smart Data Hub",
-      "font_class": "data-hub",
-      "unicode": "e80a",
-      "unicode_decimal": 59402
+      "font_class": "a-SmartDataHub",
+      "unicode": "e810",
+      "unicode_decimal": 59408
     },
     {
       "icon_id": "43312615",
