@@ -7,6 +7,7 @@ import {
   QoSLevel,
   SchemaRegistryType,
 } from './enum'
+import { SchemaRegistryExternalHttp } from './typeAlias'
 
 export interface NodeStatus {
   node: string
@@ -267,9 +268,14 @@ export type RuleItem = {
 
 export type RuleMetrics = MetricsDataWithExtraData<{ id: string }>
 
-export interface SchemaRegistry {
+export type NormalSchemaRegistry = {
   name: string
   description: string
   type: SchemaRegistryType
   source: string
 }
+
+export type SchemaRegistry = NormalSchemaRegistry | SchemaRegistryExternalHttp
+export type SchemaRegistryDetail = SchemaRegistry | SchemaRegistryExternalHttpDetail
+
+export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['parameters']

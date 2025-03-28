@@ -7,10 +7,13 @@ export default (): {
   }[]
   getLabelByValue: (value: SchemaRegistryType) => string
 } => {
+  const { tl } = useI18nTl('RuleEngine')
+
   const schemaTypeOpts: Array<{ label: string; value: SchemaRegistryType }> = [
     { label: 'Avro', value: SchemaRegistryType.Avro },
     { label: 'Protobuf', value: SchemaRegistryType.Protobuf },
     { label: 'JSON Schema', value: SchemaRegistryType.JSON },
+    { label: tl('externalHttp'), value: SchemaRegistryType.ExternalHTTP },
   ]
 
   const getLabelByValue = (value: SchemaRegistryType) =>

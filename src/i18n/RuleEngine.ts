@@ -1165,6 +1165,22 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: "名称将用于编解码函数中，示例：<br /><code>SELECT bin2hexstr(avro_encode('<external_schema_name>', json_decode(payload), <schema_id>))</code>",
     en: "The name will be used in the encoding and decoding functions, for example: <br /><code>SELECT bin2hexstr(avro_encode('<external_schema_name>', json_decode(payload), <schema_id>))</code>",
   },
+  externalHttp: {
+    zh: '外部 HTTP',
+    en: 'External HTTP',
+  },
+  externalHttpUrlDesc: {
+    zh: '外部 HTTP 编解码服务 URL',
+    en: 'The external HTTP schema server URL',
+  },
+  externalParams: {
+    zh: '参数',
+    en: 'Params',
+  },
+  externalParamsDesc: {
+    zh: '在每个发送到外部 HTTP schema 服务器的请求体中的字符串。',
+    en: 'A string that will be sent in every request body to external HTTP schema server.',
+  },
   advancedSettings: {
     zh: '高级设置',
     en: 'Advanced Settings',

@@ -55,15 +55,10 @@ const { t } = useI18nTl('RuleEngine')
 const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 
-const createRawSchemaForm = (): SchemaRegistry => ({
-  name: '',
-  description: '',
-  type: SchemaRegistryType.Avro,
-  source: '',
-})
+const { createFormForCreatePage, handleFormDataForCreate } = useSchemaRegistryForm()
 
 const FormCom = ref()
-const formData: Ref<SchemaRegistry> = ref(createRawSchemaForm())
+const formData: Ref<SchemaRegistry> = ref(createFormForCreatePage())
 const isSubmitting = ref(false)
 
 const checkClipStatus = async () => {
@@ -86,7 +81,7 @@ const submit = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    const ret = await createSchema(cloneDeep(formData.value))
+    const ret = await createSchema(handleFormDataForCreate(formData.value))
     if (isInSinglePage.value) {
       ElMessage.success(t('Base.createSuccess'))
       router.push({ name: 'internal-schema' })

@@ -61,7 +61,11 @@ import type {
   PutClusterLinksLinkNameBody,
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
-import type { SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry } from './schemas/schemaRegistry.schemas'
+import type {
+  SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry,
+  SchemaRegistryGetExternalHttp,
+  SchemaRegistryPostExternalHttp,
+} from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 
@@ -157,3 +161,7 @@ export const UserMFA = DashboardUserMfa
 
 /*  CLUSTER */
 export type ClusterInfo = GetCluster200
+
+/* SCHEMA REGISTRY */
+export type SchemaRegistryExternalHttp = SchemaRegistryPostExternalHttp
+export type SchemaRegistryExternalHttpDetail = SchemaRegistryGetExternalHttp

@@ -36,7 +36,7 @@
           </el-form-item>
         </el-col>
       </template>
-      <el-col :span="24">
+      <el-col :span="24" v-if="!isExternalHTTP">
         <el-form-item label="Schema" prop="source">
           <template #label>
             <span>Schema</span>
@@ -48,7 +48,7 @@
           </template>
           <div class="monaco-container">
             <Monaco
-              v-model="schemaForm.source"
+              v-model="(schemaForm as NormalSchemaRegistry).source"
               :id="createRandomString()"
               :lang="isJSONFormat ? 'json' : 'plaintext'"
               :custom-monaco-handler="disableCompletionItems"
@@ -66,6 +66,11 @@
           {{ tl('generateFromJSON') }}
         </el-button>
       </el-col>
+      <el-col :span="24" v-else>
+        <HTTPSchemaRegistryParameters
+          v-model="(schemaForm as SchemaRegistryExternalHttp).parameters"
+        />
+      </el-col>
     </el-row>
     <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
   </el-form>
@@ -73,7 +78,7 @@
 
 <script lang="ts" setup>
 import { SchemaRegistryType } from '@/types/enum'
-import { SchemaRegistry } from '@/types/rule'
+import { NormalSchemaRegistry, SchemaRegistry } from '@/types/rule'
 import ajv from 'ajv'
 import Ajv04 from 'ajv-draft-04'
 import addFormats from 'ajv-formats'
@@ -88,7 +93,9 @@ import {
   onUnmounted,
   ref,
 } from 'vue'
+import HTTPSchemaRegistryParameters from './HTTPSchemaRegistryParameters.vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
+import { SchemaRegistryExternalHttp } from '@/types/typeAlias'
 
 const props = defineProps({
   modelValue: {
@@ -165,10 +172,15 @@ const rules = ref({
   ],
 })
 
+const isExternalHTTP = computed(() => schemaForm.value.type === SchemaRegistryType.ExternalHTTP)
+
 const validate = () => FormCom.value.validate()
 
 const onBlurChanged = () => {
-  if (!schemaForm.value.source) {
+  if (isExternalHTTP.value) {
+    return
+  }
+  if (!(schemaForm.value as NormalSchemaRegistry).source) {
     FormCom.value.validateField('source')
   } else {
     FormCom.value.clearValidate('source')
@@ -187,7 +199,7 @@ const openJSONSchemaDialog = () => {
 }
 
 const updateSchema = (schema: string) => {
-  schemaForm.value.source = schema
+  ;(schemaForm.value as NormalSchemaRegistry).source = schema
   onBlurChanged()
 }
 
