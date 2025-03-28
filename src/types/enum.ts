@@ -177,6 +177,7 @@ export enum SchemaRegistryType {
   Avro = 'avro',
   Protobuf = 'protobuf',
   JSON = 'json',
+  ExternalHTTP = 'external_http',
 }
 
 export enum NodeStatusClass {

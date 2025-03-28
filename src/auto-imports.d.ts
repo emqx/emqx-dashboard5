@@ -440,6 +440,7 @@ declare global {
   const useSchemaForm: typeof import('./hooks/Schema/useSchemaForm')['default']
   const useSchemaFormRules: typeof import('./hooks/Schema/useSchemaFormRules')['default']
   const useSchemaRecord: typeof import('./hooks/Schema/useSchemaRecord')['default']
+  const useSchemaRegistryForm: typeof import('./hooks/Rule/schema/useSchemaRegistryForm')['default']
   const useSchemaType: typeof import('./hooks/Rule/schema/useSchemaType')['default']
   const useSchemaValidationMetrics: typeof import('./hooks/useMetrics')['useSchemaValidationMetrics']
   const useShowLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']
@@ -988,6 +989,7 @@ declare module 'vue' {
     readonly useSchemaForm: UnwrapRef<typeof import('./hooks/Schema/useSchemaForm')['default']>
     readonly useSchemaFormRules: UnwrapRef<typeof import('./hooks/Schema/useSchemaFormRules')['default']>
     readonly useSchemaRecord: UnwrapRef<typeof import('./hooks/Schema/useSchemaRecord')['default']>
+    readonly useSchemaRegistryForm: UnwrapRef<typeof import('./hooks/Rule/schema/useSchemaRegistryForm')['default']>
     readonly useSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useSchemaType')['default']>
     readonly useSchemaValidationMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useSchemaValidationMetrics']>
     readonly useShowLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['useShowLog']>

@@ -1,20 +1,28 @@
 <template>
   <div class="schema-detail">
     <div class="detail-top">
-      <detail-header :item="{ name: schemaName, routeName: 'internal-schema' }" />
-      <div class="btn-wrap">
-        <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button
-            class="icon-button"
-            type="danger"
-            :disabled="!$hasPermission('delete')"
-            :icon="Delete"
-            @click="handleDelete"
-            plain
-          >
-          </el-button>
-        </el-tooltip>
-      </div>
+      <detail-header :item="{ name: schemaName, routeName: 'internal-schema' }">
+        <template #content>
+          <div class="vertical-align-center">
+            <p class="block-title">{{ schemaName }}</p>
+            <StatusDetailsOfEachNode v-if="isExternalHTTP" :status-data="statusData" is-tag />
+          </div>
+        </template>
+        <template #extra>
+          <el-tooltip :content="$t('Base.delete')" placement="top">
+            <el-button
+              class="icon-button"
+              type="danger"
+              :disabled="!$hasPermission('delete')"
+              :icon="Delete"
+              @click="handleDelete"
+              plain
+            >
+            </el-button>
+          </el-tooltip>
+        </template>
+      </detail-header>
+      <div class="btn-wrap"></div>
     </div>
     <el-tabs class="detail-tabs">
       <div class="app-wrapper">
@@ -43,20 +51,40 @@
 
 <script lang="ts" setup>
 import { deleteSchema, querySchemaDetail, updateSchema } from '@/api/ruleengine'
-import { SchemaRegistry } from '@/types/rule'
+import { SchemaRegistryDetail } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
+import { ConnectionStatus, SchemaRegistryType } from '@/types/enum'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 
-const schemaData = ref({} as SchemaRegistry)
+const schemaData = ref<SchemaRegistryDetail>({} as SchemaRegistryDetail)
 const isLoading = ref(false)
 
 const FormCom = ref()
 
 const schemaName = computed(() => route.params.schemaName.toString())
+
+const isExternalHTTP = computed(() => schemaData.value.type === SchemaRegistryType.ExternalHTTP)
+
+const { getStatusClass, getStatusLabel } = useCommonConnectionStatus()
+const getStatusLabelNClass = (status: ConnectionStatus) => ({
+  statusLabel: getStatusLabel(status),
+  statusClass: getStatusClass(status),
+})
+const statusData = computed(() => {
+  const { status, node_status = {} } = schemaData.value
+  return {
+    details: Object.entries(node_status).map(([node, status]) => ({
+      node,
+      ...getStatusLabelNClass(status as ConnectionStatus),
+    })),
+    statusLabel: getStatusLabel(status),
+    statusClass: getStatusClass(status),
+  }
+})
 
 const getSchemaData = async () => {
   if (!schemaName.value) {
@@ -73,11 +101,12 @@ const getSchemaData = async () => {
 }
 
 const isSubmitting = ref(false)
+const { handleFormDataForUpdate } = useSchemaRegistryForm()
 const handleUpdate = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    await updateSchema(schemaName.value, omit(cloneDeep(schemaData.value), 'name'))
+    await updateSchema(schemaName.value, handleFormDataForUpdate(schemaData.value))
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'internal-schema' })
   } catch (error) {
@@ -108,11 +137,6 @@ getSchemaData()
 
 <style lang="scss" scoped>
 .schema-detail {
-  .detail-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
   .detail-header {
     margin-bottom: 18px;
   }
