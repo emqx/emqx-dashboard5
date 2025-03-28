@@ -27,7 +27,7 @@
     <el-tabs class="detail-tabs">
       <div class="app-wrapper">
         <el-tab-pane :label="t('Base.setting')">
-          <el-card class="detail-card overview-visible" v-loading="isLoading">
+          <el-card class="detail-card app-card overview-visible" v-loading="isLoading">
             <SchemaRegistryForm
               class="schema-create-form"
               ref="FormCom"

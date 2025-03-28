@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="24">
     <el-col :span="8">
-      <el-form-item prop="url">
+      <el-form-item prop="parameters.url">
         <template #label>
           <FormItemLabel label="URL" :desc="t('RuleEngine.externalHttpUrlDesc')" desc-marked />
         </template>
@@ -9,7 +9,7 @@
       </el-form-item>
     </el-col>
     <el-col :span="8">
-      <el-form-item prop="external_params">
+      <el-form-item prop="parameters.external_params">
         <template #label>
           <FormItemLabel
             :label="t('RuleEngine.externalParams')"
@@ -21,7 +21,7 @@
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <el-form-item prop="headers">
+      <el-form-item prop="parameters.headers">
         <template #label>
           <FormItemLabel
             :label="t('RuleEngine.headers')"
@@ -39,7 +39,7 @@
   <AdvancedSettingContainer>
     <el-row :gutter="24">
       <el-col :span="8">
-        <el-form-item prop="pool_type">
+        <el-form-item prop="parameters.pool_type">
           <template #label>
             <FormItemLabel
               :label="getHTTPConnectorText('pool_type', 'label')"
@@ -53,18 +53,18 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item prop="pool_size" :label="t('RuleEngine.connectionPoolSize')">
+        <el-form-item prop="parameters.pool_size" :label="t('RuleEngine.connectionPoolSize')">
           <CustomInputNumber v-model="formData.pool_size" :min="1" />
         </el-form-item>
       </el-col>
       <el-col :span="8" />
       <el-col :span="8">
-        <el-form-item prop="connect_timeout" :label="tl('connectTimeout')">
+        <el-form-item prop="parameters.connect_timeout" :label="tl('connectTimeout')">
           <TimeInputWithUnitSelect v-model="formData.connect_timeout" />
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item prop="max_inactive">
+        <el-form-item prop="parameters.max_inactive">
           <template #label>
             <FormItemLabel
               :label="getHTTPConnectorText('max_inactive', 'label')"
@@ -77,7 +77,7 @@
       </el-col>
       <el-col :span="8" />
       <el-col :span="8">
-        <el-form-item prop="max_retries">
+        <el-form-item prop="parameters.max_retries">
           <template #label>
             <FormItemLabel
               :label="getHTTPConnectorText('max_retries', 'label')"
@@ -89,13 +89,13 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item prop="enable_pipelining" :label="tl('httpPipelining')">
+        <el-form-item prop="parameters.enable_pipelining" :label="tl('httpPipelining')">
           <CustomInputNumber v-model="formData.enable_pipelining" :min="1" />
         </el-form-item>
       </el-col>
       <el-col :span="8" />
       <el-col :span="8">
-        <el-form-item prop="request_timeout" :label="tl('requestTimeout')">
+        <el-form-item prop="parameters.request_timeout" :label="tl('requestTimeout')">
           <TimeInputWithUnitSelect v-model="formData.request_timeout" />
         </el-form-item>
       </el-col>
