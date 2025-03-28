@@ -418,10 +418,11 @@ watch(
   }
   .list-container {
     display: flex;
-    width: 52%;
+    width: 60%;
     .list-label {
       flex-grow: 0;
       font-size: 14px;
+      min-width: 80px;
       margin-right: 16px;
     }
   }

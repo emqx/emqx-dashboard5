@@ -1,6 +1,6 @@
 <template>
   <div class="force-shutdown app-wrapper">
-    <el-card class="allow-overflow">
+    <el-card class="app-card allow-overflow no-padding-bottom">
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
@@ -62,19 +62,18 @@
                 />
               </el-form-item>
             </el-col>
-
-            <el-card :span="24" class="btn-col ft-card">
-              <el-button
-                type="primary"
-                :loading="saveLoading"
-                :disabled="!$hasPermission('put')"
-                @click="updateConfigData()"
-              >
-                {{ $t('Base.saveChanges') }}
-              </el-button>
-            </el-card>
           </el-row>
         </el-form>
+        <el-card :span="24" class="btn-col ft-card">
+          <el-button
+            type="primary"
+            :loading="saveLoading"
+            :disabled="!$hasPermission('put')"
+            @click="updateConfigData()"
+          >
+            {{ $t('Base.saveChanges') }}
+          </el-button>
+        </el-card>
       </div>
     </el-card>
   </div>
@@ -152,9 +151,5 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .custom-col {
   padding-right: 0;
-}
-.btn-col {
-  margin-top: 16px;
-  text-align: right;
 }
 </style>
