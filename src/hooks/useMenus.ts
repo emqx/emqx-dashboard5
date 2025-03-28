@@ -105,7 +105,7 @@ export default (): {
     },
     {
       title: 'smart-data-hub',
-      icon: 'icon-data-hub',
+      icon: 'icon-a-SmartDataHub',
       children: smartDataHub,
     },
     {
