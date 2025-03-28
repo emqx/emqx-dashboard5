@@ -170,6 +170,7 @@ const rules = ref({
       },
     },
   ],
+  'parameters.url': createRequiredRule('URL'),
 })
 
 const isExternalHTTP = computed(() => schemaForm.value.type === SchemaRegistryType.ExternalHTTP)
