@@ -29,6 +29,9 @@
       <el-form-item :label="tl('traceMessage')">
         <el-switch v-model="traceConf.client_messaging" />
       </el-form-item>
+      <el-form-item :label="tl('traceRuleEngine')">
+        <el-switch v-model="traceConf.trace_rule_engine" />
+      </el-form-item>
       <el-form-item>
         <template #label>
           <FormItemLabel
@@ -227,7 +230,8 @@ const notEnabledAllTrace = computed(
   () =>
     !traceConf.value.client_connect_disconnect &&
     !traceConf.value.client_subscribe_unsubscribe &&
-    !traceConf.value.client_messaging,
+    !traceConf.value.client_messaging &&
+    !traceConf.value.trace_rule_engine,
 )
 
 const traceEventLevelOpts = [
