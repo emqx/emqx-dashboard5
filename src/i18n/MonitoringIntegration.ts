@@ -264,6 +264,10 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '跟踪消息',
     en: 'Trace Message',
   },
+  traceRuleEngine: {
+    zh: '跟踪规则引擎',
+    en: 'Trace Rule Engine',
+  },
   followTraceparent: {
     zh: '跟随 Traceparent',
     en: 'Follow Traceparent',
