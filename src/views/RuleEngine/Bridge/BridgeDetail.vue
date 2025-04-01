@@ -2,7 +2,7 @@
   <div class="bridge-detail">
     <div class="detail-top">
       <detail-header
-        v-if="!isFromRule"
+        v-if="!inDrawer"
         :item="{
           name: bridgeInfo.name,
           route: backRoute,
@@ -61,9 +61,9 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs :class="['detail-tabs', { 'hide-tabs': isFromRule }]" v-model="activeTab">
-      <div :class="{ 'app-wrapper': !isFromRule, 'detail-main': true }">
-        <el-tab-pane v-if="!isFromRule" :label="tl('overview')" :name="Tab.Overview" lazy>
+    <el-tabs :class="['detail-tabs', { 'hide-tabs': inDrawer }]" v-model="activeTab">
+      <div :class="{ 'app-wrapper': !inDrawer, 'detail-main': true }">
+        <el-tab-pane v-if="!inDrawer" :label="tl('overview')" :name="Tab.Overview" lazy>
           <div
             class="overview-container"
             :class="{ 'is-loading': infoLoading }"
@@ -81,8 +81,8 @@
           <el-alert v-if="pwdErrorWhenCoping" :title="pwdErrorWhenCoping" type="error" />
           <el-card
             v-loading="isSettingCardLoading"
-            :class="['app-card', isFromRule && 'app-inline-card']"
-            :shadow="isFromRule ? 'never' : undefined"
+            :class="['app-card', inDrawer && 'app-inline-card']"
+            :shadow="inDrawer ? 'never' : undefined"
           >
             <el-alert
               v-if="isWebhookAction"
@@ -103,7 +103,7 @@
                 </template>
               </i18n-t>
             </el-alert>
-            <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
+            <div class="setting-area" :style="{ width: inDrawer ? '100%' : '75%' }">
               <using-schema-bridge-config
                 ref="formCom"
                 v-model="bridgeInfo"
@@ -114,7 +114,7 @@
                 :form-props="formProps"
               />
             </div>
-            <div v-if="!isFromRule" class="btn-area">
+            <div v-if="!inDrawer" class="btn-area">
               <el-button
                 v-if="bridgeInfo.type"
                 type="primary"
@@ -191,6 +191,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  inDrawer: {
+    type: Boolean,
+    default: false,
+  },
 })
 const formCom = ref()
 
@@ -206,20 +210,19 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
 const { tl, t } = useI18nTl('RuleEngine')
 
-const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
-if (isFromRule.value && props.bridgeId) {
+if (props.inDrawer && props.bridgeId) {
   activeTab.value = Tab.Setting
 }
 
 const id = computed(() => {
-  if (isFromRule.value) {
+  if (props.inDrawer) {
     return props.bridgeId as string
   }
   return route.params.id as string
 })
 
 watch(id, (val) => {
-  if (val && isFromRule.value) {
+  if (val && props.inDrawer) {
     loadBridgeInfo()
   }
 })
@@ -292,7 +295,7 @@ const updateBridgeInfo = async () => {
     setBridgeInfoFromSchemaForm()
     // Check for changes before updating and do not request if there are no changes
     // TODO:check the schema form & MQTT
-    if (isFromRule.value && isEqual(bridgeInfo.value, rawBridgeInfo)) {
+    if (props.inDrawer && isEqual(bridgeInfo.value, rawBridgeInfo)) {
       return Promise.resolve(bridgeInfo.value.id)
     }
 
@@ -305,7 +308,7 @@ const updateBridgeInfo = async () => {
     updateLoading.value = true
     const data = await getDataForSubmit()
     const res = await updateAction(data as any)
-    if (!isFromRule.value) {
+    if (!props.inDrawer) {
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
     }

@@ -1,7 +1,7 @@
 <template>
-  <div :class="[!isFromRule ? 'app-wrapper' : '', 'action-create']">
-    <detail-header v-if="!isFromRule" :item="{ name: tl('createAction'), routeName: 'actions' }" />
-    <div v-if="!isFromRule" class="data-bridge-create">
+  <div :class="[!inDrawer ? 'app-wrapper' : '', 'action-create']">
+    <detail-header v-if="!inDrawer" :item="{ name: tl('createAction'), routeName: 'actions' }" />
+    <div v-if="!inDrawer" class="data-bridge-create">
       <el-card class="app-card">
         <el-row>
           <el-col :span="12">
@@ -130,6 +130,7 @@ import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
  */
 const props = defineProps<{
   type?: string
+  inDrawer?: boolean
 }>()
 
 const { t, tl } = useI18nTl('RuleEngine')
@@ -145,12 +146,10 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
 const formCom = ref()
 
-const isFromRule = computed(() => ['rule-detail', 'rule-create'].includes(route.name as string))
-
 const isCopy = computed(() => !!(route.query.action === 'copy' && route.query.target))
 
 const chosenBridgeType: Ref<BridgeType> = ref(
-  isFromRule.value ? (props.type as BridgeType) : bridgeTypeOptions[0].value,
+  props.inDrawer ? (props.type as BridgeType) : bridgeTypeOptions[0].value,
 )
 
 const { step, activeGuidesIndex, guideDescList, handleNext, handleBack } = useGuide()
@@ -256,7 +255,7 @@ const submitCreateBridge = async () => {
     res = await addAction(data)
 
     const id = res?.id
-    if (!isFromRule.value) {
+    if (!props.inDrawer) {
       ElMessageBox.confirm(tl('useConnectorCreateRule'), t('Base.createSuccess'), {
         confirmButtonText: tl('createRule'),
         cancelButtonText: tl('backBridgeList'),
