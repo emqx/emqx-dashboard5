@@ -12,6 +12,7 @@
             :to="{ name: 'action-detail', params: { id: item } }"
             target="_blank"
           >
+            <!-- <div> -->
             <img :src="getOutputImage(item)" />
             <div class="io-item-bd">
               <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
@@ -39,6 +40,14 @@
                 {{ $t('Base.delete') }}
               </el-button>
             </span>
+            <!-- </div> -->
+            <!-- <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
+              <h1>
+                <p>🍅🍅🍅</p>
+                <pre>{{ getActionFallback(item as string) }}</pre>
+                <hr />
+              </h1>
+            </div> -->
           </component>
         </template>
         <CreateButton
@@ -68,7 +77,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { BridgeType, RuleOutput } from '@/types/enum'
-import { BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { Action, BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { ElMessageBox as MB } from 'element-plus'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
 
@@ -94,6 +103,13 @@ const ruleValue: WritableComputedRef<RuleItem | BasicRule> = computed({
     emit('update:modelValue', val)
   },
 })
+
+watch(
+  () => props.modelValue?.actions?.length,
+  () => {
+    queryActionInfoMap()
+  },
+)
 
 const { tl, t } = useI18nTl('RuleEngine')
 const showOutputDrawer = ref(false)
@@ -167,6 +183,7 @@ const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
       editIndex.value !== undefined && output.splice(editIndex.value, 1, opObj)
     }
   }
+  queryActionInfoMap()
   calcDisableList()
 }
 
@@ -213,6 +230,25 @@ const getOutputTypeLabel = (item: OutputItem) => {
     case RuleOutput.Republish:
       return tl('republish')
   }
+}
+
+const actionInfoMap = ref(new Map<string, Action>())
+const { getDetail } = useHandleActionItem()
+const queryActionInfoMap = async () => {
+  debugger
+  props.modelValue.actions?.forEach(async (item) => {
+    if (
+      judgeOutputType(item) === RuleOutput.DataBridge &&
+      !actionInfoMap.value.has(item as string)
+    ) {
+      const action = await getDetail(item as string, { errorsHandleCustom: [404] })
+      actionInfoMap.value.set(item as string, action)
+    }
+  })
+}
+queryActionInfoMap()
+const getActionFallback = (id: string) => {
+  return actionInfoMap.value.get(id)?.fallback_actions
 }
 </script>
 

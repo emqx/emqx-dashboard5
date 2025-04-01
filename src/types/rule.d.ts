@@ -198,6 +198,7 @@ export interface Action {
   enable: boolean
   connector: string
   resource_opts: ResourceOpt
+  fallback_actions: Array<FallbackAction>
   [key: any]: any
   [key: string]: any
 }

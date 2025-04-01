@@ -55,10 +55,10 @@ export const deleteAction = (id: string, withDependency = false): Promise<void> 
   })
 }
 
-export const getActionDetail = async (id: string): Promise<Action> => {
+export const getActionDetail = async (id: string, configs = {}): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
-    const data = await http.get(`/actions/${encodeURIComponent(id)}`)
+    const data = await http.get(`/actions/${encodeURIComponent(id)}`, configs)
     return Promise.resolve({ ...data, id: getBridgeKey(data) })
   } catch (error) {
     return Promise.reject(error)
