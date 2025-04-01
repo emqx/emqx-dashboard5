@@ -20,7 +20,7 @@ type HandleDirectionCallback = (
 ) => void
 
 export default (): {
-  getDetail: (id: string) => Promise<Action>
+  getDetail: (id: string, configs?: any) => Promise<Action>
   handleActionDataAfterLoaded: (data: any) => Promise<Action>
   addAction: (data: Action) => Promise<Action>
   updateAction: (data: Action) => Promise<Action>
@@ -46,9 +46,9 @@ export default (): {
     return handleActionDataAfterLoaded(data)
   }
 
-  const getDetail = async (id: string): Promise<Action> => {
+  const getDetail = async (id: string, configs = {}): Promise<Action> => {
     try {
-      const data = await getActionDetail(id)
+      const data = await getActionDetail(id, configs)
       return handleDataAfterLoaded(data) as Promise<Action>
     } catch (error) {
       return Promise.reject(error)
