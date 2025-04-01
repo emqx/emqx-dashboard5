@@ -469,6 +469,7 @@ export default (
       enable: 'col-hidden',
       local_topic: 'col-hidden',
       ssl: 'col-ssl col-need-row dividing-line-below',
+      fallback_actions: 'col-fallback-actions',
       ...externalClass,
     }
   })

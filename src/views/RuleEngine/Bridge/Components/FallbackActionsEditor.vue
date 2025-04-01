@@ -19,22 +19,28 @@
       <hr />
     </h1> -->
     <ul>
-      <li v-for="(action, index) in actionList" :key="getActionKey(action)">
-        <template v-if="action.kind === FallbackActionKind.Republish">
-          <pre>{{ action.args }}</pre>
-        </template>
-        <template v-else>
-          <span>{{ action.type }}{{ action.name }}</span>
-        </template>
-        <el-button size="small" @click.prevent="editAction(index)">
-          {{ t('Base.edit') }}
-        </el-button>
-        <el-button size="small" plain @click.prevent="deleteAction(index)">
-          {{ t('Base.delete') }}
-        </el-button>
+      <li
+        class="action-item space-between"
+        v-for="(action, index) in actionList"
+        :key="getActionKey(action)"
+      >
+        <el-card class="action-item-card" shadow="never">
+          <div class="vertical-align-center">
+            <img width="32" :src="getActionImg(action)" />
+            <span>{{ getActionLabel(action) }}</span>
+          </div>
+          <div>
+            <el-button size="small" @click.prevent="editAction(index)">
+              {{ t('Base.edit') }}
+            </el-button>
+            <el-button size="small" plain @click.prevent="deleteAction(index)">
+              {{ t('Base.delete') }}
+            </el-button>
+          </div>
+        </el-card>
       </li>
     </ul>
-    <CreateButton @click="addAction">
+    <CreateButton plain @click="addAction">
       {{ tl('addAction') }}
     </CreateButton>
     <RuleOutputsDrawer
@@ -62,7 +68,7 @@ const REPUBLISH_FUNCTION = 'republish'
 type FallbackActionArr = Array<FallbackAction>
 
 const props = defineProps<{
-  modelValue: FallbackActionArr
+  modelValue?: FallbackActionArr
 }>()
 
 const emit = defineEmits<{
@@ -71,7 +77,7 @@ const emit = defineEmits<{
 
 const actionList = computed<FallbackActionArr>({
   get() {
-    return props.modelValue
+    return props.modelValue ?? []
   },
   set(value: FallbackActionArr) {
     emit('update:modelValue', value)
@@ -85,6 +91,18 @@ const getActionKey = (item: FallbackAction) => {
     return `${item.kind}:${item.args.topic}`
   }
   return `${item.kind}:${getBridgeKey(item)}`
+}
+
+const { getBridgeIconKey } = useBridgeTypeIcon()
+const getActionImg = (action: FallbackAction) => {
+  const imgPath = `img/${action.kind === FallbackActionKind.Republish ? REPUBLISH_FUNCTION : getBridgeIconKey(action.type)}.png`
+  return getImg(imgPath)
+}
+const getActionLabel = (action: FallbackAction) => {
+  if (action.kind === FallbackActionKind.Republish) {
+    return tl('republish')
+  }
+  return action.name
 }
 
 const isDrawerOpen = ref(false)
@@ -149,4 +167,28 @@ const handleActionSubmitted = (action: OutputItem) => {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.fallback-actions-editor {
+  width: 100%;
+  max-width: 600px;
+  ul {
+    padding-left: 0;
+    margin: 0;
+  }
+  .action-item {
+    margin-bottom: 12px;
+  }
+  img {
+    margin-right: 4px;
+  }
+  .action-item-card {
+    width: 100%;
+    .el-card__body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+    }
+  }
+}
+</style>

@@ -1,10 +1,11 @@
 <template>
   <el-drawer
-    :title="!isEdit ? tl('addAction') : tl('editAction')"
+    :title="drawerTitle"
     v-model="showDrawer"
     :lock-scroll="false"
     size="60%"
     destroy-on-close
+    :class="{ 'is-fallback': isFallback }"
   >
     <el-form
       label-position="top"
@@ -180,11 +181,17 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 })
 
 const isEdit = computed(() => !!props.output && props.edit)
+const drawerTitle = computed(() => {
+  if (!props.isFallback) {
+    return !isEdit.value ? tl('addAction') : tl('editAction')
+  }
+  return !isEdit.value ? tl('addFallbackAction') : tl('editFallbackAction')
+})
 
 const { egressBridgeTypeList } = useBridgeTypeValue()
 const actionTypeOpts: Array<{ value: string; label: string }> = [
   { value: RuleOutput.Republish, label: tl('republish') },
-  { value: RuleOutput.Console, label: tl('consoleOutput') },
+  ...(props.isFallback ? [] : [{ value: RuleOutput.Console, label: tl('consoleOutput') }]),
   ...egressBridgeTypeList,
 ]
 
@@ -313,7 +320,7 @@ watch(showDrawer, (val) => {
 const { handleConnDirection } = useHandleActionItem()
 
 handleConnDirection(async (direction, connName, connType) => {
-  if (direction === BridgeDirection.Ingress) {
+  if (props.isFallback || direction === BridgeDirection.Ingress) {
     return
   }
   setTimeout(async () => {
@@ -354,5 +361,12 @@ handleConnDirection(async (direction, connName, connType) => {
 
 .btn-cancel {
   margin-left: 28px;
+}
+</style>
+<style lang="scss">
+.is-fallback {
+  .col-fallback-actions {
+    display: none;
+  }
 }
 </style>

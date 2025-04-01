@@ -155,6 +155,10 @@ export default {
     zh: '添加失败备选动作',
     en: 'Add Fallback Action',
   },
+  editFallbackAction: {
+    zh: '编辑失败备选动作',
+    en: 'Edit Fallback Action',
+  },
   consoleOutput: {
     zh: '控制台输出',
     en: 'Console Output',

@@ -35,7 +35,7 @@ import ConnectorCreateDrawer from '../../Connector/components/ConnectorCreateDra
 const props = withDefaults(
   defineProps<{
     modelValue?: string
-    type: BridgeType
+    type?: BridgeType
     /**
      * Connectors related to webhook are not
      * allowed to be used elsewhere by default.

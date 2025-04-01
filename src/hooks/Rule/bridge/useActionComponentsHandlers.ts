@@ -1,6 +1,7 @@
 import { FormItemRule, FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
+import { markRaw } from 'vue'
 import FallbackActionsEditor from '@/views/RuleEngine/Bridge/Components/FallbackActionsEditor.vue'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -114,7 +115,7 @@ export default (
       Reflect.deleteProperty(comRet, 'tags')
     }
     if (comRet.fallback_actions) {
-      comRet.fallback_actions.customComponent = FallbackActionsEditor
+      comRet.fallback_actions.customComponent = markRaw(FallbackActionsEditor)
     }
     const paramsProps = components?.parameters
     if (paramsProps) {

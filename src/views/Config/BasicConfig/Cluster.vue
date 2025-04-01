@@ -4,7 +4,7 @@
       <el-form
         ref="delayedForm"
         label-position="right"
-        :label-width="120"
+        :label-width="124"
         class="configuration-form schema-form"
       >
         <el-row>
