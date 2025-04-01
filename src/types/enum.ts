@@ -407,6 +407,11 @@ export const enum LogResult {
   Error,
 }
 
+export const enum FallbackActionKind {
+  Republish = 'republish',
+  Reference = 'reference',
+}
+
 export const enum OpenTelemetryWhiteListType {
   ClientID = 'clientid',
   Topic = 'topic',

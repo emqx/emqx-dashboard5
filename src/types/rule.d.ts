@@ -3,6 +3,7 @@ import {
   BridgeType,
   ConnectionStatus,
   ConnectorType,
+  FallbackActionKind,
   MQTTBridgeDirection,
   QoSLevel,
   SchemaRegistryType,
@@ -25,6 +26,7 @@ export interface RePub {
   retain: boolean
   mqtt_properties: Record<string, string>
   user_properties: string
+  direct_dispatch: boolean | string
 }
 
 export interface OutputItemObj {
@@ -267,6 +269,19 @@ export type RuleItem = {
 }
 
 export type RuleMetrics = MetricsDataWithExtraData<{ id: string }>
+
+export interface FallbackActionRepublish {
+  kind: FallbackActionKind.Republish
+  args: RePub
+}
+
+export interface FallbackActionReference {
+  kind: FallbackActionKind.Reference
+  type: BridgeType
+  name: string
+}
+
+export type FallbackAction = FallbackActionRepublish | FallbackActionReference
 
 export type NormalSchemaRegistry = {
   name: string

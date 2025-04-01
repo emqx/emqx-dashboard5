@@ -353,6 +353,17 @@ const SchemaForm = defineComponent({
           {...customProps}
         />
       )
+      if (property.customComponent) {
+        const customComponent = property.customComponent as Component
+        return (
+          <customComponent
+            is={property.customComponent}
+            modelValue={modelValue}
+            {...handleUpdateModelValue}
+            {...customProps}
+          />
+        )
+      }
       // TODO: use SchemaFormItem
       switch (property.type) {
         case 'string':

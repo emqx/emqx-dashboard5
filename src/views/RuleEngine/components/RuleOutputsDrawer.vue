@@ -53,6 +53,7 @@
           :bridge-id="bridgeForm.id"
           :disabled="!isEdit"
           hide-name
+          in-drawer
         />
       </div>
       <BridgeCreate
@@ -61,6 +62,7 @@
         class="output-content"
         :key="outputForm.type"
         :type="outputForm.type"
+        in-drawer
       />
     </template>
     <template #footer>
@@ -133,6 +135,10 @@ const props = defineProps({
     required: true,
   },
   edit: {
+    type: Boolean,
+    default: false,
+  },
+  isFallback: {
     type: Boolean,
     default: false,
   },
