@@ -12,8 +12,12 @@ export default {
     en: 'Updating the configuration can cause a connection interruption, which may result in the loss of associated action messages.',
   },
   updateActionTip: {
-    zh: '更新配置会导致动作重启，动作中缓冲的消息和新接收的消息将被丢弃。',
-    en: 'Updating configuration will cause the Action to restart. The buffered messages, and newly received messages during the restart will be lost.',
+    zh: '{operation}会导致动作重启，动作中缓冲的消息和新接收的消息将被丢弃。',
+    en: '{operation} will cause the Action to restart. The buffered messages, and newly received messages during the restart will be lost.',
+  },
+  updateActionConf: {
+    zh: '更新配置',
+    en: 'Updating configuration',
   },
   updateSourceTip: {
     zh: '更新配置会导致 Source 重启。',
@@ -151,6 +155,10 @@ export default {
     zh: '添加动作',
     en: 'Add Action',
   },
+  fallbackActions: {
+    zh: '失败备选动作',
+    en: 'Fallback Actions',
+  },
   addFallbackAction: {
     zh: '添加失败备选动作',
     en: 'Add Fallback Action',
@@ -158,6 +166,14 @@ export default {
   editFallbackAction: {
     zh: '编辑失败备选动作',
     en: 'Edit Fallback Action',
+  },
+  editFallbackRepublish: {
+    zh: '编辑失败备选重发布动作',
+    en: 'Edit Fallback Republish Action',
+  },
+  deleteFallback: {
+    zh: '删除失败备选动作',
+    en: 'Deleting fallback action',
   },
   consoleOutput: {
     zh: '控制台输出',

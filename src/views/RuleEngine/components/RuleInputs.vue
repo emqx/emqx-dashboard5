@@ -12,24 +12,26 @@
             :to="{ name: 'source-detail', params: { id: getBridgeIdFromInput(item.value) } }"
             target="_blank"
           >
-            <img class="img-io-item" :src="item.icon" />
-            <div class="io-item-bd">
-              <div>{{ item.title }}</div>
-              <div class="io-desc">{{ item.info }}</div>
+            <div class="io-item-main">
+              <img class="img-io-item" :src="item.icon" />
+              <div class="io-item-bd">
+                <div>{{ item.title }}</div>
+                <div class="io-desc">{{ item.info }}</div>
+              </div>
+              <span class="io-op">
+                <el-button size="small" :disabled="disabled" @click.prevent="editInput($index)">
+                  {{ $t('Base.edit') }}
+                </el-button>
+                <el-button
+                  size="small"
+                  plain
+                  :disabled="!$hasPermission('put') || disabled"
+                  @click.prevent="deleteInput($index)"
+                >
+                  {{ $t('Base.delete') }}
+                </el-button>
+              </span>
             </div>
-            <span class="io-op">
-              <el-button size="small" :disabled="disabled" @click.prevent="editInput($index)">
-                {{ $t('Base.edit') }}
-              </el-button>
-              <el-button
-                size="small"
-                plain
-                :disabled="!$hasPermission('put') || disabled"
-                @click.prevent="deleteInput($index)"
-              >
-                {{ $t('Base.delete') }}
-              </el-button>
-            </span>
           </component>
         </template>
         <CreateButton

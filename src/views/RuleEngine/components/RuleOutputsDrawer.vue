@@ -5,6 +5,7 @@
     :lock-scroll="false"
     size="60%"
     destroy-on-close
+    append-to-body
     :class="{ 'is-fallback': isFallback }"
   >
     <el-form
