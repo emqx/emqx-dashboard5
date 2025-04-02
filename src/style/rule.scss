@@ -216,6 +216,10 @@
     padding-top: 16px;
     padding-bottom: 8px;
     padding-right: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background-color: var(--el-fill-color-light);
+    border-radius: 0 0 var(--el-border-radius-base) var(--el-border-radius-base);
   }
   .editor-label {
     display: block;

@@ -214,7 +214,12 @@ const handleActionSubmitted = (action: OutputItem) => {
       }
     }
     &.in-rule-outputs {
-      margin-bottom: 0;
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
   img {
@@ -232,21 +237,6 @@ const handleActionSubmitted = (action: OutputItem) => {
   .action-item-op {
     visibility: hidden;
   }
-  .in-rule-outputs {
-    &:not(:last-child) {
-      .el-card::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        display: block;
-        width: 100%;
-        height: 1px;
-        background-color: var(--color-border-card);
-        margin-top: $margin-bottom;
-      }
-    }
-  }
 
   .action-item-card {
     width: 100%;
@@ -254,25 +244,12 @@ const handleActionSubmitted = (action: OutputItem) => {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
-    }
-    &.in-rule-outputs {
-      border-color: transparent;
-      overflow: visible;
-      .el-card__body {
-        padding-left: 0;
-        padding-right: 0;
-      }
+      padding: 8px 12px 8px 0;
     }
   }
   .in-rule-outputs {
     .action-item-card {
       border-color: transparent;
-      overflow: visible;
-    }
-    .el-card__body {
-      padding-left: 0;
-      padding-right: 0;
     }
   }
   .action-item-info {
