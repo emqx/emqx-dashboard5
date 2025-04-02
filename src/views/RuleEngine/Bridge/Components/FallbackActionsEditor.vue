@@ -1,48 +1,49 @@
 <template>
   <div class="fallback-actions-editor">
-    <!-- <h1
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 500px;
-        height: 300px;
-        background-color: grey;
-        color: #fff;
-        overflow: scroll;
-        border: 4px dotted peachpuff;
-        z-index: 9999;
-      "
-    >
-      <p>🍅🍅🍅 modelValue</p>
-      <pre>{{ modelValue }}</pre>
-      <hr />
-    </h1> -->
+    <div class="editor-hd">
+      <CreateButton class="btn-add-fallback" link @click="addAction" size="small">
+        {{ tl('addFallbackAction') }}
+      </CreateButton>
+    </div>
     <ul>
       <li
-        class="action-item space-between"
+        class="action-item"
+        :class="{ 'in-rule-outputs': inRuleOutputs }"
         v-for="(action, index) in actionList"
         :key="getActionKey(action)"
       >
-        <el-card class="action-item-card" shadow="never">
-          <div class="vertical-align-center">
-            <img width="32" :src="getActionImg(action)" />
-            <span>{{ getActionLabel(action) }}</span>
-          </div>
-          <div>
-            <el-button size="small" @click.prevent="editAction(index)">
-              {{ t('Base.edit') }}
-            </el-button>
-            <el-button size="small" plain @click.prevent="deleteAction(index)">
-              {{ t('Base.delete') }}
-            </el-button>
-          </div>
-        </el-card>
+        <component
+          class="space-between"
+          :is="isReference(action) ? 'router-link' : 'div'"
+          :to="
+            isReference(action)
+              ? { name: 'action-detail', params: { id: getBridgeKey(action) } }
+              : undefined
+          "
+          target="_blank"
+        >
+          <el-card class="action-item-card" shadow="never">
+            <div class="vertical-align-center">
+              <img :src="getActionImg(action)" />
+              <div class="action-item-info">
+                <p v-if="isReference(action)" class="action-item-name">
+                  {{ action.name }}
+                </p>
+                <span class="action-item-type">{{ getActionTypeLabel(action) }}</span>
+              </div>
+            </div>
+            <div class="action-item-op">
+              <el-button size="small" @click.prevent="editAction(index)">
+                {{ t('Base.edit') }}
+              </el-button>
+              <el-button size="small" plain @click.prevent="deleteAction(index)">
+                {{ t('Base.delete') }}
+              </el-button>
+            </div>
+          </el-card>
+        </component>
       </li>
     </ul>
-    <CreateButton plain @click="addAction">
-      {{ tl('addAction') }}
-    </CreateButton>
     <RuleOutputsDrawer
       v-model="isDrawerOpen"
       is-fallback
@@ -59,6 +60,7 @@ import { FallbackActionKind } from '@/types/enum'
 import { FallbackAction, OutputItem } from '@/types/rule'
 import { defineProps } from 'vue'
 import RuleOutputsDrawer from '../../components/RuleOutputsDrawer.vue'
+import { sentenceCase } from '@/common/tools'
 
 /**
  * for adapt rules output
@@ -69,6 +71,7 @@ type FallbackActionArr = Array<FallbackAction>
 
 const props = defineProps<{
   modelValue?: FallbackActionArr
+  inRuleOutputs?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -77,7 +80,7 @@ const emit = defineEmits<{
 
 const actionList = computed<FallbackActionArr>({
   get() {
-    return props.modelValue ?? []
+    return [...(props.modelValue ?? [])]
   },
   set(value: FallbackActionArr) {
     emit('update:modelValue', value)
@@ -86,8 +89,11 @@ const actionList = computed<FallbackActionArr>({
 
 const { t, tl } = useI18nTl('RuleEngine')
 
+const isReference = (action: FallbackAction) => action.kind === FallbackActionKind.Reference
+const isRepublish = (action: FallbackAction) => action.kind === FallbackActionKind.Republish
+
 const getActionKey = (item: FallbackAction) => {
-  if (item.kind === FallbackActionKind.Republish) {
+  if (isRepublish(item)) {
     return `${item.kind}:${item.args.topic}`
   }
   return `${item.kind}:${getBridgeKey(item)}`
@@ -95,14 +101,15 @@ const getActionKey = (item: FallbackAction) => {
 
 const { getBridgeIconKey } = useBridgeTypeIcon()
 const getActionImg = (action: FallbackAction) => {
-  const imgPath = `img/${action.kind === FallbackActionKind.Republish ? REPUBLISH_FUNCTION : getBridgeIconKey(action.type)}.png`
+  const imgPath = `img/${isRepublish(action) ? REPUBLISH_FUNCTION : getBridgeIconKey(action.type)}.png`
   return getImg(imgPath)
 }
-const getActionLabel = (action: FallbackAction) => {
-  if (action.kind === FallbackActionKind.Republish) {
+const { getGeneralTypeLabel } = useBridgeTypeValue()
+const getActionTypeLabel = (action: FallbackAction) => {
+  if (isRepublish(action)) {
     return tl('republish')
   }
-  return action.name
+  return getGeneralTypeLabel(action.type)
 }
 
 const isDrawerOpen = ref(false)
@@ -114,7 +121,7 @@ const outputForDrawer = computed<OutputItem | undefined>(() => {
   if (!currentAction.value) {
     return undefined
   }
-  if (currentAction.value.kind === FallbackActionKind.Republish) {
+  if (isRepublish(currentAction.value)) {
     return {
       function: REPUBLISH_FUNCTION,
       args: currentAction.value.args,
@@ -125,25 +132,47 @@ const outputForDrawer = computed<OutputItem | undefined>(() => {
 const outputDisableList = computed<Array<string>>(() => {
   return (
     actionList.value?.reduce((arr: Array<string>, action) => {
-      if (action.kind === FallbackActionKind.Reference) {
+      if (isReference(action)) {
         arr.push(getBridgeKey(action))
       }
       return arr
     }, []) ?? []
   )
 })
-const editAction = (index: number) => {
+const editAction = async (index: number) => {
   currentEditIndex.value = index
+  if (props.inRuleOutputs && currentAction.value && isRepublish(currentAction.value)) {
+    await operationWarning(
+      tl('updateActionTip', { operation: sentenceCase(tl('editFallbackRepublish')) }),
+    )
+  }
   isDrawerOpen.value = true
 }
 
+const { operationWarning } = useOperationConfirm()
 const deleteAction = async (index: number) => {
-  actionList.value.splice(index, 1)
+  try {
+    if (props.inRuleOutputs) {
+      await operationWarning(tl('updateActionTip', { operation: tl('deleteFallback') }))
+    }
+    actionList.value = actionList.value.toSpliced(index, 1)
+  } catch (error) {
+    //
+  }
 }
 
-const addAction = () => {
-  currentEditIndex.value = -1
-  isDrawerOpen.value = true
+const addAction = async () => {
+  try {
+    if (props.inRuleOutputs) {
+      await operationWarning(
+        tl('updateActionTip', { operation: sentenceCase(tl('addFallbackAction')) }),
+      )
+    }
+    currentEditIndex.value = -1
+    isDrawerOpen.value = true
+  } catch (error) {
+    //
+  }
 }
 
 /**
@@ -151,36 +180,74 @@ const addAction = () => {
  * so we need to preprocess the action before pushing it to the fallback action list
  */
 const handleActionSubmitted = (action: OutputItem) => {
+  let newItem: FallbackAction | undefined = undefined
   if (typeof action === 'object' && action.function && action.args) {
-    actionList.value.push({
-      kind: FallbackActionKind.Republish,
-      args: action.args,
-    })
+    newItem = { kind: FallbackActionKind.Republish, args: action.args }
   } else if (typeof action === 'string') {
     const { type, name } = getTypeAndNameFromKey(action)
-    actionList.value.push({
-      kind: FallbackActionKind.Reference,
-      type,
-      name,
-    })
+    newItem = { kind: FallbackActionKind.Reference, type, name }
+  }
+  if (newItem) {
+    actionList.value = [...actionList.value, newItem]
   }
 }
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 .fallback-actions-editor {
   width: 100%;
   max-width: 600px;
   ul {
     padding-left: 0;
     margin: 0;
+    list-style: none;
   }
+  $margin-bottom: 12px;
   .action-item {
-    margin-bottom: 12px;
+    position: relative;
+    margin-bottom: $margin-bottom;
+    &:hover {
+      .action-item-op {
+        visibility: visible;
+      }
+    }
+    &.in-rule-outputs {
+      margin-bottom: 0;
+    }
   }
   img {
+    height: 48px;
     margin-right: 4px;
   }
+  .editor-hd {
+    position: relative;
+    .btn-add-fallback {
+      position: absolute;
+      right: 0;
+      bottom: 12px;
+    }
+  }
+  .action-item-op {
+    visibility: hidden;
+  }
+  .in-rule-outputs {
+    &:not(:last-child) {
+      .el-card::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-border-card);
+        margin-top: $margin-bottom;
+      }
+    }
+  }
+
   .action-item-card {
     width: 100%;
     .el-card__body {
@@ -189,6 +256,35 @@ const handleActionSubmitted = (action: OutputItem) => {
       align-items: center;
       padding: 8px 12px;
     }
+    &.in-rule-outputs {
+      border-color: transparent;
+      overflow: visible;
+      .el-card__body {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+  .in-rule-outputs {
+    .action-item-card {
+      border-color: transparent;
+      overflow: visible;
+    }
+    .el-card__body {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .action-item-info {
+    line-height: 1;
+  }
+  .action-item-name {
+    margin-top: 0;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .action-item-type {
+    color: var(--color-text-secondary);
   }
 }
 </style>

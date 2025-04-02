@@ -299,7 +299,7 @@ const updateBridgeInfo = async () => {
       return Promise.resolve(bridgeInfo.value.id)
     }
 
-    await ElMessageBox.confirm(tl('updateActionTip'), {
+    await ElMessageBox.confirm(tl('updateActionTip', { operation: tl('updateActionConf') }), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
       type: 'warning',

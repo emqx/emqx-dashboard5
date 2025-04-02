@@ -152,10 +152,7 @@
 // rule inputs and rule outputs
 .rule-io {
   .io-item {
-    height: 64px;
     border: 1px solid var(--color-border-primary);
-    display: flex;
-    align-items: center;
     box-sizing: border-box;
     border-radius: var(--el-border-radius-base);
     padding: 0 6px;
@@ -163,11 +160,23 @@
     $img-width: 48px;
     $img-margin-right: 12px;
     $op-width: 136px;
-    img {
-      width: $img-width;
-      flex-shrink: 0;
-      margin-right: $img-margin-right;
+    .io-item-main {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      color: unset;
+      &:hover {
+        .io-op {
+          display: block;
+        }
+      }
+      > img {
+        width: $img-width;
+        flex-shrink: 0;
+        margin-right: $img-margin-right;
+      }
     }
+
     .io-item-bd {
       flex-grow: 1;
       max-width: calc(100% - $img-width - $img-margin-right - 12px);
@@ -192,13 +201,27 @@
       border-color: var(--el-color-primary);
       cursor: pointer;
       .io-op {
-        display: block;
         color: var(--el-color-primary);
       }
       .io-item-bd {
         max-width: calc(100% - $img-width - $img-margin-right - $op-width);
       }
     }
+    .el-divider {
+      margin: 0;
+    }
+  }
+  .fallback-container {
+    padding-left: 24px;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    padding-right: 10px;
+  }
+  .editor-label {
+    display: block;
+    // small button height
+    line-height: 24px;
+    margin-bottom: 12px;
   }
   a.io-item {
     color: unset;

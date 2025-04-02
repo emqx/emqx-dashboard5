@@ -6,49 +6,53 @@
     <el-row>
       <el-col :span="24">
         <template v-for="(item, index) in ruleValue.actions" :key="item">
-          <component
-            :is="judgeOutputType(item) === RuleOutput.DataBridge ? 'router-link' : 'div'"
-            class="io-item"
-            :to="{ name: 'action-detail', params: { id: item } }"
-            target="_blank"
-          >
-            <!-- <div> -->
-            <img :src="getOutputImage(item)" />
-            <div class="io-item-bd">
-              <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
-                {{ (item as string).split(ACTION_TYPE_NAME_CONNECTOR)[1] }}
+          <div class="io-item">
+            <component
+              :is="isOutputAction(item) ? 'router-link' : 'div'"
+              class="io-item-main"
+              :to="{ name: 'action-detail', params: { id: item } }"
+              target="_blank"
+            >
+              <img :src="getOutputImage(item)" />
+              <div class="io-item-bd">
+                <div v-if="isOutputAction(item)">
+                  {{ item.split(ACTION_TYPE_NAME_CONNECTOR)[1] }}
+                </div>
+                <div class="io-desc">
+                  {{ getOutputTypeLabel(item) }}
+                </div>
               </div>
-              <div class="io-desc">
-                {{ getOutputTypeLabel(item) }}
-              </div>
-            </div>
 
-            <span class="io-op">
-              <el-button
-                size="small"
-                :disabled="disabled"
-                @click.prevent="openOutputDrawer(true, index)"
-              >
-                {{ $t('Base.edit') }}
-              </el-button>
-              <el-button
-                size="small"
-                plain
-                :disabled="!$hasPermission('put') || disabled"
-                @click.prevent="deleteOutput(index)"
-              >
-                {{ $t('Base.delete') }}
-              </el-button>
-            </span>
-            <!-- </div> -->
-            <!-- <div v-if="judgeOutputType(item) === RuleOutput.DataBridge">
-              <h1>
-                <p>🍅🍅🍅</p>
-                <pre>{{ getActionFallback(item as string) }}</pre>
-                <hr />
-              </h1>
-            </div> -->
-          </component>
+              <span class="io-op">
+                <el-button
+                  size="small"
+                  :disabled="disabled"
+                  @click.prevent="openOutputDrawer(true, index)"
+                >
+                  {{ $t('Base.edit') }}
+                </el-button>
+                <el-button
+                  size="small"
+                  plain
+                  :disabled="!$hasPermission('put') || disabled"
+                  @click.prevent="deleteOutput(index)"
+                >
+                  {{ $t('Base.delete') }}
+                </el-button>
+              </span>
+            </component>
+            <template v-if="isOutputAction(item)">
+              <el-divider />
+              <div class="fallback-container">
+                <label class="editor-label">{{ tl('fallbackActions') }}</label>
+                <FallbackActionsEditor
+                  :model-value="getActionFallback(item)"
+                  in-rule-outputs
+                  @update:model-value="handleFallbackActionsChange(item, $event)"
+                />
+              </div>
+            </template>
+          </div>
         </template>
         <CreateButton
           class="btn-add"
@@ -77,9 +81,17 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { BridgeType, RuleOutput } from '@/types/enum'
-import { Action, BasicRule, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import {
+  Action,
+  BasicRule,
+  FallbackAction,
+  OutputItem,
+  OutputItemObj,
+  RuleItem,
+} from '@/types/rule'
 import { ElMessageBox as MB } from 'element-plus'
 import RuleOutputsDrawer from './RuleOutputsDrawer.vue'
+import FallbackActionsEditor from '../Bridge/Components/FallbackActionsEditor.vue'
 
 const ACTION_TYPE_NAME_CONNECTOR = ':'
 
@@ -188,6 +200,8 @@ const submitOutput = (opObj: OutputItem, isEdit: boolean) => {
 }
 
 const { judgeOutputType } = useRuleOutputs()
+const isOutputAction = (item: OutputItem): item is string =>
+  judgeOutputType(item) === RuleOutput.DataBridge
 
 const getOutputImage = (item: OutputItem) => {
   if (!item) {
@@ -235,7 +249,6 @@ const getOutputTypeLabel = (item: OutputItem) => {
 const actionInfoMap = ref(new Map<string, Action>())
 const { getDetail } = useHandleActionItem()
 const queryActionInfoMap = async () => {
-  debugger
   props.modelValue.actions?.forEach(async (item) => {
     if (
       judgeOutputType(item) === RuleOutput.DataBridge &&
@@ -248,7 +261,21 @@ const queryActionInfoMap = async () => {
 }
 queryActionInfoMap()
 const getActionFallback = (id: string) => {
-  return actionInfoMap.value.get(id)?.fallback_actions
+  return actionInfoMap.value.get(id)?.fallback_actions ?? []
+}
+
+const { updateAction } = useHandleActionItem()
+const handleFallbackActionsChange = async (id: string, fallbackActions: FallbackAction[]) => {
+  try {
+    const actionInfo = actionInfoMap.value.get(id)
+    const newInfo = await updateAction({
+      ...actionInfo,
+      fallback_actions: fallbackActions,
+    } as Action)
+    actionInfoMap.value.set(getBridgeKey(newInfo), newInfo)
+  } catch (error) {
+    //
+  }
 }
 </script>
 
