@@ -212,20 +212,20 @@
     }
   }
   .fallback-container {
-    padding-left: 24px;
-    padding-top: 16px;
-    padding-bottom: 8px;
-    padding-right: 10px;
+    position: relative;
     margin-top: 8px;
     margin-bottom: 8px;
-    background-color: var(--el-fill-color-light);
-    border-radius: 0 0 var(--el-border-radius-base) var(--el-border-radius-base);
+    .fallback-actions-editor {
+      border-radius: 0 0 var(--el-border-radius-base) var(--el-border-radius-base);
+    }
   }
   .editor-label {
+    position: absolute;
+    top: 16px;
+    left: 16px;
     display: block;
     // small button height
-    line-height: 24px;
-    margin-bottom: 12px;
+    line-height: 22px;
   }
   a.io-item {
     color: unset;

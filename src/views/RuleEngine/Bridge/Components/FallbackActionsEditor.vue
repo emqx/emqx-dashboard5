@@ -1,11 +1,22 @@
 <template>
-  <div class="fallback-actions-editor">
+  <div class="fallback-actions-editor" :class="{ 'no-padding': !actionList.length }">
     <div class="editor-hd">
-      <CreateButton class="btn-add-fallback" link @click="addAction" size="small">
+      <CreateButton
+        v-if="!inRuleOutputs"
+        class="btn-add-fallback"
+        link
+        @click="addAction"
+        size="small"
+      >
         {{ tl('addFallbackAction') }}
       </CreateButton>
     </div>
-    <ul>
+    <ul class="action-list">
+      <div v-if="inRuleOutputs" class="action-list-hd">
+        <CreateButton class="btn-add-fallback" link @click="addAction" size="small">
+          {{ tl('addFallbackAction') }}
+        </CreateButton>
+      </div>
       <li
         class="action-item"
         :class="{ 'in-rule-outputs': inRuleOutputs }"
@@ -43,6 +54,7 @@
           </el-card>
         </component>
       </li>
+      <p class="tip" v-if="!actionList.length">{{ t('Base.none') }}</p>
     </ul>
     <RuleOutputsDrawer
       v-model="isDrawerOpen"
@@ -196,6 +208,7 @@ const handleActionSubmitted = (action: OutputItem) => {
 <style lang="scss">
 @use 'sass:math';
 
+$list-padding: 16px;
 .fallback-actions-editor {
   width: 100%;
   max-width: 600px;
@@ -204,10 +217,23 @@ const handleActionSubmitted = (action: OutputItem) => {
     margin: 0;
     list-style: none;
   }
+  .action-list {
+    padding: $list-padding;
+    background-color: var(--color-bg-split);
+    border-radius: var(--el-border-radius-base);
+  }
+  $button-margin-bottom: 12px;
+  .action-list-hd {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: $button-margin-bottom;
+  }
   $margin-bottom: 12px;
   .action-item {
     position: relative;
-    margin-bottom: $margin-bottom;
+    &:not(:last-child) {
+      margin-bottom: $margin-bottom;
+    }
     &:hover {
       .action-item-op {
         visibility: visible;
@@ -217,13 +243,10 @@ const handleActionSubmitted = (action: OutputItem) => {
       &:not(:last-child) {
         margin-bottom: 8px;
       }
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
   }
   img {
-    height: 48px;
+    height: 36px;
     margin-right: 4px;
   }
   .editor-hd {
@@ -231,7 +254,7 @@ const handleActionSubmitted = (action: OutputItem) => {
     .btn-add-fallback {
       position: absolute;
       right: 0;
-      bottom: 12px;
+      bottom: $button-margin-bottom;
     }
   }
   .action-item-op {
