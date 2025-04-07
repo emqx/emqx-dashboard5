@@ -27,15 +27,21 @@
                 </el-table-column>
                 <el-table-column width="120">
                   <template #header>
-                    <el-button
-                      size="small"
-                      type="primary"
-                      plain
-                      :disabled="!$hasPermission('put')"
-                      @click="openInviteDialog"
+                    <el-tooltip
+                      effect="dark"
+                      :content="t('BasicConfig.licenseTypeInviteForbidden')"
+                      :disabled="!isCommunityLicense"
                     >
-                      {{ t('BasicConfig.invite') }}
-                    </el-button>
+                      <el-button
+                        size="small"
+                        type="primary"
+                        plain
+                        :disabled="!$hasPermission('put') || isCommunityLicense"
+                        @click="openInviteDialog"
+                      >
+                        {{ t('BasicConfig.invite') }}
+                      </el-button>
+                    </el-tooltip>
                   </template>
                   <template #default="{ row }">
                     <el-button
@@ -82,6 +88,9 @@ import { forceLeaveNode, getClusterNodes, inviteNode } from '@/api/common'
 import { toLower } from 'lodash'
 
 const { t, tl } = useI18nTl('BasicConfig')
+
+const { getters } = useStore()
+const isCommunityLicense = computed(() => getters.isCommunityLicense)
 
 const clusterInfo = ref<ClusterInfo>({ name: '', nodes: [], self: '' })
 
