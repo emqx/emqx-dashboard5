@@ -20,6 +20,7 @@ export default (
     type?: string
     edit: boolean
     modelValue: Record<string, any>
+    readonly?: boolean
   } & unknown,
 ): {
   getComponentsHandler: () => Handler
@@ -127,6 +128,7 @@ export default (
       comRet.fallback_actions.customComponent = markRaw(FallbackActionsEditor)
       comRet.fallback_actions.componentProps = {
         actionKey: currentEditingActionKey.value,
+        readonly: !!props.readonly,
       }
     }
     const paramsProps = components?.parameters
