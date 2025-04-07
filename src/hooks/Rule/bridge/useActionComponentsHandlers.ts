@@ -19,6 +19,7 @@ export default (
   props: {
     type?: string
     edit: boolean
+    modelValue: Record<string, any>
   } & unknown,
 ): {
   getComponentsHandler: () => Handler
@@ -100,6 +101,14 @@ export default (
     return parm
   }
 
+  const currentEditingActionKey = computed<undefined | string>(() => {
+    if (!props.edit || !props.modelValue) {
+      return undefined
+    }
+    const key = getBridgeKey(props.modelValue as any)
+    return key
+  })
+
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -116,6 +125,9 @@ export default (
     }
     if (comRet.fallback_actions) {
       comRet.fallback_actions.customComponent = markRaw(FallbackActionsEditor)
+      comRet.fallback_actions.componentProps = {
+        actionKey: currentEditingActionKey.value,
+      }
     }
     const paramsProps = components?.parameters
     if (paramsProps) {
