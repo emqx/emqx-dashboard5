@@ -34,7 +34,7 @@
             <ActionSelect
               v-model="bridgeForm.id"
               :type="outputForm.type"
-              :disable-list="outputDisableList"
+              :disable-list="disabledActionList"
             />
           </el-form-item>
         </el-col>
@@ -144,6 +144,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * just use when isFallback is true
+   * prevent select same action in fallback actions
+   */
+  actionKey: {
+    type: String,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'submit'])
@@ -226,6 +233,13 @@ const isOutputTypeDisabled = (type: string) => {
       return false
   }
 }
+
+const disabledActionList = computed(() => {
+  if (props.isFallback) {
+    return [...(props.outputDisableList || []), ...(props.actionKey ? [props.actionKey] : [])]
+  }
+  return props.outputDisableList
+})
 
 const { getBridgeGeneralType } = useBridgeTypeValue()
 const setFormDataWhenOpenDialog = async () => {

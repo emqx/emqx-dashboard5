@@ -47,6 +47,7 @@
                 <label class="editor-label">{{ tl('fallbackActions') }}</label>
                 <FallbackActionsEditor
                   :model-value="getActionFallback(item)"
+                  :action-key="item"
                   in-rule-outputs
                   @update:model-value="handleFallbackActionsChange(item, $event)"
                 />

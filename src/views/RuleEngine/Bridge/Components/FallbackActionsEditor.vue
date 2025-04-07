@@ -60,6 +60,7 @@
       v-model="isDrawerOpen"
       is-fallback
       :edit="!!currentAction"
+      :action-key="actionKey"
       :output="outputForDrawer"
       :output-disable-list="outputDisableList"
       @submit="handleActionSubmitted"
@@ -84,6 +85,7 @@ type FallbackActionArr = Array<FallbackAction>
 const props = defineProps<{
   modelValue?: FallbackActionArr
   inRuleOutputs?: boolean
+  actionKey?: string
 }>()
 
 const emit = defineEmits<{
