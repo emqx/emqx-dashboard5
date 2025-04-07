@@ -2,7 +2,7 @@
   <div class="fallback-actions-editor" :class="{ 'no-padding': !actionList.length }">
     <div class="editor-hd">
       <CreateButton
-        v-if="!inRuleOutputs"
+        v-if="!inRuleOutputs && !readonly"
         class="btn-add-fallback"
         link
         @click="addAction"
@@ -11,7 +11,7 @@
         {{ tl('addFallbackAction') }}
       </CreateButton>
     </div>
-    <ul class="action-list">
+    <ul class="action-list" :class="{ 'empty-readonly': !!readonly && !actionList.length }">
       <div v-if="inRuleOutputs" class="action-list-hd">
         <CreateButton class="btn-add-fallback" link @click="addAction" size="small">
           {{ tl('addFallbackAction') }}
@@ -43,7 +43,7 @@
                 <span class="action-item-type">{{ getActionTypeLabel(action) }}</span>
               </div>
             </div>
-            <div class="action-item-op">
+            <div class="action-item-op" v-if="!readonly">
               <el-button size="small" @click.prevent="editAction(index)">
                 {{ t('Base.edit') }}
               </el-button>
@@ -86,6 +86,7 @@ const props = defineProps<{
   modelValue?: FallbackActionArr
   inRuleOutputs?: boolean
   actionKey?: string
+  readonly?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -223,6 +224,10 @@ $list-padding: 16px;
     padding: $list-padding;
     background-color: var(--color-bg-split);
     border-radius: var(--el-border-radius-base);
+    &.empty-readonly {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
   $button-margin-bottom: 12px;
   .action-list-hd {
