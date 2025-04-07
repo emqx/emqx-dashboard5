@@ -55,6 +55,10 @@ export default {
     zh: '邀请节点',
     en: 'Invite nodes',
   },
+  licenseTypeInviteForbidden: {
+    zh: '社区版 License 不支持邀请节点',
+    en: 'Community license does not support inviting nodes',
+  },
   inviteNodeDesc: {
     zh: "当集群节点的服务发现方法 ('cluster.discovery_strategy') 是 'manual' 的时候，可手动邀请节点加入集群",
     en: "When 'cluster.service_discovery' is configured with 'manual', you may invite another node to join the cluster.",
