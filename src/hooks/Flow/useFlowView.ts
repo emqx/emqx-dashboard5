@@ -191,6 +191,19 @@ export default (): {
       sinkNodes[index].type = node.type
     }
   }
+  /**
+   * When an action both as a regular action (directly used by rules) and as a fallback action,
+   * for better layout organization, place it in the fallback action list.
+   */
+  const addNodeToFallbackNodes = (node: Node) => {
+    const sinkNodeIndex = sinkNodes.findIndex((item) => item.id === node.id)
+    const rulesUsed = sinkNodes[sinkNodeIndex].data.rulesUsed
+    if (rulesUsed?.length) {
+      rulesUsed.forEach((rule: string) => addRuleIdToNode(node, rule))
+    }
+    sinkNodes.splice(sinkNodeIndex, 1)
+    fallbackNodes.push(node)
+  }
   const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
     const actionFallbackNodes: Array<Node> = []
     const actionFallbackEdges: Array<Edge> = []
@@ -208,7 +221,7 @@ export default (): {
         actionFallbackEdges.push(...edges)
       }
     })
-    fallbackNodes = actionFallbackNodes
+    actionFallbackNodes.forEach((node) => addNodeToFallbackNodes(node))
     edgeArr.push(...actionFallbackEdges)
   }
 
