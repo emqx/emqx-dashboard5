@@ -121,6 +121,7 @@ import {
   EdgeAddChange,
   EdgeChange,
   EdgeMouseEvent,
+  NodeChange,
   FitViewParams,
   Node,
   NodeMouseEvent,
@@ -238,7 +239,10 @@ const onDragOver = (event: DragEvent) => {
   }
 }
 
-const updateEdges = () => {
+const updateEdges = (e: Array<NodeChange>) => {
+  if (e.length > 1 || e.length === 0 || e[0].type !== 'add') {
+    return
+  }
   const neededEdges = countNeededEdges(getNodes.value)
   setEdges(neededEdges)
 }

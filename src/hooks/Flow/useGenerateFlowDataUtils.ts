@@ -54,7 +54,7 @@ export type GroupedNode = {
   [ProcessingType.Filter]: Array<Node>
   [ProcessingType.Function]: Array<Node>
   [NodeType.Sink]: Array<Node>
-  [NodeType.Fallback]: Array<Node>
+  [NodeType.Fallback]?: Array<Node>
 }
 
 export default (): {
@@ -481,7 +481,7 @@ export default (): {
       }
       if (nodes[currentKey] && nodes[nextKey]) {
         nodes[currentKey].forEach((cur) => {
-          nodes[nextKey].forEach((nex) => {
+          ;(nodes[nextKey] ?? []).forEach((nex) => {
             result.push(generateEdgeFromTwoNodes(cur, nex))
           })
         })
@@ -553,11 +553,11 @@ export default (): {
     const keys: Array<keyof GroupedNode> = [NodeType.Source, NodeType.Sink]
 
     const totalHeight =
-      Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
+      Math.max(...keys.map((key) => (nodes[key] ?? []).length)) * (nodeHeight + nodeRowSpacing) -
       nodeRowSpacing
     setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
     setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
-    setPositionToColumnNodes(nodes[NodeType.Fallback], 4, totalHeight)
+    setPositionToColumnNodes(nodes[NodeType.Fallback] ?? [], 4, totalHeight)
     // Set filter & function nodes position based on source nodes to avoid overlap
     const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
     processingTypes.forEach((type, columnIndex) =>
@@ -581,9 +581,9 @@ export default (): {
       NodeType.Sink,
       NodeType.Fallback,
     ]
-    const nodesArr = keys.map((key) => nodes[key])
+    const nodesArr = keys.map((key) => nodes[key] ?? [])
     const totalHeight =
-      Math.max(...keys.map((key) => nodes[key].length)) * (nodeHeight + nodeRowSpacing) -
+      Math.max(...keys.map((key) => (nodes[key] ?? []).length)) * (nodeHeight + nodeRowSpacing) -
       nodeRowSpacing
     nodesArr.forEach((arr, index) => setPositionToColumnNodes(arr, index, totalHeight))
   }
