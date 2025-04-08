@@ -18,7 +18,7 @@ export const enum NodeType {
   Source,
   Processing,
   Sink,
-  SinkWithFallback,
+  Fallback,
 }
 
 export const SourceType = RuleSourceType
@@ -133,7 +133,7 @@ export default (): {
     [NodeType.Source]: 'node-source',
     [NodeType.Processing]: 'node-processing',
     [NodeType.Sink]: 'node-sink',
-    [NodeType.SinkWithFallback]: 'node-sink',
+    [NodeType.Fallback]: 'node-sink',
   }
   const getNodeClass = (type: NodeType) => nodeClassMap[type]
 
@@ -150,8 +150,8 @@ export default (): {
   const typeMap = {
     [NodeType.Source]: FlowNodeType.Input,
     [NodeType.Processing]: FlowNodeType.Default,
-    [NodeType.SinkWithFallback]: FlowNodeType.Default,
     [NodeType.Sink]: FlowNodeType.Output,
+    [NodeType.Fallback]: FlowNodeType.Output,
   }
   const getTypeCommonData = (type: NodeType) => {
     const flowNodeType = typeMap[type]

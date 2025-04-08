@@ -53,8 +53,8 @@ export type GroupedNode = {
   [NodeType.Source]: Array<Node>
   [ProcessingType.Filter]: Array<Node>
   [ProcessingType.Function]: Array<Node>
-  [NodeType.SinkWithFallback]: Array<Node>
   [NodeType.Sink]: Array<Node>
+  [NodeType.Fallback]: Array<Node>
 }
 
 export default (): {
@@ -379,8 +379,8 @@ export default (): {
     [NodeType.Source]: [],
     [ProcessingType.Function]: [],
     [ProcessingType.Filter]: [],
-    [NodeType.SinkWithFallback]: [],
     [NodeType.Sink]: [],
+    [NodeType.Fallback]: [],
   })
   const { judgeIsWebhookRule } = useWebhookUtils()
   const { allMsgsAndEvents } = useRuleUtils()
@@ -441,19 +441,19 @@ export default (): {
     if (!fallback_actions?.length) {
       return { nodes, edges: [] }
     }
-    let sourceNode = generateNodeBaseRuleOutput(id)
+    const sourceNode = generateNodeBaseRuleOutput(id)
     if (!sourceNode) {
       return { nodes, edges: [] }
     }
 
-    sourceNode = { ...sourceNode, ...getTypeCommonData(NodeType.SinkWithFallback) }
+    sourceNode.type = FlowNodeType.Default
     const convertedFallbackActions = fallback_actions.map(convertFallbackActionToRuleOutput)
     const targetNodes = generateNodesBaseRuleOutputs(convertedFallbackActions)
     const edges = targetNodes.map((node) =>
       generateEdgeFromTwoNodes(sourceNode, node, fallbackEdgeStyle),
     )
-    nodes[NodeType.Sink] = targetNodes
-    nodes[NodeType.SinkWithFallback] = [sourceNode]
+    nodes[NodeType.Sink] = [sourceNode]
+    nodes[NodeType.Fallback] = targetNodes
     return { nodes, edges }
   }
 
@@ -557,7 +557,7 @@ export default (): {
       nodeRowSpacing
     setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
     setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
-    setPositionToColumnNodes(nodes[NodeType.SinkWithFallback], 4, totalHeight)
+    setPositionToColumnNodes(nodes[NodeType.Fallback], 4, totalHeight)
     // Set filter & function nodes position based on source nodes to avoid overlap
     const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
     processingTypes.forEach((type, columnIndex) =>

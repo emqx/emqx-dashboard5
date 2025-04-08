@@ -210,10 +210,10 @@ export default (): {
     actionArr.forEach((item: Action) => {
       const { nodes, edges } = generateFlowDataFromActionItem(item)
       if (edges.length) {
-        replaceSinkNodeTypeWithFallbackNodeType(nodes[NodeType.SinkWithFallback][0])
+        replaceSinkNodeTypeWithFallbackNodeType(nodes[NodeType.Sink][0])
         const { rules } = item
         actionFallbackNodes.push(
-          ...nodes[NodeType.Sink].map((node) => {
+          ...nodes[NodeType.Fallback].map((node) => {
             rules.forEach((rule) => addRuleIdToNode(node, rule))
             return node
           }),
@@ -257,7 +257,7 @@ export default (): {
       [ProcessingType.Filter]: filterNodes,
       [ProcessingType.Function]: functionNodes,
       [NodeType.Sink]: sinkNodes,
-      [NodeType.SinkWithFallback]: fallbackNodes,
+      [NodeType.Fallback]: fallbackNodes,
     }
     countNodesPosition(nodes)
   }
