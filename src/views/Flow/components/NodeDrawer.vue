@@ -32,7 +32,7 @@
         v-if="activeTab === DetailTab.Setting"
         ref="FormCom"
         :is="getFormComponent(type)"
-        :key="selectedAction"
+        :key="`${selectedAction}-${isLoading}`"
         v-model="record"
         v-loading="isLoading"
         v-bind="getFormComponentProps(type)"
@@ -77,7 +77,7 @@
           :targetLabel="t('Base.node')"
         >
           <el-button
-            v-if="readonly"
+            v-if="!!readonly"
             type="primary"
             @click="edit"
             :disabled="!$hasPermission('put') || disabledEditBecauseWebhook"
@@ -258,12 +258,14 @@ const actionDirection = computed(() =>
   props.node?.type === FlowNodeType.Input ? BridgeDirection.Ingress : BridgeDirection.Egress,
 )
 const { handleActionDataAfterLoaded } = useHandleActionItem()
-const processSelectedActionChange = (action: BridgeItem | undefined) => {
+const processSelectedActionChange = async (action: BridgeItem | undefined) => {
   // select create a new one
   if (!action) {
     record.value = getFormDataByType(type.value)
   } else {
-    record.value = handleActionDataAfterLoaded(cloneDeep(action))
+    record.value.id = action.id
+    await getActionAndSourceDetail()
+    record.value = handleActionDataAfterLoaded(record.value)
   }
 }
 const actionLabel = computed(() =>
