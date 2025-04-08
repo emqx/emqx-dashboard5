@@ -579,6 +579,7 @@ export default (): {
       ProcessingType.Function,
       ProcessingType.Filter,
       NodeType.Sink,
+      NodeType.Fallback,
     ]
     const nodesArr = keys.map((key) => nodes[key])
     const totalHeight =

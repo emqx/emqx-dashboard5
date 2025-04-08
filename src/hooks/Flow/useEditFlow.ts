@@ -46,6 +46,24 @@ export default (): {
     )
     return nodes
   }
+  const addFallbackDataToFlow = (nodes: GroupedNode, edges: Array<Edge>) => {
+    const retEdges = [...edges]
+    const outputNodes = nodes[NodeType.Sink]
+    for (let index = 0; index < outputNodes.length; index++) {
+      const node = outputNodes[index]
+      if (isBridgerNode(node) && node.data.isCreated) {
+        const { nodes: fallbackNodes, edges: fallbackEdges } = generateFlowDataFromActionItem(
+          node.data.formData,
+        )
+        if (fallbackEdges.length) {
+          node.type = FlowNodeType.Default
+          nodes[NodeType.Fallback].push(...fallbackNodes[NodeType.Fallback])
+          retEdges.push(...fallbackEdges)
+        }
+      }
+    }
+    return { nodes, edges: retEdges }
+  }
 
   /**
    * Adding a flag to the node data indicates that these bridges have
@@ -62,6 +80,7 @@ export default (): {
     generateFlowDataFromRuleItem,
     countNodePositionWhileEditing,
     addFlagToRemovedBridgeNode,
+    generateFlowDataFromActionItem,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
 
@@ -70,9 +89,14 @@ export default (): {
       return
     }
     const ruleFlowData = generateFlowDataFromRuleItem(ruleData.value)
-    const { nodes, edges } = ruleFlowData
-    const sourceAndSinkNodes = [...nodes[NodeType.Source], ...nodes[NodeType.Sink]]
+    const { nodes: withoutFallbackNodes, edges: withoutFallbackEdges } = ruleFlowData
+    const sourceAndSinkNodes = [
+      ...withoutFallbackNodes[NodeType.Source],
+      ...withoutFallbackNodes[NodeType.Sink],
+    ]
     await addBridgeFormDataToNodes(sourceAndSinkNodes)
+    const { nodes, edges } = addFallbackDataToFlow(withoutFallbackNodes, withoutFallbackEdges)
+    await addBridgeFormDataToNodes(nodes[NodeType.Fallback])
 
     Object.entries(nodes).forEach(([key, value]) => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')
@@ -81,7 +105,7 @@ export default (): {
     countNodePositionWhileEditing(nodes)
     flowData.value = [
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
-        if (Number(key) === NodeType.Source || Number(key) === NodeType.Sink) {
+        if ([NodeType.Source, NodeType.Fallback, NodeType.Sink].includes(Number(key) as NodeType)) {
           value.forEach((item) => addFlagToRemovedBridgeNode(item))
         }
         return [...arr, ...value]
