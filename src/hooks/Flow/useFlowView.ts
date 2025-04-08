@@ -244,6 +244,7 @@ export default (): {
       [ProcessingType.Filter]: filterNodes,
       [ProcessingType.Function]: functionNodes,
       [NodeType.Sink]: sinkNodes,
+      [NodeType.SinkWithFallback]: fallbackNodes,
     }
     countNodesPosition(nodes)
   }
@@ -264,6 +265,7 @@ export default (): {
     functionNodes = []
     filterNodes = []
     sinkNodes = []
+    fallbackNodes = []
     edgeArr = []
   }
 
