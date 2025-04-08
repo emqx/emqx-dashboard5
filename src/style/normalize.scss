@@ -968,6 +968,7 @@
 /* Dialog */
 .el-dialog {
   &.dialog-with-divider {
+    padding: 0;
     .el-dialog__headerbtn {
       height: 50px;
     }

@@ -344,8 +344,8 @@ export default (): {
   const sinkNodeList: Array<NodeItem> = Object.entries(SinkType)
     .sort(
       (a, b) =>
-        (sinkOrderIndex[a[1]] || Number.MAX_SAFE_INTEGER) -
-        (sinkOrderIndex[b[1]] || Number.MAX_SAFE_INTEGER),
+        (sinkOrderIndex[a[1]] ?? Number.MAX_SAFE_INTEGER) -
+        (sinkOrderIndex[b[1]] ?? Number.MAX_SAFE_INTEGER),
     )
     .map(([, value]) => generateNodeByType(value))
 
