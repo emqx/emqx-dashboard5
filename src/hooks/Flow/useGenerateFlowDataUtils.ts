@@ -420,15 +420,19 @@ export default (): {
     return { nodes, edges }
   }
 
-  const generateEdgeFromTwoNodes = (source: Node, target: Node): Edge => ({
+  const generateEdgeFromTwoNodes = (source: Node, target: Node, style = {}): Edge => ({
     id: `${source.id}-${target.id}`,
     source: source.id,
     target: target.id,
-    style: {},
+    style,
   })
 
   /* ACTIONS */
   const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
+  const fallbackEdgeStyle = {
+    stroke: '#bbb',
+    strokeDasharray: '5 5',
+  }
   const generateFlowDataFromActionItem = (
     action: Action,
   ): { nodes: GroupedNode; edges: Edge[] } => {
@@ -445,7 +449,9 @@ export default (): {
     sourceNode = { ...sourceNode, ...getTypeCommonData(NodeType.SinkWithFallback) }
     const convertedFallbackActions = fallback_actions.map(convertFallbackActionToRuleOutput)
     const targetNodes = generateNodesBaseRuleOutputs(convertedFallbackActions)
-    const edges = targetNodes.map((node) => generateEdgeFromTwoNodes(sourceNode, node))
+    const edges = targetNodes.map((node) =>
+      generateEdgeFromTwoNodes(sourceNode, node, fallbackEdgeStyle),
+    )
     nodes[NodeType.Sink] = targetNodes
     nodes[NodeType.SinkWithFallback] = [sourceNode]
     return { nodes, edges }
@@ -551,6 +557,7 @@ export default (): {
       nodeRowSpacing
     setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
     setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
+    setPositionToColumnNodes(nodes[NodeType.SinkWithFallback], 4, totalHeight)
     // Set filter & function nodes position based on source nodes to avoid overlap
     const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
     processingTypes.forEach((type, columnIndex) =>
