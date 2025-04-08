@@ -18,6 +18,7 @@ export const enum NodeType {
   Source,
   Processing,
   Sink,
+  SinkWithFallback,
 }
 
 export const SourceType = RuleSourceType
@@ -132,6 +133,7 @@ export default (): {
     [NodeType.Source]: 'node-source',
     [NodeType.Processing]: 'node-processing',
     [NodeType.Sink]: 'node-sink',
+    [NodeType.SinkWithFallback]: 'node-sink',
   }
   const getNodeClass = (type: NodeType) => nodeClassMap[type]
 
@@ -148,6 +150,7 @@ export default (): {
   const typeMap = {
     [NodeType.Source]: FlowNodeType.Input,
     [NodeType.Processing]: FlowNodeType.Default,
+    [NodeType.SinkWithFallback]: FlowNodeType.Default,
     [NodeType.Sink]: FlowNodeType.Output,
   }
   const getTypeCommonData = (type: NodeType) => {
@@ -268,7 +271,7 @@ export default (): {
   }
 
   const adjustTypeForSpecialCases = (type: string): string => {
-    if (([SourceType.MQTT, SinkType.MQTT] as Array<string>).includes(type)) {
+    if (([SourceType.MQTTBroker, SinkType.MQTT] as Array<string>).includes(type)) {
       return BridgeType.MQTT
     }
 

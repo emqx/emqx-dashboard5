@@ -1,5 +1,5 @@
 import { getRules } from '@/api/ruleengine'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import { Action, BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
 import useActionList from '../Rule/action/useActionList'
@@ -13,6 +13,7 @@ export default (): {
 } => {
   let ruleList: Array<RuleItem> = []
   let bridgeData: Map<string, BridgeItem> = new Map()
+  let actionList: Array<Action> = []
 
   // column 1
   let sourceNodes: Array<Node> = []
@@ -22,6 +23,8 @@ export default (): {
   let filterNodes: Array<Node> = []
   // column 4
   let sinkNodes: Array<Node> = []
+  // column 5
+  let fallbackNodes: Array<Node> = []
 
   let edgeArr: Array<Edge> = []
 
@@ -39,11 +42,18 @@ export default (): {
 
   const { getActionList } = useActionList()
   const { getSourceList } = useSourceList()
-  const { handleActionDataAfterLoaded } = useHandleActionItem()
+  const { getDetail, handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
       const sourceList = await getSourceList()
       const sinkList = await getActionList()
+      await Promise.allSettled(
+        sinkList.map(async (item, index) => {
+          const actionDetail = await getDetail(item.id)
+          sinkList[index] = { ...sinkList[index], ...actionDetail }
+        }),
+      )
+      actionList = sinkList as Array<Action>
       const list = [...sourceList, ...sinkList]
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
         m.set(item.id, handleActionDataAfterLoaded(item))
@@ -55,15 +65,26 @@ export default (): {
     }
   }
 
-  const { generateFlowDataFromRuleItem, countNodesPosition, addFlagToRemovedBridgeNode } =
-    useGenerateFlowDataUtils()
+  const {
+    generateFlowDataFromRuleItem,
+    generateFlowDataFromActionItem,
+    countNodesPosition,
+    addFlagToRemovedBridgeNode,
+  } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
 
+  const addRuleIdToNode = (node: Node, ruleId: string) => {
+    if (!node.data.rulesUsed) {
+      node.data.rulesUsed = []
+    }
+    if (!node.data.rulesUsed.includes(ruleId)) {
+      node.data.rulesUsed.push(ruleId)
+    }
+    return node
+  }
+
   const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
-    nodes.map((node) => {
-      node.data.rulesUsed = [ruleId]
-      return node
-    })
+    nodes.map((node) => addRuleIdToNode(node, ruleId))
 
   const addBridgeFormDataToNodes = (node: Array<Node>): Array<Node> => {
     return node.map((item) => {
@@ -164,6 +185,33 @@ export default (): {
     )
   }
 
+  const replaceSinkNodeTypeWithFallbackNodeType = (node: Node) => {
+    const index = sinkNodes.findIndex((item) => item.id === node.id)
+    if (index > -1) {
+      sinkNodes[index].type = node.type
+    }
+  }
+  const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
+    const actionFallbackNodes: Array<Node> = []
+    const actionFallbackEdges: Array<Edge> = []
+    actionArr.forEach((item: Action) => {
+      const { nodes, edges } = generateFlowDataFromActionItem(item)
+      if (edges.length) {
+        replaceSinkNodeTypeWithFallbackNodeType(nodes[NodeType.SinkWithFallback][0])
+        const { rules } = item
+        actionFallbackNodes.push(
+          ...nodes[NodeType.Sink].map((node) => {
+            rules.forEach((rule) => addRuleIdToNode(node, rule))
+            return node
+          }),
+        )
+        actionFallbackEdges.push(...edges)
+      }
+    })
+    fallbackNodes = actionFallbackNodes
+    edgeArr.push(...actionFallbackEdges)
+  }
+
   const removeDuplicatedNodes = () => {
     const nodeArrays = [sourceNodes, functionNodes, filterNodes, sinkNodes]
     nodeArrays.forEach((nodeArray, i) => (nodeArrays[i] = unionBy(nodeArray, 'id')))
@@ -201,7 +249,14 @@ export default (): {
   }
 
   const joinToFlowData = () => {
-    flowData.value = [...sourceNodes, ...functionNodes, ...filterNodes, ...sinkNodes, ...edgeArr]
+    flowData.value = [
+      ...sourceNodes,
+      ...functionNodes,
+      ...filterNodes,
+      ...sinkNodes,
+      ...fallbackNodes,
+      ...edgeArr,
+    ]
   }
 
   const initNodeAndEdge = () => {
@@ -215,6 +270,7 @@ export default (): {
   const generateFlowData = () => {
     initNodeAndEdge()
     generateFlowDataFromRuleData(ruleList)
+    generateFlowDataFromActionData(actionList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
     setClassToRemovedBridges()
