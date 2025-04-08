@@ -9,8 +9,15 @@ import useBridgeTypeValue, {
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType, EventForRule, RuleInputType, RuleOutput, RuleSQLKeyword } from '@/types/enum'
-import { BridgeItem, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
+import {
+  BridgeType,
+  EventForRule,
+  FallbackActionKind,
+  RuleInputType,
+  RuleOutput,
+  RuleSQLKeyword,
+} from '@/types/enum'
+import { BridgeItem, FallbackAction, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
@@ -373,5 +380,29 @@ export const useRuleOutputs = (): {
 
   return {
     judgeOutputType,
+  }
+}
+
+export const useRuleFallbackActions = (): {
+  convertFallbackActionToRuleOutput: (fallbackAction: FallbackAction) => OutputItem
+} => {
+  /**
+   * for reuse some logic
+   */
+  const convertFallbackActionToRuleOutput = (fallbackAction: FallbackAction) => {
+    if (fallbackAction.kind === FallbackActionKind.Republish) {
+      return {
+        function: RuleOutput.Republish,
+        args: fallbackAction.args,
+      }
+    } else if (fallbackAction.kind === FallbackActionKind.Reference) {
+      return getBridgeKey(fallbackAction)
+    } else {
+      throw new Error('Unsupported fallback action kind')
+    }
+  }
+
+  return {
+    convertFallbackActionToRuleOutput,
   }
 }

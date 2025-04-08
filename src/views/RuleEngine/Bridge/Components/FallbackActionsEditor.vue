@@ -69,11 +69,12 @@
 </template>
 
 <script setup lang="ts">
+import { sentenceCase } from '@/common/tools'
+import { useRuleFallbackActions } from '@/hooks/Rule/rule/useRule'
 import { FallbackActionKind } from '@/types/enum'
 import { FallbackAction, OutputItem } from '@/types/rule'
 import { defineProps } from 'vue'
 import RuleOutputsDrawer from '../../components/RuleOutputsDrawer.vue'
-import { sentenceCase } from '@/common/tools'
 
 /**
  * for adapt rules output
@@ -132,17 +133,12 @@ const currentEditIndex = ref<number>(-1)
 const currentAction = computed<FallbackAction | null>(() => {
   return currentEditIndex.value > -1 ? actionList.value[currentEditIndex.value] : null
 })
+const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
 const outputForDrawer = computed<OutputItem | undefined>(() => {
   if (!currentAction.value) {
     return undefined
   }
-  if (isRepublish(currentAction.value)) {
-    return {
-      function: REPUBLISH_FUNCTION,
-      args: currentAction.value.args,
-    }
-  }
-  return getBridgeKey(currentAction.value)
+  return convertFallbackActionToRuleOutput(currentAction.value)
 })
 const outputDisableList = computed<Array<string>>(() => {
   return (

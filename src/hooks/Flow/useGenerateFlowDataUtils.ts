@@ -10,9 +10,9 @@ import {
   judgeRuleSelectionWithFunc,
 } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
-import { OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-import { useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
+import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
@@ -53,6 +53,7 @@ export type GroupedNode = {
   [NodeType.Source]: Array<Node>
   [ProcessingType.Filter]: Array<Node>
   [ProcessingType.Function]: Array<Node>
+  [NodeType.SinkWithFallback]: Array<Node>
   [NodeType.Sink]: Array<Node>
 }
 
@@ -64,6 +65,10 @@ export default (): {
   detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
   generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
   generateFlowDataFromRuleItem: (ruleData: RuleItem) => {
+    nodes: GroupedNode
+    edges: Array<Edge>
+  }
+  generateFlowDataFromActionItem: (action: Action) => {
     nodes: GroupedNode
     edges: Array<Edge>
   }
@@ -307,7 +312,7 @@ export default (): {
     return node
   }
 
-  /* ACTIONS */
+  /* RULE OUTPUTS */
   /**
    * @returns If the returned type is a bridge type, it is a specific bridge type
    */
@@ -324,47 +329,59 @@ export default (): {
     }
     return ''
   }
-  const generateNodesBaseActions = (actions: Array<OutputItem>): Array<Node> => {
-    return actions.reduce((arr: Array<Node>, item): Array<Node> => {
-      const type = detectOutputType(item)
-      if (!type) {
-        return arr
+  const generateNodeBaseRuleOutput = (action: OutputItem): Node | undefined => {
+    const type = detectOutputType(action)
+    if (!type) {
+      return undefined
+    }
+
+    let specificType = type
+    if (type !== SinkType.Console && type !== SinkType.RePub) {
+      specificType = getSpecificTypeForBridge(specificType)
+    }
+
+    let id = ''
+    let formData = {}
+
+    if (type === SinkType.Console) {
+      id = SinkType.Console
+      formData = createConsoleForm()
+    } else if (type === SinkType.RePub) {
+      id = `${SinkType.RePub}-${(action as OutputItemObj).args?.topic}`
+      formData = action
+    } else {
+      id = `${type}-${action}`
+      formData = { name: getBridgeNameFromId(action as string), id: action }
+    }
+
+    const node: Node = {
+      id,
+      ...getTypeCommonData(NodeType.Sink),
+      label: getTypeLabel(specificType),
+      position: { x: 0, y: 0 },
+      data: { specificType, formData, desc: '' },
+    }
+    node.data.desc = getNodeInfo(node)
+    return node
+  }
+  const generateNodesBaseRuleOutputs = (actions: Array<OutputItem>): Array<Node> => {
+    return actions.reduce((arr: Array<Node>, action): Array<Node> => {
+      const node = generateNodeBaseRuleOutput(action)
+      if (node) {
+        arr.push(node)
       }
-
-      let specificType = type
-      if (type !== SinkType.Console && type !== SinkType.RePub) {
-        specificType = getSpecificTypeForBridge(specificType)
-      }
-
-      let id = ''
-      let formData = {}
-
-      if (type === SinkType.Console) {
-        id = SinkType.Console
-        formData = createConsoleForm()
-      } else if (type === SinkType.RePub) {
-        id = `${SinkType.RePub}-${(item as OutputItemObj).args?.topic}`
-        formData = item
-      } else {
-        id = `${type}-${item}`
-        formData = { name: getBridgeNameFromId(item as string), id: item }
-      }
-
-      const node: Node = {
-        id,
-        ...getTypeCommonData(NodeType.Sink),
-        label: getTypeLabel(specificType),
-        position: { x: 0, y: 0 },
-        data: { specificType, formData, desc: '' },
-      }
-      node.data.desc = getNodeInfo(node)
-
-      arr.push(node)
       return arr
     }, [])
   }
 
   /* RULE */
+  const createInitNodes = (): GroupedNode => ({
+    [NodeType.Source]: [],
+    [ProcessingType.Function]: [],
+    [ProcessingType.Filter]: [],
+    [NodeType.SinkWithFallback]: [],
+    [NodeType.Sink]: [],
+  })
   const { judgeIsWebhookRule } = useWebhookUtils()
   const { allMsgsAndEvents } = useRuleUtils()
   /**
@@ -374,12 +391,7 @@ export default (): {
    */
   const generateFlowDataFromRuleItem = (rule: RuleItem): { nodes: GroupedNode; edges: Edge[] } => {
     const { sql, actions, id, from } = rule
-    const nodes: GroupedNode = {
-      [NodeType.Source]: [],
-      [ProcessingType.Function]: [],
-      [ProcessingType.Filter]: [],
-      [NodeType.Sink]: [],
-    }
+    const nodes: GroupedNode = createInitNodes()
     // If the rule is a webhook and the input is "all messages and events",
     // create an "all messages and events node".
     const { fieldStr, whereStr } = getKeyPartsFromSQL(sql)
@@ -402,9 +414,40 @@ export default (): {
       }
     }
     if (actions.length > 0) {
-      nodes[NodeType.Sink] = generateNodesBaseActions(actions)
+      nodes[NodeType.Sink] = generateNodesBaseRuleOutputs(actions)
     }
     const edges: Array<Edge> = generateEdgesFromNodes(nodes)
+    return { nodes, edges }
+  }
+
+  const generateEdgeFromTwoNodes = (source: Node, target: Node): Edge => ({
+    id: `${source.id}-${target.id}`,
+    source: source.id,
+    target: target.id,
+    style: {},
+  })
+
+  /* ACTIONS */
+  const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
+  const generateFlowDataFromActionItem = (
+    action: Action,
+  ): { nodes: GroupedNode; edges: Edge[] } => {
+    const { id, fallback_actions } = action
+    const nodes: GroupedNode = createInitNodes()
+    if (!fallback_actions?.length) {
+      return { nodes, edges: [] }
+    }
+    let sourceNode = generateNodeBaseRuleOutput(id)
+    if (!sourceNode) {
+      return { nodes, edges: [] }
+    }
+
+    sourceNode = { ...sourceNode, ...getTypeCommonData(NodeType.SinkWithFallback) }
+    const convertedFallbackActions = fallback_actions.map(convertFallbackActionToRuleOutput)
+    const targetNodes = generateNodesBaseRuleOutputs(convertedFallbackActions)
+    const edges = targetNodes.map((node) => generateEdgeFromTwoNodes(sourceNode, node))
+    nodes[NodeType.Sink] = targetNodes
+    nodes[NodeType.SinkWithFallback] = [sourceNode]
     return { nodes, edges }
   }
 
@@ -433,12 +476,7 @@ export default (): {
       if (nodes[currentKey] && nodes[nextKey]) {
         nodes[currentKey].forEach((cur) => {
           nodes[nextKey].forEach((nex) => {
-            result.push({
-              id: `${cur.id}-${nex.id}`,
-              source: cur.id,
-              target: nex.id,
-              style: {},
-            })
+            result.push(generateEdgeFromTwoNodes(cur, nex))
           })
         })
       }
@@ -565,6 +603,7 @@ export default (): {
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
     generateFlowDataFromRuleItem,
+    generateFlowDataFromActionItem,
     countNodesPosition,
     countNodePositionWhileEditing,
     isRemovedBridge,
