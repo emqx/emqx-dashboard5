@@ -337,6 +337,17 @@ const resetDrawerData = () => {
   currentNodeID = ''
 }
 
+const { generateFlowDataFromActionItem, generateFallbackEdge } = useGenerateFlowDataUtils()
+const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>) => {
+  const { x, y } = actionNode.position
+  fallbackNodes.forEach((node, index) => {
+    node.position = {
+      x: x + nodeWidth + 100,
+      y: y + index * (nodeHeight + 30),
+    }
+  })
+  return fallbackNodes
+}
 const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
@@ -347,7 +358,17 @@ const saveDataToNode = (data: Record<string, any>) => {
       node.data.isCreated = !!data.id
     }
     node.data.desc = getNodeInfo(node)
+    if ([FlowNodeType.Default, FlowNodeType.Output].includes(node.type)) {
+      const { nodes, edges } = generateFlowDataFromActionItem(node.data.formData)
+      if (edges.length) {
+        const fallbackNodes: Array<Node> = nodes[NodeType.Fallback] ?? []
+        setPositionToFallbackNodes(node, fallbackNodes)
+        addNodes(fallbackNodes)
+        addEdges(fallbackNodes.map((targetNode) => generateFallbackEdge(node, targetNode)))
+      }
+    }
   }
+
   resetDrawerData()
 }
 

@@ -72,6 +72,7 @@ export default (): {
     nodes: GroupedNode
     edges: Array<Edge>
   }
+  generateFallbackEdge: (source: Node, target: Node, style?: Record<string, string>) => Edge
   countNodesPosition: (nodes: GroupedNode) => void
   countNodePositionWhileEditing: (nodes: GroupedNode) => void
   isRemovedBridge: (node: Node) => boolean
@@ -420,8 +421,9 @@ export default (): {
     return { nodes, edges }
   }
 
+  const generateEdgeId = (source: Node, target: Node) => `${source.id}-${target.id}`
   const generateEdgeFromTwoNodes = (source: Node, target: Node, style = {}): Edge => ({
-    id: `${source.id}-${target.id}`,
+    id: generateEdgeId(source, target),
     source: source.id,
     target: target.id,
     style,
@@ -429,10 +431,9 @@ export default (): {
 
   /* ACTIONS */
   const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
-  const fallbackEdgeStyle = {
-    stroke: '#bbb',
-    strokeDasharray: '5 5',
-  }
+  const fallbackEdgeStyle = { stroke: '#bbb', strokeDasharray: '5 5' }
+  const generateFallbackEdge = (source: Node, target: Node) =>
+    generateEdgeFromTwoNodes(source, target, fallbackEdgeStyle)
   const generateFlowDataFromActionItem = (
     action: Action,
   ): { nodes: GroupedNode; edges: Edge[] } => {
@@ -611,6 +612,7 @@ export default (): {
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
     generateFlowDataFromRuleItem,
+    generateFallbackEdge,
     generateFlowDataFromActionItem,
     countNodesPosition,
     countNodePositionWhileEditing,
