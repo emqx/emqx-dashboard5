@@ -197,11 +197,13 @@ export default (): {
    */
   const addNodeToFallbackNodes = (node: Node) => {
     const sinkNodeIndex = sinkNodes.findIndex((item) => item.id === node.id)
-    const rulesUsed = sinkNodes[sinkNodeIndex].data.rulesUsed
-    if (rulesUsed?.length) {
-      rulesUsed.forEach((rule: string) => addRuleIdToNode(node, rule))
+    if (sinkNodeIndex > -1) {
+      const rulesUsed = sinkNodes[sinkNodeIndex].data.rulesUsed
+      if (rulesUsed?.length) {
+        rulesUsed.forEach((rule: string) => addRuleIdToNode(node, rule))
+      }
+      sinkNodes.splice(sinkNodeIndex, 1)
     }
-    sinkNodes.splice(sinkNodeIndex, 1)
     fallbackNodes.push(node)
   }
   const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
@@ -213,7 +215,7 @@ export default (): {
         replaceSinkNodeTypeWithFallbackNodeType(nodes[NodeType.Sink][0])
         const { rules } = item
         actionFallbackNodes.push(
-          ...nodes[NodeType.Fallback].map((node) => {
+          ...(nodes[NodeType.Fallback] ?? []).map((node) => {
             rules.forEach((rule) => addRuleIdToNode(node, rule))
             return node
           }),
