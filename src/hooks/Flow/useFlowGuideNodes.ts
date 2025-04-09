@@ -53,6 +53,7 @@ export default (): {
       id: createRandomString(),
       source: idSink,
       target: idFallback,
+      style: { stroke: '#bbb', strokeDasharray: '5 5' },
     },
   ]
 
