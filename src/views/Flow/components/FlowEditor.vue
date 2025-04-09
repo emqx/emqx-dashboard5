@@ -268,7 +268,11 @@ const openNodeDrawer = (node: Node<any, any, string>) => {
   isDrawerVisible.value = true
 }
 
-const handleClickNode = (event: NodeMouseEvent) => {
+const handleClickNode = async (event: NodeMouseEvent) => {
+  await waitAMoment()
+  if (isDeletingNode) {
+    return
+  }
   const { node } = event
   openNodeDrawer(node)
 }
@@ -314,7 +318,13 @@ const handleMouseLeaveEdge = async () => {
   getEdges.value.forEach((edge) => setEdgeStatus(edge, false))
 }
 
-const delNode = ({ id }: NodeProps<any, any, string>) => removeNodes([id])
+let isDeletingNode = false
+const delNode = async ({ id }: NodeProps<any, any, string>) => {
+  isDeletingNode = true
+  removeNodes([id])
+  await waitAMoment()
+  isDeletingNode = false
+}
 
 const resetDrawerData = () => {
   isDrawerVisible.value = false
