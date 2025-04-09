@@ -9,6 +9,7 @@ export default (): {
   const idSource = createRandomString()
   const idProcessing = createRandomString()
   const idSink = createRandomString()
+  const idFallback = createRandomString()
   const guideFlowData: Array<Node | Edge> = [
     {
       id: idSource,
@@ -32,6 +33,13 @@ export default (): {
       position: { x: 490, y: 90 },
     },
     {
+      id: idFallback,
+      label: tl('guideFallbackNodeLabel'),
+      data: { type: NodeType.Fallback, desc: tl('guideFallbackNodeDesc') },
+      type: 'guide',
+      position: { x: 690, y: 90 },
+    },
+    {
       id: createRandomString(),
       source: idSource,
       target: idProcessing,
@@ -40,6 +48,11 @@ export default (): {
       id: createRandomString(),
       source: idProcessing,
       target: idSink,
+    },
+    {
+      id: createRandomString(),
+      source: idSink,
+      target: idFallback,
     },
   ]
 
