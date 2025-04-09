@@ -61,6 +61,7 @@ export default {
         'unionBy',
         'sum',
         'uniq',
+        'uniqBy',
       ],
       vuex: ['useStore', 'createStore'],
       'vue-i18n': ['useI18n'],

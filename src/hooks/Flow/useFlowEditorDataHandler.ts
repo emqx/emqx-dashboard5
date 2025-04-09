@@ -210,7 +210,7 @@ export default (): {
     const { formData } = node.data
     return getBridgeKey(formData)
   }
-  const getRuleOutputDataFromConfirmedNodes = (nodes: Array<NodeData>): Array<any> => {
+  const getRuleOutputDataFromNodes = (nodes: Array<NodeData>): Array<any> => {
     return nodes.reduce((ret: Array<string>, node) => {
       if (![FlowNodeType.Output, FlowNodeType.Default].includes(node.type)) {
         return ret
@@ -249,7 +249,8 @@ export default (): {
         ruleOutputNodes.push(node)
       }
     })
-    return getRuleOutputDataFromConfirmedNodes(ruleOutputNodes)
+    const ret = getRuleOutputDataFromNodes(uniqBy(ruleOutputNodes, 'id'))
+    return ret
   }
 
   const getFilterStrFromNodes = (nodes: Array<NodeData>): string => {
@@ -295,8 +296,8 @@ export default (): {
         }
       } else if (data.specificType === SinkType.RePub) {
         return {
-          kind: FallbackActionKind.Reference,
-          args: data.formData,
+          kind: FallbackActionKind.Republish,
+          args: data.formData.args,
         }
       }
     })

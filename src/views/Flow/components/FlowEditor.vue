@@ -244,7 +244,8 @@ const updateEdges = (e: Array<NodeChange>) => {
     return
   }
   const neededEdges = countNeededEdges(getNodes.value)
-  setEdges(neededEdges)
+  const newEdges = uniqBy([...getEdges.value, ...neededEdges], 'id')
+  setEdges(newEdges)
 }
 
 const onDrop = (event: DragEvent) => {

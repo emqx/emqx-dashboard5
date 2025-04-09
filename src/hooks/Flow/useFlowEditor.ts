@@ -130,8 +130,9 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       [ProcessingType.Filter]: nodes.filter(
         ({ data }) => data.specificType === ProcessingType.Filter,
       ),
-      [NodeType.Sink]: nodes.filter((node) => node.type === FlowNodeType.Output),
+      [NodeType.Sink]: nodes.filter(({ data }) => data.specificType === SinkType.Console),
     }
+    // do not need to generate edges for output nodes, let the user to connect the edges
     return generateEdgesFromNodes(groupedNodes)
   }
 

@@ -239,6 +239,7 @@ declare global {
   const round: typeof import('lodash')['round']
   const ruleSelectionAliasPartReg: typeof import('./common/tools')['ruleSelectionAliasPartReg']
   const scrollToTop: typeof import('./common/tools')['scrollToTop']
+  const sentenceCase: typeof import('./common/tools')['sentenceCase']
   const set: typeof import('lodash')['set']
   const setPwdFormat: typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['setPwdFormat']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -273,6 +274,7 @@ declare global {
   const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
   const unionBy: typeof import('lodash')['unionBy']
   const uniq: typeof import('lodash')['uniq']
+  const uniqBy: typeof import('lodash')['uniqBy']
   const unref: typeof import('vue')['unref']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
@@ -422,6 +424,7 @@ declare global {
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useRuleEvents: typeof import('./hooks/Rule/rule/useRuleEvents')['default']
+  const useRuleFallbackActions: typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']
   const useRuleForm: typeof import('./hooks/Rule/rule/useRuleForm')['default']
   const useRuleFunc: typeof import('./hooks/useRuleFunc')['default']
   const useRuleInputs: typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']
@@ -788,6 +791,7 @@ declare module 'vue' {
     readonly round: UnwrapRef<typeof import('lodash')['round']>
     readonly ruleSelectionAliasPartReg: UnwrapRef<typeof import('./common/tools')['ruleSelectionAliasPartReg']>
     readonly scrollToTop: UnwrapRef<typeof import('./common/tools')['scrollToTop']>
+    readonly sentenceCase: UnwrapRef<typeof import('./common/tools')['sentenceCase']>
     readonly set: UnwrapRef<typeof import('lodash')['set']>
     readonly setPwdFormat: UnwrapRef<typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['setPwdFormat']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
@@ -822,6 +826,7 @@ declare module 'vue' {
     readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
     readonly unionBy: UnwrapRef<typeof import('lodash')['unionBy']>
     readonly uniq: UnwrapRef<typeof import('lodash')['uniq']>
+    readonly uniqBy: UnwrapRef<typeof import('lodash')['uniqBy']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
     readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>
@@ -971,6 +976,7 @@ declare module 'vue' {
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useRuleEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleEvents')['default']>
+    readonly useRuleFallbackActions: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']>
     readonly useRuleForm: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleForm')['default']>
     readonly useRuleFunc: UnwrapRef<typeof import('./hooks/useRuleFunc')['default']>
     readonly useRuleInputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']>
