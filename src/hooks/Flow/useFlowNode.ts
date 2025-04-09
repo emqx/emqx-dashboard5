@@ -205,12 +205,15 @@ export default (): {
     SourceType.Event,
     SourceTypeAllMsgsAndEvents,
   ]
+  const isNotBridgeDefaultNodeTypes = [ProcessingType.Filter, ProcessingType.Function]
   const isNotBridgeSinkNodeTypes = [SinkType.Console, SinkType.RePub]
   const isBridgerNode = ({ type, data }: Partial<Node>): boolean => {
     const { specificType } = data || {}
     return (
       (type === FlowNodeType.Input &&
         !isNotBridgeSourceNodeTypes.includes(specificType as string)) ||
+      (type === FlowNodeType.Default &&
+        !isNotBridgeDefaultNodeTypes.includes(specificType as ProcessingType)) ||
       (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
   }
