@@ -1,7 +1,7 @@
 <template>
   <div class="flow-guide-node" :class="{ 'is-source': nodeType === NodeType.Source }">
     <Handle v-if="nodeType !== NodeType.Source" :position="Position.Left" type="target" />
-    <Handle v-if="nodeType !== NodeType.Sink" :position="Position.Right" type="source" />
+    <Handle v-if="nodeType !== NodeType.Fallback" :position="Position.Right" type="source" />
     <div class="square"></div>
     <p class="label">{{ data?.label }}</p>
     <p class="desc">{{ data?.data?.desc }}</p>

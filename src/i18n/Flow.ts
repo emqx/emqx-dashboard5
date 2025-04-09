@@ -31,6 +31,14 @@ export default {
     zh: 'Sink',
     en: 'Sink',
   },
+  guideFallbackNodeLabel: {
+    zh: 'Fallback（可选）',
+    en: 'Fallback (optional)',
+  },
+  guideFallbackNodeDesc: {
+    zh: '拖拽节点以作为失败备选动作',
+    en: 'Drag nodes as fallback actions',
+  },
   guideSinkNodeDesc: {
     zh: '拖拽多个节点以输出数据到外部数据集成',
     en: 'Drag in multiple nodes to output data to external integrations',
