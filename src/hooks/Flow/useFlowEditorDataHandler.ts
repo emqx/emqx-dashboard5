@@ -1,6 +1,7 @@
 /**
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
+import { FallbackActionKind } from '@/types/enum'
 import { BasicRule, BridgeItem } from '@/types/rule'
 import { ElementData, GraphEdge } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
@@ -91,9 +92,14 @@ export default (): {
           }
           return set
         }, new Set() as Set<FlowNodeType>)
-        return [...outputTypeSet].length > 1
-          ? Promise.reject(tl('incorrectConnection'))
-          : Promise.resolve()
+        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+        // return [...outputTypeSet].length > 1
+        //   ? Promise.reject(tl('incorrectConnection'))
+        //   : Promise.resolve()
+        return Promise.resolve()
       }
       return Promise.all(
         nodes.map(({ id, type, data }) => {
@@ -146,9 +152,14 @@ export default (): {
         numberOfConnectedComponents++
       }
     }
-    return numberOfConnectedComponents > 1
-      ? Promise.reject(tl('multipleFlowError'))
-      : Promise.resolve()
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
+    // return numberOfConnectedComponents > 1
+    //   ? Promise.reject(tl('multipleFlowError'))
+    //   : Promise.resolve()
+    return Promise.resolve()
   }
 
   const validateFlow = async (flowData: FlowData) => {
@@ -195,9 +206,13 @@ export default (): {
     }, [])
   }
 
-  const getActionDataFromNodes = (nodes: Array<NodeData>): Array<any> => {
+  const getRuleOutputValueFromActionNode = (node: NodeData) => {
+    const { formData } = node.data
+    return getBridgeKey(formData)
+  }
+  const getRuleOutputDataFromConfirmedNodes = (nodes: Array<NodeData>): Array<any> => {
     return nodes.reduce((ret: Array<string>, node) => {
-      if (node.type !== FlowNodeType.Output) {
+      if (![FlowNodeType.Output, FlowNodeType.Default].includes(node.type)) {
         return ret
       }
       const { specificType, formData } = node.data
@@ -206,11 +221,35 @@ export default (): {
         data = formData
         ret.push(data)
       } else {
-        ret.push(getBridgeKey(formData))
+        ret.push(getRuleOutputValueFromActionNode(node))
       }
 
       return ret
     }, [])
+  }
+
+  const getRuleActionsFromGroupedNodesAndEdges = (
+    nodes: NodesAfterGroup,
+    edges: Array<EdgeData>,
+  ): Array<any> => {
+    const { [FlowNodeType.Default]: defaultNodes = [], [FlowNodeType.Output]: outputNodes = [] } =
+      nodes
+    const ruleOutputNodes = defaultNodes.filter((node) => isBridgerNode(node))
+    outputNodes.forEach((node) => {
+      const { data } = node
+      let isRuleOutput = false
+      if (data.specificType === SinkType.Console) {
+        isRuleOutput = true
+      } else {
+        const inputEdges = edges.filter((edge) => edge.target === node.id)
+        const inputNodes = inputEdges.map((edge) => edge.sourceNode)
+        isRuleOutput = inputNodes.some((node) => !isBridgerNode(node))
+      }
+      if (isRuleOutput) {
+        ruleOutputNodes.push(node)
+      }
+    })
+    return getRuleOutputDataFromConfirmedNodes(ruleOutputNodes)
   }
 
   const getFilterStrFromNodes = (nodes: Array<NodeData>): string => {
@@ -232,15 +271,62 @@ export default (): {
   }
 
   const { isBridgerNode } = useFlowNode()
+  const getBridgeDataFromNode = (node: NodeData): BridgeData => {
+    return { isCreated: !!node.data.isCreated, data: node.data.formData }
+  }
   const getBridgesFromNodes = (nodes: Array<NodeData>): Array<BridgeData> => {
     const bridgeDataArr = nodes.reduce((arr: Array<BridgeData>, node) => {
       const isBridge = isBridgerNode(node)
       if (isBridge) {
-        arr.push({ isCreated: !!node.data.isCreated, data: node.data.formData })
+        arr.push(getBridgeDataFromNode(node))
       }
       return arr
     }, [])
     return bridgeDataArr
+  }
+  const getFallbackActionsFromNodes = (nodes: Array<NodeData>) => {
+    return nodes.map((node) => {
+      const { data } = node
+      if (isBridgerNode(node)) {
+        return {
+          kind: FallbackActionKind.Reference,
+          type: data.formData.type,
+          name: data.formData.name,
+        }
+      } else if (data.specificType === SinkType.RePub) {
+        return {
+          kind: FallbackActionKind.Reference,
+          args: data.formData,
+        }
+      }
+    })
+  }
+  const getActionsDataFromGroupedNodesAndEdges = (
+    nodes: NodesAfterGroup,
+    edges: Array<EdgeData>,
+  ): Array<BridgeData> => {
+    const { [FlowNodeType.Default]: defaultNodes = [], [FlowNodeType.Output]: outputNodes = [] } =
+      nodes
+    const allActionNodes = [...defaultNodes, ...outputNodes].filter((node) => isBridgerNode(node))
+    const actionIdFallbackNodesMap = allActionNodes.reduce((map, actionNode) => {
+      const allOutputEdges = edges.filter((edge) => edge.source === actionNode.id)
+      allOutputEdges.forEach((edge) => {
+        const { targetNode } = edge
+        if (!map.has(actionNode.id)) {
+          map.set(actionNode.id, [])
+        }
+        map.get(actionNode.id)?.push(targetNode)
+      })
+      return map
+    }, new Map<string, Array<NodeData>>())
+    allActionNodes.forEach((node) => {
+      const fallbackNodes = actionIdFallbackNodesMap.get(node.id)
+      if (fallbackNodes) {
+        node.data.formData.fallback_actions = getFallbackActionsFromNodes(fallbackNodes)
+      }
+    })
+    const allActionData = getBridgesFromNodes(allActionNodes)
+    return allActionData
   }
 
   const { transSQLFormDataToSQL } = useRuleUtils()
@@ -257,17 +343,14 @@ export default (): {
     const { name: flowName, desc } = flowBasicInfo
     const rule: BasicRule = { ...createRawRuleForm(), id: flowName, description: desc }
     const nodes = groupNodes(flowData.nodes)
-    const {
-      [FlowNodeType.Input]: inputNodes = [],
-      [FlowNodeType.Default]: processingNodes = [],
-      [FlowNodeType.Output]: outputNodes = [],
-    } = nodes
+    const { [FlowNodeType.Input]: inputNodes = [], [FlowNodeType.Default]: defaultNodes = [] } =
+      nodes
     const fromArr = getFromDataFromNodes(inputNodes)
-    const filterStr = getFilterStrFromNodes(processingNodes)
-    const fieldsExpressions = getFieldsExpressionsFromNode(processingNodes)
+    const filterStr = getFilterStrFromNodes(defaultNodes)
+    const fieldsExpressions = getFieldsExpressionsFromNode(defaultNodes)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
-    rule.actions = getActionDataFromNodes(outputNodes)
-    const actions = getBridgesFromNodes(outputNodes)
+    rule.actions = getRuleActionsFromGroupedNodesAndEdges(nodes, flowData.edges)
+    const actions = getActionsDataFromGroupedNodesAndEdges(nodes, flowData.edges)
     const sources = getBridgesFromNodes(inputNodes)
     return { rule, actions, sources }
   }
