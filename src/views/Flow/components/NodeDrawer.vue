@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="showDrawer"
-    :class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''}`"
+    :class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''} ${node?.data.isFallback ? 'is-fallback' : ''}`"
     :size="width"
     :title="title"
     :z-index="1999"
@@ -123,7 +123,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit', 'saveAsNew'])
+const emit = defineEmits(['update:modelValue', 'save', 'cancel', 'close', 'edit'])
 
 const showDrawer = computed({
   get: () => props.modelValue,

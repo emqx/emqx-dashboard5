@@ -108,7 +108,6 @@
     :nodes="getNodes"
     :node="currentNode"
     @save="saveDataToNode($event), handleFlowDataUpdated()"
-    @saveAsNew="saveAsNewNode"
     @close="resetDrawerData"
     @cancel="handleCancelEditing"
   />
@@ -146,11 +145,6 @@ import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
-
-interface Pos {
-  x: number
-  y: number
-}
 
 const props = defineProps({
   data: {
@@ -420,70 +414,6 @@ const saveDataToNode = (data: Record<string, any>) => {
   resetDrawerData()
 }
 
-function isNodeOverlap(rect1Center: Pos, rect2Center: Pos): boolean {
-  const rect1Left = rect1Center.x - nodeWidth / 2
-  const rect1Right = rect1Center.x + nodeWidth / 2
-  const rect1Top = rect1Center.y + nodeHeight / 2
-  const rect1Bottom = rect1Center.y - nodeHeight / 2
-
-  const rect2Left = rect2Center.x - nodeWidth / 2
-  const rect2Right = rect2Center.x + nodeWidth / 2
-  const rect2Top = rect2Center.y + nodeHeight / 2
-  const rect2Bottom = rect2Center.y - nodeHeight / 2
-
-  if (
-    rect1Left > rect2Right ||
-    rect1Right < rect2Left ||
-    rect1Bottom > rect2Top ||
-    rect1Top < rect2Bottom
-  ) {
-    return false
-  }
-
-  return true
-}
-
-function checkOverlapInArr(posArr: Array<Pos>, pos: Pos): boolean {
-  for (const posItem of posArr) {
-    if (isNodeOverlap(posItem, pos)) {
-      return true
-    }
-  }
-  return false
-}
-
-const confirmNewNodePosition = (oldNodePos: Pos, flowNodeType: string) => {
-  const nowNodesPositionArr = getNodes.value.reduce(
-    (arr: Array<{ x: number; y: number }>, { type, position }) => {
-      if (type === flowNodeType) {
-        arr.push(position)
-      }
-      return arr
-    },
-    [],
-  )
-  let index = 1
-  const pos = { x: oldNodePos.x, y: oldNodePos.y + index * (nodeHeight + 30) }
-  while (checkOverlapInArr(nowNodesPositionArr, pos)) {
-    index += 1
-    pos.y = oldNodePos.y + index * (nodeHeight + 30)
-  }
-  return pos
-}
-
-const saveAsNewNode = (data: Record<string, any>) => {
-  const node = findNode(currentNodeID)
-  if (node) {
-    const newNode = cloneDeep(node)
-    newNode.id = createRandomString()
-    newNode.position = confirmNewNodePosition(node.position, node.type)
-    newNode.data = { ...newNode.data, formData: data, isCreated: false }
-    newNode.data.desc = getNodeInfo(newNode)
-    addNodes([newNode])
-  }
-  resetDrawerData()
-}
-
 const handleCancelEditing = () => {
   const node = findNode(currentNodeID)
   if (!node) {
@@ -492,10 +422,6 @@ const handleCancelEditing = () => {
   if (!node.data.formData || isEmptyObj(node.data.formData)) {
     removeNodes([currentNodeID])
   }
-}
-
-const validate = () => {
-  // TODO:
 }
 
 const nodeNeededKeys = ['id', 'data', 'type']
@@ -568,7 +494,7 @@ watch(
 
 const testSlotHeight = ref(450)
 
-defineExpose({ validate, getFlowData, getNodes, setNodes })
+defineExpose({ getFlowData, getNodes, setNodes })
 </script>
 
 <style lang="scss">
