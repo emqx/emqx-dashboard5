@@ -57,7 +57,10 @@ export default (): {
         )
         if (fallbackEdges.length) {
           node.type = FlowNodeType.Default
-          nodes[NodeType.Fallback].push(...fallbackNodes[NodeType.Fallback])
+          if (!nodes[NodeType.Fallback]) {
+            nodes[NodeType.Fallback] = []
+          }
+          nodes[NodeType.Fallback].push(...(fallbackNodes[NodeType.Fallback] ?? []))
           retEdges.push(...fallbackEdges)
         }
       }
@@ -96,7 +99,7 @@ export default (): {
     ]
     await addBridgeFormDataToNodes(sourceAndSinkNodes)
     const { nodes, edges } = addFallbackDataToFlow(withoutFallbackNodes, withoutFallbackEdges)
-    await addBridgeFormDataToNodes(nodes[NodeType.Fallback])
+    await addBridgeFormDataToNodes(nodes[NodeType.Fallback] ?? [])
 
     Object.entries(nodes).forEach(([key, value]) => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')

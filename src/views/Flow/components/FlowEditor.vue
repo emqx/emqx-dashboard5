@@ -66,15 +66,15 @@
           <el-icon class="icon-del" @click.stop="delNode(data), handleFlowDataUpdated()">
             <CircleCloseFilled />
           </el-icon>
-          <FlowNode :data="data" />
+          <FlowNode :data="data" is-edit />
         </template>
         <template #node-custom_default="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
-          <FlowNode :data="data" />
+          <FlowNode :data="data" is-edit />
         </template>
         <template #node-custom_output="data">
           <el-icon class="icon-del" @click.stop="delNode(data)"><CircleCloseFilled /></el-icon>
-          <FlowNode :data="data" />
+          <FlowNode :data="data" is-edit />
         </template>
         <template #edge-custom="props">
           <FlowEdge
@@ -204,6 +204,7 @@ const {
   nodeWidth,
   nodeHeight,
   isBridgeType,
+  isBridgerNode,
   getNodeClass,
   getNodeInfo,
   getNodeIcon,
@@ -255,7 +256,7 @@ const updateEdges = (e: Array<NodeChange>) => {
 const currentConnectSourceNode = ref<undefined | Node>()
 const connectionLineOptions = computed(() => {
   const isConnectingFallback =
-    currentConnectSourceNode.value && isTypeDefaultRuleOutputNode(currentConnectSourceNode.value)
+    currentConnectSourceNode.value && isBridgerNode(currentConnectSourceNode.value)
   return isConnectingFallback ? { style: { stroke: '#bbb', strokeDasharray: '5 5' } } : {}
 })
 const handleConnect = (e: OnConnectStartParams) => {
@@ -369,9 +370,7 @@ const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>
 }
 const { addBridgeFormDataToNodes } = useEditFlow()
 const addFallbackNodes = (node: Node) => {
-  if (
-    [FlowNodeType.Default, FlowNodeType.Output].includes(node.type as ValueOf<typeof FlowNodeType>)
-  ) {
+  if (node.type === FlowNodeType.Output) {
     const { nodes, edges } = generateFlowDataFromActionItem(node.data.formData)
     if (edges.length) {
       const fallbackNodes: Array<Node> = nodes[NodeType.Fallback] ?? []

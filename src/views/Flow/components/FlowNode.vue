@@ -9,7 +9,7 @@
       <p class="desc">{{ data.data.desc }}</p>
     </div>
   </div>
-  <Handle v-if="data.type !== FlowNodeType.Output" type="source" :position="Position.Right">
+  <Handle v-if="showSourceHandle" type="source" :position="Position.Right">
     <el-icon class="icon-add" :size="10"><Plus /></el-icon>
   </Handle>
 </template>
@@ -23,15 +23,44 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isEdit: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-const { getNodeIcon, getIconClass } = useFlowNode()
+const { getNodeIcon, getIconClass, isBridgerNode } = useFlowNode()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)
 }
 
 const iconClass = computed(() => getIconClass(props.data?.data?.specificType))
+
+const withFallbackNodes = computed(() => {
+  if (props.data?.type !== FlowNodeType.Output || !isBridgerNode(props.data || {})) {
+    return false
+  }
+  const fallbackActions = props.data?.data?.formData?.fallback_actions ?? []
+  return fallbackActions.length > 0
+})
+
+const isActionNodeButNotFallback = computed(() => {
+  if (props.data?.type !== FlowNodeType.Output) {
+    return false
+  }
+  return isBridgerNode(props.data || {}) && !props.data?.data?.isFallback
+})
+
+const showSourceHandle = computed(() => {
+  if (props.data?.type !== FlowNodeType.Output) {
+    return true
+  }
+  if (!props.isEdit) {
+    return withFallbackNodes.value
+  }
+  return isActionNodeButNotFallback.value
+})
 </script>
 
 <style lang="scss">
