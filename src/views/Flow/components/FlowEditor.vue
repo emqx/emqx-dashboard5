@@ -55,8 +55,8 @@
         v-model="flowData"
         @node-click="handleClickNode"
         @nodes-change="updateEdges"
-        @connect-start="handleConnect"
-        @edges-change="checkEdges($event), handleFlowDataUpdated()"
+        @connect-start="handleConnectStart"
+        @edges-change="checkEdges($event), handleConnected($event), handleFlowDataUpdated()"
         @edge-mouse-enter="handleMouseEnterEdge"
         @edge-mouse-leave="handleMouseLeaveEdge"
       >
@@ -132,7 +132,6 @@ import {
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
-import { ValueOf } from 'type-fest'
 import {
   computed,
   defineEmits,
@@ -259,12 +258,22 @@ const connectionLineOptions = computed(() => {
     currentConnectSourceNode.value && isBridgerNode(currentConnectSourceNode.value)
   return isConnectingFallback ? { style: { stroke: '#bbb', strokeDasharray: '5 5' } } : {}
 })
-const handleConnect = (e: OnConnectStartParams) => {
+const handleConnectStart = (e: OnConnectStartParams) => {
   if (e.handleType === 'target') {
     currentConnectSourceNode.value = undefined
   } else {
     const node = findNode(e.nodeId)
     currentConnectSourceNode.value = node
+  }
+}
+
+const handleConnected = (e: Array<EdgeChange>) => {
+  if (e.length === 1 && e[0].type === 'add') {
+    const { sourceNode, targetNode } = e[0].item
+    if (isBridgerNode(sourceNode)) {
+      e[0].item.style = fallbackEdgeStyle
+      addFallbackFlagToNodes([targetNode])
+    }
   }
 }
 
@@ -357,7 +366,12 @@ const resetDrawerData = () => {
   currentNodeID = ''
 }
 
-const { generateFlowDataFromActionItem, generateFallbackEdge } = useGenerateFlowDataUtils()
+const {
+  generateFlowDataFromActionItem,
+  fallbackEdgeStyle,
+  generateFallbackEdge,
+  addFallbackFlagToNodes,
+} = useGenerateFlowDataUtils()
 const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>) => {
   const { x, y } = actionNode.position
   fallbackNodes.forEach((node, index) => {
@@ -490,8 +504,7 @@ provide('eventList', eventList)
 const { getEventList } = useRuleEvents()
 ;(async () => (eventList.value = await getEventList()))()
 
-const { isTypeDefaultRuleOutputNode, getFromDataFromNodes, getFieldsExpressionsFromNode } =
-  useFlowEditorDataHandler()
+const { getFromDataFromNodes, getFieldsExpressionsFromNode } = useFlowEditorDataHandler()
 const { transSQLFormDataToSQL } = useRuleUtils()
 const sql = computed(() => {
   const inputNodeArr: Array<any> = []
