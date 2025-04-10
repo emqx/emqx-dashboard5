@@ -434,6 +434,12 @@ export default (): {
   const fallbackEdgeStyle = { stroke: '#bbb', strokeDasharray: '5 5' }
   const generateFallbackEdge = (source: Node, target: Node) =>
     generateEdgeFromTwoNodes(source, target, fallbackEdgeStyle)
+  const addFallbackFlagToNodes = (nodes: Array<Node>) => {
+    nodes.forEach((node) => {
+      node.data.isFallback = true
+    })
+    return nodes
+  }
   const generateFlowDataFromActionItem = (
     action: Action,
   ): { nodes: GroupedNode; edges: Edge[] } => {
@@ -449,7 +455,9 @@ export default (): {
 
     sourceNode.type = FlowNodeType.Default
     const convertedFallbackActions = fallback_actions.map(convertFallbackActionToRuleOutput)
-    const targetNodes = generateNodesBaseRuleOutputs(convertedFallbackActions)
+    const targetNodes = addFallbackFlagToNodes(
+      generateNodesBaseRuleOutputs(convertedFallbackActions),
+    )
     const edges = targetNodes.map((node) =>
       generateEdgeFromTwoNodes(sourceNode, node, fallbackEdgeStyle),
     )
