@@ -388,6 +388,10 @@ const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>
 }
 const { addBridgeFormDataToNodes } = useEditFlow()
 const addFallbackNodes = (node: Node) => {
+  // do not show multiple level fallback nodes in flow
+  if (node.data.isFallback) {
+    return
+  }
   if (node.type === FlowNodeType.Output) {
     const { nodes, edges } = generateFlowDataFromActionItem(node.data.formData)
     if (edges.length) {
