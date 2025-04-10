@@ -470,5 +470,8 @@ watch(showDrawer, (val) => {
   .TLS-enable-config .TLS-input {
     width: 100%;
   }
+  .col-fallback-actions {
+    margin-top: 24px;
+  }
 }
 </style>
