@@ -121,14 +121,15 @@ import {
   EdgeAddChange,
   EdgeChange,
   EdgeMouseEvent,
-  NodeChange,
   FitViewParams,
   Node,
+  NodeChange,
   NodeMouseEvent,
   NodeProps,
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
+import { ValueOf } from 'type-fest'
 import {
   computed,
   defineEmits,
@@ -348,6 +349,21 @@ const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>
   })
   return fallbackNodes
 }
+const { addBridgeFormDataToNodes } = useEditFlow()
+const addFallbackNodes = (node: Node) => {
+  if (
+    [FlowNodeType.Default, FlowNodeType.Output].includes(node.type as ValueOf<typeof FlowNodeType>)
+  ) {
+    const { nodes, edges } = generateFlowDataFromActionItem(node.data.formData)
+    if (edges.length) {
+      const fallbackNodes: Array<Node> = nodes[NodeType.Fallback] ?? []
+      addBridgeFormDataToNodes(fallbackNodes)
+      setPositionToFallbackNodes(node, fallbackNodes)
+      addNodes(fallbackNodes)
+      addEdges(fallbackNodes.map((targetNode) => generateFallbackEdge(node, targetNode)))
+    }
+  }
+}
 const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
@@ -358,17 +374,8 @@ const saveDataToNode = (data: Record<string, any>) => {
       node.data.isCreated = !!data.id
     }
     node.data.desc = getNodeInfo(node)
-    if ([FlowNodeType.Default, FlowNodeType.Output].includes(node.type)) {
-      const { nodes, edges } = generateFlowDataFromActionItem(node.data.formData)
-      if (edges.length) {
-        const fallbackNodes: Array<Node> = nodes[NodeType.Fallback] ?? []
-        setPositionToFallbackNodes(node, fallbackNodes)
-        addNodes(fallbackNodes)
-        addEdges(fallbackNodes.map((targetNode) => generateFallbackEdge(node, targetNode)))
-      }
-    }
+    addFallbackNodes(node)
   }
-
   resetDrawerData()
 }
 
