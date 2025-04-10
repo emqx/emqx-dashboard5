@@ -38,6 +38,9 @@ export default (): {
         return Promise.reject(tl('filterFunctionsWrongOrder'))
       }
     }
+    if (isBridgerNode(sourceNode) && targetNode.data.specificType === SinkType.Console) {
+      return Promise.reject(tl('consoleFallbackWrong'))
+    }
     return Promise.resolve()
   }
 
