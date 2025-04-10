@@ -378,10 +378,3 @@ handleConnDirection(async (direction, connName, connType) => {
   margin-left: 28px;
 }
 </style>
-<style lang="scss">
-.is-fallback {
-  .col-fallback-actions {
-    display: none;
-  }
-}
-</style>
