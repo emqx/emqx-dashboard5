@@ -80,16 +80,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     SinkType.Console,
   ]
 
-  const sinkTypeWithoutFallback = [SinkType.Console, SinkType.RePub]
-  const getFlowNodeType = (type: NodeType, specificType: string) => {
-    if (type !== NodeType.Sink) {
-      return nodeTypeMap[type] || FlowNodeType.Default
-    }
-    if (sinkTypeWithoutFallback.includes(specificType)) {
-      return FlowNodeType.Output
-    }
-    return FlowNodeType.Default
-  }
+  const getFlowNodeType = (type: NodeType) => nodeTypeMap[type] || FlowNodeType.Default
 
   const createFlowNodeDataFromEvent = (
     event: DragEvent,
@@ -107,7 +98,7 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       x: event.clientX - reactFlowBounds.left - positionOffset.x,
       y: event.clientY - reactFlowBounds.top - positionOffset.y,
     })
-    const flowNodeType = getFlowNodeType(type, specificType)
+    const flowNodeType = getFlowNodeType(type)
 
     return {
       id: createRandomString(),

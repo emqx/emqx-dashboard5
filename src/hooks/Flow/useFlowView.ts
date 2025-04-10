@@ -185,12 +185,6 @@ export default (): {
     )
   }
 
-  const replaceSinkNodeTypeWithFallbackNodeType = (node: Node) => {
-    const index = sinkNodes.findIndex((item) => item.id === node.id)
-    if (index > -1) {
-      sinkNodes[index].type = node.type
-    }
-  }
   /**
    * When an action both as a regular action (directly used by rules) and as a fallback action,
    * for better layout organization, place it in the fallback action list.
@@ -212,7 +206,6 @@ export default (): {
     actionArr.forEach((item: Action) => {
       const { nodes, edges } = generateFlowDataFromActionItem(item)
       if (edges.length) {
-        replaceSinkNodeTypeWithFallbackNodeType(nodes[NodeType.Sink][0])
         const { rules } = item
         actionFallbackNodes.push(
           ...(nodes[NodeType.Fallback] ?? []).map((node) => {

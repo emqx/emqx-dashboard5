@@ -14,6 +14,7 @@ export default (): {
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input
   const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
   const isDefaultNode = (node: Node) => node.type === FlowNodeType.Default
+  const { isBridgerNode } = useFlowNode()
   const checkConnection = async (
     edge:
       | GraphEdge<ElementData>
@@ -23,7 +24,7 @@ export default (): {
     if (
       sourceNode.id === targetNode.id ||
       (isInputNode(sourceNode) && isInputNode(targetNode)) ||
-      (isOutputNode(sourceNode) && isOutputNode(targetNode))
+      (isOutputNode(sourceNode) && isOutputNode(targetNode) && !isBridgerNode(sourceNode))
     ) {
       return Promise.reject(tl('incorrectConnection'))
     }

@@ -69,10 +69,8 @@ export default (): {
     const { nodes } = flowData
     const inputNode = nodes.find(({ type }) => type === FlowNodeType.Input)
     // is output node
-    const defaultNodeButAction = nodes.find((node) => isTypeDefaultRuleOutputNode(node))
-    const outputNode =
-      nodes.find(({ type }) => type === FlowNodeType.Output) ?? defaultNodeButAction
-    if (!inputNode && !outputNode && !defaultNodeButAction) {
+    const outputNode = nodes.find(({ type }) => type === FlowNodeType.Output)
+    if (!inputNode && !outputNode) {
       return Promise.reject(tl('flowEmptyError'))
     }
     if (!inputNode || !outputNode) {
@@ -113,8 +111,7 @@ export default (): {
             const target = checkDirection === 'in' ? edge.target : edge.source
             if (target === nodeId) {
               const node = checkDirection === 'in' ? edge.sourceNode : edge.targetNode
-              const type = isTypeDefaultRuleOutputNode(node) ? FlowNodeType.Output : node.type
-              set.add(type as FlowNodeType)
+              set.add(node.type as FlowNodeType)
             }
             return set
           },
