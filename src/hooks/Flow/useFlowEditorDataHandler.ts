@@ -39,6 +39,7 @@ interface BridgeData {
 }
 
 export default (): {
+  isTypeDefaultRuleOutputNode: (node: Node | NodeData) => boolean
   getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
   getFieldsExpressionsFromNode: (nodes: Array<NodeData>) => string
   getRulesActionsSourcesFromFlowData: (
@@ -55,7 +56,10 @@ export default (): {
   const { createRawRuleForm } = useRuleForm()
   const { getFuncExpressionFromForm, getFilterExpressionFromForm } = useHandleFlowDataUtils()
 
-  const isRuleOutputNode = (node: Node | NodeData) =>
+  /**
+   * means is action node without fallback action
+   */
+  const isTypeDefaultRuleOutputNode = (node: Node | NodeData) =>
     node.type === FlowNodeType.Default && isBridgerNode(node)
 
   /**
@@ -65,7 +69,7 @@ export default (): {
     const { nodes } = flowData
     const inputNode = nodes.find(({ type }) => type === FlowNodeType.Input)
     // is output node
-    const defaultNodeButAction = nodes.find((node) => isRuleOutputNode(node))
+    const defaultNodeButAction = nodes.find((node) => isTypeDefaultRuleOutputNode(node))
     const outputNode =
       nodes.find(({ type }) => type === FlowNodeType.Output) ?? defaultNodeButAction
     if (!inputNode && !outputNode && !defaultNodeButAction) {
@@ -109,7 +113,7 @@ export default (): {
             const target = checkDirection === 'in' ? edge.target : edge.source
             if (target === nodeId) {
               const node = checkDirection === 'in' ? edge.sourceNode : edge.targetNode
-              const type = isRuleOutputNode(node) ? FlowNodeType.Output : node.type
+              const type = isTypeDefaultRuleOutputNode(node) ? FlowNodeType.Output : node.type
               set.add(type as FlowNodeType)
             }
             return set
@@ -393,6 +397,7 @@ export default (): {
   }
 
   return {
+    isTypeDefaultRuleOutputNode,
     getFromDataFromNodes,
     getFieldsExpressionsFromNode,
     getRulesActionsSourcesFromFlowData,
