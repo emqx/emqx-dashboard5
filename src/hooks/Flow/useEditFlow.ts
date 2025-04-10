@@ -46,6 +46,16 @@ export default (): {
     )
     return nodes
   }
+  const addFallbackNodeToNodes = (fallbackNode: Node, nodes: GroupedNode) => {
+    const sinkNodeIndex = nodes[NodeType.Sink].findIndex((item) => item.id === fallbackNode.id)
+    if (sinkNodeIndex > -1) {
+      nodes[NodeType.Sink].splice(sinkNodeIndex, 1)
+    }
+    if (!nodes[NodeType.Fallback]) {
+      nodes[NodeType.Fallback] = []
+    }
+    nodes[NodeType.Fallback].push(fallbackNode)
+  }
   const addFallbackDataToFlow = (nodes: GroupedNode, edges: Array<Edge>) => {
     const retEdges = [...edges]
     const outputNodes = nodes[NodeType.Sink]
@@ -56,15 +66,14 @@ export default (): {
           node.data.formData,
         )
         if (fallbackEdges.length) {
-          node.type = FlowNodeType.Default
-          if (!nodes[NodeType.Fallback]) {
-            nodes[NodeType.Fallback] = []
-          }
-          nodes[NodeType.Fallback].push(...(fallbackNodes[NodeType.Fallback] ?? []))
+          ;(fallbackNodes[NodeType.Fallback] ?? []).forEach((item) => {
+            addFallbackNodeToNodes(item, nodes)
+          })
           retEdges.push(...fallbackEdges)
         }
       }
     }
+    nodes[NodeType.Fallback] = unionBy(nodes[NodeType.Fallback], 'id')
     return { nodes, edges: retEdges }
   }
 

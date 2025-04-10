@@ -268,11 +268,21 @@ const handleConnectStart = (e: OnConnectStartParams) => {
 }
 
 const handleConnected = (e: Array<EdgeChange>) => {
-  if (e.length === 1 && e[0].type === 'add') {
-    const { sourceNode, targetNode } = e[0].item
+  if (e.length !== 1) {
+    return
+  }
+  const edge = e[0]
+  if (edge.type === 'add') {
+    const { sourceNode, targetNode } = edge.item
     if (isBridgerNode(sourceNode)) {
-      e[0].item.style = fallbackEdgeStyle
+      edge.item.style = fallbackEdgeStyle
       addFallbackFlagToNodes([targetNode])
+    }
+  } else if (edge.type === 'remove') {
+    const sourceNode = findNode(edge.source)
+    const targetNode = findNode(edge.target)
+    if (sourceNode && targetNode && isBridgerNode(sourceNode)) {
+      targetNode.data.isFallback = false
     }
   }
 }

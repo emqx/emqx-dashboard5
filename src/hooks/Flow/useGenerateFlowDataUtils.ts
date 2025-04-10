@@ -455,7 +455,6 @@ export default (): {
       return { nodes, edges: [] }
     }
 
-    sourceNode.type = FlowNodeType.Default
     const convertedFallbackActions = fallback_actions.map(convertFallbackActionToRuleOutput)
     const targetNodes = addFallbackFlagToNodes(
       generateNodesBaseRuleOutputs(convertedFallbackActions),
@@ -467,7 +466,6 @@ export default (): {
     nodes[NodeType.Fallback] = targetNodes
     return { nodes, edges }
   }
-
   /* EDGES */
   const generateEdgesFromNodes = (nodes: GroupedNode): Array<Edge> => {
     const keys: Array<keyof GroupedNode> = [
