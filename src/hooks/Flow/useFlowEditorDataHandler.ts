@@ -57,8 +57,12 @@ export default (): {
   const verifyIntegrityOfFlow = async (flowData: FlowData) => {
     const { nodes } = flowData
     const inputNode = nodes.find(({ type }) => type === FlowNodeType.Input)
-    const outputNode = nodes.find(({ type }) => type === FlowNodeType.Output)
-    if (!inputNode && !outputNode) {
+    // is output node
+    const defaultActionNode = nodes.find((node) => {
+      return node.type === FlowNodeType.Default && isBridgerNode(node)
+    })
+    const outputNode = nodes.find(({ type }) => type === FlowNodeType.Output) ?? defaultActionNode
+    if (!inputNode && !outputNode && !defaultActionNode) {
       return Promise.reject(tl('flowEmptyError'))
     }
     if (!inputNode || !outputNode) {
@@ -234,7 +238,14 @@ export default (): {
   ): Array<any> => {
     const { [FlowNodeType.Default]: defaultNodes = [], [FlowNodeType.Output]: outputNodes = [] } =
       nodes
-    const ruleOutputNodes = defaultNodes.filter((node) => isBridgerNode(node))
+    const ruleOutputNodes = defaultNodes.filter((node) => {
+      const isActionNode = isBridgerNode(node)
+      const allInputNodes = edges
+        .filter((edge) => edge.target === node.id)
+        .map((edge) => edge.sourceNode)
+      const withNotActionInput = allInputNodes.some((node) => !isBridgerNode(node))
+      return isActionNode && withNotActionInput
+    })
     outputNodes.forEach((node) => {
       const { data } = node
       let isRuleOutput = false
