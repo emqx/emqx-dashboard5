@@ -216,7 +216,7 @@ export default (): {
         actionFallbackEdges.push(...edges)
       }
     })
-    actionFallbackNodes.forEach((node) => addNodeToFallbackNodes(node))
+    addBridgeFormDataToNodes(actionFallbackNodes).forEach((node) => addNodeToFallbackNodes(node))
     edgeArr.push(...actionFallbackEdges)
   }
 
@@ -239,11 +239,11 @@ export default (): {
   }
 
   const setClassToRemovedBridges = () => {
-    const nodeArrays = [sourceNodes, sinkNodes]
+    const nodeArrays = [sourceNodes, sinkNodes, fallbackNodes]
     nodeArrays.forEach((nodeArray) => {
       nodeArray.forEach((node) => addFlagToRemovedBridgeNode(node))
     })
-    ;[sourceNodes, sinkNodes] = nodeArrays
+    ;[sourceNodes, sinkNodes, fallbackNodes] = nodeArrays
   }
 
   const setPositionToNodes = () => {

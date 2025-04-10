@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="showDrawer"
-    :class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''} ${node?.data.isFallback ? 'is-fallback' : ''}`"
+    :class="`node-drawer drawer-with-divider ${showTabs ? 'with-tabs' : ''} ${node?.data.isFallback && !readonly ? 'is-fallback' : ''}`"
     :size="width"
     :title="title"
     :z-index="1999"
