@@ -48,12 +48,14 @@
         class="editor"
         delete-key-code="Delete"
         :default-edge-options="{ type: 'custom' }"
+        :connection-line-options="connectionLineOptions"
         :style="{ height: $slots.test ? `calc(100% - ${testSlotHeight}px - 8px)` : '100%' }"
         v-show="flowData.length"
         ref="FlowerInstance"
         v-model="flowData"
         @node-click="handleClickNode"
         @nodes-change="updateEdges"
+        @connect-start="handleConnect"
         @edges-change="checkEdges($event), handleFlowDataUpdated()"
         @edge-mouse-enter="handleMouseEnterEdge"
         @edge-mouse-leave="handleMouseLeaveEdge"
@@ -126,6 +128,7 @@ import {
   NodeChange,
   NodeMouseEvent,
   NodeProps,
+  OnConnectStartParams,
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
@@ -247,6 +250,21 @@ const updateEdges = (e: Array<NodeChange>) => {
   const neededEdges = countNeededEdges(getNodes.value)
   const newEdges = uniqBy([...getEdges.value, ...neededEdges], 'id')
   setEdges(newEdges)
+}
+
+const currentConnectSourceNode = ref<undefined | Node>()
+const connectionLineOptions = computed(() => {
+  const isConnectingFallback =
+    currentConnectSourceNode.value && isTypeDefaultRuleOutputNode(currentConnectSourceNode.value)
+  return isConnectingFallback ? { style: { stroke: '#bbb', strokeDasharray: '5 5' } } : {}
+})
+const handleConnect = (e: OnConnectStartParams) => {
+  if (e.handleType === 'target') {
+    currentConnectSourceNode.value = undefined
+  } else {
+    const node = findNode(e.nodeId)
+    currentConnectSourceNode.value = node
+  }
 }
 
 const onDrop = (event: DragEvent) => {
@@ -473,7 +491,8 @@ provide('eventList', eventList)
 const { getEventList } = useRuleEvents()
 ;(async () => (eventList.value = await getEventList()))()
 
-const { getFromDataFromNodes, getFieldsExpressionsFromNode } = useFlowEditorDataHandler()
+const { isTypeDefaultRuleOutputNode, getFromDataFromNodes, getFieldsExpressionsFromNode } =
+  useFlowEditorDataHandler()
 const { transSQLFormDataToSQL } = useRuleUtils()
 const sql = computed(() => {
   const inputNodeArr: Array<any> = []
