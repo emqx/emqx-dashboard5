@@ -72,11 +72,13 @@ export default (): {
     nodes: GroupedNode
     edges: Array<Edge>
   }
+  fallbackEdgeStyle: Record<string, string>
   generateFallbackEdge: (source: Node, target: Node, style?: Record<string, string>) => Edge
   countNodesPosition: (nodes: GroupedNode) => void
   countNodePositionWhileEditing: (nodes: GroupedNode) => void
   isRemovedBridge: (node: Node) => boolean
   addFlagToRemovedBridgeNode: (node: Node) => Node
+  addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
   const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
@@ -622,10 +624,12 @@ export default (): {
     generateFlowDataFromRuleItem,
     generateFallbackEdge,
     generateFlowDataFromActionItem,
+    fallbackEdgeStyle,
     countNodesPosition,
     countNodePositionWhileEditing,
     isRemovedBridge,
     addFlagToRemovedBridgeNode,
+    addFallbackFlagToNodes,
     generateEdgesFromNodes,
   }
 }

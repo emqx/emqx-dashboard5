@@ -39,7 +39,6 @@ interface BridgeData {
 }
 
 export default (): {
-  isTypeDefaultRuleOutputNode: (node: Node | NodeData) => boolean
   getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
   getFieldsExpressionsFromNode: (nodes: Array<NodeData>) => string
   getRulesActionsSourcesFromFlowData: (
@@ -55,12 +54,6 @@ export default (): {
 
   const { createRawRuleForm } = useRuleForm()
   const { getFuncExpressionFromForm, getFilterExpressionFromForm } = useHandleFlowDataUtils()
-
-  /**
-   * means is action node without fallback action
-   */
-  const isTypeDefaultRuleOutputNode = (node: Node | NodeData) =>
-    node.type === FlowNodeType.Default && isBridgerNode(node)
 
   /**
    * At least one input node and one output node are required
@@ -394,7 +387,6 @@ export default (): {
   }
 
   return {
-    isTypeDefaultRuleOutputNode,
     getFromDataFromNodes,
     getFieldsExpressionsFromNode,
     getRulesActionsSourcesFromFlowData,
