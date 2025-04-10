@@ -3,7 +3,7 @@
  */
 import { FallbackActionKind } from '@/types/enum'
 import { BasicRule, BridgeItem } from '@/types/rule'
-import { ElementData, GraphEdge } from '@vue-flow/core'
+import { ElementData, GraphEdge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
 import useFlowEdge from './useFlowEdge'
 import useFlowNode, { FlowNodeType, ProcessingType, SinkType, SourceType } from './useFlowNode'
@@ -16,6 +16,10 @@ interface NodeData {
     specificType: string
     isCreated?: boolean
     isChanged?: boolean
+    /**
+     * This value is true when acting as a fallback for any node
+     */
+    isFallback?: boolean
     formData: any
   }
 }
@@ -51,6 +55,9 @@ export default (): {
   const { createRawRuleForm } = useRuleForm()
   const { getFuncExpressionFromForm, getFilterExpressionFromForm } = useHandleFlowDataUtils()
 
+  const isRuleOutputNode = (node: Node | NodeData) =>
+    node.type === FlowNodeType.Default && isBridgerNode(node)
+
   /**
    * At least one input node and one output node are required
    */
@@ -58,11 +65,10 @@ export default (): {
     const { nodes } = flowData
     const inputNode = nodes.find(({ type }) => type === FlowNodeType.Input)
     // is output node
-    const defaultActionNode = nodes.find((node) => {
-      return node.type === FlowNodeType.Default && isBridgerNode(node)
-    })
-    const outputNode = nodes.find(({ type }) => type === FlowNodeType.Output) ?? defaultActionNode
-    if (!inputNode && !outputNode && !defaultActionNode) {
+    const defaultNodeButAction = nodes.find((node) => isRuleOutputNode(node))
+    const outputNode =
+      nodes.find(({ type }) => type === FlowNodeType.Output) ?? defaultNodeButAction
+    if (!inputNode && !outputNode && !defaultNodeButAction) {
       return Promise.reject(tl('flowEmptyError'))
     }
     if (!inputNode || !outputNode) {
@@ -87,26 +93,48 @@ export default (): {
     const { nodes, edges } = flowData
     try {
       await Promise.all(edges.map((item) => checkConnection(item)))
-      const checkNodeFlow = async (nodeId: string, direction: 'in' | 'out') => {
-        const outputTypeSet = edges.reduce((set: Set<FlowNodeType>, edge): Set<FlowNodeType> => {
-          const target = direction === 'in' ? edge.target : edge.source
-          if (target === nodeId) {
-            const node = direction === 'in' ? edge.sourceNode : edge.targetNode
-            set.add(node.type as FlowNodeType)
-          }
-          return set
-        }, new Set() as Set<FlowNodeType>)
-        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-        // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-        // return [...outputTypeSet].length > 1
-        //   ? Promise.reject(tl('incorrectConnection'))
-        //   : Promise.resolve()
-        return Promise.resolve()
+      const notFallbackEdges: Array<EdgeData> = []
+      const fallbackEdges: Array<EdgeData> = []
+      edges.forEach((edge) => {
+        const sourceNode = edge.sourceNode
+        if (isBridgerNode(sourceNode)) {
+          fallbackEdges.push(edge)
+        } else {
+          notFallbackEdges.push(edge)
+        }
+      })
+      const checkNodeFlow = async (nodeId: string, checkDirection: 'in' | 'out') => {
+        const outputTypeSet = notFallbackEdges.reduce(
+          (set: Set<FlowNodeType>, edge): Set<FlowNodeType> => {
+            const target = checkDirection === 'in' ? edge.target : edge.source
+            if (target === nodeId) {
+              const node = checkDirection === 'in' ? edge.sourceNode : edge.targetNode
+              const type = isRuleOutputNode(node) ? FlowNodeType.Output : node.type
+              set.add(type as FlowNodeType)
+            }
+            return set
+          },
+          new Set() as Set<FlowNodeType>,
+        )
+        return [...outputTypeSet].length > 1
+          ? Promise.reject(tl('incorrectConnection'))
+          : Promise.resolve()
       }
-      return Promise.all(
-        nodes.map(({ id, type, data }) => {
+      const checkFallbackEdges = (edges: Array<EdgeData>) => {
+        const isAllFallbackEdgesRight = edges.every((edge) => {
+          const sourceNode = edge.sourceNode
+          const targetNode = edge.targetNode
+          return (
+            isBridgerNode(sourceNode) &&
+            (isBridgerNode(targetNode) || targetNode.data.specificType === SinkType.RePub)
+          )
+        })
+        return isAllFallbackEdgesRight
+          ? Promise.resolve()
+          : Promise.reject(tl('incorrectConnection'))
+      }
+      return Promise.all([
+        ...nodes.map(({ id, type, data }) => {
           if (!type || !data.specificType) {
             return Promise.resolve()
           }
@@ -115,7 +143,8 @@ export default (): {
           const direction = isInputNode || isFunctionNode ? 'out' : 'in'
           return checkNodeFlow(id, direction)
         }),
-      )
+        checkFallbackEdges(fallbackEdges),
+      ])
     } catch (error: any) {
       return Promise.reject(error)
     }
@@ -156,14 +185,10 @@ export default (): {
         numberOfConnectedComponents++
       }
     }
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME: new check
-    // return numberOfConnectedComponents > 1
-    //   ? Promise.reject(tl('multipleFlowError'))
-    //   : Promise.resolve()
-    return Promise.resolve()
+
+    return numberOfConnectedComponents > 1
+      ? Promise.reject(tl('multipleFlowError'))
+      : Promise.resolve()
   }
 
   const validateFlow = async (flowData: FlowData) => {
@@ -327,7 +352,7 @@ export default (): {
         if (!map.has(actionNode.id)) {
           map.set(actionNode.id, [])
         }
-        map.get(actionNode.id)?.push(targetNode)
+        map.get(actionNode.id)?.push(targetNode as NodeData)
       })
       return map
     }, new Map<string, Array<NodeData>>())
