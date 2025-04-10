@@ -235,7 +235,7 @@ export default (): {
   }
   const getRuleOutputDataFromNodes = (nodes: Array<NodeData>): Array<any> => {
     return nodes.reduce((ret: Array<string>, node) => {
-      if (![FlowNodeType.Output, FlowNodeType.Default].includes(node.type)) {
+      if (node.type !== FlowNodeType.Output) {
         return ret
       }
       const { specificType, formData } = node.data
@@ -255,16 +255,8 @@ export default (): {
     nodes: NodesAfterGroup,
     edges: Array<EdgeData>,
   ): Array<any> => {
-    const { [FlowNodeType.Default]: defaultNodes = [], [FlowNodeType.Output]: outputNodes = [] } =
-      nodes
-    const ruleOutputNodes = defaultNodes.filter((node) => {
-      const isActionNode = isBridgerNode(node)
-      const allInputNodes = edges
-        .filter((edge) => edge.target === node.id)
-        .map((edge) => edge.sourceNode)
-      const withNotActionInput = allInputNodes.some((node) => !isBridgerNode(node))
-      return isActionNode && withNotActionInput
-    })
+    const { [FlowNodeType.Output]: outputNodes = [] } = nodes
+    const ruleOutputNodes: Array<NodeData> = []
     outputNodes.forEach((node) => {
       const { data } = node
       let isRuleOutput = false
@@ -336,9 +328,8 @@ export default (): {
     nodes: NodesAfterGroup,
     edges: Array<EdgeData>,
   ): Array<BridgeData> => {
-    const { [FlowNodeType.Default]: defaultNodes = [], [FlowNodeType.Output]: outputNodes = [] } =
-      nodes
-    const allActionNodes = [...defaultNodes, ...outputNodes].filter((node) => isBridgerNode(node))
+    const { [FlowNodeType.Output]: outputNodes = [] } = nodes
+    const allActionNodes = outputNodes.filter((node) => isBridgerNode(node))
     const actionIdFallbackNodesMap = allActionNodes.reduce((map, actionNode) => {
       const allOutputEdges = edges.filter((edge) => edge.source === actionNode.id)
       allOutputEdges.forEach((edge) => {
