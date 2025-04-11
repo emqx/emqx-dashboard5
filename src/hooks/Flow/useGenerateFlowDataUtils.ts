@@ -445,7 +445,8 @@ export default (): {
   const generateFlowDataFromActionItem = (
     action: Action,
   ): { nodes: GroupedNode; edges: Edge[] } => {
-    const { id, fallback_actions } = action
+    const { fallback_actions } = action
+    const id = action.id ?? getBridgeKey(action)
     const nodes: GroupedNode = createInitNodes()
     if (!fallback_actions?.length) {
       return { nodes, edges: [] }

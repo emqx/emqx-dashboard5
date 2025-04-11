@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue'
-import { Handle, Position } from '@vue-flow/core'
+import { Handle, Node, Position } from '@vue-flow/core'
 
 const props = defineProps({
   data: {
@@ -29,7 +29,7 @@ const props = defineProps({
   },
 })
 
-const { getNodeIcon, getIconClass, isBridgerNode } = useFlowNode()
+const { getNodeIcon, getIconClass, isBridgerNode, isWithFallbackNodes } = useFlowNode()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)
@@ -37,13 +37,7 @@ const getIconSrc = (): string => {
 
 const iconClass = computed(() => getIconClass(props.data?.data?.specificType))
 
-const withFallbackNodes = computed(() => {
-  if (props.data?.type !== FlowNodeType.Output || !isBridgerNode(props.data || {})) {
-    return false
-  }
-  const fallbackActions = props.data?.data?.formData?.fallback_actions ?? []
-  return fallbackActions.length > 0
-})
+const withFallbackNodes = computed(() => isWithFallbackNodes(props.data as Node))
 
 const isActionNodeButNotFallback = computed(() => {
   if (props.data?.type !== FlowNodeType.Output) {
