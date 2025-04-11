@@ -2,7 +2,7 @@
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
 import { FallbackActionKind } from '@/types/enum'
-import { BasicRule, BridgeItem } from '@/types/rule'
+import { BasicRule, BridgeItem, FallbackAction } from '@/types/rule'
 import { ElementData, GraphEdge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
 import useFlowEdge from './useFlowEdge'
@@ -49,6 +49,7 @@ export default (): {
     actions: Array<BridgeData>
     sources: Array<BridgeData>
   }>
+  getFallbackItemDataFromNode: (node: NodeData | Node) => FallbackAction | undefined
 } => {
   const { t, tl } = useI18nTl('Flow')
 
@@ -251,11 +252,10 @@ export default (): {
     }, [])
   }
 
-  const getRuleActionsFromGroupedNodesAndEdges = (
-    nodes: NodesAfterGroup,
+  const getRuleActionsFromOutputNodesAndEdges = (
+    outputNodes: Array<NodeData>,
     edges: Array<EdgeData>,
   ): Array<any> => {
-    const { [FlowNodeType.Output]: outputNodes = [] } = nodes
     const ruleOutputNodes: Array<NodeData> = []
     outputNodes.forEach((node) => {
       const { data } = node
@@ -307,28 +307,28 @@ export default (): {
     }, [])
     return bridgeDataArr
   }
-  const getFallbackActionsFromNodes = (nodes: Array<NodeData>) => {
-    return nodes.map((node) => {
-      const { data } = node
-      if (isBridgerNode(node)) {
-        return {
-          kind: FallbackActionKind.Reference,
-          type: data.formData.type,
-          name: data.formData.name,
-        }
-      } else if (data.specificType === SinkType.RePub) {
-        return {
-          kind: FallbackActionKind.Republish,
-          args: data.formData.args,
-        }
+  const getFallbackItemDataFromNode = (node: NodeData | Node): FallbackAction | undefined => {
+    const { specificType, formData } = node?.data || {}
+    if (isBridgerNode(node)) {
+      return {
+        kind: FallbackActionKind.Reference,
+        type: formData.type,
+        name: formData.name,
       }
-    })
+    } else if (specificType === SinkType.RePub) {
+      return {
+        kind: FallbackActionKind.Republish,
+        args: formData.args,
+      }
+    }
   }
-  const getActionsDataFromGroupedNodesAndEdges = (
-    nodes: NodesAfterGroup,
+  const getFallbackActionsFromNodes = (nodes: Array<NodeData>) =>
+    nodes.map((node) => getFallbackItemDataFromNode(node)).filter(Boolean)
+
+  const getActionsDataFromOutputNodesAndEdges = (
+    outputNodes: Array<NodeData>,
     edges: Array<EdgeData>,
   ): Array<BridgeData> => {
-    const { [FlowNodeType.Output]: outputNodes = [] } = nodes
     const allActionNodes = outputNodes.filter((node) => isBridgerNode(node))
     const actionIdFallbackNodesMap = allActionNodes.reduce((map, actionNode) => {
       const allOutputEdges = edges.filter((edge) => edge.source === actionNode.id)
@@ -365,14 +365,17 @@ export default (): {
     const { name: flowName, desc } = flowBasicInfo
     const rule: BasicRule = { ...createRawRuleForm(), id: flowName, description: desc }
     const nodes = groupNodes(flowData.nodes)
-    const { [FlowNodeType.Input]: inputNodes = [], [FlowNodeType.Default]: defaultNodes = [] } =
-      nodes
+    const {
+      [FlowNodeType.Input]: inputNodes = [],
+      [FlowNodeType.Default]: defaultNodes = [],
+      [FlowNodeType.Output]: outputNodes = [],
+    } = nodes
     const fromArr = getFromDataFromNodes(inputNodes)
     const filterStr = getFilterStrFromNodes(defaultNodes)
     const fieldsExpressions = getFieldsExpressionsFromNode(defaultNodes)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
-    rule.actions = getRuleActionsFromGroupedNodesAndEdges(nodes, flowData.edges)
-    const actions = getActionsDataFromGroupedNodesAndEdges(nodes, flowData.edges)
+    rule.actions = getRuleActionsFromOutputNodesAndEdges(outputNodes, flowData.edges)
+    const actions = getActionsDataFromOutputNodesAndEdges(outputNodes, flowData.edges)
     const sources = getBridgesFromNodes(inputNodes)
     return { rule, actions, sources }
   }
@@ -381,5 +384,6 @@ export default (): {
     getFromDataFromNodes,
     getFieldsExpressionsFromNode,
     getRulesActionsSourcesFromFlowData,
+    getFallbackItemDataFromNode,
   }
 }
