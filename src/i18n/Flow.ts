@@ -127,6 +127,10 @@ export default {
     zh: 'Console 不可作为失败备选动作',
     en: 'Console cannot be used as a fallback action',
   },
+  multipleFallbackWrong: {
+    zh: 'Flow 暂不支持编辑多层级失败备选动作',
+    en: 'Flow does not support editing multi-level fallback actions',
+  },
   bridgeRemovedTip: {
     zh: '该节点已被删除，请及时更新 Flow',
     en: 'This node has been deleted, please update flow in time',

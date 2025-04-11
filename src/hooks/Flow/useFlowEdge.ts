@@ -14,7 +14,7 @@ export default (): {
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input
   const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
   const isDefaultNode = (node: Node) => node.type === FlowNodeType.Default
-  const { isBridgerNode } = useFlowNode()
+  const { isBridgerNode, isWithFallbackNodes } = useFlowNode()
   const checkConnection = async (
     edge:
       | GraphEdge<ElementData>
@@ -38,8 +38,13 @@ export default (): {
         return Promise.reject(tl('filterFunctionsWrongOrder'))
       }
     }
-    if (isBridgerNode(sourceNode) && targetNode.data.specificType === SinkType.Console) {
-      return Promise.reject(tl('consoleFallbackWrong'))
+    if (isBridgerNode(sourceNode)) {
+      if (targetNode.data.specificType === SinkType.Console) {
+        return Promise.reject(tl('consoleFallbackWrong'))
+      }
+      if (isWithFallbackNodes(targetNode)) {
+        return Promise.reject(tl('multipleFallbackWrong'))
+      }
     }
     return Promise.resolve()
   }

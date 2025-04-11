@@ -115,6 +115,7 @@ export default (): {
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   isBridgerNode: (node: Partial<Node>) => boolean
+  isWithFallbackNodes: (node: Node) => boolean
   isBridgeType: (type: string) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
@@ -213,6 +214,13 @@ export default (): {
         !isNotBridgeSourceNodeTypes.includes(specificType as string)) ||
       (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
+  }
+  const isWithFallbackNodes = (node?: Node) => {
+    if (!node || node?.type !== FlowNodeType.Output || !isBridgerNode(node)) {
+      return false
+    }
+    const fallbackActions = node.data.formData?.fallback_actions ?? []
+    return fallbackActions.length > 0
   }
   const { sourceOptList, isNotBridgeSourceTypes, inputTypesIconNew, getRuleSourceIcon } =
     useRuleInputs()
@@ -362,6 +370,7 @@ export default (): {
     getFlowNodeHookPosition,
     getTypeCommonData,
     isBridgerNode,
+    isWithFallbackNodes,
     isBridgeType,
     getTypeLabel,
     getNodeInfo,
