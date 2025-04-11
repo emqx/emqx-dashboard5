@@ -56,7 +56,7 @@
         @node-click="handleClickNode"
         @nodes-change="updateEdges"
         @connect-start="handleConnectStart"
-        @edges-change="checkEdges($event), handleConnected($event), handleFlowDataUpdated()"
+        @edges-change="checkEdges($event), handleEdgesChanged($event), handleFlowDataUpdated()"
         @edge-mouse-enter="handleMouseEnterEdge"
         @edge-mouse-leave="handleMouseLeaveEdge"
       >
@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { RuleEvent } from '@/types/rule'
+import { FallbackAction, RuleEvent } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import {
@@ -261,7 +261,36 @@ const handleConnectStart = (e: OnConnectStartParams) => {
   }
 }
 
-const handleConnected = (e: Array<EdgeChange>) => {
+const handleFallbackItemInActionNodeFormData = (
+  sourceActionNode: Node,
+  targetFallbackNode: Node,
+  type: 'add' | 'remove',
+) => {
+  if (!isBridgerNode(sourceActionNode)) {
+    return
+  }
+  const actionFormData = sourceActionNode.data.formData
+  const fallbackActions = actionFormData.fallback_actions
+  const actionItem = getFallbackItemDataFromNode(targetFallbackNode)
+  if (!actionItem) {
+    return
+  }
+  if (type === 'add') {
+    if (!fallbackActions || !Array.isArray(fallbackActions)) {
+      actionFormData.fallback_actions = []
+    }
+    fallbackActions.push(actionItem)
+  } else {
+    const fallbackActionIndex = fallbackActions.findIndex((item: FallbackAction) =>
+      isEqual(item, actionItem),
+    )
+    if (fallbackActionIndex !== -1) {
+      fallbackActions.splice(fallbackActionIndex, 1)
+    }
+  }
+}
+
+const handleEdgesChanged = (e: Array<EdgeChange>) => {
   if (e.length !== 1) {
     return
   }
@@ -270,6 +299,7 @@ const handleConnected = (e: Array<EdgeChange>) => {
     const { sourceNode, targetNode } = edge.item
     if (isBridgerNode(sourceNode)) {
       edge.item.style = fallbackEdgeStyle
+      handleFallbackItemInActionNodeFormData(sourceNode, targetNode, 'add')
       addFallbackFlagToNodes([targetNode])
     }
   } else if (edge.type === 'remove') {
@@ -277,6 +307,7 @@ const handleConnected = (e: Array<EdgeChange>) => {
     const targetNode = findNode(edge.target)
     if (sourceNode && targetNode && isBridgerNode(sourceNode)) {
       targetNode.data.isFallback = false
+      handleFallbackItemInActionNodeFormData(sourceNode, targetNode, 'remove')
     }
   }
 }
@@ -444,7 +475,8 @@ provide('eventList', eventList)
 const { getEventList } = useRuleEvents()
 ;(async () => (eventList.value = await getEventList()))()
 
-const { getFromDataFromNodes, getFieldsExpressionsFromNode } = useFlowEditorDataHandler()
+const { getFromDataFromNodes, getFieldsExpressionsFromNode, getFallbackItemDataFromNode } =
+  useFlowEditorDataHandler()
 const { transSQLFormDataToSQL } = useRuleUtils()
 const sql = computed(() => {
   const inputNodeArr: Array<any> = []
