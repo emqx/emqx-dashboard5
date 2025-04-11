@@ -239,12 +239,11 @@ const onDragOver = (event: DragEvent) => {
 }
 
 const updateEdges = (e: Array<NodeChange>) => {
-  if (e.length > 1 || e.length === 0 || e[0].type !== 'add') {
+  if (e.length > 1 || e.length === 0 || !['add', 'remove'].includes(e[0].type)) {
     return
   }
-  const neededEdges = countNeededEdges(getNodes.value)
-  const newEdges = uniqBy([...getEdges.value, ...neededEdges], 'id')
-  setEdges(newEdges)
+  const neededEdges = countNeededEdges(getNodes.value, getEdges.value)
+  setEdges(neededEdges)
 }
 
 const currentConnectSourceNode = ref<undefined | Node>()
