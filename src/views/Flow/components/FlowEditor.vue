@@ -202,6 +202,7 @@ const {
   getNodeInfo,
   getNodeIcon,
   getIconClass,
+  isWithFallbackNodes,
 } = useFlowNode()
 
 /**
@@ -297,7 +298,7 @@ const handleEdgesChanged = (e: Array<EdgeChange>) => {
   const edge = e[0]
   if (edge.type === 'add') {
     const { sourceNode, targetNode } = edge.item
-    if (isBridgerNode(sourceNode)) {
+    if (isBridgerNode(sourceNode) && !isWithFallbackNodes(targetNode)) {
       edge.item.style = fallbackEdgeStyle
       handleFallbackItemInActionNodeFormData(sourceNode, targetNode, 'add')
       addFallbackFlagToNodes([targetNode])
