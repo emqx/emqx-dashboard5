@@ -1,4 +1,5 @@
 import { Edge, Node, VueFlow } from '@vue-flow/core'
+import { find } from 'lodash'
 import useFlowNode, {
   FlowData,
   FlowNodeType,
@@ -35,7 +36,7 @@ interface Ret {
     event: DragEvent,
     positionOffset: { x: number; y: number },
   ) => Node | undefined
-  countNeededEdges: (nodes: Array<Node>) => Edge[]
+  countNeededEdges: (nodes: Array<Node>, currentEdges: Array<Edge>) => Edge[]
 }
 
 export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivElement>): Ret => {
@@ -45,6 +46,8 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
     sinkNodeList,
     getNodeClass,
     getFlowNodeHookPosition,
+    isWithFallbackNodes,
+    isBridgerNode,
   } = useFlowNode()
 
   const nodeArr: Array<NodeTypeItem> = [
@@ -112,7 +115,26 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
   }
 
   const { generateEdgesFromNodes } = useGenerateFlowDataUtils()
-  const countNeededEdges = (nodes: Array<Node>) => {
+  const countNeededEdges = (nodes: Array<Node>, currentEdges: Array<Edge>) => {
+    const currentFallbackEdges = currentEdges.filter((edge) => {
+      const sourceNode = find(nodes, { id: edge.source })
+      return sourceNode && isBridgerNode(sourceNode)
+    })
+    const confirmedRuleOutputNodes = nodes.filter((node) => {
+      if (node.type !== FlowNodeType.Output) {
+        return false
+      }
+      const isConsole = node.data.specificType === SinkType.Console
+      const withFallbackNodes = isWithFallbackNodes(node)
+      const isRuleOutput = currentEdges.some((edge) => {
+        if (edge.target !== node.id) {
+          return false
+        }
+        const inputNode = find(nodes, { id: edge.source })
+        return inputNode && !isBridgerNode(inputNode)
+      })
+      return isConsole || withFallbackNodes || isRuleOutput
+    })
     const groupedNodes = {
       [NodeType.Source]: nodes.filter((node) => node.type === FlowNodeType.Input),
       [ProcessingType.Function]: nodes.filter(
@@ -121,10 +143,10 @@ export default (FlowerInstance: Ref<typeof VueFlow>, FlowWrapper: Ref<HTMLDivEle
       [ProcessingType.Filter]: nodes.filter(
         ({ data }) => data.specificType === ProcessingType.Filter,
       ),
-      [NodeType.Sink]: nodes.filter(({ data }) => data.specificType === SinkType.Console),
+      [NodeType.Sink]: confirmedRuleOutputNodes,
     }
     // do not need to generate edges for output nodes, let the user to connect the edges
-    return generateEdgesFromNodes(groupedNodes)
+    return uniqBy([...currentFallbackEdges, ...generateEdgesFromNodes(groupedNodes)], 'id')
   }
 
   return {
