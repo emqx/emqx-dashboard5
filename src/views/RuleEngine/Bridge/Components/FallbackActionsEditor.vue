@@ -198,7 +198,10 @@ const handleActionSubmitted = (action: OutputItem) => {
     const { type, name } = getTypeAndNameFromKey(action)
     newItem = { kind: FallbackActionKind.Reference, type, name }
   }
-  if (newItem) {
+  if (currentEditIndex.value > -1 && actionList.value[currentEditIndex.value]) {
+    actionList.value[currentEditIndex.value] = newItem as FallbackAction
+    currentEditIndex.value = -1
+  } else if (newItem) {
     actionList.value = [...actionList.value, newItem]
   }
 }
