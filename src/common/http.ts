@@ -1,4 +1,10 @@
-import { BAD_TOKEN, MFA_REQUIRED, NAME_PWD_ERROR, TOKEN_TIME_OUT } from '@/common/customErrorCode'
+import {
+  BAD_TOKEN,
+  LOGIN_LOCKED,
+  MFA_REQUIRED,
+  NAME_PWD_ERROR,
+  TOKEN_TIME_OUT,
+} from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import i18n from '@/i18n'
 import { toLogin } from '@/router'
@@ -95,6 +101,8 @@ export const getErrorMessage = (data: AxiosResponse['data'], status: number) => 
   return `${status}: ${stringifyObjSafely(data)}`
 }
 
+const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED]
+
 /**
  * there are some custom configurations
  * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
@@ -152,7 +160,7 @@ axios.interceptors.response.use(
         if (!handleErrorSelf) {
           if (data.code === NAME_PWD_ERROR) {
             ElNotification.error(t('Base.namePwdError'))
-          } else if (data.code === MFA_REQUIRED) {
+          } else if (ERROR_CODE_HANDLE_BY_PAGE.includes(data.code)) {
             // do nothing, leave it to the page to do the rest of the processing
           } else {
             CustomMessage.error(getErrorMessage(data, status))
