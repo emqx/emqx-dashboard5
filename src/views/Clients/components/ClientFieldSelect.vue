@@ -66,7 +66,10 @@ const customFieldIndexMap = DEFAULT_CLIENT_TABLE_COLUMNS.reduce(
     map.set(item, index)
     return map
   },
-  new Map(),
+  new Map([
+    ['send_msg', DEFAULT_CLIENT_TABLE_COLUMNS.length],
+    ['recv_msg', DEFAULT_CLIENT_TABLE_COLUMNS.length + 1],
+  ]),
 )
 const { clientFields, getBaseLabel } = useClientFields()
 const fieldOpts = Object.entries(clientFields)
@@ -80,7 +83,11 @@ const fieldOpts = Object.entries(clientFields)
       })
       return arr
     },
-    [{ label: tl('connectedStatus'), value: 'connected' }],
+    [
+      { label: tl('connectedStatus'), value: 'connected' },
+      { label: getBaseLabel('send_msg'), value: 'send_msg' },
+      { label: getBaseLabel('recv_msg'), value: 'recv_msg' },
+    ],
   )
   .sort((a, b) => {
     const aIndex = customFieldIndexMap.get(a.value) ?? 99
