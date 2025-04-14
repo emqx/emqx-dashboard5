@@ -1753,6 +1753,30 @@
   },
   {
     "method": "post",
+    "path": "/plugins/cluster_sync",
+    "operation_label": {
+      "en": "Plugins",
+      "zh": "插件"
+    },
+    "operation_name_label": {
+      "en": "Forces a plugin to be synced to the cluster and removes other versions of the plugin.",
+      "zh": "强制插件同步到集群并删除其他版本"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/plugins/:name/config/upload",
+    "operation_label": {
+      "en": "Plugins",
+      "zh": "插件"
+    },
+    "operation_name_label": {
+      "en": "Upload plugin config",
+      "zh": "上传插件配置"
+    }
+  },
+  {
+    "method": "post",
     "path": "/exhooks",
     "operation_label": {
       "en": "ExHook",
