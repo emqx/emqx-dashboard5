@@ -684,8 +684,8 @@ export default {
     en: 'Enterprise',
   },
   selectColumn: {
-    zh: '选择列',
-    en: 'Select Column',
+    zh: '显示列',
+    en: 'Show Columns',
   },
   oneColumnRequired: {
     zh: '至少选择一列',
