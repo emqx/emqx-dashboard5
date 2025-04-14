@@ -6,6 +6,7 @@ export const PostPluginsInstall400Code = {
   UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
   ALREADY_INSTALLED: 'ALREADY_INSTALLED',
   BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
   FORBIDDEN: 'FORBIDDEN',
 } as const
 
@@ -16,6 +17,32 @@ export type PostPluginsInstall400 = {
 
 export type PostPluginsInstallBody = {
   plugin?: Blob
+}
+
+export type PostPluginsClusterSync404Code =
+  (typeof PostPluginsClusterSync404Code)[keyof typeof PostPluginsClusterSync404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsClusterSync404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostPluginsClusterSync404 = {
+  code?: PostPluginsClusterSync404Code
+  message?: string
+}
+
+export type PostPluginsClusterSync400Code =
+  (typeof PostPluginsClusterSync400Code)[keyof typeof PostPluginsClusterSync400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsClusterSync400Code = {
+  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+} as const
+
+export type PostPluginsClusterSync400 = {
+  code?: PostPluginsClusterSync400Code
+  message?: string
 }
 
 export type GetPluginsNameSchema404Code =
@@ -42,6 +69,89 @@ export const PostPluginsNameMove400Code = {
 
 export type PostPluginsNameMove400 = {
   code?: PostPluginsNameMove400Code
+  message?: string
+}
+
+export type PostPluginsNameConfigUpload500Code =
+  (typeof PostPluginsNameConfigUpload500Code)[keyof typeof PostPluginsNameConfigUpload500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsNameConfigUpload500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostPluginsNameConfigUpload500 = {
+  code?: PostPluginsNameConfigUpload500Code
+  message?: string
+}
+
+export type PostPluginsNameConfigUpload404Code =
+  (typeof PostPluginsNameConfigUpload404Code)[keyof typeof PostPluginsNameConfigUpload404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsNameConfigUpload404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostPluginsNameConfigUpload404 = {
+  code?: PostPluginsNameConfigUpload404Code
+  message?: string
+}
+
+export type PostPluginsNameConfigUpload400Code =
+  (typeof PostPluginsNameConfigUpload400Code)[keyof typeof PostPluginsNameConfigUpload400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsNameConfigUpload400Code = {
+  BAD_CONFIG: 'BAD_CONFIG',
+  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
+} as const
+
+export type PostPluginsNameConfigUpload400 = {
+  code?: PostPluginsNameConfigUpload400Code
+  message?: string
+}
+
+export type PostPluginsNameConfigUploadBody = {
+  config?: Blob
+}
+
+export type GetPluginsNameConfigDownload404Code =
+  (typeof GetPluginsNameConfigDownload404Code)[keyof typeof GetPluginsNameConfigDownload404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameConfigDownload404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetPluginsNameConfigDownload404 = {
+  code?: GetPluginsNameConfigDownload404Code
+  message?: string
+}
+
+export type GetPluginsNameConfigDownload400Code =
+  (typeof GetPluginsNameConfigDownload400Code)[keyof typeof GetPluginsNameConfigDownload400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetPluginsNameConfigDownload400Code = {
+  BAD_CONFIG: 'BAD_CONFIG',
+} as const
+
+export type GetPluginsNameConfigDownload400 = {
+  code?: GetPluginsNameConfigDownload400Code
+  message?: string
+}
+
+export type PutPluginsNameConfig500Code =
+  (typeof PutPluginsNameConfig500Code)[keyof typeof PutPluginsNameConfig500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameConfig500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PutPluginsNameConfig500 = {
+  code?: PutPluginsNameConfig500Code
   message?: string
 }
 
@@ -152,6 +262,10 @@ export type GetPluginsName404 = {
   message?: string
 }
 
+export interface PluginsSyncRequest {
+  name: string
+}
+
 export type PluginsRunningStatusStatus =
   (typeof PluginsRunningStatusStatus)[keyof typeof PluginsRunningStatusStatus]
 
@@ -174,6 +288,20 @@ export interface PluginsPosition {
 
 export type PluginsPluginCompatibility = { [key: string]: unknown }
 
+export type PluginsHealthStatusStatus =
+  (typeof PluginsHealthStatusStatus)[keyof typeof PluginsHealthStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PluginsHealthStatusStatus = {
+  ok: 'ok',
+  error: 'error',
+} as const
+
+export interface PluginsHealthStatus {
+  message?: string
+  status?: PluginsHealthStatusStatus
+}
+
 export interface PluginsBuilder {
   contact?: string
   name?: string
@@ -189,6 +317,7 @@ export interface PluginsPlugin {
   functionality?: string[]
   git_commit_or_build_date?: string
   git_ref?: string
+  health_status?: PluginsHealthStatus
   metadata_vsn?: string
   name: string
   readme?: string
