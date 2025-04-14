@@ -549,7 +549,7 @@ export default {
   },
   rateUnit: {
     zh: '次/秒',
-    en: 'times/sec | time/sec | times/sec',
+    en: 'time/sec | times/sec',
   },
   authnRateBarDesc: {
     zh: '近一分钟内认证次数趋势',
@@ -679,7 +679,7 @@ export default {
   },
   insertUnit: {
     zh: '条/秒',
-    en: 'entries/sec | entry/sec | entries/sec',
+    en: 'entry/sec | entries/sec',
   },
   bytes: {
     zh: '字节',
