@@ -90,6 +90,12 @@
           <div class="form-hd">
             <h1>{{ loginTitle }}</h1>
           </div>
+          <el-alert
+            class="lock-alert"
+            v-if="isLoginLocked"
+            :title="t('General.loginLockedMsg')"
+            type="error"
+          />
           <el-form
             ref="FormCom"
             :model="record"
@@ -318,7 +324,7 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
-import { MFA_REQUIRED } from '@/common/customErrorCode'
+import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -367,6 +373,8 @@ const newPasswordRecord = reactive({
 const isSubmitting = ref(false)
 
 const isSSOSubmitting = ref(false)
+
+const isLoginLocked = ref(false)
 
 const isUsingDefaultPwd = ref(false)
 /**
@@ -489,6 +497,26 @@ const { updateBaseInfo } = useUpdateBaseInfo()
 const updateStoreInfo = (username: string, data: PostLogin200) =>
   updateBaseInfo(username, data, currentLoginBackend.value)
 
+let timerForHideLoginLockedAlert: number | undefined
+const resetTimerForHideLoginLockedAlert = () => {
+  if (timerForHideLoginLockedAlert) {
+    window.clearTimeout(timerForHideLoginLockedAlert)
+    timerForHideLoginLockedAlert = undefined
+  }
+}
+const hideLoginLockedAlert = () => {
+  if (timerForHideLoginLockedAlert) {
+    return
+  }
+  timerForHideLoginLockedAlert = window.setTimeout(
+    () => {
+      isLoginLocked.value = false
+      resetTimerForHideLoginLockedAlert()
+    },
+    10 * 60 * 1000,
+  )
+}
+
 const queryLogin = async (user: { username: string; password: string; mfa_token?: string }) => {
   isSubmitting.value = true
   const { username, password } = user
@@ -501,15 +529,20 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
     updateStoreInfo(username, res)
 
     checkPasswordChange()
+
+    isLoginLocked.value = false
+    isSubmitting.value = false
+    resetTimerForHideLoginLockedAlert()
     return Promise.resolve({ username, response: res })
   } catch (error: any) {
     const { code, message } = error?.response?.data || {}
     if (code === MFA_REQUIRED) {
       handleMFAMethod(message, username)
     }
-    return Promise.reject(error)
-  } finally {
+    isLoginLocked.value = code === LOGIN_LOCKED
+    hideLoginLockedAlert()
     isSubmitting.value = false
+    return Promise.reject(error)
   }
 }
 
@@ -671,6 +704,10 @@ const submitWithAuthCode = async () => {
         max-width: 500px;
         .form-hd {
           height: 78px;
+        }
+        .lock-alert {
+          padding-right: 24px;
+          margin-bottom: 20px;
         }
         .el-form-item--large {
           &:first-child,
