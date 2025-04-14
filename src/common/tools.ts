@@ -407,6 +407,9 @@ const ONE_MB = ONE_KB * 1024
 const ONE_GB = ONE_MB * 1024
 
 export const transMemorySizeNumToStr = (byte: number, toFixed?: number): string => {
+  if (byte === 0 || isUndefined(byte)) {
+    return '0 bytes'
+  }
   const getNumPart = (num: number) => (toFixed ? round(num, toFixed) : num)
   if (byte < ONE_KB) {
     return getNumPart(byte) + ' bytes'

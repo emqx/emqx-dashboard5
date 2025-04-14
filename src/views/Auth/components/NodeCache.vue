@@ -106,7 +106,9 @@
           <el-card>
             <p class="metric-label">{{ tl('cacheCount') }}</p>
             <div class="metric-value">
-              <p class="metric-value-num">{{ formatNumber(metrics.count) }}</p>
+              <p class="metric-value-num">
+                {{ isUndefined(metrics?.count) ? 0 : formatNumber(metrics.count) }}
+              </p>
             </div>
           </el-card>
         </el-col>
