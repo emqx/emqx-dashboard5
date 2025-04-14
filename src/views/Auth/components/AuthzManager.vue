@@ -379,6 +379,9 @@ const addColumn = () => {
 const deleteItem = (row: BuiltInDBItem, index: number) => {
   record.value.rules.splice(index, 1)
 }
+const handleRulesBeforeSubmit = (rules: Array<BuiltInDBRule>) =>
+  rules.map((rule) => checkNOmitFromObj(rule))
+
 const handleSubmit = function () {
   recordForm.value.validate(async (valid: boolean) => {
     if (!valid) {
@@ -390,7 +393,7 @@ const handleSubmit = function () {
     if (type.value !== BuiltInDBType.All) {
       const key = getKeyByCurrentType()
       data[key] = record.value[key]
-      data.rules = record.value.rules
+      data.rules = handleRulesBeforeSubmit(record.value.rules)
       if (!isEdit.value) {
         await createBuiltInDatabaseData(type.value, [data])
         ElMessage.success(t('Base.createSuccess'))
@@ -407,7 +410,7 @@ const handleSubmit = function () {
         rules.splice(editIndex.value, 1, data as BuiltInDBRule)
       }
       await updateAllBuiltInDatabaseData({
-        rules,
+        rules: handleRulesBeforeSubmit(rules),
       })
     }
     dialogVisible.value = false
