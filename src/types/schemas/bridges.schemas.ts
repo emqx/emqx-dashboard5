@@ -1599,7 +1599,7 @@ export const BridgeRabbitmqPutDeliveryMode = {
 export interface BridgeRabbitmqPut {
   delivery_mode?: BridgeRabbitmqPutDeliveryMode
   enable?: boolean
-  exchange: string
+  exchange?: string
   heartbeat?: string
   local_topic?: string
   password: string
@@ -1642,7 +1642,7 @@ export const BridgeRabbitmqPostDeliveryMode = {
 export interface BridgeRabbitmqPost {
   delivery_mode?: BridgeRabbitmqPostDeliveryMode
   enable?: boolean
-  exchange: string
+  exchange?: string
   heartbeat?: string
   local_topic?: string
   name: string
@@ -1737,7 +1737,7 @@ export interface BridgeRabbitmqCreationOpts {
 export interface BridgeRabbitmqGet {
   delivery_mode?: BridgeRabbitmqGetDeliveryMode
   enable?: boolean
-  exchange: string
+  exchange?: string
   heartbeat?: string
   local_topic?: string
   name: string
