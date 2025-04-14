@@ -309,9 +309,9 @@ const metrics = computed(() => {
 
 const { getSizeNum, getSizeUnit } = useSizeMetric()
 
-const requestCacheMetrics = () => (isAuthz.value ? loadAuthnCacheStatus() : loadAuthzCacheStatus())
+const requestCacheMetrics = () => (isAuthz.value ? loadAuthzCacheStatus() : loadAuthnCacheStatus())
 const requestResetCacheMetrics = () =>
-  isAuthz.value ? resetAuthnCacheStatus() : resetAuthzCacheStatus()
+  isAuthz.value ? resetAuthzCacheStatus() : resetAuthnCacheStatus()
 
 const isCacheMetricsLoading = ref(false)
 const loadCacheMetrics = async () => {
