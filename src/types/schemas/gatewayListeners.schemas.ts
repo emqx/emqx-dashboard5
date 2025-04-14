@@ -1353,6 +1353,7 @@ export interface AuthnRedisSingle {
   password_hash_algorithm?: AuthnRedisSinglePasswordHashAlgorithm
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthnRedisSingleRedisType
   server: string
   ssl?: EmqxSslClientOpts
@@ -1401,6 +1402,7 @@ export interface AuthnRedisSentinel {
   password_hash_algorithm?: AuthnRedisSentinelPasswordHashAlgorithm
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthnRedisSentinelRedisType
   sentinel: string
   servers: string
@@ -1448,6 +1450,7 @@ export interface AuthnRedisCluster {
   password_hash_algorithm?: AuthnRedisClusterPasswordHashAlgorithm
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthnRedisClusterRedisType
   servers: string
   ssl?: EmqxSslClientOpts
@@ -1487,6 +1490,7 @@ export interface AuthnPostgresql {
   password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   query: string
   server: string
   ssl?: EmqxSslClientOpts
@@ -1520,6 +1524,7 @@ export interface AuthnMysql {
   password_hash_algorithm?: AuthnMysqlPasswordHashAlgorithm
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   query: string
   query_timeout?: string
   server: string
@@ -1592,6 +1597,7 @@ export interface AuthnMongoSingle {
   password_hash_field?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   salt_field?: string
   server: string
   srv_record?: boolean
@@ -1667,6 +1673,7 @@ export interface AuthnMongoSharded {
   password_hash_field?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   salt_field?: string
   servers: string
   srv_record?: boolean
@@ -1745,6 +1752,7 @@ export interface AuthnMongoRs {
   password_hash_field?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   r_mode?: AuthnMongoRsRMode
   replica_set_name: string
   salt_field?: string
@@ -1783,6 +1791,7 @@ export interface AuthnLdap {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   query_timeout?: string
   request_timeout?: string
   server: string
@@ -1809,6 +1818,7 @@ export interface AuthnKerberos {
   backend: AuthnKerberosBackend
   enable?: boolean
   mechanism: AuthnKerberosMechanism
+  precondition?: string
   principal: string
 }
 
@@ -1846,6 +1856,7 @@ export interface AuthnJwtPublicKey {
   enable?: boolean
   from?: AuthnJwtPublicKeyFrom
   mechanism: AuthnJwtPublicKeyMechanism
+  precondition?: string
   public_key: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
 }
@@ -1887,6 +1898,7 @@ export interface AuthnJwtJwks {
   mechanism: AuthnJwtJwksMechanism
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   refresh_interval?: number
   ssl?: EmqxSslClientOpts
   use_jwks: AuthnJwtJwksUseJwks
@@ -1926,6 +1938,7 @@ export interface AuthnJwtHmac {
   enable?: boolean
   from?: AuthnJwtHmacFrom
   mechanism: AuthnJwtHmacMechanism
+  precondition?: string
   secret: string
   secret_base64_encoded?: boolean
   verify_claims?: AuthnJwtHmacVerifyClaims
@@ -1975,6 +1988,7 @@ export interface AuthnHttpPost {
   method: AuthnHttpPostMethod
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   request?: ConnectorHttpRequest
   request_timeout?: string
   /** @deprecated */
@@ -2027,6 +2041,7 @@ export interface AuthnHttpGet {
   method: AuthnHttpGetMethod
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   request?: ConnectorHttpRequest
   request_timeout?: string
   /** @deprecated */
@@ -2059,6 +2074,7 @@ export const AuthnGcpDeviceMechanism = {
 export interface AuthnGcpDevice {
   enable?: boolean
   mechanism: AuthnGcpDeviceMechanism
+  precondition?: string
 }
 
 export type AuthnCinfoCheckResult =
@@ -2089,6 +2105,7 @@ export interface AuthnCinfo {
   checks: AuthnCinfoCheck[]
   enable?: boolean
   mechanism: AuthnCinfoMechanism
+  precondition?: string
 }
 
 export type AuthnBuiltinDbUserIdType =
@@ -2132,6 +2149,7 @@ export interface AuthnBuiltinDb {
   enable?: boolean
   mechanism: AuthnBuiltinDbMechanism
   password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
+  precondition?: string
   user_id_type: AuthnBuiltinDbUserIdType
 }
 

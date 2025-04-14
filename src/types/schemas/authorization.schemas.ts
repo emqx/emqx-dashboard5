@@ -782,11 +782,15 @@ export interface EmqxAuthzApiMnesiaRuleItem {
   action: EmqxAuthzApiMnesiaRuleItemAction
   clientid_re?: string
   ipaddr?: string
+  listener?: string
+  listener_re?: string
   permission: EmqxAuthzApiMnesiaRuleItemPermission
   qos?: number[]
   retain?: EmqxAuthzApiMnesiaRuleItemRetain
   topic: string
   username_re?: string
+  zone?: string
+  zone_re?: string
 }
 
 export interface EmqxAuthzApiMnesiaRulesForUsername {

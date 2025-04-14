@@ -216,6 +216,7 @@ export type PostLogin401Code = (typeof PostLogin401Code)[keyof typeof PostLogin4
 export const PostLogin401Code = {
   BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
   BAD_MFA_TOKEN: 'BAD_MFA_TOKEN',
+  LOGIN_LOCKED: 'LOGIN_LOCKED',
 } as const
 
 export type PostLogin401 = {

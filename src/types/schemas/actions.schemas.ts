@@ -2023,7 +2023,7 @@ export const BridgeRabbitmqActionParametersDeliveryMode = {
 
 export interface BridgeRabbitmqActionParameters {
   delivery_mode?: BridgeRabbitmqActionParametersDeliveryMode
-  exchange: string
+  exchange?: string
   payload_template?: string
   publish_confirmation_timeout?: string
   routing_key: string
