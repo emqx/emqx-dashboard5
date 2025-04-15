@@ -727,8 +727,4 @@ export default {
     zh: '描述',
     en: 'Description',
   },
-  infinity: {
-    zh: '不限',
-    en: 'Infinity',
-  },
 }
