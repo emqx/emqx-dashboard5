@@ -272,4 +272,8 @@ export default {
     zh: '{target}最大发布速率',
     en: '{target} Max Publish Rate',
   },
+  currentTenant: {
+    zh: '当前租户',
+    en: 'Current Tenant',
+  },
 }
