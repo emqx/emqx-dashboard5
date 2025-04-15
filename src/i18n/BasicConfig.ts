@@ -249,8 +249,16 @@ export default {
     en: 'Max Sessions',
   },
   deleteNamespaceTip: {
-    zh: '删除命名空间后，命名空间中的所有会话将被断开，是否继续？',
-    en: 'All sessions in the namespace will be disconnected after deleting the namespace. Continue?',
+    zh: '确定删除命名空间？',
+    en: 'Are you sure you want to delete this namespace？',
+  },
+  deleteNamespaceConfirmFirst: {
+    zh: '此操作无法撤销',
+    en: 'This action cannot be undone.',
+  },
+  deleteNamespaceConfirmSecond: {
+    zh: '这将永久删除 {target} 命名空间',
+    en: 'This will permanently delete the {target} namespace.',
   },
   tenant: {
     zh: '租户',

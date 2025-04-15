@@ -8,10 +8,15 @@ import {
 import { NamespaceItem } from '@/types/config'
 
 export default () => {
-  const queryNamespaceList = async (): Promise<Array<NamespaceItem>> => {
+  /**
+   * because the namespace list is not updated when the namespace is deleted, so we need to filter the namespace list
+   */
+  const queryNamespaceList = async (filterItem?: string): Promise<Array<NamespaceItem>> => {
     try {
       const list = await getManagedNamespaceList()
-      const namespaceList: Array<NamespaceItem> = list.map((ns) => ({ ns, config: {} }))
+      const namespaceList: Array<NamespaceItem> = list
+        .filter((item) => !filterItem || item !== filterItem)
+        .map((ns) => ({ ns, config: {} }))
       await Promise.allSettled(
         namespaceList.map(async (namespace) => {
           const config = await getNamespaceConfig(namespace.ns)
