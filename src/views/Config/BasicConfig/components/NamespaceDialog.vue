@@ -51,12 +51,26 @@
           <el-row :gutter="20">
             <!-- Tenant Bytes Limiter -->
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('bytes_rate.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('bytes_rate.label')"
+                    :desc="getTenantConfigDesc('bytes_rate')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="tenantBytes.rate" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('bytes_burst.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('bytes_burst.label')"
+                    :desc="getTenantConfigDesc('bytes_burst')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="tenantBytes.burst" />
               </el-form-item>
             </el-col>
@@ -65,12 +79,26 @@
           <el-row :gutter="20">
             <!-- Tenant Messages Limiter -->
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('messages_rate.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('messages_rate.label')"
+                    :desc="getTenantConfigDesc('messages_rate')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="tenantMessages.rate" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('messages_burst.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('messages_burst.label')"
+                    :desc="getTenantConfigDesc('messages_burst')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="tenantMessages.burst" />
               </el-form-item>
             </el-col>
@@ -99,12 +127,26 @@
           <el-row :gutter="20">
             <!-- Client Bytes Limiter -->
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('bytes_rate.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('bytes_rate.label')"
+                    :desc="getClientConfigDesc('bytes_rate')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="clientBytes.rate" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('bytes_burst.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('bytes_burst.label')"
+                    :desc="getClientConfigDesc('bytes_burst')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="clientBytes.burst" />
               </el-form-item>
             </el-col>
@@ -113,12 +155,26 @@
           <el-row :gutter="20">
             <!-- Client Messages Limiter -->
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('messages_rate.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('messages_rate.label')"
+                    :desc="getClientConfigDesc('messages_rate')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="clientMessages.rate" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="getSchemaText('messages_burst.label')">
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('messages_burst.label')"
+                    :desc="getClientConfigDesc('messages_burst')"
+                    desc-marked
+                  />
+                </template>
                 <el-input v-model="clientMessages.burst" />
               </el-form-item>
             </el-col>
@@ -143,8 +199,9 @@
 </template>
 
 <script setup lang="ts">
-import { NamespaceItem } from '@/types/config'
 import useNamespace from '@/hooks/Config/useNamespace'
+import { NamespaceItem } from '@/types/config'
+import { toLower } from 'lodash'
 
 const props = defineProps<{
   modelValue: boolean
@@ -154,6 +211,15 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('BasicConfig')
 const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
+const emptyMeaningDesc = / If empty, it means no limit\.|；为空时表示不限制/
+const getClientConfigDesc = (key: string) => {
+  return getSchemaText(`${key}.desc`).replace(emptyMeaningDesc, '')
+}
+const clientText = /a single client|单个客户端/
+const getTenantConfigDesc = (key: string) => {
+  const desc = getClientConfigDesc(key)
+  return desc.replace(clientText, toLower(tl('currentTenant')))
+}
 
 const createEmptyRateConfig = () => ({ rate: '', burst: '' })
 const createEmptyLimiterConfig = () => ({
