@@ -116,6 +116,7 @@ export interface CInfoConfig {
     result: string
   }>
   enable: boolean
+  precondition?: string
 }
 
 export type BackendMap = {

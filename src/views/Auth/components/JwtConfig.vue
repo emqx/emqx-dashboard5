@@ -31,26 +31,25 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <template v-if="jwtConfig.algorithm === 'hmac-based'">
-            <el-col :span="12">
-              <el-form-item label="Secret" required prop="secret">
-                <template #label>
-                  Secret
-                  <InfoTooltip
-                    v-if="jwtConfig.secret_base64_encoded"
-                    :content="$t('Auth.jwtBase64Tips')"
-                  />
-                </template>
-                <CustomInputPassword v-model="jwtConfig.secret" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item :label="$t('Auth.secret_base64_encoded')">
-                <el-switch v-model="jwtConfig.secret_base64_encoded"></el-switch>
-              </el-form-item>
-            </el-col>
-          </template>
-          <el-col v-else-if="jwtConfig.algorithm === 'public-key'" :span="24">
+          <el-col :span="12" v-if="jwtConfig.algorithm === 'hmac-based'">
+            <el-form-item label="Secret" required prop="secret">
+              <template #label>
+                Secret
+                <InfoTooltip
+                  v-if="jwtConfig.secret_base64_encoded"
+                  :content="$t('Auth.jwtBase64Tips')"
+                />
+              </template>
+              <CustomInputPassword v-model="jwtConfig.secret" />
+            </el-form-item>
+          </el-col>
+          <PreconditionFormItem v-model="jwtConfig.precondition" />
+          <el-col :span="24" v-if="jwtConfig.algorithm === 'hmac-based'">
+            <el-form-item :label="$t('Auth.secret_base64_encoded')">
+              <el-switch v-model="jwtConfig.secret_base64_encoded"></el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="jwtConfig.algorithm === 'public-key'" :span="24">
             <el-form-item label="Public Key" prop="public_key">
               <el-input type="textarea" :rows="4" v-model="jwtConfig.public_key" />
             </el-form-item>
@@ -73,6 +72,7 @@
               </el-input>
             </el-form-item>
           </el-col>
+          <PreconditionFormItem v-model="jwtConfig.precondition" />
           <el-col :span="24">
             <el-form-item :label="$t('RuleEngine.headers')">
               <key-and-value-editor v-model="jwtConfig.headers" />
@@ -104,8 +104,13 @@
 </template>
 
 <script lang="ts">
+import PreconditionFormItem from './PreconditionFormItem.vue'
+
 export default defineComponent({
   name: 'JwtConfig',
+  components: {
+    PreconditionFormItem,
+  },
   props: {
     modelValue: {
       type: Object,

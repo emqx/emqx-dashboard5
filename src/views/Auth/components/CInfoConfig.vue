@@ -8,6 +8,7 @@
       label-position="top"
     >
       <el-row :gutter="20">
+        <PreconditionFormItem v-model="cinfoConfig.precondition" />
         <el-col :span="20">
           <el-form-item prop="checks" :label="$t('Auth.checks')">
             <ObjectArrayEditor
@@ -24,6 +25,8 @@
 </template>
 
 <script lang="ts" setup>
+import PreconditionFormItem from './PreconditionFormItem.vue'
+
 const props = defineProps({
   modelValue: {
     type: Object,

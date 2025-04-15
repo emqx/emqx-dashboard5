@@ -17,12 +17,15 @@
             <el-input v-model="kerberosConfig.principal" />
           </el-form-item>
         </el-col>
+        <PreconditionFormItem v-model="kerberosConfig.precondition" />
       </el-row>
     </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
+import PreconditionFormItem from './PreconditionFormItem.vue'
+
 const props = defineProps({
   modelValue: {
     type: Object,

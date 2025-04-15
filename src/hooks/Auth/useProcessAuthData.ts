@@ -93,6 +93,7 @@ export default function useProcessAuthData() {
       ssl,
       disconnect_after_expire,
       headers,
+      precondition,
     } = data
     let tempData: any = {
       enable,
@@ -100,6 +101,7 @@ export default function useProcessAuthData() {
       use_jwks,
       verify_claims,
       disconnect_after_expire,
+      precondition,
     }
     if (use_jwks) {
       tempData = {
@@ -132,7 +134,7 @@ export default function useProcessAuthData() {
   }
   const processCInfoCreateConfig = (data: CInfoConfig) => {
     const _data = cloneDeep(data)
-    const { checks, enable, mechanism } = _data
+    const { checks, enable, mechanism, precondition } = _data
     checks.forEach((check) => {
       const is_match = check.is_match as string
       if (is_match.includes('\n')) {
@@ -156,12 +158,13 @@ export default function useProcessAuthData() {
       enable,
       checks: filteredChecks,
       mechanism,
+      precondition,
     }
   }
 
   const processCInfoUpdateConfig = (data: CInfoConfig) => {
     const _data = cloneDeep(data)
-    const { id, checks, enable, mechanism } = _data
+    const { id, checks, enable, mechanism, precondition } = _data
     checks.forEach((check) => {
       if (Array.isArray(check.is_match)) {
         const is_match = check.is_match as string[]
@@ -173,6 +176,7 @@ export default function useProcessAuthData() {
       enable,
       checks,
       mechanism,
+      precondition,
     }
   }
 

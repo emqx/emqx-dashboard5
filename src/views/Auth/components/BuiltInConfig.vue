@@ -46,6 +46,7 @@
             </el-form-item>
           </el-col>
         </template>
+        <PreconditionFormItem v-model="builtConfig.precondition" />
       </el-row>
     </el-form>
   </div>
@@ -53,12 +54,14 @@
 
 <script lang="ts">
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import PreconditionFormItem from './PreconditionFormItem.vue'
 
 export default defineComponent({
   name: 'BuiltInConfig',
 
   components: {
     PasswordHashAlgorithmFormItems,
+    PreconditionFormItem,
   },
 
   props: {
