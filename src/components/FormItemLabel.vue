@@ -1,6 +1,10 @@
 <template>
   <span>{{ label }}</span>
-  <InfoTooltip v-if="desc" v-bind="$attrs">
+  <InfoTooltip
+    v-if="desc"
+    v-bind="$attrs"
+    :popper-class="`${$attrs.popperClass} ${maxHeight ? 'no-padding-right' : ''}`"
+  >
     <template #content>
       <template v-if="!descMarked">{{ desc }}</template>
       <template v-else>
@@ -33,3 +37,14 @@ defineProps({
   },
 })
 </script>
+
+<style lang="scss">
+.info-tooltip {
+  &.no-padding-right {
+    padding-right: 0;
+    .el-scrollbar__view {
+      padding-right: 11px;
+    }
+  }
+}
+</style>

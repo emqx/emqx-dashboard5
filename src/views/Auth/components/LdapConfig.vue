@@ -102,6 +102,8 @@
             </el-form-item>
           </el-col>
 
+          <PreconditionFormItem v-if="authType === 'authn'" v-model="ldapConfig.precondition" />
+
           <!-- TLS -->
           <el-col :span="24">
             <CommonTLSConfig class="TLS-config" v-model="ldapConfig.ssl" :is-edit="isEdit" />
@@ -137,7 +139,7 @@
 
 <script lang="ts" setup>
 import { LDAPAuthMethod } from '@/types/enum'
-
+import PreconditionFormItem from './PreconditionFormItem.vue'
 const props = defineProps({
   modelValue: {
     type: Object,

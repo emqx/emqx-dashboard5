@@ -125,6 +125,7 @@
               </el-form-item>
             </el-col>
           </template>
+          <PreconditionFormItem v-if="isAuthn" v-model="databaseConfig.precondition" />
 
           <el-col :span="24">
             <!-- TLS -->
@@ -301,12 +302,14 @@ import { DatabaseAndServer } from '@/types/auth'
 import { MongoType, SaltPosition } from '@/types/enum'
 import HelpBlock from './HelpBlock.vue'
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
+import PreconditionFormItem from './PreconditionFormItem.vue'
 
 export default defineComponent({
   name: 'DatabaseConfig',
   components: {
     PasswordHashAlgorithmFormItems,
     HelpBlock,
+    PreconditionFormItem,
   },
 
   props: {

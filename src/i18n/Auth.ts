@@ -718,7 +718,7 @@ export default {
     en: 'Match Conditions',
   },
   isMatchDesc: {
-    zh: `Variform 表达式用于评估客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n
+    zh: `Variform 表达式用于求值客户端信息。多个表达式请分行输入，每行一个表达式。支持的变量：\n
 - <code>username</code>: 用户名\n
 - <code>password</code>: 客户端密码\n
 - <code>clientid</code>: 客户端 ID\n
@@ -754,5 +754,60 @@ For more functions and advanced usage, please refer to the full documentation.`,
   resultDesc: {
     zh: '如果匹配条件为真，则返回此结果。\n支持的结果：\n- <code>ignore</code>: 将认证延迟到链中的下一个认证器。\n- <code>allow</code>: 允许客户端连接。\n- <code>deny</code>: 拒绝客户端连接。',
     en: 'The result to return if the match condition is true.\nSupported results:\n- <code>ignore</code>: defer the authentication to the next authenticator in the chain.\n- <code>allow</code>: allow the client to connect.\n- <code>deny</code>: deny the client to connect.',
+  },
+  precondition: {
+    zh: '调用条件',
+    en: 'Precondition',
+  },
+  preconditionDesc: {
+    zh: `一个可变形（Variform）的表达式，用于根据客户端信息中预绑定的变量进行求值。<br />
+**表达式的求值结果必须为字符串值 \`'true'\`，此认证器才会被调用。**<br />
+如果表达式求值为其他任何值，此认证器将被跳过。
+
+支持的变量：
+- \`username\`：客户端的用户名
+- \`password\`：客户端的密码
+- \`clientid\`：客户端的 Client ID
+- \`client_attrs.*\`：客户端的自定义属性
+- \`cert_common_name\`：客户端 TLS 证书中的 Subject 字段
+- \`cert_subject\`：客户端 TLS 证书中的 Common Name (CN) 字段
+- \`peersni\`：TLS 客户端发送的 SNI (Server Name Indication)
+- \`listener\`：监听器 ID（例如 \`tcp:default\`）
+- \`zone\`：关联的配置区域（Zone）
+
+示例：
+- 仅当客户端通过监听器 \`ssl:letsencryt\` 连接时调用：
+  \`str_eq(listener, 'ssl:letsencryt')\`
+- 如果用户名为空，则跳过：
+  \`not(is_empty_val(username))\`
+- 仅当密码存在且区域为 \`zone1\` 时调用：
+  \`iif(is_empty_val(password), false, str_eq(zone, 'zone1'))\`
+
+更多关于 Variform 表达式的信息，请参阅 EMQX 文档。
+`,
+    en: `A Variform expression to evaluate with a set of pre-bound variables derived from the client information.<br />
+**The expression must evaluate to a string value of 'true' for this authenticator to be invoked.**<br />
+If the expression evaluates to any other value, this authenticator will be skipped.
+
+Supported variables:
+- \`username\`: The username of the client
+- \`password\`: The password of the client
+- \`clientid\`: The client ID of the client
+- \`client_attrs.*\`: The client attributes of the client
+- \`cert_common_name\`: The subject field from the client's TLS certificate
+- \`cert_subject\`: The common name (CN) from the client's TLS certificate
+- \`peersni\`: The SNI (Server Name Indication) sent by TLS client
+- \`listener\`: The listener ID (e.g. \`tcp:default\`)
+- \`zone\`: The associated config zone.
+
+Examples:
+- Only invoke if the client is connected from listener \`ssl:letsencryt\`:
+  \`str_eq(listener, 'ssl:letsencryt')\`
+- Skip if username is empty:
+  \`not(is_empty_val(username))\`
+- Only invoke if password exists and zone is 'zone1':
+  \`iif(is_empty_val(password), false, str_eq(zone, 'zone1'))\`
+
+Find more information about Variform expressions in EMQX doc.`,
   },
 }

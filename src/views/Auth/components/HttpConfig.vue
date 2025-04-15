@@ -24,6 +24,7 @@
               <el-input v-model="httpConfig.url" />
             </el-form-item>
           </el-col>
+          <PreconditionFormItem v-if="authType === 'authn'" v-model="httpConfig.precondition" />
 
           <el-col :span="24">
             <el-form-item>
@@ -127,11 +128,13 @@
 
 <script lang="ts">
 import HelpBlock from './HelpBlock.vue'
+import PreconditionFormItem from './PreconditionFormItem.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
   components: {
     HelpBlock,
+    PreconditionFormItem,
   },
 
   props: {
