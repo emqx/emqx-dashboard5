@@ -284,4 +284,8 @@ export default {
     zh: '当前租户',
     en: 'Current Tenant',
   },
+  noConfigured: {
+    zh: '未配置',
+    en: 'No Configured',
+  },
 }

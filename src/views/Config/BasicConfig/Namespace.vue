@@ -5,33 +5,39 @@
       <CreateButton @click="handleCreate" />
     </div>
     <el-table v-loading="loading" :data="namespaces" style="width: 100%">
-      <el-table-column prop="ns" :label="tl('namespace')">
+      <el-table-column prop="ns" :label="tl('namespace')" :min-width="180">
         <template #default="{ row }">
           <CommonOverflowTooltip :content="row.ns" />
         </template>
       </el-table-column>
-      <el-table-column prop="config.session.max_sessions" :label="tl('maxSessions')">
+      <el-table-column
+        prop="config.session.max_sessions"
+        :label="tl('maxSessions')"
+        :min-width="180"
+      >
         <template #default="{ row }">
-          {{ row.config?.session?.max_sessions ?? t('Base.infinity') }}
+          {{ row.config?.session?.max_sessions ?? '' }}
         </template>
       </el-table-column>
       <el-table-column
         prop="config.session.max_sessions"
         :label="tl('targetMaxPubRate', { target: tl('tenant') })"
+        :min-width="192"
       >
         <template #default="{ row }">
-          {{ row.config?.limiter?.tenant?.bytes?.rate ?? t('Base.infinity') }}
+          {{ row.config?.limiter?.tenant?.bytes?.rate ?? tl('noConfigured') }}
         </template>
       </el-table-column>
       <el-table-column
         prop="config.session.max_sessions"
         :label="tl('targetMaxPubRate', { target: tl('client') })"
+        :min-width="192"
       >
         <template #default="{ row }">
-          {{ row.config?.limiter?.client?.bytes?.rate ?? t('Base.infinity') }}
+          {{ row.config?.limiter?.client?.bytes?.rate ?? tl('noConfigured') }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.operation')">
+      <el-table-column :label="t('Base.operation')" :min-width="168">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
             {{ t('Base.edit') }}
