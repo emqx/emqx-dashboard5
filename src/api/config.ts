@@ -5,11 +5,12 @@ import {
   Dashboard,
   Limiter,
   Log,
+  NamespaceItem,
   TeleStatus,
   Zone,
   Zones,
 } from '@/types/config'
-import { FileTransferConf } from '@/types/typeAlias'
+import { FileTransferConf, NamespaceConfig } from '@/types/typeAlias'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -54,3 +55,34 @@ export const getFileTransConfigs = (): Promise<FileTransferConf> =>
 
 export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTransferConf> =>
   http.put('/configs/file_transfer', data)
+
+// Multi-tenancy API functions
+export const getNamespaceList = (): Promise<Array<string>> => http.get('/mt/ns_list')
+
+export const getNamespaceClientCount = (namespace: string): Promise<number> =>
+  http.get(`/mt/ns/${namespace}/client_count`)
+
+export const bulkImportNamespaces = (data: Array<NamespaceItem>): Promise<void> =>
+  http.post('/mt/bulk_import_configs', data)
+
+export const getNamespaceConfig = (namespace: string): Promise<NamespaceConfig> =>
+  http.get(`/mt/ns/${namespace}/config`)
+
+export const updateNamespaceConfig = (
+  namespace: string,
+  data: NamespaceConfig,
+): Promise<NamespaceConfig> => http.put(`/mt/ns/${namespace}/config`, data)
+
+export const getManagedNamespaceList = (): Promise<Array<string>> => http.get('/mt/managed_ns_list')
+
+export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
+  http.post(`/mt/ns/${namespace}/kick_all_clients`)
+
+export const getNamespaceClientList = (namespace: string): Promise<Array<string>> =>
+  http.get(`/mt/ns/${namespace}/client_list`)
+
+export const deleteManagedNamespace = (namespace: string): Promise<void> =>
+  http.delete(`/mt/ns/${namespace}`)
+
+export const createManagedNamespace = (namespace: string): Promise<void> =>
+  http.post(`/mt/ns/${namespace}`)

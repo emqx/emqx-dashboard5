@@ -633,6 +633,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/namespace',
+    component: Layout,
+    meta: {
+      hideKey: 'namespace',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'namespace',
+        component: () => import('@/views/Config/BasicConfig/Namespace.vue'),
+      },
+    ],
+  },
   // mqtt config
   {
     path: '/mqtt',

@@ -122,6 +122,9 @@ p.description {
   &.with-padding-bottom {
     padding-bottom: 32px;
   }
+  .el-table:last-child {
+    margin-bottom: 24px;
+  }
 }
 
 .app-wrapper-compact {

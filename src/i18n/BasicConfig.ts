@@ -240,4 +240,36 @@ export default {
     zh: '已停止的核心节点无法通过 Dashboard 移除。',
     en: 'Stopped core nodes cannot be removed via the dashboard.',
   },
+  namespace: {
+    zh: '命名空间',
+    en: 'Namespace',
+  },
+  maxSessions: {
+    zh: '最大会话数',
+    en: 'Max Sessions',
+  },
+  deleteNamespaceTip: {
+    zh: '删除命名空间后，命名空间中的所有会话将被断开，是否继续？',
+    en: 'All sessions in the namespace will be disconnected after deleting the namespace. Continue?',
+  },
+  tenant: {
+    zh: '租户',
+    en: 'Tenant',
+  },
+  client: {
+    zh: '客户端',
+    en: 'Client',
+  },
+  targetLimiter: {
+    zh: '{target}速率限制',
+    en: '{target} Limiter',
+  },
+  enableTargetLimiter: {
+    zh: '启用{target}速率限制',
+    en: 'Enable {target} Limiter',
+  },
+  targetMaxPubRate: {
+    zh: '{target}最大发布速率',
+    en: '{target} Max Publish Rate',
+  },
 }
