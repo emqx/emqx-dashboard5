@@ -1,5 +1,5 @@
 import { EmqxForceShutdown } from './schemas/configs.schemas'
-import { LogConf } from './typeAlias'
+import { LogConf, NamespaceConfig } from './typeAlias'
 
 export interface SubTabComponent extends ComponentPublicInstance {
   index: number
@@ -311,4 +311,9 @@ export interface DurableSessions {
   session_gc_interval: string
   session_gc_batch_size: number
   message_retention_period: string
+}
+
+export interface NamespaceItem {
+  ns: string
+  config: NamespaceConfig
 }

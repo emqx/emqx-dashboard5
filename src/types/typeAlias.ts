@@ -69,6 +69,7 @@ import type {
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 import type { NodeInfo } from '@/types/dashboard'
+import { MtConfigOut } from './schemas/multiTenancy.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -166,3 +167,6 @@ export type ClusterInfo = Omit<GetCluster200, 'nodes'> & { nodes?: NodeInfo[] }
 /* SCHEMA REGISTRY */
 export type SchemaRegistryExternalHttp = SchemaRegistryPostExternalHttp
 export type SchemaRegistryExternalHttpDetail = SchemaRegistryGetExternalHttp
+
+/* MULTI-TENANCY */
+export type NamespaceConfig = MtConfigOut

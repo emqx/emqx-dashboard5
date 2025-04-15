@@ -275,6 +275,10 @@ export default {
     zh: '监听器',
     en: 'Listeners',
   },
+  namespace: {
+    zh: '命名空间',
+    en: 'Namespace',
+  },
   advancedMQTT: {
     zh: 'MQTT 高级特性',
     en: 'Advanced MQTT',
