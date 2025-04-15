@@ -43,6 +43,34 @@
       </el-table-column>
     </el-table>
   </div>
+  <el-dialog v-model="showDeleteDialog" width="400px">
+    <p>{{ tl('deleteNamespaceTip') }}</p>
+    <TipContainer>
+      <div class="delete-namespace-tip-content">
+        <p>{{ tl('deleteNamespaceConfirmFirst') }}</p>
+        <i18n-t keypath="BasicConfig.deleteNamespaceConfirmSecond" tag="p">
+          <template #target>
+            <b>{{ currentNamespace?.ns ?? '' }}</b>
+          </template>
+        </i18n-t>
+      </div>
+    </TipContainer>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="showDeleteDialog = false">
+          {{ t('Base.cancel') }}
+        </el-button>
+        <el-button
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          @click="confirmDelete"
+          :loading="isSubmitting"
+        >
+          {{ t('Base.delete') }}
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   <NamespaceDialog
     :namespace="currentNamespace"
     v-model="dialogVisible"
@@ -60,12 +88,6 @@ import NamespaceDialog from './components/NamespaceDialog.vue'
 
 const { tl, t } = useI18nTl('BasicConfig')
 
-interface NamespaceData {
-  name: string
-  client_count: number
-  config?: Record<string, any>
-}
-
 const loading = ref(false)
 const dialogVisible = ref(false)
 const namespaces = ref<Array<NamespaceItem>>([])
@@ -73,10 +95,13 @@ const namespaces = ref<Array<NamespaceItem>>([])
 const currentNamespace = ref<NamespaceItem | undefined>(undefined)
 
 const { queryNamespaceList } = useNamespace()
-const loadNamespaces = async () => {
+/**
+ * because the namespace list is not updated when the namespace is deleted, so we need to filter the namespace list
+ */
+const loadNamespaces = async (filterItem?: string) => {
   loading.value = true
   try {
-    namespaces.value = await queryNamespaceList()
+    namespaces.value = await queryNamespaceList(filterItem)
   } catch (error) {
     console.error('Failed to load namespaces:', error)
   } finally {
@@ -95,13 +120,34 @@ const handleEdit = async (row: NamespaceItem) => {
   dialogVisible.value = true
 }
 
-const { confirmDel } = useOperationConfirm()
-const handleDelete = async (row: NamespaceData) => {
+const showDeleteDialog = ref(false)
+const handleDelete = async (row: NamespaceItem) => {
+  currentNamespace.value = row
+  showDeleteDialog.value = true
+}
+const isSubmitting = ref(false)
+const confirmDelete = async () => {
+  if (!currentNamespace.value) {
+    return
+  }
+  isSubmitting.value = true
   try {
-    await confirmDel(() => deleteManagedNamespace(row.name), tl('deleteNamespaceTip'))
-    loadNamespaces()
+    await deleteManagedNamespace(currentNamespace.value.ns)
+    loadNamespaces(currentNamespace.value.ns)
+    showDeleteDialog.value = false
   } catch (error) {
     //
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.delete-namespace-tip-content {
+  p {
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+</style>
