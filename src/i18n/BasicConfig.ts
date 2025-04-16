@@ -220,4 +220,24 @@ export default {
     zh: '其他',
     en: 'Others',
   },
+  coreNodes: {
+    zh: '核心节点',
+    en: 'Core Nodes',
+  },
+  replicantNodes: {
+    zh: '副本节点',
+    en: 'Replicant Nodes',
+  },
+  replicantNodeTooltip: {
+    zh: '副本节点可以直接停止和删除，无需从集群中显式移除。',
+    en: 'Replicant nodes can be directly stopped and deleted without explicitly removing them from the cluster.',
+  },
+  stoppedNodeTooltip: {
+    zh: '节点已停止，无法通过 Dashboard 删除。可以使用命令行工具强制删除。',
+    en: 'Node is in stopped state and cannot be deleted through dashboard. Command-line tools can be used for forced deletion.',
+  },
+  stoppedNodeCannotRemoveTooltip: {
+    zh: '已停止的核心节点无法通过 Dashboard 移除。',
+    en: 'Stopped core nodes cannot be removed via the dashboard.',
+  },
 }

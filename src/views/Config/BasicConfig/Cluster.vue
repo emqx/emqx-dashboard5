@@ -4,7 +4,7 @@
       <el-form
         ref="delayedForm"
         label-position="right"
-        :label-width="124"
+        :label-width="state.lang === 'zh' ? 106 : 159"
         class="configuration-form schema-form"
       >
         <el-row>
@@ -13,23 +13,45 @@
               <span>{{ clusterInfo.name }}</span>
             </el-form-item>
           </el-col>
+
+          <!-- Core Nodes Section -->
           <el-col :span="21">
-            <el-form-item prop="nodes" :label="tl('clusterNodes')">
-              <el-table class="nodes-table shadow-none" :data="clusterInfo.nodes">
-                <el-table-column :label="t('Dashboard.nodeName')" prop="nodeName">
+            <el-form-item>
+              <template #label>
+                <span>{{ tl('coreNodes') }}</span>
+              </template>
+              <el-table class="nodes-table shadow-none" :data="coreNodes">
+                <el-table-column :label="t('Dashboard.nodeName')" prop="node">
                   <template #default="{ row }">
-                    <router-link :to="`/dashboard/nodes/${row}`">
-                      <CommonOverflowTooltip
-                        :content="`${row}${row === clusterInfo.self ? ' (' + tl('currentNode') + ')' : ''}`"
-                      />
+                    <router-link :to="`/dashboard/nodes/${row.node}`">
+                      <el-tooltip
+                        effect="dark"
+                        :disabled="row.node_status !== NodeStatus.Stopped"
+                        :content="tl('stoppedNodeTooltip')"
+                        placement="top"
+                      >
+                        <CommonOverflowTooltip
+                          :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }"
+                          :content="`${row.node}${row.is_self ? ' (' + tl('currentNode') + ')' : ''}`"
+                        />
+                      </el-tooltip>
                     </router-link>
                   </template>
                 </el-table-column>
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="200">
+                  <template #default="{ row }">
+                    <span :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }">
+                      {{ row.node_status }}
+                    </span>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('Dashboard.version')" prop="version" width="200" />
                 <el-table-column width="120">
                   <template #header>
+                    <!-- Invite Button -->
                     <el-tooltip
                       effect="dark"
-                      :content="t('BasicConfig.licenseTypeInviteForbidden')"
+                      :content="tl('licenseTypeInviteForbidden')"
                       :disabled="!isCommunityLicense"
                     >
                       <el-button
@@ -44,68 +66,150 @@
                     </el-tooltip>
                   </template>
                   <template #default="{ row }">
-                    <el-button
-                      v-if="row !== clusterInfo.self"
-                      size="small"
-                      type="danger"
-                      plain
-                      :disabled="!$hasPermission('delete')"
-                      @click="removeNode(row)"
-                    >
-                      {{ t('Base.remove') }}
-                    </el-button>
+                    <template v-if="!row.is_self">
+                      <el-tooltip
+                        effect="dark"
+                        :disabled="row.node_status !== NodeStatus.Stopped"
+                        :content="tl('stoppedNodeCannotRemoveTooltip')"
+                        placement="top"
+                      >
+                        <span class="tooltip-wrapper">
+                          <el-button
+                            size="small"
+                            type="danger"
+                            plain
+                            :disabled="
+                              !$hasPermission('delete') || row.node_status === NodeStatus.Stopped
+                            "
+                            @click="removeNode(row.node)"
+                          >
+                            {{ t('Base.remove') }}
+                          </el-button>
+                        </span>
+                      </el-tooltip>
+                    </template>
                   </template>
                 </el-table-column>
+              </el-table>
+            </el-form-item>
+          </el-col>
+
+          <!-- Replicant Nodes Section -->
+          <el-col :span="21">
+            <el-form-item>
+              <template #label>
+                <span>{{ tl('replicantNodes') }}</span>
+                <InfoTooltip :content="t('BasicConfig.replicantNodeTooltip')" />
+              </template>
+              <el-table class="nodes-table shadow-none" :data="replicantNodes">
+                <el-table-column :label="t('Dashboard.nodeName')" prop="node">
+                  <template #default="{ row }">
+                    <router-link :to="`/dashboard/nodes/${row.node}`">
+                      <CommonOverflowTooltip
+                        :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }"
+                        :content="`${row.node}${row.is_self ? ' (' + tl('currentNode') + ')' : ''}`"
+                      />
+                    </router-link>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="200">
+                  <template #default="{ row }">
+                    <span :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }">
+                      {{ row.node_status }}
+                    </span>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('Dashboard.version')" prop="version" width="200" />
+                <el-table-column width="120" />
               </el-table>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </el-card>
+
+    <!-- Invite Dialog -->
+    <el-dialog :title="tl('invite')" width="420px" v-model="isInviteDialogShow">
+      <el-form :model="inviteForm" :rules="rules" label-position="top">
+        <el-form-item :label="t('Dashboard.nodeName')">
+          <el-input v-model="inviteForm.name" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-align-footer">
+          <el-button :disabled="isSaving" @click="isInviteDialogShow = false">
+            {{ t('Base.cancel') }}
+          </el-button>
+          <el-button type="primary" :loading="isSaving" @click="save()">
+            {{ t('Base.confirm') }}
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
-  <el-dialog :title="t('BasicConfig.invite')" width="420px" v-model="isInviteDialogShow">
-    <el-form :model="inviteForm" :rules="rules" label-position="top">
-      <el-form-item :label="t('Dashboard.nodeName')">
-        <el-input v-model="inviteForm.name" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <div class="dialog-align-footer">
-        <el-button :disabled="isSaving" @click="isInviteDialogShow = false">
-          {{ t('Base.cancel') }}
-        </el-button>
-        <el-button type="primary" :loading="isSaving" @click="save()">
-          {{ t('Base.confirm') }}
-        </el-button>
-      </div>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ClusterInfo } from '@/types/typeAlias'
-import { forceLeaveNode, getClusterNodes, inviteNode } from '@/api/common'
+import { NodeInfo } from '@/types/dashboard'
+import { NodeStatus } from '@/types/enum'
+import { forceLeaveNode, getClusterNodes, inviteNode, loadNodes } from '@/api/common'
 import { toLower } from 'lodash'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const { t, tl } = useI18nTl('BasicConfig')
 
-const { getters } = useStore()
+const { getters, state } = useStore()
 const isCommunityLicense = computed(() => getters.isCommunityLicense)
 
 const clusterInfo = ref<ClusterInfo>({ name: '', nodes: [], self: '' })
-
 const isLoading = ref(false)
+
+const coreNodes = computed(() => {
+  return Array.isArray(clusterInfo.value?.nodes)
+    ? clusterInfo.value.nodes.filter((node) => node && node.role === 'core')
+    : []
+})
+
+const replicantNodes = computed(() => {
+  return Array.isArray(clusterInfo.value?.nodes)
+    ? clusterInfo.value.nodes.filter((node) => node && node.role === 'replicant')
+    : []
+})
+
 const getClusterInfo = async () => {
+  isLoading.value = true
   try {
-    isLoading.value = true
-    clusterInfo.value = await getClusterNodes()
+    const [basicInfo, detailedNodes]: [ClusterInfo, NodeInfo[]] = await Promise.all([
+      getClusterNodes(),
+      loadNodes(),
+    ])
+
+    const selfNodeIdentifier = basicInfo.self || ''
+    const clusterName = basicInfo.name || ''
+
+    const mergedNodesData = (Array.isArray(detailedNodes) ? detailedNodes : []).map((nodeInfo) => {
+      return {
+        ...nodeInfo,
+        is_self: nodeInfo.node === selfNodeIdentifier,
+      }
+    })
+
+    clusterInfo.value = {
+      name: clusterName,
+      self: selfNodeIdentifier,
+      nodes: mergedNodesData as NodeInfo[],
+    }
   } catch (error) {
     //
   } finally {
     isLoading.value = false
   }
 }
-getClusterInfo()
+
+onMounted(() => {
+  getClusterInfo()
+})
 
 const { operationWarning } = useOperationConfirm()
 const removeNode = async (node: string) => {
@@ -124,10 +228,12 @@ const isInviteDialogShow = ref(false)
 const isSaving = ref(false)
 const { createRequiredRule } = useFormRules()
 const rules = { name: createRequiredRule(toLower(t('Dashboard.nodeName'))) }
+
 const openInviteDialog = () => {
   isInviteDialogShow.value = true
   inviteForm.name = ''
 }
+
 const save = async () => {
   try {
     isSaving.value = true
@@ -153,11 +259,15 @@ const save = async () => {
     font-size: 16px;
   }
   .nodes-table {
-    width: 600px;
+    max-width: 70%;
   }
   .current-node-label {
     font-size: 14px;
     color: var(--color-primary);
+  }
+  .stopped-node {
+    color: var(--el-text-color-disabled);
+    font-style: italic;
   }
 }
 </style>
