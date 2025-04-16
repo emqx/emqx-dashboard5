@@ -62,6 +62,7 @@ declare global {
   const IoTDBDrivers: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']
   const IoTDBKeyField: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']
   const KeysInRule: typeof import('./hooks/Rule/KeysInRule')['default']
+  const LIMITER_REG: typeof import('./common/constants')['LIMITER_REG']
   const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
   const LogTargetType: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']
   const MAX_DISPLAYED_REP_NODE: typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']
@@ -396,6 +397,7 @@ declare global {
   const useMockData: typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
+  const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
@@ -614,6 +616,7 @@ declare module 'vue' {
     readonly IoTDBDrivers: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']>
     readonly IoTDBKeyField: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']>
     readonly KeysInRule: UnwrapRef<typeof import('./hooks/Rule/KeysInRule')['default']>
+    readonly LIMITER_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_REG']>
     readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
     readonly LogTargetType: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']>
     readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']>
@@ -948,6 +951,7 @@ declare module 'vue' {
     readonly useMockData: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
+    readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>

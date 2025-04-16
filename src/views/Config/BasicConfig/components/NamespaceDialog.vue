@@ -51,7 +51,7 @@
           <el-row :gutter="20">
             <!-- Tenant Bytes Limiter -->
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.tenant.bytes.rate">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('bytes_rate.label')"
@@ -63,7 +63,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.tenant.bytes.burst">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('bytes_burst.label')"
@@ -79,7 +79,7 @@
           <el-row :gutter="20">
             <!-- Tenant Messages Limiter -->
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.tenant.messages.rate">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('messages_rate.label')"
@@ -91,7 +91,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.tenant.messages.burst">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('messages_burst.label')"
@@ -127,7 +127,7 @@
           <el-row :gutter="20">
             <!-- Client Bytes Limiter -->
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.client.bytes.rate">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('bytes_rate.label')"
@@ -139,7 +139,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.client.bytes.burst">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('bytes_burst.label')"
@@ -155,7 +155,7 @@
           <el-row :gutter="20">
             <!-- Client Messages Limiter -->
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.client.messages.rate">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('messages_rate.label')"
@@ -167,7 +167,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item prop="config.limiter.client.messages.burst">
                 <template #label>
                   <FormItemLabel
                     :label="getSchemaText('messages_burst.label')"
@@ -237,8 +237,20 @@ const generateRawRecord = (): NamespaceItem => ({
 const submitLoading = ref(false)
 const record = ref(generateRawRecord())
 const { createRequiredRule } = useFormRules()
+const createLimiterRule = (label: string) => [
+  ...createRequiredRule(label),
+  { pattern: LIMITER_REG, message: t('Rule.formatError'), trigger: 'blur' },
+]
 const rules = {
   ns: createRequiredRule(tl('namespace')),
+  'config.limiter.tenant.bytes.rate': createLimiterRule(getSchemaText('bytes_rate.label')),
+  'config.limiter.tenant.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
+  'config.limiter.tenant.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
+  'config.limiter.tenant.messages.burst': createLimiterRule(getSchemaText('messages_burst.label')),
+  'config.limiter.client.bytes.rate': createLimiterRule(getSchemaText('bytes_rate.label')),
+  'config.limiter.client.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
+  'config.limiter.client.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
+  'config.limiter.client.messages.burst': createLimiterRule(getSchemaText('messages_burst.label')),
 }
 const FormCom = ref()
 
