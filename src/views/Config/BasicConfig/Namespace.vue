@@ -1,10 +1,13 @@
 <template>
   <div class="namespace app-wrapper">
     <div class="section-header">
-      <div></div>
+      <div>
+        <el-switch v-model="onlyManagedNamespaces" />
+        <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
+      </div>
       <CreateButton @click="handleCreate" />
     </div>
-    <el-table v-loading="loading" :data="namespaces" style="width: 100%">
+    <el-table v-loading="loading" :data="namespaceTableData" style="width: 100%">
       <el-table-column prop="ns" :label="tl('namespace')" :min-width="180">
         <template #default="{ row }">
           <CommonOverflowTooltip :content="row.ns" />
@@ -39,12 +42,26 @@
       </el-table-column>
       <el-table-column :label="t('Base.operation')" :min-width="168">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
-            {{ t('Base.edit') }}
-          </TableButton>
-          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
-            {{ t('Base.delete') }}
-          </TableButton>
+          <el-tooltip
+            placement="top"
+            :content="tl('cannotOperateNotExplicitCreatedNamespace')"
+            :disabled="!row.not_explicit_created"
+          >
+            <span>
+              <TableButton
+                :disabled="!$hasPermission('put') || row.not_explicit_created"
+                @click="handleEdit(row)"
+              >
+                {{ t('Base.edit') }}
+              </TableButton>
+              <TableButton
+                :disabled="!$hasPermission('delete') || row.not_explicit_created"
+                @click="handleDelete(row)"
+              >
+                {{ t('Base.delete') }}
+              </TableButton>
+            </span>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -96,7 +113,14 @@ const { tl, t } = useI18nTl('BasicConfig')
 
 const loading = ref(false)
 const dialogVisible = ref(false)
-const namespaces = ref<Array<NamespaceItem>>([])
+
+const onlyManagedNamespaces = ref(true)
+const totalNamespaces = ref<Array<NamespaceItem>>([])
+const namespaceTableData = computed(() => {
+  return onlyManagedNamespaces.value
+    ? totalNamespaces.value.filter((ns) => !ns.not_explicit_created)
+    : totalNamespaces.value
+})
 
 const currentNamespace = ref<NamespaceItem | undefined>(undefined)
 
@@ -107,7 +131,7 @@ const { queryNamespaceList } = useNamespace()
 const loadNamespaces = async (filterItem?: string) => {
   loading.value = true
   try {
-    namespaces.value = await queryNamespaceList(filterItem)
+    totalNamespaces.value = await queryNamespaceList(filterItem)
   } catch (error) {
     console.error('Failed to load namespaces:', error)
   } finally {
@@ -150,6 +174,14 @@ const confirmDelete = async () => {
 </script>
 
 <style lang="scss" scoped>
+.section-header {
+  .tip {
+    margin-left: 12px;
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--color-text-secondary);
+  }
+}
 .delete-namespace-tip-content {
   p {
     margin: 0;

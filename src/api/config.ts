@@ -57,7 +57,8 @@ export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTran
   http.put('/configs/file_transfer', data)
 
 // Multi-tenancy API functions
-export const getNamespaceList = (): Promise<Array<string>> => http.get('/mt/ns_list')
+export const getNamespaceList = (): Promise<Array<string>> =>
+  http.get('/mt/ns_list', { params: { limit: 10000 } })
 
 export const getNamespaceClientCount = (namespace: string): Promise<number> =>
   http.get(`/mt/ns/${namespace}/client_count`)
@@ -73,7 +74,8 @@ export const updateNamespaceConfig = (
   data: NamespaceConfig,
 ): Promise<NamespaceConfig> => http.put(`/mt/ns/${namespace}/config`, data)
 
-export const getManagedNamespaceList = (): Promise<Array<string>> => http.get('/mt/managed_ns_list')
+export const getManagedNamespaceList = (): Promise<Array<string>> =>
+  http.get('/mt/managed_ns_list', { params: { limit: 10000 } })
 
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${namespace}/kick_all_clients`)

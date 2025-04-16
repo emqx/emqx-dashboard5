@@ -288,4 +288,12 @@ export default {
     zh: '未配置',
     en: 'No Configured',
   },
+  cannotOperateNotExplicitCreatedNamespace: {
+    zh: '无法操作非显式创建的命名空间',
+    en: 'Cannot operate namespaces that are not explicitly created',
+  },
+  managedNamespacesOnly: {
+    zh: '仅显示受管理的命名空间',
+    en: 'Managed Namespaces Only',
+  },
 }
