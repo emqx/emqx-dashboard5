@@ -422,4 +422,6 @@ export const SPECIAL_INVALID_SUB_TOPIC_REG = /^(\$exclusive|\$share\/[^/]*)$/
 
 export const INVALID_PUB_TOPIC_REG = /\+|#/
 
+export const LIMITER_REG = /^(\d+)(kb|mb|gb|b|)(?:\/(\d*)(ms|s|m|h|d)?)?$/i
+
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048
