@@ -22,20 +22,12 @@
           {{ row.config?.session?.max_sessions ?? '' }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="config.session.max_sessions"
-        :label="tl('targetMaxPubRate', { target: tl('tenant') })"
-        :min-width="192"
-      >
+      <el-table-column :label="tl('targetMaxPubRate', { target: tl('tenant') })" :min-width="192">
         <template #default="{ row }">
           {{ row.config?.limiter?.tenant?.bytes?.rate ?? tl('noConfigured') }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="config.session.max_sessions"
-        :label="tl('targetMaxPubRate', { target: tl('client') })"
-        :min-width="192"
-      >
+      <el-table-column :label="tl('targetMaxPubRate', { target: tl('client') })" :min-width="192">
         <template #default="{ row }">
           {{ row.config?.limiter?.client?.bytes?.rate ?? tl('noConfigured') }}
         </template>
