@@ -9,21 +9,13 @@
     @close="handleClose"
   >
     <div class="space-between drawer-header">
-      <div>
+      <div class="vertical-align-center">
         <label>{{ tl('namespace') }}: </label>
         <span>{{ props.namespace }}</span>
       </div>
       <div>
-        <el-button
-          class="kick-btn"
-          type="danger"
-          plain
-          :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
-          :icon="Delete"
-          :loading="isDeleteLoading"
-          @click="cleanBatchClients"
-        >
-          {{ t('Clients.kickOut') }}
+        <el-button plain type="danger" @click="cleanBatchClients(true)">
+          {{ tl('kickOutAllClients') }}
         </el-button>
       </div>
     </div>
@@ -56,13 +48,28 @@
         @current-change="handlePageChange"
       />
     </div>
+    <template #footer>
+      <el-button
+        class="kick-btn"
+        type="danger"
+        plain
+        :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
+        :loading="isDeleteLoading"
+        @click="cleanBatchClients(false)"
+      >
+        {{ tl('batchKickOut') }}
+      </el-button>
+    </template>
   </el-drawer>
 </template>
 
 <script setup lang="ts">
 import { batchDisconnectClients } from '@/api/clients'
-import { getNamespaceClientCount, getNamespaceClientList } from '@/api/config'
-import { Delete } from '@element-plus/icons-vue'
+import {
+  getNamespaceClientCount,
+  getNamespaceClientList,
+  kickAllClientsInNamespace,
+} from '@/api/config'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -158,13 +165,21 @@ const handleSizeChange = (size: number) => {
 
 const isDeleteLoading = ref(false)
 const { operationWarning } = useOperationConfirm()
-const cleanBatchClients = async () => {
-  await operationWarning(
-    t('Clients.willKickSelectedConnections', { n: selectedClients.value.length }),
-  )
-  isDeleteLoading.value = true
+const cleanBatchClients = async (isKickOutAll?: boolean) => {
   try {
-    await batchDisconnectClients(selectedClients.value)
+    if (!props.namespace) {
+      return
+    }
+    const warningMessage = isKickOutAll
+      ? tl('kickOutAllClientsConfirm', { n: total.value })
+      : t('Clients.willKickSelectedConnections', { n: selectedClients.value.length })
+    await operationWarning(warningMessage)
+    isDeleteLoading.value = true
+    if (isKickOutAll) {
+      await kickAllClientsInNamespace(props.namespace)
+    } else {
+      await batchDisconnectClients(selectedClients.value)
+    }
     resetPage()
     getClients()
     ElMessage.success(t('Clients.kickedOutSuc'))
@@ -181,6 +196,9 @@ const cleanBatchClients = async () => {
 .namespace-clients-drawer {
   .drawer-header {
     margin-bottom: 20px;
+  }
+  .el-button {
+    margin-left: 12px;
   }
 }
 </style>
