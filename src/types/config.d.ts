@@ -316,4 +316,8 @@ export interface DurableSessions {
 export interface NamespaceItem {
   ns: string
   config: NamespaceConfig
+  /**
+   * if true, the namespace just can view, not edit
+   */
+  not_explicit_created?: boolean
 }
