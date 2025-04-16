@@ -264,16 +264,38 @@ export default {
  - A 30-day uptime limit, must restart the node to regain the sessions quota.`,
   },
   communityLicenseTip: {
-    en: `Using a single-node community license, this license is not permitted for commercial use.`,
-    zh: `当前正在使用单节点社区版 License，此 License 不允许用于商业用途。`,
+    en: `You are currently using the EMQX Community License included with this software.
+
+- **Permitted Use:** Free use of a single node in your internal environment.
+
+- **What Requires a Different License:**
+    - Clustered deployments (more than one node).
+    - Commercial use in SaaS, hosted services, or embedded/resold products.
+
+To enable clustering or use EMQX for external commercial purposes, a commercial license is required.
+
+[Request a License](https://emqx.com/apply-licenses/emqx)
+
+(Clustering for non-profit or educational purposes may qualify for a free license - please inquire via the link above.)`,
+    zh: `您当前正在使用本软件包含的 EMQX 社区版 License。
+
+- **允许用途：** 在您的内部环境中免费使用单个节点。
+
+- **需要不同 License 的情况：**
+    - 集群部署（超过一个节点）。
+    - 在 SaaS、托管服务或嵌入式/转售产品中的商业用途。
+
+要启用集群或将 EMQX 用于外部商业目的，需要商业 License。
+
+[申请 License](https://emqx.com/apply-licenses/emqx)
+
+（非营利或教育目的的集群部署可能有资格获得免费 License - 请通过上述链接咨询。）`,
   },
   applyLicenseContent: {
     zh: `访问 {link} 申请 License 用于：
  - 商业用途
  - 教育或非营利用途（集群部署，免费）`,
-    en: `Visit {link} to apply a license for: 
- - Commercial use
- - Education or Non-profit use (clustered deployment, free of charge)`,
+    en: `Visit {link} to apply a license for:\n - Commercial use\n - Education or Non-profit use (clustered deployment, free of charge)`,
   },
   licenseApply: {
     zh: '许可证申请页面',

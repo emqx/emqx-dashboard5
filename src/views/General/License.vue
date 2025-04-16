@@ -70,9 +70,7 @@
         </el-alert>
         <!-- COMMUNITY -->
         <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
-          <template #title>
-            {{ tl('communityLicenseTip') }}
-          </template>
+          <MarkdownContent :content="tl('communityLicenseTip')" />
         </el-alert>
 
         <!-- EXPIRED -->

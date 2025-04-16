@@ -7,16 +7,21 @@
   >
     <div class="tip-content">
       <template v-if="!isLicenseExpiry">
-        <p class="tip" v-if="isCommunityLicense">{{ tl('communityLicenseTip') }}</p>
         <MarkdownContent
           class="tip"
-          v-if="!isCommunityLicense"
-          :content="tl('licenseEvaluationTip', { n: `<strong> ${maxSessions} </strong>` })"
+          v-if="isCommunityLicense"
+          :content="tl('communityLicenseTip')"
         />
-        <MarkdownContent
-          class="tip"
-          :content="tl('applyLicenseContent', { link: appleLicenseLink })"
-        />
+        <template v-if="!isCommunityLicense">
+          <MarkdownContent
+            class="tip"
+            :content="tl('licenseEvaluationTip', { n: `<strong> ${maxSessions} </strong>` })"
+          />
+          <MarkdownContent
+            class="tip"
+            :content="tl('applyLicenseContent', { link: appleLicenseLink })"
+          />
+        </template>
       </template>
       <i18n-t v-else class="tip" keypath="Dashboard.licenseExpiryTip" tag="p" scope="global">
         <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
