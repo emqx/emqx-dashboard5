@@ -123,7 +123,6 @@ const getClients = async (isBack?: boolean) => {
       limit: pageParams.value.limit,
     }
     const data = await getNamespaceClientList(props.namespace, params)
-    debugger
     if (data.length === limit.value) {
       setCursor(page.value + 1, data[data.length - 1])
     }
