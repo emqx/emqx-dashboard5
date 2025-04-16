@@ -25,6 +25,7 @@ export type NodeStatisticalData = { node: string } & {
 
 export interface NodeInfo {
   connections: number
+  edition: string
   load1: string
   load15: string
   load5: string
