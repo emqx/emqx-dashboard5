@@ -989,3 +989,11 @@
     }
   }
 }
+
+.el-popper.is-dark {
+  .markdown-body {
+    background-color: inherit;
+    color: inherit;
+    font-size: 14px;
+  }
+}

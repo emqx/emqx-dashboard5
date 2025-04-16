@@ -308,4 +308,22 @@ export default {
     zh: '批量踢除',
     en: 'Batch Kick Out',
   },
+  tenantLimiterDesc: {
+    zh: `租户速率限制器的令牌在命名空间内的所有客户端之间共享。<br/>
+当为命名空间配置租户速率限制器时，它将与现有的 MQTT 速率限制器组合生效。<br/>
+即 MQTT 速率限制器和命名空间租户速率限制器会同时对客户端施加限制。`,
+    en: `Tenant rate limiters have tokens that are shared between all clients in the namespace.<br/>
+If this kind is configured for a namespace, it composes with any existing MQTT rate limiters.<br/>
+That is: both MQTT limiters and namespace tenant rate limiters apply to the clients at the same time.`,
+  },
+  clientLimiterDesc: {
+    zh: `客户端速率限制器的令牌在命名空间内对每个客户端独占。<br />
+当为命名空间配置此类型的限流器时，它将替代现有的监听器速率限制器。<br /> 
+即当启用此配置时，监听器限流器将被忽略。<br />`,
+    en: `Client rate limiters have tokens that are exclusive to each client in the namespace.<br />
+If this kind is configured for a namespace, it replaces with any existing listener rate limiters.<br />
+That is: listener rate limiters are ignored when this configuration is enabled.<br />
+If clients connect to a namespace before it is made explicitly managed, they will not pick up certain configurations made later to the namespace, such as rate limiters.<br />
+These clients must be manually kicked out if one wants them to abide to the new rate limiters.`,
+  },
 }

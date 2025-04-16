@@ -35,7 +35,14 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-divider />
-            <div class="section-title">{{ tl('targetLimiter', { target: tl('tenant') }) }}</div>
+            <div class="section-title">
+              <span>{{ tl('targetLimiter', { target: tl('tenant') }) }}</span>
+              <InfoTooltip>
+                <template #content>
+                  <MarkdownContent :content="tl('tenantLimiterDesc')" />
+                </template>
+              </InfoTooltip>
+            </div>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('enableTargetLimiter', { target: tl('tenant') })">
@@ -111,7 +118,14 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-divider />
-            <div class="section-title">{{ tl('targetLimiter', { target: tl('client') }) }}</div>
+            <div class="section-title">
+              <span>{{ tl('targetLimiter', { target: tl('client') }) }}</span>
+              <InfoTooltip>
+                <template #content>
+                  <MarkdownContent :content="tl('clientLimiterDesc')" />
+                </template>
+              </InfoTooltip>
+            </div>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="tl('enableTargetLimiter', { target: tl('client') })">
