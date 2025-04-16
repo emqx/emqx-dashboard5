@@ -60,7 +60,7 @@ export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTran
 export const getNamespaceList = (): Promise<Array<string>> =>
   http.get('/mt/ns_list', { params: { limit: 10000 } })
 
-export const getNamespaceClientCount = (namespace: string): Promise<number> =>
+export const getNamespaceClientCount = (namespace: string): Promise<{ count: number }> =>
   http.get(`/mt/ns/${namespace}/client_count`)
 
 export const bulkImportNamespaces = (data: Array<NamespaceItem>): Promise<void> =>
@@ -80,8 +80,10 @@ export const getManagedNamespaceList = (): Promise<Array<string>> =>
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${namespace}/kick_all_clients`)
 
-export const getNamespaceClientList = (namespace: string): Promise<Array<string>> =>
-  http.get(`/mt/ns/${namespace}/client_list`)
+export const getNamespaceClientList = (
+  namespace: string,
+  params: { last_clientid?: string; limit: number },
+): Promise<Array<string>> => http.get(`/mt/ns/${namespace}/client_list`, { params })
 
 export const deleteManagedNamespace = (namespace: string): Promise<void> =>
   http.delete(`/mt/ns/${namespace}`)

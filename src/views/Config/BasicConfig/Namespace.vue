@@ -47,20 +47,27 @@
             :content="tl('cannotOperateNotExplicitCreatedNamespace')"
             :disabled="!row.not_explicit_created"
           >
-            <span>
-              <TableButton
-                :disabled="!$hasPermission('put') || row.not_explicit_created"
-                @click="handleEdit(row)"
-              >
-                {{ t('Base.edit') }}
-              </TableButton>
-              <TableButton
-                :disabled="!$hasPermission('delete') || row.not_explicit_created"
-                @click="handleDelete(row)"
-              >
-                {{ t('Base.delete') }}
-              </TableButton>
-            </span>
+            <TableButton
+              :disabled="!$hasPermission('put') || row.not_explicit_created"
+              @click="handleEdit(row)"
+            >
+              {{ t('Base.edit') }}
+            </TableButton>
+          </el-tooltip>
+          <TableButton @click="openClientsDrawer(row)">
+            {{ t('Clients.clients') }}
+          </TableButton>
+          <el-tooltip
+            placement="top"
+            :content="tl('cannotOperateNotExplicitCreatedNamespace')"
+            :disabled="!row.not_explicit_created"
+          >
+            <TableButton
+              :disabled="!$hasPermission('delete') || row.not_explicit_created"
+              @click="handleDelete(row)"
+            >
+              {{ t('Base.delete') }}
+            </TableButton>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -94,6 +101,7 @@
       </span>
     </template>
   </el-dialog>
+  <NamespaceClientsDrawer v-model="isClientsDrawerVisible" :namespace="currentNamespace?.ns" />
   <NamespaceDialog
     :namespace="currentNamespace"
     v-model="dialogVisible"
@@ -108,6 +116,7 @@ import useI18nTl from '@/hooks/useI18nTl'
 import { NamespaceItem } from '@/types/config'
 import { ref } from 'vue'
 import NamespaceDialog from './components/NamespaceDialog.vue'
+import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 
 const { tl, t } = useI18nTl('BasicConfig')
 
@@ -170,6 +179,12 @@ const confirmDelete = async () => {
   } finally {
     isSubmitting.value = false
   }
+}
+
+const isClientsDrawerVisible = ref(false)
+const openClientsDrawer = (row: NamespaceItem) => {
+  currentNamespace.value = row
+  isClientsDrawerVisible.value = true
 }
 </script>
 
