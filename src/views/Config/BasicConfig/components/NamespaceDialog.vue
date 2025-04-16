@@ -267,8 +267,11 @@ const dialogTitle = computed(() => {
 
 // Session config handler
 const sessionMaxValue = computed({
-  get: () => record.value.config.session?.max_sessions ?? INFINITY_VALUE,
-  set: (val) => {
+  get() {
+    const currentVal = record.value.config.session?.max_sessions
+    return currentVal === INFINITY_VALUE ? INFINITY_VALUE : currentVal
+  },
+  set(val) {
     if (!record.value.config.session) {
       record.value.config.session = {}
     }
