@@ -596,6 +596,7 @@ const submitNewPwd = async () => {
     const { username, password: old_pwd } = record
     const { password: new_pwd } = newPasswordRecord
     await changePassword(username, { new_pwd, old_pwd })
+    record.mfa_token = ''
     updatePasswordData({ username, password: new_pwd })
     record.password = new_pwd
     store.commit('UPDATE_USER_INFO', { logOut: true })
