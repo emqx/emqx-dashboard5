@@ -31,7 +31,7 @@
                     </router-link>
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="100">
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="120">
                   <template #default="{ row }">
                     <span
                       :class="[
@@ -102,7 +102,7 @@
                     </router-link>
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="100">
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="120">
                   <template #default="{ row }">
                     <span
                       :class="[
