@@ -144,6 +144,10 @@
       :id="currentDeleteBridgeId"
       @submitted="handleDeleteSuc"
     />
+    <DeleteFallbackActionConfirm
+      v-model="showFallbackConfirm"
+      :action-list="usingAsFallbackAction"
+    />
   </div>
 </template>
 
@@ -155,6 +159,7 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
+import DeleteFallbackActionConfirm from './Components/DeleteFallbackActionConfirm.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -354,6 +359,8 @@ const {
   showSecondConfirm,
   usingBridgeRules,
   currentDeleteBridgeId,
+  showFallbackConfirm,
+  usingAsFallbackAction,
   handleDeleteSuc,
   handleDeleteBridge,
 } = useDeleteBridge(goBack)

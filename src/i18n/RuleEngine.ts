@@ -156,23 +156,23 @@ export default {
     en: 'Add Action',
   },
   fallbackActions: {
-    zh: '失败备选动作',
+    zh: '备选动作',
     en: 'Fallback Actions',
   },
   addFallbackAction: {
-    zh: '添加失败备选动作',
+    zh: '添加备选动作',
     en: 'Add Fallback Action',
   },
   editFallbackAction: {
-    zh: '编辑失败备选动作',
+    zh: '编辑备选动作',
     en: 'Edit Fallback Action',
   },
   editFallbackRepublish: {
-    zh: '编辑失败备选重发布动作',
+    zh: '编辑备选重发布动作',
     en: 'Edit Fallback Republish Action',
   },
   deleteFallback: {
-    zh: '删除失败备选动作',
+    zh: '删除备选动作',
     en: 'Deleting fallback action',
   },
   consoleOutput: {
@@ -853,9 +853,9 @@ export default {
     zh: '请先移除下方规则中的 source，再进行删除操作。',
     en: 'Please remove the source in rules below before deleting.',
   },
-  deleteFakeConnectorConfirm: {
-    zh: '该连接器被动作使用，继续操作将删除其相关动作。是否确认继续？',
-    en: 'This connector is used by action, and continuing the operation will remove its associated action, continue?',
+  deleteFallbackActionConfirm: {
+    zh: '当前动作已被下列动作的{fallback}引用，请先在{fallback}列表中移除该动作，然后再执行删除。',
+    en: 'The current action is referenced in the {fallback} of the following actions. Please remove it from the {fallback} list before deleting.',
   },
   rateUnit: {
     zh: '条/秒 | 条/秒',

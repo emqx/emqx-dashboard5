@@ -96,6 +96,10 @@ export interface BridgeBaseData {
   local_topic?: string
   enable: boolean
   resource_opts: ResourceOpt
+  /**
+   * in summary, not in detail
+   */
+  referenced_as_fallback_action_by?: Array<{ name: string; type: string }>
 }
 
 export interface HTTPBridge extends BridgeBaseData {
