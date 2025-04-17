@@ -101,7 +101,8 @@ const handleSelectionChange = (clients: Array<string>) => {
 }
 
 const total = ref(0)
-const { page, limit, pageParams, hasNext, setCursor, resetPage } = useCursorPagination()
+const { page, limit, pageParams, hasNext, setCursor, resetPage, resetCursorMap } =
+  useCursorPagination()
 
 const handleOpen = () => {
   getClientsCount()
@@ -110,6 +111,7 @@ const handleOpen = () => {
 
 const handleClose = () => {
   resetPage()
+  resetCursorMap()
 }
 
 const getClients = async (isBack?: boolean) => {
