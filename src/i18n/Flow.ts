@@ -36,7 +36,7 @@ export default {
     en: 'Fallback (optional)',
   },
   guideFallbackNodeDesc: {
-    zh: '拖拽节点以作为失败备选动作',
+    zh: '拖拽节点以作为备选动作',
     en: 'Drag nodes as fallback actions',
   },
   guideSinkNodeDesc: {
@@ -124,11 +124,11 @@ export default {
     en: 'Function nodes must be placed before filter nodes. Please adjust node positions.',
   },
   consoleFallbackWrong: {
-    zh: 'Console 不可作为失败备选动作',
+    zh: 'Console 不可作为备选动作',
     en: 'Console cannot be used as a fallback action',
   },
   multipleFallbackWrong: {
-    zh: 'Flow 暂不支持编辑多层级失败备选动作',
+    zh: 'Flow 暂不支持编辑多层级备选动作',
     en: 'Flow does not support editing multi-level fallback actions',
   },
   bridgeRemovedTip: {

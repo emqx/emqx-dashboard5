@@ -70,6 +70,7 @@ const props = defineProps({
   },
   ruleList: {
     type: Array as PropType<Array<string>>,
+    default: () => [],
   },
 })
 const emit = defineEmits(['update:modelValue', 'submitted'])

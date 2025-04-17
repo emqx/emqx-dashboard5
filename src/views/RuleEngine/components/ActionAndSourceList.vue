@@ -139,6 +139,7 @@
     :direction="direction"
     @submitted="handleDeleteSuc"
   />
+  <DeleteFallbackActionConfirm v-model="showFallbackConfirm" :action-list="usingAsFallbackAction" />
 </template>
 
 <script setup lang="ts">
@@ -149,6 +150,7 @@ import ActionAndSourceFilterForm from './ActionAndSourceFilterForm.vue'
 import OperateWebhookAssociatedPopover from './OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from './TableItemDropDown.vue'
 import TargetItemStatus from './TargetItemStatus.vue'
+import DeleteFallbackActionConfirm from '../Bridge/Components/DeleteFallbackActionConfirm.vue'
 
 const props = defineProps<{
   type: 'source' | 'action'
@@ -323,6 +325,8 @@ const createRuleWithTarget = (id: string) => {
 const useDeleteHook = isSource.value ? useDeleteSource : useDeleteBridge
 const { showSecondConfirm, usingBridgeRules, currentDeleteBridgeId, handleDeleteSuc, ...other } =
   useDeleteHook(getList)
+const { showFallbackConfirm, usingAsFallbackAction } = other as ReturnType<typeof useDeleteBridge>
+
 const handleDelete = isSource.value
   ? (other as ReturnType<typeof useDeleteSource>).handleDeleteSource
   : (other as ReturnType<typeof useDeleteBridge>).handleDeleteBridge
