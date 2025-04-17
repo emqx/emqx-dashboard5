@@ -405,8 +405,11 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
-    [BridgeType.S3]: S3ColClassMap,
-    [BridgeType.AzureBlobStorage]: S3ColClassMap,
+    [BridgeType.S3]: { ...S3ColClassMap, 'parameters.container.type': 'col-hidden' },
+    [BridgeType.AzureBlobStorage]: {
+      ...S3ColClassMap,
+      'parameters.aggregation.container.type': 'col-hidden',
+    },
     [BridgeType.IoTDB]: IoTDBClassMap,
   }
 
