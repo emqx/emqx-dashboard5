@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :title="$t('components.settings')"
+    :title="t('components.settings')"
     v-model="showDrawer"
     size="350px"
     destroy-on-close
@@ -46,23 +46,11 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col v-if="!isCommunityLicense" :span="24">
-          <el-form-item>
-            <template #label>
-              <FormItemLabel
-                :label="$t('BasicConfig.enableTelemetry')"
-                :desc="$t('BasicConfig.telemetryTip')"
-                desc-marked
-              />
-            </template>
-            <el-switch v-model="record.enable" />
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
     <template #footer>
-      <el-button type="primary" :loading="saveLoading" @click="handleSave">
-        {{ $t('Base.apply') }}
+      <el-button type="primary" @click="handleSave">
+        {{ t('Base.apply') }}
       </el-button>
     </template>
   </el-drawer>
@@ -75,24 +63,18 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getTeleStatus, updateTeleStatus } from '@/api/config'
-import { TeleStatus } from '@/types/config'
+const { t } = useI18n()
 
 const record = reactive({
   lang: 'en',
   theme: 'dark',
   syncOsTheme: false,
-  enable: false,
 })
-const teleConfigs = ref<TeleStatus>({
-  enable: true,
-})
+
 const store = useStore()
 record.lang = store.state.lang
 record.theme = store.state.theme
 record.syncOsTheme = store.state.syncOsTheme
-
-const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
 
 const props = defineProps({
   modelValue: {
@@ -129,40 +111,8 @@ const themeOption = [
     label: tl('dark'),
   },
 ]
-const saveLoading = ref(false)
-const { t } = useI18n()
-const loadData = async () => {
-  if (isCommunityLicense.value) {
-    return
-  }
-  const res = await getTeleStatus()
-  if (res) {
-    record.enable = res.enable
-    teleConfigs.value = res
-  }
-}
-loadData()
 const handleSave = async () => {
-  saveLoading.value = true
-  const data = {
-    enable: record.enable,
-  }
-  try {
-    if (teleConfigs.value.enable === record.enable) {
-      saveLoading.value = false
-      return
-    }
-    if (!IS_ENTERPRISE) {
-      await updateTeleStatus(data)
-    }
-    ElMessage.success(t('Base.updateSuccess'))
-    loadData()
-  } catch (error) {
-    // ignore error
-  } finally {
-    store.dispatch('UPDATE_SETTINGS', record)
-    saveLoading.value = false
-  }
+  store.dispatch('UPDATE_SETTINGS', record)
 }
 </script>
 
