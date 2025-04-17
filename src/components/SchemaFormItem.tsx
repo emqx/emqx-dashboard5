@@ -206,9 +206,7 @@ export default defineComponent({
               clearable
               {...customProps}
             >
-              {(props.symbols as any)?.map((opt: any) => (
-                <el-option value={opt} label={opt} />
-              ))}
+              {(props.symbols as any)?.map((opt: any) => <el-option value={opt} label={opt} />)}
             </el-select>
           )
         case 'boolean':
