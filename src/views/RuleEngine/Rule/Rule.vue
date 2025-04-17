@@ -10,7 +10,7 @@
         <div></div>
         <div>
           <CreateButton @click="$router.push({ name: 'rule-create' })" />
-          <RefreshButton @click="getRulesList" />
+          <RefreshButton @click="refreshTotalRuleListAndTable" />
         </div>
       </div>
       <el-table
@@ -256,7 +256,7 @@ const deleteRule = async (rule: RuleItem) => {
 
 const handleDeleteSuc = () => {
   pageMeta.value.page = resetPageNum(ruleTable.value, pageMeta.value.page)
-  getRulesList()
+  refreshTotalRuleListAndTable()
 }
 
 onMounted(async () => {
