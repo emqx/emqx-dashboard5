@@ -761,6 +761,10 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     zh: '超出接收限制而被丢弃的 PUBLISH 报文数量',
     en: 'Number of PUBLISH packets that were discarded due to the receiving limit',
   },
+  packets_publish_quota_exceeded: {
+    zh: '接收的 PUBLISH 报文超出配额的计数',
+    en: 'Number of received PUBLISH packets that exceeded the quota',
+  },
   packets_puback_received: {
     zh: '接收的 PUBACK 报文数量',
     en: 'Number of received PUBACK packets',
