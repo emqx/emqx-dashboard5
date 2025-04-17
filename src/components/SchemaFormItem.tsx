@@ -66,13 +66,6 @@ export default defineComponent({
       default: () => [],
     },
     /**
-     * for array
-     */
-    items: {
-      type: Object as PropType<{ type: string }>,
-      default: () => ({}),
-    },
-    /**
      * for array now
      */
     defaultValue: {
@@ -211,18 +204,20 @@ export default defineComponent({
           )
         case 'boolean':
           return <el-switch disabled={isDisabled} v-model={formItemValue.value} />
-        case 'array':
-          if (['number', 'string'].includes(props.items.type)) {
+        case 'array': {
+          const items = props.property?.items
+          if (['number', 'string'].includes(items?.type)) {
             return (
               <array-editor
                 v-model={formItemValue.value}
                 disabled={isDisabled}
-                type={props.items.type}
+                type={items?.type}
                 default={props.defaultValue as any}
               />
             )
           }
           return <div></div>
+        }
         case 'duration':
           return <time-input-with-unit-select disabled={isDisabled} v-model={formItemValue.value} />
         case 'byteSize':

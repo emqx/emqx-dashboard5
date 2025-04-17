@@ -115,6 +115,10 @@ export default (
     }
     const typeTextPath = `BridgeSchema.${type}.${textFinalKey}.${textType}`
     /**
+     * A duplicate key within a type will use the path of the property as the key for the text.
+     */
+    const specialTextPath = `BridgeSchema.${type}.${snakeCase(prop.path)}.${textType}`
+    /**
      * If there is available text in the type zone,
      * the text in the type zone will be taken first.
      * Otherwise, the text in the common zone will be taken.
@@ -122,6 +126,9 @@ export default (
      */
     if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
       return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
+    }
+    if (!prop.labelKey && te(specialTextPath)) {
+      return specialTextPath
     }
     return typeTextPath
   }
