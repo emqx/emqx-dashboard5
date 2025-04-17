@@ -278,7 +278,7 @@ export default {
   },
   noConfigured: {
     zh: '未配置',
-    en: 'No Configured',
+    en: 'No Config',
   },
   cannotOperateNotExplicitCreatedNamespace: {
     zh: '无法操作非显式创建的命名空间',
