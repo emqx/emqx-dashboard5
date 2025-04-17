@@ -56,32 +56,33 @@ export const getNamespaceList = (): Promise<Array<string>> =>
   http.get('/mt/ns_list', { params: { limit: 10000 } })
 
 export const getNamespaceClientCount = (namespace: string): Promise<{ count: number }> =>
-  http.get(`/mt/ns/${namespace}/client_count`)
+  http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_count`)
 
 export const bulkImportNamespaces = (data: Array<NamespaceItem>): Promise<void> =>
   http.post('/mt/bulk_import_configs', data)
 
 export const getNamespaceConfig = (namespace: string): Promise<NamespaceConfig> =>
-  http.get(`/mt/ns/${namespace}/config`)
+  http.get(`/mt/ns/${encodeURIComponent(namespace)}/config`)
 
 export const updateNamespaceConfig = (
   namespace: string,
   data: NamespaceConfig,
-): Promise<NamespaceConfig> => http.put(`/mt/ns/${namespace}/config`, data)
+): Promise<NamespaceConfig> => http.put(`/mt/ns/${encodeURIComponent(namespace)}/config`, data)
 
 export const getManagedNamespaceList = (): Promise<Array<string>> =>
   http.get('/mt/managed_ns_list', { params: { limit: 10000 } })
 
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
-  http.post(`/mt/ns/${namespace}/kick_all_clients`)
+  http.post(`/mt/ns/${encodeURIComponent(namespace)}/kick_all_clients`)
 
 export const getNamespaceClientList = (
   namespace: string,
   params: { last_clientid?: string; limit: number },
-): Promise<Array<string>> => http.get(`/mt/ns/${namespace}/client_list`, { params })
+): Promise<Array<string>> =>
+  http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_list`, { params })
 
 export const deleteManagedNamespace = (namespace: string): Promise<void> =>
-  http.delete(`/mt/ns/${namespace}`)
+  http.delete(`/mt/ns/${encodeURIComponent(namespace)}`)
 
 export const createManagedNamespace = (namespace: string): Promise<void> =>
-  http.post(`/mt/ns/${namespace}`)
+  http.post(`/mt/ns/${encodeURIComponent(namespace)}`)
