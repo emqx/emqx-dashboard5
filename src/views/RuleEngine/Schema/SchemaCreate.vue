@@ -113,7 +113,7 @@ const setTypeFromProps = () => {
 
 <style lang="scss" scoped>
 .schema-create-form {
-  width: 70%;
+  width: 80%;
 }
 .form-sub-block {
   margin-bottom: 8px;

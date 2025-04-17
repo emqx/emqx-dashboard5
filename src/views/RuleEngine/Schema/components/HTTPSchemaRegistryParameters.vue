@@ -13,7 +13,7 @@
         <template #label>
           <FormItemLabel
             :label="t('RuleEngine.externalParams')"
-            :desc="tl('RuleEngine.externalParamsDesc')"
+            :desc="t('RuleEngine.externalParamsDesc')"
             desc-marked
           />
         </template>
@@ -33,7 +33,7 @@
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <CommonTLSConfig v-model="formData.ssl" />
+      <CommonTLSConfig class="http-ssl-config" v-model="formData.ssl" />
     </el-col>
   </el-row>
   <AdvancedSettingContainer>
@@ -136,5 +136,10 @@ const getHTTPConnectorText = (key: string, type: 'label' | 'desc') =>
 <style lang="scss" scoped>
 .el-form-item {
   margin-bottom: 22px;
+}
+.http-ssl-config {
+  :deep(.TLS-input) {
+    width: 100%;
+  }
 }
 </style>
