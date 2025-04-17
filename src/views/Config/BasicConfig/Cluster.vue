@@ -24,24 +24,25 @@
                 <el-table-column :label="t('Dashboard.nodeName')" prop="node">
                   <template #default="{ row }">
                     <router-link :to="`/dashboard/nodes/${row.node}`">
-                      <el-tooltip
-                        effect="dark"
-                        :disabled="row.node_status !== NodeStatus.Stopped"
-                        :content="tl('stoppedNodeTooltip')"
-                        placement="top"
-                      >
-                        <CommonOverflowTooltip
-                          :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }"
-                          :content="`${row.node}${row.is_self ? ' (' + tl('currentNode') + ')' : ''}`"
-                        />
-                      </el-tooltip>
+                      <CommonOverflowTooltip
+                        :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }"
+                        :content="`${row.node}${row.is_self ? ' (' + tl('currentNode') + ')' : ''}`"
+                      />
                     </router-link>
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="200">
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="100">
                   <template #default="{ row }">
-                    <span :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }">
-                      {{ row.node_status }}
+                    <span
+                      :class="[
+                        row.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
+                      ]"
+                    >
+                      {{
+                        row.node_status === NodeStatus.Running
+                          ? t('Dashboard.running')
+                          : t('Dashboard.stopped')
+                      }}
                     </span>
                   </template>
                 </el-table-column>
@@ -67,26 +68,15 @@
                   </template>
                   <template #default="{ row }">
                     <template v-if="!row.is_self">
-                      <el-tooltip
-                        effect="dark"
-                        :disabled="row.node_status !== NodeStatus.Stopped"
-                        :content="tl('stoppedNodeCannotRemoveTooltip')"
-                        placement="top"
+                      <el-button
+                        size="small"
+                        type="danger"
+                        plain
+                        :disabled="!$hasPermission('delete')"
+                        @click="removeNode(row.node)"
                       >
-                        <span class="tooltip-wrapper">
-                          <el-button
-                            size="small"
-                            type="danger"
-                            plain
-                            :disabled="
-                              !$hasPermission('delete') || row.node_status === NodeStatus.Stopped
-                            "
-                            @click="removeNode(row.node)"
-                          >
-                            {{ t('Base.remove') }}
-                          </el-button>
-                        </span>
-                      </el-tooltip>
+                        {{ t('Base.remove') }}
+                      </el-button>
                     </template>
                   </template>
                 </el-table-column>
@@ -112,10 +102,18 @@
                     </router-link>
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="200">
+                <el-table-column :label="t('Dashboard.status')" prop="node_status" width="100">
                   <template #default="{ row }">
-                    <span :class="{ 'stopped-node': row.node_status === NodeStatus.Stopped }">
-                      {{ row.node_status }}
+                    <span
+                      :class="[
+                        row.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
+                      ]"
+                    >
+                      {{
+                        row.node_status === NodeStatus.Running
+                          ? t('Dashboard.running')
+                          : t('Dashboard.stopped')
+                      }}
                     </span>
                   </template>
                 </el-table-column>
