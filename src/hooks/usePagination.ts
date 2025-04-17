@@ -27,7 +27,7 @@ export default (): {
   })
 
   /**
-   * reset
+   * reset page num after delete
    */
   const resetPageNum = (tableData: Array<unknown>, pageNum: number) => {
     if (tableData.length === 1 && pageNum !== 1) {
