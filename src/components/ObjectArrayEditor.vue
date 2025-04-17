@@ -9,7 +9,9 @@
           </label>
           <InfoTooltip v-if="value.description">
             <template #content>
-              <MarkdownContent :content="value.description" in-tooltip />
+              <el-scrollbar max-height="350px">
+                <MarkdownContent :content="value.description" in-tooltip />
+              </el-scrollbar>
             </template>
           </InfoTooltip>
         </template>
@@ -101,6 +103,7 @@ import CustomFormItem from './CustomFormItem.vue'
 import InfoTooltip from './InfoTooltip.vue'
 import SchemaFormItem from './SchemaFormItem'
 import { BatchSettingDatabaseType } from '@/types/enum'
+import MarkdownContent from './MarkdownContent.vue'
 
 const props = defineProps({
   modelValue: {
