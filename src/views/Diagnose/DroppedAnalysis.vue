@@ -1,8 +1,8 @@
 <template>
   <div class="dropped-analysis app-wrapper with-padding-top">
     <el-radio-group v-model="activeTab" @change="handleTabChanged">
-      <el-radio-button :value="TabName.Message" :label="tl('messagesDroppedAtDelivery')" />
-      <el-radio-button :value="TabName.Delivery" :label="tl('messagesDroppedAtReception')" />
+      <el-radio-button :value="TabName.Message" :label="tl('messagesDroppedAtReception')" />
+      <el-radio-button :value="TabName.Delivery" :label="tl('messagesDroppedAtDelivery')" />
     </el-radio-group>
     <div class="dropped-desc">
       {{ tl(isSelectedMessage ? 'messageDroppedDesc' : 'deliveryDroppedDesc') }}
