@@ -11,7 +11,7 @@ export default {
     label: 'Use Username as Client ID',
   },
   idle_timeout: {
-    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being: \n\n- Automatically disconnected if no CONNECT package is received from the client yet. \n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
+    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\\n\\n- Automatically disconnected if no CONNECT package is received from the client yet.\\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\\n\\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
     label: 'Idle Timeout',
   },
   strict_mode: {
@@ -31,7 +31,7 @@ export default {
     label: 'Max Client ID Length',
   },
   response_information: {
-    desc: 'Response Information <br/>UTF-8 string, for creating the response topic, for example, if set to `reqrsp/`, the publisher/subscriber will communite under the topic `reqrsp/`.To disable this feature, input `""` in the text box below.',
+    desc: 'Response Information <br/>UTF-8 string, for creating the response topic, for example, if set to `reqrsp/`, the publisher/subscriber will communite under the topic `reqrsp/`.To disable this feature, input `""` in the text box below.',
     label: 'Response Information',
   },
   shared_subscription_initial_sticky_pick: {
@@ -104,19 +104,19 @@ export default {
     label: 'Maximum Connection Burst',
   },
   messages_rate: {
-    desc: 'Used to limit the number of messages a single client can send to EMQX per second, once the limit is reached, EMQX will pause reading data from the receive-buffer, thus slowing down or even temporarily hanging the sender. If empty, it means no limit.\n\nFor example:\n\n- `500/s` means only 500 messages will be received per second, and the remaining messages will be delayed.\n- `500/10s`: Only 500 messages will be received every 10 seconds and the remaining messages will be delayed.',
+    desc: 'Used to limit the number of messages a single client can send to EMQX per second.\n\nOnce the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages\nwith "Quota Exceeded" error code (0x97).\n\nFor example:\n- `500/s`: Only 500 messages will be received per second, and the remaining messages will be dropped/rejected.\n- `500/10s`: Only 500 messages will be received every 10 seconds and the remaining messages will be dropped/rejected.',
     label: 'Messages Publish Rate',
   },
   messages_burst: {
-    desc: 'Number of messages that can be sent in a burst. If empty, it means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 messages to be sent in 60 minutes.',
+    desc: 'Additional number of messages that can be sent in a burst.\n\nFor example: `10000/60m`: Once in 60 minutes, up to 10000 messages can be sent in a short period of time.',
     label: 'Messages Publish Burst',
   },
   bytes_rate: {
-    desc: 'Used to limit the number of bytes a single client can send to EMQX per second, once the limit is reached, EMQX will pause reading data from the receive-buffer, thus slowing down or even temporarily hanging the sender. Can be set as a number or a string in the format of `100MB/60m`. If empty, it means no limit.\n\nThe unit of the bytes could be: B, KB, MB, GB.\n\nFor example:\n\n- `500KB/s` means only 500 kilobytes per second will be received, and the remaining bytes will be delayed.\n- `500MB/10s` means only 500 megabytes will be received every 10 seconds, and the remaining bytes will be delayed.',
+    desc: 'Used to limit the number of bytes a single client can send to EMQX per second.\n\nOnce the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages\nwith "Quota Exceeded" error code (0x97).\n\nThe unit of the bytes could be: B, KB, MB, GB.\n\nFor example:\n- `500KB/s`: Only 500 kilobytes per second will be received, and the remaining bytes will be dropped/rejected.\n- `500MB/10s`: Only 500 megabytes will be received every 10 seconds, and the remaining bytes will be dropped/rejected.',
     label: 'Data Publish Rate',
   },
   bytes_burst: {
-    desc: 'Number of bytes that can be sent in a burst. Can be set as a number or a string in the format of `100MB/60m`. If empty, it means no limit.\n\nFor example: `100MB/60m` means allowing up to 100 megabytes of data to be sent in 60 minutes.',
+    desc: 'Additional number of bytes that can be sent in a burst.\n\nFor example: `100MB/60m`: Once in 60 minutes, up to 100 megabytes can be sent in a short period of time.',
     label: 'Data Publish Burst',
   },
   /* MQTT END */
@@ -142,7 +142,7 @@ export default {
     label: 'Max Awaiting PUBREL',
   },
   await_rel_timeout: {
-    desc: 'Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \nNote: EMQX’s forwarding of the received QoS 2 message is independent from the receiving of PUBREL',
+    desc: "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \\nNote: EMQX's forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
     label: 'Max Awaiting PUBREL Timeout',
   },
   session_expiry_interval: {
