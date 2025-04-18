@@ -49,18 +49,9 @@
           <TableButton @click="openClientsDrawer(row)">
             {{ t('Clients.clients') }}
           </TableButton>
-          <el-tooltip
-            placement="top"
-            :content="tl('cannotOperateNotExplicitCreatedNamespace')"
-            :disabled="!row.not_explicit_created"
-          >
-            <TableButton
-              :disabled="!$hasPermission('delete') || row.not_explicit_created"
-              @click="handleDelete(row)"
-            >
-              {{ t('Base.delete') }}
-            </TableButton>
-          </el-tooltip>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
+            {{ t('Base.delete') }}
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
