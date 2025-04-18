@@ -11,7 +11,7 @@ export default {
     label: 'Use Username as Client ID',
   },
   idle_timeout: {
-    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\\n\\n- Automatically disconnected if no CONNECT package is received from the client yet.\\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\\n\\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
+    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\n\n- Automatically disconnected if no CONNECT package is received from the client yet.\\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
     label: 'Idle Timeout',
   },
   strict_mode: {
