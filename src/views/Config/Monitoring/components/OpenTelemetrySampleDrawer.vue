@@ -11,11 +11,11 @@
     :close-on-press-escape="false"
   >
     <el-radio-group v-model="selectedBlock">
-      <el-radio-button :label="ConfigBlock.Trace">{{ tl('traceConf') }}</el-radio-button>
-      <el-radio-button :label="ConfigBlock.ClientIdWhiteList">
+      <el-radio-button :value="ConfigBlock.Trace">{{ tl('traceConf') }}</el-radio-button>
+      <el-radio-button :value="ConfigBlock.ClientIdWhiteList">
         {{ t('Base.clientid') + t('Base.wordBdy') + tl('whiteList') }}
       </el-radio-button>
-      <el-radio-button :label="ConfigBlock.TopicWhiteList">
+      <el-radio-button :value="ConfigBlock.TopicWhiteList">
         {{ t('Base.topic') + t('Base.wordBdy') + tl('whiteList') }}
       </el-radio-button>
     </el-radio-group>

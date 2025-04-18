@@ -151,6 +151,9 @@
 
 // rule inputs and rule outputs
 .rule-io {
+  a.io-item {
+    display: block;
+  }
   .io-item {
     border: 1px solid var(--color-border-primary);
     box-sizing: border-box;
