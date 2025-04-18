@@ -185,5 +185,8 @@ const openClientsDrawer = (row: NamespaceItem) => {
     margin: 0;
     line-height: 1.5;
   }
+  b {
+    word-break: break-all;
+  }
 }
 </style>
