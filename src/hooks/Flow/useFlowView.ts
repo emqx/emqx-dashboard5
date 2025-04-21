@@ -198,7 +198,7 @@ export default (): {
       }
       sinkNodes.splice(sinkNodeIndex, 1)
     }
-    fallbackNodes.push(node)
+    addNodesToNodeArr([node], fallbackNodes)
   }
   const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
     const actionFallbackNodes: Array<Node> = []
