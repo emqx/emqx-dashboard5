@@ -359,11 +359,27 @@ export default (
   })
 
   const kafkaProducerColClassMap = { 'parameters.topic': 'col-need-row' }
-  const S3ColClassMap = (formData: Record<string, any>): Record<string, string> => {
+  const s3FixedColClassMap = {
+    'parameters.mode': 'col-hidden',
+    'parameters.container.type': 'col-hidden',
+  }
+  const getS3ExternalColClassMap = (formData: Record<string, any>): Record<string, string> => {
     if (/direct/i.test(formData?.parameters?.mode)) {
-      return { 'parameters.mode': 'col-hidden', 'resource_opts.batch_size': 'col-hidden' }
+      return { 'resource_opts.batch_size': 'col-hidden' }
     }
-    return { 'parameters.mode': 'col-hidden' }
+    return {}
+  }
+  const s3ColClassMap = (formData: Record<string, any>): Record<string, string> => {
+    const externalColClassMap = getS3ExternalColClassMap(formData)
+    return { ...s3FixedColClassMap, ...externalColClassMap }
+  }
+  const azureBlobFixedColClassMap = {
+    'parameters.mode': 'col-hidden',
+    'parameters.aggregation.container.type': 'col-hidden',
+  }
+  const azureBlobStorageColClassMap = (formData: Record<string, any>): Record<string, string> => {
+    const externalColClassMap = getS3ExternalColClassMap(formData)
+    return { ...azureBlobFixedColClassMap, ...externalColClassMap }
   }
 
   const isIoTDBSelectedThriftConnector = ref(false)
@@ -405,11 +421,8 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
     [BridgeType.Confluent]: kafkaProducerColClassMap,
     [BridgeType.Elasticsearch]: { 'parameters.action': 'col-hidden' },
-    [BridgeType.S3]: { ...S3ColClassMap, 'parameters.container.type': 'col-hidden' },
-    [BridgeType.AzureBlobStorage]: {
-      ...S3ColClassMap,
-      'parameters.aggregation.container.type': 'col-hidden',
-    },
+    [BridgeType.S3]: s3ColClassMap,
+    [BridgeType.AzureBlobStorage]: azureBlobStorageColClassMap,
     [BridgeType.IoTDB]: IoTDBClassMap,
   }
 
