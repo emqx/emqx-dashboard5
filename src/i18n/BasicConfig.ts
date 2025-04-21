@@ -286,7 +286,7 @@ export default {
   },
   managedNamespacesOnly: {
     zh: '仅显示受管理的命名空间',
-    en: 'Managed Namespaces Only',
+    en: 'View Managed Namespaces Only',
   },
   kickOutAllClients: {
     zh: '踢除该命名空间下所有客户端',
