@@ -275,7 +275,8 @@ $header-heigh: 54px;
   font-size: 22px;
   letter-spacing: 0.5px;
   font-weight: 600;
-  color: #fff;
+  color: #ccc;
+  font-family: 'Microsoft YaHei';
 }
 
 .pull-right {
