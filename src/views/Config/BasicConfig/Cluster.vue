@@ -34,6 +34,12 @@
                 <el-table-column :label="t('Dashboard.status')" prop="node_status" width="120">
                   <template #default="{ row }">
                     <span
+                      v-if="![NodeStatus.Running, NodeStatus.Stopped].includes(row.node_status)"
+                    >
+                      {{ row.node_status }}
+                    </span>
+                    <span
+                      v-else
                       :class="[
                         row.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
                       ]"
@@ -155,12 +161,17 @@ import { forceLeaveNode, getClusterNodes, inviteNode, loadNodes } from '@/api/co
 import { toLower } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
+type DetailedNodeInfo = NodeInfo & { is_self: boolean }
+type DetailedClusterInfo = Omit<ClusterInfo, 'nodes'> & {
+  nodes?: DetailedNodeInfo[]
+}
+
 const { t, tl } = useI18nTl('BasicConfig')
 
 const { getters, state } = useStore()
 const isCommunityLicense = computed(() => getters.isCommunityLicense)
 
-const clusterInfo = ref<ClusterInfo>({ name: '', nodes: [], self: '' })
+const clusterInfo = ref<DetailedClusterInfo>({ name: '', nodes: [], self: '' })
 const isLoading = ref(false)
 
 const coreNodes = computed(() => {
@@ -175,28 +186,77 @@ const replicantNodes = computed(() => {
     : []
 })
 
+const fetchNodeDetailsWithRetry = async (
+  expectedNodeCount: number,
+  retryCount = 0,
+): Promise<NodeInfo[] | undefined> => {
+  try {
+    retryCount++
+    if (retryCount > 3) {
+      retryCount = 0
+      return undefined
+    }
+    const nodesArr = await loadNodes()
+    if (nodesArr.length !== expectedNodeCount) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(fetchNodeDetailsWithRetry(expectedNodeCount, retryCount + 1))
+        }, 1000)
+      })
+    }
+    return nodesArr
+  } catch (error) {
+    return undefined
+  }
+}
+
 const getClusterInfo = async () => {
   isLoading.value = true
   try {
-    const [basicInfo, detailedNodes]: [ClusterInfo, NodeInfo[]] = await Promise.all([
+    const [basicInfo, nodesArr]: [ClusterInfo, NodeInfo[]] = await Promise.all([
       getClusterNodes(),
       loadNodes(),
     ])
+    let detailedNodes = nodesArr
+    const nodesInfoInCluster = basicInfo.nodes || []
+    /*
+      Because after inviting nodes, the node list has been updated in the data returned by /cluster,
+      but the node data in the data returned by /nodes needs to wait for a while before it can be updated,
+      so here we try to request /nodes several times to update the data.
+     */
+    if (nodesInfoInCluster.length > detailedNodes.length) {
+      detailedNodes = (await fetchNodeDetailsWithRetry(nodesInfoInCluster.length)) ?? nodesArr
+    }
 
     const selfNodeIdentifier = basicInfo.self || ''
     const clusterName = basicInfo.name || ''
 
-    const mergedNodesData = (Array.isArray(detailedNodes) ? detailedNodes : []).map((nodeInfo) => {
+    const mergedNodesData: Array<DetailedNodeInfo> = (
+      Array.isArray(detailedNodes) ? detailedNodes : []
+    ).map((nodeInfo) => {
       return {
         ...nodeInfo,
         is_self: nodeInfo.node === selfNodeIdentifier,
+      }
+    })
+    nodesInfoInCluster.forEach((node) => {
+      const nodeDetails = detailedNodes.find((nodeInfo) => nodeInfo.node === node)
+      // new invited node
+      if (!nodeDetails) {
+        mergedNodesData.push({
+          node,
+          is_self: false,
+          version: t('RuleEngine.unknown'),
+          role: 'core',
+          node_status: t('RuleEngine.unknown'),
+        } as DetailedNodeInfo)
       }
     })
 
     clusterInfo.value = {
       name: clusterName,
       self: selfNodeIdentifier,
-      nodes: mergedNodesData as NodeInfo[],
+      nodes: mergedNodesData,
     }
   } catch (error) {
     //

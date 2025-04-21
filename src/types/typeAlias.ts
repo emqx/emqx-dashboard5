@@ -68,7 +68,6 @@ import type {
 } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
-import type { NodeInfo } from '@/types/dashboard'
 import { MtConfigOut } from './schemas/multiTenancy.schemas'
 
 /* GATEWAY */
@@ -162,7 +161,7 @@ export type User = DashboardUser
 export const UserMFA = DashboardUserMfa
 
 /*  CLUSTER */
-export type ClusterInfo = Omit<GetCluster200, 'nodes'> & { nodes?: NodeInfo[] }
+export type ClusterInfo = GetCluster200
 
 /* SCHEMA REGISTRY */
 export type SchemaRegistryExternalHttp = SchemaRegistryPostExternalHttp
