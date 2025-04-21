@@ -260,7 +260,7 @@ export default {
  - 最多 {n} 个并发会话
  - 运行时间限制为 30 天，超过后需要重启节点以重新获得连接数配额。`,
     en: `Using an evaluation license, this license is not permitted for commercial use. Limitations:
- - At most {0} concurrent sessions.
+ - At most {n} concurrent sessions.
  - A 30-day uptime limit, must restart the node to regain the sessions quota.`,
   },
   communityLicenseTip: {
