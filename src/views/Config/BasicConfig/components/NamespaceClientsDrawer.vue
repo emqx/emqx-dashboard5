@@ -20,7 +20,7 @@
           plain
           :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           :loading="isDeleteLoading"
-          @click="cleanBatchClients(false)"
+          @click="cleanBatchClients"
         >
           {{ tl('batchKickOut') }}
         </el-button>
@@ -60,11 +60,7 @@
 
 <script setup lang="ts">
 import { batchDisconnectClients } from '@/api/clients'
-import {
-  getNamespaceClientCount,
-  getNamespaceClientList,
-  kickAllClientsInNamespace,
-} from '@/api/config'
+import { getNamespaceClientCount, getNamespaceClientList } from '@/api/config'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -100,7 +96,6 @@ const { page, limit, pageParams, hasNext, setCursor, resetPage, resetCursorMap }
   useCursorPagination()
 
 const handleOpen = () => {
-  getClientsCount()
   getClients()
 }
 
@@ -119,6 +114,7 @@ const getClients = async (isBack?: boolean) => {
       last_clientid: pageParams.value.cursor,
       limit: pageParams.value.limit,
     }
+    getClientsCount()
     const data = await getNamespaceClientList(props.namespace, params)
     if (data.length === limit.value) {
       setCursor(page.value + 1, data[data.length - 1])
@@ -161,21 +157,17 @@ const handleSizeChange = (size: number) => {
 
 const isDeleteLoading = ref(false)
 const { operationWarning } = useOperationConfirm()
-const cleanBatchClients = async (isKickOutAll?: boolean) => {
+const cleanBatchClients = async () => {
   try {
     if (!props.namespace) {
       return
     }
-    const warningMessage = isKickOutAll
-      ? tl('kickOutAllClientsConfirm', { n: total.value })
-      : t('Clients.willKickSelectedConnections', { n: selectedClients.value.length })
+    const warningMessage = t('Clients.willKickSelectedConnections', {
+      n: selectedClients.value.length,
+    })
     await operationWarning(warningMessage)
     isDeleteLoading.value = true
-    if (isKickOutAll) {
-      await kickAllClientsInNamespace(props.namespace)
-    } else {
-      await batchDisconnectClients(selectedClients.value)
-    }
+    await batchDisconnectClients(selectedClients.value)
     resetPage()
     getClients()
     ElMessage.success(t('Clients.kickedOutSuc'))
