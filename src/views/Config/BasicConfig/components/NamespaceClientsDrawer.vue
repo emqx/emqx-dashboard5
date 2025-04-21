@@ -14,8 +14,15 @@
         <span>{{ props.namespace }}</span>
       </div>
       <div>
-        <el-button plain type="danger" @click="cleanBatchClients(true)">
-          {{ tl('kickOutAllClients') }}
+        <el-button
+          class="kick-btn"
+          type="danger"
+          plain
+          :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
+          :loading="isDeleteLoading"
+          @click="cleanBatchClients(false)"
+        >
+          {{ tl('batchKickOut') }}
         </el-button>
       </div>
     </div>
@@ -48,18 +55,6 @@
         @current-change="handlePageChange"
       />
     </div>
-    <template #footer>
-      <el-button
-        class="kick-btn"
-        type="danger"
-        plain
-        :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
-        :loading="isDeleteLoading"
-        @click="cleanBatchClients(false)"
-      >
-        {{ tl('batchKickOut') }}
-      </el-button>
-    </template>
   </el-drawer>
 </template>
 
