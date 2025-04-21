@@ -301,8 +301,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'The following events will be traced:<br/>- `client.publish`<br/>- `client.authz`<br/>- `message.route`<br/>- `message.forward`<br/>- `message.handle_forward`<br/>- `broker.publish`',
   },
   messageTraceLevel1Desc: {
-    zh: '在基本事件的基础上，还包括以下事件：<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>即 QoS1 或 QoS2 消息交互中的第一个响应数据包。',
-    en: 'In addition to basic events, the following events are also included:<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>That is, the first response packet in the QoS1 or QoS2 message interaction.',
+    zh: '在基本事件的基础上，还包括以下事件：<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>即 QoS 1 或 QoS 2 消息交互中的第一个响应数据包。',
+    en: 'In addition to basic events, the following events are also included:<br/>- `broker.puback`<br/>- `client.puback`<br/>- `broker.pubrec`<br/>- `client.pubrec` <br/>That is, the first response packet in the QoS 1 or QoS 2 message interaction.',
   },
   messageTraceLevel2Desc: {
     zh: '在一级跟踪的基础上，进一步包括以下事件： <br/>- `broker.pubrel`<br/>- `client.pubrel`<br/>- `broker.pubcomp`<br/>- `client.pubcomp` <br/>即所有 MQTT 报文交互的数据包。',
