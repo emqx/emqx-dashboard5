@@ -17,7 +17,10 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="tl('namespace')" prop="ns">
-            <el-input v-model="record.ns" :disabled="!!props.namespace" />
+            <el-input v-if="!props.namespace" v-model="record.ns" />
+            <div v-else class="namespace-display">
+              <CommonOverflowTooltip :content="record.ns" />
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -213,6 +216,7 @@
 </template>
 
 <script setup lang="ts">
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import useNamespace from '@/hooks/Config/useNamespace'
 import { NamespaceItem } from '@/types/config'
 import { toLower } from 'lodash'
@@ -442,6 +446,26 @@ const save = async () => {
   }
   .el-divider {
     margin-top: 4px;
+  }
+
+  .namespace-display {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1px 11px;
+    line-height: var(--el-input-height, 32px);
+    height: var(--el-input-height, 32px);
+    background-color: var(--el-disabled-bg-color);
+    border: 1px solid var(--el-disabled-border-color);
+    border-radius: var(--el-input-border-radius, 4px);
+    color: var(--el-text-color-placeholder);
+    cursor: not-allowed;
+    overflow: hidden;
+    white-space: nowrap;
+    .common-overflow-tooltip {
+      display: block;
+      width: 100%;
+    }
   }
 }
 </style>
