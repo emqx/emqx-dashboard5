@@ -292,10 +292,6 @@ export default {
     zh: '踢除该命名空间下所有客户端',
     en: 'Kick Out All Clients in This Namespace',
   },
-  kickOutAllClientsConfirm: {
-    zh: '确定踢除该命名空间下所有 {n} 个客户端？',
-    en: 'Are you sure you want to kick out all {n} clients in this namespace?',
-  },
   batchKickOut: {
     zh: '批量踢除',
     en: 'Batch Kick Out',
