@@ -935,8 +935,8 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     en: 'Quota Exceeded',
   },
   dropped_quota_exceeded_impact: {
-    zh: '表明客户端 QoS0 消息发布速率超过最大消息发布速率',
-    en: 'Indicate that the client QoS0 message publishing rate exceeds the max message publishing rate',
+    zh: '表明客户端 QoS 0 消息发布速率超过最大消息发布速率',
+    en: 'Indicate that the client QoS 0 message publishing rate exceeds the max message publishing rate',
   },
   dropped_receive_maximum: {
     zh: '超出飞行窗口限制',
