@@ -506,8 +506,8 @@ export default {
     en: 'Message Retry Interval',
   },
   retryIntervalDesc: {
-    en: 'Retry interval for QoS1/QoS2 messages if no ACK is received.',
-    zh: '在未收到 ACK 的情况下，QoS1/QoS2 消息的重试间隔。',
+    en: 'Retry interval for QoS 1/QoS 2 messages if no ACK is received.',
+    zh: '在未收到 ACK 的情况下，QoS 1/QoS 2 消息的重试间隔。',
   },
   tip: {
     zh: '提示：',
@@ -682,8 +682,8 @@ export default {
     en: 'Trigger the rule when a message is put into the underlying socket',
   },
   messageAckedDesc: {
-    zh: '当消息发送到客户端，并收到客户端回复的 ACK 时触发规则，仅 QoS1，QoS2 会触发',
-    en: `The rule is triggered when the message is sent to the client and an ack is received from the client. Only QoS1 and QoS2 messages will be triggered`,
+    zh: '当消息发送到客户端，并收到客户端回复的 ACK 时触发规则，仅 QoS 1，QoS 2 会触发',
+    en: `The rule is triggered when the message is sent to the client and an ack is received from the client. Only QoS 1 and QoS 2 messages will be triggered`,
   },
   messageDroppedDesc: {
     zh: '当一条消息无任何订阅者时触发规则',
