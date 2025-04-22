@@ -4,6 +4,7 @@ export interface PluginItem {
   running_status: Array<{
     node: string
     status: PluginStatus
+    health_status: PluginHealthStatusObj
   }>
   authors: Array<string>
   builder: {
@@ -26,6 +27,7 @@ export interface PluginItem {
   repo: string
   git_commit_or_build_date: string
   with_config_schema?: boolean
+  health_status?: PluginHealthStatusObj
 }
 
 export interface PluginDetail extends PluginItem {

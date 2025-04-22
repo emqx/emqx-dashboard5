@@ -155,4 +155,16 @@ export default {
     zh: '为保证同步后插件正常运行，请在同步后重新启动插件',
     en: 'To ensure the plugin runs normally after synchronization, please restart the plugin after synchronization.',
   },
+  healthStatus: {
+    zh: '健康状态',
+    en: 'Health Status',
+  },
+  ok: {
+    zh: '正常',
+    en: 'OK',
+  },
+  error: {
+    zh: '异常',
+    en: 'Error',
+  },
 }

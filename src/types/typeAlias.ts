@@ -11,7 +11,7 @@ import {
   EmqxGatewayApiUpdateLwm2m,
   EmqxGatewayApiUpdateMqttsn,
 } from './schemas/gateways.schemas'
-import type { Merge } from 'type-fest'
+import type { Merge, ValueOf } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
 import {
   GetAuditParams as GetAuditParamsType,
@@ -70,6 +70,8 @@ import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 import { MtConfigOut } from './schemas/multiTenancy.schemas'
 import { RuleEngineActionDetails } from './schemas/rules.schemas'
+import type { PluginsHealthStatus } from './schemas/plugins.schemas'
+import { PluginsHealthStatusStatus } from './schemas/plugins.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -173,3 +175,8 @@ export type NamespaceConfig = MtConfigOut
 
 /* RULE */
 export type RuleActionStatus = RuleEngineActionDetails
+
+/* PLUGINS */
+export type PluginHealthStatusObj = PluginsHealthStatus
+export const PluginsHealthStatusVal = PluginsHealthStatusStatus
+export type PluginHealthStatusValueType = ValueOf<typeof PluginsHealthStatusVal>
