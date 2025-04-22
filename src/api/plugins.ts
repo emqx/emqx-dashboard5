@@ -1,6 +1,7 @@
 import http from '@/common/http'
 import { PluginStatus, StatusCommandSendToPlugin } from '@/types/enum'
 import { AvroSchema, PluginDetail, PluginItem } from '@/types/plugin'
+import type { UploadFile } from 'element-plus'
 
 export const queryPlugins = (status?: PluginStatus): Promise<Array<PluginItem>> => {
   return http.get(`/plugins`, { status })
@@ -59,4 +60,35 @@ export const updatePluginConfigs = (
 export const syncPluginVersion = (pluginInfo: { name: string; version: string }): Promise<void> => {
   const pluginId = `${pluginInfo.name}-${pluginInfo.version}`
   return http.post(`/plugins/cluster_sync`, { name: pluginId })
+}
+
+export const downloadPluginConfig = async (pluginName: string, pluginVersion: string) => {
+  try {
+    const res = await http.get(
+      `/plugins/${encodeURIComponent(pluginName)}-${encodeURIComponent(pluginVersion)}/config/download`,
+      {
+        responseType: 'blob',
+      },
+    )
+    downloadBlobData(res as any)
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const uploadPluginConfig = async (
+  pluginName: string,
+  pluginVersion: string,
+  file: UploadFile,
+) => {
+  if (!file.raw) {
+    return Promise.reject(new Error('File is required'))
+  }
+  const formData = new FormData()
+  formData.append('filename', file.raw)
+  return http.post(
+    `/plugins/${encodeURIComponent(pluginName)}-${encodeURIComponent(pluginVersion)}/config/upload`,
+    formData,
+  )
 }
