@@ -167,4 +167,16 @@ export default {
     zh: '异常',
     en: 'Error',
   },
+  downloadConfig: {
+    zh: '下载配置',
+    en: 'Download Config',
+  },
+  uploadConfig: {
+    zh: '上传配置',
+    en: 'Upload Config',
+  },
+  uploadConfigConfirm: {
+    zh: '上传配置将覆盖当前配置，是否确认上传？',
+    en: 'Uploading the configuration will overwrite the current configuration. Confirm to upload?',
+  },
 }

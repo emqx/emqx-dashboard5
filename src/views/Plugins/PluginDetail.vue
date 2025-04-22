@@ -15,6 +15,21 @@
           <el-button @click="goDoc(pluginInfo)" :disabled="!isReadMoreEnable">
             {{ tl('more') }}
           </el-button>
+          <el-button @click="handleDownloadConfig">
+            {{ tl('downloadConfig') }}
+          </el-button>
+          <el-upload
+            ref="upload"
+            class="config-upload"
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="handleConfigUpload"
+            accept=".json, .json_"
+          >
+            <el-button>
+              {{ tl('uploadConfig') }}
+            </el-button>
+          </el-upload>
           <el-button
             v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
             @click="handleDisable"
@@ -66,11 +81,12 @@
 </template>
 
 <script setup lang="ts">
-import { PluginDetail } from '@/types/plugin'
-import PluginInfo from './components/PluginInfo.vue'
-import { queryPluginDetail } from '@/api/plugins'
-import { PluginStatus } from '@/types/enum'
+import { downloadPluginConfig, queryPluginDetail, uploadPluginConfig } from '@/api/plugins'
 import router from '@/router'
+import { PluginStatus } from '@/types/enum'
+import { PluginDetail } from '@/types/plugin'
+import type { UploadFile } from 'element-plus'
+import PluginInfo from './components/PluginInfo.vue'
 import PluginItemStatus from './components/PluginItemStatus.vue'
 import PluginManage from './components/PluginManage.vue'
 
@@ -120,12 +136,37 @@ const handleEnable = async () => {
 }
 
 getPluginDetail()
+
+const handleDownloadConfig = () => {
+  downloadPluginConfig(pluginName.value, pluginVersion.value)
+}
+const { operationWarning } = useOperationConfirm()
+const handleConfigUpload = async (file: UploadFile) => {
+  try {
+    await operationWarning(tl('uploadConfigConfirm'))
+    await uploadPluginConfig(pluginName.value, pluginVersion.value, file)
+    ElMessage.success(t('General.uploadSuccess'))
+    getPluginDetail()
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .plugin-detail {
   .el-tag {
     margin-right: 12px;
+  }
+  :deep(.el-page-header__extra) {
+    display: flex;
+    align-items: center;
+  }
+  .config-upload {
+    margin-left: 8px;
+    & + .el-button {
+      margin-left: 8px;
+    }
   }
 }
 </style>
