@@ -318,8 +318,8 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     en: 'Remove License',
   },
   resetLicenseConfirm: {
-    zh: '<strong>集群模式下无法移除 License。</strong> 请先解散集群。<br /><br />解散后，如确认要移除当前 License 并恢复为内置社区版（仅限单节点，不支持集群），请输入 <code>default</code> 进行确认。移除后，已连接的客户端不会受到影响。<br /><br /><strong>另请注意：</strong>若仅因 License 到期需要处理，可直接更新 License，无需移除。',
-    en: '<strong>License removal is not possible in cluster mode.</strong> Please dissolve the cluster first.<br /><br />Once the cluster is dissolved, if you wish to remove the current license and revert to the built-in Community License (single-node only, no clustering), please type <code>default</code> to confirm. Currently connected clients will not be affected by this change.<br /><br /><strong>Note:</strong> If your license is simply expiring, you can update it directly without needing to remove it.',
+    zh: '<strong>集群模式下无法移除 License。</strong> 请先解散集群。<br /><br />解散后，如确认要移除当前 License 并恢复为默认的社区版（仅限单节点，不支持集群）License，请输入 <code>default</code> 进行确认。移除后，已连接的客户端不会受到影响。<br /><br /><strong>另请注意：</strong>若仅因 License 到期需要处理，可直接更新 License，无需移除。',
+    en: '<strong>License removal is not possible in cluster mode.</strong> Please dissolve the cluster first.<br /><br />Once the cluster is dissolved, if you wish to remove the current license and revert to the default Community License (single-node only, no clustering), please type <code>default</code> to confirm. Currently connected clients will not be affected by this change.<br /><br /><strong>Note:</strong> If your license is simply expiring, you can update it directly without needing to remove it.',
   },
   licenseSettings: {
     zh: 'License 设置',
