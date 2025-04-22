@@ -1031,3 +1031,17 @@ label.custom-required::after {
     transform: translateX(100%);
   }
 }
+
+.is-fallback {
+  .col-fallback-actions {
+    display: none;
+  }
+}
+
+.reason-title {
+  opacity: 0.6;
+  margin: 4px 0 0;
+}
+.reason-content {
+  margin: 4px 0;
+}

@@ -4,10 +4,13 @@
     popper-class="tooltip-node-status-list"
     :disabled="isTooltipDisabled"
   >
-    <span class="node-status" :class="{ tag: isTag }">
-      <CheckIcon v-show="statusData.statusLabel" :status="statusForIcon" />
-      <span class="text-status" :class="statusData.statusClass">
-        {{ statusData.statusLabel }}
+    <span>
+      <slot></slot>
+      <span v-if="!$slots['default']" class="node-status" :class="{ tag: isTag }">
+        <CheckIcon v-show="statusData.statusLabel" :status="statusForIcon" />
+        <span class="text-status" :class="statusData.statusClass">
+          {{ statusData.statusLabel }}
+        </span>
       </span>
     </span>
     <template #content>

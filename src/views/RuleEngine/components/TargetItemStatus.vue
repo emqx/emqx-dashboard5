@@ -66,13 +66,3 @@ const needShowStatusReason = computed(() => {
   return target?.status && abnormalStatuses.includes(target.status)
 })
 </script>
-
-<style lang="scss">
-.reason-title {
-  opacity: 0.6;
-  margin: 4px 0 0;
-}
-.reason-content {
-  margin: 4px 0;
-}
-</style>

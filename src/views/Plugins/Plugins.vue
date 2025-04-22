@@ -43,6 +43,21 @@
           <PluginItemStatus :plugin-data="row" />
         </template>
       </el-table-column>
+      <el-table-column :label="tl('healthStatus')" min-width="160">
+        <template #default="{ row }">
+          <template v-if="row.health_status">
+            <StatusDetailsOfEachNode :status-data="getHealthStatusData(row)">
+              <span class="text-status" :class="getHealthStatusData(row).statusClass">
+                {{ getHealthStatusData(row).statusLabel }}
+              </span>
+              <template #extra-content v-if="needShowStatusReason(row)">
+                <p class="reason-title">{{ t('RuleEngine.statusReason') }}</p>
+                <p class="reason-content">{{ row.health_status.message }}</p>
+              </template>
+            </StatusDetailsOfEachNode>
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column prop="oper" :label="$t('Base.operation')" min-width="272">
         <template #default="{ row, $index }">
           <TableButton
@@ -90,13 +105,15 @@
 </template>
 
 <script lang="ts" setup>
-import { PluginStatus } from '@/types/enum'
-import { PluginItem } from '@/types/plugin'
-import TableItemDropdown from './components/TableItemDropdown.vue'
 import { queryPlugins } from '@/api/plugins'
+import { NodeStatusClass, PluginStatus } from '@/types/enum'
+import { PluginItem } from '@/types/plugin'
+import type { PluginHealthStatusValueType } from '@/types/typeAlias'
+import { PluginsHealthStatusVal } from '@/types/typeAlias'
 import { SortableEvent } from 'sortablejs'
-import SyncPluginVersionDialog from './components/SyncPluginVersionDialog.vue'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import SyncPluginVersionDialog from './components/SyncPluginVersionDialog.vue'
+import TableItemDropdown from './components/TableItemDropdown.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -176,6 +193,31 @@ const statusCounter = computed(() => {
     ).length,
   }
 })
+
+const isHealthStatusOk = (status: PluginHealthStatusValueType) =>
+  status === PluginsHealthStatusVal.ok
+const getStatusLabelNClass = (status: PluginHealthStatusValueType) => {
+  const isHealth = isHealthStatusOk(status)
+  return {
+    statusLabel: isHealth ? tl('ok') : tl('error'),
+    statusClass: isHealth ? NodeStatusClass.Success : NodeStatusClass.Danger,
+  }
+}
+const getHealthStatusNodeDetail = (row: PluginItem) => {
+  const { running_status } = row
+  return running_status.map(({ node, health_status }) => {
+    return { node, ...getStatusLabelNClass(health_status.status) }
+  })
+}
+const getHealthStatusData = (row: PluginItem) => {
+  return {
+    ...getStatusLabelNClass(row.health_status.status),
+    details: getHealthStatusNodeDetail(row),
+  }
+}
+const needShowStatusReason = (row: PluginItem) => {
+  return !isHealthStatusOk(row.health_status.status)
+}
 
 const goInstall = () => {
   router.push({ name: 'plugin-install' })
