@@ -3,7 +3,7 @@
     v-model="showDialog"
     align-center
     destroy-on-close
-    width="600px"
+    width="550px"
     class="license-reset-dialog"
     :title="startCase(tl('resetLicense'))"
   >
@@ -84,7 +84,7 @@ const submit = async () => {
     await FormCom.value.validate()
     isSubmitting.value = true
     await updateLicense(formData.key)
-    ElMessage.success(t('Base.resetSuccess'))
+    ElMessage.success(t('Base.removeSuccess'))
     showDialog.value = false
     emit('updated')
   } catch (error) {

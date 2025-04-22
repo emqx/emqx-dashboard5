@@ -36,7 +36,7 @@ export function loadLicenseInfo(): Promise<LicenseData> {
 export function updateLicense(key: string) {
   return http.post('/license', { key })
 }
-export function loadLicenseConfig() {
+export function loadLicenseConfig(): Promise<LicenseConfig> {
   return http.get('/license/setting')
 }
 export function updateLicenseConfig(body: LicenseConfig) {

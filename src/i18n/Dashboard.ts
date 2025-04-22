@@ -314,12 +314,12 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     en: 'update license',
   },
   resetLicense: {
-    zh: '重置 License',
-    en: 'Reset License',
+    zh: '移除 License',
+    en: 'Remove License',
   },
   resetLicenseConfirm: {
-    zh: '重置为默认 License 后，当前已超出限额的连接可以继续保持，但无法建立新的连接。输入 <code>default</code> 以确认。',
-    en: 'After resetting to default license, the current connections that have exceeded the limit can continue to be maintained, but new connections cannot be established. Enter <code>default</code> to confirm.',
+    zh: '此操作将移除您当前的 License 并恢复到内置的社区版 License（仅限单节点，不支持集群）。是否继续？',
+    en: 'This will remove your current license and revert to the built-in Community License (single node only, no clustering). Continue?',
   },
   licenseSettings: {
     zh: 'License 设置',

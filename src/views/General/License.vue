@@ -8,11 +8,14 @@
               :stroke-width="20"
               :percentage="licensePercentage"
               :status="isWarningUsage ? 'warning' : ''"
-              :format="() => `${currentConnections}/${licenseData.max_sessions}`"
+              :format="
+                () =>
+                  `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}`
+              "
               @mouseover="showTooltip = true"
               @mouseout="showTooltip = false"
             >
-              {{ `${currentConnections}/${licenseData.max_sessions}` }}
+              {{ `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}` }}
             </el-progress>
             <el-tooltip
               :visible="showTooltip"
@@ -97,7 +100,7 @@
           {{ startCase(tl('updateLicense')) }}
         </el-button>
         <el-button
-          v-if="licenseData.deployment !== 'default'"
+          v-if="licenseData.deployment !== 'default' && !isCommunityLicense"
           type="primary"
           plain
           :disabled="!$hasPermission('post')"
