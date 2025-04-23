@@ -127,7 +127,7 @@ export default (
     if (comRet.fallback_actions) {
       comRet.fallback_actions.customComponent = markRaw(FallbackActionsEditor)
       comRet.fallback_actions.componentProps = {
-        actionKey: currentEditingActionKey.value,
+        actionKey: currentEditingActionKey,
         readonly: !!props.readonly,
       }
     }
