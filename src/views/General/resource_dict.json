@@ -355,7 +355,7 @@
       "zh": "认证"
     },
     "operation_name_label": {
-      "en": "Update authentication settings.",
+      "en": "Update authentication settings",
       "zh": "更新认证配置"
     }
   },
@@ -559,7 +559,7 @@
       "zh": "授权"
     },
     "operation_name_label": {
-      "en": "Reset node-wise authorization cache.",
+      "en": "Reset node-wise authorization cache",
       "zh": "重置节点授权缓存"
     }
   },
@@ -571,7 +571,7 @@
       "zh": "授权"
     },
     "operation_name_label": {
-      "en": "Update settings of node-wise authorization cache.",
+      "en": "Update settings of node-wise authorization cache",
       "zh": "更新节点授权缓存设置"
     }
   },
@@ -1759,7 +1759,7 @@
       "zh": "插件"
     },
     "operation_name_label": {
-      "en": "Forces a plugin to be synced to the cluster and removes other versions of the plugin.",
+      "en": "Forces a plugin to be synced to the cluster and removes other versions of the plugin",
       "zh": "强制插件同步到集群并删除其他版本"
     }
   },
@@ -2239,7 +2239,7 @@
       "zh": "Dashboard"
     },
     "operation_name_label": {
-      "en": "Setup MFA for a dashboard user.",
+      "en": "Setup MFA for a dashboard user",
       "zh": "设置 Dashboard 用户的 MFA"
     }
   },
