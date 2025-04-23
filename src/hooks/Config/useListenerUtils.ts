@@ -108,7 +108,8 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
   const gatewayTypesWhichHasWSConfig = [ListenerType.WS, ListenerType.WSS]
 
   const { t, tl } = useI18nTl('Gateway')
-  const { createRequiredRule, createIntFieldRule, createCommonIdRule } = useFormRules()
+  const { createRequiredRule, createIntFieldRule, createCommonIdRule, createLimiterRule } =
+    useFormRules()
   const positiveIntegerRule = createIntFieldRule(1)
   // limiter in listener
   const { limiterRules } = useLimiter()
@@ -138,6 +139,9 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     'ssl_options.ocsp.responder_url': createRequiredRule(tl('responderUrl')),
     'ssl_options.ocsp.issuer_pem': createRequiredRule(tl('issuerPem')),
     ...SSLCertfileRules,
+    max_conn_burst: createLimiterRule(),
+    messages_burst: createLimiterRule(),
+    bytes_burst: createLimiterRule(),
   }
 
   const createRawSSLParams = () => ({

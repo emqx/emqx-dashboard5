@@ -10,6 +10,7 @@ export default (): {
   createCommonIdRule: () => Array<FormItemRule>
   createLetterStartRule: () => Array<FormItemRule>
   createNoChineseRule: () => Array<FormItemRule>
+  createLimiterRule: () => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
     min?: number | undefined,
@@ -30,6 +31,10 @@ export default (): {
 
   const createNoChineseRule = (): Array<FormItemRule> => [
     { pattern: NO_CHINESE_REG, message: t('Base.notSupportedChinese') },
+  ]
+
+  const createLimiterRule = (): Array<FormItemRule> => [
+    { pattern: LIMITER_REG, message: t('Rule.formatError'), trigger: 'blur' },
   ]
 
   const createRequiredRule = (
@@ -169,6 +174,7 @@ export default (): {
     createCommonIdRule,
     createLetterStartRule,
     createNoChineseRule,
+    createLimiterRule,
     createStringWithUnitFieldRule,
     createMqttPublishTopicRule,
     createMqttSubscribeTopicRule,
