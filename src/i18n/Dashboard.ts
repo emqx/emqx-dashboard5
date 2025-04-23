@@ -924,7 +924,7 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
   },
   dropped_await_pubrel_timeout_impact: {
     zh: '可能表明发布客户端运行缓慢或行为异常，无法在 EMQX 等待超过最大 PUBREL 等待时长（`await_rel_timeout`）限制之前发送 `PUBREL` 消息。这并不一定表示消息丢失，因为 `PUBLISH` 数据包已经被路由至订阅客户端。',
-    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessary indicates message loss since the `PUBLISH` packet itself is routed to the subscriber clients already.',
+    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessarily indicate message loss since the `PUBLISH` packet itself has already been routed to the subscriber clients.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
