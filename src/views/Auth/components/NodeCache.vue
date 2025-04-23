@@ -186,7 +186,7 @@
       </el-table>
     </div>
     <template #footer>
-      <el-button @click="cancelSettings">
+      <el-button @click="isNodeCacheStatusDrawerOpen = false">
         {{ t('APIKey.close') }}
       </el-button>
     </template>
