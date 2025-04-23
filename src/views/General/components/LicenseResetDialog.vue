@@ -34,6 +34,7 @@
           {{ t('Base.cancel') }}
         </el-button>
         <el-button
+          v-if="!isClusterMode"
           type="primary"
           :disabled="!$hasPermission('post') || CONFIRM_KEY !== formData.key"
           @click="submit"

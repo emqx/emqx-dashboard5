@@ -318,11 +318,11 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     en: 'Remove License',
   },
   clusterResetLicense: {
-    zh: '<strong>集群模式下无法移除许可证</strong><br /><br />EMQX 在集群模式下运行时，禁止移除许可证。<br /><br /><strong>需要操作：</strong> 请先解除集群配置。<br /><br />解散集群后，移除许可证会将 EMQX 恢复到单节点的社区版许可证。客户端连接不会受此影响。',
+    zh: '<strong>集群模式下无法移除许可证</strong><br /><br />EMQX 在集群模式下运行时，禁止移除许可证。<br /><br /><strong>需要操作：</strong> 请先解除集群配置。<br /><br />解散集群后，移除许可证会将 EMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。',
     en: '<strong>Cannot Remove License in Cluster Mode</strong><br /><br />License removal is prohibited while EMQX is operating in cluster mode.<br /><br /><strong>Action Required:</strong> Please dissolve the cluster configuration first.<br /><br />After dissolving the cluster, removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.',
   },
   resetLicenseConfirm: {
-    zh: '<strong>确认移除（解散集群后）：</strong> 在下方输入 <code>remove</code>。<br /><br />移除许可证会将 EMQX 恢复到单节点的社区版许可证。客户端连接不会受此影响。<br /><br /><strong>注意：</strong> 如果您的许可证只是即将到期，可以直接更新，无需移除。',
+    zh: '<strong>确认移除（解散集群后）：</strong> 在下方输入 <code>remove</code>。<br /><br />移除许可证会将 EMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。<br /><br /><strong>注意：</strong> 如果您的许可证只是即将到期，可以直接更新，无需移除。',
     en: '<strong>Confirmation (requires single-node):</strong> Type <code>remove</code> to proceed with removal.<br /><br />Removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.<br /><br /><strong>Note:</strong> If your license is expiring, you can update it directly without removal.',
   },
   licenseSettings: {
