@@ -317,9 +317,13 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     zh: '移除 License',
     en: 'Remove License',
   },
+  clusterResetLicense: {
+    zh: '<strong>集群模式下无法移除许可证</strong><br /><br />EMQX 在集群模式下运行时，禁止移除许可证。<br /><br /><strong>需要操作：</strong> 请先解除集群配置。<br /><br />解散集群后，移除许可证会将 EMQX 恢复到单节点的社区版许可证。客户端连接不会受此影响。',
+    en: '<strong>Cannot Remove License in Cluster Mode</strong><br /><br />License removal is prohibited while EMQX is operating in cluster mode.<br /><br /><strong>Action Required:</strong> Please dissolve the cluster configuration first.<br /><br />After dissolving the cluster, removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.',
+  },
   resetLicenseConfirm: {
-    zh: '<strong>集群模式下无法移除 License。</strong> 请先解散集群。<br /><br />解散后，如确认要移除当前 License 并恢复为默认的社区版 License（仅限单节点，不支持集群），请输入 <code>default</code> 进行确认。移除后，已连接的客户端不会受到影响。<br /><br /><strong>另请注意：</strong>若仅因 License 到期需要处理，可直接更新 License，无需移除。',
-    en: '<strong>License removal is not possible in cluster mode.</strong> Please dissolve the cluster first.<br /><br />Once the cluster is dissolved, if you wish to remove the current license and revert to the default Community License (single-node only, no clustering), please type <code>default</code> to confirm. Currently connected clients will not be affected by this change.<br /><br /><strong>Note:</strong> If your license is simply expiring, you can update it directly without needing to remove it.',
+    zh: '<strong>确认移除（解散集群后）：</strong> 在下方输入 <code>remove</code>。<br /><br />移除许可证会将 EMQX 恢复到单节点的社区版许可证。客户端连接不会受此影响。<br /><br /><strong>注意：</strong> 如果您的许可证只是即将到期，可以直接更新，无需移除。',
+    en: '<strong>Confirmation (requires single-node):</strong> Type <code>remove</code> to proceed with removal.<br /><br />Removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.<br /><br /><strong>Note:</strong> If your license is expiring, you can update it directly without removal.',
   },
   licenseSettings: {
     zh: 'License 设置',

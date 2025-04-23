@@ -14,7 +14,7 @@
       :rules="formRules"
       @submit.prevent
     >
-      <el-form-item prop="key">
+      <el-form-item prop="key" v-if="!isClusterMode">
         <el-alert :closable="false" type="warning">
           <template v-slot:title>
             <div v-safe-html="tl('resetLicenseConfirm')"></div>
@@ -22,6 +22,11 @@
         </el-alert>
         <el-input v-model="formData.key" />
       </el-form-item>
+      <el-alert v-else :closable="false" type="warning">
+        <template v-slot:title>
+          <div v-safe-html="tl('clusterResetLicense')"></div>
+        </template>
+      </el-alert>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
@@ -30,7 +35,7 @@
         </el-button>
         <el-button
           type="primary"
-          :disabled="!$hasPermission('post') || confirmText !== formData.key"
+          :disabled="!$hasPermission('post') || CONFIRM_KEY !== formData.key"
           @click="submit"
           :loading="isSubmitting"
         >
@@ -43,6 +48,7 @@
 
 <script lang="ts" setup>
 import { updateLicense } from '@/api/common'
+const CONFIRM_KEY = 'remove'
 
 const props = defineProps({
   modelValue: {
@@ -56,7 +62,6 @@ const { tl, t } = useI18nTl('Dashboard')
 
 const isSubmitting = ref(false)
 const formData = reactive({ key: '' })
-const confirmText = 'default'
 
 const FormCom = ref()
 
@@ -65,6 +70,10 @@ const formRules = {
   key: createRequiredRule(tl('key')),
 }
 
+const { nodes, loadData } = useClusterNodes({
+  loadByDefault: false,
+})
+
 const showDialog = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
@@ -72,18 +81,23 @@ const showDialog = computed({
   },
 })
 
-watch(showDialog, (val) => {
+watch(showDialog, async (val) => {
   if (val) {
     formData.key = ''
     isSubmitting.value = false
+    await loadData()
   }
+})
+
+const isClusterMode = computed(() => {
+  return nodes.value.length > 1
 })
 
 const submit = async () => {
   try {
     await FormCom.value.validate()
     isSubmitting.value = true
-    await updateLicense(formData.key)
+    await updateLicense('default')
     ElMessage.success(t('Base.removeSuccess'))
     showDialog.value = false
     emit('updated')
