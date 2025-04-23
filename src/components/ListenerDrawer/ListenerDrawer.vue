@@ -153,11 +153,7 @@
                 desc-marked
               />
             </template>
-            <Oneof
-              class="in-one-row"
-              v-model="listenerRecord.max_conn_burst"
-              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-            />
+            <el-input v-model="listenerRecord.max_conn_burst" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -178,11 +174,7 @@
                 desc-marked
               />
             </template>
-            <Oneof
-              class="in-one-row"
-              v-model="listenerRecord.messages_burst"
-              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-            />
+            <el-input v-model="listenerRecord.messages_burst" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -212,11 +204,7 @@
                 desc-marked
               />
             </template>
-            <Oneof
-              class="in-one-row"
-              v-model="listenerRecord.bytes_burst"
-              :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-            />
+            <el-input v-model="listenerRecord.bytes_burst" />
           </el-form-item>
         </el-col>
       </el-row>
