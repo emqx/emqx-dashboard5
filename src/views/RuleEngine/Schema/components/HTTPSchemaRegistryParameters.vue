@@ -33,7 +33,7 @@
       </el-form-item>
     </el-col>
     <el-col :span="16">
-      <CommonTLSConfig class="http-ssl-config" v-model="formData.ssl" />
+      <CommonTLSConfig class="http-ssl-config" v-model="formData.ssl" :is-edit="isEdit" />
     </el-col>
   </el-row>
   <AdvancedSettingContainer>
@@ -113,6 +113,7 @@ import { SchemaRegistryExternalHttpParameters } from '@/types/rule'
 
 const props = defineProps<{
   modelValue: SchemaRegistryExternalHttpParameters
+  isEdit: boolean
 }>()
 
 const emit = defineEmits<{

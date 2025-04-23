@@ -69,6 +69,7 @@
       <el-col :span="24" v-else>
         <HTTPSchemaRegistryParameters
           v-model="(schemaForm as SchemaRegistryExternalHttp).parameters"
+          :is-edit="isEdit"
         />
       </el-col>
     </el-row>
