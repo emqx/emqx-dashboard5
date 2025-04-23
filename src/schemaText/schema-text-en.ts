@@ -96,27 +96,58 @@ export default {
     label: 'Max Packet Size',
   },
   max_conn_rate: {
-    desc: 'Used to limit the rate at which EMQX accepts connections. Once the limit is reached, EMQX will pause fetching connections from the accept queue, delaying or rejecting new connections. If empty, it means no limit.\n\nFor example:\n\n- `1000/s` means accepting up to 1000 connections per second.\n- `1000/10s` means accepting up to 1000 connections every 10 seconds.',
+    desc: `Limits how quickly accepts connections, per each node.
+
+Once the limit is reached, EMQX will pause serving connections from the Accept queue, thereby delaying or rejecting new connections.
+
+For example:
+
+- \`1000/s\`: Only accepts 1000 connections per second.
+- \`1000/10s\`: Only accepts 1000 connections every 10 seconds.`,
     label: 'Maximum Connection Rate',
   },
   max_conn_burst: {
-    desc: 'The maximum number of connections that can be accepted in a burst. If empty, it means no limit.\n\nFor example: `10000/60m` means allowing up to 10000 connections in 60 minutes.',
+    desc: `Number of connections that can be accepted in a burst, on top of regular rate, per each node.
+
+For example: \`10000/60m\`: Once every 60 minutes, up to 10000 connections can be accepted in a short period of time.`,
     label: 'Maximum Connection Burst',
   },
   messages_rate: {
-    desc: 'Used to limit the number of messages a single client can send to EMQX per second.\n\nOnce the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages\nwith "Quota Exceeded" error code (0x97).\n\nFor example:\n- `500/s`: Only 500 messages will be received per second, and the remaining messages will be dropped/rejected.\n- `500/10s`: Only 500 messages will be received every 10 seconds and the remaining messages will be dropped/rejected.',
+    desc: `Limits the number of messages a single client can send to the broker, per each node.
+
+Once the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
+with "Quota Exceeded" error code (0x97).
+
+For example:
+
+- \`500/s\`: Only 500 messages will be received per second, and the remaining messages will be dropped/rejected.
+- \`500/10s\`: Only 500 messages will be received every 10 seconds and the remaining messages will be dropped/rejected.`,
     label: 'Messages Publish Rate',
   },
   messages_burst: {
-    desc: 'Additional number of messages that can be sent in a burst.\n\nFor example: `10000/60m`: Once in 60 minutes, up to 10000 messages can be sent in a short period of time.',
+    desc: `Number of messages that can be sent in a burst, on top of regular \`Messages Publish Rate\`, per each node.
+
+For example: \`10000/60m\`: Once in 60 minutes, up to 10000 messages can be sent in a short period of time.`,
     label: 'Messages Publish Burst',
   },
   bytes_rate: {
-    desc: 'Used to limit the number of bytes a single client can send to EMQX per second.\n\nOnce the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages\nwith "Quota Exceeded" error code (0x97).\n\nThe unit of the bytes could be: B, KB, MB, GB.\n\nFor example:\n- `500KB/s`: Only 500 kilobytes per second will be received, and the remaining bytes will be dropped/rejected.\n- `500MB/10s`: Only 500 megabytes will be received every 10 seconds, and the remaining bytes will be dropped/rejected.',
+    desc: `Limits the number of bytes a single client can send to the broker, per each node.
+
+Once the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
+with "Quota Exceeded" error code (0x97).
+
+The unit of the bytes could be: B, KB, MB, GB.
+
+For example:
+
+- \`500KB/s\`: Only 500 kilobytes per second will be received, and the remaining bytes will be dropped/rejected.
+- \`500MB/10s\`: Only 500 megabytes will be received every 10 seconds, and the remaining bytes will be dropped/rejected.`,
     label: 'Data Publish Rate',
   },
   bytes_burst: {
-    desc: 'Additional number of bytes that can be sent in a burst.\n\nFor example: `100MB/60m`: Once in 60 minutes, up to 100 megabytes can be sent in a short period of time.',
+    desc: `Number of bytes that can be sent in a burst, on top of regular \`Data Publish Rate\`.
+
+For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be sent in a short period of time.`,
     label: 'Data Publish Burst',
   },
   /* MQTT END */
