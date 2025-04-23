@@ -42,6 +42,8 @@ export interface NodeInfo {
   uptime: number
   version: string
   role: 'core' | 'replicant'
+  cluster_sessions: number
+  live_connections: number
 }
 
 export interface Prometheus {
