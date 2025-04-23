@@ -100,6 +100,7 @@ const {
   authzList,
   tableCom,
   getAuthzList,
+  updateAuthzItemMetrics,
   moveAuthzUp,
   moveAuthzDown,
   moveAuthzToTop,
@@ -113,6 +114,7 @@ const toggleEnable = async (row: AuthzItemInTable) => {
   try {
     await toggleAuthStatus(row, 'authz')
     row.enable = !row.enable
+    updateAuthzItemMetrics(row)
   } catch (error) {
     //
   }
