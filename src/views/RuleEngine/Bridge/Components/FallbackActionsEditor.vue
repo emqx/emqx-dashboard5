@@ -11,9 +11,18 @@
         {{ tl('addFallbackAction') }}
       </CreateButton>
     </div>
-    <ul class="action-list" :class="{ 'empty-readonly': !!readonly && !actionList.length }">
+    <ul
+      class="action-list"
+      :class="{ 'empty-readonly': !!readonly && !actionList.length && !inRuleOutputs }"
+    >
       <div v-if="inRuleOutputs" class="action-list-hd">
-        <CreateButton class="btn-add-fallback" link @click="addAction" size="small">
+        <CreateButton
+          :disabled="readonly || !$hasPermission('post')"
+          class="btn-add-fallback"
+          link
+          @click="addAction"
+          size="small"
+        >
           {{ tl('addFallbackAction') }}
         </CreateButton>
       </div>

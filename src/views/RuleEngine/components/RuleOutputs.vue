@@ -48,6 +48,7 @@
                 <FallbackActionsEditor
                   :model-value="getActionFallback(item)"
                   :action-key="item"
+                  :readonly="disabled"
                   in-rule-outputs
                   @update:model-value="handleFallbackActionsChange(item, $event)"
                 />
