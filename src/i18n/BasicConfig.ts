@@ -285,8 +285,8 @@ export default {
     en: 'Cannot operate namespaces that are not explicitly created',
   },
   managedNamespacesOnly: {
-    zh: '仅显示受管理的命名空间',
-    en: 'View Managed Namespaces Only',
+    zh: '仅查看显式创建的命名空间',
+    en: 'View Explicitly Created Namespace Only',
   },
   kickOutAllClients: {
     zh: '踢除该命名空间下所有客户端',
