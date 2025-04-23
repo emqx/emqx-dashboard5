@@ -769,8 +769,8 @@ For more functions and advanced usage, please refer to the full documentation.`,
 - \`password\`：客户端的密码
 - \`clientid\`：客户端的 Client ID
 - \`client_attrs.*\`：客户端的自定义属性
-- \`cert_common_name\`：客户端 TLS 证书中的 Subject 字段
-- \`cert_subject\`：客户端 TLS 证书中的 Common Name (CN) 字段
+- \`cert_common_name\`：客户端 TLS 证书中的 Common Name (CN) 字段
+- \`cert_subject\`：客户端 TLS 证书中的 Subject 字段
 - \`peersni\`：TLS 客户端发送的 SNI (Server Name Indication)
 - \`listener\`：监听器 ID（例如 \`tcp:default\`）
 - \`zone\`：关联的配置区域（Zone）
@@ -794,8 +794,8 @@ Supported variables:
 - \`password\`: The password of the client
 - \`clientid\`: The client ID of the client
 - \`client_attrs.*\`: The client attributes of the client
-- \`cert_common_name\`: The subject field from the client's TLS certificate
-- \`cert_subject\`: The common name (CN) from the client's TLS certificate
+- \`cert_common_name\`: The common name (CN) from the client's TLS certificate
+- \`cert_subject\`: The subject field from the client's TLS certificate
 - \`peersni\`: The SNI (Server Name Indication) sent by TLS client
 - \`listener\`: The listener ID (e.g. \`tcp:default\`)
 - \`zone\`: The associated config zone.
