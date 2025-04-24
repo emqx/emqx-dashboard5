@@ -160,7 +160,7 @@ export default {
     en: 'Health Status',
   },
   ok: {
-    zh: '正常',
+    zh: '良好',
     en: 'OK',
   },
   error: {
