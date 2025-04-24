@@ -227,6 +227,7 @@ export type RuleEngineRuleInfoActionsItem =
   | string
 
 export interface RuleEngineRuleInfo {
+  action_details?: RuleEngineActionDetails[]
   actions?: RuleEngineRuleInfoActionsItem[]
   created_at?: string
   description?: string
@@ -808,6 +809,12 @@ export const RuleEngineBuiltinActionConsoleFunction = {
 
 export interface RuleEngineBuiltinActionConsole {
   function?: RuleEngineBuiltinActionConsoleFunction
+}
+
+export interface RuleEngineActionDetails {
+  name?: string
+  status?: string
+  type?: string
 }
 
 export interface PublicMeta {
