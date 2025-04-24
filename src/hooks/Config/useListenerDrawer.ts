@@ -219,6 +219,14 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     }
   }
 
+  const limiterConfigKeys = [
+    'bytes_rate',
+    'bytes_burst',
+    'messages_rate',
+    'messages_burst',
+    'max_conn_rate',
+    'max_conn_burst',
+  ]
   const handleDataBeforeSubmit = (data: Listener) => {
     if (props.gatewayName) {
       const needDeletedKeys = ['zone', 'limiter', 'current_connections']
@@ -241,6 +249,11 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
       merge(data, customConfigs)
     }
+    limiterConfigKeys.forEach((key) => {
+      if (typeof data[key] === 'string' && data[key] === '') {
+        data[key] = null
+      }
+    })
     return data
   }
 
