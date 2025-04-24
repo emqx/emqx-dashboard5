@@ -56,6 +56,7 @@
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
           <el-card class="app-card">
             <PluginManage
+              ref="PluginManageRef"
               :plugin-name="pluginName"
               :plugin-version="pluginVersion"
               :plugin-with-config="pluginWithConfig"
@@ -140,13 +141,15 @@ getPluginDetail()
 const handleDownloadConfig = () => {
   downloadPluginConfig(pluginName.value, pluginVersion.value)
 }
+
+const PluginManageRef = ref()
 const { operationWarning } = useOperationConfirm()
 const handleConfigUpload = async (file: UploadFile) => {
   try {
     await operationWarning(tl('uploadConfigConfirm'))
     await uploadPluginConfig(pluginName.value, pluginVersion.value, file)
     ElMessage.success(t('General.uploadSuccess'))
-    getPluginDetail()
+    PluginManageRef?.value?.getPluginConfigs?.()
   } catch (error) {
     console.error(error)
   }
