@@ -19,6 +19,8 @@
           v-else-if="formConfigs.component === 'input-password'"
           type="password"
           v-model="bindValue"
+          show-password
+          autocomplete="one-time-code"
         ></el-input>
         <el-input
           v-else-if="formConfigs.component === 'input-textarea'"
