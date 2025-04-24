@@ -86,7 +86,7 @@ export const uploadPluginConfig = async (
     return Promise.reject(new Error('File is required'))
   }
   const formData = new FormData()
-  formData.append('filename', file.raw)
+  formData.append('config', file.raw)
   return http.post(
     `/plugins/${encodeURIComponent(pluginName)}-${encodeURIComponent(pluginVersion)}/config/upload`,
     formData,

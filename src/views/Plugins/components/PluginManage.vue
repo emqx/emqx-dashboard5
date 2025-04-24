@@ -45,10 +45,18 @@ watch(
   async (val) => {
     if (val) {
       await fetchPluginSchema(props.pluginName, props.pluginVersion)
-      await fetchPluginConfigs(props.pluginName, props.pluginVersion)
+      getPluginConfigs()
     }
   },
 )
+
+const getPluginConfigs = async () => {
+  try {
+    await fetchPluginConfigs(props.pluginName, props.pluginVersion)
+  } catch (error) {
+    //
+  }
+}
 
 const {
   record,
@@ -62,4 +70,8 @@ const {
 async function handleSubmit(data: Record<string, any>) {
   return await savePluginsConfigs(props.pluginName, props.pluginVersion, data)
 }
+
+defineExpose({
+  getPluginConfigs,
+})
 </script>
