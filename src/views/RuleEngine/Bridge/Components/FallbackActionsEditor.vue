@@ -2,7 +2,7 @@
   <div class="fallback-actions-editor" :class="{ 'no-padding': !actionList.length }">
     <div class="editor-hd">
       <CreateButton
-        v-if="!inRuleOutputs && !readonly"
+        v-if="!inRuleOutputs && !readonly && !isFallback"
         class="btn-add-fallback"
         link
         @click="addAction"
@@ -12,6 +12,7 @@
       </CreateButton>
     </div>
     <ul
+      v-if="!isFallback"
       class="action-list"
       :class="{ 'empty-readonly': !!readonly && !actionList.length && !inRuleOutputs }"
     >
@@ -65,6 +66,9 @@
       </li>
       <p class="tip" v-if="!actionList.length">{{ t('Base.none') }}</p>
     </ul>
+    <div v-if="isFallback" class="action-list">
+      <p class="tip">{{ tl('reFallbackTip') }}</p>
+    </div>
     <RuleOutputsDrawer
       v-model="isDrawerOpen"
       is-fallback
@@ -97,6 +101,10 @@ const props = defineProps<{
   inRuleOutputs?: boolean
   actionKey?: string
   readonly?: boolean
+  /**
+   * current action is in fallback action drawer
+   */
+  isFallback?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -300,6 +308,10 @@ $list-padding: 16px;
   }
   .action-item-type {
     color: var(--color-text-secondary);
+  }
+  .tip {
+    line-height: 1.5;
+    opacity: 0.8;
   }
 }
 </style>
