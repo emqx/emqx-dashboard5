@@ -152,6 +152,13 @@ export const SchemaValidationValidationFailureAction = {
   ignore: 'ignore',
 } as const
 
+export type SchemaValidationValidationChecksItem =
+  | SchemaValidationCheckExternalHttp
+  | SchemaValidationCheckProtobuf
+  | SchemaValidationCheckAvro
+  | SchemaValidationCheckJson
+  | SchemaValidationCheckSql
+
 export type SchemaValidationLogFailureLevel =
   (typeof SchemaValidationLogFailureLevel)[keyof typeof SchemaValidationLogFailureLevel]
 
@@ -221,6 +228,19 @@ export interface SchemaValidationCheckJson {
   type?: SchemaValidationCheckJsonType
 }
 
+export type SchemaValidationCheckExternalHttpType =
+  (typeof SchemaValidationCheckExternalHttpType)[keyof typeof SchemaValidationCheckExternalHttpType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaValidationCheckExternalHttpType = {
+  external_http: 'external_http',
+} as const
+
+export interface SchemaValidationCheckExternalHttp {
+  schema: string
+  type?: SchemaValidationCheckExternalHttpType
+}
+
 export type SchemaValidationCheckAvroType =
   (typeof SchemaValidationCheckAvroType)[keyof typeof SchemaValidationCheckAvroType]
 
@@ -233,12 +253,6 @@ export interface SchemaValidationCheckAvro {
   schema: string
   type?: SchemaValidationCheckAvroType
 }
-
-export type SchemaValidationValidationChecksItem =
-  | SchemaValidationCheckProtobuf
-  | SchemaValidationCheckAvro
-  | SchemaValidationCheckJson
-  | SchemaValidationCheckSql
 
 export interface SchemaValidationHttpApiReorder {
   order: string[]
