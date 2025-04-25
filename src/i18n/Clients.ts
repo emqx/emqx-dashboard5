@@ -531,4 +531,8 @@ export default {
     zh: '该页暂无数据，已自动跳转至第一页。',
     en: 'No data available on this page. Redirected to the first page.',
   },
+  export: {
+    zh: '导出',
+    en: 'Export',
+  },
 }
