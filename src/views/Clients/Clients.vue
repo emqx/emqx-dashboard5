@@ -83,6 +83,16 @@
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
         <el-button
+          class="export-btn"
+          type="primary"
+          plain
+          :icon="Download"
+          :loading="exportLoading"
+          @click="handleExport"
+        >
+          {{ tl('export') }}
+        </el-button>
+        <el-button
           class="kick-btn"
           type="danger"
           plain
@@ -164,7 +174,7 @@ import {
 } from '@/common/constants'
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import { Delete } from '@element-plus/icons-vue'
+import { Delete, Download } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
@@ -361,17 +371,20 @@ const handleExactSearchClient = async (params: Record<string, any>) => {
   }
 }
 
+const getQueryDataAllParams = () => ({
+  ...params.value,
+  ...pageParams.value,
+  fields: getClientFields(),
+})
+
+const getQueryFunc = (params: Record<string, any>) =>
+  params.clientid ? handleExactSearchClient(params) : listClients(params)
+
 const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
-  const sendParams = {
-    ...params.value,
-    ...pageParams.value,
-    fields: getClientFields(),
-  }
+  const sendParams = getQueryDataAllParams()
   try {
-    const { data = [], meta = {} } = sendParams.clientid
-      ? await handleExactSearchClient(sendParams)
-      : await listClients(sendParams)
+    const { data = [], meta = {} } = await getQueryFunc(sendParams)
     tableData.value = data
     setCursor(page.value + 1, meta.cursor)
     updateParams({ page: page.value, ...pageParams.value, ...params.value })
@@ -447,6 +460,95 @@ const cleanBatchClients = async () => {
     }
   })
 }
+
+const exportLoading = ref(false)
+let exportWorker: Worker | null = null
+
+const processClients = (clients: Array<Client>) => {
+  return clients.map((item) => {
+    const processedItem = { ...item }
+    // handle special field display
+    if (processedItem.connected !== undefined) {
+      processedItem.connected = processedItem.connected ? tl('connected') : tl('disconnected')
+    }
+    return processedItem
+  })
+}
+
+const getAllClients = async () => {
+  // TODO: if there is no next page, directly use the table data
+  const cursorMap = new Map<number, string | undefined>([[1, undefined]])
+  const limit = 300
+  let page = 1
+  const getOnePageClients = async () => {
+    const params = { ...getQueryDataAllParams(), limit, cursor: cursorMap.get(page) }
+    const { data = [], meta = {} } = await getQueryFunc(params)
+    exportWorker?.postMessage({ data: processClients(data) })
+    if (meta.cursor) {
+      cursorMap.set(page + 1, meta.cursor)
+      page += 1
+      await getOnePageClients()
+    } else {
+      exportWorker?.postMessage({ isFinished: true })
+    }
+  }
+  await getOnePageClients()
+}
+
+const initExportWorker = () => {
+  exportWorker = new Worker(new URL('./exportWorker.js', import.meta.url))
+  exportWorker.onerror = (e) => {
+    debugger
+  }
+  exportWorker.onmessage = (e) => {
+    const { type, data } = e.data
+    if (type === 'complete') {
+      downloadCSV(data)
+      exportLoading.value = false
+    }
+  }
+}
+
+const downloadCSV = (content: string) => {
+  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  link.setAttribute('href', url)
+  link.setAttribute('download', `clients_${new Date().getTime()}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+interface ExportColumn {
+  prop: string
+  label: string
+}
+
+const handleExport = async () => {
+  exportLoading.value = true
+  const columns: ExportColumn[] = tableColumnFields.value.map((field) => {
+    // handle special field display
+    let label = tl(field)
+    if (field === 'connected') {
+      label = tl('connectedStatus')
+    }
+    return { prop: field, label }
+  })
+  exportWorker?.postMessage({ isInit: true, tableColumns: columns })
+  getAllClients()
+}
+
+onMounted(() => {
+  initExportWorker()
+})
+
+onUnmounted(() => {
+  if (exportWorker) {
+    exportWorker.terminate()
+  }
+})
 </script>
 
 <style lang="scss">
@@ -478,5 +580,8 @@ const cleanBatchClients = async () => {
       }
     }
   }
+}
+.export-progress {
+  margin: 10px 0;
 }
 </style>
