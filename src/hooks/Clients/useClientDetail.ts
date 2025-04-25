@@ -3,16 +3,11 @@ import dayjs from 'dayjs'
 
 type GetSessionInfoItem = (msg: string) => string | number | boolean
 
-export default (
-  client: Ref<Partial<Client>> | ComputedRef<Partial<Client>>,
-): {
-  getSessionInfoItem: GetSessionInfoItem
-} => {
+const useSessionInfoItem = () => {
   const { transSecondNumToSimpleStr } = useDurationStr()
   const { tl } = useI18nTl('Clients')
 
-  const getSessionInfoItem: GetSessionInfoItem = (key) => {
-    const msg = client.value
+  const getSessionInfoItemValue = (msg: Client | Partial<Client>, key: string) => {
     switch (key) {
       case 'subscriptions':
         return msg.subscriptions_cnt + '/' + msg.subscriptions_max
@@ -40,6 +35,55 @@ export default (
   }
 
   return {
+    getSessionInfoItemValue,
+  }
+}
+
+export default (
+  client: Ref<Partial<Client>> | ComputedRef<Partial<Client>>,
+): {
+  getSessionInfoItem: GetSessionInfoItem
+} => {
+  const { getSessionInfoItemValue } = useSessionInfoItem()
+
+  const getSessionInfoItem: GetSessionInfoItem = (key) => {
+    const msg = client.value
+    return getSessionInfoItemValue(msg, key)
+  }
+
+  return {
     getSessionInfoItem,
+  }
+}
+
+export const useClientInfoItem = (): {
+  getSimpleClientInfoValue: (client: Client | Partial<Client>, key: string) => string
+} => {
+  const { tl } = useI18nTl('Clients')
+
+  const getTimeStr = (val: number) => val && dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+  const getValueFuncMap = new Map<string, (client: Client) => string | number | undefined>([
+    ['connected', (client: Client) => (client.connected ? tl('connected') : tl('disconnected'))],
+    ['connected_at', (client: Client) => getTimeStr(client.connected_at)],
+    ['disconnected_at', (client: Client) => getTimeStr(client.disconnected_at)],
+    ['ip_address', (client: Client) => `${client.ip_address}:${client.port}`],
+  ])
+  const { clientFields } = useClientFields()
+  const sessionFields = clientFields.session
+  const { getSessionInfoItemValue } = useSessionInfoItem()
+  /**
+   * do not include ['proto_type','listener']
+   */
+  const getSimpleClientInfoValue = (client: Client | Partial<Client>, key: string): string => {
+    if (getValueFuncMap.has(key)) {
+      return (getValueFuncMap.get(key) as any)(client)
+    }
+    if (sessionFields.includes(key)) {
+      return getSessionInfoItemValue(client as Client, key)
+    }
+    return client[key as keyof Client] ?? ''
+  }
+  return {
+    getSimpleClientInfoValue,
   }
 }
