@@ -312,6 +312,7 @@ declare global {
   const useCheckIoTDBConnectorDriver: typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver')['default']
   const useClientDetail: typeof import('./hooks/Clients/useClientDetail')['default']
   const useClientFields: typeof import('./hooks/Clients/useClientFields')['default']
+  const useClientInfoItem: typeof import('./hooks/Clients/useClientDetail')['useClientInfoItem']
   const useClusterLinking: typeof import('./hooks/Config/useClusterLinking')['default']
   const useClusterLinkingMetrics: typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']
   const useClusterNodes: typeof import('./hooks/useClusterNodes')['default']
@@ -866,6 +867,7 @@ declare module 'vue' {
     readonly useCheckIoTDBConnectorDriver: UnwrapRef<typeof import('./hooks/Rule/connector/useCheckIoTDBConnectorDriver')['default']>
     readonly useClientDetail: UnwrapRef<typeof import('./hooks/Clients/useClientDetail')['default']>
     readonly useClientFields: UnwrapRef<typeof import('./hooks/Clients/useClientFields')['default']>
+    readonly useClientInfoItem: UnwrapRef<typeof import('./hooks/Clients/useClientDetail')['useClientInfoItem']>
     readonly useClusterLinking: UnwrapRef<typeof import('./hooks/Config/useClusterLinking')['default']>
     readonly useClusterLinkingMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']>
     readonly useClusterNodes: UnwrapRef<typeof import('./hooks/useClusterNodes')['default']>

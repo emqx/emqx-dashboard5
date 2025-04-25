@@ -464,14 +464,13 @@ const cleanBatchClients = async () => {
 const exportLoading = ref(false)
 let exportWorker: Worker | null = null
 
+const { getSimpleClientInfoValue } = useClientInfoItem()
 const processClients = (clients: Array<Client>) => {
   return clients.map((item) => {
-    const processedItem = { ...item }
-    // handle special field display
-    if (processedItem.connected !== undefined) {
-      processedItem.connected = processedItem.connected ? tl('connected') : tl('disconnected')
-    }
-    return processedItem
+    return tableColumnFields.value.reduce((ret: Partial<Client>, column) => {
+      ret[column] = getSimpleClientInfoValue(item, column)
+      return ret
+    }, {})
   })
 }
 
@@ -497,9 +496,7 @@ const getAllClients = async () => {
 
 const initExportWorker = () => {
   exportWorker = new Worker(new URL('./exportWorker.js', import.meta.url))
-  exportWorker.onerror = (e) => {
-    debugger
-  }
+  exportWorker.onerror = console.error
   exportWorker.onmessage = (e) => {
     const { type, data } = e.data
     if (type === 'complete') {
@@ -528,13 +525,9 @@ interface ExportColumn {
 
 const handleExport = async () => {
   exportLoading.value = true
-  const columns: ExportColumn[] = tableColumnFields.value.map((field) => {
+  const columns: ExportColumn[] = tableColumnFields.value.map((column) => {
     // handle special field display
-    let label = tl(field)
-    if (field === 'connected') {
-      label = tl('connectedStatus')
-    }
-    return { prop: field, label }
+    return { prop: column, label: getColumnLabel(column) }
   })
   exportWorker?.postMessage({ isInit: true, tableColumns: columns })
   getAllClients()

@@ -11,40 +11,25 @@
     </span>
     <span v-else>{{ client.proto_ver }}</span>
   </el-tag>
-  <span v-else-if="field == 'connected_at' || field == 'disconnected_at'">
-    <span>
-      {{ client[field] && dayjs(client[field]).format('YYYY-MM-DD HH:mm:ss') }}
-    </span>
-  </span>
-  <span v-else-if="field == 'ip_address'">
-    <span>{{ client.ip_address + ':' + client.port }}</span>
-  </span>
   <span class="space-between vertical-align-center" v-else-if="field == 'clientid'">
     <span class="keep-spaces">{{ client[field] }}</span>
     <el-button class="btn-copy" size="small" @click="copyText(client.clientid as string)">
       {{ t('Base.copy') }}
     </el-button>
   </span>
-  <span v-else-if="isSessionField">
-    {{ getSessionInfoItem(field) }}
-  </span>
   <span v-else>
-    <span class="keep-spaces">{{ client[field] }}</span>
+    <span class="keep-spaces">{{ getSimpleClientInfoValue(client, field) }}</span>
   </span>
 </template>
 
 <script setup lang="ts">
 import { Client } from '@/types/client'
 import { CheckStatus } from '@/types/enum'
-import dayjs from 'dayjs'
 
-CheckStatus
-
-const props = defineProps<{
+defineProps<{
   client: Partial<Client>
   field: string
 }>()
-const clientData = computed(() => props.client)
 
 const { t, tl } = useI18nTl('Clients')
 
@@ -55,11 +40,5 @@ const mqttVersion: Record<number, string> = {
 }
 
 const { copyText } = useCopy()
-
-const { getSessionInfoItem } = useClientDetail(clientData)
-const { clientFields } = useClientFields()
-const sessionFields = clientFields.session
-const isSessionField = computed(() => sessionFields.includes(props.field))
+const { getSimpleClientInfoValue } = useClientInfoItem()
 </script>
-
-<style lang="scss"></style>
