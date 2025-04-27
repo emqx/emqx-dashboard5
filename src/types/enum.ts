@@ -416,3 +416,8 @@ export const enum OpenTelemetryWhiteListType {
   ClientID = 'clientid',
   Topic = 'topic',
 }
+
+export const enum ClientsExportFormat {
+  JSON = 'json',
+  CSV = 'csv',
+}
