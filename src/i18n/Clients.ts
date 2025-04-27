@@ -535,4 +535,16 @@ export default {
     zh: '导出',
     en: 'Export',
   },
+  exportClients: {
+    zh: '导出客户端',
+    en: 'Export Clients',
+  },
+  exportClientsTip: {
+    zh: '导出当前过滤条件下的所有客户端',
+    en: 'Export all clients under the current filters',
+  },
+  exportDataFormat: {
+    zh: '导出数据格式',
+    en: 'Export Format',
+  },
 }
