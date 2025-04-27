@@ -236,8 +236,8 @@ const batchDeleteLoading = ref(false)
 const params = ref<QueryParams>({})
 const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
-  clientidSearchType: SearchType.Exact,
-  usernameSearchType: SearchType.Exact,
+  clientidSearchType: SearchType.Fuzzy,
+  usernameSearchType: SearchType.Fuzzy,
 })
 
 const { page, limit, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
