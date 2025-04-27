@@ -286,16 +286,16 @@ const columnFieldsMap = new Map([
   ['inflight', ['inflight_cnt', 'inflight_max']],
   ['awaiting_rel', ['awaiting_rel_cnt', 'awaiting_rel_max']],
 ])
+const getClientFieldArr = () => {
+  return tableColumnFields.value.reduce((arr: Array<string>, column: string) => {
+    arr.push(...(columnFieldsMap.get(column) ?? [column]))
+    return arr
+  }, [])
+}
 /**
  * Request the corresponding data based on the selected table columns
  */
-const getClientFields = () =>
-  tableColumnFields.value
-    .reduce((arr: Array<string>, column: string) => {
-      arr.push(...(columnFieldsMap.get(column) ?? [column]))
-      return arr
-    }, [])
-    .join(',')
+const getClientFields = () => getClientFieldArr().join(',')
 const handleSelectedColumnChanged = (val: Array<string>) => {
   tableColumnFields.value = val
   commit('SET_CLIENT_TABLE_COLUMNS', val)
@@ -512,7 +512,10 @@ const getAllClients = async () => {
     const params = { ...getQueryDataAllParams(), limit, cursor: cursorMap.get(page) }
     try {
       const { data = [], meta = {} } = await getQueryFunc(params)
-      const postData = exportFormat.value === ClientsExportFormat.CSV ? processClients(data) : data
+      const postData =
+        exportFormat.value === ClientsExportFormat.CSV
+          ? processClients(data)
+          : data.map((item: Client) => pick(item, getClientFieldArr()))
       exportWorker?.postMessage({ data: postData })
       if (!isExportDialogShow.value) {
         return
