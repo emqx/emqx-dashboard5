@@ -157,6 +157,8 @@
     width="400px"
     :title="tl('exportClients')"
     :close-on-click-modal="false"
+    :before-close="handleCloseExportDialog"
+    @closed="initExportDialog"
   >
     <p>{{ tl('exportClientsTip') }}</p>
     <el-form-item :label="tl('exportDataFormat')">
@@ -171,7 +173,7 @@
     </el-form-item>
 
     <template #footer>
-      <el-button @click="isExportDialogShow = false">{{ t('Base.cancel') }}</el-button>
+      <el-button @click="cancelExport">{{ t('Base.cancel') }}</el-button>
       <el-button type="primary" @click="confirmExport" :loading="exportLoading">
         {{ t('Base.confirm') }}
       </el-button>
@@ -511,6 +513,9 @@ const getAllClients = async () => {
     const { data = [], meta = {} } = await getQueryFunc(params)
     const postData = exportFormat.value === ClientsExportFormat.CSV ? processClients(data) : data
     exportWorker?.postMessage({ data: postData })
+    if (!isExportDialogShow.value) {
+      return
+    }
     if (meta.cursor) {
       cursorMap.set(page + 1, meta.cursor)
       page += 1
@@ -568,6 +573,27 @@ interface ExportColumn {
 
 const handleExport = () => {
   isExportDialogShow.value = true
+}
+
+const initExportDialog = () => {
+  exportLoading.value = false
+}
+
+const { operationWarning } = useOperationConfirm()
+const handleCloseExportDialog = async (done?: () => void) => {
+  try {
+    if (exportLoading.value) {
+      await operationWarning(tl('cancelExportingConfirm'))
+    }
+    done?.()
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject()
+  }
+}
+const cancelExport = async () => {
+  await handleCloseExportDialog()
+  isExportDialogShow.value = false
 }
 
 const confirmExport = () => {

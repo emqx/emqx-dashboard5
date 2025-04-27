@@ -547,4 +547,8 @@ export default {
     zh: '导出数据格式',
     en: 'Export Format',
   },
+  cancelExportingConfirm: {
+    zh: '确认停止正在进行的导出？',
+    en: 'Confirm to stop the ongoing export?',
+  },
 }
