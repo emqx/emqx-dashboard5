@@ -510,18 +510,22 @@ const getAllClients = async () => {
   let page = 1
   const getOnePageClients = async () => {
     const params = { ...getQueryDataAllParams(), limit, cursor: cursorMap.get(page) }
-    const { data = [], meta = {} } = await getQueryFunc(params)
-    const postData = exportFormat.value === ClientsExportFormat.CSV ? processClients(data) : data
-    exportWorker?.postMessage({ data: postData })
-    if (!isExportDialogShow.value) {
-      return
-    }
-    if (meta.cursor) {
-      cursorMap.set(page + 1, meta.cursor)
-      page += 1
-      await getOnePageClients()
-    } else {
-      exportWorker?.postMessage({ isFinished: true })
+    try {
+      const { data = [], meta = {} } = await getQueryFunc(params)
+      const postData = exportFormat.value === ClientsExportFormat.CSV ? processClients(data) : data
+      exportWorker?.postMessage({ data: postData })
+      if (!isExportDialogShow.value) {
+        return
+      }
+      if (meta.cursor) {
+        cursorMap.set(page + 1, meta.cursor)
+        page += 1
+        await getOnePageClients()
+      } else {
+        exportWorker?.postMessage({ isFinished: true })
+      }
+    } catch (error) {
+      exportLoading.value = false
     }
   }
   await getOnePageClients()
@@ -531,10 +535,11 @@ const initExportWorker = () => {
   exportWorker = new Worker(new URL('./exportWorker.js', import.meta.url))
   exportWorker.onerror = console.error
   exportWorker.onmessage = (e) => {
-    const { type, data } = e.data
+    const { type, data, length } = e.data
     if (type === 'complete') {
       downloadClientsFile(data)
       exportLoading.value = false
+      ElMessage.success(tl('exportSucMsg', { n: length }))
     }
   }
 }

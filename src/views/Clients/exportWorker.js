@@ -38,6 +38,8 @@ self.onmessage = function (e) {
 
   if (isFinished) {
     const data = isCSVFormat ? fileContent.join('\n') : `[${fileContent.join(',\n')}]`
-    self.postMessage({ type: 'complete', data })
+    // remove headers
+    const length = isCSVFormat ? fileContent.length - 1 : fileContent.length
+    self.postMessage({ type: 'complete', data, length })
   }
 }

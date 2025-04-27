@@ -551,4 +551,8 @@ export default {
     zh: '确认停止正在进行的导出？',
     en: 'Confirm to stop the ongoing export?',
   },
+  exportSucMsg: {
+    zh: '成功导出 {n} 条数据',
+    en: 'Successfully exported {n} data',
+  },
 }
