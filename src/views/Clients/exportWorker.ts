@@ -1,8 +1,11 @@
-let columns = []
-let fileContent = []
+import { Client, ExportTableColumn } from '@/types/client'
+import { ClientsExportFormat } from '@/types/enum'
+
+let columns: Array<ExportTableColumn> = []
+let fileContent: Array<string> = []
 let isCSVFormat = true
 
-const processToCSV = (data, columns) => {
+const processToCSV = (data: Array<Client>, columns: Array<ExportTableColumn>) => {
   const ret = []
   for (let i = 0; i < data.length; i++) {
     const row = data[i]
@@ -18,7 +21,7 @@ self.onmessage = function (e) {
 
   if (isInit) {
     fileContent = []
-    isCSVFormat = /csv/i.test(format)
+    isCSVFormat = format === ClientsExportFormat.CSV
     if (isCSVFormat && tableColumns?.length > 0) {
       columns = tableColumns
       // add headers
@@ -43,3 +46,5 @@ self.onmessage = function (e) {
     self.postMessage({ type: 'complete', data, length })
   }
 }
+
+export {}

@@ -535,7 +535,7 @@ const getAllClients = async () => {
 }
 
 const initExportWorker = () => {
-  exportWorker = new Worker(new URL('./exportWorker.js', import.meta.url))
+  exportWorker = new Worker(new URL('./exportWorker.ts', import.meta.url), { type: 'module' })
   exportWorker.onerror = console.error
   exportWorker.onmessage = (e) => {
     const { type, data, length } = e.data
