@@ -204,8 +204,8 @@ export default {
     en: 'Historic Peak Sessions',
   },
   histPeakSessionsDesc: {
-    zh: '历史峰值记录时间：{time}',
-    en: 'Historic Peak Sessions Time: {time}',
+    zh: '目前有 <b>{current_value}</b> 个会话，包含已过期但保留的会话。最新峰值记录时间为 <b>{time}</b>。',
+    en: 'There are currently <b>{current_value}</b> sessions including expired but retained ones. The latest peak was observed at <b>{time}</b>.',
   },
   currentSessions: {
     zh: '当前会话数（包括已过期但保留的会话）',
