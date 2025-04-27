@@ -82,14 +82,7 @@
       <div class="section-header">
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
-        <el-button
-          class="export-btn"
-          type="primary"
-          plain
-          :icon="Download"
-          :loading="exportLoading"
-          @click="handleExport"
-        >
+        <el-button class="export-btn" type="primary" plain :icon="Download" @click="handleExport">
           {{ tl('export') }}
         </el-button>
         <el-button
@@ -158,6 +151,32 @@
       </div>
     </div>
   </div>
+  <el-dialog
+    v-model="isExportDialogShow"
+    class="payload-dialog"
+    width="400px"
+    :title="tl('exportClients')"
+    :close-on-click-modal="false"
+  >
+    <p>{{ tl('exportClientsTip') }}</p>
+    <el-form-item :label="tl('exportDataFormat')">
+      <el-select v-model="exportFormat" :disabled="exportLoading">
+        <el-option
+          v-for="{ value, label } in formatOpts"
+          :label="label"
+          :key="value"
+          :value="value"
+        />
+      </el-select>
+    </el-form-item>
+
+    <template #footer>
+      <el-button @click="isExportDialogShow = false">{{ t('Base.cancel') }}</el-button>
+      <el-button type="primary" @click="confirmExport" :loading="exportLoading">
+        {{ t('Base.confirm') }}
+      </el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -173,11 +192,12 @@ import {
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
 } from '@/common/constants'
 import { Client } from '@/types/client'
-import { CheckStatus } from '@/types/enum'
+import { CheckStatus, ClientsExportFormat } from '@/types/enum'
 import { Delete, Download } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
+import dayjs from 'dayjs'
 
 enum Comparator {
   After = 'gte',
@@ -463,6 +483,13 @@ const cleanBatchClients = async () => {
 
 const exportLoading = ref(false)
 let exportWorker: Worker | null = null
+const isExportDialogShow = ref(false)
+const exportFormat = ref(ClientsExportFormat.CSV)
+
+const formatOpts = [
+  { label: 'CSV', value: ClientsExportFormat.CSV },
+  { label: 'JSON', value: ClientsExportFormat.JSON },
+]
 
 const { getSimpleClientInfoValue } = useClientInfoItem()
 const processClients = (clients: Array<Client>) => {
@@ -482,7 +509,8 @@ const getAllClients = async () => {
   const getOnePageClients = async () => {
     const params = { ...getQueryDataAllParams(), limit, cursor: cursorMap.get(page) }
     const { data = [], meta = {} } = await getQueryFunc(params)
-    exportWorker?.postMessage({ data: processClients(data) })
+    const postData = exportFormat.value === ClientsExportFormat.CSV ? processClients(data) : data
+    exportWorker?.postMessage({ data: postData })
     if (meta.cursor) {
       cursorMap.set(page + 1, meta.cursor)
       page += 1
@@ -500,22 +528,37 @@ const initExportWorker = () => {
   exportWorker.onmessage = (e) => {
     const { type, data } = e.data
     if (type === 'complete') {
-      downloadCSV(data)
+      downloadClientsFile(data)
       exportLoading.value = false
     }
   }
 }
 
-const downloadCSV = (content: string) => {
+const getFileTimestamp = () => dayjs(new Date()).format('YYYY-MM-DD_HH-mm-ss')
+const createCSVFileObj = (content: string) => {
   const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' })
-  const link = document.createElement('a')
-  const url = URL.createObjectURL(blob)
-  link.setAttribute('href', url)
-  link.setAttribute('download', `clients_${new Date().getTime()}.csv`)
-  link.style.visibility = 'hidden'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  const headers = {
+    'content-disposition': `attachment; filename=clients_${getFileTimestamp()}.csv`,
+    'content-type': 'text/csv;charset=utf-8;',
+  }
+  return { data: blob, headers }
+}
+
+const createJSONFileObj = (content: string) => {
+  const blob = new Blob([content], { type: 'application/json;charset=utf-8;' })
+  const headers = {
+    'content-disposition': `attachment; filename=clients_${getFileTimestamp()}.json`,
+    'content-type': 'application/json;charset=utf-8;',
+  }
+  return { data: blob, headers }
+}
+
+const downloadClientsFile = (content: string) => {
+  const data =
+    exportFormat.value === ClientsExportFormat.CSV
+      ? createCSVFileObj(content)
+      : createJSONFileObj(content)
+  downloadBlobData(data)
 }
 
 interface ExportColumn {
@@ -523,13 +566,20 @@ interface ExportColumn {
   label: string
 }
 
-const handleExport = async () => {
+const handleExport = () => {
+  isExportDialogShow.value = true
+}
+
+const confirmExport = () => {
   exportLoading.value = true
-  const columns: ExportColumn[] = tableColumnFields.value.map((column) => {
-    // handle special field display
-    return { prop: column, label: getColumnLabel(column) }
-  })
-  exportWorker?.postMessage({ isInit: true, tableColumns: columns })
+  const initMessage: any = { isInit: true, format: exportFormat.value }
+  if (exportFormat.value === ClientsExportFormat.CSV) {
+    const columns: ExportColumn[] = tableColumnFields.value.map((column) => {
+      return { prop: column, label: getColumnLabel(column) }
+    })
+    initMessage.tableColumns = columns
+  }
+  exportWorker?.postMessage(initMessage)
   getAllClients()
 }
 

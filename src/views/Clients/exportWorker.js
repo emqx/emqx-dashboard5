@@ -1,5 +1,6 @@
 let columns = []
-let csvContent = []
+let fileContent = []
+let isCSVFormat = true
 
 const processToCSV = (data, columns) => {
   const ret = []
@@ -13,25 +14,30 @@ const processToCSV = (data, columns) => {
 
 // handle data export
 self.onmessage = function (e) {
-  const { data, tableColumns, isFinished, isInit } = e.data
+  const { data, tableColumns, isFinished, isInit, format } = e.data
 
-  if (isInit && tableColumns?.length > 0) {
-    columns = tableColumns
-    csvContent = []
-    // add headers
-    const headers = columns.map((col) => col.label).join(',')
-    csvContent.push(headers)
+  if (isInit) {
+    fileContent = []
+    isCSVFormat = /csv/i.test(format)
+    if (isCSVFormat && tableColumns?.length > 0) {
+      columns = tableColumns
+      // add headers
+      const headers = columns.map((col) => col.label).join(',')
+      fileContent.push(headers)
+    }
   }
 
   if (data?.length) {
-    const csvData = processToCSV(data, columns)
-    csvContent.push(...csvData)
+    if (isCSVFormat) {
+      const csvData = processToCSV(data, columns)
+      fileContent.push(...csvData)
+    } else {
+      fileContent.push(...data.map(JSON.stringify))
+    }
   }
 
   if (isFinished) {
-    self.postMessage({
-      type: 'complete',
-      data: csvContent.join('\n'),
-    })
+    const data = isCSVFormat ? fileContent.join('\n') : `[${fileContent.join(',\n')}]`
+    self.postMessage({ type: 'complete', data })
   }
 }
