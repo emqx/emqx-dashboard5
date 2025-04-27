@@ -93,36 +93,38 @@
             </div>
           </router-link>
 
-          <template #content>
-            <p>{{ tl('currentSessions') }}/{{ tl('histPeakSessions') }}</p>
-          </template>
-          <div class="count-item">
-            <div class="count-item-hd">
-              <img src="@/assets/img/live_connections.png" width="16" height="16" alt="clients" />
-              <p class="info-label">{{ $t('Dashboard.histPeakSessions') }}</p>
-            </div>
+          <template v-if="withSessionsHistHwmark">
+            <el-tooltip placement="top">
+              <template #content>
+                <MarkdownContent
+                  :content="
+                    tl('histPeakSessionsDesc', {
+                      current_value:
+                        currentMetrics.sessions_hist_hwmark?.current_value?.toString?.() ?? '0',
+                      time: dateFormat(currentMetrics.sessions_hist_hwmark?.peak_time ?? ''),
+                    })
+                  "
+                />
+              </template>
+              <div class="count-item">
+                <div class="count-item-hd">
+                  <img
+                    src="@/assets/img/live_connections.png"
+                    width="16"
+                    height="16"
+                    alt="historic peak sessions"
+                  />
+                  <p class="info-label">{{ $t('Dashboard.histPeakSessions') }}</p>
+                </div>
 
-            <div class="num">
-              <el-tooltip :content="tl('currentSessions')" placement="top">
-                <span>
-                  {{ _formatNumber(currentMetrics.sessions_hist_hwmark?.current_value ?? 0) }}
-                </span>
-              </el-tooltip>
-              <span class="divider">/</span>
-              <el-tooltip
-                :content="
-                  tl('histPeakSessionsDesc', {
-                    time: dateFormat(currentMetrics.sessions_hist_hwmark?.peak_time ?? ''),
-                  })
-                "
-                placement="top"
-              >
-                <span>
-                  {{ _formatNumber(currentMetrics.sessions_hist_hwmark?.peak_value ?? 0) }}
-                </span>
-              </el-tooltip>
-            </div>
-          </div>
+                <div class="num">
+                  <span>
+                    {{ _formatNumber(currentMetrics.sessions_hist_hwmark?.peak_value ?? 0) }}
+                  </span>
+                </div>
+              </div>
+            </el-tooltip>
+          </template>
         </el-card>
         <el-card class="main-info-item" :class="{ 'with-three-items': withSessionsHistHwmark }">
           <router-link class="count-item" :to="{ name: 'subscription' }">
@@ -278,7 +280,7 @@ syncPolling(loadData, POLLING_INTERVAL)
     &:not(:last-child) {
       margin-bottom: 16px;
     }
-    &.main-info-item {
+    &.with-three-items {
       .count-item {
         flex-basis: 33.3%;
         flex-grow: 0;
@@ -293,10 +295,6 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
     .count-item {
       flex: 1;
-    }
-    .divider {
-      margin: 0 4px;
-      font-weight: normal;
     }
     .count-item-hd {
       display: flex;
