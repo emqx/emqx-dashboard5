@@ -192,12 +192,24 @@ export default {
     en: 'Connections',
   },
   allConnections: {
-    zh: '总连接数',
-    en: 'All Connections',
+    zh: '总会话数',
+    en: 'All Sessions',
   },
   liveConnections: {
-    zh: '在线连接数',
-    en: 'Live Connections',
+    zh: '在线会话数',
+    en: 'Live Sessions',
+  },
+  histPeakSessions: {
+    zh: '历史峰值会话数',
+    en: 'Historic Peak Sessions',
+  },
+  histPeakSessionsDesc: {
+    zh: '历史峰值记录时间：{time}',
+    en: 'Historic Peak Sessions Time: {time}',
+  },
+  currentSessions: {
+    zh: '当前会话数（包括已过期但保留的会话）',
+    en: 'The current total number of sessions including expired but retained ones',
   },
   messagesUnit: {
     zh: '{interval} 秒内消息总数：{n}',
