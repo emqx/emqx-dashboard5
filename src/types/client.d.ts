@@ -1,3 +1,5 @@
+import { ClientsExportFormat } from './enum'
+
 export interface Client {
   awaiting_rel_cnt: number
   awaiting_rel_max: number
@@ -65,3 +67,27 @@ export interface MessageItem {
   qos: number
   topic: string
 }
+
+export interface ExportTableColumn {
+  prop: string
+  label: string
+}
+
+export interface ExportInitMessage {
+  isInit: boolean
+  /**
+   * for csv format
+   */
+  tableColumns?: Array<ExportTableColumn>
+  format: ClientsExportFormat
+}
+
+export interface ExportEndMessage {
+  isFinished: boolean
+}
+
+export interface ExportDataMessage {
+  data: Array<Record<string, any>>
+}
+
+export type ExportWorkerReceiveMessage = ExportInitMessage | ExportEndMessage | ExportDataMessage
