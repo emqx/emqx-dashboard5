@@ -31,10 +31,8 @@ const props = defineProps({
 
 const { tl } = useI18nTl('RuleEngine')
 const { getStatusLabel: getConnectorStatusLabel, getStatusClass } = useCommonConnectionStatus()
-const { statusLabelMap } = useActionAndSourceStatus()
-const getActionStatusLabel = (status?: ConnectionStatus) => {
-  return status ? statusLabelMap[status] || tl('disconnected') : ''
-}
+const { getActionStatusLabel } = useActionAndSourceStatus()
+
 const statusData = computed(() => {
   const { target } = props
   const details =

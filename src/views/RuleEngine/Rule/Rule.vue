@@ -78,7 +78,10 @@
           :min-width="140"
         >
           <template #default="{ row }">
-            {{ row.actions?.length }}
+            <div class="vertical-align-center">
+              <span>{{ row.actions?.length }}</span>
+              <RuleActionStatus :rule="row" />
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -135,6 +138,7 @@ import { ElMessage as M } from 'element-plus'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
+import RuleActionStatus from './components/RuleActionStatus.vue'
 import RuleFilterForm from './components/RuleFilterForm.vue'
 
 const { t } = useI18n()

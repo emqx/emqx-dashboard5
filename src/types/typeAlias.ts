@@ -69,6 +69,7 @@ import type {
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 import { MtConfigOut } from './schemas/multiTenancy.schemas'
+import { RuleEngineActionDetails } from './schemas/rules.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -169,3 +170,6 @@ export type SchemaRegistryExternalHttpDetail = SchemaRegistryGetExternalHttp
 
 /* MULTI-TENANCY */
 export type NamespaceConfig = MtConfigOut
+
+/* RULE */
+export type RuleActionStatus = RuleEngineActionDetails

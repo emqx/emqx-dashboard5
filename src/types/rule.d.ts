@@ -8,7 +8,7 @@ import {
   QoSLevel,
   SchemaRegistryType,
 } from './enum'
-import { SchemaRegistryExternalHttp } from './typeAlias'
+import { RuleActionStatus, SchemaRegistryExternalHttp } from './typeAlias'
 
 export interface NodeStatus {
   node: string
@@ -58,6 +58,7 @@ export interface RuleForm extends BasicRule {
 
 export interface RuleItem extends RuleForm {
   id: string
+  action_details?: Array<RuleActionStatus>
 }
 
 export interface ResourceOpt {
