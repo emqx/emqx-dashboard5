@@ -1,7 +1,7 @@
 <template>
   <div class="overview app-wrapper">
     <el-row class="block" :gutter="16">
-      <el-col :span="8">
+      <el-col :span="withSessionsHistHwmark ? 7 : 8">
         <el-card class="rate-card">
           <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
             <el-radio-button value="byte" />
@@ -71,7 +71,7 @@
           </template>
         </el-card>
       </el-col>
-      <el-col :span="10">
+      <el-col :span="withSessionsHistHwmark ? 13 : 10">
         <el-card class="main-info-item">
           <router-link class="count-item" :to="{ name: 'clients' }">
             <div class="count-item-hd">
@@ -92,8 +92,41 @@
               {{ _formatNumber(currentMetrics.live_connections) }}
             </div>
           </router-link>
+
+          <template v-if="withSessionsHistHwmark">
+            <el-tooltip placement="top">
+              <template #content>
+                <MarkdownContent
+                  :content="
+                    tl('histPeakSessionsDesc', {
+                      current_value:
+                        currentMetrics.sessions_hist_hwmark?.current_value?.toString?.() ?? '0',
+                      time: dateFormat(currentMetrics.sessions_hist_hwmark?.peak_time ?? ''),
+                    })
+                  "
+                />
+              </template>
+              <div class="count-item">
+                <div class="count-item-hd">
+                  <img
+                    src="@/assets/img/live_connections.png"
+                    width="16"
+                    height="16"
+                    alt="historic peak sessions"
+                  />
+                  <p class="info-label">{{ $t('Dashboard.histPeakSessions') }}</p>
+                </div>
+
+                <div class="num">
+                  <span>
+                    {{ _formatNumber(currentMetrics.sessions_hist_hwmark?.peak_value ?? 0) }}
+                  </span>
+                </div>
+              </div>
+            </el-tooltip>
+          </template>
         </el-card>
-        <el-card class="main-info-item">
+        <el-card class="main-info-item" :class="{ 'with-three-items': withSessionsHistHwmark }">
           <router-link class="count-item" :to="{ name: 'subscription' }">
             <div class="count-item-hd">
               <img src="@/assets/img/subs.png" width="16" height="16" alt="subs" />
@@ -110,7 +143,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="withSessionsHistHwmark ? 4 : 6">
         <el-card class="main-info-item">
           <router-link class="count-item" :to="{ name: 'topics' }">
             <div class="count-item-hd">
@@ -155,8 +188,18 @@ interface MetricData {
   x: Array<string>
   y: Array<number>
 }
+interface SessionsHistHwmark {
+  current_value: number
+  peak_time: number
+  peak_value: number
+}
+type CurrentMetrics = Record<string, number> & {
+  sessions_hist_hwmark?: SessionsHistHwmark
+}
 
 const POLLING_INTERVAL = 2000
+
+const { tl } = useI18nTl('Dashboard')
 
 const createEmptyDataItem = (length: number) => ({
   x: new Array(length).fill(undefined),
@@ -169,7 +212,7 @@ const currentMetricsLogs: Record<string, MetricData> = reactive({
   received_bytes_rate: createEmptyDataItem(32),
   sent_bytes_rate: createEmptyDataItem(32),
 })
-const currentMetrics: Ref<Record<string, number>> = ref({
+const currentMetrics: Ref<CurrentMetrics> = ref({
   node: 0, // Nodes number
   received_msg_rate: 0, // Incoming Rate
   sent_msg_rate: 0, // Outgoing Rate
@@ -180,6 +223,9 @@ const currentMetrics: Ref<Record<string, number>> = ref({
   topics: 0, // Topics
   live_connections: 0, // Live Connections
 })
+const withSessionsHistHwmark = computed(
+  () => !isUndefined(currentMetrics.value.sessions_hist_hwmark),
+)
 
 const rateType = ref<'msg' | 'byte'>('msg')
 
@@ -234,12 +280,21 @@ syncPolling(loadData, POLLING_INTERVAL)
     &:not(:last-child) {
       margin-bottom: 16px;
     }
+    &.with-three-items {
+      .count-item {
+        flex-basis: 33.3%;
+        flex-grow: 0;
+      }
+    }
     .el-card__body {
       display: flex;
       padding: 24px 32px;
     }
+    div.count-item {
+      cursor: default;
+    }
     .count-item {
-      width: 50%;
+      flex: 1;
     }
     .count-item-hd {
       display: flex;

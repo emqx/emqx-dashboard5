@@ -175,6 +175,10 @@ export default {
     zh: '删除备选动作',
     en: 'Deleting fallback action',
   },
+  reFallbackTip: {
+    zh: '如需编辑备选动作的备选动作，请至当前备选动作详情页进行操作',
+    en: 'If you need to edit the fallback actions of the current fallback action, please go to the current fallback action details page to operate',
+  },
   consoleOutput: {
     zh: '控制台输出',
     en: 'Console Output',

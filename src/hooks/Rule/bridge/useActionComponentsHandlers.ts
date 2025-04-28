@@ -25,6 +25,8 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
+  const isFallback = inject('isFallback', false)
+
   const { t, tl, te } = useI18nTl('RuleEngine')
 
   const { getI18nPrefix, setLabelAndDesc } = useI18nPrefix(t, te)
@@ -129,6 +131,7 @@ export default (
       comRet.fallback_actions.componentProps = {
         actionKey: currentEditingActionKey,
         readonly: !!props.readonly,
+        isFallback,
       }
     }
     const paramsProps = components?.parameters

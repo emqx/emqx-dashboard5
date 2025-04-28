@@ -313,7 +313,6 @@ const submit = async () => {
   }
 }
 .detail-title {
-  padding: 0 4px;
   margin: 4px 0 12px;
   font-size: 16px;
   font-weight: 600;

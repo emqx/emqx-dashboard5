@@ -11,7 +11,7 @@ export default {
     label: 'Use Username as Client ID',
   },
   idle_timeout: {
-    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\n\n- Automatically disconnected if no CONNECT package is received from the client yet.\\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
+    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\n\n- Automatically disconnected if no CONNECT package is received from the client yet.\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
     label: 'Idle Timeout',
   },
   strict_mode: {
@@ -173,7 +173,7 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'Max Awaiting PUBREL',
   },
   await_rel_timeout: {
-    desc: "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. \\nNote: EMQX's forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
+    desc: "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. <br />Note: EMQX's forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
     label: 'Max Awaiting PUBREL Timeout',
   },
   session_expiry_interval: {

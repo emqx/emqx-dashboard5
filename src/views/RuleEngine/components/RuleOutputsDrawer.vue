@@ -153,6 +153,11 @@ const props = defineProps({
   },
 })
 
+/**
+ * inject to src/hooks/Rule/bridge/useActionComponentsHandlers.ts
+ */
+provide('isFallback', props.isFallback)
+
 const emit = defineEmits(['update:modelValue', 'submit'])
 
 const createRawOutputForm = (): OutputForm => ({
@@ -364,7 +369,6 @@ handleConnDirection(async (direction, connName, connType) => {
   }
 }
 .detail-title {
-  padding: 0 4px;
   margin: 4px 0 12px;
   font-size: 16px;
   font-weight: 600;

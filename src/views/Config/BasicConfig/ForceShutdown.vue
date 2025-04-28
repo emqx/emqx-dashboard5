@@ -33,6 +33,7 @@
                     :label="tl('maxHeapSize')"
                     :desc="tl('maxHeapSizeDesc')"
                     desc-marked
+                    :max-height="240"
                   />
                 </template>
                 <InputWithUnit
