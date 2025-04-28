@@ -3,6 +3,7 @@ import { ConnectionStatus, NodeStatusClass } from '@/types/enum'
 export default (): {
   getStatusClass: (status?: ConnectionStatus) => NodeStatusClass
   getStatusLabel: (status?: ConnectionStatus) => string
+  getTheWorstStatus: (statusArr: Array<ConnectionStatus>) => ConnectionStatus
 } => {
   const { tl } = useI18nTl('Base')
 
@@ -27,8 +28,28 @@ export default (): {
     }
     return status ? statusLabelMap[status] || tl('disconnected') : ''
   }
+
+  const getTheWorstStatus = (statusArr: Array<ConnectionStatus>) => {
+    if (!statusArr || statusArr.length === 0) {
+      return ConnectionStatus.Connected
+    }
+    const badStatusArr = [
+      ConnectionStatus.Stopped,
+      ConnectionStatus.Disconnected,
+      ConnectionStatus.Connecting,
+      ConnectionStatus.Inconsistent,
+      ConnectionStatus.Connected,
+    ]
+    for (const currentBadStatus of badStatusArr) {
+      if (statusArr.some((status) => status === currentBadStatus)) {
+        return currentBadStatus
+      }
+    }
+    return ConnectionStatus.Connected
+  }
   return {
     getStatusClass,
     getStatusLabel,
+    getTheWorstStatus,
   }
 }

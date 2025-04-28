@@ -151,6 +151,10 @@ export default {
     zh: '将处理结果输出到动作和外部数据系统中。',
     en: 'Output processing results to an action and external data system.',
   },
+  noStatus: {
+    zh: '无状态信息',
+    en: 'No Status',
+  },
   addAction: {
     zh: '添加动作',
     en: 'Add Action',
