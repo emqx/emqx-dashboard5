@@ -311,6 +311,10 @@ export default {
     zh: '权限条数',
     en: 'Number of permissions',
   },
+  addPermission: {
+    zh: '添加权限',
+    en: 'Add Permission',
+  },
   pleaseEnterClientID: {
     zh: '请输入客户端 ID',
     en: 'Client ID is required',
