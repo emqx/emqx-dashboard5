@@ -21,7 +21,7 @@
       </div>
       <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
     </div>
-    <AuthzRulesTable
+    <el-table
       v-if="isTypeAll"
       ref="tableCom"
       row-key="topic"
@@ -29,35 +29,71 @@
       v-loading.lock="lockTable"
       class="table-with-draggable"
     >
-      <template #operation-column>
-        <el-table-column :label="$t('Base.operation')">
-          <template #default="{ row, $index }">
-            <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row, $index)">
-              {{ $t('Base.edit') }}
-            </TableButton>
-            <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row, $index)">
-              {{ $t('Base.delete') }}
-            </TableButton>
-            <TableDropdown
-              :row-data="row"
-              :position="$index"
-              :is-auth-item="false"
-              :table-data-len="allTableData.length"
-              @move-up="relativeMove($index, -1)"
-              @move-down="relativeMove($index, 1)"
-              @move-to-top="absoluteMove($index, 0)"
-              @move-to-bottom="absoluteMove($index, allTableData.length - 1)"
-            />
-          </template>
-        </el-table-column>
-      </template>
-    </AuthzRulesTable>
+      <el-table-column type="expand">
+        <template #default="{ row }">
+          <el-card>
+            <AuthzRuleForm :model-value="row" :type="BuiltInDBType.All" />
+          </el-card>
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('action')" :min-width="isEdit ? 124 : 80">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.action, actionOpts) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="permission" :label="tl('permission')" min-width="104">
+        <template #default="{ row }">
+          {{ getLabelFromValueInOptionList(row.permission, permissionOpts) }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="topic"
+        :label="t('Base.topic')"
+        min-width="80"
+        class-name="overflow-visible"
+      >
+        <template #default="{ row }">
+          {{ replaceSpaceForHTML(row.topic) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="qos" label="QoS" :min-width="isEdit ? 210 : 70">
+        <template #default="{ row }">
+          {{ row.qos?.join?.(', ') }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="retain" label="Retain" min-width="80">
+        <template #default="{ row }">
+          {{ row.retain === 'all' ? t('Base.all') : row.retain }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('Base.operation')" min-width="210">
+        <template #default="{ row, $index }">
+          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row, $index)">
+            {{ $t('Base.edit') }}
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row, $index)">
+            {{ $t('Base.delete') }}
+          </TableButton>
+          <TableDropdown
+            :row-data="row"
+            :position="$index"
+            :is-auth-item="false"
+            :table-data-len="allTableData.length"
+            @move-up="relativeMove($index, -1)"
+            @move-down="relativeMove($index, 1)"
+            @move-to-top="absoluteMove($index, 0)"
+            @move-to-bottom="absoluteMove($index, allTableData.length - 1)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+
     <div v-else>
       <!-- bind `key` is a hack for re-render table component to remove shake phenomenon -->
       <el-table :key="type" :data="tableData" v-loading.lock="lockTable">
         <el-table-column type="expand">
           <template #default="{ row }">
-            <AuthzRulesTable :data="row.rules" :type="type" />
+            <AuthzRuleList :data="row.rules" :type="type" />
           </template>
         </el-table-column>
         <el-table-column v-if="type === BuiltInDBType.Client" :label="$t('Base.clientid')">
@@ -92,139 +128,73 @@
     </div>
     <el-dialog
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      :width="isTypeAll ? '800px' : '1300px'"
+      :width="isTypeAll ? '800px' : '1200px'"
       v-model="dialogVisible"
+      destroy-on-close
     >
+      <AuthzRuleForm
+        v-if="isTypeAll"
+        ref="recordForm"
+        v-model="record"
+        is-edit
+        :column="2"
+        :rules="formRules"
+        :type="BuiltInDBType.All"
+      />
       <el-form
+        v-else
         ref="recordForm"
         :model="record"
         :rules="formRules"
         label-position="top"
         require-asterisk-position="right"
       >
-        <template v-if="isTypeAll">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item prop="action" :label="$t('Auth.action')">
-                <el-select v-model="record.action">
-                  <el-option
-                    v-for="{ label, value } in actionOpts"
-                    :key="value"
-                    :value="value"
-                    :label="label"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="permission" :label="$t('Auth.permission')">
-                <el-select v-model="record.permission">
-                  <el-option
-                    v-for="{ label, value } in permissionOpts"
-                    :key="value"
-                    :value="value"
-                    :label="label"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="topic">
-                <template #label>
-                  {{ $t('Base.topic') }}
-                  <InfoTooltip :content="$t('Auth.topicTips', ['{username}', '{clientid}'])" />
-                </template>
-                <el-input v-model="record.topic" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="qos" label="QoS">
-                <el-select v-model="record.qos" multiple>
-                  <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="retain" label="Retain" clearable>
-                <el-select v-model="record.retain">
-                  <el-option :value="true" label="true" />
-                  <el-option :value="false" label="false" />
-                  <el-option value="all" :label="t('Base.all')" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="clientid_re" :label="t('Clients.clientIdReg')">
-                <el-input v-model="record.clientid_re" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="username_re" :label="t('Clients.usernameReg')">
-                <el-input v-model="record.username_re" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="ipaddr" :label="t('Clients.ipAddressRange')">
-                <el-input v-model="record.ipaddr" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </template>
-        <template v-else>
-          <el-form-item
-            v-if="type === BuiltInDBType.Client"
-            prop="clientid"
-            :label="$t('Base.clientid')"
-          >
-            <el-input v-model="record.clientid" :disabled="isEdit" />
-          </el-form-item>
-          <el-form-item
-            v-else-if="type === BuiltInDBType.User"
-            prop="username"
-            :label="$t('Base.username')"
-          >
-            <el-input v-model="record.username" :disabled="isEdit" />
-          </el-form-item>
-          <el-form-item>
-            <AuthzRulesTable
-              class="form-table shadow-none"
-              :data="record.rules"
-              :type="type"
-              is-edit
-            >
-              <template #operation-column>
-                <el-table-column align="right" min-width="144">
-                  <template #header>
-                    <el-button link type="primary" class="btn" @click="addColumn">
-                      {{ $t('Base.add') }}
-                    </el-button>
-                  </template>
-                  <template #default="{ row, $index }">
-                    <el-button
-                      link
-                      type="primary"
-                      :disabled="$index === 0"
-                      @click="handleUp(row, $index)"
-                    >
-                      {{ $t('Base.up') }}
-                    </el-button>
-                    <el-button
-                      link
-                      type="primary"
-                      :disabled="$index === record.rules.length - 1"
-                      @click="handleDown(row, $index)"
-                    >
-                      {{ $t('Base.down') }}
-                    </el-button>
-                    <el-button link type="primary" class="btn" @click="deleteItem(row, $index)">
-                      {{ $t('Base.delete') }}
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </template>
-            </AuthzRulesTable>
-          </el-form-item>
-        </template>
+        <el-form-item
+          v-if="type === BuiltInDBType.Client"
+          prop="clientid"
+          :label="$t('Base.clientid')"
+        >
+          <el-input v-model="record.clientid" :disabled="isEdit" />
+        </el-form-item>
+        <el-form-item
+          v-else-if="type === BuiltInDBType.User"
+          prop="username"
+          :label="$t('Base.username')"
+        >
+          <el-input v-model="record.username" :disabled="isEdit" />
+        </el-form-item>
+        <el-form-item>
+          <AuthzRuleList class="form-table shadow-none" :data="record.rules" :type="type" is-edit>
+            <template #add-button>
+              <div class="button-bar">
+                <CreateButton @click="addColumn" type="default">
+                  {{ t('Auth.addPermission') }}
+                </CreateButton>
+              </div>
+            </template>
+            <template #operation="{ row, $index }">
+              <el-button
+                link
+                type="primary"
+                :disabled="$index === 0"
+                @click="handleUp(row, $index)"
+              >
+                {{ $t('Base.up') }}
+              </el-button>
+              <el-button
+                link
+                type="primary"
+                :disabled="$index === record.rules.length - 1"
+                @click="handleDown(row, $index)"
+              >
+                {{ $t('Base.down') }}
+              </el-button>
+              <el-button link type="primary" class="btn" @click="deleteItem(row, $index)">
+                {{ $t('Base.delete') }}
+              </el-button>
+            </template>
+          </AuthzRuleList>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
@@ -242,18 +212,19 @@
 
 <script lang="ts" setup>
 import {
-  loadBuiltInDatabaseData,
   createBuiltInDatabaseData,
   deleteBuiltInDatabaseData,
-  updateBuiltInDatabaseData,
+  loadBuiltInDatabaseData,
   updateAllBuiltInDatabaseData,
+  updateBuiltInDatabaseData,
 } from '@/api/auth'
-import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType, QoSLevel } from '@/types/enum'
-import AuthzRulesTable from './AuthzRulesTable.vue'
-import TableDropdown from './TableDropdown.vue'
+import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
 import { SortableEvent } from 'sortablejs'
+import AuthzRuleForm from './AuthzRuleForm.vue'
+import AuthzRuleList from './AuthzRuleList.vue'
+import TableDropdown from './TableDropdown.vue'
 
 interface AllTableDataItem {
   action: string
@@ -267,7 +238,7 @@ interface Record extends BuiltInDBRule {
   rules: BuiltInDBRule[]
 }
 
-const { t } = useI18n()
+const { t, tl } = useI18nTl('Auth')
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)
 const lockTable = ref(false)
@@ -365,6 +336,7 @@ onMounted(loadData)
 const handleAdd = function () {
   dialogVisible.value = true
   isEdit.value = false
+  addColumn()
   if (recordForm.value) {
     setTimeout(recordForm.value.clearValidate, 10)
   }
@@ -382,11 +354,9 @@ const deleteItem = (row: BuiltInDBItem, index: number) => {
 const handleRulesBeforeSubmit = (rules: Array<BuiltInDBRule>) =>
   rules.map((rule) => checkNOmitFromObj(rule))
 
-const handleSubmit = function () {
-  recordForm.value.validate(async (valid: boolean) => {
-    if (!valid) {
-      return
-    }
+const handleSubmit = async () => {
+  try {
+    await recordForm.value.validate()
     const data: {
       [key: string]: any
     } = {}
@@ -415,7 +385,9 @@ const handleSubmit = function () {
     }
     dialogVisible.value = false
     loadData()
-  })
+  } catch (error) {
+    //
+  }
 }
 
 const { confirmDel } = useOperationConfirm()
@@ -573,5 +545,11 @@ const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
   .table-dropdown {
     display: inline-flex;
   }
+}
+.button-bar {
+  display: flex;
+  margin-top: 16px;
+  justify-content: flex-end;
+  width: 100%;
 }
 </style>

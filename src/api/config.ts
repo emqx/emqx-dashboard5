@@ -86,3 +86,7 @@ export const deleteManagedNamespace = (namespace: string): Promise<void> =>
 
 export const createManagedNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}`)
+
+export const getConfigs = () => http.get('/configs')
+
+export const putConfigs = (configs: any) => http.put('/configs', configs)
