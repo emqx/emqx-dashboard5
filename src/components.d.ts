@@ -61,6 +61,7 @@ declare module 'vue' {
     SchemaForm: typeof import('./components/SchemaForm.tsx')['default']
     SchemaFormItem: typeof import('./components/SchemaFormItem.tsx')['default']
     SearchButton: typeof import('./components/Buttons/SearchButton.vue')['default']
+    SettingsButton: typeof import('./components/Buttons/SettingsButton.vue')['default']
     ShowMoreButton: typeof import('./components/Buttons/ShowMoreButton.vue')['default']
     SSLVersionSelect: typeof import('./components/ListenerDrawer/SSLVersionSelect.vue')['default']
     StatusDetailsOfEachNode: typeof import('./components/StatusDetailsOfEachNode.vue')['default']

@@ -314,4 +314,20 @@ That is: listener rate limiters are ignored when this configuration is enabled.<
 If clients connect to a namespace before it is made explicitly managed, they will not pick up certain configurations made later to the namespace, such as rate limiters.<br />
 These clients must be manually kicked out if one wants them to abide to the new rate limiters.`,
   },
+  defaultMaxSessions: {
+    zh: '默认最大会话数',
+    en: 'Default Max Number of Sessions',
+  },
+  defaultMaxSessionsDesc: {
+    zh: '每个命名空间允许的默认活动会话数。如果达到限制，新客户端的访问将被拒绝。在线配置更改不会影响正在运行的会话。',
+    en: 'The default number of live sessions allowed for each namespace. Access will be denied for new clients if limit is reached. Online config changes do not affect running sessions.',
+  },
+  allowOnlyManagedNamespaces: {
+    zh: '仅允许显示创建的命名空间',
+    en: 'Allow Only Explicitly Created Namespaces',
+  },
+  allowOnlyManagedNamespacesDesc: {
+    zh: '如果启用，属于非显示创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
+    en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
+  },
 }
