@@ -128,7 +128,7 @@
     </div>
     <el-dialog
       :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      :width="isTypeAll ? '800px' : '1200px'"
+      :width="isTypeAll ? '800px' : '1300px'"
       v-model="dialogVisible"
       destroy-on-close
     >
