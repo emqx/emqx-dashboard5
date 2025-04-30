@@ -5,7 +5,10 @@
         <el-switch v-model="onlyManagedNamespaces" />
         <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
       </div>
-      <CreateButton @click="handleCreate" />
+      <div>
+        <SettingsButton @click="isConfigsDrawerVisible = true" />
+        <CreateButton @click="handleCreate" />
+      </div>
     </div>
     <el-table v-loading="loading" :data="namespaceTableData" style="width: 100%">
       <el-table-column prop="ns" :label="tl('namespace')" :min-width="180">
@@ -90,6 +93,7 @@
     v-model="dialogVisible"
     @submitted="loadNamespaces"
   />
+  <NamespaceConfigDrawer v-model="isConfigsDrawerVisible" />
 </template>
 
 <script lang="ts" setup>
@@ -98,8 +102,9 @@ import useNamespace from '@/hooks/Config/useNamespace'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NamespaceItem } from '@/types/config'
 import { ref } from 'vue'
-import NamespaceDialog from './components/NamespaceDialog.vue'
 import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
+import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
+import NamespaceDialog from './components/NamespaceDialog.vue'
 
 const { tl, t } = useI18nTl('BasicConfig')
 
@@ -169,6 +174,8 @@ const openClientsDrawer = (row: NamespaceItem) => {
   currentNamespace.value = row
   isClientsDrawerVisible.value = true
 }
+
+const isConfigsDrawerVisible = ref(false)
 </script>
 
 <style lang="scss" scoped>

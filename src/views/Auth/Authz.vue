@@ -3,13 +3,7 @@
     <div class="section-header">
       <div></div>
       <NodeCache type="authz" />
-      <el-button
-        :disabled="!$hasPermission('put')"
-        :icon="Setting"
-        @click="showSettingDrawer = true"
-      >
-        {{ $t('Base.setting') }}
-      </el-button>
+      <SettingsButton @click="showSettingDrawer = true" />
       <CreateButton @click="$router.push({ name: 'authorization-create' })" />
     </div>
     <el-table
@@ -84,7 +78,6 @@ export default {
 import { deleteAuthz } from '@/api/auth'
 import router from '@/router'
 import { AuthzSourceItem } from '@/types/auth'
-import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
