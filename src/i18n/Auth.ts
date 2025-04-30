@@ -335,6 +335,10 @@ export default {
     zh: '请输入 Topic',
     en: 'Please enter topic',
   },
+  pattern: {
+    zh: '表达式',
+    en: 'Pattern',
+  },
   permissionListenerDesc: {
     zh: '用于过滤应用规则的监听器，由监听器类型和名称组成，`{监听器类型}:{监听器名称}`。例如：`tcp:default`，`ws:default`',
     en: 'Listener for filtering applied rules, composed of listener type and name, `{listener type}:{listener name}`. For example: `tcp:default`, `ws:default`',
@@ -342,6 +346,14 @@ export default {
   permissionListenerRegexDesc: {
     zh: '用于过滤应用规则的监听器正则表达式。例如：`^tcp:.$`，`^ws:.$`',
     en: 'Listener regex for filtering applied rules. For example: `^tcp:.$`, `^ws:.$`',
+  },
+  permissionZoneDesc: {
+    zh: '用于过滤应用规则的 Zone 名称。例如：`zone1`、`zone2`、`default`',
+    en: 'Zone name for filtering applied rules. For example: `zone1`, `zone2`, `default`',
+  },
+  permissionZoneRegexDesc: {
+    zh: '用于过滤应用规则的 Zone 正则表达式。例如：`zone[0-9]+`，`^zone-.*$`',
+    en: 'Zone regex for filtering applied rules. For example: `zone[0-9]+`, `^zone-.*$`',
   },
   iterationCount: {
     zh: '迭代次数',
