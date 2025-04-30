@@ -58,6 +58,10 @@ export interface BuiltInDBRule {
   clientid_re?: string
   username_re?: string
   ipaddr?: string
+  zone?: string
+  zone_re?: string
+  listener?: string
+  listener_re?: string
 }
 
 export interface BuiltInDBItem {
