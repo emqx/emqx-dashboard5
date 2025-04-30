@@ -96,10 +96,30 @@
         }})
       </p>
     </el-form-item>
-    <!-- <el-form-item label="Zone">
-            <el-input v-if="isEdit" v-model="record.ipaddr" />
-            <p class="tip" v-else>{{ record.ipaddr }}</p>
-          </el-form-item> -->
+    <el-form-item label="Zone">
+      <el-input v-if="isEdit" v-model="zoneInputValue">
+        <template #prepend>
+          <el-select v-model="zoneType">
+            <el-option
+              v-for="{ label, value } in listenerTypeOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
+        </template>
+        <template #suffix>
+          <InfoTooltip>
+            <template #content>
+              <MarkdownContent :content="zoneInputTooltip" />
+            </template>
+          </InfoTooltip>
+        </template>
+      </el-input>
+      <p class="tip" v-else>
+        {{ zoneInputValue }} ({{ getLabelFromValueInOptionList(zoneType, listenerTypeOpts) }})
+      </p>
+    </el-form-item>
     <div class="operation-container" v-if="$slots.operation">
       <slot name="operation" />
     </div>
@@ -110,7 +130,10 @@
 import { BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType } from '@/types/enum'
 
-const enum FilterType {
+/**
+ * listener and zone
+ */
+const enum ListenerConfigType {
   Name,
   Regex,
 }
@@ -154,32 +177,33 @@ const topicRules = createRequiredRule(t('Base.topic'))
 const validate = async () => formRef.value?.validate()
 
 const listenerTypeOpts = [
-  { value: FilterType.Name, label: t('Base.name') },
-  { value: FilterType.Regex, label: t('Extension.re') },
+  { value: ListenerConfigType.Name, label: t('Base.name') },
+  { value: ListenerConfigType.Regex, label: tl('pattern') },
 ]
-const selectedListenerType = ref<undefined | FilterType>(undefined)
+// LISTENER
+const selectedListenerType = ref<undefined | ListenerConfigType>(undefined)
 const listenerType = computed({
   get() {
     if (!record.value.listener && !record.value.listener_re) {
-      return selectedListenerType.value ?? FilterType.Name
+      return selectedListenerType.value ?? ListenerConfigType.Name
     }
     if (record.value.listener_re) {
-      return FilterType.Regex
+      return ListenerConfigType.Regex
     }
-    return FilterType.Name
+    return ListenerConfigType.Name
   },
   set(value) {
     selectedListenerType.value = value
-    if (value === FilterType.Name && record.value.listener_re) {
+    if (value === ListenerConfigType.Name && record.value.listener_re) {
       record.value.listener_re = ''
     }
-    if (value === FilterType.Regex && record.value.listener) {
+    if (value === ListenerConfigType.Regex && record.value.listener) {
       record.value.listener = ''
     }
   },
 })
 const listenerInputKey = computed(() =>
-  listenerType.value === FilterType.Name ? 'listener' : 'listener_re',
+  listenerType.value === ListenerConfigType.Name ? 'listener' : 'listener_re',
 )
 const listenerInputValue = computed({
   get() {
@@ -190,9 +214,48 @@ const listenerInputValue = computed({
   },
 })
 const listenerInputTooltip = computed(() => {
-  return listenerType.value === FilterType.Name
+  return listenerType.value === ListenerConfigType.Name
     ? tl('permissionListenerDesc')
     : tl('permissionListenerRegexDesc')
+})
+
+// ZONE
+const selectedZoneType = ref<undefined | ListenerConfigType>(undefined)
+const zoneType = computed({
+  get() {
+    if (!record.value.zone && !record.value.zone_re) {
+      return selectedZoneType.value ?? ListenerConfigType.Name
+    }
+    if (record.value.zone_re) {
+      return ListenerConfigType.Regex
+    }
+    return ListenerConfigType.Name
+  },
+  set(value) {
+    selectedZoneType.value = value
+    if (value === ListenerConfigType.Name && record.value.zone_re) {
+      record.value.zone_re = ''
+    }
+    if (value === ListenerConfigType.Regex && record.value.zone) {
+      record.value.zone = ''
+    }
+  },
+})
+const zoneInputKey = computed(() =>
+  zoneType.value === ListenerConfigType.Name ? 'zone' : 'zone_re',
+)
+const zoneInputValue = computed({
+  get() {
+    return record.value[zoneInputKey.value]
+  },
+  set(value) {
+    record.value[zoneInputKey.value] = value
+  },
+})
+const zoneInputTooltip = computed(() => {
+  return zoneType.value === ListenerConfigType.Name
+    ? tl('permissionZoneDesc')
+    : tl('permissionZoneRegexDesc')
 })
 
 defineExpose({
