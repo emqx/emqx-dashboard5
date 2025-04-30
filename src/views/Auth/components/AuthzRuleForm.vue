@@ -70,11 +70,33 @@
       <el-input v-if="isEdit" v-model="record.ipaddr" />
       <p class="tip" v-else>{{ record.ipaddr }}</p>
     </el-form-item>
-    <!-- <el-form-item label="Listener">
-            <el-input v-if="isEdit" v-model="record.ipaddr" />
-            <p class="tip" v-else>{{ record.ipaddr }}</p>
-          </el-form-item>
-          <el-form-item label="Zone">
+    <el-form-item :label="t('Dashboard.listener')">
+      <el-input v-if="isEdit" v-model="listenerInputValue">
+        <template #prepend>
+          <el-select v-model="listenerType">
+            <el-option
+              v-for="{ label, value } in listenerTypeOpts"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
+          </el-select>
+        </template>
+        <template #suffix>
+          <InfoTooltip>
+            <template #content>
+              <MarkdownContent :content="listenerInputTooltip" />
+            </template>
+          </InfoTooltip>
+        </template>
+      </el-input>
+      <p class="tip" v-else>
+        {{ listenerInputValue }} ({{
+          getLabelFromValueInOptionList(listenerType, listenerTypeOpts)
+        }})
+      </p>
+    </el-form-item>
+    <!-- <el-form-item label="Zone">
             <el-input v-if="isEdit" v-model="record.ipaddr" />
             <p class="tip" v-else>{{ record.ipaddr }}</p>
           </el-form-item> -->
@@ -87,6 +109,11 @@
 <script setup lang="ts">
 import { BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType } from '@/types/enum'
+
+const enum FilterType {
+  Name,
+  Regex,
+}
 
 const props = withDefaults(
   defineProps<{
@@ -125,6 +152,48 @@ const { createRequiredRule } = useFormRules()
 const topicRules = createRequiredRule(t('Base.topic'))
 
 const validate = async () => formRef.value?.validate()
+
+const listenerTypeOpts = [
+  { value: FilterType.Name, label: t('Base.name') },
+  { value: FilterType.Regex, label: t('Extension.re') },
+]
+const selectedListenerType = ref<undefined | FilterType>(undefined)
+const listenerType = computed({
+  get() {
+    if (!record.value.listener && !record.value.listener_re) {
+      return selectedListenerType.value ?? FilterType.Name
+    }
+    if (record.value.listener_re) {
+      return FilterType.Regex
+    }
+    return FilterType.Name
+  },
+  set(value) {
+    selectedListenerType.value = value
+    if (value === FilterType.Name && record.value.listener_re) {
+      record.value.listener_re = ''
+    }
+    if (value === FilterType.Regex && record.value.listener) {
+      record.value.listener = ''
+    }
+  },
+})
+const listenerInputKey = computed(() =>
+  listenerType.value === FilterType.Name ? 'listener' : 'listener_re',
+)
+const listenerInputValue = computed({
+  get() {
+    return record.value[listenerInputKey.value]
+  },
+  set(value) {
+    record.value[listenerInputKey.value] = value
+  },
+})
+const listenerInputTooltip = computed(() => {
+  return listenerType.value === FilterType.Name
+    ? tl('permissionListenerDesc')
+    : tl('permissionListenerRegexDesc')
+})
 
 defineExpose({
   validate,
