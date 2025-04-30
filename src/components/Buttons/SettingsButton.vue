@@ -1,0 +1,11 @@
+<template>
+  <el-button :disabled="!$hasPermission('put')" :icon="Setting">
+    {{ tl('setting') }}
+  </el-button>
+</template>
+
+<script setup lang="ts">
+import { Setting } from '@element-plus/icons-vue'
+
+const { tl } = useI18nTl('Base')
+</script>
