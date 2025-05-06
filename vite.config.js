@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
   const target = HOST_URL || 'http://localhost:18083/'
 
   return {
+    base: './',
     plugins: [
       vue(),
       vueJsx({ include: /\.[jt]s[x]?$/ }),
