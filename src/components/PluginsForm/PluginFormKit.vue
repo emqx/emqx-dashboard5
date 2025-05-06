@@ -4,6 +4,8 @@
     class="plugin-form-kit"
     :rules="rules"
     :model="configsForm"
+    scroll-to-error
+    :scroll-into-view-options="{ behavior: 'smooth' }"
     label-position="top"
   >
     <el-row :gutter="20">
