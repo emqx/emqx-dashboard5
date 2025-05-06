@@ -85,7 +85,7 @@
 import { sentenceCase } from '@/common/tools'
 import { useRuleFallbackActions } from '@/hooks/Rule/rule/useRule'
 import { FallbackActionKind } from '@/types/enum'
-import { FallbackAction, OutputItem } from '@/types/rule'
+import { FallbackAction, OutputItem, RePub } from '@/types/rule'
 import { defineProps } from 'vue'
 import RuleOutputsDrawer from '../../components/RuleOutputsDrawer.vue'
 
@@ -209,14 +209,25 @@ const addAction = async () => {
  */
 const handleActionSubmitted = (action: OutputItem) => {
   let newItem: FallbackAction | undefined = undefined
-  if (typeof action === 'object' && action.function && action.args) {
-    newItem = { kind: FallbackActionKind.Republish, args: action.args }
-  } else if (typeof action === 'string') {
+  const isRepub = typeof action === 'object' && !!action.function && !!action.args
+  const isAction = typeof action === 'string'
+  if (isRepub) {
+    newItem = { kind: FallbackActionKind.Republish, args: action.args as RePub }
+  } else if (isAction) {
     const { type, name } = getTypeAndNameFromKey(action)
     newItem = { kind: FallbackActionKind.Reference, type, name }
   }
-  if (currentEditIndex.value > -1 && actionList.value[currentEditIndex.value]) {
-    actionList.value[currentEditIndex.value] = newItem as FallbackAction
+  if (currentAction.value) {
+    // do not update the action if it is a reference and the key is the same
+    if (
+      isAction &&
+      isReference(currentAction.value) &&
+      getBridgeKey(currentAction.value) === action
+    ) {
+      return
+    }
+    const newList = actionList.value.toSpliced(currentEditIndex.value, 1, newItem as FallbackAction)
+    actionList.value = newList
     currentEditIndex.value = -1
   } else if (newItem) {
     actionList.value = [...actionList.value, newItem]
