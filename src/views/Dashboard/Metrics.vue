@@ -17,60 +17,6 @@
         <RefreshButton @click="handleSearch" />
       </div>
     </div>
-    <el-row class="content-block" :gutter="26">
-      <el-col :span="8">
-        <el-card class="top-border table-card client">
-          <el-table
-            stripe
-            :data="filterMetrics(currentMetrics, 'client')"
-            v-loading.lock="isDataLoading"
-          >
-            <el-table-column prop="m" min-width="160" :label="tl('connection')">
-              <template #default="{ row }">
-                <p class="raw-key">{{ row.rawKey }}</p>
-                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-          </el-table>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <el-card class="top-border table-card session">
-          <el-table
-            stripe
-            :data="filterMetrics(currentMetrics, 'session')"
-            v-loading.lock="isDataLoading"
-            class="stripe-reverse"
-          >
-            <el-table-column prop="m" min-width="160" :label="tl('session')">
-              <template #default="{ row }">
-                <p class="raw-key">{{ row.rawKey }}</p>
-                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-          </el-table>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <el-card class="top-border table-card auth">
-          <el-table
-            stripe
-            :data="filterMetrics(currentMetrics, 'authorization')"
-            v-loading.lock="isDataLoading"
-          >
-            <el-table-column prop="m" min-width="160" :label="tl('auth')">
-              <template #default="{ row }">
-                <p class="raw-key">{{ row.rawKey }}</p>
-                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
-          </el-table>
-        </el-card>
-      </el-col>
-    </el-row>
     <h2>
       {{ $t('Dashboard.messaging') }}
     </h2>
@@ -236,7 +182,7 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    margin-top: 14px;
+    margin-top: 24px;
     .node-select.el-select {
       width: 320px;
       margin-right: 12px;

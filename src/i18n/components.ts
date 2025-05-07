@@ -56,12 +56,16 @@ export default {
     en: 'Authorization',
   },
   dashboard: {
-    zh: '集群概览',
-    en: 'Cluster Overview',
+    zh: '概览',
+    en: 'Overview',
   },
   metrics: {
     zh: '指标',
     en: 'Metrics',
+  },
+  monitoringMetrics: {
+    zh: '监控指标',
+    en: 'Monitoring Metrics',
   },
   connect: {
     zh: '连接',

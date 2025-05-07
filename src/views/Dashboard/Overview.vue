@@ -269,6 +269,7 @@ syncPolling(loadData, POLLING_INTERVAL)
 <style lang="scss">
 @use 'sass:math';
 .overview {
+  padding-top: 10px;
   .block {
     align-items: stretch;
     margin-top: 14px;

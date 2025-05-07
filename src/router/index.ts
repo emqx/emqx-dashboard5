@@ -28,7 +28,7 @@ export const routes: Array<RouteRecordRaw> = [
     redirect: '/dashboard/overview',
     meta: {
       authRequired: true,
-      subMenu: true,
+      // subMenu: true,
     },
     children: [
       {
@@ -123,9 +123,31 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Subscriptions/Subscriptions.vue'),
       },
       {
+        path: 'client/:clientId',
+        name: 'subscription-client',
+        component: () => import('@/views/Clients/ClientDetails.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
         path: 'topics',
         name: 'topics',
         component: () => import('@/views/Topics/Topics.vue'),
+      },
+    ],
+  },
+
+  {
+    path: '/monitoring-metrics',
+    component: Layout,
+    meta: {
+      hideKey: 'monitoring-metrics',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'monitoring-metrics',
+        component: () => import('@/views/Dashboard/Metrics.vue'),
       },
     ],
   },

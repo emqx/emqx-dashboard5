@@ -10,82 +10,22 @@ export default (): {
 } => {
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
-    { title: 'clients', path: '/clients' },
     { title: 'subscriptions', path: '/subscriptions' },
-    { title: 'retained', path: '/retained' },
-    { title: 'delayed-pub', path: '/delayed-pub' },
+    { title: 'monitoringMetrics', path: '/monitoring-metrics' },
+    { title: 'dropped-analysis', path: '/dropped-analysis' },
     { title: 'alarm', path: '/alarm' },
   ]
 
-  const accessControl = [
-    { title: 'authentication', path: '/authentication' },
-    { title: 'authorization', path: '/authorization' },
-    { title: 'banned-clients', path: '/banned-clients' },
-    { title: 'flapping-detect', path: '/flapping-detect' },
-  ]
-
-  const management = [
-    {
-      title: 'clusterSettings',
-      children: [
-        { title: 'mqtt', path: '/mqtt' },
-        { title: 'cluster', path: '/cluster' },
-        { title: 'namespace', path: '/namespace' },
-        { title: 'listener', path: '/listener' },
-        { title: 'log', path: '/log' },
-        { title: 'monitoring', path: '/monitoring' },
-        { title: 'cluster-linking', path: '/cluster-linking' },
-        // { title: 'limiter', path: '/limiter' },
-      ],
-    },
-    {
-      title: 'advancedMQTT',
-      children: [
-        { title: 'topic-rewrite', path: '/topic-rewrite' },
-        { title: 'auto-sub', path: '/auto-sub' },
-        { title: 'delayed-pub', path: '/delayed-pub-configuration' },
-        { title: 'file-transfer', path: '/file-transfer' },
-      ],
-    },
-    {
-      title: 'extensions',
-      children: [
-        { title: 'gateway', path: '/gateway' },
-        { title: 'exhook', path: '/exhook' },
-        { title: 'plugins', path: '/plugins' },
-      ],
-    },
-  ]
+  const management = [{ title: 'listener', path: '/listener' }]
 
   const integration = [
-    { title: 'webhook', path: '/webhook' },
-    { title: 'flowDesigner', path: '/flow' },
     { title: 'rules', path: '/rule' },
     { title: 'connector', path: '/connector' },
   ]
 
-  const smartDataHub = [
-    { title: 'schema', path: '/schema' },
-    { title: 'schema-validation', path: '/schema-validation' },
-    { title: 'message-transform', path: '/message-transform' },
-  ]
-
   const diagnose = [
-    { title: 'websocket', path: '/websocket' },
-    { title: 'topic-metrics', path: '/topic-metrics' },
-    { title: 'slow-sub', path: '/slow-sub' },
     { title: 'log-trace', path: '/log-trace' },
-    { title: 'dropped-analysis', path: '/dropped-analysis' },
-  ]
-
-  const system = [
-    { title: 'users', path: '/users' },
-    { title: 'audit-log', path: '/audit-log' },
-    { title: 'api-key', path: '/api-key' },
-    { title: 'license', path: '/license' },
-    { title: 'sso', path: '/sso' },
-    { title: 'backup', path: '/backup' },
-    { title: 'hot-upgrade', path: '/hot-upgrade' },
+    { title: 'topic-metrics', path: '/topic-metrics' },
   ]
 
   const menuList = [
@@ -95,19 +35,9 @@ export default (): {
       children: monitoring,
     },
     {
-      title: 'auth',
-      icon: 'icon-authentication',
-      children: accessControl,
-    },
-    {
       title: 'ruleengine',
       icon: 'icon-integration',
       children: integration,
-    },
-    {
-      title: 'smart-data-hub',
-      icon: 'icon-a-SmartDataHub',
-      children: smartDataHub,
     },
     {
       title: 'management',
@@ -118,11 +48,6 @@ export default (): {
       title: 'diagnose',
       icon: 'icon-diagnosis',
       children: diagnose,
-    },
-    {
-      title: 'system',
-      icon: 'icon-system',
-      children: system,
     },
   ]
 
