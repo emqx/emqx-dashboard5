@@ -1031,6 +1031,37 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/message-trace',
+    component: Layout,
+    meta: {
+      hideKey: 'message-trace',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-trace',
+        component: () => import('@/views/Diagnose/MessageTrace.vue'),
+      },
+    ],
+  },
+  {
+    path: '/message-analysis',
+    component: Layout,
+    meta: {
+      hideKey: 'message-analysis',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-analysis',
+        component: () => import('@/views/Diagnose/MessageAnalysis.vue'),
+      },
+    ],
+  },
+
+  {
     path: '/dropped-analysis',
     component: Layout,
     meta: {

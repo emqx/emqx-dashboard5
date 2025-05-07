@@ -11,7 +11,7 @@ export default (): {
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'subscriptions', path: '/subscriptions' },
-    { title: 'monitoringMetrics', path: '/monitoring-metrics' },
+    { title: 'monitoring-metrics', path: '/monitoring-metrics' },
     { title: 'dropped-analysis', path: '/dropped-analysis' },
     { title: 'alarm', path: '/alarm' },
   ]
@@ -24,6 +24,8 @@ export default (): {
   ]
 
   const diagnose = [
+    { title: 'message-trace', path: '/message-trace' },
+    { title: 'message-analysis', path: '/message-analysis' },
     { title: 'log-trace', path: '/log-trace' },
     { title: 'topic-metrics', path: '/topic-metrics' },
   ]

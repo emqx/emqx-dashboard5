@@ -63,7 +63,7 @@ export default {
     zh: '指标',
     en: 'Metrics',
   },
-  monitoringMetrics: {
+  'monitoring-metrics': {
     zh: '监控指标',
     en: 'Monitoring Metrics',
   },
@@ -366,6 +366,14 @@ export default {
   signOut: {
     zh: '退出',
     en: 'Logout',
+  },
+  'message-trace': {
+    zh: '消息追踪',
+    en: 'Message Trace',
+  },
+  'message-analysis': {
+    zh: '消息分析',
+    en: 'Message Analysis',
   },
   'log-trace': {
     zh: '日志追踪',
