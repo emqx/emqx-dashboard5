@@ -73,7 +73,14 @@
       <el-table :data="tableData" v-loading.lock="lockTable">
         <el-table-column prop="clientid" :label="$t('Clients.clientId')">
           <template #default="{ row }">
-            <CommonOverflowTooltip :content="row.clientid" />
+            <router-link
+              :to="{
+                name: 'subscription-client',
+                params: { clientId: row.clientid },
+              }"
+            >
+              <CommonOverflowTooltip :content="row.clientid" />
+            </router-link>
           </template>
         </el-table-column>
         <el-table-column prop="topic" :label="$t('Subs.topic')">

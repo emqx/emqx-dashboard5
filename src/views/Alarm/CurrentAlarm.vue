@@ -2,21 +2,6 @@
   <div class="alarm app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-tooltip link :content="tl('setupWebhookDesc')" placement="top">
-        <LinkButton :to="alarmWebhookRoute" :disabled="!$hasPermission('post')">
-          <el-icon :size="14">
-            <i class="iconfont icon-webhook"></i>
-          </el-icon>
-          <span>{{ tl('setUpWebhook') }}</span>
-        </LinkButton>
-      </el-tooltip>
-      <LinkButton
-        :icon="Setting"
-        :to="{ name: 'alarm-settings' }"
-        :disabled="!$hasPermission('put')"
-      >
-        {{ $t('Base.setting') }}
-      </LinkButton>
       <RefreshButton :disabled="!$hasPermission('get')" @click="loadData({ page: 1 })" />
     </div>
     <el-table :data="currentAlarmData" v-loading.lock="currentLockTable">
