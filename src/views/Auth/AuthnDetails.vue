@@ -20,10 +20,22 @@
             :content="configData.enable ? $t('Base.disable') : $t('Base.enable')"
             placement="top"
           >
-            <el-switch class="enable-btn" v-model="configData.enable" @change="updateEnable" />
+            <el-switch
+              class="enable-btn"
+              v-model="configData.enable"
+              :disabled="!$hasPermission('put')"
+              @change="updateEnable"
+            />
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button class="icon-button" type="danger" :icon="Delete" @click="handleDelete" plain>
+            <el-button
+              class="icon-button"
+              type="danger"
+              :icon="Delete"
+              :disabled="!$hasPermission('delete')"
+              @click="handleDelete"
+              plain
+            >
             </el-button>
           </el-tooltip>
         </template>
