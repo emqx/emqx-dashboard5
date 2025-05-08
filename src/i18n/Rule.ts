@@ -71,4 +71,8 @@ export default {
     zh: '请完整填写表格',
     en: 'Please complete the table',
   },
+  positiveRequired: {
+    zh: '请输入大于 0 的值',
+    en: 'Please enter a value greater than 0',
+  },
 }

@@ -1,3 +1,4 @@
+import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
@@ -68,6 +69,17 @@ export default (
       rules.name.push(...createCommonIdRule())
     }
     return rules
+  }
+
+  const addRules = (rulesNeedAdd: FormRules, totalRules: FormRules) => {
+    Object.entries(rulesNeedAdd).forEach(([key, value]) => {
+      if (!totalRules[key]) {
+        totalRules[key] = []
+      }
+      if (Array.isArray(value)) {
+        totalRules[key].push(...value)
+      }
+    })
   }
 
   const { createSSLForm } = useSSL()
@@ -352,6 +364,29 @@ export default (
     return { ...data, components }
   }
 
+  const diskLogHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+    addRules(
+      {
+        max_file_size: [
+          {
+            validator(rules: any, value: string, cb) {
+              const numPart = Number(parseInt(value))
+              if (!Number.isNaN(numPart) && numPart <= 0) {
+                cb(new Error(t('Rule.positiveRequired')))
+              } else {
+                cb()
+              }
+            },
+            trigger: 'blur',
+          },
+        ],
+      },
+      rules,
+    )
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -369,6 +404,7 @@ export default (
     [BridgeType.GreptimeDB, greptimeDBHandler],
     [BridgeType.Pulsar, pulsarHandler],
     [BridgeType.IoTDB, iotDbHandler],
+    [BridgeType.DiskLog, diskLogHandler],
   ])
 
   const getComponentsHandler = () => {
