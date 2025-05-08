@@ -16,9 +16,9 @@
         <div class="node-info" v-if="currentInfo">
           <div class="node-card-header">
             <div class="node-title">{{ tl('nodeData') }}</div>
-            <router-link class="nodes-link" :to="{ name: 'nodes' }">
+            <!-- <router-link class="nodes-link" :to="{ name: 'nodes' }">
               {{ tl('viewNodes') }}<el-icon><Right /></el-icon>
-            </router-link>
+            </router-link> -->
           </div>
           <div class="node-card-body">
             <el-row :gutter="26">
@@ -58,9 +58,7 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    <a :href="releaseNoteLink" target="_blank">
-                      {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
-                    </a>
+                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
                   </span>
                 </div>
                 <div class="node-item">

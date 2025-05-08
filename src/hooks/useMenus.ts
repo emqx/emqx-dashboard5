@@ -27,8 +27,11 @@ export default (): {
     { title: 'message-trace', path: '/message-trace' },
     { title: 'message-analysis', path: '/message-analysis' },
     { title: 'log-trace', path: '/log-trace' },
+    { title: 'log-view', path: '/log-view' },
     { title: 'topic-metrics', path: '/topic-metrics' },
   ]
+
+  const system = [{ title: 'users', path: '/users' }]
 
   const menuList = [
     {
@@ -50,6 +53,11 @@ export default (): {
       title: 'diagnose',
       icon: 'icon-diagnosis',
       children: diagnose,
+    },
+    {
+      title: 'system',
+      icon: 'icon-system',
+      children: system,
     },
   ]
 

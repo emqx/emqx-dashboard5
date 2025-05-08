@@ -135,7 +135,7 @@ const neededMenuList = generateMenuItems(routes)
 
 const input = ref('')
 
-const defaultItemNames = ['overview', 'clients', 'authentication', 'rule']
+const defaultItemNames = ['overview', 'subscription', 'rule']
 const querySearch = (query: string, cb: any) => {
   if (!query) {
     cb(neededMenuList.filter(({ name }) => defaultItemNames.includes(name)))

@@ -84,7 +84,7 @@ export default {
     en: 'Subscriptions',
   },
   subscriptions: {
-    zh: '订阅管理',
+    zh: '订阅列表',
     en: 'Subscriptions',
   },
   retained: {
@@ -378,6 +378,10 @@ export default {
   'log-trace': {
     zh: '日志追踪',
     en: 'Log Traces',
+  },
+  'log-view': {
+    zh: '日志查看',
+    en: 'Log View',
   },
   'dropped-analysis': {
     zh: '丢弃分析',
