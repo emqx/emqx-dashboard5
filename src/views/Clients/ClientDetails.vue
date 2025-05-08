@@ -332,7 +332,7 @@ const isFromSlowSub = computed(() => {
 })
 
 const backRoute = computed(() => {
-  const routeName = isFromSlowSub.value ? 'slow-sub' : 'clients'
+  const routeName = isFromSlowSub.value ? 'slow-sub' : 'subscription'
   return getBackRoute({ name: routeName })
 })
 

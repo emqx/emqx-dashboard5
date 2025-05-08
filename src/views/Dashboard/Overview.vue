@@ -73,17 +73,14 @@
       </el-col>
       <el-col :span="withSessionsHistHwmark ? 13 : 10">
         <el-card class="main-info-item">
-          <router-link class="count-item" :to="{ name: 'clients' }">
+          <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
               <p class="info-label">{{ $t('Dashboard.allConnections') }}</p>
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
-          </router-link>
-          <router-link
-            class="count-item"
-            :to="{ name: 'clients', query: { conn_state: 'connected' } }"
-          >
+          </div>
+          <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/live_connections.png" width="16" height="16" alt="clients" />
               <p class="info-label">{{ $t('Dashboard.liveConnections') }}</p>
@@ -91,7 +88,7 @@
             <div class="num">
               {{ _formatNumber(currentMetrics.live_connections) }}
             </div>
-          </router-link>
+          </div>
 
           <template v-if="withSessionsHistHwmark">
             <el-tooltip placement="top">
@@ -154,13 +151,13 @@
           </router-link>
         </el-card>
         <el-card class="main-info-item">
-          <router-link class="count-item" :to="{ name: 'retained' }">
+          <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/retained.png" width="16" height="16" alt="topics" />
               <p class="info-label">{{ $t('Dashboard.retained') }}</p>
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.retained_msg_count) }}</div>
-          </router-link>
+          </div>
         </el-card>
       </el-col>
     </el-row>

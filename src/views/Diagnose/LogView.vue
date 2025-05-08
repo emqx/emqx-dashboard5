@@ -1,6 +1,6 @@
 <template>
-  <div class="message-analysis app-wrapper">
-    <h1>TODO:TODO:TODO:TODO:TODO:消息分析</h1>
+  <div class="log-view app-wrapper">
+    <h1>TODO:TODO:TODO:TODO:TODO:日志查看</h1>
   </div>
 </template>
 
