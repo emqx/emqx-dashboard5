@@ -4,14 +4,14 @@ const useConvertSecretToQRCode = () => {
   const canvasRef = ref<HTMLCanvasElement | null>(null)
 
   const issuer = encodeURIComponent(window.location.hostname)
-  const defaultLabel = `admin`
+  const defaultUsername = `admin`
 
-  const getOtpauthUrl = (secret: string, label = defaultLabel) => {
-    const otpauthUrl = `otpauth://totp/${issuer}:${label}?secret=${secret}&issuer=${issuer}`
+  const getOtpauthUrl = (secret: string, username = defaultUsername) => {
+    const otpauthUrl = `otpauth://totp/${issuer}:${username}?secret=${secret}&issuer=${issuer}`
     return otpauthUrl
   }
-  const displayQRCode = (secret: string, label?: string, callback?: (url: string) => void) => {
-    const otpauthUrl = getOtpauthUrl(secret)
+  const displayQRCode = (secret: string, username?: string, callback?: (url: string) => void) => {
+    const otpauthUrl = getOtpauthUrl(secret, username)
     if (!canvasRef.value && !callback) return
     if (callback) {
       QRCode.toDataURL(otpauthUrl, function (err: any, url: string) {
