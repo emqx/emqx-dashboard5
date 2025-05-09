@@ -559,7 +559,17 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'session.terminated'?: number
 }
 
+export interface EmqxDashboardMonitorApiSessionsHistHwmark {
+  /** @minimum 0 */
+  current_value?: number
+  /** @minimum 0 */
+  peak_time?: number
+  /** @minimum 0 */
+  peak_value?: number
+}
+
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
+  cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
   dropped_msg_rate?: number
@@ -570,6 +580,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   received_msg_rate?: number
   retained_msg_count?: number
   sent_msg_rate?: number
+  sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
   subscriptions?: number
   subscriptions_durable?: number
@@ -581,6 +592,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
+  cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
   dropped_msg_rate?: number
@@ -590,6 +602,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   received_msg_rate?: number
   retained_msg_count?: number
   sent_msg_rate?: number
+  sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
   subscriptions?: number
   subscriptions_durable?: number

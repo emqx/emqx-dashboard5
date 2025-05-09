@@ -74,8 +74,8 @@ export type GetSsoRunning200Item = (typeof GetSsoRunning200Item)[keyof typeof Ge
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoRunning200Item = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export type GetSsoOidcCallback404Code =
@@ -425,8 +425,8 @@ export type DashboardSsoBackendStatusBackend =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSsoBackendStatusBackend = {
   ldap: 'ldap',
-  oidc: 'oidc',
   saml: 'saml',
+  oidc: 'oidc',
 } as const
 
 export interface DashboardSsoBackendStatus {
