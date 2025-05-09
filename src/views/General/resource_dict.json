@@ -2700,6 +2700,18 @@
     }
   },
   {
+    "method": "delete",
+    "path": "/mt/bulk_delete_ns",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Bulk delete namespaces",
+      "zh": "批量删除命名空间"
+    }
+  },
+  {
     "method": "post",
     "path": "/mt/ns/:ns",
     "operation_label": {

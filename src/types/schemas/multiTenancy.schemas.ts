@@ -159,6 +159,19 @@ export type PostMtBulkImportConfigs400 = {
   message?: string
 }
 
+export type DeleteMtBulkDeleteNs500Code =
+  (typeof DeleteMtBulkDeleteNs500Code)[keyof typeof DeleteMtBulkDeleteNs500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMtBulkDeleteNs500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type DeleteMtBulkDeleteNs500 = {
+  code?: DeleteMtBulkDeleteNs500Code
+  message?: string
+}
+
 export type MtSessionConfigInMaxSessions = number | 'infinity'
 
 export interface MtSessionConfigIn {
@@ -192,6 +205,10 @@ export interface MtConfigOut {
 export interface MtConfigIn {
   limiter?: MtLimiterConfigIn
   session?: MtSessionConfigIn
+}
+
+export interface MtBulkDeleteNsIn {
+  nss?: string[]
 }
 
 export interface MtBulkConfigIn {
