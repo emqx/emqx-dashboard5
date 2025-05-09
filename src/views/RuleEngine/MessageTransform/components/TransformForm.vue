@@ -357,7 +357,10 @@ const formatOpts = [
   { value: SchemaRegistryType.JSON, label: 'JSON' },
   { value: SchemaRegistryType.Avro, label: 'Avro' },
   { value: SchemaRegistryType.Protobuf, label: 'Protobuf' },
-  { value: SchemaRegistryType.ExternalHTTP, label: tl('externalHttp') },
+  {
+    value: SchemaRegistryType.ExternalHTTP,
+    label: `${t('Extension.custom')} (${tl('externalHttp')})`,
+  },
 ]
 const schemasList = ref<Array<SchemaRegistry>>([])
 const querySchemasList = async () => {
