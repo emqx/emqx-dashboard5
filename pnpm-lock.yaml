@@ -59,6 +59,9 @@ importers:
       element-plus:
         specifier: ^2.9.4
         version: 2.9.4(vue@3.5.4(typescript@5.5.4))
+      elkjs:
+        specifier: ^0.10.0
+        version: 0.10.0
       genson-js:
         specifier: ^0.0.8
         version: 0.0.8
@@ -1814,6 +1817,9 @@ packages:
     resolution: {integrity: sha512-sGnW0wd9zf6lEGixXV2gfwx3X6VTMkP52qTkX7zbURJ2oariyslrKTBh2txt1sdn1pUvj2l0KY3OfSXoZGmDOw==}
     peerDependencies:
       vue: ^3.2.0
+
+  elkjs@0.10.0:
+    resolution: {integrity: sha512-v/3r+3Bl2NMrWmVoRTMBtHtWvRISTix/s9EfnsfEWApNrsmNjqgqJOispCGg46BPwIFdkag3N/HYSxJczvCm6w==}
 
   elliptic@6.5.7:
     resolution: {integrity: sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==}
@@ -5452,6 +5458,8 @@ snapshots:
       vue: 3.5.4(typescript@5.5.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
+
+  elkjs@0.10.0: {}
 
   elliptic@6.5.7:
     dependencies:

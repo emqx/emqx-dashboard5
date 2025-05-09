@@ -1,8 +1,9 @@
 import { getRules } from '@/api/ruleengine'
 import { Action, BridgeItem, RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
-import useHandleActionItem from '../Rule/action/useHandleActionItem'
+import ELK from 'elkjs/lib/elk.bundled'
 import useActionList from '../Rule/action/useActionList'
+import useHandleActionItem from '../Rule/action/useHandleActionItem'
 import useSourceList from '../Rule/action/useSourceList'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 
@@ -71,7 +72,7 @@ export default (): {
     countNodesPosition,
     addFlagToRemovedBridgeNode,
   } = useGenerateFlowDataUtils()
-  const { isBridgerNode } = useFlowNode()
+  const { nodeWidth, nodeHeight, isBridgerNode } = useFlowNode()
 
   const addRuleIdToNode = (node: Node, ruleId: string) => {
     if (!node.data.rulesUsed) {
@@ -246,15 +247,39 @@ export default (): {
     ;[sourceNodes, sinkNodes, fallbackNodes] = nodeArrays
   }
 
-  const setPositionToNodes = () => {
-    const nodes = {
-      [NodeType.Source]: sourceNodes,
-      [ProcessingType.Filter]: filterNodes,
-      [ProcessingType.Function]: functionNodes,
-      [NodeType.Sink]: sinkNodes,
-      [NodeType.Fallback]: fallbackNodes,
-    }
-    countNodesPosition(nodes)
+  const convertEdgeToElkEdge = (edge: Edge) => ({
+    ...edge,
+    sources: [edge.source],
+    targets: [edge.target],
+  })
+
+  const convertNodeToElkNode = (node: Node) => ({
+    ...node,
+    width: nodeWidth,
+    height: nodeHeight,
+  })
+  const elk = new ELK()
+  const setPositionToNodes = async () => {
+    const allNodes = [
+      ...sourceNodes,
+      ...filterNodes,
+      ...functionNodes,
+      ...sinkNodes,
+      ...fallbackNodes,
+    ]
+    const { children } = await elk.layout({
+      id: 'root',
+      layoutOptions: { 'elk.algorithm': 'layered' },
+      children: allNodes.map(convertNodeToElkNode),
+      edges: edgeArr.map(convertEdgeToElkEdge),
+    })
+    allNodes.forEach((node) => {
+      const resultNode = children?.find((item) => item.id === node.id)
+      if (resultNode) {
+        const { x, y } = resultNode
+        node.position = { x: x ?? 0, y: y ?? 0 }
+      }
+    })
   }
 
   const joinToFlowData = () => {
@@ -277,14 +302,14 @@ export default (): {
     edgeArr = []
   }
 
-  const generateFlowData = () => {
+  const generateFlowData = async () => {
     initNodeAndEdge()
     generateFlowDataFromRuleData(ruleList)
     generateFlowDataFromActionData(actionList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
     setClassToRemovedBridges()
-    setPositionToNodes()
+    await setPositionToNodes()
     joinToFlowData()
   }
 
@@ -299,7 +324,7 @@ export default (): {
       await getData()
       // For event node info
       await getEventList()
-      generateFlowData()
+      await generateFlowData()
     } catch (error) {
       //
     } finally {
