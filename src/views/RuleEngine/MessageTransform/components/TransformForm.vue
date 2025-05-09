@@ -357,6 +357,7 @@ const formatOpts = [
   { value: SchemaRegistryType.JSON, label: 'JSON' },
   { value: SchemaRegistryType.Avro, label: 'Avro' },
   { value: SchemaRegistryType.Protobuf, label: 'Protobuf' },
+  { value: SchemaRegistryType.ExternalHTTP, label: tl('externalHttp') },
 ]
 const schemasList = ref<Array<SchemaRegistry>>([])
 const querySchemasList = async () => {
@@ -378,12 +379,13 @@ const showMessageTypeSelect = (type: string | SchemaRegistryType) =>
   type === SchemaRegistryType.Protobuf
 
 /**
-|                     | none (to encoder) | json | arvo | protobuf |
-| ------------------- | ----------------- | --- | --- | --- |
-| none (from decoder) | ✔︎                 | ✔︎   | ✘   | ✘   |
-| json                | ✔︎                 | ✔︎   | ✔︎   | ✔︎   |
-| arvo                | ✘                 | ✔︎   | ✔︎   | ✔︎   |
-| protobuf            | ✘                 | ✔︎   | ✔︎   | ✔︎   |
+|                     | none (to encoder) | json | arvo | protobuf | external http |
+| ------------------- | ----------------- | --- | --- | --- | ------------- |
+| none (from decoder) | ✔︎                 | ✔︎   | ✘   | ✘   | ✔︎             |
+| json                | ✔︎                 | ✔︎   | ✔︎   | ✔︎   | ✔︎             |
+| arvo                | ✘                 | ✔︎   | ✔︎   | ✔︎   | ✔︎             |    
+| protobuf            | ✘                 | ✔︎   | ✔︎   | ✔︎   | ✔︎             |
+| external http       | ✘                 | ✔︎   | ✔︎   | ✔︎   | ✔︎             |
  */
 const isDisabledEncodeType = (type: string | SchemaRegistryType) => {
   const { payload_decoder: { type: decoderType } = {} } = formData.value
