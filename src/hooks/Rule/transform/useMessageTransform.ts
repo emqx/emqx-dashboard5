@@ -327,12 +327,13 @@ export const useMessageTransformForm = (): UseMessageTransformFormReturn => {
   const targetBelongReg = new RegExp(`^(${targetsCanUseSub.join('|')})`)
 
   /* 
-  |                      | none (to encoder) | json              | arvo              | protobuf          |
-  | -------------------- | ----------------- | ----------------- | ----------------- | ----------------- |
-  | none (from decoder)  | only payload      | only payload      | ✘                 | ✘                 |
-  | json                 | all               | all               | all               | all               |
-  | arvo                 | ✘                 | only payload.x    | only payload.x    | only payload.x    |
-  | protobuf             | ✘                 | only payload.x    | only payload.x    | only payload.x    |
+  |                      | none (to encoder) | json              | arvo              | protobuf          | external http     |
+  | -------------------- | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- |
+  | none (from decoder)  | only payload      | only payload      | ✘                 | ✘                 | all               |
+  | json                 | all               | all               | all               | all               | all               |
+  | arvo                 | ✘                 | only payload.x    | only payload.x    | only payload.x    | all               |
+  | protobuf             | ✘                 | only payload.x    | only payload.x    | only payload.x    | all               |
+  | external http        | all               | all               | all               | all               | all               |
    */
   const detectCanSetToPayload = (inType?: string, outType?: string) => {
     if (!inType || !outType) {
