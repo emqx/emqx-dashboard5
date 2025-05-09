@@ -2153,15 +2153,17 @@ export interface ConnectorSnowflakePutConnector {
   description?: string
   dsn: string
   enable?: boolean
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
+  private_key_password?: string
+  private_key_path?: string
   proxy?: ConnectorSnowflakePutConnectorProxy
   resource_opts?: ConnectorResourceOpts
   server: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
-  username: string
+  username?: string
 }
 
 export type ConnectorSnowflakePostConnectorType =
@@ -2182,16 +2184,18 @@ export interface ConnectorSnowflakePostConnector {
   dsn: string
   enable?: boolean
   name: string
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
+  private_key_password?: string
+  private_key_path?: string
   proxy?: ConnectorSnowflakePostConnectorProxy
   resource_opts?: ConnectorResourceOpts
   server: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
   type: ConnectorSnowflakePostConnectorType
-  username: string
+  username?: string
 }
 
 export type ConnectorSnowflakeGetConnectorType =
@@ -2225,9 +2229,11 @@ export interface ConnectorSnowflakeGetConnector {
   enable?: boolean
   name: string
   node_status?: ConnectorNodeStatus[]
-  password: string
+  password?: string
   /** @minimum 1 */
   pool_size?: number
+  private_key_password?: string
+  private_key_path?: string
   proxy?: ConnectorSnowflakeGetConnectorProxy
   resource_opts?: ConnectorResourceOpts
   server: string
@@ -2236,7 +2242,7 @@ export interface ConnectorSnowflakeGetConnector {
   status_reason?: string
   tags?: string[]
   type: ConnectorSnowflakeGetConnectorType
-  username: string
+  username?: string
 }
 
 export interface ConnectorPostgresResourceOpts {

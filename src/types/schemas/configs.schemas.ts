@@ -1345,6 +1345,7 @@ export interface DashboardDashboard {
   cors?: boolean
   default_mfa?: DashboardDashboardDefaultMfa
   readonly default_password: string
+  hwmark_expire_time?: string
   listeners?: DashboardListeners
   password_expired_time?: string
   sso?: DashboardSso

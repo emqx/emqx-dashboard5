@@ -4430,6 +4430,7 @@ export interface ActionSnowflakeAggregParameters {
   /** @minimum 1 */
   pool_size?: number
   private_key: string
+  private_key_password?: string
   proxy?: ActionSnowflakeAggregParametersProxy
   schema: string
   stage: string
