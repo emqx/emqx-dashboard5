@@ -280,7 +280,17 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Snowflake]: createOrderObj(
-      ['server', 'dsn', 'account', 'username', 'password', 'proxy', 'ssl'],
+      [
+        'server',
+        'account',
+        'dsn',
+        'username',
+        'password',
+        'private_key_path',
+        'private_key_password',
+        'proxy',
+        'ssl',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.Tablestore]: createOrderObj(
