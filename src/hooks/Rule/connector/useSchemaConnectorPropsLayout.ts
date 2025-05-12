@@ -81,6 +81,7 @@ export default (
     'transport_options.max_retries',
     'transport_options.ipv6_probe',
   ]
+  const S3TablesAdvancedProps = S3AdvancedProps.map((item) => `s3_client.${item}`)
 
   const azureOrderMap = {
     ...createOrderObj(
@@ -287,6 +288,17 @@ export default (
       ['endpoint', 'instance_name', 'access_key_id', 'access_key_secret', 'storage_model_type'],
       fieldStartIndex,
     ),
+    [BridgeType.S3Tables]: createOrderObj(
+      [
+        's3tables_arn',
+        'access_key_id',
+        'secret_access_key',
+        's3_client.access_method',
+        's3_client.transport_options',
+        ...S3TablesAdvancedProps.map((item) => item.replace('s3_client.transport_options.', '')),
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
@@ -307,6 +319,7 @@ export default (
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
+    [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
@@ -323,6 +336,7 @@ export default (
     [BridgeType.Elasticsearch]: IoTDBAdvancedProps,
     [BridgeType.RabbitMQ]: ['heartbeat', 'timeout'],
     [BridgeType.S3]: S3AdvancedProps,
+    [BridgeType.S3Tables]: S3TablesAdvancedProps,
     [BridgeType.PgSQL]: pgSqlAdvancedFields,
     [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,

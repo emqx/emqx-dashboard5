@@ -38,7 +38,7 @@ const typesDoNotShowSkeleton = INTEGRATION_SCHEMA_TYPES
 
 const typesDoNotNeedGroups = [...INTEGRATION_SCHEMA_TYPES, 'file_trans']
 const typesNeedConciseSSL = INTEGRATION_SCHEMA_TYPES
-const SSL_PATH_REG = /^(.+\.)?ssl$/i
+const SSL_PATH_REG = /^.*ssl$/i
 const SSL_KEY = 'ssl'
 const CERT_FIELDS_REG = /cacertfile|certfile|keyfile/
 
@@ -930,6 +930,8 @@ const SchemaForm = defineComponent({
       if (!props.propsOrderMap) {
         return propKeys
       }
+      console.log('🍅🍅🍅 ~ sortPropKeys ~ propKeys:', JSON.stringify(propKeys))
+
       const ret = propKeys
       const { propsOrderMap } = props
 
