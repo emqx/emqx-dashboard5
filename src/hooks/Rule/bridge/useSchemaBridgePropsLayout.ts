@@ -348,6 +348,16 @@ export default (
       ]),
       fieldStartIndex,
     ),
+    [BridgeType.S3Tables]: createOrderObj(
+      [
+        ...getPathArrInParameters(['namespace', 'table', 'aggregation', 's3']),
+        'max_records',
+        'time_interval',
+        'min_part_size',
+        'max_part_size',
+      ],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

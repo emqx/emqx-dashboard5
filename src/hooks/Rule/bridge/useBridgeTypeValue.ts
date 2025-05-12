@@ -99,6 +99,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Snowflake, label: 'Snowflake' },
     { value: BridgeType.Tablestore, label: tl('tablestore') },
     { value: BridgeType.DiskLog, label: 'Disk Log' },
+    { value: BridgeType.S3Tables, label: 'S3 Tables' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -331,6 +332,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
     [BridgeType.Snowflake, getRef(BridgeType.Snowflake, 'connector_')],
     [BridgeType.DiskLog, getRef(BridgeType.DiskLog, 'connector_')],
+    [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -390,6 +392,7 @@ export const useActionSchema = (): {
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'action_')],
     [BridgeType.Snowflake, getRef(BridgeType.Snowflake, 'action_')],
     [BridgeType.DiskLog, getRef(BridgeType.DiskLog, 'action_')],
+    [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

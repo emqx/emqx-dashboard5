@@ -146,6 +146,7 @@ export enum BridgeType {
   Snowflake = 'snowflake',
   Tablestore = 'tablestore',
   DiskLog = 'disk_log',
+  S3Tables = 's3tables',
 }
 
 export enum PulsarType {
