@@ -221,6 +221,7 @@ export type PutConnectorsId200 =
   | ConnectorDiskLogGetConnector
   | ConnectorMqttGetConnector
   | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
   | ConnectorSnowflakeGetConnector
   | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
@@ -264,6 +265,7 @@ export type PutConnectorsIdBody =
   | ConnectorDiskLogPutConnector
   | ConnectorMqttPutConnector
   | ConnectorPostgresPutConnector
+  | ConnectorS3tablesPutConnector
   | ConnectorSnowflakePutConnector
   | ConnectorSyskeeperProxyPut
   | ElasticsearchPut
@@ -320,6 +322,7 @@ export type GetConnectorsId200 =
   | ConnectorDiskLogGetConnector
   | ConnectorMqttGetConnector
   | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
   | ConnectorSnowflakeGetConnector
   | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
@@ -376,6 +379,7 @@ export type PostConnectorsProbeBody =
   | ConnectorDiskLogPostConnector
   | ConnectorMqttPostConnector
   | ConnectorPostgresPostConnector
+  | ConnectorS3tablesPostConnector
   | ConnectorSnowflakePostConnector
   | ConnectorSyskeeperProxyPost
   | ElasticsearchPost
@@ -432,6 +436,7 @@ export type PostConnectors201 =
   | ConnectorDiskLogGetConnector
   | ConnectorMqttGetConnector
   | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
   | ConnectorSnowflakeGetConnector
   | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
@@ -475,6 +480,7 @@ export type PostConnectorsBody =
   | ConnectorDiskLogPostConnector
   | ConnectorMqttPostConnector
   | ConnectorPostgresPostConnector
+  | ConnectorS3tablesPostConnector
   | ConnectorSnowflakePostConnector
   | ConnectorSyskeeperProxyPost
   | ElasticsearchPost
@@ -491,6 +497,63 @@ export type PostConnectorsBody =
   | TdengineConnectorPost
 
 export type GetConnectors200ItemOneOf = IotdbGetThrift | IotdbGetRestapi
+
+export type GetConnectors200Item =
+  | KafkaConsumerGetConnector
+  | ConnectorDiskLogGetConnector
+  | OpentsConnectorGet
+  | BridgeAzureEventHubGetConnector
+  | BridgeMatrixGetConnector
+  | ConfluentGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeKafkaGetConnector
+  | ConnectorPostgresGetConnector
+  | BridgeKinesisGetConnector
+  | PulsarGet
+  | BridgeDatalayersGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeMongodbGetConnector
+  | GcpPubsubProducerGetConnector
+  | ConnectorSnowflakeGetConnector
+  | BridgeHttpGetConnector
+  | ConnectorSyskeeperProxyGet
+  | SyskeeperForwarderGet
+  | BridgeCassaGetConnector
+  | RabbitmqGet
+  | GcpPubsubConsumerGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | RedisGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeClickhouseGetConnector
+  | ConnectorS3tablesGetConnector
+  | BridgeS3GetConnector
+  | BridgeGreptimedbGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorCouchbaseGetConnector
+  | BridgeTimescaleGetConnector
+  | BridgeDynamoGetConnector
+  | GetConnectors200ItemOneOf
+  | RocketmqGetConnector
+  | TdengineConnectorGet
+  | BridgeHstreamdbGetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeOracleGetConnector
+  | ElasticsearchGet
+
+export interface TdengineConnectorPut {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+  server: string
+  tags?: string[]
+  token?: string
+  username?: string
+}
 
 export type TdengineConnectorPostType =
   (typeof TdengineConnectorPostType)[keyof typeof TdengineConnectorPostType]
@@ -523,21 +586,6 @@ export interface TdengineConnectorConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface TdengineConnectorPut {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: TdengineConnectorConnectorResourceOpts
-  server: string
-  tags?: string[]
-  token?: string
-  username?: string
 }
 
 export interface TdengineConnectorPost {
@@ -586,6 +634,18 @@ export const SyskeeperForwarderPutAckMode = {
   no_ack: 'no_ack',
 } as const
 
+export interface SyskeeperForwarderPut {
+  ack_mode?: SyskeeperForwarderPutAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+}
+
 export type SyskeeperForwarderPostType =
   (typeof SyskeeperForwarderPostType)[keyof typeof SyskeeperForwarderPostType]
 
@@ -602,6 +662,20 @@ export const SyskeeperForwarderPostAckMode = {
   need_ack: 'need_ack',
   no_ack: 'no_ack',
 } as const
+
+export interface SyskeeperForwarderPost {
+  ack_mode?: SyskeeperForwarderPostAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+  type: SyskeeperForwarderPostType
+}
 
 export type SyskeeperForwarderGetType =
   (typeof SyskeeperForwarderGetType)[keyof typeof SyskeeperForwarderGetType]
@@ -635,32 +709,6 @@ export interface SyskeeperForwarderConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface SyskeeperForwarderPut {
-  ack_mode?: SyskeeperForwarderPutAckMode
-  ack_timeout?: string
-  description?: string
-  enable?: boolean
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: SyskeeperForwarderConnectorResourceOpts
-  server: string
-  tags?: string[]
-}
-
-export interface SyskeeperForwarderPost {
-  ack_mode?: SyskeeperForwarderPostAckMode
-  ack_timeout?: string
-  description?: string
-  enable?: boolean
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: SyskeeperForwarderConnectorResourceOpts
-  server: string
-  tags?: string[]
-  type: SyskeeperForwarderPostType
 }
 
 export interface SyskeeperForwarderGet {
@@ -853,6 +901,15 @@ export type RedisPutConnectorParameters =
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
 
+export interface RedisPutConnector {
+  description?: string
+  enable?: boolean
+  parameters: RedisPutConnectorParameters
+  resource_opts?: RedisConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+}
+
 export type RedisPostConnectorType =
   (typeof RedisPostConnectorType)[keyof typeof RedisPostConnectorType]
 
@@ -865,6 +922,17 @@ export type RedisPostConnectorParameters =
   | RedisRedisClusterConnector
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
+
+export interface RedisPostConnector {
+  description?: string
+  enable?: boolean
+  name: string
+  parameters: RedisPostConnectorParameters
+  resource_opts?: RedisConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  type: RedisPostConnectorType
+}
 
 export type RedisGetConnectorType =
   (typeof RedisGetConnectorType)[keyof typeof RedisGetConnectorType]
@@ -896,26 +964,6 @@ export interface RedisConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface RedisPutConnector {
-  description?: string
-  enable?: boolean
-  parameters: RedisPutConnectorParameters
-  resource_opts?: RedisConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
-
-export interface RedisPostConnector {
-  description?: string
-  enable?: boolean
-  name: string
-  parameters: RedisPostConnectorParameters
-  resource_opts?: RedisConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  type: RedisPostConnectorType
-}
-
 export interface RedisGetConnector {
   description?: string
   enable?: boolean
@@ -928,6 +976,27 @@ export interface RedisGetConnector {
   status_reason?: string
   tags?: string[]
   type: RedisGetConnectorType
+}
+
+export interface RabbitmqPut {
+  description?: string
+  enable?: boolean
+  heartbeat?: string
+  password: string
+  /** @minimum 1 */
+  pool_size?: number
+  /**
+   * @minimum 1
+   * @maximum 65535
+   */
+  port?: number
+  resource_opts?: RabbitmqConnectorResourceOpts
+  server?: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  timeout?: string
+  username: string
+  virtual_host?: string
 }
 
 export type RabbitmqPostType = (typeof RabbitmqPostType)[keyof typeof RabbitmqPostType]
@@ -976,27 +1045,6 @@ export interface RabbitmqConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface RabbitmqPut {
-  description?: string
-  enable?: boolean
-  heartbeat?: string
-  password: string
-  /** @minimum 1 */
-  pool_size?: number
-  /**
-   * @minimum 1
-   * @maximum 65535
-   */
-  port?: number
-  resource_opts?: RabbitmqConnectorResourceOpts
-  server?: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  timeout?: string
-  username: string
-  virtual_host?: string
-}
-
 export interface RabbitmqGet {
   description?: string
   enable?: boolean
@@ -1023,17 +1071,6 @@ export interface RabbitmqGet {
 
 export type PulsarPutAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
 
-export interface PulsarPut {
-  authentication?: PulsarPutAuthentication
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  resource_opts?: PulsarConnectorResourceOpts
-  servers: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
-
 export type PulsarPostType = (typeof PulsarPostType)[keyof typeof PulsarPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1042,19 +1079,6 @@ export const PulsarPostType = {
 } as const
 
 export type PulsarPostAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
-
-export interface PulsarPost {
-  authentication?: PulsarPostAuthentication
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  name: string
-  resource_opts?: PulsarConnectorResourceOpts
-  servers: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  type: PulsarPostType
-}
 
 export type PulsarGetStatus = (typeof PulsarGetStatus)[keyof typeof PulsarGetStatus]
 
@@ -1072,6 +1096,30 @@ export interface PulsarConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface PulsarPut {
+  authentication?: PulsarPutAuthentication
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  resource_opts?: PulsarConnectorResourceOpts
+  servers: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+}
+
+export interface PulsarPost {
+  authentication?: PulsarPostAuthentication
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  name: string
+  resource_opts?: PulsarConnectorResourceOpts
+  servers: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  type: PulsarPostType
 }
 
 export interface PulsarGet {
@@ -1636,17 +1684,6 @@ export const IotdbGetRestapiDriver = {
   restapi: 'restapi',
 } as const
 
-export interface IotdbConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface IotdbAuthentication {
-  password: string
-  username: string
-}
-
 export interface IotdbGetRestapi {
   authentication?: IotdbAuthentication
   base_url: string
@@ -1669,6 +1706,17 @@ export interface IotdbGetRestapi {
   status_reason?: string
   tags?: string[]
   type: IotdbGetRestapiType
+}
+
+export interface IotdbConnectorResourceOpts {
+  health_check_interval?: string
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface IotdbAuthentication {
+  password: string
+  username: string
 }
 
 export interface GcpPubsubProducerPutConnector {
@@ -1697,6 +1745,26 @@ export const GcpPubsubProducerPostConnectorType = {
   gcp_pubsub_producer: 'gcp_pubsub_producer',
 } as const
 
+export interface GcpPubsubProducerPostConnector {
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  max_inactive?: string
+  /** @minimum 0 */
+  max_retries?: number
+  name: string
+  /** @minimum 1 */
+  pipelining?: number
+  /** @minimum 1 */
+  pool_size?: number
+  /** @deprecated */
+  request_timeout?: string
+  resource_opts?: GcpPubsubProducerConnectorResourceOpts
+  service_account_json: string
+  tags?: string[]
+  type: GcpPubsubProducerPostConnectorType
+}
+
 export type GcpPubsubProducerGetConnectorType =
   (typeof GcpPubsubProducerGetConnectorType)[keyof typeof GcpPubsubProducerGetConnectorType]
 
@@ -1722,7 +1790,8 @@ export interface GcpPubsubProducerConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface GcpPubsubProducerPostConnector {
+export interface GcpPubsubProducerGetConnector {
+  actions?: string[]
   connect_timeout?: string
   description?: string
   enable?: boolean
@@ -1730,6 +1799,7 @@ export interface GcpPubsubProducerPostConnector {
   /** @minimum 0 */
   max_retries?: number
   name: string
+  node_status?: ConnectorNodeStatus[]
   /** @minimum 1 */
   pipelining?: number
   /** @minimum 1 */
@@ -1738,8 +1808,10 @@ export interface GcpPubsubProducerPostConnector {
   request_timeout?: string
   resource_opts?: GcpPubsubProducerConnectorResourceOpts
   service_account_json: string
+  status?: GcpPubsubProducerGetConnectorStatus
+  status_reason?: string
   tags?: string[]
-  type: GcpPubsubProducerPostConnectorType
+  type: GcpPubsubProducerGetConnectorType
 }
 
 export type GcpPubsubConsumerPostConnectorType =
@@ -1941,25 +2013,6 @@ export const ElasticsearchPostPoolType = {
   hash: 'hash',
 } as const
 
-export interface ElasticsearchPost {
-  authentication?: ElasticsearchAuthBasic
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  /** @minimum 1 */
-  enable_pipelining?: number
-  max_inactive?: string
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  pool_type?: ElasticsearchPostPoolType
-  resource_opts?: BridgeHttpConnectorResourceOpts
-  server: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  type: ElasticsearchPostType
-}
-
 export type ElasticsearchGetType = (typeof ElasticsearchGetType)[keyof typeof ElasticsearchGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1990,6 +2043,25 @@ export const ElasticsearchGetPoolType = {
 export interface ElasticsearchAuthBasic {
   password: string
   username: string
+}
+
+export interface ElasticsearchPost {
+  authentication?: ElasticsearchAuthBasic
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  enable_pipelining?: number
+  max_inactive?: string
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  pool_type?: ElasticsearchPostPoolType
+  resource_opts?: BridgeHttpConnectorResourceOpts
+  server: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  type: ElasticsearchPostType
 }
 
 export interface ElasticsearchGet {
@@ -2035,30 +2107,6 @@ export interface ConnectorNodeStatus {
   node?: string
   status?: ConnectorNodeStatusStatus
   status_reason?: string
-}
-
-export interface GcpPubsubProducerGetConnector {
-  actions?: string[]
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  max_inactive?: string
-  /** @minimum 0 */
-  max_retries?: number
-  name: string
-  node_status?: ConnectorNodeStatus[]
-  /** @minimum 1 */
-  pipelining?: number
-  /** @minimum 1 */
-  pool_size?: number
-  /** @deprecated */
-  request_timeout?: string
-  resource_opts?: GcpPubsubProducerConnectorResourceOpts
-  service_account_json: string
-  status?: GcpPubsubProducerGetConnectorStatus
-  status_reason?: string
-  tags?: string[]
-  type: GcpPubsubProducerGetConnectorType
 }
 
 export type ConnectorSyskeeperProxyPostType =
@@ -2245,6 +2293,91 @@ export interface ConnectorSnowflakeGetConnector {
   username?: string
 }
 
+export type ConnectorS3tablesS3ClientParamsAccessMethod =
+  (typeof ConnectorS3tablesS3ClientParamsAccessMethod)[keyof typeof ConnectorS3tablesS3ClientParamsAccessMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorS3tablesS3ClientParamsAccessMethod = {
+  path: 'path',
+  vhost: 'vhost',
+} as const
+
+export interface ConnectorS3tablesS3ClientParams {
+  access_method?: ConnectorS3tablesS3ClientParamsAccessMethod
+  transport_options?: S3TransportOptions
+}
+
+export interface ConnectorS3tablesPutConnector {
+  access_key_id: string
+  description?: string
+  enable?: boolean
+  request_timeout?: string
+  resource_opts?: ConnectorResourceOpts
+  s3_client: ConnectorS3tablesS3ClientParams
+  s3tables_arn: string
+  secret_access_key?: string
+  tags?: string[]
+}
+
+export type ConnectorS3tablesPostConnectorType =
+  (typeof ConnectorS3tablesPostConnectorType)[keyof typeof ConnectorS3tablesPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorS3tablesPostConnectorType = {
+  s3tables: 's3tables',
+} as const
+
+export interface ConnectorS3tablesPostConnector {
+  access_key_id: string
+  description?: string
+  enable?: boolean
+  name: string
+  request_timeout?: string
+  resource_opts?: ConnectorResourceOpts
+  s3_client: ConnectorS3tablesS3ClientParams
+  s3tables_arn: string
+  secret_access_key?: string
+  tags?: string[]
+  type: ConnectorS3tablesPostConnectorType
+}
+
+export type ConnectorS3tablesGetConnectorType =
+  (typeof ConnectorS3tablesGetConnectorType)[keyof typeof ConnectorS3tablesGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorS3tablesGetConnectorType = {
+  s3tables: 's3tables',
+} as const
+
+export type ConnectorS3tablesGetConnectorStatus =
+  (typeof ConnectorS3tablesGetConnectorStatus)[keyof typeof ConnectorS3tablesGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorS3tablesGetConnectorStatus = {
+  connected: 'connected',
+  disconnected: 'disconnected',
+  connecting: 'connecting',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ConnectorS3tablesGetConnector {
+  access_key_id: string
+  actions?: string[]
+  description?: string
+  enable?: boolean
+  name: string
+  node_status?: ConnectorNodeStatus[]
+  request_timeout?: string
+  resource_opts?: ConnectorResourceOpts
+  s3_client: ConnectorS3tablesS3ClientParams
+  s3tables_arn: string
+  secret_access_key?: string
+  status?: ConnectorS3tablesGetConnectorStatus
+  status_reason?: string
+  tags?: string[]
+  type: ConnectorS3tablesGetConnectorType
+}
+
 export interface ConnectorPostgresResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
@@ -2336,47 +2469,6 @@ export interface ConnectorPostgresGetConnector {
   type: ConnectorPostgresGetConnectorType
   username: string
 }
-
-export type GetConnectors200Item =
-  | KafkaConsumerGetConnector
-  | ConnectorDiskLogGetConnector
-  | OpentsConnectorGet
-  | BridgeAzureEventHubGetConnector
-  | BridgeMatrixGetConnector
-  | ConfluentGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeKafkaGetConnector
-  | ConnectorPostgresGetConnector
-  | BridgeKinesisGetConnector
-  | PulsarGet
-  | BridgeDatalayersGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeMongodbGetConnector
-  | GcpPubsubProducerGetConnector
-  | ConnectorSnowflakeGetConnector
-  | BridgeHttpGetConnector
-  | ConnectorSyskeeperProxyGet
-  | SyskeeperForwarderGet
-  | BridgeCassaGetConnector
-  | RabbitmqGet
-  | GcpPubsubConsumerGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | RedisGetConnector
-  | BridgeInfluxdbGetConnector
-  | BridgeClickhouseGetConnector
-  | BridgeS3GetConnector
-  | BridgeGreptimedbGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorCouchbaseGetConnector
-  | BridgeTimescaleGetConnector
-  | BridgeDynamoGetConnector
-  | GetConnectors200ItemOneOf
-  | RocketmqGetConnector
-  | TdengineConnectorGet
-  | BridgeHstreamdbGetConnector
-  | BridgeSqlserverGetConnector
-  | BridgeOracleGetConnector
-  | ElasticsearchGet
 
 export interface ConnectorMqttStaticClientidEntry {
   ids: string[]
@@ -2885,6 +2977,21 @@ export interface ConfluentSslClientOpts {
   versions?: string[]
 }
 
+export interface ConfluentPutConnector {
+  authentication: ConfluentAuthUsernamePassword
+  bootstrap_hosts: string
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  health_check_topic?: string
+  metadata_request_timeout?: string
+  min_metadata_refresh_interval?: string
+  resource_opts?: BridgeKafkaConnectorResourceOpts
+  socket_opts?: BridgeKafkaSocketOpts
+  ssl: ConfluentSslClientOpts
+  tags?: string[]
+}
+
 export type ConfluentPostConnectorType =
   (typeof ConfluentPostConnectorType)[keyof typeof ConfluentPostConnectorType]
 
@@ -2892,6 +2999,23 @@ export type ConfluentPostConnectorType =
 export const ConfluentPostConnectorType = {
   confluent_producer: 'confluent_producer',
 } as const
+
+export interface ConfluentPostConnector {
+  authentication: ConfluentAuthUsernamePassword
+  bootstrap_hosts: string
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  health_check_topic?: string
+  metadata_request_timeout?: string
+  min_metadata_refresh_interval?: string
+  name: string
+  resource_opts?: BridgeKafkaConnectorResourceOpts
+  socket_opts?: BridgeKafkaSocketOpts
+  ssl: ConfluentSslClientOpts
+  tags?: string[]
+  type: ConfluentPostConnectorType
+}
 
 export type ConfluentGetConnectorType =
   (typeof ConfluentGetConnectorType)[keyof typeof ConfluentGetConnectorType]
@@ -2915,38 +3039,6 @@ export const ConfluentGetConnectorStatus = {
 export interface ConfluentAuthUsernamePassword {
   password: string
   username: string
-}
-
-export interface ConfluentPutConnector {
-  authentication: ConfluentAuthUsernamePassword
-  bootstrap_hosts: string
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  health_check_topic?: string
-  metadata_request_timeout?: string
-  min_metadata_refresh_interval?: string
-  resource_opts?: BridgeKafkaConnectorResourceOpts
-  socket_opts?: BridgeKafkaSocketOpts
-  ssl: ConfluentSslClientOpts
-  tags?: string[]
-}
-
-export interface ConfluentPostConnector {
-  authentication: ConfluentAuthUsernamePassword
-  bootstrap_hosts: string
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  health_check_topic?: string
-  metadata_request_timeout?: string
-  min_metadata_refresh_interval?: string
-  name: string
-  resource_opts?: BridgeKafkaConnectorResourceOpts
-  socket_opts?: BridgeKafkaSocketOpts
-  ssl: ConfluentSslClientOpts
-  tags?: string[]
-  type: ConfluentPostConnectorType
 }
 
 export interface ConfluentGetConnector {
@@ -3397,6 +3489,23 @@ export const BridgeOraclePutConnectorRole = {
   sysdba: 'sysdba',
 } as const
 
+export interface BridgeOraclePutConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeOracleConnectorResourceOpts
+  role?: BridgeOraclePutConnectorRole
+  server: string
+  service_name?: string
+  sid?: string
+  tags?: string[]
+  username: string
+}
+
 export type BridgeOraclePostConnectorType =
   (typeof BridgeOraclePostConnectorType)[keyof typeof BridgeOraclePostConnectorType]
 
@@ -3467,23 +3576,6 @@ export interface BridgeOracleConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface BridgeOraclePutConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeOracleConnectorResourceOpts
-  role?: BridgeOraclePutConnectorRole
-  server: string
-  service_name?: string
-  sid?: string
-  tags?: string[]
-  username: string
-}
-
 export interface BridgeOracleGetConnector {
   actions?: string[]
   /** @deprecated */
@@ -3507,21 +3599,12 @@ export interface BridgeOracleGetConnector {
   username: string
 }
 
-export type BridgeMysqlPostConnectorType =
-  (typeof BridgeMysqlPostConnectorType)[keyof typeof BridgeMysqlPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeMysqlPostConnectorType = {
-  mysql: 'mysql',
-} as const
-
-export interface BridgeMysqlPostConnector {
+export interface BridgeMysqlPutConnector {
   /** @deprecated */
   auto_reconnect?: boolean
   database: string
   description?: string
   enable?: boolean
-  name: string
   password?: string
   /** @minimum 1 */
   pool_size?: number
@@ -3529,9 +3612,16 @@ export interface BridgeMysqlPostConnector {
   server: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
-  type: BridgeMysqlPostConnectorType
   username?: string
 }
+
+export type BridgeMysqlPostConnectorType =
+  (typeof BridgeMysqlPostConnectorType)[keyof typeof BridgeMysqlPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMysqlPostConnectorType = {
+  mysql: 'mysql',
+} as const
 
 export type BridgeMysqlGetConnectorType =
   (typeof BridgeMysqlGetConnectorType)[keyof typeof BridgeMysqlGetConnectorType]
@@ -3558,12 +3648,13 @@ export interface BridgeMysqlConnectorResourceOpts {
   start_timeout?: string
 }
 
-export interface BridgeMysqlPutConnector {
+export interface BridgeMysqlPostConnector {
   /** @deprecated */
   auto_reconnect?: boolean
   database: string
   description?: string
   enable?: boolean
+  name: string
   password?: string
   /** @minimum 1 */
   pool_size?: number
@@ -3571,6 +3662,7 @@ export interface BridgeMysqlPutConnector {
   server: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
+  type: BridgeMysqlPostConnectorType
   username?: string
 }
 
@@ -3822,6 +3914,20 @@ export interface BridgeMatrixGetConnector {
   username: string
 }
 
+export interface BridgeKinesisPutConnector {
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  /** @minimum 0 */
+  max_retries?: number
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeKinesisConnectorResourceOpts
+  tags?: string[]
+}
+
 export type BridgeKinesisPostConnectorType =
   (typeof BridgeKinesisPostConnectorType)[keyof typeof BridgeKinesisPostConnectorType]
 
@@ -3829,6 +3935,22 @@ export type BridgeKinesisPostConnectorType =
 export const BridgeKinesisPostConnectorType = {
   kinesis: 'kinesis',
 } as const
+
+export interface BridgeKinesisPostConnector {
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  /** @minimum 0 */
+  max_retries?: number
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeKinesisConnectorResourceOpts
+  tags?: string[]
+  type: BridgeKinesisPostConnectorType
+}
 
 export type BridgeKinesisGetConnectorType =
   (typeof BridgeKinesisGetConnectorType)[keyof typeof BridgeKinesisGetConnectorType]
@@ -3853,36 +3975,6 @@ export interface BridgeKinesisConnectorResourceOpts {
   health_check_interval?: string
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface BridgeKinesisPutConnector {
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  /** @minimum 0 */
-  max_retries?: number
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeKinesisConnectorResourceOpts
-  tags?: string[]
-}
-
-export interface BridgeKinesisPostConnector {
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  /** @minimum 0 */
-  max_retries?: number
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeKinesisConnectorResourceOpts
-  tags?: string[]
-  type: BridgeKinesisPostConnectorType
 }
 
 export interface BridgeKinesisGetConnector {

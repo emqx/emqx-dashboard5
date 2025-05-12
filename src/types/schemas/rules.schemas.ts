@@ -252,6 +252,7 @@ export const RuleEngineRuleEventsEvent = {
   '$events/client_connected': '$events/client_connected',
   '$events/client_disconnected': '$events/client_disconnected',
   '$events/client_connack': '$events/client_connack',
+  '$events/client_check_authn_complete': '$events/client_check_authn_complete',
   '$events/client_check_authz_complete': '$events/client_check_authz_complete',
   '$events/session_subscribed': '$events/session_subscribed',
   '$events/session_unsubscribed': '$events/session_unsubscribed',
