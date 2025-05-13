@@ -926,33 +926,36 @@ const SchemaForm = defineComponent({
       )
     }
 
-    const sortPropKeys = (propKeys: Array<string>) => {
+    const sortPropKeys = (propKeys: Array<string>, propPaths?: Array<string | undefined>) => {
       if (!props.propsOrderMap) {
         return propKeys
       }
-      console.log('🍅🍅🍅 ~ sortPropKeys ~ propKeys:', JSON.stringify(propKeys))
 
-      const ret = propKeys
+      const keyPathMap = new Map<string, string>()
+      if (propPaths) {
+        propKeys.forEach((k: string) => {
+          const pathReg = new RegExp(`\\.${k}$`)
+          const path = propPaths.find((p) => p && pathReg.test(p))
+          if (path) {
+            keyPathMap.set(k, path)
+          }
+        })
+      }
+
       const { propsOrderMap } = props
 
-      // Sort roughly first, then sort finely
-      const propsOrderList = Object.entries(propsOrderMap).sort(
-        (item1, item2) => item1[1] - item2[1],
-      )
-      for (let index = 0; index < propsOrderList.length; index++) {
-        const [key, order] = propsOrderList[index]
-        const propOldIndex = propKeys.findIndex((k) => k === key)
-        if (propOldIndex > -1) {
-          ret.splice(propOldIndex, 1)
-          ret.splice(order, 0, key)
-        }
+      const getOrder = (key: string) => {
+        const path = keyPathMap.get(key)
+        const orderByPath = path ? propsOrderMap[path] : undefined
+        const orderByKey = propsOrderMap[key]
+        return orderByPath ?? orderByKey ?? 999
       }
-      ret.sort((pre, next) => {
-        const preOrder = propsOrderMap[pre] ?? 999
-        const nextOrder = propsOrderMap[next] ?? 999
-        return preOrder - nextOrder
+
+      return [...propKeys].sort((a, b) => {
+        const orderA = getOrder(a)
+        const orderB = getOrder(b)
+        return orderA - orderB
       })
-      return ret
     }
 
     const generatePropertiesUsePathAsKey = (properties: Properties) => {
@@ -1016,7 +1019,10 @@ const SchemaForm = defineComponent({
       }
 
       const setComponents = (properties: Properties) => {
-        const propKeys = sortPropKeys(Object.keys(properties))
+        const propKeys = sortPropKeys(
+          Object.keys(properties),
+          Object.values(properties).map(({ path }) => path),
+        )
         propKeys.forEach((key) => {
           const property = properties[key]
           const propKey = property.key as string

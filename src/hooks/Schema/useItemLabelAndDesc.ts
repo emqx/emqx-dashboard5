@@ -124,11 +124,11 @@ export default (
      * Otherwise, the text in the common zone will be taken.
      * Do this for override some of the less precise commons in the share-ui.
      */
-    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
-      return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
-    }
     if (!prop.labelKey && te(specialTextPath)) {
       return specialTextPath
+    }
+    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
+      return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
     }
     return typeTextPath
   }
