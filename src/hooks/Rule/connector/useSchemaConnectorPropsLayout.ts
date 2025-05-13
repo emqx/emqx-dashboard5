@@ -73,12 +73,12 @@ export default (
 
   const S3AdvancedProps = [
     'transport_options.headers',
-    'transport_options.request_timeout',
     'transport_options.pool_type',
     'transport_options.pool_size',
     'transport_options.connect_timeout',
-    'transport_options.enable_pipelining',
+    'transport_options.request_timeout',
     'transport_options.max_retries',
+    'transport_options.enable_pipelining',
     'transport_options.ipv6_probe',
   ]
   const S3TablesAdvancedProps = S3AdvancedProps.map((item) => `s3_client.${item}`)
@@ -294,8 +294,9 @@ export default (
         'access_key_id',
         'secret_access_key',
         's3_client.access_method',
+        'request_timeout',
         's3_client.transport_options',
-        ...S3TablesAdvancedProps.map((item) => item.replace('s3_client.transport_options.', '')),
+        ...S3TablesAdvancedProps,
       ],
       fieldStartIndex,
     ),
