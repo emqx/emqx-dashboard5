@@ -340,8 +340,7 @@ export default defineComponent({
     color: var(--color-primary);
   }
 }
-.link-alarm,
-.settings-dropdown-btn {
+.link-alarm {
   width: 24px;
   height: 24px;
   display: inline-block;
