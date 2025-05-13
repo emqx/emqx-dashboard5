@@ -43,11 +43,16 @@
         placement="bottom"
         :show-arrow="false"
       >
-        <div class="func-item">
-          <a class="settings-alarm" href="javascript:;" @click="handleShowSettings">
+        <el-dropdown trigger="click" :hide-on-click="false">
+          <div class="func-item settings-trigger">
             <el-icon class="settings"><Setting /></el-icon>
-          </a>
-        </div>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu class="settings-dropdown-menu">
+              <Settings />
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </el-tooltip>
 
       <el-dropdown placement="bottom" @command="handleDropdownCommand">
@@ -68,7 +73,6 @@
         </template>
       </el-dropdown>
     </div>
-    <settings v-model="showSettings" />
     <help v-model="showHelp" />
   </div>
 </template>
@@ -337,10 +341,17 @@ export default defineComponent({
   }
 }
 .link-alarm,
-.settings-alarm {
+.settings-dropdown-btn {
   width: 24px;
   height: 24px;
   display: inline-block;
+}
+.settings-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer;
 }
 .link-help {
   margin: 12px;
