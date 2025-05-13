@@ -1,59 +1,39 @@
 <template>
-  <el-drawer
-    :title="t('components.settings')"
-    v-model="showDrawer"
-    size="350px"
-    destroy-on-close
-    class="settings"
-  >
+  <div class="settings-dropdown">
     <el-form class="configuration-form" label-position="top" :model="record">
-      <el-row class="settings-form">
-        <el-col :span="24">
-          <el-form-item prop="lang">
-            <template #label>
-              <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
-            </template>
-            <el-select v-model="record.lang">
-              <el-option
-                v-for="lang in langOption"
-                :key="lang.value"
-                :value="lang.value"
-                :label="lang.label"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item>
-            <template #label>
-              <FormItemLabel :label="tl('syncOsTheme')" :desc="tl('syncOsThemeTip')" />
-            </template>
-            <el-switch v-model="record.syncOsTheme" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item prop="theme">
-            <template #label>
-              <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
-            </template>
-            <el-select v-model="record.theme" :disabled="record.syncOsTheme">
-              <el-option
-                v-for="theme in themeOption"
-                :key="theme.value"
-                :value="theme.value"
-                :label="theme.label"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item prop="lang">
+        <template #label>
+          <FormItemLabel :label="tl('language')" :desc="tl('languageTip')" />
+        </template>
+        <el-select v-model="record.lang" @click.stop @change="handleLangChange">
+          <el-option
+            v-for="lang in langOption"
+            :key="lang.value"
+            :value="lang.value"
+            :label="lang.label"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="themeMode">
+        <template #label>
+          <FormItemLabel :label="tl('theme')" :desc="tl('themeTip')" />
+        </template>
+        <div class="theme-selector">
+          <el-radio-group v-model="record.themeMode" size="small" @change="handleThemeChange">
+            <el-radio-button value="light">
+              <el-icon><Sunny /></el-icon>
+            </el-radio-button>
+            <el-radio-button value="dark">
+              <el-icon><Moon /></el-icon>
+            </el-radio-button>
+            <el-radio-button value="os">
+              <el-icon><Monitor /></el-icon>
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+      </el-form-item>
     </el-form>
-    <template #footer>
-      <el-button type="primary" @click="handleSave">
-        {{ t('Base.apply') }}
-      </el-button>
-    </template>
-  </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -63,33 +43,20 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-const { t } = useI18n()
+import { Sunny, Moon, Monitor } from '@element-plus/icons-vue'
 
 const record = reactive({
   lang: 'en',
-  theme: 'dark',
-  syncOsTheme: false,
+  themeMode: 'os',
 })
 
 const store = useStore()
 record.lang = store.state.lang
-record.theme = store.state.theme
-record.syncOsTheme = store.state.syncOsTheme
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-  },
-})
-const emit = defineEmits(['update:modelValue'])
-const showDrawer: WritableComputedRef<boolean> = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  },
-})
+if ('syncOsTheme' in store.state) {
+  record.themeMode = store.state.syncOsTheme ? 'os' : store.state.theme
+}
+
 const { tl } = useI18nTl('Settings')
 const langOption = [
   {
@@ -101,25 +68,59 @@ const langOption = [
     label: '简体中文',
   },
 ]
-const themeOption = [
-  {
-    value: 'light',
-    label: tl('light'),
-  },
-  {
-    value: 'dark',
-    label: tl('dark'),
-  },
-]
-const handleSave = async () => {
-  store.dispatch('UPDATE_SETTINGS', record)
+
+const saveSetting = async () => {
+  const settings = {
+    lang: record.lang,
+    syncOsTheme: record.themeMode === 'os',
+    theme: record.themeMode === 'os' ? store.state.theme : record.themeMode,
+  }
+  await store.dispatch('UPDATE_SETTINGS', settings)
+}
+
+const handleLangChange = async () => {
+  await saveSetting()
+}
+
+const handleThemeChange = async () => {
+  await saveSetting()
 }
 </script>
 
 <style lang="scss">
-.settings {
+.settings-dropdown {
+  min-width: 240px;
+  padding: 12px;
+
   .el-form-item {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+  }
+
+  .el-select {
+    width: 100%;
+  }
+
+  .theme-selector {
+    .el-radio-group {
+      display: flex;
+      width: 100%;
+      height: 32px;
+
+      .el-radio-button {
+        flex: 1;
+
+        .el-radio-button__inner {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+
+          .el-icon {
+            font-size: 18px;
+          }
+        }
+      }
+    }
   }
 }
 </style>
