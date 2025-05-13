@@ -9,7 +9,7 @@ import autoImportConfig, { autoImportComponentsConfig } from './auto-import.conf
 import { version as packageVersion } from './package.json'
 
 const getVersion = (packageVersion) => {
-  const matched = packageVersion.match(/^\d\.\d/)
+  const matched = packageVersion.match(/^\d\.\d+/)
   return matched ? `v${matched[0]}` : 'latest'
 }
 const version = getVersion(packageVersion)
