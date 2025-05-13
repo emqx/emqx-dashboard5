@@ -743,4 +743,8 @@ export default {
     zh: '托管服务',
     en: 'Managed Service',
   },
+  apiKey: {
+    zh: 'API 密钥',
+    en: 'API Key',
+  },
 }

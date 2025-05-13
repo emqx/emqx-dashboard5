@@ -1773,4 +1773,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '已缓存消息占用的系统资源量',
     en: 'System resource usage of queued messages',
   },
+  anthropicVersion: {
+    zh: 'Anthropic 版本',
+    en: 'Anthropic Version',
+  },
+  maxTokens: {
+    zh: '最大令牌数',
+    en: 'Max Tokens',
+  },
 }

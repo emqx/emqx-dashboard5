@@ -72,6 +72,17 @@ import { MtConfigOut } from './schemas/multiTenancy.schemas'
 import { RuleEngineActionDetails } from './schemas/rules.schemas'
 import type { PluginsHealthStatus } from './schemas/plugins.schemas'
 import { PluginsHealthStatusStatus } from './schemas/plugins.schemas'
+import type {
+  AiProvider,
+  AiProviderApiPut,
+  PostAiCompletionProfilesBody,
+  AiProviderType as AiProviderTypeValueTypeAlias,
+  AiAnthropicCompletionProfile,
+} from './schemas/aiCompletion.schemas'
+import {
+  AiAnthropicCompletionProfileApiPutAnthropicVersion,
+  AiProviderType,
+} from './schemas/aiCompletion.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -180,3 +191,12 @@ export type RuleActionStatus = RuleEngineActionDetails
 export type PluginHealthStatusObj = PluginsHealthStatus
 export const PluginsHealthStatusVal = PluginsHealthStatusStatus
 export type PluginHealthStatusValueType = ValueOf<typeof PluginsHealthStatusVal>
+
+/* AI COMPLETION */
+export type AIProviderForm = AiProvider
+export type PutAIProviderForm = AiProviderApiPut
+export const AIProviderType = AiProviderType
+export type AIProviderTypeValueType = AiProviderTypeValueTypeAlias
+export type AnthropicCompletion = AiAnthropicCompletionProfile
+export type AICompletionProfile = PostAiCompletionProfilesBody
+export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersion
