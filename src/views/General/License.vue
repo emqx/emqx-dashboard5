@@ -74,7 +74,12 @@
         <!-- COMMUNITY -->
         <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
           <MarkdownContent
-            :content="tl('communityLicenseTip', { applyLicenseLink: docMap.applyLicense })"
+            :content="
+              tl('communityLicenseTip', {
+                applyLicenseLink: docMap.applyLicense,
+                faqLinkPlaceholder: docMap.licenseFaq,
+              })
+            "
           />
         </el-alert>
 
