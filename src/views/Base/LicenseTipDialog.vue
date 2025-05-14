@@ -10,7 +10,12 @@
         <MarkdownContent
           class="tip"
           v-if="isCommunityLicense"
-          :content="tl('communityLicenseTip', { applyLicenseLink: docMap.applyLicense })"
+          :content="
+            tl('communityLicenseTip', {
+              applyLicenseLink: docMap.applyLicense,
+              faqLinkPlaceholder: docMap.licenseFaq,
+            })
+          "
         />
         <template v-if="!isCommunityLicense">
           <MarkdownContent

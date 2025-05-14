@@ -33,6 +33,7 @@ type DocKey =
   | 'iotDbBatchSettings'
   | 'tdengineBatchSettings'
   | 'datalayersBatchSettings'
+  | 'licenseFaq'
 
 export type DocMap = Record<DocKey, string>
 
@@ -109,6 +110,7 @@ const createDocLinks = (lang: string): DocMap => {
     datalayersBatchSettings: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/data-bridge-datalayers.html#${createBatchSettingHash(
       lang,
     )}`,
+    licenseFaq: `https://www.emqx.com/${lang}/content/license-faq?${createQueryStr({})}`,
   }
 }
 
