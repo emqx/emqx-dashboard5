@@ -3,6 +3,7 @@ import FilterForm from '@/views/Flow/components/form/processing/FilterForm.vue'
 import FunctionForm from '@/views/Flow/components/form/processing/FunctionForm.vue'
 import EventForm from '@/views/Flow/components/form/source/EventForm.vue'
 import MessageForm from '@/views/Flow/components/form/source/MessageForm.vue'
+import AINodeForm from '@/views/Flow/components/ai/AINodeForm.vue'
 import BridgeInfluxdbConfig from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import AllMsgsAndEventsForm from '@/views/Flow/components/form/source/AllMsgsAndEventsForm.vue'
 import UsingSchemaBridgeConfig from '@/views/RuleEngine/Bridge/Components/UsingSchemaBridgeConfig.vue'
@@ -36,6 +37,11 @@ export default (): {
     [SourceTypeAllMsgsAndEvents]: tl('allMsgsAndEvents'),
     [ProcessingType.Function]: tl('dataProcessing'),
     [ProcessingType.Filter]: t('Flow.filter'),
+    // TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:
     [SinkType.RePub]: tl('republish'),
     [SinkType.Console]: tl('consoleOutput'),
   }
@@ -66,6 +72,8 @@ export default (): {
     [SourceTypeAllMsgsAndEvents]: AllMsgsAndEventsForm,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
+    [ProcessingType.AIOpenAI]: AINodeForm,
+    [ProcessingType.AIAnthropic]: AINodeForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTT]: UsingSchemaBridgeConfig,

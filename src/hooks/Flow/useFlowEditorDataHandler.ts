@@ -41,7 +41,7 @@ interface BridgeData {
 
 export default (): {
   getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
-  getFieldsExpressionsFromNode: (nodes: Array<NodeData>) => string
+  getFieldsExpressionsFromNode: (nodes: Array<NodeData>, edges: Array<EdgeData>) => string
   getAllRecordsFromFlow: (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
@@ -285,14 +285,57 @@ export default (): {
     return getFilterExpressionFromForm(filterData)
   }
 
-  const getFieldsExpressionsFromNode = (nodes: Array<NodeData>): string => {
-    const functionNode = nodes.find(({ data }) => data.specificType === ProcessingType.Function)
-    const aiNodes = nodes.filter(({ data }) => isAIType(data.specificType))
-    const functionData = functionNode?.data.formData
-    if (!functionData && !aiNodes.length) {
+  /**
+   * Processing Node and AI Node are processing nodes
+   */
+  const isProcessingNode = (node: NodeData) => {
+    const { specificType } = node.data
+    return specificType === ProcessingType.Function || isAIType(specificType)
+  }
+
+  const getNextNodes = (node: NodeData, edges: Array<EdgeData>): Array<NodeData> | undefined => {
+    const nextNodes = edges.filter(({ sourceNode }) => sourceNode.id === node.id)
+    if (!nextNodes.length) {
+      return undefined
+    }
+    return nextNodes.map(({ targetNode }) => targetNode as NodeData)
+  }
+  const sortProcessingNodesByEdges = (nodes: Array<NodeData>, edges: Array<EdgeData>) => {
+    const firstNode = edges.find(({ sourceNode, targetNode }) => {
+      const isNotFromProcessingNode = !isProcessingNode(sourceNode as NodeData)
+      const isToProcessingNode = isProcessingNode(targetNode as NodeData)
+      return isNotFromProcessingNode && isToProcessingNode
+    })
+    if (!firstNode) {
+      return []
+    }
+    const sortedNodes: Array<NodeData> = [firstNode.targetNode as NodeData]
+    let nextNodes = getNextNodes(firstNode.targetNode as NodeData, edges)
+    // Theoretically, there should only be one next node, to handle special cases.
+    while (nextNodes && isProcessingNode(nextNodes[0])) {
+      sortedNodes.push(...nextNodes)
+      nextNodes = getNextNodes(nextNodes[nextNodes.length - 1], edges)
+    }
+
+    return sortedNodes
+  }
+
+  const getFieldsExpressionsFromNode = (nodes: Array<NodeData>, edges: Array<EdgeData>): string => {
+    const sortedProcessingNodes = sortProcessingNodesByEdges(nodes, edges)
+    if (!sortedProcessingNodes.length) {
       return DEFAULT_SELECT
     }
-    return getFuncExpressionFromForm(functionData)
+    return sortedProcessingNodes.reduce((ret, node: NodeData) => {
+      let expression = ''
+      if (node.data.specificType === ProcessingType.Function) {
+        expression = getFuncExpressionFromForm(node.data.formData)
+      } else if (isAIType(node.data.specificType)) {
+        const { input, name, alias } = node.data.formData
+        expression = `${AI_FUNCTION_NAME}(${name}, ${input}) as ${alias}`
+      }
+      ret += ret ? `, ${expression}` : expression
+      return ret
+    }, '')
   }
 
   const { isBridgerNode, isAIType } = useFlowNode()
@@ -400,7 +443,7 @@ export default (): {
     } = nodes
     const fromArr = getFromDataFromNodes(inputNodes)
     const filterStr = getFilterStrFromNodes(defaultNodes)
-    const fieldsExpressions = getFieldsExpressionsFromNode(defaultNodes)
+    const fieldsExpressions = getFieldsExpressionsFromNode(defaultNodes, flowData.edges)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)
     rule.actions = getRuleActionsFromOutputNodesAndEdges(outputNodes, flowData.edges)
     const actions = getActionsDataFromOutputNodesAndEdges(outputNodes, flowData.edges)

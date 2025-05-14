@@ -58,6 +58,8 @@ export const createAICommonForm = () => ({
   api_key: '',
   model: '',
   system_prompt: '',
+  input: '',
+  name: `flow_ai_${createRandomString(4)}`,
 })
 export const createAIOpenAIForm = () => ({ type: AIProviderType.openai, ...createAICommonForm() })
 export const createAIAnthropicForm = () => ({

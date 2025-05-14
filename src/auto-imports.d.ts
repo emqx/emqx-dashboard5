@@ -8,6 +8,7 @@ export {}
 declare global {
   const ACTIVE_RING_STROKE_WIDTH: typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']
   const ADMIN_USERNAMES: typeof import('./common/constants')['ADMIN_USERNAMES']
+  const AI_FUNCTION_NAME: typeof import('./common/constants')['AI_FUNCTION_NAME']
   const API_BASE_URL: typeof import('./common/constants')['API_BASE_URL']
   const AUTHZ_COMMON_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']
   const AUTHZ_HTTP_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']
@@ -133,6 +134,9 @@ declare global {
   const connectorResourceOptFields: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']
   const consumerReg: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
+  const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
+  const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
+  const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
   const createConsoleForm: typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']
   const createEventForm: typeof import('./hooks/Flow/useNodeForm')['createEventForm']
@@ -512,7 +516,7 @@ declare global {
   export type { NodeItem } from './hooks/Flow/useFlowEditor'
   import('./hooks/Flow/useFlowEditor')
   // @ts-ignore
-  export type { FlowData, FilterItem, FunctionItem, FunctionForm, FilterFormData, FilterForm } from './hooks/Flow/useFlowNode'
+  export type { ProcessingType, FlowData, FilterItem, FunctionItem, FunctionForm, FilterFormData, FilterForm } from './hooks/Flow/useFlowNode'
   import('./hooks/Flow/useFlowNode')
   // @ts-ignore
   export type { GroupedNode } from './hooks/Flow/useGenerateFlowDataUtils'
@@ -565,6 +569,7 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']>
     readonly ADMIN_USERNAMES: UnwrapRef<typeof import('./common/constants')['ADMIN_USERNAMES']>
+    readonly AI_FUNCTION_NAME: UnwrapRef<typeof import('./common/constants')['AI_FUNCTION_NAME']>
     readonly API_BASE_URL: UnwrapRef<typeof import('./common/constants')['API_BASE_URL']>
     readonly AUTHZ_COMMON_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']>
     readonly AUTHZ_HTTP_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']>
@@ -690,6 +695,9 @@ declare module 'vue' {
     readonly connectorResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']>
     readonly consumerReg: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']>
     readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
+    readonly createAIAnthropicForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']>
+    readonly createAICommonForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']>
+    readonly createAIOpenAIForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createConsoleForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']>
     readonly createEventForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createEventForm']>

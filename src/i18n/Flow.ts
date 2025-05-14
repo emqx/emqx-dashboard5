@@ -139,4 +139,20 @@ export default {
     zh: '包含来自所有主题的消息，以及以下事件：',
     en: 'Contains messages from all topics, as well as the following events:',
   },
+  anthropicVersion: {
+    zh: 'Anthropic 版本',
+    en: 'Anthropic Version',
+  },
+  maxTokens: {
+    zh: '最大令牌数',
+    en: 'Max Tokens',
+  },
+  model: {
+    zh: '模型',
+    en: 'Model',
+  },
+  systemPrompt: {
+    zh: '系统提示',
+    en: 'System Prompt',
+  },
 }
