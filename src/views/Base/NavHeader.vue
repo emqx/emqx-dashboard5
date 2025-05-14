@@ -2,6 +2,22 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
+      <div v-if="showCommunityLicensePromotion" class="license-actions-header">
+        <span class="promo-text">
+          {{ t('Base.promoApplyFor') }}
+          <a :href="applyLicenseUrl" target="_blank" class="header-action-link">{{
+            t('Base.promoLicenseText')
+          }}</a>
+          {{ t('Base.promoOrTry')
+          }}<a :href="cloudServiceUrl" target="_blank" class="header-action-link">{{
+            t('Base.promoManagedServiceText')
+          }}</a>
+        </span>
+        <el-icon class="close-promo-icon" @click="dismissCommunityLicensePromotion">
+          <Close />
+        </el-icon>
+      </div>
+
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
           <el-icon :size="16"><Search /></el-icon>
@@ -13,6 +29,7 @@
           <span class="icon-key">K</span>
         </div>
       </div>
+
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
       </el-button>
@@ -76,9 +93,10 @@
 <script lang="ts">
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
-import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
+import { Right, Bell, Setting, Search, Close } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
+import { LS_KEY_COMMUNITY_PROMO_DISMISSED } from '@/common/constants'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -89,6 +107,7 @@ export default defineComponent({
     Settings,
     Help,
     Search,
+    Close,
   },
   props: {
     title: {
@@ -102,6 +121,8 @@ export default defineComponent({
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
+    const { docMap } = useDocLink()
+
     const alertCount = computed(() => {
       return store.state.alertCount
     })
@@ -169,7 +190,7 @@ export default defineComponent({
       }
       router.currentRoute.value.name !== command && router.push({ name: command })
     }
-    const { docMap } = useDocLink()
+
     const routeToContactUs = () => {
       const windowUrl = window.open(docMap.contactUs)
       if (windowUrl) {
@@ -194,6 +215,27 @@ export default defineComponent({
     onBeforeUnmount(() => {
       document.removeEventListener('visibilitychange', visibilityChangeFunc)
     })
+
+    // Start of NavHeader license and Cloud Service promotion
+    const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
+
+    const applyLicenseUrl = computed(() => docMap.applyLicense)
+    const cloudServiceUrl = computed(() => docMap.cloud)
+
+    const communityPromoDismissed = ref(
+      localStorage.getItem(LS_KEY_COMMUNITY_PROMO_DISMISSED) === 'true',
+    )
+
+    const showCommunityLicensePromotion = computed(() => {
+      return isCommunityLicense.value && !communityPromoDismissed.value
+    })
+
+    const dismissCommunityLicensePromotion = () => {
+      localStorage.setItem(LS_KEY_COMMUNITY_PROMO_DISMISSED, 'true')
+      communityPromoDismissed.value = true
+    }
+    // End of NavHeader license and Cloud Service promotion
+
     return {
       t,
       IS_ENTERPRISE,
@@ -213,6 +255,11 @@ export default defineComponent({
       handleShowHelp,
       isMac,
       openQuickPanel,
+      isCommunityLicense,
+      applyLicenseUrl,
+      cloudServiceUrl,
+      showCommunityLicensePromotion,
+      dismissCommunityLicensePromotion,
     }
   },
 })
@@ -357,5 +404,59 @@ export default defineComponent({
 .icon-question {
   color: #fff;
   font-size: 21px;
+}
+
+.license-actions-header {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  margin-right: 16px;
+  padding: 0 12px;
+  background: linear-gradient(135deg, rgba(81, 95, 235, 0.15) 0%, rgba(129, 156, 255, 0.25) 100%);
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  position: relative;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(81, 95, 235, 0.2) 0%, rgba(129, 156, 255, 0.3) 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .promo-text {
+    margin-right: 10px;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+
+  .header-action-link {
+    color: #9babff;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 2px;
+    padding: 0 1px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #b6c4ff;
+      text-decoration: none;
+      text-shadow: 0 0 8px #96aaff80;
+    }
+  }
+
+  .close-promo-icon {
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffffb3;
+    transition: all 0.2s;
+    margin-left: 2px;
+
+    &:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+  }
 }
 </style>

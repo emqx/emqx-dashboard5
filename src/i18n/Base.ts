@@ -727,4 +727,20 @@ export default {
     zh: '描述',
     en: 'Description',
   },
+  promoApplyFor: {
+    zh: '申请 ',
+    en: 'Apply for ',
+  },
+  promoLicenseText: {
+    zh: 'License',
+    en: 'License',
+  },
+  promoOrTry: {
+    zh: ' 或试用 ',
+    en: ' or try ',
+  },
+  promoManagedServiceText: {
+    zh: '托管服务',
+    en: 'Managed Service',
+  },
 }
