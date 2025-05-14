@@ -2,7 +2,7 @@
   <el-container>
     <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
       <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-        <img :src="appLogo" alt="emqx-logo" />
+        <img :src="appLogo" alt="logo" />
       </div>
       <left-bar></left-bar>
       <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">

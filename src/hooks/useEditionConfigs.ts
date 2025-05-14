@@ -1,4 +1,4 @@
-import enterpriseLogo from '@/assets/img/emqx-logo-enterprise.svg'
+import enterpriseLogo from '@/assets/img/logo.svg'
 import openSourceLogo from '@/assets/img/emqx-logo-open-source.png'
 import enterpriseBanner from '@/assets/img/login-banner-enterprise.png'
 import openSourceBanner from '@/assets/img/login-banner-open-source.png'
