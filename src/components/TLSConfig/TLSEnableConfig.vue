@@ -163,7 +163,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'verifyChange'])
 
-const { t, tl } = useI18nTl('Auth')
+const { t } = useI18nTl('Auth')
 
 const record = computed<SSL>({
   get() {

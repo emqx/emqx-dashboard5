@@ -149,7 +149,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     cacertfile: '',
     keyfile: '',
     verify: SSL_VERIFY_VALUE_MAP.get(true),
-    fail_if_no_peer_cert: false,
+    fail_if_no_peer_cert: true,
     depth: 10,
     password: '',
     ocsp: {
