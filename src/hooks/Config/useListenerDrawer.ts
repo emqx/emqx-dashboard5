@@ -371,6 +371,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     if (val === 'verify_none' && fail_if_no_peer_cert === true) {
       listenerRecord.value[SSLConfigKey.value].fail_if_no_peer_cert = false
     }
+    if (val === 'verify_peer' && fail_if_no_peer_cert === false) {
+      listenerRecord.value[SSLConfigKey.value].fail_if_no_peer_cert = true
+    }
   }
 
   return {
