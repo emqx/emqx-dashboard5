@@ -247,7 +247,6 @@ export default defineComponent({
   margin-top: 0;
   margin-bottom: 0;
   font-size: 22px;
-  color: #fff;
 }
 
 .pull-right {
@@ -268,7 +267,7 @@ export default defineComponent({
   align-items: center;
   border-radius: 8px;
   border: 1px solid transparent;
-  background: #27353e;
+  background: #eef0f2;
   color: #a7abb1;
   cursor: pointer;
   font-family: 'PingFang SC';
@@ -284,7 +283,6 @@ export default defineComponent({
     font-size: 14px;
     .el-icon {
       margin-right: 10px;
-      color: #fff;
     }
   }
   .icon-key {
@@ -295,7 +293,6 @@ export default defineComponent({
     text-align: center;
     line-height: 1;
     font-size: 11px;
-    color: #fff;
     border-radius: 2px;
     background: rgba(255, 255, 255, 0.14);
     &.is-cmd {
@@ -308,7 +305,7 @@ export default defineComponent({
   padding: 0 10px;
   transition: all 0.3s;
   cursor: pointer;
-  color: #fff;
+  color: var(--color-text-secondary);
 }
 
 .el-badge {
@@ -323,7 +320,7 @@ export default defineComponent({
 
 .el-button.go-link {
   background-color: transparent;
-  color: #fff;
+  color: var(--color-text-secondary);
   border: 1px solid var(--color-border-primary);
   margin-right: 12px;
   .el-icon {
@@ -347,7 +344,7 @@ export default defineComponent({
 }
 .el-icon.bell,
 .el-icon.settings {
-  color: #fff;
+  color: var(--color-text-secondary);
   font-size: 21px;
   width: 24px;
   height: 24px;
@@ -355,7 +352,7 @@ export default defineComponent({
   top: 1px;
 }
 .icon-question {
-  color: #fff;
+  color: var(--color-text-secondary);
   font-size: 21px;
 }
 </style>

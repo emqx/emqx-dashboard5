@@ -249,11 +249,7 @@ const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity
 const { judgeIsWebhookAction } = useWebhookUtils()
 const isWebhookAction = computed(() => judgeIsWebhookAction(bridgeInfo.value))
 const formProps = computed(() => (isWebhookAction.value ? { disabled: true } : {}))
-const webhookRoute = computed(() => ({
-  name: 'webhook-detail',
-  params: { name: bridgeInfo.value.name },
-  query: { tab: DetailTab.Setting },
-}))
+const webhookRoute = computed(() => ({}))
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true

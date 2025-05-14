@@ -20,9 +20,9 @@
   ),
   $button: (
     'bg-color': var(--color-bg-content),
-    'hover-bg-color': var(--color-hover),
-    'hover-border-color': var(--color-primary),
-    'border-color': var(--color-border-primary),
+    'hover-bg-color': var(--color-bg-selected),
+    'hover-border-color': var(--color-bg-selected),
+    'border-color': var(--color-bg-secondary-button),
     'disabled-bg-color': var(--color-bg-split),
   ),
   $radio: (
@@ -57,9 +57,9 @@
   --el-text-color-secondary: var(--color-text-secondary);
   --el-disabled-text-color: var(--color-text-primary);
   --el-border-color-light: var(--color-border-normal);
-  --el-color-success: #00b173;
-  --el-color-danger: #eb4e3d;
-  --el-color-warning: #f19710;
+  --el-color-success: #34b75b;
+  --el-color-danger: #f53145;
+  --el-color-warning: #ff6f00;
   --el-color-info: #7a7b80;
   --el-box-shadow-light: var(--color-shadow-primary) 0px 4px 12px;
   --el-border: 1px solid var(--color-border-primary);
@@ -91,18 +91,14 @@
       margin: 0px 12px;
       border-radius: 8px;
       border-left: 4px solid transparent;
-      color: #ffffffd9;
+      color: #888888;
       &:hover {
-        background-color: #1f303c;
+        background-color: var(--color-hover);
         border-radius: 8px;
+        color: #fff;
       }
     }
     .el-sub-menu {
-      &.is-active.is-opened {
-        .el-sub-menu__title {
-          color: #fff;
-        }
-      }
       .el-menu-item,
       .el-menu-item-group__title {
         padding: 0px 0px 0px 31px !important;
@@ -113,17 +109,17 @@
       }
     }
     .el-menu-item {
-      color: #ffffffd9;
       border-radius: 8px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
         color: #fff;
-        background-color: #1f303c;
+        background-color: var(--color-primary);
         border-radius: 8px;
       }
       &:hover {
-        background-color: #1f303c;
+        background-color: var(--color-hover);
+        color: #fff;
         border-radius: 8px;
       }
     }
@@ -142,14 +138,13 @@
     min-width: initial;
     background-color: var(--color-bg);
     .el-menu-item {
-      color: #ffffffd9;
       &.is-active {
         color: #fff;
-        background-color: #1f303c;
+        background-color: var(--color-primary);
       }
       &:hover {
         color: #fff;
-        background-color: #1f303c;
+        background-color: var(--color-hover);
       }
     }
   }
@@ -171,7 +166,7 @@
   }
   &.el-menu--collapse {
     > .el-sub-menu.is-active .el-sub-menu__title {
-      background-color: #1f303c;
+      background-color: var(--color-primary);
       color: #fff;
     }
   }
@@ -309,7 +304,7 @@
     color: var(--color-text-primary) !important;
   }
   .el-progress-bar__inner {
-    background: linear-gradient(135deg, #5e4eff 0%, #5e4eff 100%);
+    background: linear-gradient(135deg, #044cb9 0%, #044cb9 100%);
   }
   &.is-warning {
     .el-progress-bar__inner {
@@ -407,23 +402,37 @@
     -1px -1px 0 $weight rgba($from, 0.75);
 }
 
+@mixin button-plain {
+  background-color: var(--color-bg-content);
+  border: 1px solid var(--color-border-primary);
+  color: var(--color-text-secondary);
+  &:hover {
+    color: var(--color-button-blue);
+    border-color: var(--color-button-blue);
+    background: var(--color-bg-selected);
+  }
+}
+
 /* Button */
 .el-button {
+  background: var(--color-bg-secondary-button);
+  color: #535863;
+  &:hover {
+    opacity: 0.8;
+    color: var(--color-button-blue);
+  }
+  &.is-plain {
+    @include button-plain;
+  }
   &.el-button--primary:not(.is-link) {
-    background: linear-gradient(135deg, #8c4eff 0%, #3f36ec 100%);
+    background: var(--color-primary);
     border: none;
     color: #fff;
     &.is-plain {
-      background: var(--color-bg-content);
-      color: var(--color-primary);
-      @include border-gradient(#ac6eff, #5f56fc);
-      &:not(.el-button--small, .el-button--large) {
-        // the border is shadow, so we need to set the height to 30px (32 - 2)
-        height: 30px;
-      }
+      @include button-plain;
     }
     &:hover {
-      background: linear-gradient(135deg, #bc7eff 0%, #6f66ec 100%);
+      opacity: 0.8;
       color: #fff;
     }
     &.is-disabled {
@@ -431,7 +440,7 @@
       &:hover,
       &:focus,
       &:active {
-        background: linear-gradient(135deg, #dc9eff 0%, #8f86ff 100%);
+        background: var(--color-bg-disabled);
         color: #fff;
       }
     }
@@ -603,7 +612,7 @@
           left: -4px;
           width: 32px;
           height: 32px;
-          background-color: #5e4eff33;
+          background-color: #044cb933;
         }
       }
     }

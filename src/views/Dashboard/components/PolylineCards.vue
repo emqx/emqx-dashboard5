@@ -252,7 +252,7 @@ const connectionDataTypeFilter = computed(() => {
   }))
 })
 const getLineColors = (index: number) => {
-  const totalColors = ['#3D7FF9', '#5ECEA6', '#757789', '#5551F4', '#F49845', '#66CFDA']
+  const totalColors = ['#1695EF', '#00B48F', '#757789', '#6461FF', '#D56F00', '#66CFDA']
   // Swap the first and index positions
   const changedColorArr = [...totalColors.splice(0, 1, totalColors[index])]
   totalColors.splice(index, 1, changedColorArr[0])

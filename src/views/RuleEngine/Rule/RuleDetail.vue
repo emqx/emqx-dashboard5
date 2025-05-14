@@ -157,11 +157,7 @@ const { judgeIsWebhookRule } = useWebhookUtils()
 
 /* Webhook associated */
 const isWebhookRule = computed(() => judgeIsWebhookRule(ruleInfo.value))
-const webhookRoute = computed(() => ({
-  name: 'webhook-detail',
-  params: { name: id },
-  query: { tab: DetailTab.Setting },
-}))
+const webhookRoute = computed(() => ({}))
 
 const showDeleteConfirm = ref(false)
 const currentRule = ref<undefined | RuleItem>(undefined)

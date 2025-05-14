@@ -194,7 +194,7 @@ const drawChart = () => {
           name: 'emqx-dashboard',
           emphasis: {
             iconStyle: {
-              borderColor: '#5e4eff',
+              borderColor: '#044cb9',
             },
           },
         },
@@ -204,7 +204,7 @@ const drawChart = () => {
           title: '',
           emphasis: {
             iconStyle: {
-              borderColor: '#5e4eff',
+              borderColor: '#044cb9',
             },
           },
         },
