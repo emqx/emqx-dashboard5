@@ -10,14 +10,21 @@
     :validate-on-rule-change="false"
     @submit.prevent
   >
-    <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
-      <el-input
-        v-model="record.api_key"
-        :type="(readonly as boolean) ? 'text' : 'password'"
-        :readonly="readonly"
-      />
+    <CustomFormItem prop="input" :label="t('RuleEngine.input')" :readonly="readonly">
+      <!-- TODO: auto input -->
+      <!-- TODO: auto input -->
+      <!-- TODO: auto input -->
+      <!-- TODO: auto input -->
+      <!-- TODO: auto input -->
+      <el-input v-model="record.input" />
     </CustomFormItem>
-    <CustomFormItem prop="model" :label="tl('model')" :readonly="readonly">
+    <CustomFormItem prop="alias" :label="t('Flow.alias')" :readonly="readonly">
+      <el-input v-model="record.alias" />
+    </CustomFormItem>
+    <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
+      <el-input v-model="record.api_key" type="password" autocomplete="one-time-code" />
+    </CustomFormItem>
+    <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
       <el-input v-model="record.model" />
     </CustomFormItem>
     <template v-if="isAnthropicProfile(record)">
@@ -30,11 +37,11 @@
           <el-option v-for="item in anthropicVersionOpts" :key="item" :label="item" :value="item" />
         </el-select>
       </CustomFormItem>
-      <CustomFormItem prop="max_tokens" :label="t('RuleEngine.maxTokens')" :readonly="readonly">
+      <CustomFormItem prop="max_tokens" :label="t('Flow.maxTokens')" :readonly="readonly">
         <CustomInputNumber v-model="record.max_tokens" />
       </CustomFormItem>
     </template>
-    <CustomFormItem prop="system_prompt" :label="'System Prompt'" :readonly="readonly">
+    <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
       <el-input v-model="record.system_prompt" />
     </CustomFormItem>
   </el-form>
