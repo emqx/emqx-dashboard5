@@ -78,6 +78,7 @@ import type {
   PostAiCompletionProfilesBody,
   AiProviderType as AiProviderTypeValueTypeAlias,
   AiAnthropicCompletionProfile,
+  AiOpenaiCompletionProfile,
 } from './schemas/aiCompletion.schemas'
 import {
   AiAnthropicCompletionProfileApiPutAnthropicVersion,
@@ -198,5 +199,6 @@ export type PutAIProviderForm = AiProviderApiPut
 export const AIProviderType = AiProviderType
 export type AIProviderTypeValueType = AiProviderTypeValueTypeAlias
 export type AnthropicCompletion = AiAnthropicCompletionProfile
+export type OpenAICompletion = AiOpenaiCompletionProfile
 export type AICompletionProfile = PostAiCompletionProfilesBody
 export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersion

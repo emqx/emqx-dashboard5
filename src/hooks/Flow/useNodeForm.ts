@@ -1,5 +1,6 @@
-import { BridgeType, FilterLogicalOperator, Role } from '@/types/enum'
+import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
+import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
 import useFlowNode, {
   EditedWay,
   FilterForm,
@@ -53,6 +54,19 @@ export const createFunctionForm = (): FunctionForm => ({
   sql: '',
 })
 
+export const createAICommonForm = () => ({
+  api_key: '',
+  model: '',
+  system_prompt: '',
+})
+export const createAIOpenAIForm = () => ({ type: AIProviderType.openai, ...createAICommonForm() })
+export const createAIAnthropicForm = () => ({
+  type: AIProviderType.anthropic,
+  ...createAICommonForm(),
+  anthropic_version: AnthropicVersion['2023-06-01'],
+  max_tokens: 100,
+})
+
 export const createRePubForm = (): OutputItemObj => ({
   function: 'republish',
   args: {
@@ -87,6 +101,8 @@ export default (): {
     [SourceType.Event]: createEventForm,
     [ProcessingType.Filter]: createFilterForm,
     [ProcessingType.Function]: createFunctionForm,
+    [ProcessingType.AIOpenAI]: createAIOpenAIForm,
+    [ProcessingType.AIAnthropic]: createAIAnthropicForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.InfluxDB]: createRawInfluxDBForm,

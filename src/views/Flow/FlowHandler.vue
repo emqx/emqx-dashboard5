@@ -175,12 +175,12 @@ if (flowId.value) {
   getFlowDetail()
 }
 
-const { getRulesActionsSourcesFromFlowData } = useFlowEditorDataHandler()
+const { getAllRecordsFromFlow } = useFlowEditorDataHandler()
 const { isSubmitting, createFlow, updateFlow } = useSubmitFlowData()
 const submit = async () => {
   try {
     const flowData = FlowEditorCom.value.getFlowData()
-    const data = await getRulesActionsSourcesFromFlowData(flowBasicInfo.value, flowData)
+    const data = await getAllRecordsFromFlow(flowBasicInfo.value, flowData)
     const isCallCreate = isCreate.value && !isFlowCreated.value
     const request = isCallCreate ? createFlow : updateFlow
     currentRule.value = await request(data)

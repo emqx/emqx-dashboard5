@@ -28,9 +28,11 @@ export const SourceType = RuleSourceType
  */
 export const SourceTypeAllMsgsAndEvents = 'all-msgs-and-events'
 
-export const enum ProcessingType {
+export enum ProcessingType {
   Filter = 'filter',
   Function = 'function',
+  AIOpenAI = 'ai-openai',
+  AIAnthropic = 'ai-anthropic',
 }
 
 type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'SysKeeperProxy'
@@ -117,6 +119,7 @@ export default (): {
   isBridgerNode: (node: Partial<Node>) => boolean
   isWithFallbackNodes: (node: Node) => boolean
   isBridgeType: (type: string) => boolean
+  isAIType: (type: string) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
   getNodeIcon: (type: string, disabled?: boolean) => string
@@ -166,6 +169,8 @@ export default (): {
   const typeLabelMap = {
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
+    [ProcessingType.AIOpenAI]: 'OpenAI',
+    [ProcessingType.AIAnthropic]: 'Anthropic',
     [SinkType.Webhook]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTT]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
@@ -227,14 +232,20 @@ export default (): {
 
   const isNotBridgeTypes = [
     ...isNotBridgeSourceTypes,
-    ProcessingType.Filter,
-    ProcessingType.Function,
+    ...Object.values(ProcessingType),
     SinkType.RePub,
     SinkType.Console,
   ]
   const isBridgeType = (type: string) => {
     const isBridge = Object.entries(BridgeType).some(([, value]) => value === type)
     return !isNotBridgeTypes.includes(type) && isBridge
+  }
+
+  const isAIType = (type: string) => {
+    return (
+      Object.values(ProcessingType).includes(type as ProcessingType) &&
+      ![ProcessingType.Filter, ProcessingType.Function].includes(type as ProcessingType)
+    )
   }
 
   const getEventLabelFromVal = (val: string) => {
@@ -348,10 +359,8 @@ export default (): {
     specificType: value,
     name: label,
   }))
-  const processingNodeList: Array<NodeItem> = [
-    generateNodeByType(ProcessingType.Function),
-    generateNodeByType(ProcessingType.Filter),
-  ]
+
+  const processingNodeList: Array<NodeItem> = Object.values(ProcessingType).map(generateNodeByType)
   const sinkNodeList: Array<NodeItem> = Object.entries(SinkType)
     .sort(
       (a, b) =>
@@ -372,6 +381,7 @@ export default (): {
     isBridgerNode,
     isWithFallbackNodes,
     isBridgeType,
+    isAIType,
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,

@@ -3,6 +3,7 @@
  */
 import { FallbackActionKind } from '@/types/enum'
 import { BasicRule, BridgeItem, FallbackAction } from '@/types/rule'
+import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { ElementData, GraphEdge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
 import useFlowEdge from './useFlowEdge'
@@ -41,7 +42,7 @@ interface BridgeData {
 export default (): {
   getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
   getFieldsExpressionsFromNode: (nodes: Array<NodeData>) => string
-  getRulesActionsSourcesFromFlowData: (
+  getAllRecordsFromFlow: (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
   ) => Promise<{
@@ -286,14 +287,15 @@ export default (): {
 
   const getFieldsExpressionsFromNode = (nodes: Array<NodeData>): string => {
     const functionNode = nodes.find(({ data }) => data.specificType === ProcessingType.Function)
+    const aiNodes = nodes.filter(({ data }) => isAIType(data.specificType))
     const functionData = functionNode?.data.formData
-    if (!functionData) {
+    if (!functionData && !aiNodes.length) {
       return DEFAULT_SELECT
     }
     return getFuncExpressionFromForm(functionData)
   }
 
-  const { isBridgerNode } = useFlowNode()
+  const { isBridgerNode, isAIType } = useFlowNode()
   const getBridgeDataFromNode = (node: NodeData): BridgeData => {
     return { isCreated: !!node.data.isCreated, data: node.data.formData }
   }
@@ -351,11 +353,37 @@ export default (): {
     return allActionData
   }
 
+  const getAIProvidersAndCompletionsFromNodes = (nodes: Array<NodeData>) => {
+    const ret: { aiProviders: Array<AIProviderForm>; aiCompletions: Array<AICompletionProfile> } = {
+      aiProviders: [],
+      aiCompletions: [],
+    }
+    const aiNodes = nodes.filter((node) => isAIType(node.data.specificType))
+    aiNodes.forEach((node) => {
+      // TODO:TODO:TODO:TODO:TODO:TODO:
+      // TODO:TODO:TODO:TODO:TODO:TODO:
+      // TODO:TODO:TODO:TODO:TODO:TODO: 区分编辑跟新建的表单
+      const { formData } = node.data
+      const { type, api_key, name, ...rest } = formData
+      const aiProvider = { name, type, api_key }
+      const aiCompletion = { name, type, ...rest }
+      ret.aiProviders.push(aiProvider)
+      ret.aiCompletions.push(aiCompletion)
+    })
+    return ret
+  }
+
   const { transSQLFormDataToSQL } = useRuleUtils()
-  const getRulesActionsSourcesFromFlowData = async (
+  const getAllRecordsFromFlow = async (
     flowBasicInfo: { name: string; desc: string },
     flowData: FlowData,
-  ): Promise<{ rule: BasicRule; actions: Array<BridgeData>; sources: Array<BridgeData> }> => {
+  ): Promise<{
+    rule: BasicRule
+    actions: Array<BridgeData>
+    sources: Array<BridgeData>
+    aiProviders: Array<AIProviderForm>
+    aiCompletions: Array<AICompletionProfile>
+  }> => {
     try {
       await validateFlow(flowData)
     } catch (error) {
@@ -377,13 +405,14 @@ export default (): {
     rule.actions = getRuleActionsFromOutputNodesAndEdges(outputNodes, flowData.edges)
     const actions = getActionsDataFromOutputNodesAndEdges(outputNodes, flowData.edges)
     const sources = getBridgesFromNodes(inputNodes)
-    return { rule, actions, sources }
+    const { aiProviders, aiCompletions } = getAIProvidersAndCompletionsFromNodes(defaultNodes)
+    return { rule, actions, sources, aiProviders, aiCompletions }
   }
 
   return {
     getFromDataFromNodes,
     getFieldsExpressionsFromNode,
-    getRulesActionsSourcesFromFlowData,
+    getAllRecordsFromFlow,
     getFallbackItemDataFromNode,
   }
 }

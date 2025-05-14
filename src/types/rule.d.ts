@@ -8,7 +8,7 @@ import {
   QoSLevel,
   SchemaRegistryType,
 } from './enum'
-import { RuleActionStatus, SchemaRegistryExternalHttp } from './typeAlias'
+import { AIProviderForm, RuleActionStatus, SchemaRegistryExternalHttp } from './typeAlias'
 
 export interface NodeStatus {
   node: string
@@ -300,3 +300,10 @@ export type SchemaRegistry = NormalSchemaRegistry | SchemaRegistryExternalHttp
 export type SchemaRegistryDetail = SchemaRegistry | SchemaRegistryExternalHttpDetail
 
 export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['parameters']
+
+type OmitCompletionKeys = 'name' | 'provider_name' | 'type'
+export type AIProviderConfig = Omit<AIProviderForm, 'type'>
+export type AIOpenAIConfig = AIProviderConfig & Omit<OpenAICompletion, OmitCompletionKeys>
+export type AIAnthropicConfig = AIProviderConfig &
+  Omit<AiAnthropicCompletionProfile, OmitCompletionKeys>
+export type AIConfig = AIOpenAIConfig | AIAnthropicConfig
