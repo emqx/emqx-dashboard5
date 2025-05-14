@@ -63,10 +63,6 @@
       </el-main>
     </el-container>
   </el-container>
-  <LicenseTipDialog
-    v-model="showLicenseTipDialog"
-    :max-sessions="store.state.licenseData.max_sessions"
-  />
   <QuickPanel v-model="showQuickPanel" />
 </template>
 
@@ -259,10 +255,8 @@ export default defineComponent({
       align-items: center;
       justify-content: space-around;
       height: 100%;
-      color: #fff;
       .iconfont {
         transition: all 0.3s;
-        color: #fff;
         &.rotate {
           transform: rotate(180deg);
         }

@@ -51,12 +51,8 @@ const { t } = useI18nTl('RuleEngine')
 
 const route = computed(() => {
   if (!props.name) {
-    return { name: 'webhook' }
+    return {}
   }
-  return {
-    name: 'webhook-detail',
-    params: { name: props.name },
-    query: { tab: DetailTab.Setting },
-  }
+  return {}
 })
 </script>

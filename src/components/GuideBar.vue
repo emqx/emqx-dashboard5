@@ -70,7 +70,7 @@ defineProps({
         left: -4px;
         width: 28px;
         height: 28px;
-        background-color: #5e4eff33;
+        background-color: #044cb933;
       }
     }
     .icon-number {
