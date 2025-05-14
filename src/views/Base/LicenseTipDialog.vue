@@ -44,8 +44,6 @@
 </template>
 
 <script lang="ts" setup>
-import { LS_KEY_DO_NOT_SHOW_LICENSE_TIP } from '@/common/constants'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,

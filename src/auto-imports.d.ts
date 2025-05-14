@@ -63,6 +63,8 @@ declare global {
   const IoTDBKeyField: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']
   const KeysInRule: typeof import('./hooks/Rule/KeysInRule')['default']
   const LIMITER_REG: typeof import('./common/constants')['LIMITER_REG']
+  const LS_KEY_COMMUNITY_PROMO_DISMISSED: typeof import('./common/constants')['LS_KEY_COMMUNITY_PROMO_DISMISSED']
+  const LS_KEY_DO_NOT_SHOW_LICENSE_TIP: typeof import('./common/constants')['LS_KEY_DO_NOT_SHOW_LICENSE_TIP']
   const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
   const LogTargetType: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']
   const MAX_DISPLAYED_REP_NODE: typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']
@@ -618,6 +620,8 @@ declare module 'vue' {
     readonly IoTDBKeyField: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']>
     readonly KeysInRule: UnwrapRef<typeof import('./hooks/Rule/KeysInRule')['default']>
     readonly LIMITER_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_REG']>
+    readonly LS_KEY_COMMUNITY_PROMO_DISMISSED: UnwrapRef<typeof import('./common/constants')['LS_KEY_COMMUNITY_PROMO_DISMISSED']>
+    readonly LS_KEY_DO_NOT_SHOW_LICENSE_TIP: UnwrapRef<typeof import('./common/constants')['LS_KEY_DO_NOT_SHOW_LICENSE_TIP']>
     readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
     readonly LogTargetType: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']>
     readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']>
