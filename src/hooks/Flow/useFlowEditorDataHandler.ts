@@ -49,6 +49,12 @@ export default (): {
     rule: BasicRule
     actions: Array<BridgeData>
     sources: Array<BridgeData>
+    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
+    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:is created
+    aiProviders: Array<AIProviderForm>
+    aiCompletions: Array<AICompletionProfile>
   }>
   getFallbackItemDataFromNode: (node: NodeData | Node) => FallbackAction | undefined
 } => {
@@ -331,7 +337,7 @@ export default (): {
         expression = getFuncExpressionFromForm(node.data.formData)
       } else if (isAIType(node.data.specificType)) {
         const { input, name, alias } = node.data.formData
-        expression = `${AI_FUNCTION_NAME}(${name}, ${input}) as ${alias}`
+        expression = `${AI_FUNCTION_NAME}('${name}', ${input}) as ${alias}`
       }
       ret += ret ? `, ${expression}` : expression
       return ret
@@ -409,7 +415,7 @@ export default (): {
       const { formData } = node.data
       const { type, api_key, name, ...rest } = formData
       const aiProvider = { name, type, api_key }
-      const aiCompletion = { name, type, ...rest }
+      const aiCompletion = { name, type, provider_name: name, ...omit(rest, ['input', 'alias']) }
       ret.aiProviders.push(aiProvider)
       ret.aiCompletions.push(aiCompletion)
     })

@@ -1,5 +1,7 @@
+import { postAICompletionProfile, postAIProvider } from '@/api/ai'
 import { createRules, updateRules } from '@/api/ruleengine'
 import { BasicRule, BridgeItem, RuleItem } from '@/types/rule'
+import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
 interface BridgeData {
@@ -11,6 +13,8 @@ interface GroupedFlowData {
   rule: BasicRule
   actions: Array<BridgeData>
   sources: Array<BridgeData>
+  aiProviders: Array<AIProviderForm>
+  aiCompletions: Array<AICompletionProfile>
 }
 
 export default (): {
@@ -77,6 +81,24 @@ export default (): {
     }
   }
 
+  const submitAIProviders = async (aiProviders: GroupedFlowData['aiProviders']) => {
+    try {
+      await Promise.all(aiProviders.map((data) => postAIProvider(data)))
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  const submitAICompletionProfiles = async (aiCompletions: GroupedFlowData['aiCompletions']) => {
+    try {
+      await Promise.all(aiCompletions.map((data) => postAICompletionProfile(data)))
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
   const submitSources = async (sources: GroupedFlowData['sources']) => {
     try {
       const groupedSource = groupBy(sources, ({ isCreated }) => !!isCreated)
@@ -92,7 +114,13 @@ export default (): {
     }
   }
 
-  const createFlow = async ({ rule, actions, sources }: GroupedFlowData) => {
+  const createFlow = async ({
+    rule,
+    actions,
+    sources,
+    aiProviders,
+    aiCompletions,
+  }: GroupedFlowData) => {
     /**
      * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
      */
@@ -101,6 +129,10 @@ export default (): {
 
       await submitActions(actions)
       await submitSources(sources)
+
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO: add if
+      await submitAIProviders(aiProviders)
+      await submitAICompletionProfiles(aiCompletions)
 
       const ruleRet = await createRules(rule as any)
       isSubmitting.value = false
