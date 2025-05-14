@@ -286,7 +286,7 @@ export default {
 
 To enable clustering or use EMQX for external commercial purposes, a commercial license is required.
 
-[Request a License](https://emqx.com/en/apply-licenses/emqx)
+[Request a License]({applyLicenseLink})
 
 (Clustering for non-profit or educational purposes may qualify for a free license - please inquire via the link above.)`,
     zh: `您当前正在使用本软件包含的 EMQX 社区版 License。
@@ -299,7 +299,7 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
 
 要启用集群或将 EMQX 用于外部商业目的，需要商业 License。
 
-[申请 License](https://emqx.com/zh/apply-licenses/emqx)
+[申请 License]({applyLicenseLink})
 
 （非营利或教育目的的集群部署可能有资格获得免费 License - 请通过上述链接咨询。）`,
   },
