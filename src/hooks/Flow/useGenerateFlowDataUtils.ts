@@ -44,6 +44,7 @@ import useParseWhere from './useParseWhere'
  * - repub - `republish-{topic}`
  * - filter - `filter-{ruleID}`
  * - function - `function-{ruleID}`
+ * - ai - `{aiName}-{ruleID}`
  */
 
 /**
@@ -195,9 +196,37 @@ export default (): {
     )
     return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
   }
+  const aiExpressionReg = new RegExp(
+    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\)\\s+AS\\s+(?<alias>.+)?`,
+    'i',
+  )
 
-  const generateNodeBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
-    const formData = generateFunctionFormFromExpression(fieldsExpressions)
+  /**
+   * normal_expression1, normal_expression2, ai_expression1, ai_expression2, normal_expression3, normal_expression4 =>
+   * [normal_expression1, normal_expression2], [ai_expression1, ai_expression2], [normal_expression3, normal_expression4]
+   */
+  const chunkExpressionArr = (expressionArr: Array<string>) => {
+    return expressionArr.reduce((acc: Array<Array<string>>, item) => {
+      let isSameWithLastChunk = false
+      const lastChunk = acc[acc.length - 1]
+      if (lastChunk) {
+        const isLastChunkAI = aiExpressionReg.test(lastChunk[lastChunk.length - 1])
+        const isCurrentItemAI = aiExpressionReg.test(item)
+        isSameWithLastChunk = isLastChunkAI === isCurrentItemAI
+      }
+      if (isSameWithLastChunk) {
+        lastChunk.push(item)
+      } else {
+        acc.push([item])
+      }
+      return acc
+    }, [])
+  }
+  const generateNodeBaseNormalFieldExpressions = (
+    fieldExpressions: string,
+    ruleId: string,
+  ): Node | undefined => {
+    const formData = generateFunctionFormFromExpression(fieldExpressions)
     if (!formData) {
       return
     }
@@ -211,7 +240,7 @@ export default (): {
         specificType: ProcessingType.Function,
         formData: {
           editedWay,
-          sql: fieldsExpressions,
+          sql: fieldExpressions,
           form: formData,
         },
         desc: '',
@@ -219,6 +248,61 @@ export default (): {
     }
     node.data.desc = getNodeInfo(node)
     return node
+  }
+  const generateNodeBaseAIFieldExpression = (fieldExpression: string, ruleId: string) => {
+    const match = fieldExpression.match(aiExpressionReg)
+    if (!match?.groups) {
+      return
+    }
+    const { name, alias } = match.groups
+    const node = {
+      id: `${name}-${ruleId}`,
+      ...getTypeCommonData(NodeType.Processing),
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+      label: name,
+      position: { x: 0, y: 0 },
+      data: {
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        specificType: ProcessingType.AIOpenAI,
+        formData: {
+          // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail
+          alias,
+        },
+        desc: '',
+      },
+    }
+    return node
+  }
+  /**
+   * @returns function node and ai nodes
+   */
+  const generateNodesBaseFieldsExpressions = (fieldsExpressions: string, ruleId: string) => {
+    const expressionArr = splitOnComma(fieldsExpressions).map((item) => trimSpacesAndLFs(item))
+    const chunkedExpressionArr = chunkExpressionArr(expressionArr)
+    const nodes: Array<Node> = []
+    chunkedExpressionArr.forEach((expressionArr) => {
+      const isAI = aiExpressionReg.test(expressionArr[expressionArr.length - 1])
+      let node = undefined
+      if (isAI) {
+        node = generateNodeBaseAIFieldExpression(expressionArr[expressionArr.length - 1], ruleId)
+      } else {
+        node = generateNodeBaseNormalFieldExpressions(expressionArr.join(','), ruleId)
+      }
+      if (node) {
+        nodes.push(node)
+      }
+    })
+    return nodes
   }
 
   /* SOURCE */
@@ -407,14 +491,15 @@ export default (): {
         nodes[NodeType.Source] = generateNodesBaseFromData(from)
       }
     }
+    if (fieldStr !== undefined) {
+      const processingNodes = generateNodesBaseFieldsExpressions(fieldStr, id)
+      if (processingNodes) {
+        // TODO:TODO:TODO:TODO:TODO: new grouped node logic
+        nodes[ProcessingType.Function].push(...processingNodes)
+      }
+    }
     if (whereStr !== undefined) {
       nodes[ProcessingType.Filter].push(generateNodeBaseWhereData(whereStr, id))
-    }
-    if (fieldStr !== undefined) {
-      const node = generateNodeBaseFieldsExpressions(fieldStr, id)
-      if (node) {
-        nodes[ProcessingType.Function].push(node)
-      }
     }
     if (actions.length > 0) {
       nodes[NodeType.Sink] = generateNodesBaseRuleOutputs(actions)
@@ -489,6 +574,10 @@ export default (): {
         nextKeyIndex += 1
         nextKey = keys[nextKeyIndex]
       }
+      // TODO:🍅🍅🍅🍅🍅🍅
+      // TODO:🍅🍅🍅🍅🍅🍅
+      // TODO:🍅🍅🍅🍅🍅🍅
+      // TODO:🍅🍅🍅🍅🍅🍅
       if (nodes[currentKey] && nodes[nextKey]) {
         nodes[currentKey].forEach((cur) => {
           ;(nodes[nextKey] ?? []).forEach((nex) => {
