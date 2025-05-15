@@ -197,7 +197,7 @@ export default (): {
     return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
   }
   const aiExpressionReg = new RegExp(
-    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\)\\s+AS\\s+(?<alias>.+)?`,
+    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\,(?<input>.+)\\)\\s+AS\\s+(?<alias>.+)?`,
     'i',
   )
 
@@ -249,7 +249,10 @@ export default (): {
     node.data.desc = getNodeInfo(node)
     return node
   }
-  const generateNodeBaseAIFieldExpression = (fieldExpression: string, ruleId: string) => {
+  const generateNodeBaseAIFieldExpression = (
+    fieldExpression: string,
+    ruleId: string,
+  ): Node | undefined => {
     const match = fieldExpression.match(aiExpressionReg)
     if (!match?.groups) {
       return
@@ -292,14 +295,17 @@ export default (): {
     const nodes: Array<Node> = []
     chunkedExpressionArr.forEach((expressionArr) => {
       const isAI = aiExpressionReg.test(expressionArr[expressionArr.length - 1])
-      let node = undefined
       if (isAI) {
-        node = generateNodeBaseAIFieldExpression(expressionArr[expressionArr.length - 1], ruleId)
+        nodes.push(
+          ...(expressionArr
+            .map((expression) => generateNodeBaseAIFieldExpression(expression, ruleId))
+            .filter(Boolean) as Array<Node>),
+        )
       } else {
-        node = generateNodeBaseNormalFieldExpressions(expressionArr.join(','), ruleId)
-      }
-      if (node) {
-        nodes.push(node)
+        const normalNode = generateNodeBaseNormalFieldExpressions(expressionArr.join(','), ruleId)
+        if (normalNode) {
+          nodes.push(normalNode)
+        }
       }
     })
     return nodes
@@ -561,6 +567,7 @@ export default (): {
       NodeType.Sink,
     ]
     const result: Edge[] = []
+    const withMultipleFunctionNodes = nodes[ProcessingType.Function].length > 1
 
     for (let i = 0; i < keys.length - 1; i++) {
       const currentKey: keyof GroupedNode = keys[i]
@@ -574,16 +581,34 @@ export default (): {
         nextKeyIndex += 1
         nextKey = keys[nextKeyIndex]
       }
-      // TODO:🍅🍅🍅🍅🍅🍅
-      // TODO:🍅🍅🍅🍅🍅🍅
-      // TODO:🍅🍅🍅🍅🍅🍅
-      // TODO:🍅🍅🍅🍅🍅🍅
+      const notNeedToConnectEachPrevAndNext =
+        withMultipleFunctionNodes && [currentKey, nextKey].includes(ProcessingType.Function)
       if (nodes[currentKey] && nodes[nextKey]) {
-        nodes[currentKey].forEach((cur) => {
-          ;(nodes[nextKey] ?? []).forEach((nex) => {
+        const nextNodes = nodes[nextKey] ?? []
+        for (let i = 0; i < nodes[currentKey].length; i++) {
+          const cur = nodes[currentKey][i]
+          if (
+            notNeedToConnectEachPrevAndNext &&
+            currentKey === ProcessingType.Function &&
+            i !== nodes[currentKey].length - 1
+          ) {
+            continue
+          }
+          for (let j = 0; j < nextNodes.length; j++) {
+            const nex = nextNodes[j]
             result.push(generateEdgeFromTwoNodes(cur, nex))
-          })
-        })
+            if (notNeedToConnectEachPrevAndNext && currentKey === NodeType.Source) {
+              break
+            }
+          }
+        }
+      }
+      if (withMultipleFunctionNodes && currentKey === ProcessingType.Function) {
+        for (let i = 0; i < nodes[currentKey].length - 1; i++) {
+          const cur = nodes[currentKey][i]
+          const nex = nodes[currentKey][i + 1]
+          result.push(generateEdgeFromTwoNodes(cur, nex))
+        }
       }
     }
     return result

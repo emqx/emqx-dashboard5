@@ -413,8 +413,8 @@ export default (): {
       // TODO:TODO:TODO:TODO:TODO:TODO:
       // TODO:TODO:TODO:TODO:TODO:TODO: 区分编辑跟新建的表单
       const { formData } = node.data
-      const { type, api_key, name, ...rest } = formData
-      const aiProvider = { name, type, api_key }
+      const { type, api_key, name, base_url, ...rest } = formData
+      const aiProvider = { name, type, api_key, base_url }
       const aiCompletion = { name, type, provider_name: name, ...omit(rest, ['input', 'alias']) }
       ret.aiProviders.push(aiProvider)
       ret.aiCompletions.push(aiCompletion)

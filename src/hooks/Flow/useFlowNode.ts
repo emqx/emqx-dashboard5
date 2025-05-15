@@ -306,6 +306,8 @@ export default (): {
     SourceTypeAllMsgsAndEvents,
     ProcessingType.Filter,
     ProcessingType.Function,
+    ProcessingType.AIOpenAI,
+    ProcessingType.AIAnthropic,
     SinkType.Console,
     SinkType.RePub,
     SinkType.Webhook,
