@@ -56,14 +56,18 @@ export const createFunctionForm = (): FunctionForm => ({
 
 export const createAICommonForm = () => ({
   api_key: '',
-  model: '',
   system_prompt: '',
   input: '',
   name: `flow_ai_${createRandomString(4)}`,
 })
-export const createAIOpenAIForm = () => ({ type: AIProviderType.openai, ...createAICommonForm() })
+export const createAIOpenAIForm = () => ({
+  type: AIProviderType.openai,
+  model: 'gpt-4o',
+  ...createAICommonForm(),
+})
 export const createAIAnthropicForm = () => ({
   type: AIProviderType.anthropic,
+  model: 'claude-3-5-sonnet-20240620',
   ...createAICommonForm(),
   anthropic_version: AnthropicVersion['2023-06-01'],
   max_tokens: 100,
