@@ -159,4 +159,8 @@ export default {
     zh: '输出结果别名',
     en: 'Output Result Alias',
   },
+  baseURL: {
+    zh: '基础 URL',
+    en: 'Base URL',
+  },
 }

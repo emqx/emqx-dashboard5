@@ -282,6 +282,7 @@ export const AiProviderApiPutType = {
 
 export interface AiProviderApiPut {
   api_key: string
+  base_url?: string
   type: AiProviderApiPutType
 }
 
@@ -294,6 +295,7 @@ export const AiProviderApiGetType = {
 } as const
 
 export interface AiProviderApiGet {
+  base_url?: string
   name: string
   type: AiProviderApiGetType
 }
@@ -308,6 +310,7 @@ export const AiProviderType = {
 
 export interface AiProvider {
   api_key: string
+  base_url?: string
   name: string
   type: AiProviderType
 }

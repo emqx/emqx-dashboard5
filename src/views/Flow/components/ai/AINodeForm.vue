@@ -18,14 +18,16 @@
       <!-- TODO: auto input -->
       <el-input v-model="record.input" />
     </CustomFormItem>
-
-    <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
-      <el-input v-model="record.api_key" type="password" autocomplete="one-time-code" />
+    <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
+      <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
       <el-input v-model="record.model" />
     </CustomFormItem>
     <template v-if="isAnthropicProfile(record)">
+      <CustomFormItem prop="max_tokens" :label="t('Flow.maxTokens')" :readonly="readonly">
+        <CustomInputNumber v-model="record.max_tokens" />
+      </CustomFormItem>
       <CustomFormItem
         prop="anthropic_version"
         :label="t('Flow.anthropicVersion')"
@@ -35,12 +37,12 @@
           <el-option v-for="item in anthropicVersionOpts" :key="item" :label="item" :value="item" />
         </el-select>
       </CustomFormItem>
-      <CustomFormItem prop="max_tokens" :label="t('Flow.maxTokens')" :readonly="readonly">
-        <CustomInputNumber v-model="record.max_tokens" />
-      </CustomFormItem>
     </template>
-    <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
-      <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
+    <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
+      <el-input v-model="record.api_key" type="password" autocomplete="one-time-code" />
+    </CustomFormItem>
+    <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
+      <el-input v-model="record.base_url" />
     </CustomFormItem>
     <CustomFormItem prop="alias" :label="t('Flow.aiOutputAlias')" :readonly="readonly">
       <el-input v-model="record.alias" />
