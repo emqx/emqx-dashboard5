@@ -83,7 +83,9 @@ export default (): {
 
   const submitAIProviders = async (aiProviders: GroupedFlowData['aiProviders']) => {
     try {
-      await Promise.all(aiProviders.map((data) => postAIProvider(data)))
+      await Promise.all(
+        aiProviders.map((data) => postAIProvider(checkNOmitFromObj(data) as AIProviderForm)),
+      )
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(error)
@@ -138,6 +140,7 @@ export default (): {
       isSubmitting.value = false
       return Promise.resolve(ruleRet)
     } catch (error) {
+      console.error(error)
       isSubmitting.value = false
       return Promise.reject()
     }
