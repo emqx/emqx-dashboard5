@@ -197,7 +197,7 @@ export default (): {
     return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
   }
   const aiExpressionReg = new RegExp(
-    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\,(?<input>.+)\\)\\s+AS\\s+(?<alias>.+)?`,
+    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\,\\s*(?<input>.+)\\)\\s+AS\\s+(?<alias>.+)?`,
     'i',
   )
 
@@ -257,28 +257,23 @@ export default (): {
     if (!match?.groups) {
       return
     }
-    const { name, alias } = match.groups
+    const { name, alias, input } = match.groups
     const node = {
       id: `${name}-${ruleId}`,
       ...getTypeCommonData(NodeType.Processing),
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
       label: name,
       position: { x: 0, y: 0 },
       data: {
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail and get type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
+        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
         specificType: ProcessingType.AIOpenAI,
         formData: {
-          // TODO:TODO:TODO:TODO:TODO:TODO:TODO: need get detail
+          input,
+          name,
           alias,
         },
         desc: '',
