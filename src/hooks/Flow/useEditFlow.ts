@@ -1,9 +1,10 @@
+import { getAICompletionProfileDetail, getAIProviderDetail } from '@/api/ai'
 import { getRuleInfo } from '@/api/ruleengine'
 import { RuleItem } from '@/types/rule'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
-import useFlowNode, { FlowNodeType, NodeType } from './useFlowNode'
+import useFlowNode, { FlowNodeType, NodeType, ProcessingType } from './useFlowNode'
 import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtils'
 
 export default (): {
@@ -44,6 +45,28 @@ export default (): {
         return Promise.resolve()
       }),
     )
+    return nodes
+  }
+  const addAIRecordDataToNodes = async (nodes: Array<Node>) => {
+    await Promise.allSettled(
+      nodes.map(async (item) => {
+        try {
+          if (isAIType(item.data.specificType)) {
+            const completion = await getAICompletionProfileDetail(item.data.formData?.name)
+            const provider = await getAIProviderDetail(completion.provider_name)
+            item.data.formData = {
+              ...item.data.formData,
+              ...omit(completion, ['provider_name', 'name', 'type']),
+              ...provider,
+            }
+          }
+          return Promise.resolve()
+        } catch (error) {
+          return Promise.reject()
+        }
+      }),
+    )
+
     return nodes
   }
   const addFallbackNodeToNodes = (fallbackNode: Node, nodes: GroupedNode) => {
@@ -94,7 +117,7 @@ export default (): {
     addFlagToRemovedBridgeNode,
     generateFlowDataFromActionItem,
   } = useGenerateFlowDataUtils()
-  const { isBridgerNode } = useFlowNode()
+  const { isBridgerNode, isAIType } = useFlowNode()
 
   const getFlowData = async () => {
     if (!ruleData.value) {
@@ -109,6 +132,7 @@ export default (): {
     await addBridgeFormDataToNodes(sourceAndSinkNodes)
     const { nodes, edges } = addFallbackDataToFlow(withoutFallbackNodes, withoutFallbackEdges)
     await addBridgeFormDataToNodes(nodes[NodeType.Fallback] ?? [])
+    await addAIRecordDataToNodes(nodes[ProcessingType.Function] ?? [])
 
     Object.entries(nodes).forEach(([key, value]) => {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')

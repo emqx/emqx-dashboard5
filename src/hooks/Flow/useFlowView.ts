@@ -1,5 +1,7 @@
+import { getAICompletionProfiles, getAIProviders } from '@/api/ai'
 import { getRules } from '@/api/ruleengine'
 import { Action, BridgeItem, RuleItem } from '@/types/rule'
+import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
 import useActionList from '../Rule/action/useActionList'
@@ -14,6 +16,8 @@ export default (): {
   let ruleList: Array<RuleItem> = []
   let bridgeData: Map<string, BridgeItem> = new Map()
   let actionList: Array<Action> = []
+  let providerDataMap: Map<string, AIProviderForm> = new Map()
+  let completionDataMap: Map<string, AICompletionProfile> = new Map()
 
   // column 1
   let sourceNodes: Array<Node> = []
@@ -65,13 +69,29 @@ export default (): {
     }
   }
 
+  const getProviderData = async () => {
+    const list = await getAIProviders()
+    providerDataMap = list.reduce((m: Map<string, AIProviderForm>, item) => {
+      m.set(item.name, item)
+      return m
+    }, new Map())
+  }
+
+  const getCompletionData = async () => {
+    const list = await getAICompletionProfiles()
+    completionDataMap = list.reduce((m: Map<string, AICompletionProfile>, item) => {
+      m.set(item.name, item)
+      return m
+    }, new Map())
+  }
+
   const {
     generateFlowDataFromRuleItem,
     generateFlowDataFromActionItem,
     countNodesPosition,
     addFlagToRemovedBridgeNode,
   } = useGenerateFlowDataUtils()
-  const { isBridgerNode } = useFlowNode()
+  const { isBridgerNode, isAIType } = useFlowNode()
 
   const addRuleIdToNode = (node: Node, ruleId: string) => {
     if (!node.data.rulesUsed) {
@@ -92,6 +112,23 @@ export default (): {
         item.data.formData = {
           ...item.data.formData,
           ...(bridgeData.get(item.data.formData?.id) || {}),
+        }
+      }
+      return item
+    })
+  }
+
+  const addAIRecordDataToNodes = (node: Array<Node>): Array<Node> => {
+    return node.map((item) => {
+      if (isAIType(item.data.specificType)) {
+        const provider = providerDataMap.get(item.data.formData?.name)
+        const completion = completionDataMap.get(item.data.formData?.name)
+        if (provider && completion) {
+          item.data.formData = {
+            ...item.data.formData,
+            ...provider,
+            ...omit(completion, ['name', 'type']),
+          }
         }
       }
       return item
@@ -162,6 +199,9 @@ export default (): {
           addRuleDataToNodes(value, rule.id)
           if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
             nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
+          }
+          if (key === ProcessingType.Function) {
+            nodes[key as keyof GroupedNode] = addAIRecordDataToNodes(value)
           }
         })
 
@@ -289,7 +329,12 @@ export default (): {
   }
 
   const getData = async () => {
-    return await Promise.all([getRuleData(), getBridgeData()])
+    return await Promise.all([
+      getRuleData(),
+      getBridgeData(),
+      getProviderData(),
+      getCompletionData(),
+    ])
   }
 
   const { getEventList } = useRuleEvents()

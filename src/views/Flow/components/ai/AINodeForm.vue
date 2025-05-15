@@ -10,12 +10,12 @@
     :validate-on-rule-change="false"
     @submit.prevent
   >
+    <!-- TODO: auto input -->
+    <!-- TODO: auto input -->
+    <!-- TODO: auto input -->
+    <!-- TODO: auto input -->
+    <!-- TODO: auto input -->
     <CustomFormItem prop="input" :label="t('RuleEngine.input')" :readonly="readonly">
-      <!-- TODO: auto input -->
-      <!-- TODO: auto input -->
-      <!-- TODO: auto input -->
-      <!-- TODO: auto input -->
-      <!-- TODO: auto input -->
       <el-input v-model="record.input" />
     </CustomFormItem>
     <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">

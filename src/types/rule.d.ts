@@ -308,9 +308,8 @@ export type SchemaRegistryDetail = SchemaRegistry | SchemaRegistryExternalHttpDe
 export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['parameters']
 
 type OmitCompletionKeys = 'name' | 'provider_name' | 'type'
-type AIProviderConfig = Omit<AIProviderForm, 'name'>
 type AICompletion<T> = Omit<T, OmitCompletionKeys>
-type AITotalConfig<T> = AIProviderConfig & { input: string; alias: string } & AICompletion<T>
+type AITotalConfig<T> = AIProviderForm & { input: string; alias: string } & AICompletion<T>
 
 export type AIOpenAIConfig = AITotalConfig<OpenAICompletion>
 export type AIAnthropicConfig = AITotalConfig<AnthropicCompletion>
