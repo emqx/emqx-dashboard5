@@ -152,7 +152,11 @@ export default {
     en: 'Model',
   },
   systemPrompt: {
-    zh: '系统提示',
-    en: 'System Prompt',
+    zh: '系统消息',
+    en: 'System Message',
+  },
+  aiOutputAlias: {
+    zh: '输出结果别名',
+    en: 'Output Result Alias',
   },
 }

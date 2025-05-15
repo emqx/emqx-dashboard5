@@ -18,9 +18,7 @@
       <!-- TODO: auto input -->
       <el-input v-model="record.input" />
     </CustomFormItem>
-    <CustomFormItem prop="alias" :label="t('Flow.alias')" :readonly="readonly">
-      <el-input v-model="record.alias" />
-    </CustomFormItem>
+
     <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
       <el-input v-model="record.api_key" type="password" autocomplete="one-time-code" />
     </CustomFormItem>
@@ -30,7 +28,7 @@
     <template v-if="isAnthropicProfile(record)">
       <CustomFormItem
         prop="anthropic_version"
-        :label="t('RuleEngine.anthropicVersions')"
+        :label="t('Flow.anthropicVersion')"
         :readonly="readonly"
       >
         <el-select v-model="record.anthropic_version">
@@ -42,7 +40,10 @@
       </CustomFormItem>
     </template>
     <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
-      <el-input v-model="record.system_prompt" />
+      <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
+    </CustomFormItem>
+    <CustomFormItem prop="alias" :label="t('Flow.aiOutputAlias')" :readonly="readonly">
+      <el-input v-model="record.alias" />
     </CustomFormItem>
   </el-form>
 </template>
