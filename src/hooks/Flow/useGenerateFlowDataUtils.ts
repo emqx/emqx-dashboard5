@@ -326,6 +326,7 @@ export default (): {
         ...node.data.formData,
         ...provider,
         ...omit(completion, ['name', 'type']),
+        api_key: ENCRYPTED_PASSWORD,
       }
       node.data.isCreated = true
     }

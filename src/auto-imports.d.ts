@@ -9,6 +9,7 @@ declare global {
   const ACTIVE_RING_STROKE_WIDTH: typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']
   const ADMIN_USERNAMES: typeof import('./common/constants')['ADMIN_USERNAMES']
   const AI_FUNCTION_NAME: typeof import('./common/constants')['AI_FUNCTION_NAME']
+  const AI_PLACEHOLDER_TYPE: typeof import('./hooks/Flow/useFlowNode')['AI_PLACEHOLDER_TYPE']
   const API_BASE_URL: typeof import('./common/constants')['API_BASE_URL']
   const AUTHZ_COMMON_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']
   const AUTHZ_HTTP_PLACEHOLDERS: typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']
@@ -40,6 +41,7 @@ declare global {
   const DEFAULT_ZONE: typeof import('./common/constants')['DEFAULT_ZONE']
   const DOT_RADIUS: typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']
   const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
+  const ENCRYPTED_PASSWORD: typeof import('./common/constants')['ENCRYPTED_PASSWORD']
   const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
   const EditedWay: typeof import('./hooks/Flow/useFlowNode')['EditedWay']
   const EffectScope: typeof import('vue')['EffectScope']
@@ -570,6 +572,7 @@ declare module 'vue' {
     readonly ACTIVE_RING_STROKE_WIDTH: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['ACTIVE_RING_STROKE_WIDTH']>
     readonly ADMIN_USERNAMES: UnwrapRef<typeof import('./common/constants')['ADMIN_USERNAMES']>
     readonly AI_FUNCTION_NAME: UnwrapRef<typeof import('./common/constants')['AI_FUNCTION_NAME']>
+    readonly AI_PLACEHOLDER_TYPE: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['AI_PLACEHOLDER_TYPE']>
     readonly API_BASE_URL: UnwrapRef<typeof import('./common/constants')['API_BASE_URL']>
     readonly AUTHZ_COMMON_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_COMMON_PLACEHOLDERS']>
     readonly AUTHZ_HTTP_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTHZ_HTTP_PLACEHOLDERS']>
@@ -601,6 +604,7 @@ declare module 'vue' {
     readonly DEFAULT_ZONE: UnwrapRef<typeof import('./common/constants')['DEFAULT_ZONE']>
     readonly DOT_RADIUS: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']>
     readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
+    readonly ENCRYPTED_PASSWORD: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PASSWORD']>
     readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
     readonly EditedWay: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['EditedWay']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>

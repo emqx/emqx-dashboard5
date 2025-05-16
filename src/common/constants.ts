@@ -431,3 +431,5 @@ export const LS_KEY_DO_NOT_SHOW_LICENSE_TIP = 'doNotShowLicenseTip_v1'
 export const LS_KEY_COMMUNITY_PROMO_DISMISSED = 'emqxCommunityLicensePromoDismissed_v1'
 
 export const AI_FUNCTION_NAME = 'ai_completion'
+
+export const ENCRYPTED_PASSWORD = '******'

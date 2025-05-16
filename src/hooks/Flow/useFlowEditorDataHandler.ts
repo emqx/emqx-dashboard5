@@ -413,7 +413,11 @@ export default (): {
       const { type, api_key, name, base_url, ...rest } = formData
       const aiProvider = { name, type, api_key, base_url }
       const aiCompletion = { name, type, provider_name: name, ...omit(rest, ['input', 'alias']) }
-      ret.aiProviders.push({ isCreated: isCreated || false, data: aiProvider })
+
+      const isNotChangedProvider = isCreated && api_key === ENCRYPTED_PASSWORD
+      if (!isNotChangedProvider) {
+        ret.aiProviders.push({ isCreated: isCreated || false, data: aiProvider })
+      }
       ret.aiCompletions.push({ isCreated: isCreated || false, data: aiCompletion })
     })
     return ret
