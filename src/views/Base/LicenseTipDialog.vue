@@ -10,7 +10,12 @@
         <MarkdownContent
           class="tip"
           v-if="isCommunityLicense"
-          :content="tl('communityLicenseTip')"
+          :content="
+            tl('communityLicenseTip', {
+              applyLicenseLink: docMap.applyLicense,
+              faqLinkPlaceholder: docMap.licenseFaq,
+            })
+          "
         />
         <template v-if="!isCommunityLicense">
           <MarkdownContent
@@ -28,14 +33,17 @@
       </i18n-t>
     </div>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button link type="primary" @click="goLicense">
-          {{ tl('manageLicense') }}
-        </el-button>
-        <el-button type="primary" @click="licenseTipVisible = false">
-          {{ tl('know') }}
-        </el-button>
-      </span>
+      <div class="dialog-footer-wrapper">
+        <el-checkbox v-model="doNotShowAgain" :label="tl('doNotShowAgain')" class="tip-checkbox" />
+        <span class="dialog-footer">
+          <el-button link type="primary" @click="goLicense">
+            {{ tl('manageLicense') }}
+          </el-button>
+          <el-button type="primary" @click="handleConfirm">
+            {{ tl('know') }}
+          </el-button>
+        </span>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -55,12 +63,33 @@ const store = useStore()
 const { tl } = useI18nTl('Dashboard')
 const { docMap } = useDocLink()
 
+const doNotShowAgain = ref(false)
+
+const getDoNotShowAgainPreference = () => {
+  return localStorage.getItem(LS_KEY_DO_NOT_SHOW_LICENSE_TIP) === 'true'
+}
+
 const licenseTipVisible = computed({
-  get: () => props.modelValue,
+  get: () => {
+    if (getDoNotShowAgainPreference()) {
+      return false
+    }
+    return props.modelValue
+  },
   set: (val: boolean) => {
     emit('update:modelValue', val)
   },
 })
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue && getDoNotShowAgainPreference()) {
+      emit('update:modelValue', false)
+    }
+  },
+  { immediate: true },
+)
 
 const license = computed(() => store.state.licenseData)
 const isLicenseExpiry = computed(() => license.value.expiry)
@@ -72,6 +101,13 @@ const appleLicenseLink = `<a href="${docMap.applyLicense}" target="_blank">${tl(
 const router = useRouter()
 const goLicense = () => {
   router.push({ name: 'license' })
+  licenseTipVisible.value = false
+}
+
+const handleConfirm = () => {
+  if (doNotShowAgain.value) {
+    localStorage.setItem(LS_KEY_DO_NOT_SHOW_LICENSE_TIP, 'true')
+  }
   licenseTipVisible.value = false
 }
 </script>
@@ -124,11 +160,11 @@ const goLicense = () => {
     }
   }
 
-  .tip-checkbox {
-    margin-top: 10px;
-    .el-checkbox {
-      color: #aaa;
-    }
+  .dialog-footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
 
   .tip-button {

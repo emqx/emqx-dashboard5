@@ -318,6 +318,7 @@ export default (
           'pipe',
           'pipe_user',
           'private_key',
+          'private_key_password',
           'mode',
           'aggregation',
         ]),

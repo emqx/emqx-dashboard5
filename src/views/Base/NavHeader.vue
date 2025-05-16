@@ -2,6 +2,8 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
+      <LicensePromotion />
+
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
           <el-icon :size="16"><Search /></el-icon>
@@ -13,6 +15,7 @@
           <span class="icon-key">K</span>
         </div>
       </div>
+
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
       </el-button>
@@ -83,6 +86,7 @@ import { toLogin } from '@/router'
 import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
+import LicensePromotion from '@/components/LicensePromotion.vue'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -93,6 +97,7 @@ export default defineComponent({
     Settings,
     Help,
     Search,
+    LicensePromotion,
   },
   props: {
     title: {
@@ -106,6 +111,8 @@ export default defineComponent({
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
+    const { docMap } = useDocLink()
+
     const alertCount = computed(() => {
       return store.state.alertCount
     })
@@ -173,7 +180,7 @@ export default defineComponent({
       }
       router.currentRoute.value.name !== command && router.push({ name: command })
     }
-    const { docMap } = useDocLink()
+
     const routeToContactUs = () => {
       const windowUrl = window.open(docMap.contactUs)
       if (windowUrl) {
@@ -198,6 +205,7 @@ export default defineComponent({
     onBeforeUnmount(() => {
       document.removeEventListener('visibilitychange', visibilityChangeFunc)
     })
+
     return {
       t,
       IS_ENTERPRISE,

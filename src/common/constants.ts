@@ -425,3 +425,7 @@ export const INVALID_PUB_TOPIC_REG = /\+|#/
 export const LIMITER_REG = /^(\d+)(kb|mb|gb|b|)(?:\/(\d*)(ms|s|m|h|d)?)?$/i
 
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048
+
+export const LS_KEY_DO_NOT_SHOW_LICENSE_TIP = 'doNotShowLicenseTip_v1'
+
+export const LS_KEY_COMMUNITY_PROMO_DISMISSED = 'emqxCommunityLicensePromoDismissed_v1'

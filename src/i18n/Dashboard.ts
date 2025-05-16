@@ -276,32 +276,37 @@ export default {
  - A 30-day uptime limit, must restart the node to regain the sessions quota.`,
   },
   communityLicenseTip: {
-    en: `You are currently using the EMQX Community License included with this software.
+    en: `You are running EMQX under the Community License (single-node).<br /><br />
 
-- **Permitted Use:** Free use of a single node in your internal environment.
+**Current Permissions (Free Use):**
 
-- **What Requires a Different License:**
-    - Clustered deployments (more than one node).
-    - Commercial use in SaaS, hosted services, or embedded/resold products.
+- All non-production activities.
+- Single-node production deployment: Provided you are not offering EMQX commercially as a hosted service or embedding it into a product you sell.
 
-To enable clustering or use EMQX for external commercial purposes, a commercial license is required.
+**Commercial License Required For:**
 
-[Request a License](https://emqx.com/en/apply-licenses/emqx)
+- Cluster deployments (2+ nodes)
+- Offering EMQX as a commercial SaaS or hosted service.
+- Embedding/distributing EMQX within a commercial product that you sell.
 
-(Clustering for non-profit or educational purposes may qualify for a free license - please inquire via the link above.)`,
-    zh: `您当前正在使用本软件包含的 EMQX 社区版 License。
+To enable clustering or for restricted commercial uses, get a commercial license.<br /><br />
 
-- **允许用途：** 在您的内部环境中免费使用单个节点。
+[Get Commercial License]({applyLicenseLink}) &vert; [License FAQ]({faqLinkPlaceholder})`,
+    zh: `您当前正在使用 EMQX 社区版许可证（单节点）。<br /><br />
 
-- **需要不同 License 的情况：**
-    - 集群部署（超过一个节点）。
-    - 在 SaaS、托管服务或嵌入式/转售产品中的商业用途。
+**当前许可的免费使用范围：**
 
-要启用集群或将 EMQX 用于外部商业目的，需要商业 License。
+- 所有非生产活动（例如开发、测试）。
+- 单节点生产环境部署：前提是您不将 EMQX 作为商业托管服务提供，或将其嵌入到您的产品中进行销售。
 
-[申请 License](https://emqx.com/zh/apply-licenses/emqx)
+**以下情况需要商业许可证：**
 
-（非营利或教育目的的集群部署可能有资格获得免费 License - 请通过上述链接咨询。）`,
+- 集群部署（2个及以上节点）。
+- 将 EMQX 作为商业 SaaS（软件即服务）或托管服务提供。
+- 将 EMQX 嵌入或分发到您销售的商业软件、解决方案或硬件产品中。<br /><br />
+
+若需在启用集群功能或用于上述受限的商业用途，请 [获取商业许可证]({applyLicenseLink})。
+更多详情，请参阅 [许可证常见问题解答 (FAQ)]({faqLinkPlaceholder})。`,
   },
   applyLicenseContent: {
     zh: `访问 {link} 申请 License 用于：
@@ -1029,5 +1034,9 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
   deliveryDroppedDesc: {
     en: 'Messages be dropped after reaching subscriber session, including messages dropped due to no local option, message size limit and expiration.',
     zh: '发送至订阅者后被丢弃的消息，包括禁止本地转发、消息长度超出限制、消息队列满等情况。',
+  },
+  doNotShowAgain: {
+    zh: '不再提示',
+    en: 'Do not show again',
   },
 }
