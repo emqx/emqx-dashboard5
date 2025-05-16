@@ -54,12 +54,7 @@ export default (): {
           if (isAIType(item.data.specificType)) {
             const completion = await getAICompletionProfileDetail(item.data.formData?.name)
             const provider = await getAIProviderDetail(completion.provider_name)
-            item.data.formData = {
-              ...item.data.formData,
-              ...omit(completion, ['provider_name', 'name', 'type']),
-              ...provider,
-            }
-            item.data.isCreated = true
+            addAIRecordToAINode(item, provider, completion)
           }
           return Promise.resolve()
         } catch (error) {
@@ -117,6 +112,7 @@ export default (): {
     countNodePositionWhileEditing,
     addFlagToRemovedBridgeNode,
     generateFlowDataFromActionItem,
+    addAIRecordToAINode,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode, isAIType } = useFlowNode()
 

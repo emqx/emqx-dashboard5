@@ -427,8 +427,8 @@ export default (): {
     rule: BasicRule
     actions: Array<BridgeData>
     sources: Array<BridgeData>
-    aiProviders: Array<AIProviderForm>
-    aiCompletions: Array<AICompletionProfile>
+    aiProviders: Array<FlowDataItemForSubmit<AIProviderForm>>
+    aiCompletions: Array<FlowDataItemForSubmit<AICompletionProfile>>
   }> => {
     try {
       await validateFlow(flowData)

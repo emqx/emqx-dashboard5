@@ -90,6 +90,7 @@ export default (): {
     generateFlowDataFromActionItem,
     countNodesPosition,
     addFlagToRemovedBridgeNode,
+    addAIRecordToAINode,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode, isAIType } = useFlowNode()
 
@@ -123,13 +124,7 @@ export default (): {
       if (isAIType(item.data.specificType)) {
         const provider = providerDataMap.get(item.data.formData?.name)
         const completion = completionDataMap.get(item.data.formData?.name)
-        if (provider && completion) {
-          item.data.formData = {
-            ...item.data.formData,
-            ...provider,
-            ...omit(completion, ['name', 'type']),
-          }
-        }
+        addAIRecordToAINode(item, provider, completion)
       }
       return item
     })
