@@ -28,6 +28,11 @@ export const SourceType = RuleSourceType
  */
 export const SourceTypeAllMsgsAndEvents = 'all-msgs-and-events'
 
+/**
+ * Because the exact type of the ai node needs to be known after the details are fetched,
+ * in order to treat the data as an ai node when processing it, assign a placeholder to it first.
+ */
+export const AI_PLACEHOLDER_TYPE = 'ai-placeholder'
 export enum ProcessingType {
   Filter = 'filter',
   Function = 'function',
@@ -243,8 +248,9 @@ export default (): {
 
   const isAIType = (type: string) => {
     return (
-      Object.values(ProcessingType).includes(type as ProcessingType) &&
-      ![ProcessingType.Filter, ProcessingType.Function].includes(type as ProcessingType)
+      type === AI_PLACEHOLDER_TYPE ||
+      (Object.values(ProcessingType).includes(type as ProcessingType) &&
+        ![ProcessingType.Filter, ProcessingType.Function].includes(type as ProcessingType))
     )
   }
 

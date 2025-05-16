@@ -242,8 +242,9 @@ const updateEdges = (e: Array<NodeChange>) => {
   if (e.length > 1 || e.length === 0 || !['add', 'remove'].includes(e[0].type)) {
     return
   }
-  const neededEdges = countNeededEdges(getNodes.value, getEdges.value)
-  setEdges(neededEdges)
+  // TODO: find a new way to count needed edges
+  // const neededEdges = countNeededEdges(getNodes.value, getEdges.value)
+  // setEdges(neededEdges)
 }
 
 const currentConnectSourceNode = ref<undefined | Node>()

@@ -17,6 +17,7 @@ import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'
 import useRuleFunc, { ArgItem } from '../useRuleFunc'
 import useFlowNode, {
+  AI_PLACEHOLDER_TYPE,
   EditedWay,
   FilterFormData,
   FunctionItem,
@@ -33,6 +34,7 @@ import {
   createMessageForm,
 } from './useNodeForm'
 import useParseWhere from './useParseWhere'
+import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 
 /**
  * ID rule of each node
@@ -49,6 +51,7 @@ import useParseWhere from './useParseWhere'
 
 /**
  * Sort by column
+ * ‼️‼️‼️‼️‼️ Note that since the AI part is essentially a function, it is grouped together in the function part
  */
 export type GroupedNode = {
   [NodeType.Source]: Array<Node>
@@ -65,6 +68,11 @@ export default (): {
   detectFieldsExpressionsEditedWay: (functionForm: Array<FunctionItem>) => EditedWay
   detectWhereDataEditedWay: (filterForm: FilterFormData) => EditedWay
   generateFunctionFormFromExpression: (expression: string) => Array<FunctionItem> | undefined
+  addAIRecordToAINode: (
+    node: Node,
+    provider?: AIProviderForm,
+    completion?: AICompletionProfile,
+  ) => Node
   generateFlowDataFromRuleItem: (ruleData: RuleItem) => {
     nodes: GroupedNode
     edges: Array<Edge>
@@ -82,8 +90,15 @@ export default (): {
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const { nodeWidth, nodeHeight, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode } =
-    useFlowNode()
+  const {
+    nodeWidth,
+    nodeHeight,
+    getTypeCommonData,
+    getTypeLabel,
+    getNodeInfo,
+    isBridgerNode,
+    isAIType,
+  } = useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
@@ -264,13 +279,7 @@ export default (): {
       label: name,
       position: { x: 0, y: 0 },
       data: {
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        // TODO:TODO:TODO:TODO:TODO:TODO:TODO: correct type
-        specificType: ProcessingType.AIOpenAI,
+        specificType: AI_PLACEHOLDER_TYPE,
         formData: {
           input,
           name,
@@ -304,6 +313,23 @@ export default (): {
       }
     })
     return nodes
+  }
+
+  const addAIRecordToAINode = (
+    node: Node,
+    provider?: AIProviderForm,
+    completion?: AICompletionProfile,
+  ) => {
+    if (isAIType(node.data.specificType) && provider && completion) {
+      node.data.specificType = `ai-${provider.type}`
+      node.data.formData = {
+        ...node.data.formData,
+        ...provider,
+        ...omit(completion, ['name', 'type']),
+      }
+      node.data.isCreated = true
+    }
+    return node
   }
 
   /* SOURCE */
@@ -729,6 +755,7 @@ export default (): {
     detectFieldsExpressionsEditedWay,
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
+    addAIRecordToAINode,
     generateFlowDataFromRuleItem,
     generateFallbackEdge,
     generateFlowDataFromActionItem,
