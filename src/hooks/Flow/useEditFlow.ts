@@ -59,6 +59,7 @@ export default (): {
               ...omit(completion, ['provider_name', 'name', 'type']),
               ...provider,
             }
+            item.data.isCreated = true
           }
           return Promise.resolve()
         } catch (error) {

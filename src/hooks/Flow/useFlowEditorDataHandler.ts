@@ -2,7 +2,7 @@
  * Process the flow data from the flow editor and convert it into data that can be submitted.
  */
 import { FallbackActionKind } from '@/types/enum'
-import { BasicRule, BridgeItem, FallbackAction } from '@/types/rule'
+import { BasicRule, BridgeItem, FallbackAction, FlowDataItemForSubmit } from '@/types/rule'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { ElementData, GraphEdge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
@@ -34,10 +34,7 @@ interface FlowData {
   edges: Array<EdgeData>
 }
 
-interface BridgeData {
-  isCreated: boolean
-  data: BridgeItem
-}
+type BridgeData = FlowDataItemForSubmit<BridgeItem>
 
 export default (): {
   getFromDataFromNodes: (nodes: Array<NodeData>) => Array<string>
@@ -53,8 +50,8 @@ export default (): {
     // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
     // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
     // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:is created
-    aiProviders: Array<AIProviderForm>
-    aiCompletions: Array<AICompletionProfile>
+    aiProviders: Array<FlowDataItemForSubmit<AIProviderForm>>
+    aiCompletions: Array<FlowDataItemForSubmit<AICompletionProfile>>
   }>
   getFallbackItemDataFromNode: (node: NodeData | Node) => FallbackAction | undefined
 } => {
@@ -403,21 +400,21 @@ export default (): {
   }
 
   const getAIProvidersAndCompletionsFromNodes = (nodes: Array<NodeData>) => {
-    const ret: { aiProviders: Array<AIProviderForm>; aiCompletions: Array<AICompletionProfile> } = {
+    const ret: {
+      aiProviders: Array<FlowDataItemForSubmit<AIProviderForm>>
+      aiCompletions: Array<FlowDataItemForSubmit<AICompletionProfile>>
+    } = {
       aiProviders: [],
       aiCompletions: [],
     }
     const aiNodes = nodes.filter((node) => isAIType(node.data.specificType))
     aiNodes.forEach((node) => {
-      // TODO:TODO:TODO:TODO:TODO:TODO:
-      // TODO:TODO:TODO:TODO:TODO:TODO:
-      // TODO:TODO:TODO:TODO:TODO:TODO: 区分编辑跟新建的表单
-      const { formData } = node.data
+      const { formData, isCreated } = node.data
       const { type, api_key, name, base_url, ...rest } = formData
       const aiProvider = { name, type, api_key, base_url }
       const aiCompletion = { name, type, provider_name: name, ...omit(rest, ['input', 'alias']) }
-      ret.aiProviders.push(aiProvider)
-      ret.aiCompletions.push(aiCompletion)
+      ret.aiProviders.push({ isCreated: isCreated || false, data: aiProvider })
+      ret.aiCompletions.push({ isCreated: isCreated || false, data: aiCompletion })
     })
     return ret
   }
