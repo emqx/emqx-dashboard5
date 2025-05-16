@@ -314,3 +314,8 @@ type AITotalConfig<T> = AIProviderForm & { input: string; alias: string } & AICo
 export type AIOpenAIConfig = AITotalConfig<OpenAICompletion>
 export type AIAnthropicConfig = AITotalConfig<AnthropicCompletion>
 export type AIConfig = AIOpenAIConfig | AIAnthropicConfig
+
+export type FlowDataItemForSubmit<T> = {
+  isCreated: boolean
+  data: T
+}
