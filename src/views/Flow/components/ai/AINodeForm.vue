@@ -22,7 +22,15 @@
       <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
-      <el-input v-model="record.model" />
+      <el-select
+        v-model="record.model"
+        allow-create
+        filterable
+        default-first-option
+        @blur="handleModelBlur"
+      >
+        <el-option v-for="item in modelOpts" :key="item" :label="item" :value="item" />
+      </el-select>
     </CustomFormItem>
     <template v-if="isAnthropicProfile(record)">
       <CustomFormItem prop="max_tokens" :label="t('Flow.maxTokens')" :readonly="readonly">
@@ -52,7 +60,41 @@
 
 <script setup lang="ts">
 import { AIAnthropicConfig, AIConfig } from '@/types/rule'
-import { AnthropicVersion } from '@/types/typeAlias'
+import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
+
+const modelOptsMap = new Map([
+  [
+    AIProviderType.openai,
+    [
+      'gpt-4.5-preview',
+      'gpt-4.1',
+      'gpt-4.1-mini',
+      'gpt-4.1-nano',
+      'chatgpt-4o-latest',
+      'gpt-4o',
+      'gpt-4o-mini',
+      'gpt-4',
+      'o4-mini',
+      'gpt-3.5-turbo',
+      'o3',
+      'o3-mini',
+      'o1-pro',
+      'o1',
+    ],
+  ],
+  [
+    AIProviderType.anthropic,
+    [
+      'claude-3-7-sonnet-latest',
+      'claude-3-5-haiku-latest',
+      'claude-3-5-sonnet-latest',
+      'claude-3-5-sonnet-20240620',
+      'claude-3-opus-latest',
+      'claude-3-sonnet-20240229',
+      'claude-3-haiku-20240307',
+    ],
+  ],
+])
 
 const props = defineProps<{
   modelValue: AIConfig
@@ -79,10 +121,19 @@ const rules = computed(() => ({
   api_key: createRequiredRule(tl('apiKey')),
 }))
 
+const modelOpts = computed(() => modelOptsMap.get(props.modelValue.type) ?? [])
+
 const anthropicVersionOpts = Object.values(AnthropicVersion)
 
 const isAnthropicProfile = (profile: AIConfig): profile is AIAnthropicConfig => {
   return profile.type === 'anthropic'
+}
+
+const handleModelBlur = (e: FocusEvent) => {
+  const inputValue = (e.target as HTMLInputElement).value
+  if (inputValue) {
+    record.value.model = inputValue
+  }
 }
 
 defineExpose({ validate: () => FormCom.value.validate() })
