@@ -127,4 +127,13 @@ watch(() => props.content, setEle)
     }
   }
 }
+[data-theme='dark'] {
+  .el-popper.is-dark {
+    .markdown-content {
+      .markdown-body {
+        background-color: unset;
+      }
+    }
+  }
+}
 </style>
