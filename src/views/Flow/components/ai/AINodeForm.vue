@@ -47,7 +47,12 @@
       </CustomFormItem>
     </template>
     <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
-      <el-input v-model="record.api_key" type="password" autocomplete="one-time-code" />
+      <el-input
+        v-model="record.api_key"
+        type="password"
+        autocomplete="one-time-code"
+        show-password
+      />
     </CustomFormItem>
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
       <el-input v-model="record.base_url" />
@@ -117,8 +122,9 @@ const record = computed({
 })
 
 const { createRequiredRule } = useFormRules()
+const { ruleWhenEditing } = useSpecialRuleForPassword({ edit: true })
 const rules = computed(() => ({
-  api_key: createRequiredRule(tl('apiKey')),
+  api_key: [...createRequiredRule(tl('apiKey')), ...ruleWhenEditing],
 }))
 
 const modelOpts = computed(() => modelOptsMap.get(props.modelValue.type) ?? [])
