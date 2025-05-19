@@ -12,6 +12,9 @@
         </el-row>
       </el-col>
       <el-col :span="24">
+        <slot></slot>
+      </el-col>
+      <el-col :span="24">
         <label class="label-top">Payload</label>
         <div class="monaco-container">
           <Monaco

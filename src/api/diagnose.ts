@@ -7,6 +7,7 @@ import {
   TopicMetricItem,
   TraceRecord,
   TraceItem,
+  MessageAnalysisDetail,
 } from '@/types/diagnose'
 import { getLocalMessage } from '@/i18n'
 import { QoSLevel, TopicEvent } from '@/types/enum'
@@ -114,4 +115,8 @@ export function queryMessageAnalysis(
   params: QueryMessageAnalysisParams,
 ): Promise<ListDataWithPagination<MessageAnalysisItem>> {
   return http.get('/message-logs', { params })
+}
+
+export function queryMessageAnalysisDetail(id: string): Promise<MessageAnalysisDetail> {
+  return http.get(`/message-logs/${encodeURIComponent(id)}`)
 }
