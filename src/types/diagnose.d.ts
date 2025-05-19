@@ -1,4 +1,11 @@
-import { LogTraceFormatter, LogTraceType, SlowSubType, TraceEncodeType } from './enum'
+import {
+  LogTraceFormatter,
+  LogTraceType,
+  QoSLevel,
+  SlowSubType,
+  TopicEvent,
+  TraceEncodeType,
+} from './enum'
 
 export interface SlowSubConfig {
   enable: boolean
@@ -59,4 +66,17 @@ export interface TopicMetricItem {
   create_time: string
   reset_time: string
   metrics: Record<string, number>
+}
+
+export interface MessageAnalysisItem {
+  id: string
+  topic: string
+  qos: QoSLevel
+  event: TopicEvent
+  from_clientid: string
+  clientid: string
+  status: MessageAnalysisStatus
+  time: string
+  size: number // Bytes
+  latency: number // Millisecond
 }
