@@ -1,5 +1,7 @@
 import http from '@/common/http'
+import { ListDataWithPagination } from '@/types/common'
 import {
+  MessageAnalysisItem,
   SlowSubConfig,
   SlowSubStatistic,
   TopicMetricItem,
@@ -7,6 +9,7 @@ import {
   TraceItem,
 } from '@/types/diagnose'
 import { getLocalMessage } from '@/i18n'
+import { QoSLevel, TopicEvent } from '@/types/enum'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
@@ -98,4 +101,17 @@ export function deleteTopicMetrics(topic: string): Promise<any> | undefined {
 export function resetTopicMetrics(topic: string): any {
   if (topic == null) return
   return http.put(`/mqtt/topic_metrics`, { action: 'reset', topic })
+}
+
+interface QueryMessageAnalysisParams {
+  page: number
+  limit: number
+  topic?: string
+  qos?: QoSLevel
+  event?: TopicEvent
+}
+export function queryMessageAnalysis(
+  params: QueryMessageAnalysisParams,
+): Promise<ListDataWithPagination<MessageAnalysisItem>> {
+  return http.get('/message-logs', { params })
 }

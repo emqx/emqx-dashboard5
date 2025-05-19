@@ -421,3 +421,17 @@ export const enum ClientsExportFormat {
   JSON = 'json',
   CSV = 'csv',
 }
+
+export enum TopicEvent {
+  MessagePublish = 'message.publish',
+  MessageDropped = 'message.dropped',
+  MessageDelivered = 'message.delivered',
+  MessageAcked = 'message.acked',
+  DeliveryDropped = 'delivery.dropped',
+}
+
+export enum MessageAnalysisStatus {
+  Completed = '完成',
+  Dropped = '丢弃',
+  Error = '错误',
+}
