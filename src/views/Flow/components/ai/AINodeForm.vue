@@ -124,7 +124,11 @@ const record = computed({
 const { createRequiredRule } = useFormRules()
 const { ruleWhenEditing } = useSpecialRuleForPassword({ edit: true })
 const rules = computed(() => ({
+  input: createRequiredRule(t('RuleEngine.input')),
+  system_prompt: createRequiredRule(t('Flow.systemPrompt')),
+  model: createRequiredRule(t('Flow.model')),
   api_key: [...createRequiredRule(tl('apiKey')), ...ruleWhenEditing],
+  alias: createRequiredRule(t('Flow.aiOutputAlias')),
 }))
 
 const modelOpts = computed(() => modelOptsMap.get(props.modelValue.type) ?? [])
