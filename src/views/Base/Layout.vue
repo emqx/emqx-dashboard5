@@ -315,8 +315,8 @@ $header-heigh: 60px;
 }
 
 .logo.logo-colap {
-  width: 60px;
-  padding-left: 25px;
+  width: 68px;
+  padding-left: 12px;
   img {
     height: 36px;
   }
