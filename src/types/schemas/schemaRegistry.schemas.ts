@@ -24,6 +24,18 @@ export type PutSchemaRegistryName404 = {
   message?: string
 }
 
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
 export type GetSchemaRegistryName404Code =
   (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
 
@@ -35,6 +47,66 @@ export const GetSchemaRegistryName404Code = {
 export type GetSchemaRegistryName404 = {
   code?: GetSchemaRegistryName404Code
   message?: string
+}
+
+export type GetSchemaRegistryName200 =
+  | SchemaRegistryGetAvro
+  | SchemaRegistryGetExternalHttp
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+
+export type PostSchemaRegistryProtobufBundle400Code =
+  (typeof PostSchemaRegistryProtobufBundle400Code)[keyof typeof PostSchemaRegistryProtobufBundle400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaRegistryProtobufBundle400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
+} as const
+
+export type PostSchemaRegistryProtobufBundle400 = {
+  code?: PostSchemaRegistryProtobufBundle400Code
+  message?: string
+}
+
+export type PostSchemaRegistryProtobufBundleBody = {
+  bundle?: Blob
+  description?: Blob
+  name?: Blob
+  root_proto_file?: Blob
+}
+
+export type PutSchemaRegistryProtobufBundle404Code =
+  (typeof PutSchemaRegistryProtobufBundle404Code)[keyof typeof PutSchemaRegistryProtobufBundle404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSchemaRegistryProtobufBundle404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSchemaRegistryProtobufBundle404 = {
+  code?: PutSchemaRegistryProtobufBundle404Code
+  message?: string
+}
+
+export type PutSchemaRegistryProtobufBundle400Code =
+  (typeof PutSchemaRegistryProtobufBundle400Code)[keyof typeof PutSchemaRegistryProtobufBundle400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSchemaRegistryProtobufBundle400Code = {
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
+} as const
+
+export type PutSchemaRegistryProtobufBundle400 = {
+  code?: PutSchemaRegistryProtobufBundle400Code
+  message?: string
+}
+
+export type PutSchemaRegistryProtobufBundleBody = {
+  bundle?: Blob
+  description?: Blob
+  name?: Blob
+  root_proto_file?: Blob
 }
 
 export type PutSchemaRegistryExternalRegistryName404Code =
@@ -97,11 +169,52 @@ export type PostSchemaRegistry400 = {
   message?: string
 }
 
+export type PostSchemaRegistry201 =
+  | SchemaRegistryPostAvro
+  | SchemaRegistryPostExternalHttp
+  | SchemaRegistryPostJson
+  | SchemaRegistryPostProtobuf
+
+export type PostSchemaRegistryBody =
+  | SchemaRegistryPostAvro
+  | SchemaRegistryPostExternalHttp
+  | SchemaRegistryPostJson
+  | SchemaRegistryPostProtobuf
+
 export type GetSchemaRegistry200Item =
   | SchemaRegistryGetExternalHttp
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
   | SchemaRegistryGetAvro
+
+export type SchemaRegistryPutProtobufType =
+  (typeof SchemaRegistryPutProtobufType)[keyof typeof SchemaRegistryPutProtobufType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPutProtobufType = {
+  protobuf: 'protobuf',
+} as const
+
+export interface SchemaRegistryPutProtobuf {
+  description?: string
+  source: SchemaRegistryPutProtobufSource
+  type: SchemaRegistryPutProtobufType
+}
+
+export type SchemaRegistryProtobufBundleSourceType =
+  (typeof SchemaRegistryProtobufBundleSourceType)[keyof typeof SchemaRegistryProtobufBundleSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryProtobufBundleSourceType = {
+  bundle: 'bundle',
+} as const
+
+export interface SchemaRegistryProtobufBundleSource {
+  root_proto_path?: string
+  type: SchemaRegistryProtobufBundleSourceType
+}
+
+export type SchemaRegistryPutProtobufSource = SchemaRegistryProtobufBundleSource | string
 
 export type SchemaRegistryProtobufType =
   (typeof SchemaRegistryProtobufType)[keyof typeof SchemaRegistryProtobufType]
@@ -111,23 +224,13 @@ export const SchemaRegistryProtobufType = {
   protobuf: 'protobuf',
 } as const
 
+export type SchemaRegistryProtobufSource = SchemaRegistryProtobufBundleSource | string
+
 export interface SchemaRegistryProtobuf {
   description?: string
-  source: string
+  source: SchemaRegistryProtobufSource
   type: SchemaRegistryProtobufType
 }
-
-export type PutSchemaRegistryName200 =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-
-export type PutSchemaRegistryNameBody =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
 
 export type SchemaRegistryPostProtobufType =
   (typeof SchemaRegistryPostProtobufType)[keyof typeof SchemaRegistryPostProtobufType]
@@ -137,10 +240,12 @@ export const SchemaRegistryPostProtobufType = {
   protobuf: 'protobuf',
 } as const
 
+export type SchemaRegistryPostProtobufSource = SchemaRegistryProtobufBundleSource | string
+
 export interface SchemaRegistryPostProtobuf {
   description?: string
   name: string
-  source: string
+  source: SchemaRegistryPostProtobufSource
   type: SchemaRegistryPostProtobufType
 }
 
@@ -189,18 +294,6 @@ export interface SchemaRegistryPostAvro {
   type: SchemaRegistryPostAvroType
 }
 
-export type PostSchemaRegistry201 =
-  | SchemaRegistryPostAvro
-  | SchemaRegistryPostExternalHttp
-  | SchemaRegistryPostJson
-  | SchemaRegistryPostProtobuf
-
-export type PostSchemaRegistryBody =
-  | SchemaRegistryPostAvro
-  | SchemaRegistryPostExternalHttp
-  | SchemaRegistryPostJson
-  | SchemaRegistryPostProtobuf
-
 export type SchemaRegistryJsonType =
   (typeof SchemaRegistryJsonType)[keyof typeof SchemaRegistryJsonType]
 
@@ -223,10 +316,12 @@ export const SchemaRegistryGetProtobufType = {
   protobuf: 'protobuf',
 } as const
 
+export type SchemaRegistryGetProtobufSource = SchemaRegistryProtobufBundleSource | string
+
 export interface SchemaRegistryGetProtobuf {
   description?: string
   name: string
-  source: string
+  source: SchemaRegistryGetProtobufSource
   type: SchemaRegistryGetProtobufType
 }
 
@@ -276,12 +371,6 @@ export interface SchemaRegistryGetAvro {
   source: string
   type: SchemaRegistryGetAvroType
 }
-
-export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetAvro
-  | SchemaRegistryGetExternalHttp
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
 
 export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
   (typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType)[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]

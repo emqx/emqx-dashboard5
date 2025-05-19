@@ -3456,6 +3456,7 @@ export interface BridgeKafkaSocketOpts {
 export type BridgeKafkaPutProducerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export type BridgeKafkaPutConsumerValueEncodingMode =
@@ -3479,6 +3480,7 @@ export const BridgeKafkaPutConsumerKeyEncodingMode = {
 export type BridgeKafkaPutConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeKafkaProducerKafkaExtHeaders {
@@ -3563,6 +3565,7 @@ export const BridgeKafkaPostConsumerKeyEncodingMode = {
 export type BridgeKafkaPostConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeKafkaPostConsumer {
@@ -3616,6 +3619,7 @@ export const BridgeKafkaGetProducerStatus = {
 export type BridgeKafkaGetProducerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeKafkaGetProducer {
@@ -3682,6 +3686,7 @@ export const BridgeKafkaGetConsumerKeyEncodingMode = {
 export type BridgeKafkaGetConsumerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeKafkaConsumerTopicMapping {
@@ -3800,6 +3805,7 @@ export interface BridgeKafkaAuthGssapiKerberos {
 export type BridgeKafkaPostProducerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export type BridgeIotdbPutPoolType =
@@ -5350,6 +5356,7 @@ export interface BridgeAzureEventHubSslClientOpts {
 export type BridgeAzureEventHubPutProducerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeAzureEventHubPutProducer {
@@ -5483,6 +5490,7 @@ export const BridgeAzureEventHubGetProducerStatus = {
 export type BridgeAzureEventHubGetProducerAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface BridgeAzureEventHubGetProducer {
