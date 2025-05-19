@@ -258,7 +258,7 @@ export const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'log-trace',
+        name: 'log-view',
         component: () => import('@/views/Diagnose/LogView.vue'),
       },
     ],

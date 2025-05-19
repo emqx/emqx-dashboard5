@@ -124,9 +124,12 @@ export function queryMessageAnalysisDetail(id: string): Promise<MessageAnalysisD
 interface QuerySysLogParams {
   page: number
   limit: number
-  content_like: string
-  module: string
+  content_like?: string
+  module?: string
 }
-export function querySysLog(params: QuerySysLogParams): Promise<Array<string>> {
+export function querySysLog(params: QuerySysLogParams): Promise<{
+  meta: { page: number; limit: number; count: number }
+  contents: Array<string>
+}> {
   return http.get('/sys-logs', { params })
 }

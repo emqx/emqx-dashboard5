@@ -15,4 +15,12 @@ export default {
     zh: '传输耗时',
     en: 'Transmission Latency',
   },
+  logContent: {
+    zh: '日志内容',
+    en: 'Log Content',
+  },
+  logModule: {
+    zh: '模块',
+    en: 'Module',
+  },
 }
