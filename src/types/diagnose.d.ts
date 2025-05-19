@@ -80,3 +80,7 @@ export interface MessageAnalysisItem {
   size: number // Bytes
   latency: number // Millisecond
 }
+
+export type MessageAnalysisDetail = MessageAnalysisItem & {
+  payload: string
+}

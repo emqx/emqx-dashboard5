@@ -30,7 +30,13 @@
     </div>
     <div class="app-wrapper">
       <el-table :data="tableData" v-loading="isLoading" style="margin-top: 16px">
-        <el-table-column prop="id" label="ID" min-width="120" />
+        <el-table-column prop="id" label="ID" min-width="120">
+          <template #default="{ row }">
+            <el-link type="primary" @click="handleView(row.id)">
+              {{ row.id }}
+            </el-link>
+          </template>
+        </el-table-column>
         <el-table-column prop="topic" :label="t('Base.topic')" min-width="120" />
         <el-table-column prop="qos" label="QoS" min-width="60" />
         <el-table-column prop="event" :label="t('General.event')" min-width="80">
@@ -58,12 +64,14 @@
       </div>
     </div>
   </div>
+  <MessageAnalysisDetailDialog v-model="isDetailDialogVisible" :id="detailId" />
 </template>
 
 <script setup lang="ts">
 import { MessageAnalysisStatus, TopicEvent } from '@/types/enum'
 import { MessageAnalysisItem } from '@/types/diagnose'
 import { queryMessageAnalysis } from '@/api/diagnose'
+import MessageAnalysisDetailDialog from './components/MessageAnalysisDetailDialog.vue'
 
 const { t } = useI18n()
 
@@ -135,5 +143,12 @@ const getTextClass = (status: MessageAnalysisStatus) => {
     return `info`
   }
   return 'success'
+}
+
+const isDetailDialogVisible = ref(false)
+const detailId = ref('')
+const handleView = (id: string) => {
+  detailId.value = id
+  isDetailDialogVisible.value = true
 }
 </script>

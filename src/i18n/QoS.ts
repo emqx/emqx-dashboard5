@@ -7,4 +7,12 @@ export default {
     zh: '订阅客户端',
     en: 'Subscribe Client',
   },
+  size: {
+    zh: '大小',
+    en: 'Size',
+  },
+  transportTime: {
+    zh: '传输耗时',
+    en: 'Transmission Latency',
+  },
 }
