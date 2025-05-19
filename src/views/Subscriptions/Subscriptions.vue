@@ -89,17 +89,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="qos" label="QoS" />
-        <el-table-column prop="nl" :label="$t('Clients.noLocal')">
-          <template #default="{ row }">
-            {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="rap" :label="$t('Clients.retainAsPublished')">
-          <template #default="{ row }">
-            {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="rh" :label="$t('Clients.retainHandling')" />
       </el-table>
       <div class="emq-table-footer">
         <common-pagination v-model:metaData="pageMeta" @loadPage="loadTableData" />
