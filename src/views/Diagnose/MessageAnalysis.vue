@@ -1,18 +1,18 @@
 <template>
   <div class="message-analysis">
     <div class="search-wrapper">
-      <el-form :inline="true" @submit.prevent="getTableData">
+      <el-form :inline="true" @submit.prevent="search">
         <el-row :gutter="20">
           <el-col :span="6">
             <el-input
               v-model="searchForm.topic"
               clearable
               :placeholder="t('Topics.topic')"
-              @clear="getTableData"
+              @clear="search"
             />
           </el-col>
           <el-col :span="6">
-            <el-select v-model="searchForm.qos" clearable placeholder="QoS" @clear="getTableData">
+            <el-select v-model="searchForm.qos" clearable placeholder="QoS" @clear="search">
               <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
             </el-select>
           </el-col>
@@ -21,7 +21,7 @@
               v-model="searchForm.event"
               clearable
               :placeholder="t('General.event')"
-              @clear="getTableData"
+              @clear="search"
             >
               <el-option
                 v-for="{ value, label } in eventOptions"
@@ -32,7 +32,7 @@
             </el-select>
           </el-col>
           <el-col :span="6" class="col-oper">
-            <SearchButton @click="getTableData" />
+            <SearchButton @click="search" />
             <ResetButton @click="handleReset" />
           </el-col>
         </el-row>
@@ -133,11 +133,17 @@ const getTableData = async () => {
 }
 getTableData()
 
+const search = () => {
+  count.value = 0
+  page.value = 1
+  getTableData()
+}
+
 const handleReset = () => {
   searchForm.topic = ''
   searchForm.qos = undefined
   searchForm.event = undefined
-  getTableData()
+  search()
 }
 
 const refreshTable = (pageData: { page: number; limit: number }) => {
