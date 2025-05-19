@@ -120,3 +120,13 @@ export function queryMessageAnalysis(
 export function queryMessageAnalysisDetail(id: string): Promise<MessageAnalysisDetail> {
   return http.get(`/message-logs/${encodeURIComponent(id)}`)
 }
+
+interface QuerySysLogParams {
+  page: number
+  limit: number
+  content_like: string
+  module: string
+}
+export function querySysLog(params: QuerySysLogParams): Promise<Array<string>> {
+  return http.get('/sys-logs', { params })
+}
