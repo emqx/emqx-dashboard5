@@ -11,6 +11,10 @@ export default (): {
   flowId: ComputedRef<string>
   ruleData: Ref<RuleItem | undefined>
   flowData: Ref<(Node<any, any, string> | Edge)[] | undefined>
+  initialAIData: Ref<{
+    provider: Array<string>
+    completion: Array<string>
+  }>
   addBridgeFormDataToNodes: (nodes: Node[]) => Promise<Node[]>
   getData: () => Promise<void>
 } => {
@@ -20,6 +24,14 @@ export default (): {
   const ruleData: Ref<undefined | RuleItem> = ref(undefined)
   // let bridgeInfoMap = {}
   const flowData: Ref<undefined | Array<Node | Edge>> = ref(undefined)
+
+  /**
+   * for remove useless AI data when submit
+   */
+  const initialAIData = ref<{
+    provider: Array<string>
+    completion: Array<string>
+  }>({ provider: [], completion: [] })
 
   const getRuleData = async () => {
     try {
@@ -53,7 +65,9 @@ export default (): {
         try {
           if (isAIType(item.data.specificType)) {
             const completion = await getAICompletionProfileDetail(item.data.formData?.name)
+            initialAIData.value.completion.push(completion.name)
             const provider = await getAIProviderDetail(completion.provider_name)
+            initialAIData.value.provider.push(provider.name)
             addAIRecordToAINode(item, provider, completion)
           }
           return Promise.resolve()
@@ -163,6 +177,7 @@ export default (): {
     flowId,
     ruleData,
     flowData,
+    initialAIData,
     addBridgeFormDataToNodes,
     getData,
   }
