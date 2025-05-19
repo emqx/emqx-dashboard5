@@ -1309,6 +1309,7 @@ export interface MongoConnectorRs {
 export type KafkaConsumerPutConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface KafkaConsumerPutConnector {
@@ -1336,6 +1337,7 @@ export const KafkaConsumerPostConnectorType = {
 export type KafkaConsumerPostConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface KafkaConsumerPostConnector {
@@ -1376,6 +1378,7 @@ export const KafkaConsumerGetConnectorStatus = {
 export type KafkaConsumerGetConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export interface KafkaConsumerGetConnector {
@@ -4076,6 +4079,7 @@ export const BridgeKafkaPostConnectorType = {
 export type BridgeKafkaPostConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export type BridgeKafkaGetConnectorType =
@@ -4180,11 +4184,13 @@ export interface BridgeKafkaAuthGssapiKerberos {
 export type BridgeKafkaPutConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export type BridgeKafkaGetConnectorAuthentication =
   | BridgeKafkaAuthGssapiKerberos
   | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
   | 'none'
 
 export type BridgeInfluxdbPutConnectorParameters =
