@@ -25,6 +25,13 @@ export default (): {
   isSubmitting: Ref<boolean>
   createFlow: (data: GroupedFlowData) => Promise<RuleItem>
   updateFlow: (data: GroupedFlowData) => Promise<RuleItem>
+  removeUselessAIData: (
+    initAIData: {
+      provider: Array<string>
+      completion: Array<string>
+    },
+    data: GroupedFlowData,
+  ) => Promise<void>
 } => {
   const isSubmitting = ref(false)
   const { addAction, updateAction, deleteAction } = useHandleActionItem()
@@ -129,7 +136,13 @@ export default (): {
         )
       }
       if (groupedProviders['true']) {
-        await updateAIProviders(groupedProviders['true'].map(({ data }) => data))
+        const providersNeedUpdate = groupedProviders['true']
+          .filter(({ isCreated, data }) => {
+            const isChanged = isCreated && data.api_key !== ENCRYPTED_PASSWORD
+            return isChanged
+          })
+          .map(({ data }) => data)
+        await updateAIProviders(providersNeedUpdate.map((data) => data))
       }
       return Promise.resolve()
     } catch (error) {
@@ -227,9 +240,52 @@ export default (): {
     }
   }
 
+  const formatAIData = (data: Pick<GroupedFlowData, 'aiProviders' | 'aiCompletions'>) => {
+    const ret = {
+      provider: data.aiProviders.map(({ data }) => data.name),
+      completion: data.aiCompletions.map(({ data }) => data.name),
+    }
+    return ret
+  }
+  const findUselessAIData = (
+    initAIData: {
+      provider: Array<string>
+      completion: Array<string>
+    },
+    submitAIData: {
+      provider: Array<string>
+      completion: Array<string>
+    },
+  ) => {
+    const uselessProvider = initAIData.provider.filter(
+      (provider) => !submitAIData.provider.includes(provider),
+    )
+    const uselessCompletion = initAIData.completion.filter(
+      (completion) => !submitAIData.completion.includes(completion),
+    )
+    return { uselessProvider, uselessCompletion }
+  }
+
+  const removeUselessAIData = async (
+    initAIData: {
+      provider: Array<string>
+      completion: Array<string>
+    },
+    data: GroupedFlowData,
+  ) => {
+    const { provider, completion } = formatAIData(data)
+    const { uselessProvider, uselessCompletion } = findUselessAIData(initAIData, {
+      provider,
+      completion,
+    })
+    await Promise.allSettled(uselessCompletion.map(deleteAICompletionProfile))
+    await Promise.allSettled(uselessProvider.map(deleteAIProvider))
+  }
+
   return {
     isSubmitting,
     createFlow,
     updateFlow,
+    removeUselessAIData,
   }
 }
