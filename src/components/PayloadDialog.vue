@@ -11,7 +11,7 @@
           </el-col>
         </el-row>
       </el-col>
-      <el-col :span="24">
+      <el-col :span="24" class="margin-bottom-0">
         <slot></slot>
       </el-col>
       <el-col :span="24">
@@ -103,6 +103,9 @@ const plaintextShow = computed(() => {
   .el-col-24 {
     margin-bottom: 20px;
     line-height: 20px;
+    &.margin-bottom-0 {
+      margin-bottom: 0;
+    }
   }
   .topic-text {
     margin: 0;
