@@ -1,19 +1,24 @@
 <template>
-  <PayloadDialog v-model="showDialog" :raw-payload="detail.payload" @open="getDetail">
+  <PayloadDialog
+    v-model="showDialog"
+    :raw-payload="detail.payload"
+    :is-loading="isLoading"
+    @open="getDetail"
+  >
     <el-row class="message-analysis-info">
-      <el-col :span="16">
+      <el-col :span="12">
         <label>{{ t('Base.topic') }}</label>
         <span>{{ detail.topic }}</span>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <label>{{ t('QoS.size') }}</label>
-        <span>{{ detail.size }}</span>
+        <span>{{ transMemorySizeNumToStr(detail.size, 2) }}</span>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <label>{{ t('QoS.transportTime') }}</label>
-        <span>{{ detail.latency }}</span>
+        <span>{{ transMSNumToString(detail.latency) }}</span>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="12">
         <label>QoS</label>
         <span>{{ detail.qos }}</span>
       </el-col>

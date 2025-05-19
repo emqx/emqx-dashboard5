@@ -4,15 +4,25 @@
       <el-form :inline="true" @submit.prevent="getTableData">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-input v-model="searchForm.topic" clearable @clear="getTableData" />
+            <el-input
+              v-model="searchForm.topic"
+              clearable
+              :placeholder="t('Topics.topic')"
+              @clear="getTableData"
+            />
           </el-col>
           <el-col :span="6">
-            <el-select v-model="searchForm.qos" clearable @clear="getTableData">
+            <el-select v-model="searchForm.qos" clearable placeholder="QoS" @clear="getTableData">
               <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
             </el-select>
           </el-col>
           <el-col :span="6">
-            <el-select v-model="searchForm.event" clearable @clear="getTableData">
+            <el-select
+              v-model="searchForm.event"
+              clearable
+              :placeholder="t('General.event')"
+              @clear="getTableData"
+            >
               <el-option
                 v-for="{ value, label } in eventOptions"
                 :key="value"
@@ -22,8 +32,8 @@
             </el-select>
           </el-col>
           <el-col :span="6" class="col-oper">
-            <ResetButton @click="handleReset" />
             <SearchButton @click="getTableData" />
+            <ResetButton @click="handleReset" />
           </el-col>
         </el-row>
       </el-form>
@@ -32,7 +42,7 @@
       <el-table :data="tableData" v-loading="isLoading" style="margin-top: 16px">
         <el-table-column prop="id" label="ID" min-width="120">
           <template #default="{ row }">
-            <el-link type="primary" @click="handleView(row.id)">
+            <el-link type="primary" :underline="false" @click="handleView(row.id)">
               {{ row.id }}
             </el-link>
           </template>
@@ -121,6 +131,7 @@ const getTableData = async () => {
   tableData.value = data
   count.value = meta.count || 0
 }
+getTableData()
 
 const handleReset = () => {
   searchForm.topic = ''
