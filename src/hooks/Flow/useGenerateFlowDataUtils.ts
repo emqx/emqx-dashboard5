@@ -321,7 +321,9 @@ export default (): {
     completion?: AICompletionProfile,
   ) => {
     if (isAIType(node.data.specificType) && provider && completion) {
-      node.data.specificType = `ai-${provider.type}`
+      const nodeType = `ai-${provider.type}`
+      node.label = getTypeLabel(nodeType)
+      node.data.specificType = nodeType
       node.data.formData = {
         ...node.data.formData,
         ...provider,
@@ -329,6 +331,7 @@ export default (): {
         api_key: ENCRYPTED_PASSWORD,
       }
       node.data.isCreated = true
+      node.data.desc = getNodeInfo(node)
     }
     return node
   }

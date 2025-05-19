@@ -4,7 +4,7 @@
   </Handle>
   <div class="flow-node">
     <img :src="getIconSrc()" alt="node-img" class="node-icon" :class="iconClass" />
-    <div class="node-bd">
+    <div class="node-bd" :title="data.data.desc">
       <p class="label">{{ data.label }}</p>
       <p class="desc">{{ data.data.desc }}</p>
     </div>

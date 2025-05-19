@@ -277,6 +277,9 @@ export default (): {
     if (!specificType || !formData) {
       return ''
     }
+    if (isAIType(specificType)) {
+      return `${t('Flow.systemPrompt')}: ${formData.system_prompt}`
+    }
     switch (specificType) {
       case SourceType.Message:
         return `${t('Base.topic')}: ${formData.topic}`
