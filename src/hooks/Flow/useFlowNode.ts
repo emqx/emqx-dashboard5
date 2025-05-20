@@ -114,7 +114,6 @@ type PositionData =
 
 export default (): {
   nodeWidth: number
-  nodeHeight: number
   sourceNodeList: Array<NodeItem>
   processingNodeList: Array<NodeItem>
   sinkNodeList: Array<NodeItem>
@@ -137,7 +136,6 @@ export default (): {
    * just record, not for setting
    */
   const nodeWidth = 200
-  const nodeHeight = 60
 
   const nodeClassMap: Record<NodeType, string> = {
     [NodeType.Source]: 'node-source',
@@ -395,7 +393,6 @@ export default (): {
 
   return {
     nodeWidth,
-    nodeHeight,
     sourceNodeList,
     processingNodeList,
     sinkNodeList,

@@ -281,7 +281,7 @@ export default (): {
     ;[sourceNodes, sinkNodes, fallbackNodes] = nodeArrays
   }
 
-  const setPositionToNodes = () => {
+  const setPositionToNodes = async () => {
     const nodes = {
       [NodeType.Source]: sourceNodes,
       [ProcessingType.Filter]: filterNodes,
@@ -289,7 +289,7 @@ export default (): {
       [NodeType.Sink]: sinkNodes,
       [NodeType.Fallback]: fallbackNodes,
     }
-    countNodesPosition(nodes)
+    return countNodesPosition(nodes, edgeArr)
   }
 
   const joinToFlowData = () => {
@@ -312,14 +312,14 @@ export default (): {
     edgeArr = []
   }
 
-  const generateFlowData = () => {
+  const generateFlowData = async () => {
     initNodeAndEdge()
     generateFlowDataFromRuleData(ruleList)
     generateFlowDataFromActionData(actionList)
     removeDuplicatedNodes()
     removeIsolatedBridge()
     setClassToRemovedBridges()
-    setPositionToNodes()
+    await setPositionToNodes()
     joinToFlowData()
   }
 
@@ -339,7 +339,7 @@ export default (): {
       await getData()
       // For event node info
       await getEventList()
-      generateFlowData()
+      await generateFlowData()
     } catch (error) {
       //
     } finally {
