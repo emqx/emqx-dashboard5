@@ -4,19 +4,18 @@
     label-width="120px"
     class="provider-form"
     label-position="right"
-    hide-required-asterisk
     :rules="rules"
     :model="record"
     :validate-on-rule-change="false"
     @submit.prevent
   >
-    <!-- TODO: auto input -->
-    <!-- TODO: auto input -->
-    <!-- TODO: auto input -->
-    <!-- TODO: auto input -->
-    <!-- TODO: auto input -->
     <CustomFormItem prop="input" :label="t('RuleEngine.input')" :readonly="readonly">
-      <el-input v-model="record.input" />
+      <el-autocomplete
+        v-model="record.input"
+        :fetch-suggestions="getFieldList"
+        clearable
+        popper-class="is-wider"
+      />
     </CustomFormItem>
     <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
       <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
@@ -64,8 +63,9 @@
 </template>
 
 <script setup lang="ts">
-import { AIAnthropicConfig, AIConfig } from '@/types/rule'
+import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
 import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
+import type { Node } from '@vue-flow/core'
 
 const modelOptsMap = new Map([
   [
@@ -104,6 +104,7 @@ const modelOptsMap = new Map([
 const props = defineProps<{
   modelValue: AIConfig
   readonly: boolean
+  nodes: Array<Node>
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', val: AIConfig): void
@@ -126,10 +127,21 @@ const { ruleWhenEditing } = useSpecialRuleForPassword({ edit: true })
 const rules = computed(() => ({
   input: createRequiredRule(t('RuleEngine.input')),
   system_prompt: createRequiredRule(t('Flow.systemPrompt')),
-  model: createRequiredRule(t('Flow.model')),
   api_key: [...createRequiredRule(tl('apiKey')), ...ruleWhenEditing],
   alias: createRequiredRule(t('Flow.aiOutputAlias')),
 }))
+
+const { getAvailableFields } = useFlowAvailableFields()
+const availableFields: ComputedRef<Array<{ value: string }>> = computed(() => {
+  return getAvailableFields(props.nodes || []).map((value) => ({ value }))
+})
+const getFieldList = (queryString: string, cb: any) => {
+  if (!queryString) {
+    cb(availableFields.value)
+  }
+  const ret = availableFields.value.filter(({ value }) => value.includes(queryString))
+  cb(ret)
+}
 
 const modelOpts = computed(() => modelOptsMap.get(props.modelValue.type) ?? [])
 

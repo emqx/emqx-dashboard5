@@ -4,8 +4,8 @@
       v-model="record.func.name"
       filterable
       class="select-func"
+      v-bind="{ options: funcOptList as any }"
       :show-all-levels="false"
-      :options="funcOptList as any"
       :props="cascaderProps"
       :placeholder="tl('transform')"
       @change="handleSelectFunc"

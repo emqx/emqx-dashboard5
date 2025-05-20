@@ -183,7 +183,7 @@ const existedTopics = computed(() => {
   }, [])
 })
 
-const { isBridgeType } = useFlowNode()
+const { isBridgeType, isAIType } = useFlowNode()
 const { getFormDataByType, isUsingSchemaBridgeType, checkFormIsEmpty } = useNodeForm()
 const withOutMetricsTypes: Record<FlowNodeType, Array<string>> = {
   [FlowNodeType.Input]: [SourceType.Event, SourceType.Message, SourceTypeAllMsgsAndEvents],
@@ -204,13 +204,6 @@ const enum DetailTab {
   Overview,
 }
 const activeTab = ref(DetailTab.Setting)
-
-const addedSourceNodes = computed(() => {
-  if (!props.nodes?.length) {
-    return []
-  }
-  return props.nodes.filter(({ type }) => type === FlowNodeType.Input)
-})
 
 const bridgeFormProps = {
   colSpan: 24,
@@ -234,11 +227,14 @@ const getSchemaBridgeProps = (type: string) => ({
   labelWidth: '180px',
   type: type,
 })
-
+/**
+ * for function node and all ai nodes
+ */
+const processingNodeFormProps = computed(() => ({ nodes: props.nodes }))
 const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
-  [ProcessingType.Function]: { sourceNodes: addedSourceNodes.value },
+  [ProcessingType.Function]: { nodes: props.nodes },
   [SinkType.RePub]: { isUsingInFlow: true },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
   [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px' },
@@ -247,6 +243,9 @@ const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
   if (!ret && isUsingSchemaBridgeType(type)) {
     return getSchemaBridgeProps(type)
+  }
+  if (!ret && (isAIType(type) || type === ProcessingType.Function)) {
+    return processingNodeFormProps.value
   }
   return ret || {}
 }
