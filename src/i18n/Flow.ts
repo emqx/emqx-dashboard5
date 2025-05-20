@@ -120,8 +120,8 @@ export default {
     en: 'Expressions that are excessively complex and cannot fully convert in the editor will be altered.',
   },
   filterFunctionsWrongOrder: {
-    zh: '函数节点必须放置在过滤器节点之前，请调整节点位置。',
-    en: 'Function nodes must be placed before filter nodes. Please adjust node positions.',
+    zh: '过滤器节点必须放置在数据处理节点及 AI 节点之后，请调整节点位置。',
+    en: 'Filter nodes must be placed after data processing node and AI nodes. Please adjust node positions.',
   },
   consoleFallbackWrong: {
     zh: 'Console 不可作为备选动作',
