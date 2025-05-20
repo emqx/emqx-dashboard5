@@ -351,12 +351,20 @@ export default (): {
     }
   }
 
+  const blackIconList: Array<string> = [
+    ProcessingType.Function,
+    ProcessingType.AIOpenAI,
+    ProcessingType.AIAnthropic,
+  ]
   // zoom in old icon for clip space padding
   const getIconClass = (type: string): string => {
     if (!type) {
       return ''
     }
     const adjustedType = adjustTypeForSpecialCases(type)
+    if (blackIconList.includes(adjustedType)) {
+      return 'img-black'
+    }
     return isTypeUsingNewIcon(adjustedType) ? '' : 'is-scaled-up'
   }
 
