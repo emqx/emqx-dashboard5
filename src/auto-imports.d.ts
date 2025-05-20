@@ -359,6 +359,7 @@ declare global {
   const useExternalSchemaType: typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']
   const useFillNewRecord: typeof import('./hooks/useFillNewRecord')['default']
   const useFilterConnectorInForm: typeof import('./hooks/Flow/useFilterConnectorInForm')['default']
+  const useFlowAvailableFields: typeof import('./hooks/Flow/useFlowAvailableFields')['default']
   const useFlowEdge: typeof import('./hooks/Flow/useFlowEdge')['default']
   const useFlowEditor: typeof import('./hooks/Flow/useFlowEditor')['default']
   const useFlowEditorDataHandler: typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']
@@ -922,6 +923,7 @@ declare module 'vue' {
     readonly useExternalSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']>
     readonly useFillNewRecord: UnwrapRef<typeof import('./hooks/useFillNewRecord')['default']>
     readonly useFilterConnectorInForm: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['default']>
+    readonly useFlowAvailableFields: UnwrapRef<typeof import('./hooks/Flow/useFlowAvailableFields')['default']>
     readonly useFlowEdge: UnwrapRef<typeof import('./hooks/Flow/useFlowEdge')['default']>
     readonly useFlowEditor: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['default']>
     readonly useFlowEditorDataHandler: UnwrapRef<typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']>

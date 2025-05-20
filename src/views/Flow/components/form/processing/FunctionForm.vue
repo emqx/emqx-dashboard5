@@ -91,7 +91,6 @@
 </template>
 
 <script setup lang="ts">
-import { RuleEvent } from '@/types/rule'
 import { Delete, Plus } from '@element-plus/icons-vue'
 import { Node } from '@vue-flow/core'
 import type { Rules, ValidateError } from 'async-validator'
@@ -99,7 +98,6 @@ import Schema from 'async-validator'
 import {
   ComputedRef,
   PropType,
-  Ref,
   computed,
   defineEmits,
   defineExpose,
@@ -120,39 +118,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  sourceNodes: {
+  nodes: {
     type: Array as PropType<Array<Node>>,
   },
 })
 
-const getSource = (node: Node) => {
-  const {
-    data: { specificType, formData },
-  } = node
-  switch (specificType) {
-    case SourceType.Message:
-      return TOPIC_EVENT
-    case SourceType.Event:
-      return formData.event
-  }
-  console.error('cannot find source')
-}
-const addedSources: ComputedRef<Array<string>> = computed(() => {
-  return props.sourceNodes?.map(getSource).filter(Boolean) || []
-})
-
-const { getEventList } = useRuleEvents()
-const eventList: Ref<Array<RuleEvent>> = ref([])
-;(async () => (eventList.value = await getEventList()))()
-const getSourceFields = (source: string) => {
-  const event = eventList.value.find(({ event }) => event === source)
-  return event?.columns || []
-}
-
+const { getAvailableFields } = useFlowAvailableFields()
 const availableFields: ComputedRef<Array<string>> = computed(() => {
-  return addedSources.value.reduce((arr: Array<string>, source) => {
-    return [...arr, ...getSourceFields(source)]
-  }, [])
+  return getAvailableFields(props.nodes || [])
 })
 
 const emit = defineEmits(['update:modelValue'])
