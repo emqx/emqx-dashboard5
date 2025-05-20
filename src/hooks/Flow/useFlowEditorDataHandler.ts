@@ -132,15 +132,13 @@ export default (): {
           ? Promise.resolve()
           : Promise.reject(tl('incorrectConnection'))
       }
+      const allDirections: ['in', 'out'] = ['in', 'out']
       return Promise.all([
         ...nodes.map(({ id, type, data }) => {
           if (!type || !data.specificType) {
             return Promise.resolve()
           }
-          const isInputNode = type === FlowNodeType.Input
-          const isFunctionNode = data.specificType === ProcessingType.Function
-          const direction = isInputNode || isFunctionNode ? 'out' : 'in'
-          return checkNodeFlow(id, direction)
+          return Promise.all(allDirections.map((direction) => checkNodeFlow(id, direction)))
         }),
         checkFallbackEdges(fallbackEdges),
       ])
