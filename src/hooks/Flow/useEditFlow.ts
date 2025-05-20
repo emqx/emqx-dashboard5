@@ -123,7 +123,7 @@ export default (): {
 
   const {
     generateFlowDataFromRuleItem,
-    countNodePositionWhileEditing,
+    countNodesPosition,
     addFlagToRemovedBridgeNode,
     generateFlowDataFromActionItem,
     addAIRecordToAINode,
@@ -149,7 +149,7 @@ export default (): {
       nodes[key as keyof GroupedNode] = unionBy(value, 'id')
     })
 
-    countNodePositionWhileEditing(nodes)
+    await countNodesPosition(nodes, edges)
     flowData.value = [
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
         if ([NodeType.Source, NodeType.Fallback, NodeType.Sink].includes(Number(key) as NodeType)) {

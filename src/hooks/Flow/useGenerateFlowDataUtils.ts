@@ -11,7 +11,9 @@ import {
 } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { Edge, Node } from '@vue-flow/core'
+import ELK from 'elkjs/lib/elk.bundled'
 import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
 import useI18nTl from '../useI18nTl'
@@ -34,7 +36,6 @@ import {
   createMessageForm,
 } from './useNodeForm'
 import useParseWhere from './useParseWhere'
-import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 
 /**
  * ID rule of each node
@@ -83,22 +84,14 @@ export default (): {
   }
   fallbackEdgeStyle: Record<string, string>
   generateFallbackEdge: (source: Node, target: Node, style?: Record<string, string>) => Edge
-  countNodesPosition: (nodes: GroupedNode) => void
-  countNodePositionWhileEditing: (nodes: GroupedNode) => void
+  countNodesPosition: (nodes: GroupedNode, edgeArr: Array<Edge>) => Promise<void>
   isRemovedBridge: (node: Node) => boolean
   addFlagToRemovedBridgeNode: (node: Node) => Node
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const {
-    nodeWidth,
-    nodeHeight,
-    getTypeCommonData,
-    getTypeLabel,
-    getNodeInfo,
-    isBridgerNode,
-    isAIType,
-  } = useFlowNode()
+  const { nodeWidth, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode, isAIType } =
+    useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
@@ -640,101 +633,53 @@ export default (): {
   }
 
   /* NODE POSITION */
-  const nodeColumnSpacing = 100
-  const nodeRowSpacing = 30
-  const getXPosition = (columnIndex: number) => (nodeWidth + nodeColumnSpacing) * columnIndex
-  const getYPosition = (index: number, start = 0) => start + index * (nodeRowSpacing + nodeHeight)
-  const setPositionToColumnNodes = (
-    columnNodes: Array<Node>,
-    columnIndex: number,
-    totalHeight: number,
-  ) => {
-    const columnTotalHeight = columnNodes.length * (nodeHeight + nodeRowSpacing) - nodeRowSpacing
-    const x = getXPosition(columnIndex)
-    const startY = (totalHeight - columnTotalHeight) / 2
-    columnNodes.forEach((node, index) => {
-      node.position = { x, y: getYPosition(index, startY) }
-    })
-  }
+  const convertEdgeToElkEdge = (edge: Edge) => ({
+    ...edge,
+    sources: [edge.source],
+    targets: [edge.target],
+  })
 
-  const setNodesPositionBySourceType = (
-    nodeArr: Array<Node>,
-    sourceNodes: Array<Node>,
-    columnIndex: number,
-    totalHeight: number,
-  ) => {
-    const sourceIndexUsed: Set<number> = new Set()
-    nodeArr.forEach((node) => {
-      const ruleId = node.data.rulesUsed[0]
-      let firstSourceNodeIndexConnected = sourceNodes.findIndex((item) => {
-        const arr = item?.data?.rulesUsed || []
-        return arr.includes(ruleId)
-      })
-      while (sourceIndexUsed.has(firstSourceNodeIndexConnected)) {
-        firstSourceNodeIndexConnected += 1
+  const convertNodeToElkNode = (node: Node) => {
+    let layoutOptions = {}
+    if (node.type === FlowNodeType.Input) {
+      layoutOptions = {
+        'elk.layered.layering.layerConstraint': 'FIRST',
       }
-      sourceIndexUsed.add(firstSourceNodeIndexConnected)
-      const connectedSourceNode = sourceNodes[firstSourceNodeIndexConnected]
-      if (connectedSourceNode) {
-        node.position = { y: connectedSourceNode.position.y, x: getXPosition(columnIndex) }
-      } else {
-        const startIndex = [...sourceIndexUsed][0]
-        const startY = sourceNodes[startIndex]?.position.y
-        if (startIndex !== undefined && startY !== undefined) {
-          node.position = {
-            y: getYPosition(firstSourceNodeIndexConnected - startIndex, startY),
-            x: getXPosition(columnIndex),
-          }
-        } else {
-          node.position = {
-            y: totalHeight / 2,
-            x: getXPosition(columnIndex),
-          }
-        }
-      }
-    })
+    }
+    const nodeHeight = [ProcessingType.Function, SinkType.Console].includes(node.data?.specificType)
+      ? 42
+      : 66
+    return {
+      ...node,
+      layoutOptions,
+      width: nodeWidth,
+      height: nodeHeight,
+    }
   }
+  const elk = new ELK()
   /**
    * count nodes position view all flows
    */
-  const countNodesPosition = (nodes: GroupedNode) => {
-    // count source & sink nodes position first
-    const keys: Array<keyof GroupedNode> = [NodeType.Source, NodeType.Sink]
-
-    const totalHeight =
-      Math.max(...keys.map((key) => (nodes[key] ?? []).length)) * (nodeHeight + nodeRowSpacing) -
-      nodeRowSpacing
-    setPositionToColumnNodes(nodes[NodeType.Source], 0, totalHeight)
-    setPositionToColumnNodes(nodes[NodeType.Sink], 3, totalHeight)
-    setPositionToColumnNodes(nodes[NodeType.Fallback] ?? [], 4, totalHeight)
-    // Set filter & function nodes position based on source nodes to avoid overlap
-    const processingTypes: Array<ProcessingType> = [ProcessingType.Function, ProcessingType.Filter]
-    processingTypes.forEach((type, columnIndex) =>
-      setNodesPositionBySourceType(
-        nodes[type],
-        nodes[NodeType.Source],
-        columnIndex + 1,
-        totalHeight,
-      ),
-    )
-  }
-
-  /**
-   * Compared to the one above, there's no need to think about node coverage
-   */
-  const countNodePositionWhileEditing = (nodes: GroupedNode) => {
-    const keys: Array<keyof GroupedNode> = [
-      NodeType.Source,
-      ProcessingType.Function,
-      ProcessingType.Filter,
-      NodeType.Sink,
-      NodeType.Fallback,
-    ]
-    const nodesArr = keys.map((key) => nodes[key] ?? [])
-    const totalHeight =
-      Math.max(...keys.map((key) => (nodes[key] ?? []).length)) * (nodeHeight + nodeRowSpacing) -
-      nodeRowSpacing
-    nodesArr.forEach((arr, index) => setPositionToColumnNodes(arr, index, totalHeight))
+  const countNodesPosition = async (nodes: GroupedNode, edgeArr: Array<Edge>) => {
+    const allNodes = Object.values(nodes).flat()
+    const { children } = await elk.layout({
+      id: 'root',
+      layoutOptions: {
+        'elk.algorithm': 'layered',
+        'elk.layered.spacing.nodeNodeBetweenLayers': '60',
+        'elk.spacing.edgeNode': '50',
+        'elk.edgeRouting': 'POLYLINE',
+      },
+      children: allNodes.map(convertNodeToElkNode),
+      edges: edgeArr.map(convertEdgeToElkEdge),
+    })
+    allNodes.forEach((node) => {
+      const resultNode = children?.find((item) => item.id === node.id)
+      if (resultNode) {
+        const { x, y } = resultNode
+        node.position = { x: x ?? 0, y: y ?? 0 }
+      }
+    })
   }
 
   const isRemovedBridge = (node: Node) =>
@@ -765,7 +710,6 @@ export default (): {
     generateFlowDataFromActionItem,
     fallbackEdgeStyle,
     countNodesPosition,
-    countNodePositionWhileEditing,
     isRemovedBridge,
     addFlagToRemovedBridgeNode,
     addFallbackFlagToNodes,
