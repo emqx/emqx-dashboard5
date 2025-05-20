@@ -10,7 +10,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
   >
-    <RemovedBridgeTip v-if="isRemovedBridge" />
+    <RemovedDataTip v-if="isRemovedData" />
     <template v-else-if="getFormComponent(type)">
       <el-tabs v-if="showTabs" v-model="activeTab">
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" />
@@ -103,7 +103,7 @@ import { BridgeDirection } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
-import RemovedBridgeTip from '@/views/RuleEngine/components/RemovedBridgeTip.vue'
+import RemovedDataTip from '@/views/RuleEngine/components/RemovedDataTip.vue'
 import { Node } from '@vue-flow/core'
 import NodeMetrics from './metrics/NodeMetrics.vue'
 
@@ -143,7 +143,7 @@ const isEdit = computed(() => !!record.value.id)
 
 const FormCom = ref()
 
-const isRemovedBridge = computed(() => {
+const isRemovedData = computed(() => {
   if (!props.node || !props.node.data) {
     return false
   }

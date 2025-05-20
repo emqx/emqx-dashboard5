@@ -90,6 +90,7 @@ export default (): {
     generateFlowDataFromActionItem,
     countNodesPosition,
     addFlagToRemovedBridgeNode,
+    addFlagToRemovedAINode,
     addAIRecordToAINode,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode, isAIType } = useFlowNode()
@@ -279,6 +280,7 @@ export default (): {
       nodeArray.forEach((node) => addFlagToRemovedBridgeNode(node))
     })
     ;[sourceNodes, sinkNodes, fallbackNodes] = nodeArrays
+    functionNodes.forEach((node) => addFlagToRemovedAINode(node))
   }
 
   const setPositionToNodes = async () => {

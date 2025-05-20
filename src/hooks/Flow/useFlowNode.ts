@@ -171,6 +171,8 @@ export default (): {
   }
 
   const typeLabelMap = {
+    [SourceType.Message]: t('RuleEngine.messages'),
+    [SourceType.Event]: t('RuleEngine.event'),
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
     [ProcessingType.AIOpenAI]: 'OpenAI',
