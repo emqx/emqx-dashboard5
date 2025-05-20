@@ -125,6 +125,7 @@ export default (): {
     generateFlowDataFromRuleItem,
     countNodesPosition,
     addFlagToRemovedBridgeNode,
+    addFlagToRemovedAINode,
     generateFlowDataFromActionItem,
     addAIRecordToAINode,
   } = useGenerateFlowDataUtils()
@@ -154,6 +155,9 @@ export default (): {
       ...Object.entries(nodes).reduce((arr: Array<Node>, [key, value]) => {
         if ([NodeType.Source, NodeType.Fallback, NodeType.Sink].includes(Number(key) as NodeType)) {
           value.forEach((item) => addFlagToRemovedBridgeNode(item))
+        }
+        if (key === ProcessingType.Function) {
+          value.forEach((item) => addFlagToRemovedAINode(item))
         }
         return [...arr, ...value]
       }, []),

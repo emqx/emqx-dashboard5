@@ -1,6 +1,6 @@
 <template>
   <p class="removed-bridge-tip">
-    {{ tl('bridgeRemovedTip') }}
+    {{ tl('dataRemovedTip') }}
   </p>
 </template>
 

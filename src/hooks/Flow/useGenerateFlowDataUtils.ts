@@ -87,6 +87,7 @@ export default (): {
   countNodesPosition: (nodes: GroupedNode, edgeArr: Array<Edge>) => Promise<void>
   isRemovedBridge: (node: Node) => boolean
   addFlagToRemovedBridgeNode: (node: Node) => Node
+  addFlagToRemovedAINode: (node: Node) => Node
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
@@ -697,6 +698,20 @@ export default (): {
     return node
   }
 
+  const isRemovedAINode = (node: Node) => {
+    if (isAIType(node.data.specificType)) {
+      return !node.data.formData.system_prompt
+    }
+    return false
+  }
+  const addFlagToRemovedAINode = (node: Node) => {
+    if (isRemovedAINode(node)) {
+      node.class = (node.class || '') + ' is-disabled'
+      node.data.isRemoved = true
+    }
+    return node
+  }
+
   return {
     getBridgeIdFromInput,
     detectInputType,
@@ -714,5 +729,6 @@ export default (): {
     addFlagToRemovedBridgeNode,
     addFallbackFlagToNodes,
     generateEdgesFromNodes,
+    addFlagToRemovedAINode,
   }
 }
