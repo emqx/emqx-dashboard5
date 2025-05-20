@@ -1140,6 +1140,30 @@
     }
   },
   {
+    "method": "put",
+    "path": "/schema_registry_protobuf/bundle",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Upload a Protobuf bundle for an existing schema",
+      "zh": "上传一个 Protobuf 包用于现有的 Schema"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/schema_registry_protobuf/bundle",
+    "operation_label": {
+      "en": "Schema Registry",
+      "zh": "Schema Registry"
+    },
+    "operation_name_label": {
+      "en": "Upload a Protobuf bundle for a new schema",
+      "zh": "上传一个 Protobuf 包用于新的 Schema"
+    }
+  },
+  {
     "method": "post",
     "path": "/schema_validations/validation/:name/metrics/reset",
     "operation_label": {
@@ -2721,6 +2745,78 @@
     "operation_name_label": {
       "en": "Create managed namespace",
       "zh": "创建命名空间"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/ai/providers",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Create provider entry for an AI provider.",
+      "zh": "创建 AI 提供商条目"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/ai/providers/:name",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Update provider entry for an AI provider.",
+      "zh": "更新 AI 提供商条目"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/ai/providers/:name",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Delete provider entry for an AI provider.",
+      "zh": "删除 AI 提供商条目"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/ai/completion_profiles",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Create AI completion profile.",
+      "zh": "创建 AI 助手条目"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/ai/completion_profiles/:name",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Update AI completion profile.",
+      "zh": "更新 AI 助手条目"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/ai/completion_profiles/:name",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "Delete AI completion profile",
+      "zh": "删除 AI 助手条目"
     }
   }
 ]
