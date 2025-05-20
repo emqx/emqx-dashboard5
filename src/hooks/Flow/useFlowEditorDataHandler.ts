@@ -147,6 +147,46 @@ export default (): {
     }
   }
 
+  /**
+   * For nodes of default type, except for the first and last nodes,
+   * all other nodes should have a single entry and a single exit,
+   * the first node should have a single exit, and the last node should have a single entry.
+   */
+  const verifyDefaultNodeConnection = async (flowData: FlowData) => {
+    const { nodes, edges } = flowData
+    const defaultNodes = nodes.filter(({ type }) => type === FlowNodeType.Default)
+    if ([0, 1, 2].includes(defaultNodes.length)) {
+      return Promise.resolve()
+    }
+    const firstDefaultNode = edges.find(({ sourceNode, targetNode }) => {
+      return sourceNode.type === FlowNodeType.Input && targetNode.type === FlowNodeType.Default
+    })?.targetNode
+
+    const lastDefaultNode = edges.find(({ sourceNode, targetNode }) => {
+      return sourceNode.type === FlowNodeType.Default && targetNode.type === FlowNodeType.Output
+    })?.sourceNode
+    if (!firstDefaultNode || !lastDefaultNode) {
+      console.error('Can not handle this case')
+      return Promise.reject(tl('incorrectConnection'))
+    }
+    const otherDefaultNodes = defaultNodes.filter(
+      (node) => node.id !== firstDefaultNode.id && node.id !== lastDefaultNode.id,
+    )
+    const findNodeEdges = (node: NodeData | Node, isToNode: boolean): Array<EdgeData> =>
+      edges.filter(({ sourceNode, targetNode }) =>
+        isToNode ? targetNode.id === node.id : sourceNode.id === node.id,
+      )
+
+    const nodeEdges: Array<Array<EdgeData>> = [
+      findNodeEdges(firstDefaultNode, false),
+      findNodeEdges(lastDefaultNode, true),
+      ...otherDefaultNodes.map((node) => findNodeEdges(node, false)),
+      ...otherDefaultNodes.map((node) => findNodeEdges(node, true)),
+    ]
+    const isAllSingleEdge = nodeEdges.every((edges) => edges.length === 1)
+    return !isAllSingleEdge ? Promise.reject(tl('incorrectConnection')) : Promise.resolve()
+  }
+
   const verifyMultipleFlow = async ({ edges }: FlowData) => {
     const graph: Map<string, Array<string>> = new Map()
 
@@ -193,6 +233,7 @@ export default (): {
       await verifyIntegrityOfFlow(flowData)
       await verifyIsolatedNode(flowData)
       await verifyConnection(flowData)
+      await verifyDefaultNodeConnection(flowData)
       await verifyMultipleFlow(flowData)
     } catch (error) {
       return Promise.reject(error)
