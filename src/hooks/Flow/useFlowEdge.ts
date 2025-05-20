@@ -14,7 +14,7 @@ export default (): {
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input
   const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
   const isDefaultNode = (node: Node) => node.type === FlowNodeType.Default
-  const { isBridgerNode, isWithFallbackNodes } = useFlowNode()
+  const { isBridgerNode, isWithFallbackNodes, isLikeFunctionType } = useFlowNode()
   const checkConnection = async (
     edge:
       | GraphEdge<ElementData>
@@ -34,7 +34,7 @@ export default (): {
       if (!sourceType || !targetType) {
         return Promise.resolve()
       }
-      if (sourceType === ProcessingType.Filter && targetType === ProcessingType.Function) {
+      if (sourceType === ProcessingType.Filter && isLikeFunctionType(targetType)) {
         return Promise.reject(tl('filterFunctionsWrongOrder'))
       }
     }

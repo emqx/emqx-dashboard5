@@ -125,6 +125,7 @@ export default (): {
   isWithFallbackNodes: (node: Node) => boolean
   isBridgeType: (type: string) => boolean
   isAIType: (type: string) => boolean
+  isLikeFunctionType: (type: string) => boolean
   getTypeLabel: (specificType: string) => string
   getNodeInfo: (node: Node) => string
   getNodeIcon: (type: string, disabled?: boolean) => string
@@ -252,6 +253,10 @@ export default (): {
       (Object.values(ProcessingType).includes(type as ProcessingType) &&
         ![ProcessingType.Filter, ProcessingType.Function].includes(type as ProcessingType))
     )
+  }
+
+  const isLikeFunctionType = (type: string) => {
+    return isAIType(type) || type === ProcessingType.Function
   }
 
   const getEventLabelFromVal = (val: string) => {
@@ -393,6 +398,7 @@ export default (): {
     isWithFallbackNodes,
     isBridgeType,
     isAIType,
+    isLikeFunctionType,
     getTypeLabel,
     getNodeInfo,
     getNodeIcon,
