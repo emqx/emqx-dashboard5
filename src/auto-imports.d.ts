@@ -116,6 +116,7 @@ declare global {
   const accAdd: typeof import('./common/tools')['accAdd']
   const actionResourceOptFields: typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['actionResourceOptFields']
   const addNewlineAfterComma: typeof import('./common/tools')['addNewlineAfterComma']
+  const aiExpressionPartReg: typeof import('./common/tools')['aiExpressionPartReg']
   const arraysAreEqual: typeof import('./common/tools')['arraysAreEqual']
   const assign: typeof import('lodash')['assign']
   const avroUtils: typeof import('./hooks/Plugins/avroUtils')['default']
@@ -194,6 +195,7 @@ declare global {
   const handleTransformData: typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']
   const inject: typeof import('vue')['inject']
   const isArray: typeof import('lodash')['isArray']
+  const isContainsAIExpression: typeof import('./common/tools')['isContainsAIExpression']
   const isEqual: typeof import('lodash')['isEqual']
   const isForeachReg: typeof import('./common/tools')['isForeachReg']
   const isFunction: typeof import('lodash')['isFunction']
@@ -680,6 +682,7 @@ declare module 'vue' {
     readonly accAdd: UnwrapRef<typeof import('./common/tools')['accAdd']>
     readonly actionResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/bridge/useSchemaBridgePropsLayout')['actionResourceOptFields']>
     readonly addNewlineAfterComma: UnwrapRef<typeof import('./common/tools')['addNewlineAfterComma']>
+    readonly aiExpressionPartReg: UnwrapRef<typeof import('./common/tools')['aiExpressionPartReg']>
     readonly arraysAreEqual: UnwrapRef<typeof import('./common/tools')['arraysAreEqual']>
     readonly assign: UnwrapRef<typeof import('lodash')['assign']>
     readonly avroUtils: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['default']>
@@ -758,6 +761,7 @@ declare module 'vue' {
     readonly handleTransformData: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isArray: UnwrapRef<typeof import('lodash')['isArray']>
+    readonly isContainsAIExpression: UnwrapRef<typeof import('./common/tools')['isContainsAIExpression']>
     readonly isEqual: UnwrapRef<typeof import('lodash')['isEqual']>
     readonly isForeachReg: UnwrapRef<typeof import('./common/tools')['isForeachReg']>
     readonly isFunction: UnwrapRef<typeof import('lodash')['isFunction']>

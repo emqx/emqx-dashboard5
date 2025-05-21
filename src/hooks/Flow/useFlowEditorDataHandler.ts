@@ -46,10 +46,6 @@ export default (): {
     rule: BasicRule
     actions: Array<BridgeData>
     sources: Array<BridgeData>
-    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:is created
     aiProviders: Array<FlowDataItemForSubmit<AIProviderForm>>
     aiCompletions: Array<FlowDataItemForSubmit<AICompletionProfile>>
   }>

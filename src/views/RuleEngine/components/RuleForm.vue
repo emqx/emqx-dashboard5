@@ -26,7 +26,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
-              <el-form-item required prop="sql" class="self-required">
+              <el-form-item required prop="sql" class="self-required form-item-sql">
                 <template #label>
                   <span>{{ tl('sqlEditor') }}</span>
                   <InfoTooltip :content="tl('ruleSQLDesc')" />
@@ -34,6 +34,23 @@
                     <span>{{ tl('sqlEdit') }}</span>
                     <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
                   </p>
+                  <el-alert
+                    v-if="containsAIExpression"
+                    type="warning"
+                    class="ai-completion-alert"
+                    :closable="false"
+                  >
+                    <i18n-t keypath="Flow.aiCompletionTip" tag="div">
+                      <template #link>
+                        <router-link
+                          :to="{ name: 'flow-detail', params: { id: modelValue.id } }"
+                          target="_blank"
+                        >
+                          {{ t('Flow.flowDetail') }}
+                        </router-link>
+                      </template>
+                    </i18n-t>
+                  </el-alert>
                 </template>
                 <div class="monaco-container sql">
                   <Monaco
@@ -224,6 +241,8 @@ watch(
     }
   },
 )
+
+const containsAIExpression = computed(() => isContainsAIExpression(ruleValue.value.sql))
 
 const setRuleValue = () => {
   ruleValue.value = {
@@ -446,12 +465,20 @@ defineExpose({ validate })
       width: 50%;
     }
   }
+  .form-item-sql {
+    .el-form-item__label {
+      width: 100%;
+    }
+  }
   .part-header {
     margin-top: 12px;
   }
   .sub-block-desc {
     margin: 12px 0 16px 0;
     line-height: 1.6;
+  }
+  .ai-completion-alert {
+    margin-bottom: 12px;
   }
   .monaco-container.sql {
     height: 400px;

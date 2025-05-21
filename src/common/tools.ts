@@ -276,6 +276,13 @@ export const getKeyPartsFromSQL = (sqlStr: string) => {
   }
 }
 
+export const aiExpressionPartReg = new RegExp(
+  `${AI_FUNCTION_NAME}\\('(?<name>.+)'\\,\\s*(?<input>.+)\\)\\s+AS\\s+(?<alias>.+)`,
+  'i',
+)
+
+export const isContainsAIExpression = (sql: string) => aiExpressionPartReg.test(sql)
+
 /**
  * If there is FOREACH in the SQL statement
  * put the FOREACH and the following statements into the SELECT
