@@ -157,3 +157,7 @@ export const listTopics = (params: any = {}) => {
 export function listSubscriptions(params = {}) {
   return http.get('/subscriptions', { params })
 }
+
+export function loadLatencyMetrics(): Promise<Record<string, number>> {
+  return http.get('/metric-message-latency', { baseURL: 'api/v5.1' })
+}

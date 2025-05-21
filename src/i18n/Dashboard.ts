@@ -1030,4 +1030,8 @@ To enable clustering or use EMQX for external commercial purposes, a commercial 
     en: 'Messages be dropped after reaching subscriber session, including messages dropped due to no local option, message size limit and expiration.',
     zh: '发送至订阅者后被丢弃的消息，包括禁止本地转发、消息长度超出限制、消息队列满等情况。',
   },
+  messageLatency: {
+    zh: '{target} 消息延迟',
+    en: 'Message Latency of {target}',
+  },
 }
