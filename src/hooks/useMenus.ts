@@ -24,7 +24,6 @@ export default (): {
   ]
 
   const diagnose = [
-    { title: 'message-trace', path: '/message-trace' },
     { title: 'message-analysis', path: '/message-analysis' },
     { title: 'log-trace', path: '/log-trace' },
     { title: 'log-view', path: '/log-view' },
