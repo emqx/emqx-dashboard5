@@ -22,6 +22,8 @@ jobs:
       - name: install zip
         run: apt-get update && apt-get install -y zip
       - name: build
+        env:
+          VITE_CLOUD_AI_SQL_ASSISTANT_API_URL: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL }}
         run: |
           pnpm install
           pnpm build:enterprise
