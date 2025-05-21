@@ -159,6 +159,10 @@ export default {
     zh: '输出结果别名',
     en: 'Output Result Alias',
   },
+  aiOutputAliasDesc: {
+    zh: '输出结果别名，用户在动作或后续处理中引用输出结果',
+    en: 'Output result alias, used to reference output results in actions or subsequent processing',
+  },
   baseURL: {
     zh: '基础 URL',
     en: 'Base URL',
