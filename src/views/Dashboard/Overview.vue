@@ -71,26 +71,41 @@
           </template>
         </el-card>
       </el-col>
-      <el-col :span="withSessionsHistHwmark ? 13 : 10">
+      <el-col :span="withSessionsHistHwmark ? 24 - 7 : 24 - 8">
         <el-card class="main-info-item">
           <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
-              <p class="info-label">{{ $t('Dashboard.allConnections') }}</p>
+              <p class="info-label">{{ tl('messageLatency', { target: 'QoS 0' }) }}</p>
             </div>
-            <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
+            <div class="num">
+              {{ latencyMetrics['message.qos0.latency'] }}
+              <span class="unit">ms</span>
+            </div>
           </div>
           <div class="count-item">
             <div class="count-item-hd">
-              <img src="@/assets/img/live_connections.png" width="16" height="16" alt="clients" />
-              <p class="info-label">{{ $t('Dashboard.liveConnections') }}</p>
+              <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
+              <p class="info-label">{{ tl('messageLatency', { target: 'QoS 1' }) }}</p>
             </div>
             <div class="num">
-              {{ _formatNumber(currentMetrics.live_connections) }}
+              {{ latencyMetrics['message.qos1.latency'] }}
+              <span class="unit">ms</span>
+            </div>
+          </div>
+          <div class="count-item">
+            <div class="count-item-hd">
+              <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
+              <p class="info-label">{{ tl('messageLatency', { target: 'QoS 2' }) }}</p>
+            </div>
+            <div class="num">
+              {{ latencyMetrics['message.qos2.latency'] }}
+              <!-- TODO:TODO:TODO:TODO:style -->
+              <span class="unit">ms</span>
             </div>
           </div>
 
-          <template v-if="withSessionsHistHwmark">
+          <!-- <template v-if="withSessionsHistHwmark">
             <el-tooltip placement="top">
               <template #content>
                 <MarkdownContent
@@ -121,9 +136,9 @@
                 </div>
               </div>
             </el-tooltip>
-          </template>
+          </template> -->
         </el-card>
-        <el-card class="main-info-item" :class="{ 'with-three-items': withSessionsHistHwmark }">
+        <el-card class="main-info-item with-three-items">
           <router-link class="count-item" :to="{ name: 'subscription' }">
             <div class="count-item-hd">
               <img src="@/assets/img/subs.png" width="16" height="16" alt="subs" />
@@ -131,17 +146,6 @@
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
           </router-link>
-          <div class="count-item">
-            <div class="count-item-hd">
-              <img src="@/assets/img/shared_subscriptions.png" width="16" height="16" alt="subs" />
-              <p class="info-label">{{ $t('Dashboard.shareSubscription') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.shared_subscriptions) }}</div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="withSessionsHistHwmark ? 4 : 6">
-        <el-card class="main-info-item">
           <router-link class="count-item" :to="{ name: 'topics' }">
             <div class="count-item-hd">
               <img src="@/assets/img/topics.png" width="16" height="16" alt="topics" />
@@ -149,15 +153,6 @@
             </div>
             <div class="num">{{ _formatNumber(currentMetrics.topics) }}</div>
           </router-link>
-        </el-card>
-        <el-card class="main-info-item">
-          <div class="count-item">
-            <div class="count-item-hd">
-              <img src="@/assets/img/retained.png" width="16" height="16" alt="topics" />
-              <p class="info-label">{{ $t('Dashboard.retained') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.retained_msg_count) }}</div>
-          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -179,7 +174,7 @@ import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import dayjs from 'dayjs'
-import { loadCurrentMetrics } from '@/api/common'
+import { loadCurrentMetrics, loadLatencyMetrics } from '@/api/common'
 
 interface MetricData {
   x: Array<string>
@@ -220,6 +215,11 @@ const currentMetrics: Ref<CurrentMetrics> = ref({
   topics: 0, // Topics
   live_connections: 0, // Live Connections
 })
+const latencyMetrics = ref<Record<string, number>>({
+  'message.qos0.latency': 7,
+  'message.qos1.latency': 3,
+  'message.qos2.latency': 12,
+})
 const withSessionsHistHwmark = computed(
   () => !isUndefined(currentMetrics.value.sessions_hist_hwmark),
 )
@@ -230,12 +230,14 @@ const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num
 const { syncPolling } = useSyncPolling()
 
 const loadData = async () => {
-  const state = await loadCurrentMetrics()
-  if (!state) {
-    return
+  const [state, latencyData] = await Promise.all([loadCurrentMetrics(), loadLatencyMetrics()])
+  if (state) {
+    currentMetrics.value = state
+    setCurrentMetricsLogsRealtime(state)
   }
-  currentMetrics.value = state
-  setCurrentMetricsLogsRealtime(state)
+  if (latencyData) {
+    latencyMetrics.value = latencyData
+  }
 }
 
 const getNow = () => {
@@ -293,6 +295,10 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
     .count-item {
       flex: 1;
+      .unit {
+        font-size: 16px;
+        font-weight: normal;
+      }
     }
     .count-item-hd {
       display: flex;
