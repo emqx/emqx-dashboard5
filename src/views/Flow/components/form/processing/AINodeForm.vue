@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="150px"
+    label-width="164px"
     class="provider-form"
     label-position="right"
     :rules="rules"

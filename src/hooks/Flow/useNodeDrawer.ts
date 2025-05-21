@@ -25,31 +25,21 @@ export default (): {
   getDrawerWidth: (type: string) => string
   getFormComponent: (type: string) => Component | undefined
 } => {
-  const { t, tl } = useI18nTl('RuleEngine')
+  const { tl } = useI18nTl('RuleEngine')
 
   const { isUsingSchemaBridgeType } = useNodeForm()
-  const { isBridgeType } = useFlowNode()
+  const { isBridgeType, getTypeLabel } = useFlowNode()
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const drawerTitleMap: Record<string, string> = {
-    [SourceType.Message]: tl('message'),
-    [SourceType.Event]: tl('event'),
     [SourceTypeAllMsgsAndEvents]: tl('allMsgsAndEvents'),
-    [ProcessingType.Function]: tl('dataProcessing'),
-    [ProcessingType.Filter]: t('Flow.filter'),
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    // TODO:TODO:TODO:TODO:TODO:TODO:
-    [SinkType.RePub]: tl('republish'),
-    [SinkType.Console]: tl('consoleOutput'),
   }
   const getDrawerTitle = (type: string) => {
     if (isBridgeType(type)) {
       return getBridgeLabelByTypeValue(type as BridgeType) || ''
     }
-    return drawerTitleMap[type]
+    const typeLabel = getTypeLabel(type)
+    return drawerTitleMap[type] ?? typeLabel
   }
 
   const drawerDefaultWidth = '560px'

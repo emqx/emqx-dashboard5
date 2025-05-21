@@ -189,7 +189,7 @@ export default (): {
     if (!ret && isBridgeType(specificType)) {
       ret = getBridgeLabelByTypeValue(specificType as BridgeType)
     }
-    return ret || specificType
+    return ret || titleCase(specificType)
   }
 
   const countFiltersNum = (filter: FilterFormData) => {

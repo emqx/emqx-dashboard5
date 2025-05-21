@@ -196,7 +196,6 @@ export default (): {
       await submitActions(actions)
       await submitSources(sources)
 
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO: add if
       await submitAIProviders(aiProviders)
       await submitAICompletionProfiles(aiCompletions)
 
@@ -226,7 +225,6 @@ export default (): {
       await submitActions(actions)
       await submitSources(sources)
 
-      // TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO:TODO: add if
       await submitAIProviders(aiProviders)
       await submitAICompletionProfiles(aiCompletions)
 
