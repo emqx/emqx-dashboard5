@@ -205,10 +205,7 @@ export default (): {
     )
     return containsUnprocessedFields ? EditedWay.SQL : EditedWay.Form
   }
-  const aiExpressionReg = new RegExp(
-    `^${AI_FUNCTION_NAME}\\('(?<name>.+)'\\,\\s*(?<input>.+)\\)\\s+AS\\s+(?<alias>.+)?`,
-    'i',
-  )
+  const aiExpressionReg = new RegExp(`^${aiExpressionPartReg.source}$`, 'i')
 
   /**
    * normal_expression1, normal_expression2, ai_expression1, ai_expression2, normal_expression3, normal_expression4 =>

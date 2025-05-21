@@ -167,4 +167,12 @@ export default {
     zh: '基础 URL',
     en: 'Base URL',
   },
+  aiCompletionTip: {
+    zh: 'SQL 中包含 AI函数，AI 函数的系统消息及 API 密钥等配置，请至 {link} 编辑',
+    en: 'SQL contains AI functions, the system prompt and API key configurations of AI functions, please edit in the {link}',
+  },
+  flowDetail: {
+    zh: 'Flow 详情页',
+    en: 'flow details page',
+  },
 }
