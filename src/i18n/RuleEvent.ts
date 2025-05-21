@@ -27,11 +27,11 @@ export default {
     en: 'Client Connack',
     zh: '连接确认',
   },
-  eventsClientCheckAuthzComplete: {
+  eventsAuthCheckAuthzComplete: {
     en: 'Client Check Authz Complete',
     zh: '授权完成',
   },
-  eventsClientCheckAuthnComplete: {
+  eventsAuthCheckAuthnComplete: {
     en: 'Client Check Authn Complete',
     zh: '认证完成',
   },
@@ -43,7 +43,7 @@ export default {
     en: 'Session Unsubscribed',
     zh: '会话取消订阅',
   },
-  eventsDeliveryDropped: {
+  eventsMessageDeliveryDropped: {
     en: 'Message Delivery Drop',
     zh: '消息投递丢弃',
   },

@@ -368,10 +368,24 @@ export const useMockData = (
     isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
   }
 
+  const authEventReg = /^\$events\/auth\//
+  const eventReg = /^\$events\//
+  const justKeepLastRegArr = [/^\$events\/message\/delivery_dropped$/, /^\$events\/sys\//]
+  const getLastWord = (event: string) => event.match(/\w+$/)?.[0]
+  const getEventForTest = (event: string) => {
+    const justKeepLastReg = justKeepLastRegArr.find((reg) => reg.test(event))
+    if (justKeepLastReg) {
+      return getLastWord(event)
+    }
+    if (authEventReg.test(event)) {
+      return event.replace(authEventReg, 'client_')
+    }
+    return snakeCase(event.replace(eventReg, ''))
+  }
   const getEventTypeInContext = () => {
     const { type, target } = findSourceTypeAndTarget(dataType.value)
     if (type === RuleInputType.Event) {
-      return dataType.value.match(/\w+$/)?.[0]
+      return getEventForTest(dataType.value)
     }
     if (type === RuleInputType.Bridge) {
       return `$bridges/${(target as BridgeItem).type}:*`
