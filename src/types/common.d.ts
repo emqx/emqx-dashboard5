@@ -7,6 +7,15 @@ export interface UserInfo {
   token: string
 }
 
+export interface VersionInfo {
+  latestVersion: string
+  isMutiVersion: boolean
+}
+
+export interface KV<V = any> {
+  [key: string]: V
+}
+
 export interface PageData {
   /**
    * When the value is -1, it means that we don’t know how many items of data there are,
