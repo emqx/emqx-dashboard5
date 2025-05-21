@@ -1,7 +1,7 @@
 <template>
   <div class="log-view">
     <div class="search-wrapper">
-      <el-form :inline="true" @submit.prevent="search">
+      <el-form :inline="true" @keyup.enter.prevent="search">
         <el-row :gutter="20">
           <el-col :span="6">
             <el-input
@@ -18,7 +18,7 @@
               :placeholder="t('QoS.logModule')"
               @clear="search"
             >
-              <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
+              <el-option v-for="item in moduleOptions" :key="item" :label="item" :value="item" />
             </el-select>
           </el-col>
           <el-col :span="6" />
@@ -62,6 +62,22 @@ const filterForm = ref({
   content_like: '',
   module: undefined,
 })
+
+const moduleOptions = [
+  'PUBLISH',
+  'SUBSCRIBE',
+  'UNSUBSCRIBE',
+  'API',
+  'MQTT',
+  'WS-MQTT',
+  'SOCKET',
+  'CLI',
+  'QUERY',
+  'RULE',
+  'AUTHZ',
+  'MULTI_TENANCY',
+  'CUSTOM',
+]
 
 const countInitialHeight = () => {
   const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
