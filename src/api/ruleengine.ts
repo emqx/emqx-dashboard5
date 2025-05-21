@@ -1,5 +1,6 @@
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
+import { LicenseData } from '@/types/dashboard'
 import {
   BridgeItem,
   BridgeMetricsData,
@@ -7,6 +8,8 @@ import {
   RuleItem,
   RuleMetrics,
   SchemaRegistry,
+  GenerateSQLPayload,
+  GenerateSQLResponse,
 } from '@/types/rule'
 import { ExternalSchema, ExternalSchemaMap } from '@/types/typeAlias'
 
@@ -195,4 +198,17 @@ export const putExternalSchema = (
 
 export const deleteExternalSchema = (name: string): Promise<void> => {
   return http.delete(`/schema_registry_external/registry/${encodeURIComponent(name)}`)
+}
+
+export const generateSQLByAI = (
+  cloudApiUrl: string,
+  data: GenerateSQLPayload,
+  licenseData: LicenseData,
+): Promise<GenerateSQLResponse> => {
+  return http.post(`${cloudApiUrl}/api/v1/rule_sql_assistants`, data, {
+    headers: {
+      'X-License-Email': licenseData.email,
+      'X-License-ID': licenseData.deployment,
+    },
+  })
 }

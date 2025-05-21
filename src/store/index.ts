@@ -1,5 +1,5 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
-import { UserInfo } from '@/types/common'
+import { UserInfo, VersionInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
@@ -31,6 +31,14 @@ const getSyncOSTheme = () => {
     return true
   }
   return JSON.parse(syncOsTheme)
+}
+
+const getEnableSQLAI = () => {
+  const enableSQLAI = localStorage.getItem('enableSQLAI') || 'true'
+  if (enableSQLAI === 'undefined') {
+    return true
+  }
+  return JSON.parse(enableSQLAI)
 }
 
 const getLeftBarCollapse = () => {
@@ -77,6 +85,8 @@ export default createStore({
     testRuleTarget: TestRuleTarget.SQL,
     /* rule page end */
     loginBackend: getLoginBackend(),
+    enableSQLAI: getEnableSQLAI(),
+    emqxVersion: null as VersionInfo | null,
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -99,6 +109,9 @@ export default createStore({
     },
     UPDATE_LOGIN_BACKEND({ commit }, loginBackend) {
       commit('UPDATE_LOGIN_BACKEND', loginBackend)
+    },
+    UPDATE_EMQX_VERSION({ commit }, versionInfo: VersionInfo) {
+      commit('SET_EMQX_VERSION', versionInfo)
     },
   },
   mutations: {
@@ -138,10 +151,11 @@ export default createStore({
       edition ? localStorage.setItem('edition', edition) : localStorage.removeItem('edition')
       state.edition = edition
     },
-    UPDATE_SETTINGS(state, { lang, theme, syncOsTheme }) {
+    UPDATE_SETTINGS(state, { lang, theme, syncOsTheme, enableSQLAI }) {
       localStorage.setItem('language', lang ?? state.lang)
       localStorage.setItem('theme', theme ?? state.theme)
       localStorage.setItem('syncOsTheme', JSON.stringify(syncOsTheme))
+      localStorage.setItem('enableSQLAI', JSON.stringify(enableSQLAI))
       if (
         (lang && state.lang !== lang) ||
         (theme && state.theme !== theme) ||
@@ -152,6 +166,7 @@ export default createStore({
         state.syncOsTheme = syncOsTheme
         location.reload()
       }
+      state.enableSQLAI = enableSQLAI ?? state.enableSQLAI
     },
     SET_AFTER_CURRENT_USER_PWD_CHANGED(state, payload: boolean) {
       state.afterCurrentUserPwdChanged = payload
@@ -198,6 +213,9 @@ export default createStore({
       state.testRuleTarget = testRuleTarget
     },
     /* rule page end */
+    SET_EMQX_VERSION(state, versionInfo: VersionInfo) {
+      state.emqxVersion = versionInfo
+    },
   },
   getters: {
     edition: (state) => {

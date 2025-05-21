@@ -3,6 +3,7 @@ import { loadNodes } from '@/api/common'
 import { NodeInfo } from '@/types/dashboard'
 import { getClusterNodes } from '@/api/common'
 import type { GetCluster200 } from '@/types/schemas/cluster.schemas'
+import { VersionInfo } from '@/types/common'
 
 interface UseClusterNodesOptions {
   loadByDefault?: boolean
@@ -30,7 +31,7 @@ export default function useClusterNodes(
   const nodes: Ref<Array<NodeInfo>> = ref([])
   const lockTable: Ref<boolean> = ref(false)
   const hasMemory: Ref<boolean> = ref(true)
-  const versionInfo = reactive({
+  const versionInfo = reactive<VersionInfo>({
     latestVersion: '',
     isMutiVersion: false,
   })

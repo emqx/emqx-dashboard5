@@ -65,10 +65,11 @@
                 </div>
               </el-form-item>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="24" class="sql-editor-toolbar">
               <el-button @click="openTemplateDrawer" type="primary" plain>
                 {{ tl('SQLTemplates') }}
               </el-button>
+              <SQLGenerator @apply-sql="handleGeneratedSQLApplied" />
             </el-col>
           </el-row>
         </el-form>
@@ -132,6 +133,7 @@ import RuleInputs from './RuleInputs.vue'
 import RuleOutputs from './RuleOutputs.vue'
 import SQLTemplateDrawer from './SQLTemplateDrawer.vue'
 import SQLTest from './SQLTest.vue'
+import SQLGenerator from './SQLGenerator.vue'
 
 const prop = defineProps({
   modelValue: {
@@ -225,6 +227,10 @@ const formRules = {
 const { docMap } = useDocLink()
 
 const { completionProvider, hoverProvider, setExtDepData } = useProvidersForMonaco()
+
+const handleGeneratedSQLApplied = (newSql: string) => {
+  ruleValue.value.sql = newSql
+}
 
 watch(
   () => JSON.stringify(ruleValue.value) + JSON.stringify(sqlPartValue.value),
@@ -445,6 +451,11 @@ defineExpose({ validate })
   .sql-col {
     padding: 24px;
     border-right: 1px solid var(--color-border-normal);
+  }
+  .sql-editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
   .action-col {
     padding: 12px 24px;

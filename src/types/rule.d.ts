@@ -319,3 +319,16 @@ export type FlowDataItemForSubmit<T> = {
   isCreated: boolean
   data: T
 }
+
+export interface GenerateSQLPayload {
+  language: string
+  version: string
+  description: string
+  topics?: string
+  exampleInput?: string
+  exampleOutput?: string
+}
+
+export interface GenerateSQLResponse {
+  sql: string
+}
