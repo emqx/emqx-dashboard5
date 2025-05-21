@@ -71,25 +71,10 @@
       </el-col>
     </el-row>
     <el-row v-if="!showChangePwdForm">
-      <el-col class="intro" :span="8">
-        <div class="content">
-          <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
-          <div class="cloud-list">
-            <a :href="docMap.cloud" target="_blank" rel="noopener noreferrer">
-              <img src="@/assets/img/aws.png" width="32" height="32" alt="aws" />
-              <img src="@/assets/img/kubernetes.png" width="32" height="32" alt="kubernetes" />
-              <img src="@/assets/img/azure.png" width="32" height="32" alt="azure" />
-              <img src="@/assets/img/gcp.png" width="32" height="32" alt="gcp" />
-            </a>
-          </div>
-        </div>
-      </el-col>
-      <el-col class="form" :span="16">
+      <el-col class="form" :span="24">
         <!-- Local Login -->
         <div v-if="currentLoginBackend === 'local'" class="login-wrapper local-login">
-          <div class="form-hd">
-            <h1>{{ loginTitle }}</h1>
-          </div>
+          <div class="form-hd"></div>
           <el-alert
             class="lock-alert"
             v-if="isLoginLocked"
