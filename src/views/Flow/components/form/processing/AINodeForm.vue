@@ -56,7 +56,10 @@
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
       <el-input v-model="record.base_url" />
     </CustomFormItem>
-    <CustomFormItem prop="alias" :label="t('Flow.aiOutputAlias')" :readonly="readonly">
+    <CustomFormItem prop="alias" :readonly="readonly">
+      <template #label>
+        <FormItemLabel :label="t('Flow.aiOutputAlias')" :desc="t('Flow.aiOutputAliasDesc')" />
+      </template>
       <el-input v-model="record.alias" />
     </CustomFormItem>
   </el-form>
