@@ -83,25 +83,23 @@ export default (): {
   payloadForShow: Ref<string>
   payloadShowBy: Ref<PayloadShowByType>
   payloadShowByOptions: PayloadShowByType[]
-  setRawText: (base64Text: string | null) => void
+  setRawText: (base64Text: string | null, format: PayloadShowByType) => void
 } => {
   // when the payload is too large, the value will be null
   const rawText: Ref<string | null> = ref('')
+  const rawTextFormat: Ref<PayloadShowByType> = ref(PayloadShowByType.Base64)
   const payloadShowBy = ref(SHOW_PAYLOAD_BY_WHICH_OPTION_LIST[0])
   const payloadShowByOptions = SHOW_PAYLOAD_BY_WHICH_OPTION_LIST
 
-  const setRawText = (base64Text: string | null): void => {
+  const setRawText = (base64Text: string | null, format: PayloadShowByType): void => {
     rawText.value = base64Text
+    rawTextFormat.value = format
   }
 
   const payloadForShow = ref('')
 
   const setValueForShow = async () => {
-    const value = await transPayload(
-      rawText.value || '',
-      PayloadShowByType.Base64,
-      payloadShowBy.value,
-    )
+    const value = await transPayload(rawText.value || '', rawTextFormat.value, payloadShowBy.value)
     payloadForShow.value = value
   }
 

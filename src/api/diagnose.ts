@@ -114,11 +114,11 @@ interface QueryMessageAnalysisParams {
 export function queryMessageAnalysis(
   params: QueryMessageAnalysisParams,
 ): Promise<ListDataWithPagination<MessageAnalysisItem>> {
-  return http.get('/message-logs', { params })
+  return http.get('/message-logs', { params, baseURL: 'api/v5.1' })
 }
 
 export function queryMessageAnalysisDetail(id: string): Promise<MessageAnalysisDetail> {
-  return http.get(`/message-logs/${encodeURIComponent(id)}`)
+  return http.get(`/message-logs/${encodeURIComponent(id)}`, { baseURL: 'api/v5.1' })
 }
 
 interface QuerySysLogParams {
@@ -131,5 +131,5 @@ export function querySysLog(params: QuerySysLogParams): Promise<{
   meta: { page: number; limit: number; count: number }
   contents: Array<string>
 }> {
-  return http.get('/sys-logs', { params })
+  return http.get('/sys-logs', { params, baseURL: 'api/v5.1' })
 }

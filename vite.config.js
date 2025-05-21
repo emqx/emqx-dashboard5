@@ -39,6 +39,10 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 7001,
       proxy: {
+        '/api/v5.1': {
+          target: 'http://mac:8080/',
+          changeOrigin: true,
+        },
         '/api/v5': {
           target,
           changeOrigin: true,

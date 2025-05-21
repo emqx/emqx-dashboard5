@@ -1,7 +1,7 @@
 <template>
   <div class="message-analysis">
     <div class="search-wrapper">
-      <el-form :inline="true" @submit.prevent="search">
+      <el-form :inline="true" @keyup.enter.prevent="search">
         <el-row :gutter="20">
           <el-col :span="6">
             <el-input
@@ -40,9 +40,9 @@
     </div>
     <div class="app-wrapper">
       <el-table :data="tableData" v-loading="isLoading" style="margin-top: 16px">
-        <el-table-column prop="id" label="ID" min-width="120">
+        <el-table-column prop="id" label="ID" min-width="90">
           <template #default="{ row }">
-            <el-link type="primary" :underline="false" @click="handleView(row.id)">
+            <el-link type="primary" :underline="false" @click="handleView(row.mid)">
               {{ row.id }}
             </el-link>
           </template>
@@ -54,7 +54,7 @@
             {{ getLabelFromValueInOptionList(row.event, eventOptions) }}
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="80">
+        <el-table-column prop="status" :label="t('Base.status')" min-width="80">
           <template #default="{ row }">
             <span class="text-status" :class="getTextClass(row.status)">
               {{ row.status }}
@@ -104,20 +104,7 @@ const eventOptions = Object.values(TopicEvent).map((value) => {
   return { value, label: t(`RuleEvent.${labelKey}`) }
 })
 
-const allData: Array<MessageAnalysisItem> = [
-  {
-    id: 'xxxx',
-    topic: 't/1',
-    qos: 0,
-    event: TopicEvent.MessagePublish,
-    status: MessageAnalysisStatus.Completed,
-    from_clientid: 'clientid-1',
-    clientid: 'clientid-2',
-    time: '2025-05-12 11:22:33',
-    size: 1024 * 100,
-    latency: 100,
-  },
-]
+const allData: Array<MessageAnalysisItem> = []
 
 const tableData = ref<Array<MessageAnalysisItem>>([...allData])
 

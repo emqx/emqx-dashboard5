@@ -68,7 +68,7 @@ const showDialog = computed({
 
 watch(showDialog, (val) => {
   if (val) {
-    setRawText(props.rawPayload)
+    setRawText(props.rawPayload, props.rawPayloadFormat)
   } else {
     // init format
     payloadShowBy.value = SHOW_PAYLOAD_BY_WHICH_OPTION_LIST[0]
@@ -81,7 +81,7 @@ watch(
   () => props.rawPayload,
   (val) => {
     if (showDialog.value) {
-      setRawText(val)
+      setRawText(val, props.rawPayloadFormat)
     }
   },
 )
