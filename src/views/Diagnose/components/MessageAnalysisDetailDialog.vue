@@ -2,6 +2,7 @@
   <PayloadDialog
     v-model="showDialog"
     :raw-payload="detail.payload"
+    :raw-payload-format="PayloadShowByType.Plaintext"
     :is-loading="isLoading"
     @open="getDetail"
   >
@@ -10,11 +11,11 @@
         <label>{{ t('Base.topic') }}</label>
         <span>{{ detail.topic }}</span>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="4">
         <label>{{ t('QoS.size') }}</label>
         <span>{{ transMemorySizeNumToStr(detail.size, 2) }}</span>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
         <label>{{ t('QoS.transportTime') }}</label>
         <span>{{ transMSNumToString(detail.latency) }}</span>
       </el-col>
@@ -29,7 +30,7 @@
 <script setup lang="ts">
 import { queryMessageAnalysisDetail } from '@/api/diagnose'
 import { MessageAnalysisDetail } from '@/types/diagnose'
-import { MessageAnalysisStatus, QoSLevel, TopicEvent } from '@/types/enum'
+import { MessageAnalysisStatus, PayloadShowByType, QoSLevel, TopicEvent } from '@/types/enum'
 
 const props = defineProps<{
   modelValue: boolean
