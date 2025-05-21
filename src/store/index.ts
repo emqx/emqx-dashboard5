@@ -1,5 +1,5 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
-import { UserInfo, VersionInfo } from '@/types/common'
+import type { UserInfo, VersionInfo } from '@/types/common'
 import { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
