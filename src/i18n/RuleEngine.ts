@@ -814,7 +814,7 @@ export default {
     en: 'Total',
   },
   actionTotalDesc: {
-    zh: '规则调用操作的次数。 此值可能是“命中”的数倍，具体取决于规则的操作数',
+    zh: '规则调用操作的次数。 此值可能是"命中"的数倍，具体取决于规则的操作数',
     en: "How many times the actions are called by the rule. This value may several times of 'matched', depending on the number of the actions of the rule",
   },
   actionSuccessDesc: {
@@ -1010,10 +1010,10 @@ export default {
     en: 'specify the format and content of the data so that it can be parsed and written to {database}, placeholder supported.',
   },
   timestampDesc: {
-    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在“精度”字段中指定了更高的精度。</br>
-如果使用任何其他时间戳，则其精度必须与“精度”字段中选择的值完全匹配。</br>
+    zh: `数据的 UNIX 时间戳。如果此字段为空或使用 \`\${'{'}timestamp{'}'}\` 模板，则 EMQX 使用其主机机器的系统时间（UTC）。请注意，此情况下的最大精度将被限制为毫秒，即使在"精度"字段中指定了更高的精度。</br>
+如果使用任何其他时间戳，则其精度必须与"精度"字段中选择的值完全匹配。</br>
 建议使用模板语法，例如 \`\${'{'}timestamp{'}'}\` 或 \`\${'{'}payload.timestamp{'}'}\`，为每条消息写入 {database} 数据记录。`,
-    en: `The UNIX timestamp for the data. EMQX uses its host machine’s system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
+    en: `The UNIX timestamp for the data. EMQX uses its host machine's system time (UTC) if this field is left empty or \`\${'{'}timestamp{'}'}\` template is used explicitly. Note that the maximum precision in this case will be limited to milliseconds, even if a higher precision is specified in the 'precision' field.</br>
 If any other timestamp is used, its precision must exactly match the value chosen in the 'precision' field.</br>
 It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`\${'{'}payload.timestamp{'}'}\`, to write an {database} data record for each message.`,
   },
@@ -1772,5 +1772,85 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   queueUsageDesc: {
     zh: '已缓存消息占用的系统资源量',
     en: 'System resource usage of queued messages',
+  },
+  generateSQL: {
+    zh: 'SQL 生成器',
+    en: 'SQL Generator',
+  },
+  generateSQLWithAI: {
+    zh: '使用 AI 生成 SQL',
+    en: 'Generate SQL with AI',
+  },
+  generate: {
+    zh: '生成',
+    en: 'Generate',
+  },
+  description: {
+    zh: '任务描述',
+    en: 'Task Description',
+  },
+  descriptionPlaceholder: {
+    zh: '请输入自然语言的任务描述，例如："从 t/# 主题选择所有字段"',
+    en: 'Enter a natural language task description, e.g., "Select all fields from t/#"',
+  },
+  descriptionRequired: {
+    zh: '请输入任务描述',
+    en: 'Please enter a task description',
+  },
+  topics: {
+    zh: '相关主题',
+    en: 'Related Topics',
+  },
+  topicsPlaceholder: {
+    zh: '请输入相关主题，例如："t/a" 或 "t/a, t/b/#, t/c/+/d"',
+    en: 'Please enter related topics, e.g., "t/a" or "t/a, t/b/#, t/c/+/d"',
+  },
+  topicsTips: {
+    zh: '支持单个主题，或多个主题（请使用逗号分隔，支持 +/#），例如："t/a" 或 "t/a, t/b/#, t/c/+/d"',
+    en: 'Supports a single topic, or multiple topics (comma-separated, with +/# support), e.g., "t/a" or "t/a, t/b/#, t/c/+/d"',
+  },
+  exampleInput: {
+    zh: '输入示例 (JSON)',
+    en: 'Input Example (JSON)',
+  },
+  exampleInputTips: {
+    zh: '提供一个输入消息的 JSON 示例',
+    en: 'Provide an example JSON for the input message',
+  },
+  exampleOutput: {
+    zh: '输出示例 (JSON)',
+    en: 'Output Example (JSON)',
+  },
+  exampleOutputTips: {
+    zh: '提供一个输出结果的 JSON 示例',
+    en: 'Provide an example JSON for the output result',
+  },
+  generatedSQLOutputTitle: {
+    zh: '生成的 SQL',
+    en: 'Generated SQL',
+  },
+  backToForm: {
+    zh: '返回表单',
+    en: 'Back to Form',
+  },
+  applySQL: {
+    zh: '应用 SQL',
+    en: 'Apply SQL',
+  },
+  noSQLGeneratedToCopy: {
+    zh: '没有可复制的 SQL',
+    en: 'No SQL generated to copy',
+  },
+  failedToGenerateSQL: {
+    zh: '生成 SQL 失败，请重试',
+    en: 'Failed to generate SQL. Please try again.',
+  },
+  generatedSQLOutputDesc: {
+    zh: '请检查 AI 生成的 SQL。可直接应用，或返回修改描述并重新生成。',
+    en: 'Please review the AI-generated SQL. You can apply it directly, or return to modify the description and regenerate.',
+  },
+  cloudApiUrlNotConfigured: {
+    zh: 'AI SQL 助手的 API URL 未配置',
+    en: 'AI SQL Assistant API URL is not configured',
   },
 }

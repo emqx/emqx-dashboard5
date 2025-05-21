@@ -20,6 +20,19 @@ const { versionInfo } = useClusterNodes({
   timeout: 25000,
   getVersion: true,
 })
+const store = useStore()
+watch(
+  versionInfo,
+  (newVersionInfo) => {
+    if (newVersionInfo) {
+      store.dispatch('UPDATE_EMQX_VERSION', newVersionInfo)
+    }
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+)
 </script>
 
 <style scoped>

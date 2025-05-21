@@ -32,6 +32,12 @@
           </el-radio-group>
         </div>
       </el-form-item>
+      <el-form-item prop="enableSQLAI">
+        <template #label>
+          <FormItemLabel :label="tl('enableSQLAI')" :desc="tl('enableSQLAITip')" />
+        </template>
+        <el-switch v-model="record.enableSQLAI" @change="handleAIChange" />
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -48,11 +54,12 @@ import { Sunny, Moon, Monitor } from '@element-plus/icons-vue'
 const record = reactive({
   lang: 'en',
   themeMode: 'os',
+  enableSQLAI: true,
 })
 
 const store = useStore()
 record.lang = store.state.lang
-
+record.enableSQLAI = store.state.enableSQLAI
 if ('syncOsTheme' in store.state) {
   record.themeMode = store.state.syncOsTheme ? 'os' : store.state.theme
 }
@@ -74,6 +81,7 @@ const saveSetting = async () => {
     lang: record.lang,
     syncOsTheme: record.themeMode === 'os',
     theme: record.themeMode === 'os' ? store.state.theme : record.themeMode,
+    enableSQLAI: record.enableSQLAI,
   }
   await store.dispatch('UPDATE_SETTINGS', settings)
 }
@@ -83,6 +91,10 @@ const handleLangChange = async () => {
 }
 
 const handleThemeChange = async () => {
+  await saveSetting()
+}
+
+const handleAIChange = async () => {
   await saveSetting()
 }
 </script>

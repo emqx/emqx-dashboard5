@@ -15,12 +15,15 @@ const theme = computed(() => {
 const syncOsTheme = computed(() => {
   return store.state.syncOsTheme
 })
-
+const enableSQLAI = computed(() => {
+  return store.state.enableSQLAI
+})
 const updateThemeState = (theme: string) => {
   store.dispatch('UPDATE_SETTINGS', {
     lang: lang.value,
     theme,
     syncOsTheme: syncOsTheme.value,
+    enableSQLAI: enableSQLAI.value,
   })
 }
 

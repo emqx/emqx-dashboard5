@@ -79,4 +79,12 @@ export default {
     zh: '探索 MQTT',
     en: 'Explore MQTT',
   },
+  enableSQLAI: {
+    zh: '启用 AI SQL 生成器',
+    en: 'Enable AI SQL Generator',
+  },
+  enableSQLAITip: {
+    zh: '开启后，可以在规则引擎的 SQL 编辑器中，使用自然语言描述来生成 SQL 语句',
+    en: 'After enabling, you can use natural language descriptions to generate SQL statements in the Rule Engine SQL editor',
+  },
 }
