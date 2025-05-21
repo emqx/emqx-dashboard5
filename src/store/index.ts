@@ -1,8 +1,8 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
 import type { UserInfo, VersionInfo } from '@/types/common'
-import { LicenseData } from '@/types/dashboard'
+import type { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
-import { RuleEvent } from '@/types/rule'
+import type { RuleEvent } from '@/types/rule'
 
 const getLang = () => {
   const langFromQuery = getValueFromQuery('lang')

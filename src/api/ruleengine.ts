@@ -1,7 +1,7 @@
 import http from '@/common/http'
-import { ListDataWithPagination } from '@/types/common'
-import { LicenseData } from '@/types/dashboard'
-import {
+import type { ListDataWithPagination } from '@/types/common'
+import type { LicenseData } from '@/types/dashboard'
+import type {
   BridgeItem,
   BridgeMetricsData,
   ParamsForQueryRules,
@@ -11,7 +11,7 @@ import {
   GenerateSQLPayload,
   GenerateSQLResponse,
 } from '@/types/rule'
-import { ExternalSchema, ExternalSchemaMap } from '@/types/typeAlias'
+import type { ExternalSchema, ExternalSchemaMap } from '@/types/typeAlias'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
