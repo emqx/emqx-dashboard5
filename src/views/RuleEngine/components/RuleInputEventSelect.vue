@@ -7,6 +7,12 @@
       :label="startCase(getEventLabel(item.title))"
       :disabled="isEventItemDisabled(item.event)"
     />
+    <el-option
+      v-for="item in eventWildcardOptions"
+      :key="item.event"
+      :value="item.event"
+      :label="item.label"
+    />
   </el-select>
 </template>
 
@@ -33,7 +39,7 @@ const selected = computed({
 })
 
 const eventOptList: Ref<Array<EventOpt>> = ref([])
-const { getEventList } = useRuleEvents()
+const { eventWildcardOptions, getEventList } = useRuleEvents()
 const { eventDoNotNeedShow, isMsgPubEvent, getEventLabel } = useRuleSourceEvents()
 const getEventOpt = async () => {
   try {
