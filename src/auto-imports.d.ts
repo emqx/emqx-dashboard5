@@ -43,6 +43,7 @@ declare global {
   const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
   const ENCRYPTED_PASSWORD: typeof import('./common/constants')['ENCRYPTED_PASSWORD']
   const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
+  const EVENT_SORT: typeof import('./hooks/Rule/rule/useRuleEvents')['EVENT_SORT']
   const EditedWay: typeof import('./hooks/Flow/useFlowNode')['EditedWay']
   const EffectScope: typeof import('vue')['EffectScope']
   const ElMessage: typeof import('element-plus')['ElMessage']
@@ -609,6 +610,7 @@ declare module 'vue' {
     readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
     readonly ENCRYPTED_PASSWORD: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PASSWORD']>
     readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
+    readonly EVENT_SORT: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleEvents')['EVENT_SORT']>
     readonly EditedWay: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['EditedWay']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
