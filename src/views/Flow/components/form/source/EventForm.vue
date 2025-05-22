@@ -17,7 +17,7 @@
         v-model="record.event"
         :is-event-disabled="isEventDisabled"
       />
-      <p v-else class="tip value">{{ getLabelByVal(record.event) }}</p>
+      <p v-else class="tip value">{{ getEventLabel(record.event) }}</p>
     </el-form-item>
   </el-form>
 </template>
@@ -57,8 +57,7 @@ const record = computed({
 const { createRequiredRule } = useFormRules()
 const rules = { event: createRequiredRule(tl('event'), 'select') }
 
-const { getEventLabel } = useRuleSourceEvents()
-const { getEventList } = useRuleEvents()
+const { getEventList, getEventLabel } = useRuleEvents()
 const eventList: Ref<Array<RuleEvent>> = ref([])
 
 const isEventDisabled = (event: string) => {
@@ -66,11 +65,6 @@ const isEventDisabled = (event: string) => {
     return false
   }
   return props.selectedEvents.includes(event)
-}
-
-const getLabelByVal = (val: string) => {
-  const item = eventList.value.find((item) => item.event === val)
-  return item ? startCase(getEventLabel(item.title)) : ''
 }
 
 const saveConfig = () => {

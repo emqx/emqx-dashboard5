@@ -95,15 +95,11 @@ const addedInputList = computed(() => inputList.value.map(({ value }) => value))
 
 /* Event List */
 const eventList = ref<Array<RuleEvent>>([])
-const { getEventList } = useRuleEvents()
+const { getEventList, getEventLabel } = useRuleEvents()
 const initEventList = async () => {
   eventList.value = await getEventList()
 }
 initEventList()
-const getEventLabel = (event: string) => {
-  const item = eventList.value.find((item) => item.event === event)
-  return startCase(item?.title[lang.value])
-}
 
 /* Process Input String to Input Item */
 const { getBridgeIdFromInput, detectInputType, getRuleSourceIcon, isBridgeType } = useRuleInputs()

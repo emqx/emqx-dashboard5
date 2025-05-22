@@ -36,6 +36,7 @@ type EventWildcardOption = {
 export default (): {
   eventWildcardOptions: Ref<Array<EventWildcardOption>>
   getEventList: () => Promise<RuleEvent[]>
+  getEventLabel: (event: string) => string
 } => {
   const { state, commit } = useStore()
   const { t } = useI18n()
@@ -110,8 +111,26 @@ export default (): {
     }
   }
 
+  const lang = computed<'en' | 'zh'>(() => (state.lang === 'zh' ? 'zh' : 'en'))
+  const getEventLabel = (event: string) => {
+    const eventList: Array<RuleEvent> = state.ruleEventList
+    const eventItem: RuleEvent | undefined = eventList.find((item) => item.event === event)
+    if (eventItem) {
+      return startCase(eventItem?.title[lang.value])
+    }
+
+    const eventWildcardItem: EventWildcardOption | undefined = eventWildcardOptions.value.find(
+      (item) => item.event === event,
+    )
+    if (eventWildcardItem) {
+      return eventWildcardItem.label
+    }
+    return event
+  }
+
   return {
     eventWildcardOptions,
     getEventList,
+    getEventLabel,
   }
 }
