@@ -44,6 +44,37 @@
       </div>
     </div>
     <template v-if="doesTheClientExist">
+      <div class="section-header">
+        <div>
+          {{ tl('currentSubscription') }}
+        </div>
+        <div>
+          <RefreshButton @click="handleRefreshSubs" />
+          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
+            {{ tl('addASubscription') }}
+          </CreateButton>
+        </div>
+      </div>
+      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
+        <el-table-column prop="topic" :label="$t('Base.topic')">
+          <template #default="{ row }">
+            <CommonOverflowTooltip :content="row.topic" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="qos" min-width="110px" label="QoS" />
+        <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
+          <template #default="{ row }">
+            <el-button
+              :disabled="!$hasPermission('delete')"
+              plain
+              size="small"
+              @click="handleUnSubscription(row)"
+            >
+              {{ $t('Clients.unsubscribe') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <el-row :gutter="26" class="client-row block">
         <el-col :span="12">
           <el-card class="top-border client-info" v-loading="clientDetailLock">
@@ -134,50 +165,7 @@
           </el-card>
         </el-col>
       </el-row>
-      <div class="section-header">
-        <div>
-          {{ tl('currentSubscription') }}
-        </div>
-        <div>
-          <RefreshButton @click="handleRefreshSubs" />
-          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
-            {{ tl('addASubscription') }}
-          </CreateButton>
-        </div>
-      </div>
-      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
-        <el-table-column prop="topic" :label="$t('Base.topic')">
-          <template #default="{ row }">
-            <CommonOverflowTooltip :content="row.topic" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="qos" min-width="110px" label="QoS" />
-        <template v-if="isMQTTVersion5">
-          <el-table-column prop="nl" :label="tl('noLocal')">
-            <template #default="{ row }">
-              {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="rap" :label="tl('retainAsPublished')">
-            <template #default="{ row }">
-              {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="rh" :label="tl('retainHandling')" />
-        </template>
-        <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
-          <template #default="{ row }">
-            <el-button
-              :disabled="!$hasPermission('delete')"
-              plain
-              size="small"
-              @click="handleUnSubscription(row)"
-            >
-              {{ $t('Clients.unsubscribe') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+
       <create-subscribe
         v-model:visible="dialogVisible"
         :client-id="record.clientid"
