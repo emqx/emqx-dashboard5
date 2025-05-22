@@ -15,7 +15,7 @@
         <label>{{ t('QoS.size') }}</label>
         <span>{{ transMemorySizeNumToStr(detail.size, 2) }}</span>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" v-if="detail.latency">
         <label>{{ t('QoS.transportTime') }}</label>
         <span>{{ transMSNumToString(detail.latency) }}</span>
       </el-col>
