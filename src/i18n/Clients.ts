@@ -215,6 +215,10 @@ export default {
     zh: '当前订阅',
     en: 'Subscriptions',
   },
+  historySubscription: {
+    zh: '历史订阅',
+    en: 'Historical Subscriptions',
+  },
   node: {
     zh: '节点',
     en: 'Node',
