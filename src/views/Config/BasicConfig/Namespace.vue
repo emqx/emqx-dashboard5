@@ -2,7 +2,7 @@
   <div class="namespace app-wrapper">
     <div class="section-header">
       <div>
-        <el-switch v-model="onlyManagedNamespaces" />
+        <el-switch v-model="onlyManagedNamespaces" @change="handleViewChanged" />
         <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
       </div>
       <div>
@@ -58,6 +58,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="emq-table-footer">
+      <MiniPagination
+        :current-page="page"
+        :hasnext="hasNext"
+        :page-size="limit"
+        :page-sizes="DEFAULT_PAGE_SIZE_OPT"
+        @size-change="handleSizeChange"
+        @current-change="handlePageChange"
+      />
+    </div>
   </div>
   <el-dialog v-model="showDeleteDialog" width="400px">
     <p>{{ tl('deleteNamespaceTip') }}</p>
@@ -105,6 +115,7 @@ import { ref } from 'vue'
 import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
 import NamespaceDialog from './components/NamespaceDialog.vue'
+import { last } from 'lodash'
 
 const { tl, t } = useI18nTl('BasicConfig')
 
@@ -112,23 +123,32 @@ const loading = ref(false)
 const dialogVisible = ref(false)
 
 const onlyManagedNamespaces = ref(true)
-const totalNamespaces = ref<Array<NamespaceItem>>([])
-const namespaceTableData = computed(() => {
-  return onlyManagedNamespaces.value
-    ? totalNamespaces.value.filter((ns) => !ns.not_explicit_created)
-    : totalNamespaces.value
-})
+const namespaceTableData = ref<Array<NamespaceItem>>([])
+
+const { page, limit, cursorMap, hasNext } = useCursorPagination()
 
 const currentNamespace = ref<NamespaceItem | undefined>(undefined)
 
-const { queryNamespaceList } = useNamespace()
+const { queryAllTypeNamespaceList, queryManagedNamespaceList } = useNamespace()
 /**
  * because the namespace list is not updated when the namespace is deleted, so we need to filter the namespace list
  */
-const loadNamespaces = async (filterItem?: string) => {
+const loadNamespaces = async (isBack?: boolean) => {
   loading.value = true
   try {
-    totalNamespaces.value = await queryNamespaceList(filterItem)
+    const params = {
+      last_ns: cursorMap.value.get(page.value),
+      limit: limit.value,
+    }
+    const funcForQuery = onlyManagedNamespaces.value
+      ? queryManagedNamespaceList
+      : queryAllTypeNamespaceList
+    namespaceTableData.value = await funcForQuery(params)
+    cursorMap.value.set(page.value + 1, last(namespaceTableData.value)?.ns)
+    if (isBack && page.value !== 1 && namespaceTableData.value.length === 0) {
+      ElMessage.warning(tl('pageJumpTip'))
+      handlePageChange(1)
+    }
   } catch (error) {
     console.error('Failed to load namespaces:', error)
   } finally {
@@ -136,6 +156,21 @@ const loadNamespaces = async (filterItem?: string) => {
   }
 }
 loadNamespaces()
+
+const handlePageChange = (no: number) => {
+  const isBack = no < page.value
+  page.value = no
+  loadNamespaces(isBack)
+}
+
+const handleSizeChange = (size: number) => {
+  limit.value = size
+  handlePageChange(1)
+}
+
+const handleViewChanged = () => {
+  handlePageChange(1)
+}
 
 const handleCreate = () => {
   currentNamespace.value = undefined
@@ -160,7 +195,10 @@ const confirmDelete = async () => {
   isSubmitting.value = true
   try {
     await deleteManagedNamespace(currentNamespace.value.ns)
-    loadNamespaces(currentNamespace.value.ns)
+    if (namespaceTableData.value.length === 1 && page.value > 1) {
+      page.value--
+    }
+    loadNamespaces()
     showDeleteDialog.value = false
   } catch (error) {
     //

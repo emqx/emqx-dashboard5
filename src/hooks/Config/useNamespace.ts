@@ -7,18 +7,50 @@ import {
   updateNamespaceConfig as requestUpdateNamespaceConfig,
 } from '@/api/config'
 import { NamespaceItem } from '@/types/config'
+import { GetNamespaceListParams } from '@/types/typeAlias'
 
 export default () => {
-  /**
-   * because the namespace list is not updated when the namespace is deleted, so we need to filter the namespace list
-   */
-  const queryNamespaceList = async (filterItem?: string): Promise<Array<NamespaceItem>> => {
+  let totalManagedNamespaceList: Array<string> = []
+  let hasFetchedAllManagedNamespaces = false
+  const fetchAllManagedNamespaces = async (): Promise<void> => {
     try {
-      const managedNamespaceList = await getManagedNamespaceList()
-      const totalNamespaceList = await getNamespaceList()
-      const namespaceList: Array<NamespaceItem> = totalNamespaceList
-        .filter((item) => !filterItem || item !== filterItem)
-        .map((ns) => ({ ns, config: {}, not_explicit_created: !managedNamespaceList.includes(ns) }))
+      const managedNamespaceList = await getManagedNamespaceList({ limit: 10000 })
+      totalManagedNamespaceList = managedNamespaceList
+      hasFetchedAllManagedNamespaces = true
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+  const queryAllTypeNamespaceList = async (
+    params: GetNamespaceListParams,
+  ): Promise<Array<NamespaceItem>> => {
+    try {
+      if (!hasFetchedAllManagedNamespaces) {
+        await fetchAllManagedNamespaces()
+      }
+      const namespaceNameList: Array<string> = await getNamespaceList(params)
+      const namespaceList: Array<NamespaceItem> = namespaceNameList.map((ns) => ({
+        ns,
+        config: {},
+        not_explicit_created: !totalManagedNamespaceList.includes(ns),
+      }))
+      return Promise.resolve(namespaceList)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  const queryManagedNamespaceList = async (
+    params: GetNamespaceListParams,
+  ): Promise<Array<NamespaceItem>> => {
+    try {
+      const managedNamespaceList = await getManagedNamespaceList(params)
+      const namespaceList: Array<NamespaceItem> = managedNamespaceList.map((ns) => ({
+        ns,
+        config: {},
+        not_explicit_created: false,
+      }))
       await Promise.allSettled(
         namespaceList.map(async (namespace) => {
           if (namespace.not_explicit_created) {
@@ -51,7 +83,8 @@ export default () => {
     return requestUpdateNamespaceConfig(namespace.ns, namespace.config)
   }
   return {
-    queryNamespaceList,
+    queryAllTypeNamespaceList,
+    queryManagedNamespaceList,
     createNamespace,
     updateNamespaceConfig,
   }

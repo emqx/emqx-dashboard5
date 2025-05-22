@@ -6,11 +6,10 @@ import {
   Limiter,
   Log,
   NamespaceItem,
-  TeleStatus,
   Zone,
   Zones,
 } from '@/types/config'
-import { FileTransferConf, NamespaceConfig } from '@/types/typeAlias'
+import { FileTransferConf, GetNamespaceListParams, NamespaceConfig } from '@/types/typeAlias'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -52,8 +51,8 @@ export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTran
   http.put('/configs/file_transfer', data)
 
 // Multi-tenancy API functions
-export const getNamespaceList = (): Promise<Array<string>> =>
-  http.get('/mt/ns_list', { params: { limit: 10000 } })
+export const getNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
+  http.get('/mt/ns_list', { params })
 
 export const getNamespaceClientCount = (namespace: string): Promise<{ count: number }> =>
   http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_count`)
@@ -69,8 +68,8 @@ export const updateNamespaceConfig = (
   data: NamespaceConfig,
 ): Promise<NamespaceConfig> => http.put(`/mt/ns/${encodeURIComponent(namespace)}/config`, data)
 
-export const getManagedNamespaceList = (): Promise<Array<string>> =>
-  http.get('/mt/managed_ns_list', { params: { limit: 10000 } })
+export const getManagedNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
+  http.get('/mt/managed_ns_list', { params })
 
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}/kick_all_clients`)

@@ -68,7 +68,7 @@ import type {
 } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
-import { MtConfigOut } from './schemas/multiTenancy.schemas'
+import { GetMtManagedNsListParams, MtConfigOut } from './schemas/multiTenancy.schemas'
 import { RuleEngineActionDetails } from './schemas/rules.schemas'
 import type { PluginsHealthStatus } from './schemas/plugins.schemas'
 import { PluginsHealthStatusStatus } from './schemas/plugins.schemas'
@@ -202,3 +202,6 @@ export type AnthropicCompletion = AiAnthropicCompletionProfile
 export type OpenAICompletion = AiOpenaiCompletionProfile
 export type AICompletionProfile = PostAiCompletionProfilesBody
 export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersion
+
+/* MULTI-TENANCY */
+export type GetNamespaceListParams = GetMtManagedNsListParams
