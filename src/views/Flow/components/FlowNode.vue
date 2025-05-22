@@ -6,7 +6,10 @@
     <img :src="getIconSrc()" alt="node-img" class="node-icon" :class="iconClass" />
     <div class="node-bd" :title="data.data.desc">
       <p class="label">{{ data.label }}</p>
-      <CommonOverflowTooltip :content="data.data.desc" class="desc" />
+      <p class="desc" v-if="!isAIType(data.data.specificType)">{{ data.data.desc }}</p>
+      <template v-else>
+        <CommonOverflowTooltip :content="data.data.desc" class="desc" />
+      </template>
     </div>
   </div>
   <Handle v-if="showSourceHandle" type="source" :position="Position.Right">
@@ -29,7 +32,7 @@ const props = defineProps({
   },
 })
 
-const { getNodeIcon, getIconClass, isBridgerNode, isWithFallbackNodes } = useFlowNode()
+const { getNodeIcon, getIconClass, isBridgerNode, isWithFallbackNodes, isAIType } = useFlowNode()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)

@@ -1853,4 +1853,12 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: 'AI SQL 助手的 API URL 未配置',
     en: 'AI SQL Assistant API URL is not configured',
   },
+  allEvents: {
+    zh: '所有事件',
+    en: 'All Events',
+  },
+  allTargetEvents: {
+    zh: '所有{target}事件',
+    en: 'All {target} Events',
+  },
 }

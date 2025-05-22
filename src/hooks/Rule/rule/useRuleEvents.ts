@@ -27,7 +27,14 @@ const getEventIndex = (event: string) => {
   return index === -1 ? EVENT_SORT.length : index
 }
 
+type EventWildcardOption = {
+  event: string
+  label: string
+  contains: RuleEvent[]
+}
+
 export default (): {
+  eventWildcardOptions: Ref<Array<EventWildcardOption>>
   getEventList: () => Promise<RuleEvent[]>
 } => {
   const { state, commit } = useStore()
@@ -40,6 +47,45 @@ export default (): {
       item.title.zh = t(`RuleEvent.${camelCase(item.event)}`, {}, { locale: 'zh' })
     })
     return eventList
+  }
+
+  const multipleLevelEventReg = new RegExp(`^(${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}(\\w+)\\/).+`)
+  const eventWildcardOptions = ref<Array<EventWildcardOption>>([])
+  const allEventWildcardValue = `${RULE_INPUT_EVENT_PREFIX}${MULTI_LEVEL_WILDCARD}`
+  const allEventWildcardLabelMap = new Map<string, string>([
+    ['message', t('RuleEngine.message')],
+    ['client', t('Dashboard.client')],
+    ['session', t('Dashboard.session')],
+    ['auth', t('Dashboard.auth')],
+    ['sys', t('Alarm.system')],
+  ])
+  const getWildcardLabel = (block: string) => {
+    const blockLabel = allEventWildcardLabelMap.get(block) ?? titleCase(block)
+    return t('RuleEngine.allTargetEvents', { target: blockLabel })
+  }
+  const generateEventWildcardOptions = (eventList: Array<RuleEvent>) => {
+    const optMap = new Map<string, { label: string; contains: RuleEvent[] }>([
+      [allEventWildcardValue, { label: t('RuleEngine.allEvents'), contains: eventList }],
+    ])
+    eventList.forEach((item) => {
+      const { event } = item
+      const matchRet = event.match(multipleLevelEventReg)
+      const opt = matchRet && matchRet[1]
+      if (opt) {
+        if (optMap.has(opt)) {
+          optMap.get(opt)?.contains.push(item)
+        } else {
+          optMap.set(opt, { label: getWildcardLabel(matchRet[2]), contains: [item] })
+        }
+      }
+    })
+    const wildcardOptions = []
+    for (const [key, value] of optMap.entries()) {
+      if (value.contains.length > 1) {
+        wildcardOptions.push({ event: key, ...value })
+      }
+    }
+    return wildcardOptions
   }
 
   const getEventList = async () => {
@@ -56,6 +102,7 @@ export default (): {
         )
         commit('SET_RULE_EVENT_LIST', eventList)
       }
+      eventWildcardOptions.value = generateEventWildcardOptions(eventList)
       return Promise.resolve(eventList)
     } catch (error) {
       commit('SET_RULE_EVENT_REQUEST', null)
@@ -64,6 +111,7 @@ export default (): {
   }
 
   return {
+    eventWildcardOptions,
     getEventList,
   }
 }
