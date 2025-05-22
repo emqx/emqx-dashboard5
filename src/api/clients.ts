@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
+import { ListDataWithPagination } from '@/types/common'
 import qs from 'qs'
 
 export function listClients(params = {}) {
@@ -62,4 +63,11 @@ export function loadInflightMsgs(
   query: { position?: number | string; limit: number },
 ) {
   return http.get(`/clients/${encodeURIComponent(clientId)}/inflight_messages`, { params: query })
+}
+
+export function loadHistorySubscriptions(clientId: string): Promise<ListDataWithPagination<any>> {
+  return http.get(`/subscribe_logs`, {
+    params: { clientid: clientId },
+    baseURL: '/api/v5.1',
+  })
 }

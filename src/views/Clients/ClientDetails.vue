@@ -44,37 +44,64 @@
       </div>
     </div>
     <template v-if="doesTheClientExist">
-      <div class="section-header">
-        <div>
-          {{ tl('currentSubscription') }}
-        </div>
-        <div>
-          <RefreshButton @click="handleRefreshSubs" />
-          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
-            {{ tl('addASubscription') }}
-          </CreateButton>
-        </div>
-      </div>
-      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
-        <el-table-column prop="topic" :label="$t('Base.topic')">
-          <template #default="{ row }">
-            <CommonOverflowTooltip :content="row.topic" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="qos" min-width="110px" label="QoS" />
-        <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
-          <template #default="{ row }">
-            <el-button
-              :disabled="!$hasPermission('delete')"
-              plain
-              size="small"
-              @click="handleUnSubscription(row)"
-            >
-              {{ $t('Clients.unsubscribe') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-tabs type="border-card">
+        <el-tab-pane :label="tl('currentSubscription')">
+          <div class="section-header">
+            <div></div>
+            <div>
+              <RefreshButton @click="handleRefreshSubs" />
+              <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
+                {{ tl('addASubscription') }}
+              </CreateButton>
+            </div>
+          </div>
+          <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
+            <el-table-column prop="topic" :label="$t('Base.topic')">
+              <template #default="{ row }">
+                <CommonOverflowTooltip :content="row.topic" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="qos" min-width="110px" label="QoS" />
+            <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
+              <template #default="{ row }">
+                <el-button
+                  :disabled="!$hasPermission('delete')"
+                  plain
+                  size="small"
+                  @click="handleUnSubscription(row)"
+                >
+                  {{ $t('Clients.unsubscribe') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane :label="tl('historySubscription')">
+          <div class="section-header">
+            <div></div>
+            <div>
+              <RefreshButton @click="handleRefreshSubs" />
+            </div>
+          </div>
+          <el-table :data="historySubs" v-loading="isLoading" style="margin-top: 16px">
+            <el-table-column prop="id" label="ID" min-width="90">
+              <template #default="{ row }">
+                {{ row.id }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="topic" :label="t('Base.topic')" min-width="120" />
+            <el-table-column prop="qos" label="QoS" min-width="60" />
+            <el-table-column prop="event_label" :label="t('General.event')" min-width="80">
+            </el-table-column>
+            <el-table-column prop="time" :label="t('Tools.time')" min-width="160">
+              <template #default="{ row }">
+                {{ dateFormat(row.time) }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
+
       <el-row :gutter="26" class="client-row block">
         <el-col :span="12">
           <el-card class="top-border client-info" v-loading="clientDetailLock">
@@ -190,7 +217,13 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { disconnectClient, loadClientDetail, loadSubscriptions, unsubscribe } from '@/api/clients'
+import {
+  disconnectClient,
+  loadClientDetail,
+  loadHistorySubscriptions,
+  loadSubscriptions,
+  unsubscribe,
+} from '@/api/clients'
 import {
   disconnGatewayClient,
   getGatewayClientDetail,
@@ -446,6 +479,21 @@ const handleRefreshSubs = () => {
   loadSubs()
 }
 
+const historySubs = ref<Subscription[]>([])
+const isLoading = ref(false)
+const handleRefreshHistorySubs = async () => {
+  try {
+    isLoading.value = true
+    const { data } = await loadHistorySubscriptions(clientId.value)
+    historySubs.value = data
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
+handleRefreshHistorySubs()
+
 const loadSubs = async () => {
   if (props.gateway) {
     return loadGatewaySubs()
@@ -633,7 +681,16 @@ loadSubs()
       margin-right: 6px;
     }
   }
-  .section-header:not(:first-of-type) {
+  .el-tabs {
+    margin-bottom: 32px;
+    border-radius: 16px;
+    overflow: hidden;
+    .el-tabs__header {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+  }
+  .section-header {
     margin-top: 0px;
   }
   .client-does-not-exist {
@@ -647,7 +704,7 @@ loadSubs()
     }
   }
   .subs.el-table {
-    margin-bottom: 48px;
+    margin-bottom: 0;
   }
   .stats-tip {
     position: absolute;
