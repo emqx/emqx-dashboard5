@@ -99,11 +99,6 @@ const emit = defineEmits(['apply-sql'])
 
 const { copyText } = useCopy()
 
-const aiSqlAssistantApiUrl = computed(() => import.meta.env.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL)
-const enableSQLAI = computed(() => store.state.enableSQLAI)
-
-const showSQLGeneratorButton = computed(() => enableSQLAI.value && !!aiSqlAssistantApiUrl.value)
-
 const dialogVisible = ref(false)
 const isGenerating = ref(false)
 const currentStep = ref(1)
@@ -127,8 +122,24 @@ const rules = reactive<FormRules>({
 const latestEMQXVersion = computed(
   () => store.state.emqxVersion?.latestVersion.replace('v', '') || '5.10.0',
 )
-const language = computed(() => store.state.lang || 'en')
 const licenseData = computed<LicenseData>(() => store.state.licenseData)
+
+const aiSqlAssistantApiUrlCn = computed<string | undefined>(
+  () => import.meta.env.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN,
+)
+const aiSqlAssistantApiUrlEn = computed<string | undefined>(
+  () => import.meta.env.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN,
+)
+const language = computed(() => store.state.lang || 'en')
+
+const aiSqlAssistantApiUrl = computed<string | undefined>(() =>
+  language.value === 'zh' ? aiSqlAssistantApiUrlCn.value : aiSqlAssistantApiUrlEn.value,
+)
+const enableSQLAI = computed<boolean>(() => store.state.enableSQLAI)
+
+const showSQLGeneratorButton = computed<boolean>(
+  () => enableSQLAI.value && !!aiSqlAssistantApiUrl.value,
+)
 
 const openDialog = () => {
   dialogVisible.value = true
