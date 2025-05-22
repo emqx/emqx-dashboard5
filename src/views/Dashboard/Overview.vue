@@ -230,13 +230,17 @@ const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num
 const { syncPolling } = useSyncPolling()
 
 const loadData = async () => {
-  const [state, latencyData] = await Promise.all([loadCurrentMetrics(), loadLatencyMetrics()])
+  const state = await loadCurrentMetrics()
   if (state) {
     currentMetrics.value = state
     setCurrentMetricsLogsRealtime(state)
-  }
-  if (latencyData) {
-    latencyMetrics.value = latencyData
+    if (!state.received_msg_rate) {
+      return
+    }
+    const latencyData = await loadLatencyMetrics()
+    if (latencyData) {
+      latencyMetrics.value = latencyData
+    }
   }
 }
 
