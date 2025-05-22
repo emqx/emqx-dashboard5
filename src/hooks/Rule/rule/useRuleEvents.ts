@@ -1,21 +1,24 @@
 import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
+import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 
-const EVENT_SORT: Array<string> = [
-  '$events/client_check_authn_complete',
-  '$events/client_connected',
-  '$events/client_disconnected',
-  '$events/client_connack',
-  '$events/client_check_authz_complete',
-  '$events/session_subscribed',
-  '$events/session_unsubscribed',
-  '$events/schema_validation_failed',
-  '$events/message_transformation_failed',
-  '$events/message_delivered',
-  '$events/message_acked',
-  '$events/message_dropped',
-  '$events/delivery_dropped',
-  '$events/message_publish',
+export const EVENT_SORT: Array<string> = [
+  EventForRule.ClientCheckAuthnComplete,
+  EventForRule.ClientConnected,
+  EventForRule.ClientDisconnected,
+  EventForRule.ClientConnack,
+  EventForRule.ClientCheckAuthzComplete,
+  EventForRule.SessionSubscribed,
+  EventForRule.SessionUnsubscribed,
+  EventForRule.SchemaValidationFailed,
+  EventForRule.MessageTransformationFailed,
+  EventForRule.MessageDelivered,
+  EventForRule.MessageAcked,
+  EventForRule.MessageDropped,
+  EventForRule.MessageDeliveryDropped,
+  EventForRule.MessagePublish,
+  EventForRule.AlarmActivated,
+  EventForRule.AlarmDeactivated,
   '$bridges/mqtt:*',
 ]
 

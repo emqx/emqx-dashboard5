@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import { EVENT_SORT } from '@/hooks/Rule/rule/useRuleEvents'
 import { RuleEvent } from '@/types/rule'
 
 const { tl } = useI18nTl('Flow')
@@ -17,19 +18,6 @@ const { tl } = useI18nTl('Flow')
 const { getEventList } = useRuleEvents()
 const { allMsgsAndEvents } = useRuleUtils()
 const { getEventLabel } = useRuleSourceEvents()
-
-const EVENT_SORT: Array<string> = [
-  '$events/client_connected',
-  '$events/client_disconnected',
-  '$events/client_connack',
-  '$events/client_check_authz_complete',
-  '$events/session_subscribed',
-  '$events/session_unsubscribed',
-  '$events/message_dropped',
-  '$events/message_delivered',
-  '$events/delivery_dropped',
-  '$events/message_acked',
-]
 
 const eventList = ref<Array<RuleEvent>>([])
 ;(async () => (eventList.value = await getEventList()))()

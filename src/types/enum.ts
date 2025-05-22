@@ -87,17 +87,21 @@ export enum RuleOutput {
 
 export enum EventForRule {
   MessagePublish = '$events/message_publish',
-  MessageDelivered = '$events/message_delivered',
-  MessageAcked = '$events/message_acked',
-  MessageDropped = '$events/message_dropped',
-  ClientConnected = '$events/client_connected',
-  ClientDisconnected = '$events/client_disconnected',
-  ClientConnack = '$events/client_connack',
-  ClientCheckAuthnComplete = '$events/client_check_authn_complete',
-  ClientCheckAuthzComplete = '$events/client_check_authz_complete',
-  SessionSubscribed = '$events/session_subscribed',
-  SessionUnsubscribed = '$events/session_unsubscribed',
-  DeliveryDropped = '$events/delivery_dropped',
+  MessageDelivered = '$events/message/delivered',
+  MessageAcked = '$events/message/acked',
+  MessageDropped = '$events/message/dropped',
+  MessageDeliveryDropped = '$events/message/delivery_dropped',
+  ClientConnected = '$events/client/connected',
+  ClientDisconnected = '$events/client/disconnected',
+  ClientConnack = '$events/client/connack',
+  ClientCheckAuthnComplete = '$events/auth/check_authn_complete',
+  ClientCheckAuthzComplete = '$events/auth/check_authz_complete',
+  SessionSubscribed = '$events/session/subscribed',
+  SessionUnsubscribed = '$events/session/unsubscribed',
+  AlarmActivated = '$events/sys/alarm_activated',
+  AlarmDeactivated = '$events/sys/alarm_deactivated',
+  SchemaValidationFailed = '$events/schema_validation/failed',
+  MessageTransformationFailed = '$events/message_transformation/failed',
 }
 
 export enum BridgeDirection {
