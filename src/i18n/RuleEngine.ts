@@ -697,7 +697,7 @@ export default {
     zh: '当一条消息无任何订阅者时触发规则',
     en: `Trigger rule when a message has no subscribers`,
   },
-  deliveryDroppedDesc: {
+  messageDeliveryDroppedDesc: {
     zh: '当订阅者的消息队列已满时触发规则',
     en: `Trigger rule when subscriber's message queue is full`,
   },
@@ -713,11 +713,11 @@ export default {
     zh: '当服务端向客户端发送 CONNACK 报文时触发规则，reason_code 包含各种错误原因代码',
     en: `The rule event is triggered when the server sends a CONNACK packet to the client. reason_code contains the error reason code.`,
   },
-  clientCheckAuthzCompleteDesc: {
+  authCheckAuthzCompleteDesc: {
     zh: '当客户端鉴权结束时触发规则',
     en: `The rule event is triggered when the client check acl complete.`,
   },
-  clientCheckAuthnCompleteDesc: {
+  authCheckAuthnCompleteDesc: {
     zh: '当客户端认证结束时触发规则',
     en: `The rule event is triggered when the client check authentication complete.`,
   },

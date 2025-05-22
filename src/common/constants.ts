@@ -7,6 +7,7 @@ import {
   QoSLevel,
   SaltPosition,
   BridgeType,
+  EventForRule,
 } from '@/types/enum'
 
 export const API_BASE_URL = 'api/v5'
@@ -35,7 +36,7 @@ export const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST = [
 
 export const RULE_INPUT_EVENT_PREFIX = '$events/'
 
-export const TOPIC_EVENT = '$events/message_publish'
+export const TOPIC_EVENT = EventForRule.MessagePublish
 
 export const MULTI_LEVEL_WILDCARD = '#'
 
