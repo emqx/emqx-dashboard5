@@ -39,10 +39,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 7001,
       proxy: {
-        '/api/v5.1': {
-          target: 'http://60.204.205.153:8080',
-          changeOrigin: true,
-        },
         '/api/v5': {
           target,
           changeOrigin: true,
