@@ -236,6 +236,8 @@ const clickOption = async (type: RuleInputType) => {
     inputTopic()
   }
   selectedInputType.value = type
+  await nextTick()
+  selectCom.value.blur()
   await waitAMoment(600)
   isClickOption.value = false
 }
