@@ -116,7 +116,7 @@ const actions = computed(() => {
 const sources = computed(() => {
   const allSources = props.rule?.from || []
   const sourceFromIdList = allSources.filter((source) => {
-    const { type } = findInputTypeNTarget(source, ruleEvent.value, sourceList.value)
+    const { type } = findInputTypeNTarget(source, sourceList.value)
     return type === RuleInputType.Bridge
   })
   const ret = sourceFromIdList.reduce((arr: Array<any>, fromId) => {

@@ -302,7 +302,7 @@ export const useMockData = (
     useRuleUtils()
 
   const findSourceTypeAndTarget = (fromTarget: string) =>
-    findInputTypeNTarget(fromTarget, eventList.value, props.ingressBridgeList)
+    findInputTypeNTarget(fromTarget, props.ingressBridgeList)
 
   const resetContext = () => {
     ElMessageBox.confirm(tl('confirmReset'), {
@@ -358,7 +358,7 @@ export const useMockData = (
     const { type, target } = findSourceTypeAndTarget(value)
     const { fromStr } = getKeywordsFromSQL(ruleSql.value)
     isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
-    const { context } = getTestColumns(type, value, eventList.value || [])
+    const { context } = getTestColumns(type, value)
     setContext(context)
   }
 
@@ -413,7 +413,7 @@ export const useMockData = (
     const { fromStr } = getKeywordsFromSQL(ruleSql.value)
     const [firstInput = ''] = transFromStrToFromArr(fromStr)
     const { type: inputType } = findSourceTypeAndTarget(firstInput)
-    const { context } = getTestColumns(inputType, firstInput, eventList.value)
+    const { context } = getTestColumns(inputType, firstInput)
     setDataType(inputType, firstInput)
     testParams.value = { context }
   }
