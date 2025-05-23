@@ -24,7 +24,6 @@ export const useRuleUtils = (): {
   allMsgsAndEvents: ComputedRef<string[]>
   findInputTypeNTarget: (
     inputItem: string,
-    eventList: Array<RuleEvent>,
     bridgeList: Array<BridgeItem>,
   ) => {
     type: RuleInputType
@@ -39,7 +38,6 @@ export const useRuleUtils = (): {
   getTestColumns: (
     type: RuleInputType,
     value: string,
-    eventList: Array<RuleEvent>,
   ) => {
     context: Record<string, string>
     descMap: Record<string, string>
@@ -74,13 +72,12 @@ export const useRuleUtils = (): {
 
   const findInputTypeNTarget = (
     inputItem: string,
-    eventList: Array<RuleEvent>,
     bridgeList: Array<BridgeItem>,
   ): {
     type: RuleInputType
     target: BridgeItem | RuleEvent | string
   } => {
-    const eventItem = eventList.find(({ event }) => event === inputItem)
+    const eventItem = ruleEvents.value.find(({ event }) => event === inputItem)
     if (eventItem) {
       return {
         type: RuleInputType.Event,
@@ -144,9 +141,8 @@ export const useRuleUtils = (): {
   const getTestColumns = (
     type: RuleInputType,
     value: string,
-    eventList: Array<RuleEvent>,
   ): { context: Record<string, string>; descMap: Record<string, string> } => {
-    const targetEvent = getTestTargetEvent(type, value, eventList)
+    const targetEvent = getTestTargetEvent(type, value, ruleEvents.value)
     const test_columns: Record<string, TestColumnItem> = targetEvent?.test_columns || {}
     const context: Record<string, string> = {}
     const descMap: Record<string, string> = {}
