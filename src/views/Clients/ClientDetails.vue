@@ -77,28 +77,7 @@
           </el-table>
         </el-tab-pane>
         <el-tab-pane :label="tl('historySubscription')">
-          <div class="section-header">
-            <div></div>
-            <div>
-              <RefreshButton @click="handleRefreshSubs" />
-            </div>
-          </div>
-          <el-table :data="historySubs" v-loading="isLoading" style="margin-top: 16px">
-            <el-table-column prop="id" label="ID" min-width="90">
-              <template #default="{ row }">
-                {{ row.id }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="topic" :label="t('Base.topic')" min-width="120" />
-            <el-table-column prop="qos" label="QoS" min-width="60" />
-            <el-table-column prop="event_label" :label="t('General.event')" min-width="80">
-            </el-table-column>
-            <el-table-column prop="time" :label="t('Tools.time')" min-width="160">
-              <template #default="{ row }">
-                {{ dateFormat(row.time) }}
-              </template>
-            </el-table-column>
-          </el-table>
+          <HistoricalSubscriptions :client-id="clientId" />
         </el-tab-pane>
       </el-tabs>
 
@@ -217,13 +196,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {
-  disconnectClient,
-  loadClientDetail,
-  loadHistorySubscriptions,
-  loadSubscriptions,
-  unsubscribe,
-} from '@/api/clients'
+import { disconnectClient, loadClientDetail, loadSubscriptions, unsubscribe } from '@/api/clients'
 import {
   disconnGatewayClient,
   getGatewayClientDetail,
@@ -238,6 +211,7 @@ import { Delete, Warning } from '@element-plus/icons-vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
 import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
+import HistoricalSubscriptions from './components/HistoricalSubscriptions.vue'
 
 const props = defineProps({
   gateway: {
@@ -342,7 +316,6 @@ const route = useRoute()
 const router = useRouter()
 const { tl } = useI18nTl('Clients')
 const { t } = useI18n()
-const { noLocalOpts, retainAsPublishedOpts } = useMQTTVersion5NewConfig()
 const { getBackRoute } = useReceiveParams('clients')
 
 const showMsgListDialog = ref(false)
@@ -478,21 +451,6 @@ const handlePreAdd = () => {
 const handleRefreshSubs = () => {
   loadSubs()
 }
-
-const historySubs = ref<Subscription[]>([])
-const isLoading = ref(false)
-const handleRefreshHistorySubs = async () => {
-  try {
-    isLoading.value = true
-    const { data } = await loadHistorySubscriptions(clientId.value)
-    historySubs.value = data
-  } catch (error) {
-    //
-  } finally {
-    isLoading.value = false
-  }
-}
-handleRefreshHistorySubs()
 
 const loadSubs = async () => {
   if (props.gateway) {
