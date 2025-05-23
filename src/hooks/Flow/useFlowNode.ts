@@ -121,6 +121,7 @@ export default (): {
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
   isBridgerNode: (node: Partial<Node>) => boolean
+  isActionBridgeNode: (node: Partial<Node>) => boolean
   isWithFallbackNodes: (node: Node) => boolean
   isBridgeType: (type: string) => boolean
   isAIType: (type: string) => boolean
@@ -218,6 +219,9 @@ export default (): {
     SourceTypeAllMsgsAndEvents,
   ]
   const isNotBridgeSinkNodeTypes = [SinkType.Console, SinkType.RePub]
+  /**
+   * ‼️‼️‼️ bridge node contains source and action node
+   */
   const isBridgerNode = ({ type, data }: Partial<Node>): boolean => {
     const { specificType } = data || {}
     return (
@@ -226,6 +230,9 @@ export default (): {
       (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
     )
   }
+  const isActionBridgeNode = (node: Partial<Node>): boolean =>
+    node.type === FlowNodeType.Output && isBridgerNode(node)
+
   const isWithFallbackNodes = (node?: Node) => {
     if (!node || node?.type !== FlowNodeType.Output || !isBridgerNode(node)) {
       return false
@@ -402,6 +409,7 @@ export default (): {
     getFlowNodeHookPosition,
     getTypeCommonData,
     isBridgerNode,
+    isActionBridgeNode,
     isWithFallbackNodes,
     isBridgeType,
     isAIType,
