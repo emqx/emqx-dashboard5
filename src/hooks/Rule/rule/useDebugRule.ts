@@ -352,20 +352,24 @@ export const useMockData = (
     return typeNeedToCompares.includes(targetStrToCompare)
   }
 
+  const checkDataTypeSQLMatch = (dataType: string, sql: string) => {
+    const { type, target } = findSourceTypeAndTarget(dataType)
+    const { fromStr } = getKeywordsFromSQL(sql)
+    isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+  }
+
   const handleDataSourceChanged = ({ value }: { value: string }) => {
     // The data type switch will not change the SQL, but if the data type does not match the SQL,
     // a warning will be issued indicating that the data type does not match the SQL
-    const { type, target } = findSourceTypeAndTarget(value)
-    const { fromStr } = getKeywordsFromSQL(ruleSql.value)
-    isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+    checkDataTypeSQLMatch(value, ruleSql.value)
+
+    const { type } = findSourceTypeAndTarget(value)
     const { context } = getTestColumns(type, value)
     setContext(context)
   }
 
   const handleSQLChanged = (sql: string) => {
-    const { type, target } = findSourceTypeAndTarget(dataType.value)
-    const { fromStr } = getKeywordsFromSQL(sql)
-    isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
+    checkDataTypeSQLMatch(dataType.value, sql)
   }
 
   const authEventReg = /^\$events\/auth\//
