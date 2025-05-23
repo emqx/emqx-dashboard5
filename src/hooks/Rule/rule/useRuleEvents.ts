@@ -73,10 +73,11 @@ export default (): {
       const matchRet = event.match(multipleLevelEventReg)
       const opt = matchRet && matchRet[1]
       if (opt) {
-        if (optMap.has(opt)) {
-          optMap.get(opt)?.contains.push(item)
+        const optValue = `${opt}#`
+        if (optMap.has(optValue)) {
+          optMap.get(optValue)?.contains.push(item)
         } else {
-          optMap.set(opt, { label: getWildcardLabel(matchRet[2]), contains: [item] })
+          optMap.set(optValue, { label: getWildcardLabel(matchRet[2]), contains: [item] })
         }
       }
     })
