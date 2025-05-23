@@ -195,9 +195,8 @@ const nodeArr = computed(() => {
 
 const {
   nodeWidth,
-  nodeHeight,
   isBridgeType,
-  isBridgerNode,
+  isActionBridgeNode,
   getNodeClass,
   getNodeInfo,
   getNodeIcon,
@@ -249,7 +248,7 @@ const updateEdges = (e: Array<NodeChange>) => {
 const currentConnectSourceNode = ref<undefined | Node>()
 const connectionLineOptions = computed(() => {
   const isConnectingFallback =
-    currentConnectSourceNode.value && isBridgerNode(currentConnectSourceNode.value)
+    currentConnectSourceNode.value && isActionBridgeNode(currentConnectSourceNode.value)
   return isConnectingFallback ? { style: { stroke: '#bbb', strokeDasharray: '5 5' } } : {}
 })
 const handleConnectStart = (e: OnConnectStartParams) => {
@@ -266,7 +265,7 @@ const handleFallbackItemInActionNodeFormData = (
   targetFallbackNode: Node,
   type: 'add' | 'remove',
 ) => {
-  if (!isBridgerNode(sourceActionNode)) {
+  if (!isActionBridgeNode(sourceActionNode)) {
     return
   }
   const actionFormData = sourceActionNode.data.formData
@@ -297,7 +296,7 @@ const handleEdgesChanged = (e: Array<EdgeChange>) => {
   const edge = e[0]
   if (edge.type === 'add') {
     const { sourceNode, targetNode } = edge.item
-    if (isBridgerNode(sourceNode) && !isWithFallbackNodes(targetNode)) {
+    if (isActionBridgeNode(sourceNode) && !isWithFallbackNodes(targetNode)) {
       edge.item.style = fallbackEdgeStyle
       handleFallbackItemInActionNodeFormData(sourceNode, targetNode, 'add')
       addFallbackFlagToNodes([targetNode])
@@ -305,7 +304,7 @@ const handleEdgesChanged = (e: Array<EdgeChange>) => {
   } else if (edge.type === 'remove') {
     const sourceNode = findNode(edge.source)
     const targetNode = findNode(edge.target)
-    if (sourceNode && targetNode && isBridgerNode(sourceNode)) {
+    if (sourceNode && targetNode && isActionBridgeNode(sourceNode)) {
       targetNode.data.isFallback = false
       handleFallbackItemInActionNodeFormData(sourceNode, targetNode, 'remove')
     }
@@ -412,7 +411,7 @@ const setPositionToFallbackNodes = (actionNode: Node, fallbackNodes: Array<Node>
   fallbackNodes.forEach((node, index) => {
     node.position = {
       x: x + nodeWidth + 100,
-      y: y + index * (nodeHeight + 30),
+      y: y + index * (66 + 30),
     }
   })
   return fallbackNodes

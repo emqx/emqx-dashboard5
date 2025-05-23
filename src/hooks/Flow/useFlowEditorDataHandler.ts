@@ -93,7 +93,7 @@ export default (): {
       const fallbackEdges: Array<EdgeData> = []
       edges.forEach((edge) => {
         const sourceNode = edge.sourceNode
-        if (isBridgerNode(sourceNode)) {
+        if (isActionBridgeNode(sourceNode)) {
           fallbackEdges.push(edge)
         } else {
           notFallbackEdges.push(edge)
@@ -120,8 +120,8 @@ export default (): {
           const sourceNode = edge.sourceNode
           const targetNode = edge.targetNode
           return (
-            isBridgerNode(sourceNode) &&
-            (isBridgerNode(targetNode) || targetNode.data.specificType === SinkType.RePub)
+            isActionBridgeNode(sourceNode) &&
+            (isActionBridgeNode(targetNode) || targetNode.data.specificType === SinkType.RePub)
           )
         })
         return isAllFallbackEdgesRight
@@ -293,7 +293,7 @@ export default (): {
     return getFuncExpressionFromForm(functionData)
   }
 
-  const { isBridgerNode } = useFlowNode()
+  const { isBridgerNode, isActionBridgeNode } = useFlowNode()
   const getBridgeDataFromNode = (node: NodeData): BridgeData => {
     return { isCreated: !!node.data.isCreated, data: node.data.formData }
   }
