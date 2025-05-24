@@ -7,6 +7,7 @@ export default () => {
   const eventList: Ref<Array<RuleEvent>> = ref([])
   ;(async () => (eventList.value = await getEventList()))()
   const getSourceFields = (source: string) => {
+    // TODO:TODO:TODO:TODO:TODO: consider event wildcard
     const event = eventList.value.find(({ event }) => event === source)
     return event?.columns || []
   }

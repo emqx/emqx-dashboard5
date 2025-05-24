@@ -1861,4 +1861,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '所有{target}事件',
     en: 'All {target} Events',
   },
+  containsEvents: {
+    zh: '包含以下事件<br />{events}',
+    en: 'Contains the following events<br />{events}',
+  },
 }

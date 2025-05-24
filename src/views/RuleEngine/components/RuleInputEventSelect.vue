@@ -12,7 +12,16 @@
       :key="item.event"
       :value="item.event"
       :label="item.label"
-    />
+    >
+      <div class="space-between">
+        {{ item.label }}
+        <InfoTooltip>
+          <template #content>
+            <MarkdownContent :content="item.description" />
+          </template>
+        </InfoTooltip>
+      </div>
+    </el-option>
   </el-select>
 </template>
 

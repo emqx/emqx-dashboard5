@@ -206,7 +206,7 @@ const handleTopicComplete = async () => {
   if (isFromClickOption) {
     await waitAMoment()
   }
-  let { value } = selectCom.value.$el.querySelector('input')
+  let value = selectCom.value.selectedLabel
   const { type, target } = findInputTypeNTargetByLabel(value)
   if (type === RuleInputType.Topic && isFromClickOption) {
     return
@@ -236,8 +236,6 @@ const clickOption = async (type: RuleInputType) => {
     inputTopic()
   }
   selectedInputType.value = type
-  await nextTick()
-  selectCom.value.blur()
   await waitAMoment(600)
   isClickOption.value = false
 }
