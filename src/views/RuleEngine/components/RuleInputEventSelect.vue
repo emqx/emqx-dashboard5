@@ -12,6 +12,7 @@
       :key="item.event"
       :value="item.event"
       :label="item.label"
+      :disabled="isEventItemDisabled(item.event)"
     >
       <div class="space-between">
         {{ item.label }}
