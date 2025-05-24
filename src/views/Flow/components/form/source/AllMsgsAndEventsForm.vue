@@ -15,18 +15,26 @@ import { RuleEvent } from '@/types/rule'
 
 const { tl } = useI18nTl('Flow')
 
-const { getEventList } = useRuleEvents()
+const { eventWildcardOptions, allEventWildcardValue, getEventList } = useRuleEvents()
 const { allMsgsAndEvents } = useRuleUtils()
 const { getEventLabel } = useRuleSourceEvents()
 
 const eventList = ref<Array<RuleEvent>>([])
 ;(async () => (eventList.value = await getEventList()))()
-const sortedEventList = computed<Array<string>>(() => {
-  const list = allMsgsAndEvents.value
+const platedSortedEventList = computed<Array<string>>(() => {
+  const list = allMsgsAndEvents.value.reduce((arr: Array<string>, item): Array<string> => {
+    if (item === MULTI_LEVEL_WILDCARD) {
+      arr.push(item)
+    } else if (item === allEventWildcardValue) {
+      const option = eventWildcardOptions.value.find(({ event }) => event === item)
+      arr.push(...(option?.contains.map(({ event }) => event) ?? []))
+    }
+    return arr
+  }, [])
   return list.sort((a, b) => EVENT_SORT.indexOf(a) - EVENT_SORT.indexOf(b))
 })
 const list = computed(() => {
-  return sortedEventList.value.reduce((arr: Array<string>, item): Array<string> => {
+  return platedSortedEventList.value.reduce((arr: Array<string>, item): Array<string> => {
     if (item === MULTI_LEVEL_WILDCARD) {
       return arr
     }

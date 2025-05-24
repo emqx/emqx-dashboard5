@@ -52,21 +52,14 @@ export const useRuleUtils = (): {
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
 
-  const { eventWildcardOptions, getEventList } = useRuleEvents()
+  const { allEventWildcardValue, eventWildcardOptions, getEventList } = useRuleEvents()
   const ruleEvents = ref<Array<RuleEvent>>([])
   ;(async () => {
     const list = await getEventList()
     const bridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
     ruleEvents.value = list.filter(({ event }) => !bridgeReg.test(event))
   })()
-  const allMsgsAndEvents = computed(() => {
-    return ruleEvents.value.reduce((arr: Array<string>, { event }) => {
-      if (isMsgPubEvent(event)) {
-        return [...arr, MULTI_LEVEL_WILDCARD]
-      }
-      return [...arr, event]
-    }, [])
-  })
+  const allMsgsAndEvents = computed(() => [allEventWildcardValue, MULTI_LEVEL_WILDCARD])
 
   const isMsgPubEvent = (event: string) => event === EventForRule.MessagePublish
   const getEventForShow = (event: string) => (isMsgPubEvent(event) ? '${topic}' : event)
