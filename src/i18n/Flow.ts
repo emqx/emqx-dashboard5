@@ -115,6 +115,18 @@ export default {
     zh: '错误的连线',
     en: 'Incorrect connection',
   },
+  incorrectInputOutputConnection: {
+    zh: '请确认所有 Source 节点均正确连接到同一数据处理节点',
+    en: 'Please confirm that all source nodes are correctly connected to the same data processing node',
+  },
+  incorrectOutputNodeConnection: {
+    zh: '请确认所有 Sink 节点均由同一数据处理节点输出',
+    en: 'Please confirm that all sink nodes are output from the same data processing node',
+  },
+  incorrectDefaultNodeConnection: {
+    zh: '请确认所有数据处理节点均按照顺序首尾相连',
+    en: 'Please confirm that all data processing nodes are connected in sequence from start to end',
+  },
   editedWayToggleTip: {
     zh: '表达式过于复杂无法完全转换到编辑器，结果将被更改',
     en: 'Expressions that are excessively complex and cannot fully convert in the editor will be altered.',
