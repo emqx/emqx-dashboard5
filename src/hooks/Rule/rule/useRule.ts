@@ -18,6 +18,7 @@ import {
   RuleSQLKeyword,
 } from '@/types/enum'
 import { BridgeItem, FallbackAction, OutputItem, RuleEvent, TestColumnItem } from '@/types/rule'
+import { EventWildcardOption } from './useRuleEvents'
 
 export const useRuleUtils = (): {
   TOPIC_EVENT: string
@@ -27,7 +28,7 @@ export const useRuleUtils = (): {
     bridgeList: Array<BridgeItem>,
   ) => {
     type: RuleInputType
-    target: BridgeItem | RuleEvent | string
+    target: BridgeItem | RuleEvent | EventWildcardOption | string
   }
   getEventForShow: (event: string) => string
   getTestTargetEvent: (
@@ -51,7 +52,7 @@ export const useRuleUtils = (): {
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
 
-  const { getEventList } = useRuleEvents()
+  const { eventWildcardOptions, getEventList } = useRuleEvents()
   const ruleEvents = ref<Array<RuleEvent>>([])
   ;(async () => {
     const list = await getEventList()
@@ -70,18 +71,32 @@ export const useRuleUtils = (): {
   const isMsgPubEvent = (event: string) => event === EventForRule.MessagePublish
   const getEventForShow = (event: string) => (isMsgPubEvent(event) ? '${topic}' : event)
 
+  /**
+   * - If the input is an event, the target returns event data.
+   * - If the input is an event with wildcard, it returns the wildcard option.
+   * - If the input is a bridge, the target returns bridge data.
+   * - If the input is a topic, the target returns the topic string itself.
+   */
   const findInputTypeNTarget = (
     inputItem: string,
     bridgeList: Array<BridgeItem>,
   ): {
     type: RuleInputType
-    target: BridgeItem | RuleEvent | string
+    target: BridgeItem | RuleEvent | EventWildcardOption | string
   } => {
     const eventItem = ruleEvents.value.find(({ event }) => event === inputItem)
     if (eventItem) {
       return {
         type: RuleInputType.Event,
         target: eventItem,
+      }
+    }
+
+    const eventWildcardOption = eventWildcardOptions.value.find(({ event }) => event === inputItem)
+    if (eventWildcardOption) {
+      return {
+        type: RuleInputType.Event,
+        target: eventWildcardOption,
       }
     }
 
