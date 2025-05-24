@@ -46,12 +46,7 @@
       </CustomFormItem>
     </template>
     <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
-      <el-input
-        v-model="record.api_key"
-        type="password"
-        autocomplete="one-time-code"
-        show-password
-      />
+      <CustomInputPassword v-model="record.api_key" />
     </CustomFormItem>
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
       <el-input v-model="record.base_url" />
