@@ -257,10 +257,13 @@ export default (): {
       return Promise.reject(tl('incorrectOutputNodeConnection'))
     }
     const defaultNodes = groupedNodes[FlowNodeType.Default] ?? []
+    let isAllRight = true
     const defaultEdges = edges.filter(({ sourceNode, targetNode }) => {
       return sourceNode.type === FlowNodeType.Default && targetNode.type === FlowNodeType.Default
     })
-    const isAllRight = isSimpleChain(defaultNodes, defaultEdges)
+    if (defaultEdges.length) {
+      isAllRight = isSimpleChain(defaultNodes, defaultEdges)
+    }
     return !isAllRight ? Promise.reject(tl('incorrectDefaultNodeConnection')) : Promise.resolve()
   }
 

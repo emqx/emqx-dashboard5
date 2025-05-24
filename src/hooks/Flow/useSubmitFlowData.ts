@@ -23,8 +23,7 @@ interface GroupedFlowData {
 
 export default (): {
   isSubmitting: Ref<boolean>
-  createFlow: (data: GroupedFlowData) => Promise<RuleItem>
-  updateFlow: (data: GroupedFlowData) => Promise<RuleItem>
+  submitFlow: (data: GroupedFlowData, operation: 'create' | 'update') => Promise<RuleItem>
   removeUselessAIData: (
     initAIData: {
       provider: Array<string>
@@ -47,7 +46,7 @@ export default (): {
     for (const data of items) {
       try {
         const result = await funcForCreate(data)
-        const id = result[keyForId]
+        const id = result[keyForId] ?? data[keyForId]
         addedIds.push(id)
       } catch (error) {
         for (const id of addedIds) {
@@ -60,7 +59,7 @@ export default (): {
         break
       }
     }
-    return addedIds.length === items.length ? Promise.resolve() : Promise.reject()
+    return addedIds.length === items.length ? Promise.resolve(addedIds) : Promise.reject()
   }
 
   const updateItems = (items: Array<any>, funcForUpdate: (data: any) => Promise<any>) => {
@@ -81,18 +80,22 @@ export default (): {
 
   const submitActions = async (actions: GroupedFlowData['actions']) => {
     try {
+      let createdIds: string[] = []
       const groupedAction = groupBy(actions, ({ isCreated }) => !!isCreated)
       if (groupedAction['false']) {
-        await createActions(groupedAction['false'].map(({ data }) => data))
+        createdIds = await createActions(groupedAction['false'].map(({ data }) => data))
       }
       if (groupedAction['true']) {
         await updateActions(groupedAction['true'].map(({ data }) => data))
       }
-      return Promise.resolve()
+      return Promise.resolve(createdIds)
     } catch (error) {
       return Promise.reject(error)
     }
   }
+
+  const deleteActions = async (actions: Array<string>) =>
+    Promise.all(actions.map((id) => deleteAction(id)))
 
   type UpdateAIDataItems = {
     (
@@ -129,9 +132,10 @@ export default (): {
 
   const submitAIProviders = async (aiProviders: GroupedFlowData['aiProviders']) => {
     try {
+      let createdNames: string[] = []
       const groupedProviders = groupBy(aiProviders, ({ isCreated }) => !!isCreated)
       if (groupedProviders['false']) {
-        await createAIProviders(
+        createdNames = await createAIProviders(
           groupedProviders['false'].map(({ data }) => checkNOmitFromObj(data)),
         )
       }
@@ -144,95 +148,99 @@ export default (): {
           .map(({ data }) => data)
         await updateAIProviders(providersNeedUpdate.map((data) => data))
       }
-      return Promise.resolve()
+      return Promise.resolve(createdNames)
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
+  const deleteAIProviders = async (aiProviders: Array<string>) =>
+    Promise.all(aiProviders.map((name) => deleteAIProvider(name)))
+
   const submitAICompletionProfiles = async (aiCompletions: GroupedFlowData['aiCompletions']) => {
     try {
+      let createdNames: string[] = []
       const groupedCompletions = groupBy(aiCompletions, ({ isCreated }) => !!isCreated)
       if (groupedCompletions['false']) {
-        await createAICompletionProfiles(groupedCompletions['false'].map(({ data }) => data))
+        createdNames = await createAICompletionProfiles(
+          groupedCompletions['false'].map(({ data }) => data),
+        )
       }
       if (groupedCompletions['true']) {
         await updateAICompletionProfiles(groupedCompletions['true'].map(({ data }) => data))
       }
-      return Promise.resolve()
+      return Promise.resolve(createdNames)
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
+  const deleteAICompletionProfiles = async (aiCompletions: Array<string>) =>
+    Promise.all(aiCompletions.map((name) => deleteAICompletionProfile(name)))
+
   const submitSources = async (sources: GroupedFlowData['sources']) => {
     try {
+      let createdIds: string[] = []
       const groupedSource = groupBy(sources, ({ isCreated }) => !!isCreated)
       if (groupedSource['false']) {
-        await createSources(groupedSource['false'].map(({ data }) => data))
+        createdIds = await createSources(groupedSource['false'].map(({ data }) => data))
       }
       if (groupedSource['true']) {
         await updateSources(groupedSource['true'].map(({ data }) => data))
       }
-      return Promise.resolve()
+      return Promise.resolve(createdIds)
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
-  const createFlow = async ({
-    rule,
-    actions,
-    sources,
-    aiProviders,
-    aiCompletions,
-  }: GroupedFlowData) => {
+  const deleteSources = async (sources: Array<string>) =>
+    Promise.all(sources.map((id) => deleteSource(id)))
+
+  const submitFlow = async (
+    { rule, actions, sources, aiProviders, aiCompletions }: GroupedFlowData,
+    operation: 'create' | 'update',
+  ) => {
+    let createdActionIds: string[] = []
+    let createdSourceIds: string[] = []
+    let createdAIProviderNames: string[] = []
+    let createdAICompletionNames: string[] = []
     /**
      * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
      */
     try {
       isSubmitting.value = true
 
-      await submitActions(actions)
-      await submitSources(sources)
+      createdActionIds = await submitActions(actions)
+      createdSourceIds = await submitSources(sources)
 
-      await submitAIProviders(aiProviders)
-      await submitAICompletionProfiles(aiCompletions)
-
-      const ruleRet = await createRules(rule as any)
-      isSubmitting.value = false
-      return Promise.resolve(ruleRet)
+      createdAIProviderNames = await submitAIProviders(aiProviders)
+      createdAICompletionNames = await submitAICompletionProfiles(aiCompletions)
     } catch (error) {
       console.error(error)
+      deleteActions(createdActionIds)
+      deleteSources(createdSourceIds)
+      await deleteAICompletionProfiles(createdAICompletionNames)
+      deleteAIProviders(createdAIProviderNames)
       isSubmitting.value = false
       return Promise.reject()
     }
-  }
 
-  const updateFlow = async ({
-    rule,
-    actions,
-    sources,
-    aiProviders,
-    aiCompletions,
-  }: GroupedFlowData) => {
-    /**
-     * Same as webhook, create the bridge firstly, because it is easy to encounter errors.
-     */
     try {
-      isSubmitting.value = true
+      let ruleRet: RuleItem
+      if (operation === 'create') {
+        ruleRet = await createRules(rule as any)
+      } else {
+        ruleRet = await updateRules(rule.id, rule as any)
+      }
 
-      await submitActions(actions)
-      await submitSources(sources)
-
-      await submitAIProviders(aiProviders)
-      await submitAICompletionProfiles(aiCompletions)
-
-      const ruleRet = await updateRules(rule.id, rule as any)
       isSubmitting.value = false
       return Promise.resolve(ruleRet)
     } catch (error) {
-      console.error(error)
+      deleteActions(createdActionIds)
+      deleteSources(createdSourceIds)
+      await deleteAICompletionProfiles(createdAICompletionNames)
+      deleteAIProviders(createdAIProviderNames)
       isSubmitting.value = false
       return Promise.reject()
     }
@@ -282,8 +290,7 @@ export default (): {
 
   return {
     isSubmitting,
-    createFlow,
-    updateFlow,
+    submitFlow,
     removeUselessAIData,
   }
 }

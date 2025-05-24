@@ -103,8 +103,15 @@ const { t, tl } = useI18nTl('Flow')
 const initName = createRandomString()
 const flowBasicInfo = ref({ name: initName, desc: '' })
 
-const { flowId, flowData, ruleData, initialAIData, addBridgeFormDataToNodes, getData } =
-  useEditFlow()
+const {
+  flowId,
+  flowData,
+  ruleData,
+  initialAIData,
+  addBridgeFormDataToNodes,
+  addAIRecordDataToNodes,
+  getData,
+} = useEditFlow()
 const isCreate = computed(() => !flowId.value)
 const editingMethod = ref(EditingMethod.Flow)
 
@@ -177,14 +184,14 @@ if (flowId.value) {
 }
 
 const { getAllRecordsFromFlow } = useFlowEditorDataHandler()
-const { isSubmitting, createFlow, updateFlow, removeUselessAIData } = useSubmitFlowData()
+const { isSubmitting, submitFlow, removeUselessAIData } = useSubmitFlowData()
 const submit = async () => {
   try {
     const flowData = FlowEditorCom.value.getFlowData()
     const data = await getAllRecordsFromFlow(flowBasicInfo.value, flowData)
     const isCallCreate = isCreate.value && !isFlowCreated.value
-    const request = isCallCreate ? createFlow : updateFlow
-    currentRule.value = await request(data)
+    const operation = isCallCreate ? 'create' : 'update'
+    currentRule.value = await submitFlow(data, operation)
     removeUselessAIData(initialAIData.value, data)
     ElMessage.success(t(`Base.${isCallCreate ? 'createSuccess' : 'updateSuccess'}`))
     updateFlowData()
@@ -242,7 +249,7 @@ const updateFlowData = async () => {
       node.data.formData.id = getBridgeKey(node.data.formData)
     }
   })
-  const newNodes = await addBridgeFormDataToNodes(nodes)
+  const newNodes = await addAIRecordDataToNodes(await addBridgeFormDataToNodes(nodes))
   FlowEditorCom.value.setNodes(newNodes)
 }
 
