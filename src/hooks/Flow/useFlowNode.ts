@@ -34,10 +34,10 @@ export const SourceTypeAllMsgsAndEvents = 'all-msgs-and-events'
  */
 export const AI_PLACEHOLDER_TYPE = 'ai-placeholder'
 export enum ProcessingType {
-  Filter = 'filter',
   Function = 'function',
   AIOpenAI = 'ai-openai',
   AIAnthropic = 'ai-anthropic',
+  Filter = 'filter',
 }
 
 type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'SysKeeperProxy'
