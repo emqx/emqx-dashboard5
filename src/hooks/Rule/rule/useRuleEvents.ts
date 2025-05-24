@@ -35,6 +35,7 @@ export type EventWildcardOption = {
 }
 
 export default (): {
+  allEventWildcardValue: string
   eventWildcardOptions: Ref<Array<EventWildcardOption>>
   getEventList: () => Promise<RuleEvent[]>
   getEventLabel: (event: string) => string
@@ -150,6 +151,7 @@ export default (): {
   }
 
   return {
+    allEventWildcardValue,
     eventWildcardOptions,
     getEventList,
     getEventLabel,
