@@ -27,7 +27,7 @@ const getEventIndex = (event: string) => {
   return index === -1 ? EVENT_SORT.length : index
 }
 
-type EventWildcardOption = {
+export type EventWildcardOption = {
   event: string
   label: string
   contains: RuleEvent[]
