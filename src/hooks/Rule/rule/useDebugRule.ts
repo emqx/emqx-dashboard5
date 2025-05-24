@@ -304,18 +304,24 @@ export const useMockData = (
   const findSourceTypeAndTarget = (fromTarget: string) =>
     findInputTypeNTarget(fromTarget, props.ingressBridgeList)
 
-  const getFirstEventTargetIfWildcard = (
+  const isEventWildcardOption = (
     type: RuleInputType,
     target: BridgeItem | RuleEvent | EventWildcardOption | string,
-  ): BridgeItem | RuleEvent | string => {
-    if (
+  ): target is EventWildcardOption => {
+    return (
       type === RuleInputType.Event &&
       typeof target === 'object' &&
       'contains' in target &&
       target.contains &&
       Array.isArray(target.contains) &&
       target.contains[0].title
-    ) {
+    )
+  }
+  const getFirstEventTargetIfWildcard = (
+    type: RuleInputType,
+    target: BridgeItem | RuleEvent | EventWildcardOption | string,
+  ): BridgeItem | RuleEvent | string => {
+    if (isEventWildcardOption(type, target)) {
       return target.contains[0]
     }
     return target
@@ -346,11 +352,15 @@ export const useMockData = (
     fromStr: string,
   ): boolean => {
     const inputs = transFromStrToFromArr(fromStr)
-    const typeNeedToCompares = inputs.map((input) => {
-      const { type: typeInSQL } = findSourceTypeAndTarget(input)
-      const typeNeedToCompare = typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : input
-      return typeNeedToCompare
-    })
+    const typeNeedToCompares = inputs.reduce((arr: Array<string>, input) => {
+      const { type: typeInSQL, target: inputTarget } = findSourceTypeAndTarget(input)
+      if (isEventWildcardOption(typeInSQL, inputTarget)) {
+        arr.push(...inputTarget.contains.map((item) => item.event))
+      } else {
+        arr.push(typeInSQL === RuleInputType.Topic ? TOPIC_EVENT : input)
+      }
+      return arr
+    }, [])
     // when comparing, if the type is topic, compare the TOPIC_EVENT;
     // if type is event, compare target.event
     // if type is bridge, compare bridge.id
@@ -371,7 +381,6 @@ export const useMockData = (
 
   const checkDataTypeSQLMatch = (dataType: string, sql: string) => {
     const { type, target } = findSourceTypeAndTarget(dataType)
-    // TODO:TODO:TODO:TODO:TODO:TODO:TODO: new check
     const { fromStr } = getKeywordsFromSQL(sql)
     isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
   }
