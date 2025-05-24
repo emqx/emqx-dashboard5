@@ -16,6 +16,7 @@ export default (): {
     completion: Array<string>
   }>
   addBridgeFormDataToNodes: (nodes: Node[]) => Promise<Node[]>
+  addAIRecordDataToNodes: (nodes: Node[]) => Promise<Node[]>
   getData: () => Promise<void>
 } => {
   const route = useRoute()
@@ -183,6 +184,7 @@ export default (): {
     flowData,
     initialAIData,
     addBridgeFormDataToNodes,
+    addAIRecordDataToNodes,
     getData,
   }
 }
