@@ -183,6 +183,87 @@ export default (): {
     return !isAllSingleEdge ? Promise.reject(tl('incorrectConnection')) : Promise.resolve()
   }
 
+  const isSimpleChain = (nodes: Array<NodeData>, edges: Array<EdgeData>) => {
+    const graph = new Map()
+    nodes.forEach((node) => graph.set(node.id, []))
+    edges.forEach((edge) => {
+      if (!graph.get(edge.source)) {
+        graph.set(edge.source, [])
+      }
+      if (!graph.get(edge.target)) {
+        graph.set(edge.target, [])
+      }
+      graph.get(edge.source).push(edge.target)
+      graph.get(edge.target).push(edge.source)
+    })
+
+    const visited = new Set()
+    const dfs = (id: string) => {
+      visited.add(id)
+      for (const neighbor of graph.get(id)) {
+        if (!visited.has(neighbor)) dfs(neighbor)
+      }
+    }
+    dfs(nodes[0].id)
+    if (visited.size !== nodes.length) {
+      return false
+    }
+
+    let degree1 = 0,
+      degree2 = 0
+    for (const neighbors of graph.values()) {
+      if (neighbors.length === 1) {
+        degree1++
+      } else if (neighbors.length === 2) {
+        degree2++
+      } else {
+        return false
+      }
+    }
+    return degree1 === 2 && degree2 === nodes.length - 2
+  }
+
+  /**
+   * - All non-output nodes must have an out edge.
+   *     - Output nodes can have output edges (action with fallback actions).
+   * - All non-input nodes must have an input edge.
+   * - All input nodes, if not directly connected to output nodes, must connect to the same node.
+   * - All non-fallback nodes' output nodes, if not directly connected to input nodes, must connect to the same node.
+   * - All data processing nodes must be connected end to end.
+   */
+  const verifyFlowIsRight = async ({ nodes, edges }: FlowData) => {
+    const groupedNodes = groupBy(nodes, 'type')
+    if (!groupedNodes[FlowNodeType.Default]?.length) {
+      // TODO:check connection
+      return Promise.resolve()
+    }
+    const allInputToNodes = edges.reduce((set, { sourceNode, targetNode }) => {
+      if (sourceNode.type === FlowNodeType.Input) {
+        set.add(targetNode.id)
+      }
+      return set
+    }, new Set())
+    if (allInputToNodes.size > 1) {
+      return Promise.reject(tl('incorrectInputOutputConnection'))
+    }
+    const allOutputFromNodes = edges.reduce((set, { targetNode, sourceNode }) => {
+      // Filter fallback edges
+      if (targetNode.type === FlowNodeType.Output && !isActionBridgeNode(sourceNode)) {
+        set.add(sourceNode.id)
+      }
+      return set
+    }, new Set())
+    if (allOutputFromNodes.size > 1) {
+      return Promise.reject(tl('incorrectOutputNodeConnection'))
+    }
+    const defaultNodes = groupedNodes[FlowNodeType.Default] ?? []
+    const defaultEdges = edges.filter(({ sourceNode, targetNode }) => {
+      return sourceNode.type === FlowNodeType.Default && targetNode.type === FlowNodeType.Default
+    })
+    const isAllRight = isSimpleChain(defaultNodes, defaultEdges)
+    return !isAllRight ? Promise.reject(tl('incorrectDefaultNodeConnection')) : Promise.resolve()
+  }
+
   const verifyMultipleFlow = async ({ edges }: FlowData) => {
     const graph: Map<string, Array<string>> = new Map()
 
@@ -231,6 +312,7 @@ export default (): {
       await verifyConnection(flowData)
       await verifyDefaultNodeConnection(flowData)
       await verifyMultipleFlow(flowData)
+      await verifyFlowIsRight(flowData)
     } catch (error) {
       return Promise.reject(error)
     }
