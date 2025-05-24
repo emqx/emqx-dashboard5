@@ -98,6 +98,7 @@ export default (): {
             : RuleInputType.Event
         const value =
           itemType === RuleInputType.Bridge ? item.replace(ruleInputBridgeReg, '') : item
+        // TODO:TODO:TODO:TODO:TODO: consider event wildcard
         const targetEvent = getTestTargetEvent(itemType, value, totalEventList.value)
         if (targetEvent) {
           targetEvent.columns.forEach((item) => set.add(item))

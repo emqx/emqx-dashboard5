@@ -31,6 +31,7 @@ export type EventWildcardOption = {
   event: string
   label: string
   contains: RuleEvent[]
+  description: string
 }
 
 export default (): {
@@ -50,6 +51,7 @@ export default (): {
     return eventList
   }
 
+  const eventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
   const multipleLevelEventReg = new RegExp(`^(${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}(\\w+)\\/).+`)
   const eventWildcardOptions = ref<Array<EventWildcardOption>>([])
   const allEventWildcardValue = `${RULE_INPUT_EVENT_PREFIX}${MULTI_LEVEL_WILDCARD}`
@@ -64,9 +66,21 @@ export default (): {
     const blockLabel = allEventWildcardLabelMap.get(block) ?? titleCase(block)
     return t('RuleEngine.allTargetEvents', { target: blockLabel })
   }
+  const isZh = computed(() => state.lang === 'zh')
+  const getEventCurrentLangLabel = ({ zh, en }: { zh: string; en: string }) =>
+    isZh.value ? zh : en
+
   const generateEventWildcardOptions = (eventList: Array<RuleEvent>) => {
     const optMap = new Map<string, { label: string; contains: RuleEvent[] }>([
-      [allEventWildcardValue, { label: t('RuleEngine.allEvents'), contains: eventList }],
+      [
+        allEventWildcardValue,
+        {
+          label: t('RuleEngine.allEvents'),
+          contains: eventList.filter(({ event }) => {
+            return eventReg.test(event) && event !== TOPIC_EVENT
+          }),
+        },
+      ],
     ])
     eventList.forEach((item) => {
       const { event } = item
@@ -84,7 +98,13 @@ export default (): {
     const wildcardOptions = []
     for (const [key, value] of optMap.entries()) {
       if (value.contains.length > 1) {
-        wildcardOptions.push({ event: key, ...value })
+        const { contains } = value
+        const description = t('RuleEngine.containsEvents', {
+          events: contains
+            .map(({ title }, index) => ` ${index + 1}. ${getEventCurrentLangLabel(title)}`)
+            .join('<br />'),
+        })
+        wildcardOptions.push({ event: key, ...value, description })
       }
     }
     return wildcardOptions
