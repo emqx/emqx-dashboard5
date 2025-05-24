@@ -546,6 +546,9 @@ declare global {
   export type { LogItem, LogTargetTypeValue, TargetLogInfo, TargetLog, TargetLogMap, FormattedLog } from './hooks/Rule/rule/useFormatDebugLog'
   import('./hooks/Rule/rule/useFormatDebugLog')
   // @ts-ignore
+  export type { EventWildcardOption } from './hooks/Rule/rule/useRuleEvents'
+  import('./hooks/Rule/rule/useRuleEvents')
+  // @ts-ignore
   export type { AvailableKey, TypeMessageTransformFailureAction, TypeMessageTransformLogLevel } from './hooks/Rule/transform/useMessageTransform'
   import('./hooks/Rule/transform/useMessageTransform')
   // @ts-ignore

@@ -304,6 +304,23 @@ export const useMockData = (
   const findSourceTypeAndTarget = (fromTarget: string) =>
     findInputTypeNTarget(fromTarget, props.ingressBridgeList)
 
+  const getFirstEventTargetIfWildcard = (
+    type: RuleInputType,
+    target: BridgeItem | RuleEvent | EventWildcardOption | string,
+  ): BridgeItem | RuleEvent | string => {
+    if (
+      type === RuleInputType.Event &&
+      typeof target === 'object' &&
+      'contains' in target &&
+      target.contains &&
+      Array.isArray(target.contains) &&
+      target.contains[0].title
+    ) {
+      return target.contains[0]
+    }
+    return target
+  }
+
   const resetContext = () => {
     ElMessageBox.confirm(tl('confirmReset'), {
       confirmButtonText: t('Base.confirm'),
@@ -354,6 +371,7 @@ export const useMockData = (
 
   const checkDataTypeSQLMatch = (dataType: string, sql: string) => {
     const { type, target } = findSourceTypeAndTarget(dataType)
+    // TODO:TODO:TODO:TODO:TODO:TODO:TODO: new check
     const { fromStr } = getKeywordsFromSQL(sql)
     isDataTypeNoMatchSQL.value = !compareTargetNFromStr(type, target, fromStr)
   }
@@ -416,9 +434,14 @@ export const useMockData = (
   const setDataTypeNContext = () => {
     const { fromStr } = getKeywordsFromSQL(ruleSql.value)
     const [firstInput = ''] = transFromStrToFromArr(fromStr)
-    const { type: inputType } = findSourceTypeAndTarget(firstInput)
+    let neededInput = firstInput
+    const { type: inputType, target: inputTarget } = findSourceTypeAndTarget(firstInput)
+    const neededTarget = getFirstEventTargetIfWildcard(inputType, inputTarget)
+    if (neededTarget !== inputTarget) {
+      neededInput = (neededTarget as RuleEvent).event
+    }
     const { context } = getTestColumns(inputType, firstInput)
-    setDataType(inputType, firstInput)
+    setDataType(inputType, neededInput)
     testParams.value = { context }
   }
 
