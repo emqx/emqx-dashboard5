@@ -457,6 +457,7 @@ export default (
     [BridgeType.Pulsar]: pulsarAdvancedProps,
     [BridgeType.S3]: getPathArrInParameters(['headers', 'min_part_size', 'max_part_size']),
     [BridgeType.Snowflake]: snowflakeAdvancedProps,
+    [BridgeType.S3Tables]: getPathArrInParameters(['s3.min_part_size', 's3.max_part_size']),
   }
 
   const advancedFields = computed(() => {
