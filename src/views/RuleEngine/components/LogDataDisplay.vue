@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { LogResult } from '@/types/enum'
+import { EventForRule, LogResult } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
 import {
   CaretRight,
@@ -147,13 +147,35 @@ const { getEventList } = useRuleEvents()
 const { savedAfterDataChange } = useStatusController()
 
 let eventInfoMap: Map<string, RuleEvent> = new Map()
-const reg = /^\$events\/([^._]+)_/
-const convertToLogEvent = (e: string) => e.replace(reg, (a1: string, a2: string) => `${a2}.`)
+
+// TODO:TODO:TODO:TODO:TODO:TODO:
+// TODO:TODO:TODO:TODO:TODO:TODO:
+// TODO:TODO:TODO:TODO:TODO:TODO: Confirm with the backend whether the current values of the event in various places being inconsistent is as expected.
+const eventValueMap = new Map<string, string>([
+  ['client.check_authn_complete', EventForRule.ClientCheckAuthnComplete],
+  ['client.connected', EventForRule.ClientConnected],
+  ['client.disconnected', EventForRule.ClientDisconnected],
+  ['client.connack', EventForRule.ClientConnack],
+
+  ['session.subscribed', EventForRule.SessionSubscribed],
+  ['session.unsubscribed', EventForRule.SessionUnsubscribed],
+  ['alarm.deactivated', EventForRule.AlarmDeactivated],
+  ['alarm.activated', EventForRule.AlarmActivated],
+
+  ['delivery.dropped', EventForRule.MessageDeliveryDropped],
+  ['message.dropped', EventForRule.MessageDropped],
+  ['message.acked', EventForRule.MessageAcked],
+  ['message.delivered', EventForRule.MessageDelivered],
+
+  ['message.transformation_failed', EventForRule.MessageTransformationFailed],
+  ['schema.validation_failed', EventForRule.SchemaValidationFailed],
+  ['client.check_authz_complete', EventForRule.ClientCheckAuthzComplete],
+])
 
 ;(async () => {
   const eventList = await getEventList()
   eventInfoMap = eventList.reduce((map, item) => {
-    const key = convertToLogEvent(item.event)
+    const key = item.event
     map.set(key, item)
     return map
   }, new Map())
@@ -167,7 +189,8 @@ const getTriggerTitle = (trigger: string) => {
     const { type } = getTypeAndNameFromKey(bridgeId) as any
     return getGeneralTypeLabel(type)
   }
-  const event = eventInfoMap.get(trigger)
+  const trueEventValue = eventValueMap.get(trigger)
+  const event = trueEventValue ? eventInfoMap.get(trueEventValue) : null
   return event ? getEventLabel(event.title) : trigger
 }
 
