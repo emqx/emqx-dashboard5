@@ -123,7 +123,17 @@ export type PostMtNsNs400 = {
   message?: string
 }
 
+export type GetMtNsListDetailsParams = {
+  last_ns?: string
+  limit?: number
+}
+
 export type GetMtNsListParams = {
+  last_ns?: string
+  limit?: number
+}
+
+export type GetMtManagedNsListDetailsParams = {
   last_ns?: string
   limit?: number
 }
@@ -176,6 +186,11 @@ export type MtSessionConfigInMaxSessions = number | 'infinity'
 
 export interface MtSessionConfigIn {
   max_sessions?: MtSessionConfigInMaxSessions
+}
+
+export interface MtNsWithDetailsOut {
+  creation_date?: number
+  name?: string
 }
 
 export interface MtLimiterOptions {
