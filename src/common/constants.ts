@@ -434,3 +434,8 @@ export const LS_KEY_COMMUNITY_PROMO_DISMISSED = 'emqxCommunityLicensePromoDismis
 export const AI_FUNCTION_NAME = 'ai_completion'
 
 export const ENCRYPTED_PASSWORD = '******'
+
+export const correctAliasALevelReg = /([_a-zA-Z]\w*|".+")/
+export const correctAliasReg = new RegExp(
+  `^${correctAliasALevelReg.source}(\\.${correctAliasALevelReg.source})*$`,
+)

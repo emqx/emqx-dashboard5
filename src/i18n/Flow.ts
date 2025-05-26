@@ -83,6 +83,10 @@ export default {
     zh: '别名',
     en: 'Alias',
   },
+  aliasDesc: {
+    zh: '别名如包含除字母、数字和下划线以外的字符，或以数字开头，或为 SQL 关键字时，请为别名加上双引号',
+    en: 'If the alias contains characters other than letters, numbers, and underscores, or starts with a number, or is a SQL keyword, please add double quotes to the alias',
+  },
   transform: {
     zh: '转换',
     en: 'Transform',
@@ -110,6 +114,10 @@ export default {
   aliasRequired: {
     zh: '需指定一个别名',
     en: 'Need to specify an alias',
+  },
+  aliasFormatError: {
+    zh: '格式错误的别名',
+    en: 'Invalid alias format',
   },
   incorrectConnection: {
     zh: '错误的连线',
@@ -166,6 +174,10 @@ export default {
   systemPrompt: {
     zh: '系统消息',
     en: 'System Message',
+  },
+  systemPromptDesc: {
+    zh: '系统消息，用于引导 AI 模型生成符合预期的输出。例：将输入的 JSON 数据中，值为数字的 value 相加起来，并输出，只需返回输出结果。',
+    en: 'System message, used to guide AI models to generate outputs that meet expectations. Example: Add up the values of numeric keys in the input JSON data and output the result, only return the output result.',
   },
   aiOutputAlias: {
     zh: '输出结果别名',
