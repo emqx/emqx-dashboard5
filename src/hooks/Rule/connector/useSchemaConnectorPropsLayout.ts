@@ -313,6 +313,10 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Doris]: createOrderObj(
+      ['server', 'database', 'username', 'password'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

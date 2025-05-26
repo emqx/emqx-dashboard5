@@ -359,6 +359,10 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Doris]: createOrderObj(
+      getPathArrInParameters(['undefined_vars_as_null', 'sql']),
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
