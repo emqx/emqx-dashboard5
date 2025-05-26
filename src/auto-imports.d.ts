@@ -137,6 +137,8 @@ declare global {
   const computed: typeof import('vue')['computed']
   const connectorResourceOptFields: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']
   const consumerReg: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']
+  const correctAliasALevelReg: typeof import('./common/constants')['correctAliasALevelReg']
+  const correctAliasReg: typeof import('./common/constants')['correctAliasReg']
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
   const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
   const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
@@ -704,6 +706,8 @@ declare module 'vue' {
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly connectorResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']>
     readonly consumerReg: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']>
+    readonly correctAliasALevelReg: UnwrapRef<typeof import('./common/constants')['correctAliasALevelReg']>
+    readonly correctAliasReg: UnwrapRef<typeof import('./common/constants')['correctAliasReg']>
     readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
     readonly createAIAnthropicForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']>
     readonly createAICommonForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']>

@@ -81,7 +81,11 @@ export default (
     'transport_options.enable_pipelining',
     'transport_options.ipv6_probe',
   ]
-  const S3TablesAdvancedProps = S3AdvancedProps.map((item) => `s3_client.${item}`)
+  const S3TablesAdvancedProps = S3AdvancedProps.map((item) => `s3_client.${item}`).toSpliced(
+    0,
+    0,
+    's3_client.access_method',
+  )
 
   const azureOrderMap = {
     ...createOrderObj(
@@ -303,7 +307,6 @@ export default (
         's3tables_arn',
         'access_key_id',
         'secret_access_key',
-        's3_client.access_method',
         'request_timeout',
         's3_client.transport_options',
         ...S3TablesAdvancedProps,

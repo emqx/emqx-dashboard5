@@ -387,6 +387,18 @@ export default (
     return { components, rules }
   }
 
+  const s3TablesHandler: Handler = ({ components, rules }) => {
+    const sslProp = components?.s3_client?.properties?.transport_options?.properties?.ssl
+    const sslEnableProp = sslProp?.properties?.enable
+    if (sslProp) {
+      sslProp.componentProps = { disabledBaseConfig: true }
+    }
+    if (sslEnableProp) {
+      sslEnableProp.default = true
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -405,6 +417,7 @@ export default (
     [BridgeType.Pulsar, pulsarHandler],
     [BridgeType.IoTDB, iotDbHandler],
     [BridgeType.DiskLog, diskLogHandler],
+    [BridgeType.S3Tables, s3TablesHandler],
   ])
 
   const getComponentsHandler = () => {
