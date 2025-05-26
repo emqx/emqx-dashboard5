@@ -25,16 +25,16 @@ export type PutSchemaRegistryName404 = {
 }
 
 export type PutSchemaRegistryName200 =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
+  | SchemaRegistryPutAvro
+  | SchemaRegistryPutExternalHttp
+  | SchemaRegistryPutJson
+  | SchemaRegistryPutProtobuf
 
 export type PutSchemaRegistryNameBody =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
+  | SchemaRegistryPutAvro
+  | SchemaRegistryPutExternalHttp
+  | SchemaRegistryPutJson
+  | SchemaRegistryPutProtobuf
 
 export type GetSchemaRegistryName404Code =
   (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
@@ -71,9 +71,9 @@ export type PostSchemaRegistryProtobufBundle400 = {
 
 export type PostSchemaRegistryProtobufBundleBody = {
   bundle?: Blob
-  description?: Blob
-  name?: Blob
-  root_proto_file?: Blob
+  description?: string
+  name?: string
+  root_proto_file?: string
 }
 
 export type PutSchemaRegistryProtobufBundle404Code =
@@ -104,9 +104,9 @@ export type PutSchemaRegistryProtobufBundle400 = {
 
 export type PutSchemaRegistryProtobufBundleBody = {
   bundle?: Blob
-  description?: Blob
-  name?: Blob
-  root_proto_file?: Blob
+  description?: string
+  name?: string
+  root_proto_file?: string
 }
 
 export type PutSchemaRegistryExternalRegistryName404Code =
@@ -197,8 +197,44 @@ export const SchemaRegistryPutProtobufType = {
 
 export interface SchemaRegistryPutProtobuf {
   description?: string
-  source: SchemaRegistryPutProtobufSource
+  source: string
   type: SchemaRegistryPutProtobufType
+}
+
+export type SchemaRegistryPutJsonType =
+  (typeof SchemaRegistryPutJsonType)[keyof typeof SchemaRegistryPutJsonType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPutJsonType = {
+  json: 'json',
+} as const
+
+export interface SchemaRegistryPutJson {
+  description?: string
+  source: string
+  type: SchemaRegistryPutJsonType
+}
+
+export type SchemaRegistryPutExternalHttpType =
+  (typeof SchemaRegistryPutExternalHttpType)[keyof typeof SchemaRegistryPutExternalHttpType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPutExternalHttpType = {
+  external_http: 'external_http',
+} as const
+
+export type SchemaRegistryPutAvroType =
+  (typeof SchemaRegistryPutAvroType)[keyof typeof SchemaRegistryPutAvroType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryPutAvroType = {
+  avro: 'avro',
+} as const
+
+export interface SchemaRegistryPutAvro {
+  description?: string
+  source: string
+  type: SchemaRegistryPutAvroType
 }
 
 export type SchemaRegistryProtobufBundleSourceType =
@@ -214,24 +250,6 @@ export interface SchemaRegistryProtobufBundleSource {
   type: SchemaRegistryProtobufBundleSourceType
 }
 
-export type SchemaRegistryPutProtobufSource = SchemaRegistryProtobufBundleSource | string
-
-export type SchemaRegistryProtobufType =
-  (typeof SchemaRegistryProtobufType)[keyof typeof SchemaRegistryProtobufType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaRegistryProtobufType = {
-  protobuf: 'protobuf',
-} as const
-
-export type SchemaRegistryProtobufSource = SchemaRegistryProtobufBundleSource | string
-
-export interface SchemaRegistryProtobuf {
-  description?: string
-  source: SchemaRegistryProtobufSource
-  type: SchemaRegistryProtobufType
-}
-
 export type SchemaRegistryPostProtobufType =
   (typeof SchemaRegistryPostProtobufType)[keyof typeof SchemaRegistryPostProtobufType]
 
@@ -240,12 +258,10 @@ export const SchemaRegistryPostProtobufType = {
   protobuf: 'protobuf',
 } as const
 
-export type SchemaRegistryPostProtobufSource = SchemaRegistryProtobufBundleSource | string
-
 export interface SchemaRegistryPostProtobuf {
   description?: string
   name: string
-  source: SchemaRegistryPostProtobufSource
+  source: string
   type: SchemaRegistryPostProtobufType
 }
 
@@ -292,20 +308,6 @@ export interface SchemaRegistryPostAvro {
   name: string
   source: string
   type: SchemaRegistryPostAvroType
-}
-
-export type SchemaRegistryJsonType =
-  (typeof SchemaRegistryJsonType)[keyof typeof SchemaRegistryJsonType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaRegistryJsonType = {
-  json: 'json',
-} as const
-
-export interface SchemaRegistryJson {
-  description?: string
-  source: string
-  type: SchemaRegistryJsonType
 }
 
 export type SchemaRegistryGetProtobufType =
@@ -380,10 +382,6 @@ export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType 
   confluent: 'confluent',
 } as const
 
-export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
-  | SchemaRegistryConfluentSchemaRegistryAuthBasic
-  | 'none'
-
 export interface SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry {
   auth?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth
   name: string
@@ -419,24 +417,20 @@ export interface SchemaRegistryExternalHttpParams {
   url: string
 }
 
-export type SchemaRegistryExternalHttpType =
-  (typeof SchemaRegistryExternalHttpType)[keyof typeof SchemaRegistryExternalHttpType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaRegistryExternalHttpType = {
-  external_http: 'external_http',
-} as const
-
-export interface SchemaRegistryExternalHttp {
+export interface SchemaRegistryPutExternalHttp {
   description?: string
   parameters: SchemaRegistryExternalHttpParams
-  type: SchemaRegistryExternalHttpType
+  type: SchemaRegistryPutExternalHttpType
 }
 
 export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
   password: string
   username: string
 }
+
+export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
+  | SchemaRegistryConfluentSchemaRegistryAuthBasic
+  | 'none'
 
 export type SchemaRegistryConfluentSchemaRegistryType =
   (typeof SchemaRegistryConfluentSchemaRegistryType)[keyof typeof SchemaRegistryConfluentSchemaRegistryType]
@@ -454,20 +448,6 @@ export interface SchemaRegistryConfluentSchemaRegistry {
   auth?: SchemaRegistryConfluentSchemaRegistryAuth
   type?: SchemaRegistryConfluentSchemaRegistryType
   url: string
-}
-
-export type SchemaRegistryAvroType =
-  (typeof SchemaRegistryAvroType)[keyof typeof SchemaRegistryAvroType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SchemaRegistryAvroType = {
-  avro: 'avro',
-} as const
-
-export interface SchemaRegistryAvro {
-  description?: string
-  source: string
-  type: SchemaRegistryAvroType
 }
 
 export interface SchemaRegistryApiNodeStatus {
