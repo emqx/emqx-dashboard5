@@ -463,6 +463,14 @@ export default {
     zh: '原因码',
     en: 'Reason Code',
   },
+  is_superuser: {
+    zh: '是否为超级用户',
+    en: 'Is superuser',
+  },
+  is_anonymous: {
+    zh: '是否为匿名用户',
+    en: 'Is anonymous',
+  },
   neverExpire: {
     zh: '永不过期',
     en: 'Never Expire',
