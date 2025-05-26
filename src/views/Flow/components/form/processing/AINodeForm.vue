@@ -17,7 +17,10 @@
         popper-class="is-wider"
       />
     </CustomFormItem>
-    <CustomFormItem prop="system_prompt" :label="t('Flow.systemPrompt')" :readonly="readonly">
+    <CustomFormItem prop="system_prompt" :readonly="readonly">
+      <template #label>
+        <FormItemLabel :label="t('Flow.systemPrompt')" :desc="t('Flow.systemPromptDesc')" />
+      </template>
       <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
@@ -53,7 +56,11 @@
     </CustomFormItem>
     <CustomFormItem prop="alias" :readonly="readonly">
       <template #label>
-        <FormItemLabel :label="t('Flow.aiOutputAlias')" :desc="t('Flow.aiOutputAliasDesc')" />
+        <FormItemLabel
+          :label="t('Flow.aiOutputAlias')"
+          :desc="`${t('Flow.aiOutputAliasDesc')}<br />${t('Flow.aliasDesc')}`"
+          desc-marked
+        />
       </template>
       <el-input v-model="record.alias" />
     </CustomFormItem>
@@ -61,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import { correctAliasReg } from '@/common/constants'
 import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
 import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
@@ -126,7 +134,14 @@ const rules = computed(() => ({
   input: createRequiredRule(t('RuleEngine.input')),
   system_prompt: createRequiredRule(t('Flow.systemPrompt')),
   api_key: [...createRequiredRule(tl('apiKey')), ...ruleWhenEditing],
-  alias: createRequiredRule(t('Flow.aiOutputAlias')),
+  alias: [
+    ...createRequiredRule(t('Flow.aiOutputAlias')),
+    {
+      pattern: correctAliasReg,
+      message: t('Flow.aliasFormatError'),
+      trigger: 'blur',
+    },
+  ],
 }))
 
 const { getAvailableFields } = useFlowAvailableFields()

@@ -33,6 +33,10 @@
           </template>
         </el-table-column>
         <el-table-column :label="t('Flow.alias')" prop="alias" width="150">
+          <template #header>
+            <span>{{ t('Flow.alias') }}</span>
+            <InfoTooltip :content="t('Flow.aliasDesc')" />
+          </template>
           <template #default="{ $index }">
             <CustomFormItem
               prop="alias"
@@ -108,6 +112,7 @@ import {
 import FunctionFieldColumnContent from './FunctionFieldColumnContent.vue'
 import FunctionFuncColumnContent from './FunctionFuncColumnContent.vue'
 import FunctionParamsColumnContent from './FunctionParamsColumnContent.vue'
+import { correctAliasReg } from '@/common/constants'
 
 const props = defineProps({
   modelValue: {
@@ -192,6 +197,8 @@ const rules: Rules = {
       const errors = []
       if (source.func.name && !value) {
         errors.push(new Error(t('Flow.aliasRequired')))
+      } else if (!correctAliasReg.test(value)) {
+        errors.push(new Error(t('Flow.aliasFormatError')))
       }
       return errors
     },
