@@ -33,13 +33,16 @@ export default (): {
    * Used to confirm which optional placeholders are provided
    */
   const sql: Ref<string> | undefined = inject('sql', ref(''))
+
   /**
    * An event list is needed to find out what available placeholders are for each `from`
    */
-  const eventList: Ref<Array<{ columns: string[]; event: string } & unknown>> | undefined = inject(
-    'eventList',
-    ref([]),
-  )
+  const eventList = ref<Array<RuleEvent>>([])
+
+  const { eventWildcardOptions, getEventList } = useRuleEvents()
+  ;(async () => {
+    eventList.value = await getEventList()
+  })()
 
   const sqlKeyParts = computed<
     Partial<{
@@ -98,10 +101,12 @@ export default (): {
             : RuleInputType.Event
         const value =
           itemType === RuleInputType.Bridge ? item.replace(ruleInputBridgeReg, '') : item
-        // TODO:TODO:TODO:TODO:TODO: consider event wildcard
         const targetEvent = getTestTargetEvent(itemType, value, totalEventList.value)
+        const eventWildcardOption = eventWildcardOptions.value.find(({ event }) => event === value)
         if (targetEvent) {
           targetEvent.columns.forEach((item) => set.add(item))
+        } else if (eventWildcardOption) {
+          eventWildcardOption.columns.forEach((item) => set.add(item))
         }
         return set
       }, new Set() as Set<string>)

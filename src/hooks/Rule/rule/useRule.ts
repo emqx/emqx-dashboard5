@@ -36,13 +36,7 @@ export const useRuleUtils = (): {
     value: string,
     eventList: Array<RuleEvent>,
   ) => RuleEvent | undefined
-  getTestColumns: (
-    type: RuleInputType,
-    value: string,
-  ) => {
-    context: Record<string, string>
-    descMap: Record<string, string>
-  }
+  getTestContext: (type: RuleInputType, value: string) => Record<string, string>
   transFromStrToFromArr: (fromStr: string) => Array<string>
   transFromDataArrToStr: (from: Array<string>) => string
   transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
@@ -146,22 +140,14 @@ export const useRuleUtils = (): {
    * ps. if is topic, find event with same name first, otherwise use '$events/message_publish' event test columns
    * but if there is an event with the same name here, it will be judged as an event when judging, so use the event test directly
    */
-  const getTestColumns = (
-    type: RuleInputType,
-    value: string,
-  ): { context: Record<string, string>; descMap: Record<string, string> } => {
+  const getTestContext = (type: RuleInputType, value: string): Record<string, string> => {
     const targetEvent = getTestTargetEvent(type, value, ruleEvents.value)
     const test_columns: Record<string, TestColumnItem> = targetEvent?.test_columns || {}
     const context: Record<string, string> = {}
-    const descMap: Record<string, string> = {}
     Object.keys(test_columns).forEach((key) => {
       context[key] = test_columns[key][0]
-      descMap[key] = test_columns[key][1]
     })
-    return {
-      context,
-      descMap,
-    }
+    return context
   }
 
   const transFromStrToFromArr = (fromStr: string): Array<string> => {
@@ -227,7 +213,7 @@ export const useRuleUtils = (): {
     allMsgsAndEvents,
     findInputTypeNTarget,
     getTestTargetEvent,
-    getTestColumns,
+    getTestContext,
     transFromStrToFromArr,
     transFromDataArrToStr,
     transSQLFormDataToSQL,

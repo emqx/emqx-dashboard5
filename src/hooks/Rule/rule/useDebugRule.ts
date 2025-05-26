@@ -298,7 +298,7 @@ export const useMockData = (
     }
   }
 
-  const { TOPIC_EVENT, findInputTypeNTarget, getTestColumns, transFromStrToFromArr } =
+  const { TOPIC_EVENT, findInputTypeNTarget, getTestContext, transFromStrToFromArr } =
     useRuleUtils()
 
   const findSourceTypeAndTarget = (fromTarget: string) =>
@@ -391,7 +391,7 @@ export const useMockData = (
     checkDataTypeSQLMatch(value, ruleSql.value)
 
     const { type } = findSourceTypeAndTarget(value)
-    const { context } = getTestColumns(type, value)
+    const context = getTestContext(type, value)
     setContext(context)
   }
 
@@ -449,7 +449,7 @@ export const useMockData = (
     if (neededTarget !== inputTarget) {
       neededInput = (neededTarget as RuleEvent).event
     }
-    const { context } = getTestColumns(inputType, firstInput)
+    const context = getTestContext(inputType, firstInput)
     setDataType(inputType, neededInput)
     testParams.value = { context }
   }
