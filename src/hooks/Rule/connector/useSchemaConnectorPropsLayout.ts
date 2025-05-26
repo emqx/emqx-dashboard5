@@ -85,6 +85,7 @@ export default (
     0,
     0,
     's3_client.access_method',
+    'request_timeout',
   )
 
   const azureOrderMap = {
@@ -307,7 +308,6 @@ export default (
         's3tables_arn',
         'access_key_id',
         'secret_access_key',
-        'request_timeout',
         's3_client.transport_options',
         ...S3TablesAdvancedProps,
       ],
