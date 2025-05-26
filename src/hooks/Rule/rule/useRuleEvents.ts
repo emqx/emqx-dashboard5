@@ -32,6 +32,7 @@ export type EventWildcardOption = {
   label: string
   contains: RuleEvent[]
   description: string
+  columns: Array<string>
 }
 
 export default (): {
@@ -72,7 +73,7 @@ export default (): {
     isZh.value ? zh : en
 
   const generateEventWildcardOptions = (eventList: Array<RuleEvent>) => {
-    const optMap = new Map<string, { label: string; contains: RuleEvent[] }>([
+    const optMap = new Map<string, Omit<EventWildcardOption, 'event' | 'description'>>([
       [
         allEventWildcardValue,
         {
@@ -80,6 +81,9 @@ export default (): {
           contains: eventList.filter(({ event }) => {
             return eventReg.test(event) && event !== TOPIC_EVENT
           }),
+          columns: uniq(
+            eventList.reduce((arr: Array<string>, item) => [...arr, ...item.columns], []),
+          ),
         },
       ],
     ])
@@ -89,10 +93,16 @@ export default (): {
       const opt = matchRet && matchRet[1]
       if (opt) {
         const optValue = `${opt}#`
-        if (optMap.has(optValue)) {
-          optMap.get(optValue)?.contains.push(item)
+        const optItem = optMap.get(optValue)
+        if (optMap.has(optValue) && optItem) {
+          optItem.contains.push(item)
+          optItem.columns = uniq([...optItem.columns, ...item.columns])
         } else {
-          optMap.set(optValue, { label: getWildcardLabel(matchRet[2]), contains: [item] })
+          optMap.set(optValue, {
+            label: getWildcardLabel(matchRet[2]),
+            contains: [item],
+            columns: item.columns,
+          })
         }
       }
     })

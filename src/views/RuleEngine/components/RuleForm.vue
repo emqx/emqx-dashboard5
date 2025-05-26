@@ -192,7 +192,6 @@ const { isTesting, testTarget, savedAfterDataChange, isDataSaveButtonDisabled } 
 const ruleSql = computed(() => ruleValue.value.sql)
 
 provide('sql', ruleSql)
-provide('eventList', ruleEventsList)
 
 const sqlPartValue = ref({
   from: [DEFAULT_FROM],

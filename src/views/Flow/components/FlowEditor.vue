@@ -470,12 +470,6 @@ const getFlowData = () => {
 
 onConnect((params) => addEdges(params))
 
-// For the configuration of action can select placeholder
-const eventList = ref<Array<RuleEvent>>([])
-provide('eventList', eventList)
-const { getEventList } = useRuleEvents()
-;(async () => (eventList.value = await getEventList()))()
-
 const { getFromDataFromNodes, getFieldsExpressionsFromNode, getFallbackItemDataFromNode } =
   useFlowEditorDataHandler()
 const { transSQLFormDataToSQL } = useRuleUtils()

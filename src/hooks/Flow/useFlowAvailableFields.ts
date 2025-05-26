@@ -3,11 +3,14 @@ import { Node } from '@vue-flow/core'
 import { FunctionItem, ProcessingType } from './useFlowNode'
 
 export default () => {
-  const { getEventList } = useRuleEvents()
+  const { eventWildcardOptions, getEventList } = useRuleEvents()
   const eventList: Ref<Array<RuleEvent>> = ref([])
   ;(async () => (eventList.value = await getEventList()))()
   const getSourceFields = (source: string) => {
-    // TODO:TODO:TODO:TODO:TODO: consider event wildcard
+    const eventWildcardOption = eventWildcardOptions.value.find(({ event }) => event === source)
+    if (eventWildcardOption) {
+      return eventWildcardOption.columns || []
+    }
     const event = eventList.value.find(({ event }) => event === source)
     return event?.columns || []
   }
