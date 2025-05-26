@@ -372,7 +372,7 @@ const openTemplateDrawer = () => {
 // const eventListForFromSelect = computed(() => {
 //   return ruleEventsList.value.filter(({ event }) => event !== eventDoNotNeedInRuleForm)
 // })
-const { getEventList } = useRuleEvents()
+const { eventWildcardOptions, getEventList } = useRuleEvents()
 const loadRuleEvents = async () => {
   try {
     ruleEventsList.value = await getEventList()
@@ -432,10 +432,14 @@ const validate = () => {
 }
 
 onMounted(async () => {
-  loadIngressBridgeList()
+  await loadIngressBridgeList()
   setRuleValue()
   await loadRuleEvents()
-  setExtDepData({ events: ruleEventsList.value, bridges: ingressBridgeList.value })
+  setExtDepData({
+    events: ruleEventsList.value,
+    eventWithWildcardOptions: eventWildcardOptions.value,
+    bridges: ingressBridgeList.value,
+  })
   handleDataFromQuery()
 })
 

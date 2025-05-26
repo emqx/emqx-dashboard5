@@ -67,9 +67,11 @@ export default (): {
   hoverProvider: Ref<monaco.languages.HoverProvider | undefined>
   setExtDepData: ({
     events,
+    eventWithWildcardOptions,
     bridges,
   }: {
     events: Array<RuleEvent>
+    eventWithWildcardOptions: Array<EventWildcardOption>
     bridges: Array<BridgeItem>
   }) => void
 } => {
@@ -79,6 +81,7 @@ export default (): {
   const hoverProvider: Ref<undefined | monaco.languages.HoverProvider> = ref(undefined)
 
   let eventList: Array<RuleEvent> = []
+  let eventWithWildcardOptionList: Array<EventWildcardOption> = []
   let eventDependencyProposals: Array<EventDepItem> = []
 
   let bridgeList: Array<string> = []
@@ -173,18 +176,25 @@ export default (): {
     value: `<b>${getEventLabel(event.title)}</b><br />${getEventDesc(event.event)}`,
   })
 
+  const createEventWildcardDoc = (option: EventWildcardOption) => ({
+    supportHtml: true,
+    value: `<b>${option.label}</b><br />${option.description}`,
+  })
   const createEventDependencyProposals = () => {
-    eventDependencyProposals = eventList.reduce((arr: Array<EventDepItem>, item: RuleEvent) => {
-      return [
-        ...arr,
-        {
-          label: `"${item.event}"`,
-          kind: monaco.languages.CompletionItemKind.Method,
-          documentation: createDoc(item),
-          insertText: `"${item.event}"`,
-        },
-      ] as Array<EventDepItem>
-    }, [])
+    const getCommonPart = (item: RuleEvent | EventWildcardOption) => ({
+      label: `"${item.event}"`,
+      kind: monaco.languages.CompletionItemKind.Method,
+      insertText: `"${item.event}"`,
+    })
+    eventDependencyProposals = eventList
+      .map((item: RuleEvent): EventDepItem => {
+        return { documentation: createDoc(item), ...getCommonPart(item) }
+      })
+      .concat(
+        eventWithWildcardOptionList?.map((item): EventDepItem => {
+          return { documentation: createEventWildcardDoc(item), ...getCommonPart(item) }
+        }) ?? [],
+      )
   }
 
   const createBridgeDependencyProposals = () => {
@@ -246,14 +256,17 @@ export default (): {
 
   const setExtDepData = ({
     events,
+    eventWithWildcardOptions,
     bridges,
   }: {
     events: Array<RuleEvent>
+    eventWithWildcardOptions: Array<EventWildcardOption>
     bridges: Array<BridgeItem>
   }) => {
     eventList = events.filter(
       ({ event }) => !(eventDoNotNeedShow.includes(event) || isMsgPubEvent(event)),
     )
+    eventWithWildcardOptionList = eventWithWildcardOptions
     bridgeList = bridges.map(({ id }) => id)
     initFieldsDependencyProposals(events)
     createEventDependencyProposals()
