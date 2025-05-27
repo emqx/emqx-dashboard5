@@ -7,7 +7,11 @@
     @focus="handleFocus"
     @blur="handleBlur"
     @keypress="handleKeypress"
-  />
+  >
+    <template v-if="$slots.suffix" #suffix>
+      <slot name="suffix" />
+    </template>
+  </el-input-number>
 </template>
 
 <script setup lang="ts">
