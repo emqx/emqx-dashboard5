@@ -20,12 +20,16 @@ export default {
     en: 'Listeners',
   },
   running: {
-    zh: 'Enabled',
+    zh: '已启用',
     en: 'Enabled',
   },
   stopped: {
-    zh: 'Disabled',
+    zh: '已停用',
     en: 'Disabled',
+  },
+  unloaded: {
+    zh: '未初始化',
+    en: 'Unloaded',
   },
   auth: {
     en: 'Authentication',
