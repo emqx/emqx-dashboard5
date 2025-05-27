@@ -31,12 +31,22 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="t('Extension.maxPayloadSize')">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="t('Extension.maxPayloadSize')"
+                :desc="tl('maxPayloadSizeDesc')"
+              />
+            </template>
             <CustomInputNumber
               v-model.number="nValue.protocol.max_payload_size"
               :min="0"
               :placeholder="String(nValueDefault.protocol.max_payload_size)"
-            />
+            >
+              <template #suffix>
+                <span>Bytes</span>
+              </template>
+            </CustomInputNumber>
           </el-form-item>
         </el-col>
         <el-col :span="12">

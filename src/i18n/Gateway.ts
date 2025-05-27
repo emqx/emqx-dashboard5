@@ -590,4 +590,8 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '客户端信息覆盖',
     en: 'Client Info Override',
   },
+  maxPayloadSizeDesc: {
+    zh: 'NATS PUB/HPUB 消息的 Payload 最大字节数',
+    en: 'The maximum number of bytes of Payload allowed per NATS PUB/HPUB message.',
+  },
 }
