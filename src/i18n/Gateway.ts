@@ -574,4 +574,20 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: 'JSON Schema ID 前缀',
     en: 'JSON Schema ID Prefix',
   },
+  serverId: {
+    zh: '服务 ID',
+    en: 'Server ID',
+  },
+  serverName: {
+    zh: '服务名称',
+    en: 'Server Name',
+  },
+  heartbeatWaitTimeout: {
+    zh: '心跳超时阈值',
+    en: 'Heartbeat Timeout Threshold',
+  },
+  clientInfoOverride: {
+    zh: '客户端信息覆盖',
+    en: 'Client Info Override',
+  },
 }
