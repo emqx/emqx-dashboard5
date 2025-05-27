@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper gateway-detail">
+  <div class="app-wrapper gateway-detail with-padding-bottom">
     <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }">
       <template #content>
         <div class="vertical-align-center">

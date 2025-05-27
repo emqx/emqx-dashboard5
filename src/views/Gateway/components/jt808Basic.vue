@@ -178,17 +178,9 @@ const rules: any = computed(() => {
 
 const { tl } = useI18nTl('Gateway')
 
-const getFormRuleValide = () => {
-  return new Promise((resolve) => {
-    refForm.value?.validate((valid: boolean) => {
-      resolve(valid)
-    })
-  })
-}
+const validate = () => refForm.value?.validate?.()
 
-defineExpose({
-  getFormRuleValide,
-})
+defineExpose({ validate })
 
 watch(jValue, (v) => {
   emit('update:value', v)

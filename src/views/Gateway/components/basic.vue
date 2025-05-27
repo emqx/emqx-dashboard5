@@ -1,30 +1,7 @@
 <template>
   <el-card>
     <div class="basic-info" v-loading="infoLoading">
-      <template v-if="name === 'stomp'">
-        <stomp-basic v-model:value="basicData" :key="iKey" />
-      </template>
-      <template v-else-if="name === 'mqttsn'">
-        <mqttsn-basic v-model:value="basicData" :key="iKey" />
-      </template>
-      <template v-else-if="name === 'coap'">
-        <coap-basic v-model:value="basicData" :key="iKey" />
-      </template>
-      <template v-else-if="name === 'lwm2m'">
-        <lwm2m-basic v-model:value="basicData" :key="iKey" />
-      </template>
-      <template v-else-if="name === 'exproto'">
-        <exproto-basic v-model:value="basicData" :key="iKey" is-edit />
-      </template>
-      <template v-else-if="name === 'gbt32960'">
-        <gbt32960-basic v-model:value="basicData" :key="iKey" is-edit />
-      </template>
-      <template v-else-if="name === 'jt808'">
-        <jt808-basic v-model:value="basicData" :key="iKey" is-edit />
-      </template>
-      <template v-else-if="name === 'ocpp'">
-        <ocpp-basic v-model:value="basicData" :key="iKey" is-edit />
-      </template>
+      <GatewayForm :name="name" v-model:value="basicData" :key="iKey" is-edit />
       <el-button
         type="primary"
         :loading="updateLoading"
@@ -39,14 +16,7 @@
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
 import { GatewayName } from '@/types/enum'
-import CoapBasic from './coapBasic.vue'
-import ExprotoBasic from './exprotoBasic.vue'
-import Gbt32960Basic from './gbt32960Basic.vue'
-import Jt808Basic from './jt808Basic.vue'
-import Lwm2mBasic from './lwm2mBasic.vue'
-import MqttsnBasic from './mqttsnBasic.vue'
-import OcppBasic from './ocppBasic.vue'
-import StompBasic from './stompBasic.vue'
+import GatewayForm from './gatewayForm.vue'
 
 const basicData = ref<any>({})
 const infoLoading = ref(false)
@@ -54,7 +24,7 @@ const updateLoading = ref(false)
 const { t } = useI18n()
 const iKey = ref(0)
 const route = useRoute()
-const name = String(route.params.name).toLowerCase()
+const name = String(route.params.name).toLowerCase() as GatewayName
 
 const loadGatewayInfo = async () => {
   infoLoading.value = true

@@ -13,30 +13,7 @@
       </el-row>
       <el-row class="config-main">
         <el-col :span="18" v-if="stepActive === 0" class="config-basic">
-          <template v-if="gname === 'stomp'">
-            <stomp-basic v-model:value="basicData" />
-          </template>
-          <template v-else-if="gname === 'mqttsn'">
-            <mqttsn-basic v-model:value="basicData"></mqttsn-basic>
-          </template>
-          <template v-else-if="gname === 'coap'">
-            <coap-basic v-model:value="basicData"></coap-basic>
-          </template>
-          <template v-else-if="gname === 'lwm2m'">
-            <lw-basic v-model:value="basicData"></lw-basic>
-          </template>
-          <template v-else-if="gname === 'exproto'">
-            <exproto-basic v-model:value="basicData"></exproto-basic>
-          </template>
-          <template v-else-if="gname === 'gbt32960'">
-            <gbt32960-basic v-model:value="basicData"></gbt32960-basic>
-          </template>
-          <template v-else-if="gname === 'jt808'">
-            <jt808-basic ref="jt808BasicRef" v-model:value="basicData"></jt808-basic>
-          </template>
-          <template v-else-if="gname === 'ocpp'">
-            <ocpp-basic v-model:value="basicData"></ocpp-basic>
-          </template>
+          <GatewayForm ref="FormRef" :name="gname" v-model:value="basicData" />
         </el-col>
 
         <el-col :span="24" v-else-if="stepActive === 1">
@@ -91,15 +68,8 @@ import { getGateway, updateGateway } from '@/api/gateway'
 import { GatewayName } from '@/types/enum'
 import { GatewayListener } from '@/types/typeAlias'
 import { ElMessage as M } from 'element-plus'
-import CoapBasic from './components/coapBasic.vue'
-import ExprotoBasic from './components/exprotoBasic.vue'
-import Gbt32960Basic from './components/gbt32960Basic.vue'
-import Jt808Basic from './components/jt808Basic.vue'
+import GatewayForm from './components/gatewayForm.vue'
 import Listeners from './components/listeners.vue'
-import LwBasic from './components/lwm2mBasic.vue'
-import MqttsnBasic from './components/mqttsnBasic.vue'
-import OcppBasic from './components/ocppBasic.vue'
-import StompBasic from './components/stompBasic.vue'
 
 type GatewayData = any
 
@@ -176,7 +146,7 @@ const { tl } = useI18nTl('Gateway')
 const { t } = useI18n()
 const { handleExprotoData } = useHandleGatewayData()
 const { transGatewayName } = useTransName()
-const jt808BasicRef = ref()
+const FormRef = ref()
 
 const stepActive = ref(0)
 const basicData = ref<GatewayData>({})
@@ -240,7 +210,7 @@ const validNext = async () => {
     }
   }
   if (gname === 'jt808' && stepActive.value === 0) {
-    return await jt808BasicRef.value?.getFormRuleValide()
+    return FormRef.value?.validate()
   }
   return Promise.resolve(true)
 }
