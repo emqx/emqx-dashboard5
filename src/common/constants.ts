@@ -67,6 +67,7 @@ export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
   | ExProto | ✔︎                 | ✔︎     | ✔︎       | ✔︎          | ✔︎     | ✔︎    |
   | MQTT-SN |                   |       |         |            |       |      |
   | LwM2M   |                   |       |         |            |       |      |
+  | NATS    | ✔︎                 | ✔︎     | ✔︎       | ✔︎          | ✔︎     | ✔︎    |
 */
 
 export const GATEWAY_ENABLED_MECHANISM_MAP = {
@@ -78,6 +79,7 @@ export const GATEWAY_ENABLED_MECHANISM_MAP = {
   [GatewayName.GBT32960]: [AuthnMechanismType.PasswordBased],
   [GatewayName.JT808]: [],
   [GatewayName.OCPP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.NATS]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
 }
 
 const usefulDatabaseTypeArr = [
@@ -95,6 +97,7 @@ export const GATEWAY_ENABLED_DATABASES_MAP = {
   [GatewayName.MQTT_SN]: [DatabasesType.HTTPServer],
   [GatewayName.LwM2M]: [DatabasesType.HTTPServer],
   [GatewayName.GBT32960]: [DatabasesType.HTTPServer],
+  [GatewayName.NATS]: usefulDatabaseTypeArr,
 }
 
 /* 
@@ -108,6 +111,7 @@ export const GATEWAY_ENABLED_DATABASES_MAP = {
   | OCPP    |      |      |      |      | ✔︎   | ✔︎   |
   | JT808   | ✔︎    |      | ✔︎    |      |     |     |
   | GB32960 | ✔︎    |      | ✔︎    |      |     |     |
+  | NATS    | ✔︎    |      | ✔︎    |      | ✔︎   | ✔︎   |
 */
 export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTypeForGateway>> = {
   [GatewayName.CoAP]: [
@@ -152,6 +156,7 @@ export const GATEWAY_DISABLED_LISTENER_TYPE_MAP: Record<string, Array<ListenerTy
     ListenerTypeForGateway.TCP,
     ListenerTypeForGateway.SSL,
   ],
+  [GatewayName.NATS]: [ListenerTypeForGateway.UDP, ListenerTypeForGateway.DTLS],
 }
 
 export const DEFAULT_ZONE = 'default'
