@@ -10,6 +10,7 @@ import {
   EmqxGatewayApiUpdateStomp,
   EmqxGatewayApiUpdateLwm2m,
   EmqxGatewayApiUpdateMqttsn,
+  EmqxGatewayApiGatewayOverview,
 } from './schemas/gateways.schemas'
 import type { Merge, ValueOf } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
@@ -205,3 +206,6 @@ export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersi
 
 /* MULTI-TENANCY */
 export type GetNamespaceListParams = GetMtManagedNsListParams
+
+/* GATEWAY */
+export type GatewayItem = EmqxGatewayApiGatewayOverview

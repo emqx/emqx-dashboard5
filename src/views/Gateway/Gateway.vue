@@ -3,10 +3,12 @@
     <el-table :data="tbData" v-loading="tbLoading" :row-class-name="getRowClassName">
       <el-table-column :label="tl('name')" :min-width="180">
         <template #default="{ row }">
-          <span
+          <img
             class="g-icon"
-            :class="[`g-${row.name}`, row.name === 'stomp' ? 'img-black' : '']"
-          ></span>
+            :class="{ 'img-black': row.name === 'stomp' }"
+            :src="getImg(`gateway/${row.name}.png`)"
+            :alt="`${row.name}-icon`"
+          />
           <span class="g-title">{{ transGatewayName(row.name) }}</span>
         </template>
       </el-table-column>
@@ -24,7 +26,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="100">
+      <el-table-column prop="enable" :label="t('Base.isEnabled')" :min-width="100">
         <template #default="{ row }">
           <el-switch
             v-if="hasBeenInitialized(row)"
@@ -36,7 +38,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="276">
+      <el-table-column :label="t('Base.operation')" :min-width="276">
         <template #default="{ row }">
           <template v-if="hasBeenInitialized(row)">
             <TableButton :disabled="isUnload(row.status)" @click="goSettingPage(row)">
@@ -60,106 +62,83 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { getGatewayList, toggleGatewayEnable } from '@/api/gateway'
 import { GatewayStatus } from '@/types/enum'
-import { GatewayItem } from '@/types/gateway'
+import { GatewayItem } from '@/types/typeAlias'
 import { ElMessage as M } from 'element-plus'
 
-export default defineComponent({
-  name: 'Gateway',
-  setup() {
-    const tbData = ref<GatewayItem[]>([])
-    const tbLoading = ref(false)
-    const enableStr = GatewayStatus.Running
-    const disableStr = GatewayStatus.Stopped
-    const unloadStr = GatewayStatus.Unloaded
-    const router = useRouter()
+const tbData = ref<GatewayItem[]>([])
+const tbLoading = ref(false)
+const enableStr = GatewayStatus.Running
+const disableStr = GatewayStatus.Stopped
+const unloadStr = GatewayStatus.Unloaded
+const router = useRouter()
 
-    const { transGatewayName } = useTransName()
+const { transGatewayName } = useTransName()
 
-    const { tl, t } = useI18nTl('Gateway')
+const { tl, t } = useI18nTl('Gateway')
 
-    const isRunning = (status: string) => caseInsensitiveCompare(status, enableStr)
-    const isUnload = (status: string) => caseInsensitiveCompare(status, unloadStr)
+const isRunning = (status: string) => caseInsensitiveCompare(status, enableStr)
+const isUnload = (status: string) => caseInsensitiveCompare(status, unloadStr)
 
-    const loadGateway = async () => {
-      tbLoading.value = true
-      tbData.value = []
-      try {
-        const res: Array<GatewayItem> = await getGatewayList()
-        tbData.value = res.sort((a, b) => a.status.localeCompare(b.status))
-      } catch (error) {
-        //
-      } finally {
-        tbLoading.value = false
-      }
+const loadGateway = async () => {
+  tbLoading.value = true
+  tbData.value = []
+  try {
+    const res: Array<GatewayItem> = await getGatewayList()
+    tbData.value = res.sort((a, b) => a.status?.localeCompare(b.status ?? '') ?? 0)
+  } catch (error) {
+    //
+  } finally {
+    tbLoading.value = false
+  }
+}
+
+const hasBeenInitialized = (item: any) => !isUnload(item.status)
+
+const getRowClassName = ({ row }: any) => (!hasBeenInitialized(row) ? 'is-disabled' : '')
+
+const setupGateway = (listener: any) => {
+  router.push({ name: 'gateway-create', params: { name: listener.name } })
+}
+
+const gatewayStartStop = async function (instance: any) {
+  const { name } = instance
+  try {
+    if (isRunning(instance.status)) {
+      await ElMessageBox.confirm(tl('disableGatewayTip'), {
+        confirmButtonText: t('Base.confirm'),
+        cancelButtonText: t('Base.cancel'),
+        type: 'warning',
+      })
     }
+    tbLoading.value = true
+    await toggleGatewayEnable(name, !isRunning(instance.status))
+    instance.status = isRunning(instance.status) ? disableStr : enableStr
+    M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
+  } catch (error) {
+    //
+  } finally {
+    tbLoading.value = false
+  }
+}
 
-    const hasBeenInitialized = (item: any) => !isUnload(item.status)
+const handleSwitchStatus = (gateway: any) => {
+  return gatewayStartStop(gateway)
+    .then(() => false)
+    .catch(() => true)
+}
 
-    const getRowClassName = ({ row }: any) => (!hasBeenInitialized(row) ? 'is-disabled' : '')
+const goSettingPage = ({ name }: { name: string }) => {
+  router.push({ name: 'gateway-detail-settings', params: { name } })
+}
 
-    const setupGateway = (listener: any) => {
-      router.push({ name: 'gateway-create', params: { name: listener.name } })
-    }
+const goClientPage = ({ name }: { name: string }) => {
+  router.push({ name: 'gateway-detail-clients', params: { name } })
+}
 
-    const gatewayStartStop = async function (instance: any) {
-      const { name } = instance
-      try {
-        if (isRunning(instance.status)) {
-          await ElMessageBox.confirm(tl('disableGatewayTip'), {
-            confirmButtonText: t('Base.confirm'),
-            cancelButtonText: t('Base.cancel'),
-            type: 'warning',
-          })
-        }
-        tbLoading.value = true
-        await toggleGatewayEnable(name, !isRunning(instance.status))
-        instance.status = isRunning(instance.status) ? disableStr : enableStr
-        M.success(isRunning(instance.status) ? t('Base.enableSuccess') : t('Base.disabledSuccess'))
-      } catch (error) {
-        //
-      } finally {
-        tbLoading.value = false
-      }
-    }
-
-    const handleSwitchStatus = (gateway: any) => {
-      return gatewayStartStop(gateway)
-        .then(() => false)
-        .catch(() => true)
-    }
-
-    const goSettingPage = ({ name }: { name: string }) => {
-      router.push({ name: 'gateway-detail-settings', params: { name } })
-    }
-
-    const goClientPage = ({ name }: { name: string }) => {
-      router.push({ name: 'gateway-detail-clients', params: { name } })
-    }
-
-    onMounted(loadGateway)
-
-    return {
-      t,
-      tl,
-      tbLoading,
-      tbData,
-      GatewayStatus,
-      isRunning,
-      isUnload,
-      INFINITY_VALUE,
-      hasBeenInitialized,
-      getRowClassName,
-      transGatewayName,
-      goSettingPage,
-      goClientPage,
-      setupGateway,
-      handleSwitchStatus,
-    }
-  },
-})
+onMounted(loadGateway)
 </script>
 
 <style lang="scss">
@@ -173,12 +152,9 @@ export default defineComponent({
       }
     }
   }
-  .g-icon::before {
+  .g-icon {
     width: 60px;
     height: 60px;
-    content: '';
-    display: inline-block;
-    background-size: contain;
   }
   .g-title {
     vertical-align: 23px;

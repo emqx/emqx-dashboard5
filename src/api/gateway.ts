@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
+import { GatewayItem } from '@/types/typeAlias'
 
-export function getGatewayList() {
+export function getGatewayList(): Promise<Array<GatewayItem>> {
   return http.get('/gateways')
 }
 
