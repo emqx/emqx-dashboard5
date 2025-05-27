@@ -3,7 +3,12 @@
     <detail-header :item="{ name: transGatewayName(gname), path: '/gateway' }">
       <template #content>
         <div class="vertical-align-center">
-          <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
+          <img
+            class="g-icon"
+            :class="{ 'img-black': gname === 'stomp' }"
+            :src="getImg(`gateway/${gname}.png`)"
+            :alt="`${gname}-icon`"
+          />
           <p class="block-title">{{ transGatewayName(gname) }}</p>
           <el-tag type="info" class="section-status">
             <span>
@@ -74,12 +79,9 @@ loadGatewayInfo()
   .el-page-header__content {
     line-height: 1;
   }
-  .g-icon::before {
+  .g-icon {
     width: 40px;
     height: 40px;
-    content: '';
-    display: inline-block;
-    background-size: contain;
   }
   .el-menu--horizontal {
     margin-bottom: 24px;

@@ -254,6 +254,7 @@ export enum GatewayName {
   GBT32960 = 'gbt32960',
   JT808 = 'jt808',
   OCPP = 'ocpp',
+  NATS = 'nats',
 }
 
 /**

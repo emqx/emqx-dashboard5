@@ -13,6 +13,7 @@ export default function useTransName(): {
       [GatewayName.GBT32960]: 'GB/T 32960',
       [GatewayName.JT808]: 'JT/T 808',
       [GatewayName.OCPP]: 'OCPP',
+      [GatewayName.NATS]: 'NATS',
     }
     return gatewayName[name]
   }
