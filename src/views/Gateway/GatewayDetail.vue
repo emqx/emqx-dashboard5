@@ -11,10 +11,13 @@
           />
           <p class="block-title">{{ transGatewayName(gname) }}</p>
           <el-tag type="info" class="section-status">
-            <span>
-              <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
-              <span>{{ gInfo.status }}</span>
-            </span>
+            <CheckIcon
+              :status="
+                gInfo.status === GatewayStatus.Running ? CheckStatus.Check : CheckStatus.Close
+              "
+              size="small"
+            />
+            <span>{{ getGatewayStatusLabel(gInfo.status) }}</span>
           </el-tag>
         </div>
       </template>
@@ -30,7 +33,8 @@
 
 <script setup lang="ts">
 import { getGateway } from '@/api/gateway'
-import { GatewayName } from '@/types/enum'
+import { useGatewayStatus } from '@/hooks/useTransName'
+import { CheckStatus, GatewayName, GatewayStatus } from '@/types/enum'
 
 const gInfo = ref<Record<string, any>>({})
 const route = useRoute()
@@ -43,6 +47,7 @@ const types = computed(() => {
   return comonTypes
 })
 const { transGatewayName } = useTransName()
+const { getGatewayStatusLabel } = useGatewayStatus()
 const { tl } = useI18nTl('Gateway')
 const matchedUrl = computed(() => {
   const currentPath = route.path || ''
@@ -78,6 +83,9 @@ loadGatewayInfo()
   }
   .el-page-header__content {
     line-height: 1;
+    .check-icon {
+      margin-right: 4px;
+    }
   }
   .g-icon {
     width: 40px;
