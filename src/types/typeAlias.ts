@@ -63,6 +63,7 @@ import type {
 } from './schemas/cluster.schemas'
 import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
 import type {
+  PostSchemaRegistryProtobufBundleBody,
   SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry,
   SchemaRegistryGetExternalHttp,
   SchemaRegistryPostExternalHttp,
@@ -168,6 +169,9 @@ export const ExternalSchemaType = {
 }
 export type ExternalSchema = SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry
 export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
+
+/* INTERNAL SCHEMA REGISTRY */
+export type SchemaRegistryProtobufBundle = PostSchemaRegistryProtobufBundleBody
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions

@@ -29,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { createSchema, querySchemaDetail } from '@/api/ruleengine'
+import { createProtobufBundleSchema, createSchema, querySchemaDetail } from '@/api/ruleengine'
 import { SchemaRegistryType } from '@/types/enum'
-import { SchemaRegistry } from '@/types/rule'
+import { SchemaRegistryCreationForm } from '@/types/rule'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
 /**
@@ -56,9 +56,8 @@ const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 
 const { createFormForCreatePage, handleFormDataForCreate } = useSchemaRegistryForm()
-
 const FormCom = ref()
-const formData: Ref<SchemaRegistry> = ref(createFormForCreatePage())
+const formData: Ref<SchemaRegistryCreationForm> = ref(createFormForCreatePage())
 const isSubmitting = ref(false)
 
 const checkClipStatus = async () => {
@@ -81,12 +80,14 @@ const submit = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    const ret = await createSchema(handleFormDataForCreate(formData.value))
+    const data = handleFormDataForCreate(formData.value)
+    const request = (data as any).type ? createSchema : createProtobufBundleSchema
+    const ret = await request(data)
     if (isInSinglePage.value) {
       ElMessage.success(t('Base.createSuccess'))
       router.push({ name: 'internal-schema' })
     } else {
-      emit('submitted', ret.name)
+      emit('submitted', ret.name as string)
     }
   } catch (error) {
     //

@@ -36,7 +36,21 @@
           </el-form-item>
         </el-col>
       </template>
-      <el-col :span="24" v-if="!isExternalHTTP">
+      <el-col :span="24" v-if="isProtobuf && !isEdit">
+        <el-form-item :label="tl('creationMethod')">
+          <el-radio-group v-model="protobufCreationMethod">
+            <el-radio
+              v-for="{ label, value } in protobufCreationMethodOpts"
+              :key="value"
+              :label="value"
+              :value="value"
+            >
+              {{ label }}
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24" v-if="showEditor">
         <el-form-item label="Schema" prop="source">
           <template #label>
             <span>Schema</span>
@@ -66,20 +80,47 @@
           {{ tl('generateFromJSON') }}
         </el-button>
       </el-col>
-      <el-col :span="24" v-else>
+      <el-col :span="24" v-else-if="isExternalHTTP">
         <HTTPSchemaRegistryParameters
           v-model="(schemaForm as SchemaRegistryExternalHttp).parameters"
           :is-edit="isEdit"
         />
       </el-col>
+      <template v-else-if="isUploadProtobuf">
+        <el-col :span="24">
+          <el-upload
+            class="object-uploader"
+            drag
+            :before-upload="setFile"
+            :show-file-list="false"
+            accept=".zip,.tar,.tar.gz,.gz,.tgz,.tar.bz2,.tar.xz"
+            :disabled="isUploading"
+          >
+            <div v-if="!file?.name">
+              <el-icon class="icon-plus">
+                <Plus class="icon-plus" />
+              </el-icon>
+              <span class="upload-placeholder">
+                {{ t('Plugins.dragFilePlaceholder') }}
+              </span>
+            </div>
+            <p class="file-name" v-else>{{ file.name }}</p>
+          </el-upload>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
+            <el-input v-model="schemaForm.root_proto_file" />
+          </el-form-item>
+        </el-col>
+      </template>
     </el-row>
     <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
   </el-form>
 </template>
 
 <script lang="ts" setup>
-import { SchemaRegistryType } from '@/types/enum'
-import { NormalSchemaRegistry, SchemaRegistry } from '@/types/rule'
+import { ProtobufCreationMethod, SchemaRegistryType } from '@/types/enum'
+import { NormalSchemaRegistry, SchemaRegistry, SchemaRegistryCreationForm } from '@/types/rule'
 import ajv from 'ajv'
 import Ajv04 from 'ajv-draft-04'
 import addFormats from 'ajv-formats'
@@ -96,11 +137,13 @@ import {
 } from 'vue'
 import HTTPSchemaRegistryParameters from './HTTPSchemaRegistryParameters.vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
-import { SchemaRegistryExternalHttp } from '@/types/typeAlias'
+import { SchemaRegistryExternalHttp, SchemaRegistryProtobufBundle } from '@/types/typeAlias'
+import { Plus } from '@element-plus/icons-vue'
+import { UploadRawFile } from 'element-plus'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<SchemaRegistry>,
+    type: Object as PropType<SchemaRegistry | SchemaRegistryCreationForm>,
     required: true,
   },
   isEdit: {
@@ -115,7 +158,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const schemaForm: WritableComputedRef<SchemaRegistry> = computed({
+const schemaForm: WritableComputedRef<SchemaRegistry | SchemaRegistryCreationForm> = computed({
   get() {
     return props.modelValue
   },
@@ -175,6 +218,7 @@ const rules = ref({
 })
 
 const isExternalHTTP = computed(() => schemaForm.value.type === SchemaRegistryType.ExternalHTTP)
+const isProtobuf = computed(() => schemaForm.value.type === SchemaRegistryType.Protobuf)
 
 const validate = () => FormCom.value.validate()
 
@@ -222,6 +266,35 @@ const setCompletionItems = (value: boolean) => {
 const disableCompletionItems = (monaco: any) => {
   monacoTarget = monaco
   setCompletionItems(false)
+}
+
+const protobufCreationMethodOpts = [
+  { label: tl('input'), value: ProtobufCreationMethod.Input },
+  { label: tl('uploadProtobufBundle'), value: ProtobufCreationMethod.UploadBundle },
+]
+
+const protobufCreationMethod = computed({
+  get() {
+    return schemaForm.value.protobuf_creation_method ?? ProtobufCreationMethod.Input
+  },
+  set(val) {
+    schemaForm.value.protobuf_creation_method = val
+  },
+})
+const isInputProtobuf = computed(
+  () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.Input,
+)
+const isUploadProtobuf = computed(
+  () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.UploadBundle,
+)
+
+const showEditor = computed(() => !isProtobuf.value || !isProtobuf.value || isInputProtobuf.value)
+
+const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundle).bundle)
+const isUploading = ref(false)
+
+const setFile = (f: UploadRawFile) => {
+  ;(schemaForm.value as SchemaRegistryProtobufBundle).bundle = f
 }
 
 onUnmounted(() => {
