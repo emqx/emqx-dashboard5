@@ -186,6 +186,11 @@ export enum SchemaRegistryType {
   ExternalHTTP = 'external_http',
 }
 
+export const enum ProtobufCreationMethod {
+  Input,
+  UploadBundle,
+}
+
 export enum NodeStatusClass {
   Success = 'success',
   Warning = 'warning',

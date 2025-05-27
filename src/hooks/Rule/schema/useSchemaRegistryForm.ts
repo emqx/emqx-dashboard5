@@ -1,11 +1,12 @@
-import { SchemaRegistryType } from '@/types/enum'
+import { ProtobufCreationMethod, SchemaRegistryType } from '@/types/enum'
 import {
   NormalSchemaRegistry,
   SchemaRegistry,
+  SchemaRegistryCreationForm,
   SchemaRegistryDetail,
   SchemaRegistryExternalHttpParameters,
 } from '@/types/rule'
-import { SchemaRegistryExternalHttp } from '@/types/typeAlias'
+import { SchemaRegistryExternalHttp, SchemaRegistryProtobufBundle } from '@/types/typeAlias'
 
 export default () => {
   const createRawNormalForm = (): NormalSchemaRegistry => ({
@@ -38,21 +39,43 @@ export default () => {
     parameters: createRawExternalHttpParams(),
   })
 
-  const createFormForCreatePage = () => ({
+  const createRawProtobufBundleForm = (): SchemaRegistryProtobufBundle => ({
+    bundle: undefined,
+    root_proto_file: '',
+  })
+
+  const createFormForCreatePage = (): SchemaRegistryCreationForm => ({
     ...createRawExternalHttpForm(),
     // the default type is avro
     ...createRawNormalForm(),
+    ...createRawProtobufBundleForm(),
+    protobuf_creation_method: ProtobufCreationMethod.Input,
   })
 
-  const handleFormDataForCreate = (
-    formData: SchemaRegistry | SchemaRegistryDetail,
-  ): SchemaRegistry => {
-    if (formData.type === SchemaRegistryType.ExternalHTTP) {
-      return checkNOmitFromObj(
-        pick(formData, ['name', 'type', 'description', 'parameters']),
-      ) as SchemaRegistryExternalHttp
+  const handleFormDataForCreate = (formData: SchemaRegistryCreationForm): SchemaRegistry => {
+    const {
+      name: n,
+      type,
+      description: d,
+      parameters,
+      bundle,
+      root_proto_file,
+      protobuf_creation_method,
+      source,
+    } = formData
+    const name = n as string
+    const description = d as string
+    if (type === SchemaRegistryType.ExternalHTTP) {
+      return { name, type, description, parameters }
+    } else if (protobuf_creation_method === ProtobufCreationMethod.UploadBundle) {
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('description', description)
+      formData.append('bundle', bundle as unknown as Blob)
+      formData.append('root_proto_file', root_proto_file as string)
+      return formData as unknown as SchemaRegistry
     }
-    return omit({ ...formData }, ['parameters']) as NormalSchemaRegistry
+    return { name, type, description, source }
   }
 
   const handleFormDataForUpdate = (

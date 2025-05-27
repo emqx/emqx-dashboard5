@@ -1,3 +1,4 @@
+import { Merge } from 'type-fest'
 import { BackendI18n, MetricsData, MetricsDataWithExtraData, PageParams, SSL } from './common'
 import {
   BridgeType,
@@ -5,6 +6,7 @@ import {
   ConnectorType,
   FallbackActionKind,
   MQTTBridgeDirection,
+  ProtobufCreationMethod,
   QoSLevel,
   SchemaRegistryType,
 } from './enum'
@@ -14,6 +16,8 @@ import {
   OpenAICompletion,
   RuleActionStatus,
   SchemaRegistryExternalHttp,
+  SchemaRegistryExternalHttpDetail,
+  SchemaRegistryProtobufBundle,
 } from './typeAlias'
 
 export interface NodeStatus {
@@ -302,7 +306,16 @@ export type NormalSchemaRegistry = {
   source: string
 }
 
-export type SchemaRegistry = NormalSchemaRegistry | SchemaRegistryExternalHttp
+export type SchemaRegistry =
+  | NormalSchemaRegistry
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryProtobufBundle
+
+export type SchemaRegistryCreationForm = Merge<
+  Merge<Merge<SchemaRegistryExternalHttp, NormalSchemaRegistry>, SchemaRegistryProtobufBundle>,
+  { protobuf_creation_method?: ProtobufCreationMethod }
+>
+
 export type SchemaRegistryDetail = SchemaRegistry | SchemaRegistryExternalHttpDetail
 
 export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['parameters']

@@ -11,7 +11,11 @@ import type {
   GenerateSQLPayload,
   GenerateSQLResponse,
 } from '@/types/rule'
-import type { ExternalSchema, ExternalSchemaMap } from '@/types/typeAlias'
+import type {
+  ExternalSchema,
+  ExternalSchemaMap,
+  SchemaRegistryProtobufBundle,
+} from '@/types/typeAlias'
 
 //Bridges
 export async function getBridgeList(): Promise<any> {
@@ -175,6 +179,18 @@ export const updateSchema = (
   schema: Omit<SchemaRegistry, 'name'>,
 ): Promise<SchemaRegistry> => {
   return http.put(`/schema_registry/${schemaName}`, schema)
+}
+
+export const createProtobufBundleSchema = (
+  data: SchemaRegistryProtobufBundle,
+): Promise<SchemaRegistry> => {
+  return http.post('/schema_registry_protobuf/bundle', data)
+}
+
+export const updateProtobufBundleSchema = (
+  schema: SchemaRegistryProtobufBundle,
+): Promise<SchemaRegistry> => {
+  return http.put(`/schema_registry_protobuf/bundle`, schema)
 }
 
 export const getExternalSchemas = (): Promise<ExternalSchemaMap> => {

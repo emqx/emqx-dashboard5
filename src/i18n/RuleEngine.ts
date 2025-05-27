@@ -1197,6 +1197,18 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: "名称将用于编解码函数中，示例：<br /><code>SELECT bin2hexstr(avro_encode('<external_schema_name>', json_decode(payload), <schema_id>))</code>",
     en: "The name will be used in the encoding and decoding functions, for example: <br /><code>SELECT bin2hexstr(avro_encode('<external_schema_name>', json_decode(payload), <schema_id>))</code>",
   },
+  creationMethod: {
+    zh: '创建方式',
+    en: 'Creation Method',
+  },
+  uploadProtobufBundle: {
+    zh: '上传 Protobuf 包',
+    en: 'Upload Protobuf Bundle',
+  },
+  rootProtoFile: {
+    zh: '主入口文件',
+    en: 'Root Proto File',
+  },
   externalHttp: {
     zh: '外部 HTTP',
     en: 'External HTTP',
