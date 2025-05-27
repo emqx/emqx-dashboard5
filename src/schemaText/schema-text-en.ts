@@ -142,13 +142,13 @@ For example:
 
 - \`500KB/s\`: Only 500 kilobytes per second will be received, and the remaining bytes will be dropped/rejected.
 - \`500MB/10s\`: Only 500 megabytes will be received every 10 seconds, and the remaining bytes will be dropped/rejected.`,
-    label: 'Data Publish Rate',
+    label: 'Packet Publish Rate',
   },
   bytes_burst: {
-    desc: `Number of bytes that can be sent in a burst, on top of regular \`Data Publish Rate\`.
+    desc: `Number of bytes that can be sent in a burst, on top of regular \`Packet Publish Rate\`.
 
 For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be sent in a short period of time.`,
-    label: 'Data Publish Burst',
+    label: 'Packet Publish Burst',
   },
   /* MQTT END */
   /* SESSION START */
