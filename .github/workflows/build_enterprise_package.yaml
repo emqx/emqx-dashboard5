@@ -10,6 +10,11 @@ on:
       - '**enterprise**'
       - 'dev/e/*'
   workflow_call:
+    secrets:
+      VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN:
+        required: true
+      VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN:
+        required: true
 
 jobs:
   build:
