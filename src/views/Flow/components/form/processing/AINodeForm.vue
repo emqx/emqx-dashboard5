@@ -89,7 +89,7 @@ const modelOptsMap = new Map([
       'gpt-3.5-turbo',
       'o3',
       'o3-mini',
-      'o1-pro',
+      // 'o1-pro',
       'o1',
     ],
   ],
