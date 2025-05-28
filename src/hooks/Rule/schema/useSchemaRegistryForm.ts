@@ -6,7 +6,11 @@ import {
   SchemaRegistryDetail,
   SchemaRegistryExternalHttpParameters,
 } from '@/types/rule'
-import { SchemaRegistryExternalHttp, SchemaRegistryProtobufBundle } from '@/types/typeAlias'
+import {
+  ProtobufBundleSourceType,
+  SchemaRegistryExternalHttp,
+  SchemaRegistryProtobufBundle,
+} from '@/types/typeAlias'
 
 export default () => {
   const createRawNormalForm = (): NormalSchemaRegistry => ({
@@ -78,11 +82,28 @@ export default () => {
     return { name, type, description, source }
   }
 
+  const handleDataForViewDetail = (data) => {
+    if (data.source.type === ProtobufBundleSourceType.bundle) {
+      return {
+        ...data,
+        protobuf_creation_method: ProtobufCreationMethod.UploadBundle,
+        bundle: undefined,
+        root_proto_file: data.source.root_proto_path,
+      }
+    }
+    return {
+      ...data,
+      protobuf_creation_method: ProtobufCreationMethod.Input,
+    }
+  }
+
+  const isProtobufBundleData = (data) => data instanceof FormData
+
   const handleFormDataForUpdate = (
     formData: SchemaRegistryDetail,
   ): Omit<SchemaRegistry, 'name'> => {
     const ret = handleFormDataForCreate(formData)
-    return omit(ret, 'name')
+    return isProtobufBundleData(ret) ? ret : omit(ret, 'name')
   }
 
   return {
@@ -90,6 +111,8 @@ export default () => {
     createRawExternalHttpForm,
     createFormForCreatePage,
     handleFormDataForCreate,
+    handleDataForViewDetail,
     handleFormDataForUpdate,
+    isProtobufBundleData,
   }
 }

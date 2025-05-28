@@ -55,7 +55,8 @@ const { t } = useI18nTl('RuleEngine')
 const isInSinglePage = ref(true)
 const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 
-const { createFormForCreatePage, handleFormDataForCreate } = useSchemaRegistryForm()
+const { createFormForCreatePage, handleFormDataForCreate, isProtobufBundleData } =
+  useSchemaRegistryForm()
 const FormCom = ref()
 const formData: Ref<SchemaRegistryCreationForm> = ref(createFormForCreatePage())
 const isSubmitting = ref(false)
@@ -81,7 +82,7 @@ const submit = async () => {
     isSubmitting.value = true
     await FormCom.value.validate()
     const data = handleFormDataForCreate(formData.value)
-    const request = (data as any).type ? createSchema : createProtobufBundleSchema
+    const request = isProtobufBundleData(data) ? createProtobufBundleSchema : createSchema
     const ret = await request(data)
     if (isInSinglePage.value) {
       ElMessage.success(t('Base.createSuccess'))

@@ -18,14 +18,14 @@
       </el-col>
       <el-col :span="8">
         <el-form-item :label="t('Base.note')" prop="description">
-          <el-input v-model="schemaForm.description" />
+          <el-input v-model="schemaForm.description" :disabled="isEdit && isProtobufBundle" />
         </el-form-item>
       </el-col>
       <template v-if="!fixedType">
         <el-col :span="8" />
         <el-col :span="8">
           <el-form-item :label="tl('type')" prop="type">
-            <el-select v-model="schemaForm.type">
+            <el-select v-model="schemaForm.type" :disabled="isEdit && isProtobufBundle">
               <el-option
                 v-for="{ label, value } in schemaTypeOpts"
                 :key="value"
@@ -36,9 +36,9 @@
           </el-form-item>
         </el-col>
       </template>
-      <el-col :span="24" v-if="isProtobuf && !isEdit">
+      <el-col :span="24" v-if="isProtobuf">
         <el-form-item :label="tl('creationMethod')">
-          <el-radio-group v-model="protobufCreationMethod">
+          <el-radio-group v-model="protobufCreationMethod" :disabled="isEdit">
             <el-radio
               v-for="{ label, value } in protobufCreationMethodOpts"
               :key="value"
@@ -87,31 +87,59 @@
         />
       </el-col>
       <template v-else-if="isUploadProtobuf">
-        <el-col :span="24">
-          <el-upload
-            class="object-uploader"
-            drag
-            :before-upload="setFile"
-            :show-file-list="false"
-            accept=".zip,.tar,.tar.gz,.gz,.tgz,.tar.bz2,.tar.xz"
-            :disabled="isUploading"
-          >
-            <div v-if="!file?.name">
-              <el-icon class="icon-plus">
-                <Plus class="icon-plus" />
+        <template v-if="isEdit && !isReplacingProtobufBundle">
+          <el-col :span="16">
+            <el-form-item prop="root_proto_file" class="path-view">
+              <template #label>
+                <span>{{ tl('protobufBundle') }}</span>
+                <el-upload
+                  :before-upload="setFile"
+                  :show-file-list="false"
+                  accept=".tar.gz,application/gzip"
+                  :disabled="isUploading"
+                >
+                  <el-button>{{ tl('reuploadProtobufBundle') }}</el-button>
+                </el-upload>
+              </template>
+              <el-input :model-value="`${t('Base.filePath')}: ${filePosition}`" disabled />
+              <el-icon class="icon-copy" :size="18" @click="copyText(filePosition)">
+                <DocumentCopy />
               </el-icon>
-              <span class="upload-placeholder">
-                {{ t('Plugins.dragFilePlaceholder') }}
-              </span>
-            </div>
-            <p class="file-name" v-else>{{ file.name }}</p>
-          </el-upload>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
-            <el-input v-model="schemaForm.root_proto_file" />
-          </el-form-item>
-        </el-col>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
+              <el-input :model-value="rootFileName" disabled readonly />
+              <el-icon class="icon-copy" :size="18" @click="copyText(rootFileName)">
+                <DocumentCopy />
+              </el-icon>
+            </el-form-item>
+          </el-col>
+        </template>
+        <template v-else>
+          <el-col :span="16">
+            <el-form-item :label="tl('protobufBundle')" prop="root_proto_file" class="upload-item">
+              <el-upload
+                :before-upload="setFile"
+                :show-file-list="false"
+                accept=".tar.gz,application/gzip"
+                :disabled="isUploading"
+                class="file-input-upload"
+              >
+                <el-input :model-value="file?.name" readonly>
+                  <template #suffix>
+                    <el-button link>{{ t('Base.selectFile') }}</el-button>
+                  </template>
+                </el-input>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
+              <el-input v-model="schemaForm.root_proto_file" />
+            </el-form-item>
+          </el-col>
+        </template>
       </template>
     </el-row>
     <JSONSchemaGeneratorDialog v-model="showJSONSchemaDialog" @submit="updateSchema" />
@@ -121,25 +149,19 @@
 <script lang="ts" setup>
 import { ProtobufCreationMethod, SchemaRegistryType } from '@/types/enum'
 import { NormalSchemaRegistry, SchemaRegistry, SchemaRegistryCreationForm } from '@/types/rule'
+import {
+  ProtobufBundleSourceType,
+  SchemaRegistryExternalHttp,
+  SchemaRegistryProtobufBundle,
+} from '@/types/typeAlias'
+import { DocumentCopy } from '@element-plus/icons-vue'
 import ajv from 'ajv'
 import Ajv04 from 'ajv-draft-04'
 import addFormats from 'ajv-formats'
 import draft6MetaSchema from 'ajv/dist/refs/json-schema-draft-06.json'
-import {
-  PropType,
-  WritableComputedRef,
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  onUnmounted,
-  ref,
-} from 'vue'
+import { UploadRawFile } from 'element-plus'
 import HTTPSchemaRegistryParameters from './HTTPSchemaRegistryParameters.vue'
 import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
-import { SchemaRegistryExternalHttp, SchemaRegistryProtobufBundle } from '@/types/typeAlias'
-import { Plus } from '@element-plus/icons-vue'
-import { UploadRawFile } from 'element-plus'
 
 const props = defineProps({
   modelValue: {
@@ -287,15 +309,43 @@ const isInputProtobuf = computed(
 const isUploadProtobuf = computed(
   () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.UploadBundle,
 )
+const isProtobufBundle = computed(
+  () => props.isEdit && props.modelValue.source?.type === ProtobufBundleSourceType.bundle,
+)
 
 const showEditor = computed(() => !isProtobuf.value || !isProtobuf.value || isInputProtobuf.value)
 
 const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundle).bundle)
 const isUploading = ref(false)
 
-const setFile = (f: UploadRawFile) => {
+const setFile = async (f: UploadRawFile) => {
   ;(schemaForm.value as SchemaRegistryProtobufBundle).bundle = f
+  isReplacingProtobufBundle.value = true
+  schemaForm.value.root_proto_file = ''
 }
+
+const { copyText } = useCopy()
+
+const isReplacingProtobufBundle = ref(false)
+const fileNameReg = /\/[^/]+$/
+const filePosition = computed(() => {
+  if (isProtobufBundle.value) {
+    return (schemaForm.value as SchemaRegistryProtobufBundle).source.root_proto_path?.replace(
+      fileNameReg,
+      '',
+    )
+  }
+  return ''
+})
+const rootFileName = computed(() => {
+  if (isProtobufBundle.value) {
+    const fileName = (
+      schemaForm.value as SchemaRegistryProtobufBundle
+    ).source.root_proto_path?.match(fileNameReg)?.[0]
+    return fileName?.slice(1)
+  }
+  return ''
+})
 
 onUnmounted(() => {
   setCompletionItems(true)
@@ -308,6 +358,29 @@ defineExpose({ validate })
 .schema-registry-form {
   .btn-schema {
     margin-bottom: 20px;
+  }
+  .file-input-upload {
+    width: 100%;
+  }
+  .upload-item {
+    :deep(.el-upload) {
+      width: 100%;
+    }
+  }
+  .icon-copy {
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 4px;
+  }
+  .path-view {
+    :deep(.el-form-item__label) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
 }
 </style>
