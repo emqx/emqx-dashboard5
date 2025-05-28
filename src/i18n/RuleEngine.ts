@@ -1205,6 +1205,14 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '上传 Protobuf 包',
     en: 'Upload Protobuf Bundle',
   },
+  protobufBundle: {
+    zh: 'Protobuf 包',
+    en: 'Protobuf Bundle',
+  },
+  reuploadProtobufBundle: {
+    zh: '重新上传 Protobuf 包',
+    en: 'Reupload Protobuf Bundle',
+  },
   rootProtoFile: {
     zh: '主入口文件',
     en: 'Root Proto File',

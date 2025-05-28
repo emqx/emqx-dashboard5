@@ -50,7 +50,12 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteSchema, querySchemaDetail, updateSchema } from '@/api/ruleengine'
+import {
+  deleteSchema,
+  querySchemaDetail,
+  updateSchema,
+  updateProtobufBundleSchema,
+} from '@/api/ruleengine'
 import { SchemaRegistryDetail } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
@@ -86,13 +91,17 @@ const statusData = computed(() => {
   }
 })
 
+const { handleFormDataForUpdate, handleDataForViewDetail, isProtobufBundleData } =
+  useSchemaRegistryForm()
+
 const getSchemaData = async () => {
   if (!schemaName.value) {
     return
   }
   try {
     isLoading.value = true
-    schemaData.value = await querySchemaDetail(schemaName.value)
+    const data = await querySchemaDetail(schemaName.value)
+    schemaData.value = handleDataForViewDetail(data)
   } catch (error) {
     //
   } finally {
@@ -101,12 +110,14 @@ const getSchemaData = async () => {
 }
 
 const isSubmitting = ref(false)
-const { handleFormDataForUpdate } = useSchemaRegistryForm()
 const handleUpdate = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    await updateSchema(schemaName.value, handleFormDataForUpdate(schemaData.value))
+    const data = handleFormDataForUpdate(schemaData.value)
+    await (isProtobufBundleData(data)
+      ? updateProtobufBundleSchema(data)
+      : updateSchema(schemaName.value, data))
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'internal-schema' })
   } catch (error) {

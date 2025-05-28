@@ -61,7 +61,10 @@ import type {
   GetCluster200,
   PutClusterLinksLinkNameBody,
 } from './schemas/cluster.schemas'
-import { SchemaRegistryConfluentSchemaRegistryType } from './schemas/schemaRegistry.schemas'
+import {
+  SchemaRegistryConfluentSchemaRegistryType,
+  SchemaRegistryProtobufBundleSourceType,
+} from './schemas/schemaRegistry.schemas'
 import type {
   PostSchemaRegistryProtobufBundleBody,
   SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry,
@@ -176,6 +179,7 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 
 /* INTERNAL SCHEMA REGISTRY */
 export type SchemaRegistryProtobufBundle = PostSchemaRegistryProtobufBundleBody
+export const ProtobufBundleSourceType = SchemaRegistryProtobufBundleSourceType
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
