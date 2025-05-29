@@ -92,7 +92,7 @@
       <template v-else-if="isUploadProtobuf">
         <template v-if="isEdit && !isReplacingProtobufBundle">
           <el-col :span="16">
-            <el-form-item prop="root_proto_file" class="path-view">
+            <el-form-item class="path-view">
               <template #label>
                 <span>{{ tl('protobufBundle') }}</span>
                 <el-upload
@@ -111,7 +111,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
+            <el-form-item :label="tl('rootProtoFile')">
               <el-input :model-value="rootFileName" disabled readonly />
               <el-icon class="icon-copy" :size="18" @click="copyText(rootFileName)">
                 <DocumentCopy />
@@ -121,7 +121,7 @@
         </template>
         <template v-else>
           <el-col :span="16">
-            <el-form-item :label="tl('protobufBundle')" prop="root_proto_file" class="upload-item">
+            <el-form-item :label="tl('protobufBundle')" prop="bundle" class="upload-item">
               <el-upload
                 :before-upload="setFile"
                 :show-file-list="false"
@@ -245,6 +245,8 @@ const rules = ref({
     },
   ],
   'parameters.url': createRequiredRule('URL'),
+  bundle: createRequiredRule(tl('protobufBundle'), 'select'),
+  root_proto_file: createRequiredRule(tl('rootProtoFile')),
 })
 
 const isExternalHTTP = computed(() => schemaForm.value.type === SchemaRegistryType.ExternalHTTP)
