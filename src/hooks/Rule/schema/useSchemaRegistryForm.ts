@@ -102,6 +102,11 @@ export default () => {
     return data
   }
 
+  const isProtobufBundleDetail = (data: SchemaRegistryDetail): boolean =>
+    data.type === SchemaRegistryType.Protobuf &&
+    typeof data.source === 'object' &&
+    data.source.type === ProtobufBundleSourceType.bundle
+
   const isProtobufBundleData = (data: SchemaRegistryCreateData): data is FormData =>
     data instanceof FormData
 
@@ -117,6 +122,7 @@ export default () => {
     handleFormDataForCreate,
     handleDataForViewDetail,
     handleFormDataForUpdate,
+    isProtobufBundleDetail,
     isProtobufBundleData,
   }
 }

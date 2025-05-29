@@ -13,13 +13,13 @@
     </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled="!$hasPermission('post')" command="copy">
+        <el-dropdown-item v-if="!hideDuplicate" :disabled="!$hasPermission('post')" command="copy">
           <el-icon><CopyDocument /></el-icon>
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
         <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
           <el-icon><Delete /></el-icon>
-          <span>{{ $t('Base.delete') }}</span>
+          <span>{{ t('Base.delete') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -41,11 +41,15 @@ defineProps({
     required: true,
     type: Object as PropType<SchemaRegistry>,
   },
+  hideDuplicate: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['duplicate', 'delete'])
 
-const { tl } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 
 const dropdownVisible: Ref<boolean> = ref(false)
 const dropdownVisibleChanged = (value: boolean) => {
