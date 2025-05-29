@@ -15,10 +15,12 @@ import {
   AnthropicCompletion,
   OpenAICompletion,
   RuleActionStatus,
+  SchemaRegistryDetail,
   SchemaRegistryExternalHttp,
-  SchemaRegistryExternalHttpDetail,
   SchemaRegistryProtobufBundle,
+  SchemaRegistryProtobufDetail,
 } from './typeAlias'
+import { UploadRawFile } from 'element-plus'
 
 export interface NodeStatus {
   node: string
@@ -311,12 +313,39 @@ export type SchemaRegistry =
   | SchemaRegistryExternalHttp
   | SchemaRegistryProtobufBundle
 
+type ProtobufMethodControl = {
+  protobuf_creation_method: ProtobufCreationMethod
+}
+
 export type SchemaRegistryCreationForm = Merge<
-  Merge<Merge<SchemaRegistryExternalHttp, NormalSchemaRegistry>, SchemaRegistryProtobufBundle>,
-  { protobuf_creation_method?: ProtobufCreationMethod }
+  Merge<
+    Merge<Merge<SchemaRegistryExternalHttp, NormalSchemaRegistry>, SchemaRegistryProtobufBundle>,
+    {
+      bundle: UploadRawFile
+    }
+  >,
+  ProtobufMethodControl
 >
 
-export type SchemaRegistryDetail = SchemaRegistry | SchemaRegistryExternalHttpDetail
+export type SchemaRegistryProtobufBundleEditForm = Merge<
+  ProtobufMethodControl &
+    SchemaRegistryProtobufDetail &
+    Pick<SchemaRegistryProtobufBundle, 'bundle' | 'root_proto_file'>,
+  { bundle: UploadRawFile }
+>
+
+export type SchemaRegistryEditForm =
+  | Exclude<SchemaRegistryDetail, SchemaRegistryProtobufDetail>
+  | SchemaRegistryProtobufBundleEditForm
+
+export type SchemaRegistryCreateData =
+  | NormalSchemaRegistry
+  | SchemaRegistryExternalHttp
+  | FormData<SchemaRegistryProtobufBundle>
+
+export type SchemaRegistryUpdateData =
+  | Omit<SchemaRegistryExternalHttp | NormalSchemaRegistry, 'name'>
+  | FormData<SchemaRegistryProtobufBundle>
 
 export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['parameters']
 

@@ -18,14 +18,17 @@
       </el-col>
       <el-col :span="8">
         <el-form-item :label="t('Base.note')" prop="description">
-          <el-input v-model="schemaForm.description" :disabled="isEdit && isProtobufBundle" />
+          <el-input
+            v-model="schemaForm.description"
+            :disabled="isEdit && isEditingProtobufBundle"
+          />
         </el-form-item>
       </el-col>
       <template v-if="!fixedType">
         <el-col :span="8" />
         <el-col :span="8">
           <el-form-item :label="tl('type')" prop="type">
-            <el-select v-model="schemaForm.type" :disabled="isEdit && isProtobufBundle">
+            <el-select v-model="schemaForm.type" :disabled="isEdit && isEditingProtobufBundle">
               <el-option
                 v-for="{ label, value } in schemaTypeOpts"
                 :key="value"
@@ -98,7 +101,7 @@
                   accept=".tar.gz,application/gzip"
                   :disabled="isUploading"
                 >
-                  <el-button>{{ tl('reuploadProtobufBundle') }}</el-button>
+                  <el-button link>{{ tl('reuploadProtobufBundle') }}</el-button>
                 </el-upload>
               </template>
               <el-input :model-value="`${t('Base.filePath')}: ${filePosition}`" disabled />
@@ -128,7 +131,7 @@
               >
                 <el-input :model-value="file?.name" readonly>
                   <template #suffix>
-                    <el-button link>{{ t('Base.selectFile') }}</el-button>
+                    <el-button link type="primary">{{ t('Base.selectFile') }}</el-button>
                   </template>
                 </el-input>
               </el-upload>
@@ -136,7 +139,7 @@
           </el-col>
           <el-col :span="16">
             <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
-              <el-input v-model="schemaForm.root_proto_file" />
+              <el-input v-model="(schemaForm as any).root_proto_file" />
             </el-form-item>
           </el-col>
         </template>
@@ -148,7 +151,12 @@
 
 <script lang="ts" setup>
 import { ProtobufCreationMethod, SchemaRegistryType } from '@/types/enum'
-import { NormalSchemaRegistry, SchemaRegistry, SchemaRegistryCreationForm } from '@/types/rule'
+import {
+  NormalSchemaRegistry,
+  SchemaRegistryCreationForm,
+  SchemaRegistryEditForm,
+  SchemaRegistryProtobufBundleEditForm,
+} from '@/types/rule'
 import {
   ProtobufBundleSourceType,
   SchemaRegistryExternalHttp,
@@ -165,7 +173,7 @@ import JSONSchemaGeneratorDialog from './JSONSchemaGeneratorDialog.vue'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<SchemaRegistry | SchemaRegistryCreationForm>,
+    type: Object as PropType<SchemaRegistryEditForm | SchemaRegistryCreationForm>,
     required: true,
   },
   isEdit: {
@@ -180,14 +188,15 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const schemaForm: WritableComputedRef<SchemaRegistry | SchemaRegistryCreationForm> = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emit('update:modelValue', val)
-  },
-})
+const schemaForm: WritableComputedRef<SchemaRegistryEditForm | SchemaRegistryCreationForm> =
+  computed({
+    get() {
+      return props.modelValue
+    },
+    set(val) {
+      emit('update:modelValue', val)
+    },
+  })
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -240,6 +249,7 @@ const rules = ref({
 })
 
 const isExternalHTTP = computed(() => schemaForm.value.type === SchemaRegistryType.ExternalHTTP)
+
 const isProtobuf = computed(() => schemaForm.value.type === SchemaRegistryType.Protobuf)
 
 const validate = () => FormCom.value.validate()
@@ -297,9 +307,15 @@ const protobufCreationMethodOpts = [
 
 const protobufCreationMethod = computed({
   get() {
+    if (schemaForm.value.type !== SchemaRegistryType.Protobuf) {
+      return ProtobufCreationMethod.Input
+    }
     return schemaForm.value.protobuf_creation_method ?? ProtobufCreationMethod.Input
   },
   set(val) {
+    if (schemaForm.value.type !== SchemaRegistryType.Protobuf) {
+      return
+    }
     schemaForm.value.protobuf_creation_method = val
   },
 })
@@ -309,17 +325,25 @@ const isInputProtobuf = computed(
 const isUploadProtobuf = computed(
   () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.UploadBundle,
 )
-const isProtobufBundle = computed(
-  () => props.isEdit && props.modelValue.source?.type === ProtobufBundleSourceType.bundle,
+
+const isEditingProtobufBundle = computed(
+  () =>
+    props.isEdit &&
+    props.modelValue.type === SchemaRegistryType.Protobuf &&
+    typeof props.modelValue.source === 'object' &&
+    props.modelValue.source?.type === ProtobufBundleSourceType.bundle,
 )
 
 const showEditor = computed(() => !isProtobuf.value || !isProtobuf.value || isInputProtobuf.value)
 
-const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundle).bundle)
+const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundleEditForm).bundle)
 const isUploading = ref(false)
 
 const setFile = async (f: UploadRawFile) => {
-  ;(schemaForm.value as SchemaRegistryProtobufBundle).bundle = f
+  if (schemaForm.value.type !== SchemaRegistryType.Protobuf) {
+    return
+  }
+  schemaForm.value.bundle = f
   isReplacingProtobufBundle.value = true
   schemaForm.value.root_proto_file = ''
 }
@@ -329,19 +353,26 @@ const { copyText } = useCopy()
 const isReplacingProtobufBundle = ref(false)
 const fileNameReg = /\/[^/]+$/
 const filePosition = computed(() => {
-  if (isProtobufBundle.value) {
-    return (schemaForm.value as SchemaRegistryProtobufBundle).source.root_proto_path?.replace(
-      fileNameReg,
-      '',
-    )
+  if (
+    schemaForm.value.type !== SchemaRegistryType.Protobuf ||
+    typeof schemaForm.value.source !== 'object'
+  ) {
+    return ''
+  }
+  if (isEditingProtobufBundle.value) {
+    return schemaForm.value.source.root_proto_path?.replace(fileNameReg, '')
   }
   return ''
 })
 const rootFileName = computed(() => {
-  if (isProtobufBundle.value) {
-    const fileName = (
-      schemaForm.value as SchemaRegistryProtobufBundle
-    ).source.root_proto_path?.match(fileNameReg)?.[0]
+  if (isEditingProtobufBundle.value) {
+    if (
+      schemaForm.value.type !== SchemaRegistryType.Protobuf ||
+      typeof schemaForm.value.source !== 'object'
+    ) {
+      return ''
+    }
+    const fileName = schemaForm.value.source.root_proto_path?.match(fileNameReg)?.[0]
     return fileName?.slice(1)
   }
   return ''
@@ -373,6 +404,7 @@ defineExpose({ validate })
     top: 50%;
     transform: translateY(-50%);
     margin-left: 4px;
+    cursor: pointer;
   }
   .path-view {
     :deep(.el-form-item__label) {

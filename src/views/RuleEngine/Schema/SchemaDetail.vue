@@ -53,19 +53,19 @@
 import {
   deleteSchema,
   querySchemaDetail,
-  updateSchema,
   updateProtobufBundleSchema,
+  updateSchema,
 } from '@/api/ruleengine'
-import { SchemaRegistryDetail } from '@/types/rule'
+import { ConnectionStatus, SchemaRegistryType } from '@/types/enum'
+import { SchemaRegistryEditForm } from '@/types/rule'
 import { Delete } from '@element-plus/icons-vue'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
-import { ConnectionStatus, SchemaRegistryType } from '@/types/enum'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18nTl('RuleEngine')
 
-const schemaData = ref<SchemaRegistryDetail>({} as SchemaRegistryDetail)
+const schemaData = ref<SchemaRegistryEditForm>({} as SchemaRegistryEditForm)
 const isLoading = ref(false)
 
 const FormCom = ref()
@@ -80,7 +80,11 @@ const getStatusLabelNClass = (status: ConnectionStatus) => ({
   statusClass: getStatusClass(status),
 })
 const statusData = computed(() => {
-  const { status, node_status = {} } = schemaData.value
+  if (schemaData.value.type !== SchemaRegistryType.ExternalHTTP) {
+    return
+  }
+  const { status: s, node_status = {} } = schemaData.value
+  const status = s as ConnectionStatus
   return {
     details: Object.entries(node_status).map(([node, status]) => ({
       node,
