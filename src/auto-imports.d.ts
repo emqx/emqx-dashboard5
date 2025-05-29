@@ -379,6 +379,7 @@ declare global {
   const useGenerateFlowDataUtils: typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']
   const useGetInfoFromComponents: typeof import('./hooks/Rule/bridge/useGetInfoFromComponents')['default']
   const useGetInfoFromQuery: typeof import('./hooks/useGetInfoFromQuery')['default']
+  const useGetRootFiles: typeof import('./hooks/Rule/schema/useGetRootFiles')['default']
   const useGuide: typeof import('./hooks/useGuide')['default']
   const useHTTPConfigForm: typeof import('./hooks/Auth/useHTTPConfigForm')['default']
   const useHandleActionItem: typeof import('./hooks/Rule/action/useHandleActionItem')['default']
@@ -952,6 +953,7 @@ declare module 'vue' {
     readonly useGenerateFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']>
     readonly useGetInfoFromComponents: UnwrapRef<typeof import('./hooks/Rule/bridge/useGetInfoFromComponents')['default']>
     readonly useGetInfoFromQuery: UnwrapRef<typeof import('./hooks/useGetInfoFromQuery')['default']>
+    readonly useGetRootFiles: UnwrapRef<typeof import('./hooks/Rule/schema/useGetRootFiles')['default']>
     readonly useGuide: UnwrapRef<typeof import('./hooks/useGuide')['default']>
     readonly useHTTPConfigForm: UnwrapRef<typeof import('./hooks/Auth/useHTTPConfigForm')['default']>
     readonly useHandleActionItem: UnwrapRef<typeof import('./hooks/Rule/action/useHandleActionItem')['default']>

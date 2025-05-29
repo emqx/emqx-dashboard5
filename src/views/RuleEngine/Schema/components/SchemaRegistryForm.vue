@@ -139,7 +139,19 @@
           </el-col>
           <el-col :span="16">
             <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
-              <el-input v-model="(schemaForm as any).root_proto_file" />
+              <el-select
+                v-model="(schemaForm as any).root_proto_file"
+                filterable
+                allow-create
+                default-first-option
+              >
+                <el-option
+                  v-for="option in rootProtoFileOptions"
+                  :key="option"
+                  :label="option"
+                  :value="option"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </template>
@@ -157,11 +169,7 @@ import {
   SchemaRegistryEditForm,
   SchemaRegistryProtobufBundleEditForm,
 } from '@/types/rule'
-import {
-  ProtobufBundleSourceType,
-  SchemaRegistryExternalHttp,
-  SchemaRegistryProtobufBundle,
-} from '@/types/typeAlias'
+import { ProtobufBundleSourceType, SchemaRegistryExternalHttp } from '@/types/typeAlias'
 import { DocumentCopy } from '@element-plus/icons-vue'
 import ajv from 'ajv'
 import Ajv04 from 'ajv-draft-04'
@@ -339,11 +347,14 @@ const showEditor = computed(() => !isProtobuf.value || !isProtobuf.value || isIn
 const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundleEditForm).bundle)
 const isUploading = ref(false)
 
+const { getGzipRootFiles } = useGetRootFiles()
+const rootProtoFileOptions = ref<string[]>([])
 const setFile = async (f: UploadRawFile) => {
   if (schemaForm.value.type !== SchemaRegistryType.Protobuf) {
     return
   }
   schemaForm.value.bundle = f
+  rootProtoFileOptions.value = await getGzipRootFiles(f)
   isReplacingProtobufBundle.value = true
   schemaForm.value.root_proto_file = ''
 }
