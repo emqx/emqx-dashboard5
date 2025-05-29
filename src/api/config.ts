@@ -9,7 +9,12 @@ import {
   Zone,
   Zones,
 } from '@/types/config'
-import { FileTransferConf, GetNamespaceListParams, NamespaceConfig } from '@/types/typeAlias'
+import {
+  FileTransferConf,
+  GetNamespaceListParams,
+  NamespaceConfig,
+  NamespaceDetailItem,
+} from '@/types/typeAlias'
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -85,6 +90,14 @@ export const deleteManagedNamespace = (namespace: string): Promise<void> =>
 
 export const createManagedNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}`)
+
+export const getManagedDetailNamespaceList = (
+  params: GetNamespaceListParams,
+): Promise<Array<NamespaceDetailItem>> => http.get('/mt/managed_ns_list_details', { params })
+
+export const getDetailNamespaceList = (
+  params: GetNamespaceListParams,
+): Promise<Array<NamespaceDetailItem>> => http.get('/mt/ns_list_details', { params })
 
 export const getConfigs = (key?: string) => http.get('/configs', { params: { key } })
 
