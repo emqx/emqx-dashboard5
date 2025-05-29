@@ -320,9 +320,7 @@ type ProtobufMethodControl = {
 export type SchemaRegistryCreationForm = Merge<
   Merge<
     Merge<Merge<SchemaRegistryExternalHttp, NormalSchemaRegistry>, SchemaRegistryProtobufBundle>,
-    {
-      bundle: UploadRawFile
-    }
+    { bundle?: UploadRawFile }
   >,
   ProtobufMethodControl
 >
@@ -331,7 +329,7 @@ export type SchemaRegistryProtobufBundleEditForm = Merge<
   ProtobufMethodControl &
     SchemaRegistryProtobufDetail &
     Pick<SchemaRegistryProtobufBundle, 'bundle' | 'root_proto_file'>,
-  { bundle: UploadRawFile }
+  { bundle?: UploadRawFile }
 >
 
 export type SchemaRegistryEditForm =
