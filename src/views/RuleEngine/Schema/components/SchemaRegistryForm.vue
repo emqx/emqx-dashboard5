@@ -139,19 +139,10 @@
           </el-col>
           <el-col :span="16">
             <el-form-item :label="tl('rootProtoFile')" prop="root_proto_file">
-              <el-select
+              <InputWithOptions
                 v-model="(schemaForm as any).root_proto_file"
-                filterable
-                allow-create
-                default-first-option
-              >
-                <el-option
-                  v-for="option in rootProtoFileOptions"
-                  :key="option"
-                  :label="option"
-                  :value="option"
-                />
-              </el-select>
+                :options="rootProtoFileOptions"
+              />
             </el-form-item>
           </el-col>
         </template>
@@ -357,6 +348,7 @@ const setFile = async (f: UploadRawFile) => {
   rootProtoFileOptions.value = await getGzipRootFiles(f)
   isReplacingProtobufBundle.value = true
   schemaForm.value.root_proto_file = ''
+  return false
 }
 
 const { copyText } = useCopy()
