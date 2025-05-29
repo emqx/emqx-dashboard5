@@ -19,6 +19,7 @@
           </TableButton>
           <TableItemDropdown
             :row-data="row"
+            :hide-duplicate="isProtobufBundleDetail(row)"
             @duplicate="handleCopy(row.name)"
             @delete="handleDel(row.name)"
           />
@@ -40,6 +41,7 @@ const schemaList: Ref<Array<SchemaRegistry>> = ref([])
 const isLoading = ref(false)
 
 const { getLabelByValue } = useSchemaType()
+const { isProtobufBundleDetail } = useSchemaRegistryForm()
 
 const getSchemas = async () => {
   try {
