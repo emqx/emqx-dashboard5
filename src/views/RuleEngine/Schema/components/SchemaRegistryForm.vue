@@ -101,7 +101,7 @@
                   accept=".tar.gz,application/gzip"
                   :disabled="isUploading"
                 >
-                  <el-button link>{{ tl('reuploadProtobufBundle') }}</el-button>
+                  <el-button>{{ tl('reuploadProtobufBundle') }}</el-button>
                 </el-upload>
               </template>
               <el-input :model-value="`${t('Base.filePath')}: ${filePosition}`" disabled />

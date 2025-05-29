@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { createProtobufBundleSchema, createSchema, querySchemaDetail } from '@/api/ruleengine'
 import { SchemaRegistryType } from '@/types/enum'
-import { SchemaRegistryCreationForm, SchemaRegistryProtobufBundleEditForm } from '@/types/rule'
+import { SchemaRegistryCreationForm } from '@/types/rule'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
 /**
@@ -58,15 +58,18 @@ const { detectIsComInSinglePage } = useDetectIsComInSinglePage()
 const { createFormForCreatePage, handleFormDataForCreate, isProtobufBundleData } =
   useSchemaRegistryForm()
 const FormCom = ref()
-const formData: Ref<SchemaRegistryCreationForm | SchemaRegistryProtobufBundleEditForm> =
-  ref(createFormForCreatePage())
+const formData: Ref<SchemaRegistryCreationForm> = ref(createFormForCreatePage())
 const isSubmitting = ref(false)
 
 const checkClipStatus = async () => {
   const { query } = route
   if (query.action === 'copy' && query.target) {
     const schema = await querySchemaDetail(query.target.toString())
-    formData.value = { ...schema, name: countDuplicationName(schema.name) }
+    formData.value = {
+      ...createFormForCreatePage(),
+      ...schema,
+      name: countDuplicationName(schema.name),
+    } as SchemaRegistryCreationForm
   }
 }
 

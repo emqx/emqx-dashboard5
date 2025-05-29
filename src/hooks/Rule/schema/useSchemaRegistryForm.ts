@@ -12,7 +12,10 @@ import {
   SchemaRegistryDetail,
   SchemaRegistryExternalHttp,
   SchemaRegistryProtobufBundle,
+  SchemaRegistryProtobufDetail,
 } from '@/types/typeAlias'
+import { UploadRawFile } from 'element-plus'
+import { Merge } from 'type-fest'
 
 export default () => {
   const createRawNormalForm = (): NormalSchemaRegistry => ({
@@ -45,7 +48,10 @@ export default () => {
     parameters: createRawExternalHttpParams(),
   })
 
-  const createRawProtobufBundleForm = (): SchemaRegistryProtobufBundle => ({
+  const createRawProtobufBundleForm = (): Merge<
+    SchemaRegistryProtobufBundle,
+    { bundle?: UploadRawFile }
+  > => ({
     bundle: undefined,
     root_proto_file: '',
   })
@@ -70,7 +76,7 @@ export default () => {
       root_proto_file,
       protobuf_creation_method,
       source,
-    } = formData
+    } = formData as any
     const name = n as string
     const description = d as string
     if (type === SchemaRegistryType.ExternalHTTP) {
@@ -99,7 +105,7 @@ export default () => {
         root_proto_file: data.source.root_proto_path,
       }
     }
-    return data
+    return data as Exclude<SchemaRegistryDetail, SchemaRegistryProtobufDetail>
   }
 
   const isProtobufBundleDetail = (data: SchemaRegistryDetail): boolean =>
