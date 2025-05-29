@@ -66,9 +66,11 @@ import {
   SchemaRegistryProtobufBundleSourceType,
 } from './schemas/schemaRegistry.schemas'
 import type {
+  GetSchemaRegistryName200,
   PostSchemaRegistryProtobufBundleBody,
   SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry,
   SchemaRegistryGetExternalHttp,
+  SchemaRegistryGetProtobuf,
   SchemaRegistryPostExternalHttp,
 } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
@@ -180,6 +182,8 @@ export type ExternalSchemaMap = Record<string, Omit<ExternalSchema, 'name'>>
 /* INTERNAL SCHEMA REGISTRY */
 export type SchemaRegistryProtobufBundle = PostSchemaRegistryProtobufBundleBody
 export const ProtobufBundleSourceType = SchemaRegistryProtobufBundleSourceType
+export type SchemaRegistryDetail = GetSchemaRegistryName200
+export type SchemaRegistryProtobufDetail = SchemaRegistryGetProtobuf
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions

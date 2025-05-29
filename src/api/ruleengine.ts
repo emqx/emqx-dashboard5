@@ -14,6 +14,7 @@ import type {
 import type {
   ExternalSchema,
   ExternalSchemaMap,
+  SchemaRegistryDetail,
   SchemaRegistryProtobufBundle,
 } from '@/types/typeAlias'
 
@@ -170,7 +171,7 @@ export const deleteSchema = (schemaName: string): Promise<void> => {
   return http.delete(`/schema_registry/${schemaName}`)
 }
 
-export const querySchemaDetail = (schemaName: string): Promise<SchemaRegistry> => {
+export const querySchemaDetail = (schemaName: string): Promise<SchemaRegistryDetail> => {
   return http.get(`/schema_registry/${schemaName}`)
 }
 
@@ -187,9 +188,7 @@ export const createProtobufBundleSchema = (
   return http.post('/schema_registry_protobuf/bundle', data)
 }
 
-export const updateProtobufBundleSchema = (
-  schema: SchemaRegistryProtobufBundle,
-): Promise<SchemaRegistry> => {
+export const updateProtobufBundleSchema = (schema: FormData): Promise<SchemaRegistry> => {
   return http.put(`/schema_registry_protobuf/bundle`, schema)
 }
 

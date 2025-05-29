@@ -1,13 +1,15 @@
 import { ProtobufCreationMethod, SchemaRegistryType } from '@/types/enum'
 import {
   NormalSchemaRegistry,
-  SchemaRegistry,
+  SchemaRegistryCreateData,
   SchemaRegistryCreationForm,
-  SchemaRegistryDetail,
+  SchemaRegistryEditForm,
   SchemaRegistryExternalHttpParameters,
+  SchemaRegistryUpdateData,
 } from '@/types/rule'
 import {
   ProtobufBundleSourceType,
+  SchemaRegistryDetail,
   SchemaRegistryExternalHttp,
   SchemaRegistryProtobufBundle,
 } from '@/types/typeAlias'
@@ -56,7 +58,9 @@ export default () => {
     protobuf_creation_method: ProtobufCreationMethod.Input,
   })
 
-  const handleFormDataForCreate = (formData: SchemaRegistryCreationForm): SchemaRegistry => {
+  const handleFormDataForCreate = (
+    formData: SchemaRegistryCreationForm | SchemaRegistryEditForm,
+  ): SchemaRegistryCreateData => {
     const {
       name: n,
       type,
@@ -77,13 +81,17 @@ export default () => {
       formData.append('description', description)
       formData.append('bundle', bundle as unknown as Blob)
       formData.append('root_proto_file', root_proto_file as string)
-      return formData as unknown as SchemaRegistry
+      return formData
     }
     return { name, type, description, source }
   }
 
-  const handleDataForViewDetail = (data) => {
-    if (data.source.type === ProtobufBundleSourceType.bundle) {
+  const handleDataForViewDetail = (data: SchemaRegistryDetail): SchemaRegistryEditForm => {
+    if (
+      data.type === SchemaRegistryType.Protobuf &&
+      typeof data.source === 'object' &&
+      data.source.type === ProtobufBundleSourceType.bundle
+    ) {
       return {
         ...data,
         protobuf_creation_method: ProtobufCreationMethod.UploadBundle,
@@ -91,17 +99,13 @@ export default () => {
         root_proto_file: data.source.root_proto_path,
       }
     }
-    return {
-      ...data,
-      protobuf_creation_method: ProtobufCreationMethod.Input,
-    }
+    return data
   }
 
-  const isProtobufBundleData = (data) => data instanceof FormData
+  const isProtobufBundleData = (data: SchemaRegistryCreateData): data is FormData =>
+    data instanceof FormData
 
-  const handleFormDataForUpdate = (
-    formData: SchemaRegistryDetail,
-  ): Omit<SchemaRegistry, 'name'> => {
+  const handleFormDataForUpdate = (formData: SchemaRegistryEditForm): SchemaRegistryUpdateData => {
     const ret = handleFormDataForCreate(formData)
     return isProtobufBundleData(ret) ? ret : omit(ret, 'name')
   }
