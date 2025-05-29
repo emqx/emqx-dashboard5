@@ -35,7 +35,12 @@
           {{ row.config?.limiter?.client?.bytes?.rate ?? tl('noConfigured') }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.operation')" :min-width="168">
+      <el-table-column :label="t('Base.createdAt')" :min-width="164">
+        <template #default="{ row }">
+          {{ dateFormat(row.creation_date) }}
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('Base.operation')" :min-width="224">
         <template #default="{ row }">
           <el-tooltip
             placement="top"

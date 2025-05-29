@@ -1,13 +1,14 @@
 import {
   createManagedNamespace,
   deleteManagedNamespace,
+  getDetailNamespaceList,
+  getManagedDetailNamespaceList,
   getManagedNamespaceList,
   getNamespaceConfig,
-  getNamespaceList,
   updateNamespaceConfig as requestUpdateNamespaceConfig,
 } from '@/api/config'
 import { NamespaceItem } from '@/types/config'
-import { GetNamespaceListParams } from '@/types/typeAlias'
+import { GetNamespaceListParams, NamespaceDetailItem } from '@/types/typeAlias'
 
 export default () => {
   let totalManagedNamespaceList: Array<string> = []
@@ -29,12 +30,15 @@ export default () => {
       if (!hasFetchedAllManagedNamespaces) {
         await fetchAllManagedNamespaces()
       }
-      const namespaceNameList: Array<string> = await getNamespaceList(params)
-      const namespaceList: Array<NamespaceItem> = namespaceNameList.map((ns) => ({
-        ns,
-        config: {},
-        not_explicit_created: !totalManagedNamespaceList.includes(ns),
-      }))
+      const namespaceNameList: Array<NamespaceDetailItem> = await getDetailNamespaceList(params)
+      const namespaceList: Array<NamespaceItem> = namespaceNameList.map(
+        ({ name: ns, creation_date }) => ({
+          ns: ns || '',
+          creation_date,
+          config: {},
+          not_explicit_created: !ns || !totalManagedNamespaceList.includes(ns),
+        }),
+      )
       return Promise.resolve(namespaceList)
     } catch (error) {
       return Promise.reject(error)
@@ -45,9 +49,10 @@ export default () => {
     params: GetNamespaceListParams,
   ): Promise<Array<NamespaceItem>> => {
     try {
-      const managedNamespaceList = await getManagedNamespaceList(params)
-      const namespaceList: Array<NamespaceItem> = managedNamespaceList.map((ns) => ({
-        ns,
+      const managedNamespaceList = await getManagedDetailNamespaceList(params)
+      const namespaceList = managedNamespaceList.map(({ name: ns, creation_date }) => ({
+        ns: ns || '',
+        creation_date,
         config: {},
         not_explicit_created: false,
       }))
