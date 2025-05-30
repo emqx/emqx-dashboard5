@@ -140,12 +140,7 @@ export default (): {
         )
       }
       if (groupedProviders['true']) {
-        const providersNeedUpdate = groupedProviders['true']
-          .filter(({ isCreated, data }) => {
-            const isChanged = isCreated && data.api_key !== ENCRYPTED_PASSWORD
-            return isChanged
-          })
-          .map(({ data }) => data)
+        const providersNeedUpdate = groupedProviders['true'].map(({ data }) => data)
         await updateAIProviders(providersNeedUpdate.map((data) => data))
       }
       return Promise.resolve(createdNames)
