@@ -146,7 +146,7 @@ export default (): {
         if (!nodeArr[index].data.rulesUsed) {
           nodeArr[index].data.rulesUsed = []
         }
-        nodeArr[index].data.rulesUsed.push(...node.data.rulesUsed)
+        nodeArr[index].data.rulesUsed.push(...(node.data?.rulesUsed ?? []))
       } else {
         addedDirection === 'push' ? nodeArr.push(node) : nodeArr.unshift(node)
       }
@@ -226,20 +226,31 @@ export default (): {
    * for better layout organization, place it in the fallback action list.
    */
   const addNodeToFallbackNodes = (node: Node) => {
-    const sinkNodeIndex = sinkNodes.findIndex((item) => item.id === node.id)
-    if (sinkNodeIndex > -1) {
-      const rulesUsed = sinkNodes[sinkNodeIndex].data.rulesUsed
-      if (rulesUsed?.length) {
-        rulesUsed.forEach((rule: string) => addRuleIdToNode(node, rule))
+    try {
+      const sinkNodeIndex = sinkNodes.findIndex((item) => item.id === node.id)
+      if (sinkNodeIndex > -1) {
+        if (!node.data.rulesUsed) {
+          node.data.rulesUsed = []
+        }
+        const rulesUsed = sinkNodes[sinkNodeIndex].data.rulesUsed
+        if (rulesUsed?.length) {
+          rulesUsed.forEach((rule: string) => addRuleIdToNode(node, rule))
+        }
+        sinkNodes.splice(sinkNodeIndex, 1)
       }
-      sinkNodes.splice(sinkNodeIndex, 1)
+      addNodesToNodeArr([node], fallbackNodes)
+    } catch (error) {
+      console.error(error)
     }
-    addNodesToNodeArr([node], fallbackNodes)
   }
   const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
     const actionFallbackNodes: Array<Node> = []
     const actionFallbackEdges: Array<Edge> = []
     actionArr.forEach((item: Action) => {
+      // do not render action node without rules
+      if (!item.rules || !item.rules.length) {
+        return
+      }
       const { nodes, edges } = generateFlowDataFromActionItem(item)
       if (edges.length) {
         const { rules } = item
@@ -315,14 +326,18 @@ export default (): {
   }
 
   const generateFlowData = async () => {
-    initNodeAndEdge()
-    generateFlowDataFromRuleData(ruleList)
-    generateFlowDataFromActionData(actionList)
-    removeDuplicatedNodes()
-    removeIsolatedBridge()
-    setClassToRemovedBridges()
-    await setPositionToNodes()
-    joinToFlowData()
+    try {
+      initNodeAndEdge()
+      generateFlowDataFromRuleData(ruleList)
+      generateFlowDataFromActionData(actionList)
+      removeDuplicatedNodes()
+      removeIsolatedBridge()
+      setClassToRemovedBridges()
+      await setPositionToNodes()
+      joinToFlowData()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const getData = async () => {

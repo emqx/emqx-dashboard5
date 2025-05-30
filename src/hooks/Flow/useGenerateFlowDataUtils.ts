@@ -659,25 +659,30 @@ export default (): {
    * count nodes position view all flows
    */
   const countNodesPosition = async (nodes: GroupedNode, edgeArr: Array<Edge>) => {
-    const allNodes = Object.values(nodes).flat()
-    const { children } = await elk.layout({
-      id: 'root',
-      layoutOptions: {
-        'elk.algorithm': 'layered',
-        'elk.layered.spacing.nodeNodeBetweenLayers': '60',
-        'elk.spacing.edgeNode': '50',
-        'elk.edgeRouting': 'POLYLINE',
-      },
-      children: allNodes.map(convertNodeToElkNode),
-      edges: edgeArr.map(convertEdgeToElkEdge),
-    })
-    allNodes.forEach((node) => {
-      const resultNode = children?.find((item) => item.id === node.id)
-      if (resultNode) {
-        const { x, y } = resultNode
-        node.position = { x: x ?? 0, y: y ?? 0 }
-      }
-    })
+    try {
+      const allNodes = Object.values(nodes).flat()
+      const { children } = await elk.layout({
+        id: 'root',
+        layoutOptions: {
+          'elk.algorithm': 'layered',
+          'elk.layered.spacing.nodeNodeBetweenLayers': '60',
+          'elk.spacing.edgeNode': '50',
+          'elk.edgeRouting': 'POLYLINE',
+        },
+        children: allNodes.map(convertNodeToElkNode),
+        edges: edgeArr.map(convertEdgeToElkEdge),
+      })
+      allNodes.forEach((node) => {
+        const resultNode = children?.find((item) => item.id === node.id)
+        if (resultNode) {
+          const { x, y } = resultNode
+          node.position = { x: x ?? 0, y: y ?? 0 }
+        }
+      })
+    } catch (error) {
+      debugger
+      console.error(error)
+    }
   }
 
   const isRemovedBridge = (node: Node) =>
