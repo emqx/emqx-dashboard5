@@ -6,7 +6,11 @@ export const dateFormat = (
   date: Date | string | number | (number | string)[] | null | undefined,
   errorReturn?: string,
 ): string => {
-  const ret = dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+  let input = date
+  if (typeof input === 'number' && input.toString().length <= 11) {
+    input = input * 1000
+  }
+  const ret = dayjs(input).format('YYYY-MM-DD HH:mm:ss')
   return ret === 'Invalid date' ? (errorReturn ?? ret) : ret
 }
 
