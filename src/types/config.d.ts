@@ -320,5 +320,5 @@ export interface NamespaceItem {
    * if true, the namespace just can view, not edit
    */
   not_explicit_created?: boolean
-  creation_date?: number
+  created_at?: number
 }

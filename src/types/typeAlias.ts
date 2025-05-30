@@ -222,7 +222,12 @@ export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersi
 
 /* MULTI-TENANCY */
 export type GetNamespaceListParams = GetMtManagedNsListParams
-export type NamespaceDetailItem = MtNsWithDetailsOut
+export type NamespaceDetailItem = Merge<
+  MtNsWithDetailsOut,
+  {
+    created_at: number
+  }
+>
 
 /* GATEWAY */
 export type GatewayItem = EmqxGatewayApiGatewayOverview

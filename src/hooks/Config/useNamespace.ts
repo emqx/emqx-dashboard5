@@ -32,9 +32,9 @@ export default () => {
       }
       const namespaceNameList: Array<NamespaceDetailItem> = await getDetailNamespaceList(params)
       const namespaceList: Array<NamespaceItem> = namespaceNameList.map(
-        ({ name: ns, creation_date }) => ({
+        ({ name: ns, created_at }) => ({
           ns: ns || '',
-          creation_date,
+          created_at,
           config: {},
           not_explicit_created: !ns || !totalManagedNamespaceList.includes(ns),
         }),
@@ -50,9 +50,9 @@ export default () => {
   ): Promise<Array<NamespaceItem>> => {
     try {
       const managedNamespaceList = await getManagedDetailNamespaceList(params)
-      const namespaceList = managedNamespaceList.map(({ name: ns, creation_date }) => ({
+      const namespaceList = managedNamespaceList.map(({ name: ns, created_at }) => ({
         ns: ns || '',
-        creation_date,
+        created_at,
         config: {},
         not_explicit_created: false,
       }))
