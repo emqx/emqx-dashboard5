@@ -180,7 +180,6 @@ const handleGenerate = async () => {
       exampleInput: formData.exampleInput || undefined,
       exampleOutput: formData.exampleOutput || undefined,
     }
-    // Actual API Call
     const response = await generateSQLByAI(
       aiSqlAssistantApiUrl.value,
       generatePayload,
@@ -189,7 +188,8 @@ const handleGenerate = async () => {
     generatedSQL.value = response.sql
     currentStep.value = 2
   } catch (error: any) {
-    // ignore error
+    const errorMessage = error.message || tl('failedToGenerateSQL')
+    ElMessage.error(errorMessage)
   } finally {
     isGenerating.value = false
   }

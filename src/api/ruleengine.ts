@@ -215,15 +215,28 @@ export const deleteExternalSchema = (name: string): Promise<void> => {
   return http.delete(`/schema_registry_external/registry/${encodeURIComponent(name)}`)
 }
 
-export const generateSQLByAI = (
+export const generateSQLByAI = async (
   cloudApiUrl: string,
   data: GenerateSQLPayload,
   licenseData: LicenseData,
 ): Promise<GenerateSQLResponse> => {
-  return http.post(`${cloudApiUrl}/api/v1/rule_sql_assistants`, data, {
+  const response = await fetch(`${cloudApiUrl}/api/v1/rule_sql_assistants`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'omit',
     headers: {
+      'Content-Type': 'application/json',
       'X-License-Email': licenseData.email,
       'X-License-ID': licenseData.deployment,
+      Accept: 'application/json',
     },
+    body: JSON.stringify(data),
   })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(`HTTP ${response.status}: ${JSON.stringify(errorData)}`)
+  }
+
+  return response.json()
 }
