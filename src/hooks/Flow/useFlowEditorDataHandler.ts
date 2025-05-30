@@ -3,6 +3,7 @@
  */
 import { FallbackActionKind } from '@/types/enum'
 import { BasicRule, BridgeItem, FallbackAction, FlowDataItemForSubmit } from '@/types/rule'
+import { AiProvider } from '@/types/schemas/aiCompletion.schemas'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { ElementData, GraphEdge, Node } from '@vue-flow/core'
 import useI18nTl from '../useI18nTl'
@@ -531,7 +532,11 @@ export default (): {
     aiNodes.forEach((node) => {
       const { formData, isCreated } = node.data
       const { type, api_key, name, base_url, ...rest } = formData
-      const aiProvider = { name, type, api_key, base_url }
+      const aiProvider: AiProvider = { name, type, api_key }
+      if (base_url) {
+        aiProvider.base_url = base_url
+      }
+
       const aiCompletion = { name, type, provider_name: name, ...omit(rest, ['input', 'alias']) }
 
       ret.aiProviders.push({ isCreated: isCreated || false, data: aiProvider })

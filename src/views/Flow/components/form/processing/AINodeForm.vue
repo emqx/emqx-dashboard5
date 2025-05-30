@@ -110,7 +110,7 @@ const modelOptsMap = new Map([
 const props = defineProps<{
   modelValue: AIConfig
   readonly: boolean
-  nodes: Array<Node>
+  nodes?: Array<Node>
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', val: AIConfig): void
