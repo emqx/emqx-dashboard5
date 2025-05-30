@@ -320,9 +320,6 @@ const protobufCreationMethod = computed({
     schemaForm.value.protobuf_creation_method = val
   },
 })
-const isInputProtobuf = computed(
-  () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.Input,
-)
 const isUploadProtobuf = computed(
   () => isProtobuf.value && protobufCreationMethod.value === ProtobufCreationMethod.UploadBundle,
 )
@@ -335,7 +332,7 @@ const isEditingProtobufBundle = computed(
     props.modelValue.source?.type === ProtobufBundleSourceType.bundle,
 )
 
-const showEditor = computed(() => !isProtobuf.value || !isProtobuf.value || isInputProtobuf.value)
+const showEditor = computed(() => !isUploadProtobuf.value && !isExternalHTTP.value)
 
 const file = computed(() => (schemaForm.value as SchemaRegistryProtobufBundleEditForm).bundle)
 const isUploading = ref(false)
