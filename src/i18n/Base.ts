@@ -727,6 +727,10 @@ export default {
     zh: '描述',
     en: 'Description',
   },
+  promoCommunityEdition: {
+    zh: '社区版 |',
+    en: 'Community Edition |',
+  },
   promoApplyFor: {
     zh: '申请 ',
     en: 'Apply for ',
@@ -740,8 +744,8 @@ export default {
     en: ' or try ',
   },
   promoManagedServiceText: {
-    zh: '托管服务',
-    en: 'Managed Service',
+    zh: '云服务',
+    en: 'Cloud Service',
   },
   apiKey: {
     zh: 'API 密钥',

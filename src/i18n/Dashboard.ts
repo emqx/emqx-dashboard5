@@ -289,7 +289,7 @@ export default {
 - Offering EMQX as a commercial SaaS or hosted service.
 - Embedding/distributing EMQX within a commercial product that you sell.
 
-To enable clustering or for restricted commercial uses, get a commercial license.<br /><br />
+To enable clustering or for commercial use cases mentioned above, please obtain a commercial license:<br />
 
 [Get Commercial License]({applyLicenseLink}) &vert; [License FAQ]({faqLinkPlaceholder})`,
     zh: `您当前正在使用 EMQX 社区版许可证（单节点）。<br /><br />
@@ -305,7 +305,7 @@ To enable clustering or for restricted commercial uses, get a commercial license
 - 将 EMQX 作为商业 SaaS（软件即服务）或托管服务提供。
 - 将 EMQX 嵌入或分发到您销售的商业软件、解决方案或硬件产品中。<br /><br />
 
-若需在启用集群功能或用于上述受限的商业用途，请 [获取商业许可证]({applyLicenseLink})。
+若需启用集群功能或用于上述商业用途，请 [获取商业许可证]({applyLicenseLink})。
 更多详情，请参阅 [许可证常见问题解答 (FAQ)]({faqLinkPlaceholder})。`,
   },
   applyLicenseContent: {
