@@ -24,7 +24,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('maxSessions')">
+          <el-form-item :label="tl('maxSessions')" prop="config.session.max_sessions">
             <Oneof
               class="in-one-row"
               v-model="sessionMaxValue"
@@ -261,6 +261,17 @@ const createLimiterRule = (label: string) => [
 ]
 const rules = {
   ns: createRequiredRule(tl('namespace')),
+  'config.session.max_sessions': [
+    {
+      validator: (rule: any, value: string | number, callback: (error?: Error) => void) => {
+        let error: Error | undefined
+        if (isUndefined(value)) {
+          error = new Error(t('Rule.formatError'))
+        }
+        callback(error)
+      },
+    },
+  ],
   'config.limiter.tenant.bytes.rate': createLimiterRule(getSchemaText('bytes_rate.label')),
   'config.limiter.tenant.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
   'config.limiter.tenant.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
