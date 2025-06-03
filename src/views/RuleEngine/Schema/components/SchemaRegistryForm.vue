@@ -344,9 +344,13 @@ const setFile = async (f: UploadRawFile) => {
     return
   }
   schemaForm.value.bundle = f
-  rootProtoFileOptions.value = await getGzipRootFiles(f)
   isReplacingProtobufBundle.value = true
   schemaForm.value.root_proto_file = ''
+  try {
+    rootProtoFileOptions.value = await getGzipRootFiles(f)
+  } catch (error) {
+    rootProtoFileOptions.value = []
+  }
   return false
 }
 
