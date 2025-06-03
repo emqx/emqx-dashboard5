@@ -42,6 +42,7 @@ export const useRuleUtils = (): {
   transSQLFormDataToSQL: (select: string, from: Array<string>, where?: string | undefined) => string
   isMsgPubEvent: (event: string) => boolean
   replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
+  getAIDataNameArrFromSQL: (sql: string) => Array<string>
 } => {
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
@@ -208,6 +209,23 @@ export const useRuleUtils = (): {
     }
   }
 
+  const getAIDataNameArrFromSQL = (sql: string) => {
+    const ret: Array<string> = []
+    const { fieldStr } = getKeyPartsFromSQL(sql)
+    if (!fieldStr) {
+      return ret
+    }
+    splitOnComma(fieldStr)
+      .map((item) => trimSpacesAndLFs(item))
+      .forEach((exp) => {
+        const matchResult = exp.match(aiExpressionPartReg)
+        if (matchResult && matchResult.groups?.name) {
+          ret.push(matchResult.groups.name)
+        }
+      })
+    return ret
+  }
+
   return {
     TOPIC_EVENT,
     allMsgsAndEvents,
@@ -220,6 +238,7 @@ export const useRuleUtils = (): {
     replaceTargetPartInSQL,
     isMsgPubEvent,
     getEventForShow,
+    getAIDataNameArrFromSQL,
   }
 }
 
