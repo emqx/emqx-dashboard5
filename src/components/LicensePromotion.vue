@@ -1,6 +1,7 @@
 <template>
   <div v-if="show" class="license-actions-header">
     <span class="promo-text">
+      {{ t('Base.promoCommunityEdition') }}
       {{ t('Base.promoApplyFor') }}
       <a :href="applyLicenseUrl" target="_blank" class="header-action-link">{{
         t('Base.promoLicenseText')
