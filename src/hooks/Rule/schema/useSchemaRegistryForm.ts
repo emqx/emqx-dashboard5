@@ -71,16 +71,16 @@ export default () => {
       name: n,
       type,
       description: d,
-      parameters,
       bundle,
       root_proto_file,
       protobuf_creation_method,
-      source,
     } = formData as any
     const name = n as string
     const description = d as string
     if (type === SchemaRegistryType.ExternalHTTP) {
-      return { name, type, description, parameters }
+      return checkNOmitFromObj(
+        pick(formData, ['name', 'type', 'description', 'parameters']),
+      ) as SchemaRegistryExternalHttp
     } else if (protobuf_creation_method === ProtobufCreationMethod.UploadBundle) {
       const formData = new FormData()
       formData.append('name', name)
@@ -89,7 +89,7 @@ export default () => {
       formData.append('root_proto_file', root_proto_file as string)
       return formData
     }
-    return { name, type, description, source }
+    return omit({ ...formData }, ['parameters']) as NormalSchemaRegistry
   }
 
   const handleDataForViewDetail = (data: SchemaRegistryDetail): SchemaRegistryEditForm => {
