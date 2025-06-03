@@ -1,12 +1,11 @@
 import * as fflate from 'fflate'
 
 export default () => {
-  function getTarRootEntriesFromArrayBuffer(arrayBuffer: ArrayBufferLike): string[] {
+  function getTarRootFilesOnly(arrayBuffer: ArrayBufferLike): string[] {
     const buf = new Uint8Array(arrayBuffer)
-    const entries = new Set()
+    const entries = new Set<string>()
     let offset = 0
     while (offset + 512 <= buf.length) {
-      // header
       const header = buf.slice(offset, offset + 512)
       // name
       let name = ''
@@ -15,8 +14,17 @@ export default () => {
         name += String.fromCharCode(header[i])
       }
       if (!name) break
-      const first = name.split('/')[0]
-      entries.add(first)
+
+      const typeFlag = header[156]
+      if ((typeFlag === 0 || typeFlag === 0x30) && !name.endsWith('/')) {
+        if (
+          !name.includes('/') ||
+          (name.indexOf('/') === name.length - 1 && name.split('/').length === 2)
+        ) {
+          entries.add(name.split('/')[0])
+        }
+      }
+
       // size
       let sizeStr = ''
       for (let i = 124; i < 136; i++) {
@@ -26,14 +34,18 @@ export default () => {
       const size = parseInt(sizeStr.trim(), 8) || 0
       offset += 512 + Math.ceil(size / 512) * 512
     }
-    return Array.from(entries) as string[]
+    return Array.from(entries)
   }
 
   const getGzipRootFiles = async (file: File) => {
-    const arrayBuffer = await file.arrayBuffer()
-    const tarData = fflate.decompressSync(new Uint8Array(arrayBuffer))
-    const rootEntries = getTarRootEntriesFromArrayBuffer(tarData.buffer)
-    return rootEntries
+    try {
+      const arrayBuffer = await file.arrayBuffer()
+      const tarData = fflate.decompressSync(new Uint8Array(arrayBuffer))
+      const rootEntries = getTarRootFilesOnly(tarData.buffer)
+      return rootEntries
+    } catch (error) {
+      return Promise.reject()
+    }
   }
   return {
     getGzipRootFiles,
