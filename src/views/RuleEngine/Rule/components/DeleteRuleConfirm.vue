@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteRules } from '@/api/ruleengine'
+import useDeleteRule from '@/hooks/Rule/rule/useDeleteRule'
 import { RuleInputType, RuleOutput } from '@/types/enum'
 import { RuleEvent, RuleItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
@@ -141,13 +141,14 @@ const deleteSourceAndActionSameTime = ref(true)
 
 const { deleteAction } = useHandleActionItem()
 const { deleteSource } = useHandleSourceItem()
+const { deleteRule } = useDeleteRule()
 
 const isSubmitting = ref(false)
 const submit = async () => {
   if (!props.rule) {
     return
   }
-  await deleteRules(props.rule.id)
+  await deleteRule(props.rule)
   if (withSourceOrAction.value && deleteSourceAndActionSameTime.value) {
     try {
       await Promise.all(actions.value.map(({ id }) => deleteAction(id)))

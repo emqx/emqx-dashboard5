@@ -350,6 +350,7 @@ declare global {
   const useDatePickerShortcuts: typeof import('./hooks/useDatePickerShortcuts')['default']
   const useDebugRule: typeof import('./hooks/Rule/rule/useDebugRule')['default']
   const useDeleteBridge: typeof import('./hooks/Rule/bridge/useDeleteBridge')['default']
+  const useDeleteRule: typeof import('./hooks/Rule/rule/useDeleteRule')['default']
   const useDeleteSource: typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']
   const useDeliveryDroppedDetails: typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']
   const useDetectIsComInSinglePage: typeof import('./hooks/useDetectIsComInSinglePage')['default']
@@ -924,6 +925,7 @@ declare module 'vue' {
     readonly useDatePickerShortcuts: UnwrapRef<typeof import('./hooks/useDatePickerShortcuts')['default']>
     readonly useDebugRule: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['default']>
     readonly useDeleteBridge: UnwrapRef<typeof import('./hooks/Rule/bridge/useDeleteBridge')['default']>
+    readonly useDeleteRule: UnwrapRef<typeof import('./hooks/Rule/rule/useDeleteRule')['default']>
     readonly useDeleteSource: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']>
     readonly useDeliveryDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']>
     readonly useDetectIsComInSinglePage: UnwrapRef<typeof import('./hooks/useDetectIsComInSinglePage')['default']>
