@@ -356,7 +356,7 @@ export default (
       }
       components[IoTDBKeyField].symbols = IoTDBDrivers
     }
-    if (components.iotdb_version.symbols) {
+    if (components?.iotdb_version?.symbols) {
       components.iotdb_version.symbols = components.iotdb_version.symbols.filter((version) =>
         typeof version !== 'string' ? true : compare(version.replace('v', ''), '1.3.0', '>='),
       )
