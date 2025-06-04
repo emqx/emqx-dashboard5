@@ -461,7 +461,7 @@
                 </el-form-item>
               </el-col>
             </template>
-            <!-- Custome Configs -->
+            <!-- Custom Configs -->
             <template v-if="!gatewayName && !isQUIC">
               <el-col :span="24"><el-divider /></el-col>
               <el-col :span="24">

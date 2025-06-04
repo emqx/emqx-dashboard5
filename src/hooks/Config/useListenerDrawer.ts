@@ -344,6 +344,8 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
         listenerRecord.value = assign(initForm, cloneDeep(props.listener))
         if (!props.gatewayName) {
           loadListenerData()
+        } else {
+          rawListenerRecord = cloneDeep(listenerRecord.value)
         }
       } else {
         const formData: { type?: ListenerTypeForGateway } = {}
