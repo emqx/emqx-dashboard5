@@ -50,6 +50,7 @@ const useCommonDataHandler = () => {
     'security_token',
     'access_key_id',
     'access_key_secret',
+    'private_key_password',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
