@@ -728,8 +728,8 @@ export default {
     en: 'Description',
   },
   promoCommunityEdition: {
-    zh: '社区版 |',
-    en: 'Community Edition |',
+    zh: "社区版 {'|'}",
+    en: "Community Edition {'|'}",
   },
   promoApplyFor: {
     zh: '申请 ',
