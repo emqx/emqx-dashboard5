@@ -6,6 +6,7 @@ export const connectorResourceOptFields = [
   'worker_pool_size',
   'request_ttl',
   'health_check_interval',
+  'health_check_timeout',
   'auto_restart_interval',
   'max_buffer_bytes',
   'batch_size',
