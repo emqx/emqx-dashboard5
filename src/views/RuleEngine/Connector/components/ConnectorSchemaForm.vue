@@ -1,13 +1,13 @@
 <template>
   <div class="schema-form-integration connector-config">
     <schema-form
-      v-if="getRefKey"
+      v-if="renderComponent"
       ref="formCom"
       type="connector"
       need-rules
       :schema-file-path="getAPIPath(`/schemas/connectors`)"
       :need-footer="false"
-      :need-record="!edit && !copy"
+      :need-record="needRecord"
       :form="connectorRecord"
       :according-to="{ ref: `#/components/schemas/${getRefKey}` }"
       :readonly="readonly"
@@ -104,7 +104,9 @@ const typesWithSecondControlMap: Map<string, ComputedRef<string>> = new Map([
 const typesWithSecondControlKeyMap: Map<string, string> = new Map([
   [BridgeType.IoTDB, IoTDBSecondRefControlField],
 ])
+const secondControlKey = computed(() => typesWithSecondControlKeyMap.get(props.type ?? ''))
 
+const needRecord = computed(() => !props.edit && !props.copy)
 const getRefKey = computed(() => {
   if (!props.type) {
     return
@@ -115,12 +117,18 @@ const getRefKey = computed(() => {
   }
   return getTypeRefKey(props.type)
 })
+const renderComponent = computed<boolean>(() => {
+  if (secondControlKey.value && !needRecord.value) {
+    return !!connectorRecord.value[secondControlKey.value]
+  }
+  return !!getRefKey.value
+})
 
 const { getComponentsHandler } = useConnectorComponentsHandlers(props)
 
 const { fillNewRecord } = useFillNewRecord()
 const isKeyFieldPropChanged = (nC: Properties, oC: Properties) => {
-  const key = typesWithSecondControlKeyMap.get(props.type ?? '')
+  const key = secondControlKey.value
   if (!key) {
     return false
   }
@@ -128,29 +136,11 @@ const isKeyFieldPropChanged = (nC: Properties, oC: Properties) => {
   const newValue = nC[key]?.default
   return newValue !== oldValue
 }
-const isKeyFieldValueInit = (nV: Record<string, any>, oV: Record<string, any>) => {
-  const key = typesWithSecondControlKeyMap.get(props.type ?? '')
-  if (!key) {
-    return false
-  }
-  return !oV[key] && nV[key]
-}
 const handleComponentChange = ({
   newVal,
   oldVal,
 }: Record<'oldVal' | 'newVal', { components: Properties; record: Record<string, any> }>) => {
-  const { record: newRecord } = newVal
-  const { record: oldRecord } = oldVal
-
-  /*
-    If it's in edit mode, and the previous key value in the record was empty but the new one has a value, don't process it
-    If it's not in edit mode, process it if there's any change
-    For IoTDB, we can't directly compare the record values here (unlike the previous redis type), as the record values have already been changed and can't be compared
-   */
-  if (
-    isKeyFieldPropChanged(newVal.components, oldVal.components) &&
-    !isKeyFieldValueInit(newRecord, oldRecord)
-  ) {
+  if (isKeyFieldPropChanged(newVal.components, oldVal.components)) {
     connectorRecord.value = { ...fillNewRecord(newVal, oldVal), type: newVal.record.type }
   }
 }
