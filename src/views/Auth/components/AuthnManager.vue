@@ -330,6 +330,10 @@ const resetIsSuperuser = () => {
     .el-input {
       width: 260px;
     }
+    .el-select {
+      width: 200px;
+      font-weight: normal;
+    }
   }
   .border-checkbox {
     margin-top: 16px;
