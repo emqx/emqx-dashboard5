@@ -74,7 +74,7 @@ export default function useProcessAuthData() {
     if (method.type === LDAPAuthMethod.Hash) {
       data.method = omit(method, 'bind_password')
     } else if (method.type === LDAPAuthMethod.Bind) {
-      data.method = omit(method, ['password_attribute', 'is_superuser_attribute'])
+      data.method = omit(method, ['password_attribute'])
     }
     return data
   }
