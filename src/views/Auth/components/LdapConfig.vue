@@ -47,38 +47,19 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <template v-if="ldapConfig.method.type === LDAPAuthMethod.Hash">
-              <!-- Password Attribute -->
-              <el-col :span="12">
-                <el-form-item :label="tl('password_attribute')" prop="method.password_attribute">
-                  <template #label>
-                    {{ tl('password_attribute') }}
-                    <InfoTooltip
-                      v-if="ldapConfig.method.password_attribute"
-                      :content="tl('password_attribute_desc')"
-                    />
-                  </template>
-                  <el-input v-model="ldapConfig.method.password_attribute" />
-                </el-form-item>
-              </el-col>
-
-              <!-- Is Superuser Attribute -->
-              <el-col :span="12">
-                <el-form-item
-                  :label="tl('is_superuser_attribute')"
-                  prop="method.is_superuser_attribute"
-                >
-                  <template #label>
-                    {{ tl('is_superuser_attribute') }}
-                    <InfoTooltip
-                      v-if="ldapConfig.method.is_superuser_attribute"
-                      :content="tl('is_superuser_attribute_desc')"
-                    />
-                  </template>
-                  <el-input v-model="ldapConfig.method.is_superuser_attribute" />
-                </el-form-item>
-              </el-col>
-            </template>
+            <!-- Password Attribute -->
+            <el-col v-if="ldapConfig.method.type === LDAPAuthMethod.Hash" :span="12">
+              <el-form-item :label="tl('password_attribute')" prop="method.password_attribute">
+                <template #label>
+                  {{ tl('password_attribute') }}
+                  <InfoTooltip
+                    v-if="ldapConfig.method.password_attribute"
+                    :content="tl('password_attribute_desc')"
+                  />
+                </template>
+                <el-input v-model="ldapConfig.method.password_attribute" />
+              </el-form-item>
+            </el-col>
             <el-col :span="12" v-else-if="ldapConfig.method.type === LDAPAuthMethod.Bind">
               <el-form-item :label="tl('bind_password')" prop="method.bind_password">
                 <template #label>
@@ -86,6 +67,22 @@
                   <InfoTooltip :content="tl('bind_password_desc')" />
                 </template>
                 <el-input v-model="ldapConfig.method.bind_password" />
+              </el-form-item>
+            </el-col>
+            <!-- Is Superuser Attribute -->
+            <el-col :span="12">
+              <el-form-item
+                :label="tl('is_superuser_attribute')"
+                prop="method.is_superuser_attribute"
+              >
+                <template #label>
+                  {{ tl('is_superuser_attribute') }}
+                  <InfoTooltip
+                    v-if="ldapConfig.method.is_superuser_attribute"
+                    :content="tl('is_superuser_attribute_desc')"
+                  />
+                </template>
+                <el-input v-model="ldapConfig.method.is_superuser_attribute" />
               </el-form-item>
             </el-col>
           </template>
