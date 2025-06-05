@@ -268,5 +268,11 @@
   .data-item {
     display: inline-block;
     padding: 4px 0;
+    max-width: 100%;
+    .el-tag,
+    .el-tag__content,
+    a {
+      max-width: 100%;
+    }
   }
 }
