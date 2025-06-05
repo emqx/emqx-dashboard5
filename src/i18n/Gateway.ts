@@ -594,6 +594,18 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '客户端信息覆盖',
     en: 'Client Info Override',
   },
+  clientInfoOverrideUsernameDesc: {
+    zh: "配置网关如何提取客户端的用户名，支持固定字符串和占位符语法。例如 `bar` 即所有客户端使用的用户名为 `bar`；如 `foo-${'{'}Packet.user{'}'}` 即表示使用连接报文的 `user` 字段进行拼接。支持占位符有 `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`。",
+    en: "Configure how the gateway extracts the client username. Supports fixed strings and placeholder syntax. For example, `bar` means all clients use `bar` as the username; `foo-${'{'}Packet.user{'}'}` means the `user` field from the CONNECT packet is used for concatenation. Supported placeholders: `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`.",
+  },
+  clientInfoOverridePasswordDesc: {
+    zh: "配置网关如何提取客户端的用户名，支持固定字符串和占位符语法。例如 `bar` 即所有客户端使用的用户名为 `bar`；如 `foo-${'{'}Packet.user{'}'}` 即表示使用连接报文的 `user` 字段进行拼接。支持占位符有 `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`。",
+    en: "Configure how the gateway extracts the client password. Supports fixed strings and placeholder syntax. For example, `bar` means all clients use `bar` as the password; `foo-${'{'}Packet.user{'}'}` means the `user` field from the CONNECT packet is used for concatenation. Supported placeholders: `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`.",
+  },
+  clientInfoOverrideClientIdDesc: {
+    zh: '配置网关如何提取客户端的密码字段，支持固定字符串和占位符语法。默认为网关随机生成。',
+    en: 'Configure how the gateway extracts the client ID field. Supports fixed strings and placeholder syntax. By default, the gateway generates a random client ID.',
+  },
   maxPayloadSizeDesc: {
     zh: 'NATS PUB/HPUB 消息的 Payload 最大字节数',
     en: 'The maximum number of bytes of Payload allowed per NATS PUB/HPUB message.',
