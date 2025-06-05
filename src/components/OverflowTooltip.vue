@@ -22,7 +22,7 @@ const needTooltip = ref(false)
  *
  * Source: https://github.com/element-plus/element-plus/blob/main/packages/components/table/src/table-body/events-helper.ts#L65
  */
-function isGreaterThan(a: number, b: number, epsilon = 1) {
+function isGreaterThan(a: number, b: number, epsilon = 3) {
   return a - b > epsilon
 }
 

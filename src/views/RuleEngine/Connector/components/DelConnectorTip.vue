@@ -19,14 +19,14 @@
         <li v-for="item in actions" :key="item" class="data-item">
           <el-tag size="large">
             <router-link :to="getRoute(item, 'action')" target="_blank">
-              {{ item }}
+              <CommonOverflowTooltip :content="item" />
             </router-link>
           </el-tag>
         </li>
         <li v-for="item in sources" :key="item" class="data-item">
           <el-tag size="large">
             <router-link :to="getRoute(item, 'source')" target="_blank">
-              {{ item }}
+              <CommonOverflowTooltip :content="item" />
             </router-link>
           </el-tag>
         </li>

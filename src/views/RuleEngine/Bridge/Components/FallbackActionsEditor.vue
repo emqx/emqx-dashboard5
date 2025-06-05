@@ -48,7 +48,7 @@
               <img :src="getActionImg(action)" />
               <div class="action-item-info">
                 <p v-if="isReference(action)" class="action-item-name">
-                  {{ action.name }}
+                  <CommonOverflowTooltip :content="action.name" />
                 </p>
                 <span class="action-item-type">{{ getActionTypeLabel(action) }}</span>
               </div>
@@ -316,6 +316,7 @@ $list-padding: 16px;
     margin-top: 0;
     margin-bottom: 4px;
     line-height: 1.4;
+    max-width: 360px;
   }
   .action-item-type {
     color: var(--color-text-secondary);
