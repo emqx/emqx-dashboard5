@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper gateway-create">
+  <div class="app-wrapper gateway-create with-padding-bottom">
     <DetailHeader :item="{ name: pageTitle, routeName: 'gateway' }" />
     <el-card>
       <el-row>

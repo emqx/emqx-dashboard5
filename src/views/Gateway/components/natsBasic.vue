@@ -64,26 +64,49 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="30">
-        <el-col :span="24">
-          <el-divider> {{ tl('clientInfoOverride') }} </el-divider>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="t('Base.username')">
-            <el-input v-model="nValue.clientinfo_override.username" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="t('Base.password')">
-            <el-input v-model="nValue.clientinfo_override.password" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="t('Base.clientid')">
-            <el-input v-model="nValue.clientinfo_override.clientid" />
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <AdvancedSettingContainer>
+        <el-row :gutter="30">
+          <el-col :span="24">
+            <el-divider> {{ tl('clientInfoOverride') }} </el-divider>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item>
+              <template #label>
+                <FormItemLabel
+                  :label="t('Base.username')"
+                  :desc="tl('clientInfoOverrideUsernameDesc')"
+                  desc-marked
+                />
+              </template>
+              <el-input v-model="nValue.clientinfo_override.username" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item>
+              <template #label>
+                <FormItemLabel
+                  :label="t('Base.password')"
+                  :desc="tl('clientInfoOverridePasswordDesc')"
+                  desc-marked
+                />
+              </template>
+              <el-input v-model="nValue.clientinfo_override.password" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item>
+              <template #label>
+                <FormItemLabel
+                  :label="t('Base.clientid')"
+                  :desc="tl('clientInfoOverrideClientIdDesc')"
+                  desc-marked
+                />
+              </template>
+              <el-input v-model="nValue.clientinfo_override.clientid" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </AdvancedSettingContainer>
     </el-form>
   </div>
 </template>
@@ -116,8 +139,8 @@ const createDefault = () => ({
   enable_stats: true,
   idle_timeout: '30s',
   clientinfo_override: {
-    username: '',
-    password: '',
+    username: '${Packet.user}',
+    password: '${Packet.pass}',
     clientid: '',
   },
 })
