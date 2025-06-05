@@ -4,6 +4,7 @@ import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 /**
  * Some Special Log Msg
  * The list is not exhaustive
+ * https://emqx.atlassian.net/wiki/spaces/MP/pages/964198403/trace+examples
  */
 export const enum LogMsg {
   RuleActivated = 'rule_activated',
@@ -22,6 +23,7 @@ export const enum LogMsg {
   ActionFailed = 'action_failed',
   RequestExpired = 'request_expired',
   RecursiveRepublishDetected = 'recursive_republish_detected',
+  ActionNotAddedYet = 'action_not_added_yet',
   /* Do Not Need Start */
   CallActionFunction = 'call_action_function',
   RepublishMessage = 'republish_message',
@@ -39,7 +41,9 @@ const EXCLUDED_LOGS = [
   LogMsg.AsyncSendMsgToRemoteNode,
 ]
 
-const ERROR_LOG_MSGS = [LogMsg.OutOfService, LogMsg.RecursiveRepublishDetected]
+const ACTION_FINISHED_MSGS = [LogMsg.OutOfService, LogMsg.ActionNotAddedYet]
+
+const ERROR_LOG_MSGS = [LogMsg.RecursiveRepublishDetected, ...ACTION_FINISHED_MSGS]
 
 const RULE_LOGS = [
   LogMsg.RuleActivated,
@@ -133,7 +137,9 @@ const detectRuleExecLogArrResult = (logArr: Array<LogItem>): LogResult => {
 const detectActionLogArrResult = (logArr: Array<LogItem>): LogResult => {
   if (
     logArr.length === 0 ||
-    logArr.every(({ meta, msg }) => !meta.result && !meta.reason && msg !== LogMsg.OutOfService)
+    logArr.every(
+      ({ meta, msg }) => !meta.result && !meta.reason && !ACTION_FINISHED_MSGS.includes(msg),
+    )
   ) {
     return LogResult.Pending
   }
@@ -385,6 +391,7 @@ export const useShowLog = (): {
     [LogMsg.OutOfService, tl('actionOutOfService')],
     [LogMsg.ActionFailed, tl('actionFailed')],
     [LogMsg.RequestExpired, tl('requestExpired')],
+    [LogMsg.ActionNotAddedYet, tl('actionNotAddedYet')],
   ])
   const ruleLogMsgMap = new Map([[LogMsg.RuleActivated, tl('eventData')]])
   const getRuleLogMsgTitle = (logMsg: LogMsg) => {

@@ -1465,6 +1465,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '请求超时',
     en: 'Request Expired',
   },
+  actionNotAddedYet: {
+    zh: '动作尚未就绪',
+    en: 'Action Not Ready',
+  },
   debugLeaveConfirm: {
     zh: '离开页面将停止测试，是否确认离开？',
     en: 'Leaving the page will stop the test, is it confirmed to leave?',
