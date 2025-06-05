@@ -189,7 +189,7 @@ export interface MtSessionConfigIn {
 }
 
 export interface MtNsWithDetailsOut {
-  creation_date?: number
+  created_at?: number
   name?: string
 }
 

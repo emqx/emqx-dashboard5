@@ -79,33 +79,6 @@ export type GetGatewaysNameClientsClientidSubscriptions400 = {
   message?: string
 }
 
-export type DeleteGatewaysNameClientsClientid404Code =
-  (typeof DeleteGatewaysNameClientsClientid404Code)[keyof typeof DeleteGatewaysNameClientsClientid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameClientsClientid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameClientsClientid404 = {
-  code?: DeleteGatewaysNameClientsClientid404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameClientsClientid400Code =
-  (typeof DeleteGatewaysNameClientsClientid400Code)[keyof typeof DeleteGatewaysNameClientsClientid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameClientsClientid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameClientsClientid400 = {
-  code?: DeleteGatewaysNameClientsClientid400Code
-  message?: string
-}
-
 export type GetGatewaysNameClientsClientid404Code =
   (typeof GetGatewaysNameClientsClientid404Code)[keyof typeof GetGatewaysNameClientsClientid404Code]
 
@@ -139,6 +112,33 @@ export type GetGatewaysNameClientsClientid200 =
   | EmqxGatewayApiClientsLwm2mClient
   | EmqxGatewayApiClientsMqttsnClient
   | EmqxGatewayApiClientsStompClient
+
+export type DeleteGatewaysNameClientsClientid404Code =
+  (typeof DeleteGatewaysNameClientsClientid404Code)[keyof typeof DeleteGatewaysNameClientsClientid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameClientsClientid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameClientsClientid404 = {
+  code?: DeleteGatewaysNameClientsClientid404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameClientsClientid400Code =
+  (typeof DeleteGatewaysNameClientsClientid400Code)[keyof typeof DeleteGatewaysNameClientsClientid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameClientsClientid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameClientsClientid400 = {
+  code?: DeleteGatewaysNameClientsClientid400Code
+  message?: string
+}
 
 export type GetGatewaysNameClients404Code =
   (typeof GetGatewaysNameClients404Code)[keyof typeof GetGatewaysNameClients404Code]

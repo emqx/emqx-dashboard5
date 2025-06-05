@@ -1,24 +1,24 @@
-export type GetPrometheusStats200Two = { [key: string]: unknown }
+export type GetPrometheusStats200One = { [key: string]: unknown }
 
-export type GetPrometheusSchemaValidation200Two = { [key: string]: unknown }
+export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
 export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusMessageTransformation200Two = { [key: string]: unknown }
+export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
 
 export type GetPrometheusMessageTransformationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusDataIntegration200Two = { [key: string]: unknown }
+export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
 
 export type GetPrometheusDataIntegrationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusAuth200Two = { [key: string]: unknown }
+export type GetPrometheusAuth200One = { [key: string]: unknown }
 
 export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter

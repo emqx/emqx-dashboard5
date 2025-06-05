@@ -46,6 +46,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiNats
   | EmqxGatewayApiOcpp
   | EmqxGatewayApiStomp
   | EmqxGatewayApiUpdateCoap
@@ -54,6 +55,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiUpdateJt808
   | EmqxGatewayApiUpdateLwm2m
   | EmqxGatewayApiUpdateMqttsn
+  | EmqxGatewayApiUpdateNats
   | EmqxGatewayApiUpdateOcpp
   | EmqxGatewayApiUpdateStomp
 
@@ -78,6 +80,7 @@ export type GetGatewaysName200 =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiNats
   | EmqxGatewayApiOcpp
   | EmqxGatewayApiStomp
 
@@ -225,6 +228,11 @@ export interface GatewaySslServerOpts {
   versions?: string[]
 }
 
+export interface GatewayProtocol {
+  /** @minimum 0 */
+  max_payload_size?: number
+}
+
 export interface GatewayMqttsnPredefined {
   /**
    * @minimum 1
@@ -309,6 +317,34 @@ export const GatewayDtlsOptsLogLevel = {
   none: 'none',
   all: 'all',
 } as const
+
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -428,34 +464,6 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
   refresh_interval?: string
   responder_url?: string
-}
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export type EmqxListenerWssOptsVerify =
@@ -737,6 +745,19 @@ export interface EmqxGatewayApiUpdateOcpp {
   upstream?: GatewayOcppUpstream
 }
 
+export interface EmqxGatewayApiUpdateNats {
+  clientinfo_override?: GatewayClientinfoOverride
+  default_heartbeat_interval?: string
+  enable?: boolean
+  enable_stats?: boolean
+  heartbeat_wait_timeout?: string
+  idle_timeout?: string
+  mountpoint?: string
+  protocol?: GatewayProtocol
+  server_id?: string
+  server_name?: string
+}
+
 export interface EmqxGatewayApiUpdateMqttsn {
   broadcast?: boolean
   clientinfo_override?: GatewayClientinfoOverride
@@ -919,8 +940,6 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
-
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -961,6 +980,8 @@ export interface EmqxGatewayApiSslListener {
   type?: EmqxGatewayApiSslListenerType
 }
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]
 
@@ -994,6 +1015,35 @@ export interface EmqxGatewayApiOcpp {
   mountpoint?: string
   name?: EmqxGatewayApiOcppName
   upstream?: GatewayOcppUpstream
+}
+
+export type EmqxGatewayApiNatsName =
+  (typeof EmqxGatewayApiNatsName)[keyof typeof EmqxGatewayApiNatsName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiNatsName = {
+  nats: 'nats',
+} as const
+
+export type EmqxGatewayApiNatsListenersItem =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+
+export interface EmqxGatewayApiNats {
+  clientinfo_override?: GatewayClientinfoOverride
+  default_heartbeat_interval?: string
+  enable?: boolean
+  enable_stats?: boolean
+  heartbeat_wait_timeout?: string
+  idle_timeout?: string
+  listeners?: EmqxGatewayApiNatsListenersItem[]
+  mountpoint?: string
+  name?: EmqxGatewayApiNatsName
+  protocol?: GatewayProtocol
+  server_id?: string
+  server_name?: string
 }
 
 export type EmqxGatewayApiMqttsnName =

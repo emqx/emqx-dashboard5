@@ -1,16 +1,3 @@
-export type DeleteSchemaRegistryName404Code =
-  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaRegistryName404 = {
-  code?: DeleteSchemaRegistryName404Code
-  message?: string
-}
-
 export type PutSchemaRegistryName404Code =
   (typeof PutSchemaRegistryName404Code)[keyof typeof PutSchemaRegistryName404Code]
 
@@ -55,25 +42,17 @@ export type GetSchemaRegistryName200 =
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
 
-export type PostSchemaRegistryProtobufBundle400Code =
-  (typeof PostSchemaRegistryProtobufBundle400Code)[keyof typeof PostSchemaRegistryProtobufBundle400Code]
+export type DeleteSchemaRegistryName404Code =
+  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSchemaRegistryProtobufBundle400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-  BAD_FORM_DATA: 'BAD_FORM_DATA',
+export const DeleteSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type PostSchemaRegistryProtobufBundle400 = {
-  code?: PostSchemaRegistryProtobufBundle400Code
+export type DeleteSchemaRegistryName404 = {
+  code?: DeleteSchemaRegistryName404Code
   message?: string
-}
-
-export type PostSchemaRegistryProtobufBundleBody = {
-  bundle?: Blob
-  description?: string
-  name?: string
-  root_proto_file?: string
 }
 
 export type PutSchemaRegistryProtobufBundle404Code =
@@ -103,6 +82,27 @@ export type PutSchemaRegistryProtobufBundle400 = {
 }
 
 export type PutSchemaRegistryProtobufBundleBody = {
+  bundle?: Blob
+  description?: string
+  name?: string
+  root_proto_file?: string
+}
+
+export type PostSchemaRegistryProtobufBundle400Code =
+  (typeof PostSchemaRegistryProtobufBundle400Code)[keyof typeof PostSchemaRegistryProtobufBundle400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaRegistryProtobufBundle400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
+} as const
+
+export type PostSchemaRegistryProtobufBundle400 = {
+  code?: PostSchemaRegistryProtobufBundle400Code
+  message?: string
+}
+
+export type PostSchemaRegistryProtobufBundleBody = {
   bundle?: Blob
   description?: string
   name?: string

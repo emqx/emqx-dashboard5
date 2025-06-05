@@ -24,19 +24,6 @@ export type GetClusterLinksLinkNameMetrics404 = {
   message?: string
 }
 
-export type DeleteClusterLinksLinkName404Code =
-  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClusterLinksLinkName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteClusterLinksLinkName404 = {
-  code?: DeleteClusterLinksLinkName404Code
-  message?: string
-}
-
 export type PutClusterLinksLinkName404Code =
   (typeof PutClusterLinksLinkName404Code)[keyof typeof PutClusterLinksLinkName404Code]
 
@@ -89,6 +76,19 @@ export const GetClusterLinksLinkName404Code = {
 
 export type GetClusterLinksLinkName404 = {
   code?: GetClusterLinksLinkName404Code
+  message?: string
+}
+
+export type DeleteClusterLinksLinkName404Code =
+  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClusterLinksLinkName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteClusterLinksLinkName404 = {
+  code?: DeleteClusterLinksLinkName404Code
   message?: string
 }
 
@@ -266,6 +266,8 @@ export interface ClusterInvitationStatus {
 
 export type ClusterCreationOptsRequestTtl = 'infinity' | string
 
+export type ClusterCreationOptsHealthCheckTimeout = 'infinity' | string
+
 /**
  * @deprecated
  */
@@ -277,6 +279,7 @@ export interface ClusterCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_timeout?: ClusterCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
   max_buffer_bytes?: string

@@ -50,19 +50,6 @@ export type PostAuthenticationNodeCacheReset500 = {
   message?: string
 }
 
-export type DeleteAuthenticationIdUsersUserId404Code =
-  (typeof DeleteAuthenticationIdUsersUserId404Code)[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationIdUsersUserId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationIdUsersUserId404 = {
-  code?: DeleteAuthenticationIdUsersUserId404Code
-  message?: string
-}
-
 export type PutAuthenticationIdUsersUserId404Code =
   (typeof PutAuthenticationIdUsersUserId404Code)[keyof typeof PutAuthenticationIdUsersUserId404Code]
 
@@ -99,6 +86,19 @@ export const GetAuthenticationIdUsersUserId404Code = {
 
 export type GetAuthenticationIdUsersUserId404 = {
   code?: GetAuthenticationIdUsersUserId404Code
+  message?: string
+}
+
+export type DeleteAuthenticationIdUsersUserId404Code =
+  (typeof DeleteAuthenticationIdUsersUserId404Code)[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationIdUsersUserId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationIdUsersUserId404 = {
+  code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
 }
 
@@ -234,11 +234,11 @@ export type PostAuthenticationIdImportUsers200 = {
   total?: number
 }
 
-export type PostAuthenticationIdImportUsersBodyTwo = { [key: string]: unknown }
-
-export type PostAuthenticationIdImportUsersBodyOne = {
+export type PostAuthenticationIdImportUsersBodyTwo = {
   filename?: Blob
 }
+
+export type PostAuthenticationIdImportUsersBodyOne = { [key: string]: unknown }
 
 export type PostAuthenticationIdImportUsersType =
   (typeof PostAuthenticationIdImportUsersType)[keyof typeof PostAuthenticationIdImportUsersType]
@@ -1783,6 +1783,7 @@ export const AuthnBindMethodType = {
 
 export interface AuthnBindMethod {
   bind_password?: string
+  is_superuser_attribute?: string
   type?: AuthnBindMethodType
 }
 
