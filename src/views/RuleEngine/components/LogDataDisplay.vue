@@ -166,6 +166,7 @@ const eventValueMap = new Map<string, string>([
   ['message.dropped', EventForRule.MessageDropped],
   ['message.acked', EventForRule.MessageAcked],
   ['message.delivered', EventForRule.MessageDelivered],
+  ['message.publish', EventForRule.MessagePublish],
 
   ['message.transformation_failed', EventForRule.MessageTransformationFailed],
   ['schema.validation_failed', EventForRule.SchemaValidationFailed],
