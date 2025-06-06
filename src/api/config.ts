@@ -88,6 +88,9 @@ export const getNamespaceClientList = (
 export const deleteManagedNamespace = (namespace: string): Promise<void> =>
   http.delete(`/mt/ns/${encodeURIComponent(namespace)}`)
 
+export const batchDeleteNamespace = (nsArr: Array<string>) =>
+  http.delete(`/mt/bulk_delete_ns`, { data: { nss: nsArr } })
+
 export const createManagedNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}`)
 
