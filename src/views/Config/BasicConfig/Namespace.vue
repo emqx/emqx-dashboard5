@@ -6,11 +6,29 @@
         <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
       </div>
       <div>
+        <el-button
+          class="kick-btn"
+          type="danger"
+          plain
+          :disabled="selectedNamespace.length === 0 || !$hasPermission('delete')"
+          :icon="Delete"
+          @click="batchDeleteNamespace"
+        >
+          {{ tl('batchDelete') }}
+        </el-button>
         <SettingsButton @click="isConfigsDrawerVisible = true" />
         <CreateButton @click="handleCreate" />
       </div>
     </div>
-    <el-table v-loading="loading" :data="namespaceTableData" style="width: 100%">
+    <el-table
+      ref="TableCom"
+      v-loading="loading"
+      :data="namespaceTableData"
+      row-key="ns"
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="35" reserve-selection />
       <el-table-column prop="ns" :label="tl('namespace')" :min-width="180">
         <template #default="{ row }">
           <CommonOverflowTooltip :content="row.ns" />
@@ -79,9 +97,14 @@
     <TipContainer>
       <div class="delete-namespace-tip-content">
         <p>{{ tl('deleteNamespaceConfirmFirst') }}</p>
-        <i18n-t keypath="BasicConfig.deleteNamespaceConfirmSecond" tag="p">
+        <i18n-t v-if="!isBatchDelete" keypath="BasicConfig.deleteNamespaceConfirmSecond" tag="p">
           <template #target>
             <b>{{ currentNamespace?.ns ?? '' }}</b>
+          </template>
+        </i18n-t>
+        <i18n-t v-else keypath="BasicConfig.deleteMultipleNamespaceConfirmSecond" tag="p">
+          <template #n>
+            <b>{{ selectedNamespace.length }}</b>
           </template>
         </i18n-t>
       </div>
@@ -112,7 +135,10 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteManagedNamespace } from '@/api/config'
+import {
+  deleteManagedNamespace,
+  batchDeleteNamespace as requestBatchDeleteNamespace,
+} from '@/api/config'
 import useNamespace from '@/hooks/Config/useNamespace'
 import useI18nTl from '@/hooks/useI18nTl'
 import { NamespaceItem } from '@/types/config'
@@ -121,6 +147,7 @@ import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
 import NamespaceDialog from './components/NamespaceDialog.vue'
 import { last } from 'lodash'
+import { Delete } from '@element-plus/icons-vue'
 
 const { tl, t } = useI18nTl('BasicConfig')
 
@@ -190,26 +217,67 @@ const handleEdit = async (row: NamespaceItem) => {
 const showDeleteDialog = ref(false)
 const handleDelete = async (row: NamespaceItem) => {
   currentNamespace.value = row
+  isBatchDelete.value = false
   showDeleteDialog.value = true
 }
 const isSubmitting = ref(false)
-const confirmDelete = async () => {
+const deleteSingleNamespace = async () => {
   if (!currentNamespace.value) {
-    return
+    return Promise.resolve()
   }
-  isSubmitting.value = true
   try {
     await deleteManagedNamespace(currentNamespace.value.ns)
     if (namespaceTableData.value.length === 1 && page.value > 1) {
       page.value--
     }
+    const selectedIndex = selectedNamespace.value.findIndex(
+      (item) => item === currentNamespace.value?.ns,
+    )
+    if (selectedIndex > -1) {
+      selectedNamespace.value.splice(selectedIndex, 1)
+    }
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+const TableCom = ref()
+const deleteMultipleNamespaces = async () => {
+  if (selectedNamespace.value.length === 0) {
+    return Promise.resolve()
+  }
+  try {
+    await requestBatchDeleteNamespace(selectedNamespace.value)
+    selectedNamespace.value = []
+    TableCom.value?.clearSelection?.()
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+const confirmDelete = async () => {
+  try {
+    isSubmitting.value = true
+    await (isBatchDelete.value ? deleteMultipleNamespaces() : deleteSingleNamespace())
     loadNamespaces()
+    ElMessage.success(t('Base.deleteSuccess'))
     showDeleteDialog.value = false
   } catch (error) {
     //
   } finally {
     isSubmitting.value = false
   }
+}
+
+const selectedNamespace = ref<Array<string>>([])
+const isBatchDelete = ref(false)
+const handleSelectionChange = (ns: Array<NamespaceItem>) => {
+  selectedNamespace.value = ns.map(({ ns }) => ns)
+}
+const batchDeleteNamespace = () => {
+  currentNamespace.value = undefined
+  isBatchDelete.value = true
+  showDeleteDialog.value = true
 }
 
 const isClientsDrawerVisible = ref(false)

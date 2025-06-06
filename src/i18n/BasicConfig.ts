@@ -249,8 +249,12 @@ export default {
     en: 'This action cannot be undone.',
   },
   deleteNamespaceConfirmSecond: {
-    zh: '这将永久删除 {target} 命名空间',
-    en: 'This will permanently delete the {target} namespace.',
+    zh: '这将永久删除 {target} 命名空间，并断开该命名空间下的客户端连接',
+    en: 'This will permanently delete the {target} namespace and disconnect all clients under this namespace.',
+  },
+  deleteMultipleNamespaceConfirmSecond: {
+    zh: '这将永久删除所选择的 {n} 个命名空间，并断开其下的客户端连接',
+    en: 'This will permanently delete the selected {n} namespaces and disconnect all clients under them.',
   },
   tenant: {
     zh: '租户',
@@ -295,6 +299,10 @@ export default {
   batchKickOut: {
     zh: '批量踢除',
     en: 'Batch Kick Out',
+  },
+  batchDelete: {
+    zh: '批量删除',
+    en: 'Batch Delete',
   },
   tenantLimiterDesc: {
     zh: `租户速率限制器的令牌在命名空间内的所有客户端之间共享。<br/>
