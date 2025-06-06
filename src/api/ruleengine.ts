@@ -220,7 +220,7 @@ export const generateSQLByAI = async (
   data: GenerateSQLPayload,
   licenseData: LicenseData,
 ): Promise<GenerateSQLResponse> => {
-  const response = await fetch(`${cloudApiUrl}/api/v1/rule_sql_assistants`, {
+  const response = await fetch(`${cloudApiUrl}/public_api/v1/rule_sql_assistants`, {
     method: 'POST',
     mode: 'cors',
     credentials: 'omit',
