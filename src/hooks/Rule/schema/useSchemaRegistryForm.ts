@@ -64,6 +64,26 @@ export default () => {
     protobuf_creation_method: ProtobufCreationMethod.Input,
   })
 
+  /**
+   *
+   * If the bundle has a value, use FormData; if the bundle has no value (update), use json.
+   */
+  const createProtobufBundlePayload = ({
+    name = '',
+    description = '',
+    bundle,
+    root_proto_file = '',
+  }: SchemaRegistryProtobufBundle): FormData | SchemaRegistryProtobufBundle => {
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('description', description)
+    if (bundle) {
+      formData.append('bundle', bundle as Blob)
+    }
+    formData.append('root_proto_file', root_proto_file)
+    return formData
+  }
+
   const handleFormDataForCreate = (
     formData: SchemaRegistryCreationForm | SchemaRegistryEditForm,
   ): SchemaRegistryCreateData => {
@@ -82,14 +102,21 @@ export default () => {
         pick(formData, ['name', 'type', 'description', 'parameters']),
       ) as SchemaRegistryExternalHttp
     } else if (protobuf_creation_method === ProtobufCreationMethod.UploadBundle) {
-      const formData = new FormData()
-      formData.append('name', name)
-      formData.append('description', description)
-      formData.append('bundle', bundle as unknown as Blob)
-      formData.append('root_proto_file', root_proto_file as string)
-      return formData
+      return createProtobufBundlePayload({ name, description, bundle, root_proto_file })
     }
     return omit({ ...formData }, ['parameters']) as NormalSchemaRegistry
+  }
+
+  const fileNameReg = /^(?<path>.+)\/(?<name>[^/]+)$/
+  const getPathAndRootFile = (root_proto_path: string): { path: string; name: string } | string => {
+    if (!root_proto_path || typeof root_proto_path !== 'string') {
+      return root_proto_path
+    }
+    const matchResult = root_proto_path.match(fileNameReg)
+    if (!matchResult || !matchResult.groups) {
+      return root_proto_path
+    }
+    return { path: matchResult.groups.path, name: matchResult.groups.name }
   }
 
   const handleDataForViewDetail = (data: SchemaRegistryDetail): SchemaRegistryEditForm => {
@@ -98,11 +125,14 @@ export default () => {
       typeof data.source === 'object' &&
       data.source.type === ProtobufBundleSourceType.bundle
     ) {
+      const bundleInfo = getPathAndRootFile(data.source.root_proto_path ?? '')
+      const name = typeof bundleInfo === 'object' ? bundleInfo.name : data.source.root_proto_path
       return {
         ...data,
         protobuf_creation_method: ProtobufCreationMethod.UploadBundle,
         bundle: undefined,
-        root_proto_file: data.source.root_proto_path,
+        root_proto_file: name,
+        root_proto_path: data.source.root_proto_path,
       }
     }
     return data as Exclude<SchemaRegistryDetail, SchemaRegistryProtobufDetail>
@@ -127,6 +157,7 @@ export default () => {
     createFormForCreatePage,
     handleFormDataForCreate,
     handleDataForViewDetail,
+    getPathAndRootFile,
     handleFormDataForUpdate,
     isProtobufBundleDetail,
     isProtobufBundleData,
