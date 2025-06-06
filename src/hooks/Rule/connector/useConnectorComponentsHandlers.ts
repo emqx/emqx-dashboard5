@@ -390,8 +390,12 @@ export default (
   const s3TablesHandler: Handler = ({ components, rules }) => {
     const sslProp = components?.s3_client?.properties?.transport_options?.properties?.ssl
     const sslEnableProp = sslProp?.properties?.enable
+    const sslVerifyProp = sslProp?.properties?.verify
     if (sslProp) {
       sslProp.componentProps = { disabledBaseConfig: true }
+    }
+    if (sslVerifyProp) {
+      sslVerifyProp.default = SSL_VERIFY_VALUE_MAP.get(false)
     }
     if (sslEnableProp) {
       sslEnableProp.default = true
