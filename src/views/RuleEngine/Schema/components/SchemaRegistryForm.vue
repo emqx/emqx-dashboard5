@@ -18,10 +18,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item :label="t('Base.note')" prop="description">
-          <el-input
-            v-model="schemaForm.description"
-            :disabled="isEdit && isEditingProtobufBundle"
-          />
+          <el-input v-model="schemaForm.description" />
         </el-form-item>
       </el-col>
       <template v-if="!fixedType">
@@ -112,8 +109,12 @@
           </el-col>
           <el-col :span="16">
             <el-form-item :label="tl('rootProtoFile')">
-              <el-input :model-value="rootFileName" disabled readonly />
-              <el-icon class="icon-copy" :size="18" @click="copyText(rootFileName)">
+              <el-input v-model="(schemaForm as any).root_proto_file" />
+              <el-icon
+                class="icon-copy"
+                :size="18"
+                @click="copyText((schemaForm as any).root_proto_file)"
+              >
                 <DocumentCopy />
               </el-icon>
             </el-form-item>
@@ -356,8 +357,8 @@ const setFile = async (f: UploadRawFile) => {
 
 const { copyText } = useCopy()
 
+const { getPathAndRootFile } = useSchemaRegistryForm()
 const isReplacingProtobufBundle = ref(false)
-const fileNameReg = /\/[^/]+$/
 const filePosition = computed(() => {
   if (
     schemaForm.value.type !== SchemaRegistryType.Protobuf ||
@@ -365,21 +366,12 @@ const filePosition = computed(() => {
   ) {
     return ''
   }
-  if (isEditingProtobufBundle.value) {
-    return schemaForm.value.source.root_proto_path?.replace(fileNameReg, '')
-  }
-  return ''
-})
-const rootFileName = computed(() => {
-  if (isEditingProtobufBundle.value) {
-    if (
-      schemaForm.value.type !== SchemaRegistryType.Protobuf ||
-      typeof schemaForm.value.source !== 'object'
-    ) {
-      return ''
-    }
-    const fileName = schemaForm.value.source.root_proto_path?.match(fileNameReg)?.[0]
-    return fileName?.slice(1)
+
+  if (isEditingProtobufBundle.value && schemaForm.value.source.root_proto_path) {
+    const bundleInfo = getPathAndRootFile(schemaForm.value.source.root_proto_path)
+    return typeof bundleInfo === 'object'
+      ? bundleInfo.path
+      : schemaForm.value.source.root_proto_path
   }
   return ''
 })

@@ -329,7 +329,7 @@ export type SchemaRegistryProtobufBundleEditForm = Merge<
   ProtobufMethodControl &
     SchemaRegistryProtobufDetail &
     Pick<SchemaRegistryProtobufBundle, 'bundle' | 'root_proto_file'>,
-  { bundle?: UploadRawFile }
+  { bundle?: UploadRawFile | string; root_proto_path?: string }
 >
 
 export type SchemaRegistryEditForm =

@@ -95,12 +95,8 @@ const statusData = computed(() => {
   }
 })
 
-const {
-  handleFormDataForUpdate,
-  handleDataForViewDetail,
-  isProtobufBundleData,
-  isProtobufBundleDetail,
-} = useSchemaRegistryForm()
+const { handleFormDataForUpdate, handleDataForViewDetail, isProtobufBundleData } =
+  useSchemaRegistryForm()
 
 const getSchemaData = async () => {
   if (!schemaName.value) {
@@ -122,16 +118,10 @@ const handleUpdate = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value.validate()
-    let needUpdate = true
-    if (isProtobufBundleDetail(schemaData.value) && !(schemaData.value as any).bundle) {
-      needUpdate = false
-    }
-    if (needUpdate) {
-      const data = handleFormDataForUpdate(schemaData.value)
-      await (isProtobufBundleData(data)
-        ? updateProtobufBundleSchema(data)
-        : updateSchema(schemaName.value, data))
-    }
+    const data = handleFormDataForUpdate(schemaData.value)
+    await (isProtobufBundleData(data)
+      ? updateProtobufBundleSchema(data)
+      : updateSchema(schemaName.value, data))
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'internal-schema' })
   } catch (error) {
