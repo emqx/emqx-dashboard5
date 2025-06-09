@@ -268,6 +268,10 @@ const createRawRuleItem = (): BuiltInDBRule => ({
   clientid_re: '',
   username_re: '',
   ipaddr: '',
+  zone: '',
+  zone_re: '',
+  listener: '',
+  listener_re: '',
 })
 const createRawRecord = (): Record => ({
   clientid: '',
