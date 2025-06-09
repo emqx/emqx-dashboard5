@@ -224,28 +224,6 @@ const sortObj = (rawObj) => {
   return sortedObj
 }
 
-const sortOneofRefs = (oneofRefs) => {
-  const sortedRefs = oneofRefs.sort((a, b) => {
-    const aValue = a.$ref || (a.enum && a.enum[0])
-    const bValue = b.$ref || (b.enum && b.enum[0])
-    if (aValue && bValue) {
-      return aValue.localeCompare(bValue)
-    }
-    return 0
-  })
-  return sortedRefs
-}
-
-const sortDataContent = (data) => {
-  if (data.content) {
-    Object.values(data.content).forEach((content) => {
-      if (content.schema && content.schema.oneOf) {
-        content.schema.oneOf = sortOneofRefs(content.schema.oneOf)
-      }
-    })
-  }
-}
-
 const sortResult = (swaggerObj) => {
   const sortValue = (value) => {
     if (Array.isArray(value)) {
