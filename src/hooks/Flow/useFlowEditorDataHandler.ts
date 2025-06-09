@@ -265,7 +265,7 @@ export default (): {
       } else {
         const inputEdges = edges.filter((edge) => edge.target === node.id)
         const inputNodes = inputEdges.map((edge) => edge.sourceNode)
-        isRuleOutput = inputNodes.some((node) => !isBridgerNode(node))
+        isRuleOutput = inputNodes.some((node) => !isActionBridgeNode(node))
       }
       if (isRuleOutput) {
         ruleOutputNodes.push(node)
