@@ -1,4 +1,4 @@
-const { isObject, get, set } = require('lodash')
+const { isObject, get, set, isPlainObject } = require('lodash')
 
 const paramRefReg = /^#\/components\/parameters\//
 const schemaRefReg = /^#\/components\/schemas\//
@@ -213,17 +213,15 @@ const specialHandlers = new Map([
   ['Metrics', handleMetricsJSON],
 ])
 
+const sortStrArr = (arr) => arr.sort((a, b) => a.localeCompare(b))
+
 const sortObj = (rawObj) => {
-  const sortedKeys = Object.keys(rawObj).sort((a, b) => a.localeCompare(b))
+  const sortedKeys = sortStrArr(Object.keys(rawObj))
   const sortedObj = sortedKeys.reduce((obj, key) => {
     obj[key] = rawObj[key]
     return obj
   }, {})
   return sortedObj
-}
-
-const sortArr = (arr) => {
-  return arr.sort((a, b) => a.localeCompare(b))
 }
 
 const sortOneofRefs = (oneofRefs) => {
@@ -249,44 +247,25 @@ const sortDataContent = (data) => {
 }
 
 const sortResult = (swaggerObj) => {
-  const { paths, components } = swaggerObj
-  swaggerObj.paths = sortObj(paths)
-  Object.values(paths).forEach((path) => {
-    Object.values(path).forEach((method) => {
-      if (method.responses) {
-        Object.values(method.responses).forEach((response) => {
-          sortDataContent(response)
-        })
+  const sortValue = (value) => {
+    if (Array.isArray(value)) {
+      const processedArr = value.map(sortValue)
+      const sortedStrObjArr = sortStrArr(processedArr.map(JSON.stringify))
+      const getObjIndex = (obj) => {
+        const strObj = JSON.stringify(obj)
+        return sortedStrObjArr.indexOf(strObj)
       }
-      if (method.requestBody) {
-        sortDataContent(method.requestBody)
-      }
-      if (method.parameters && Array.isArray(method.parameters)) {
-        method.parameters.forEach((parameter) => {
-          if (parameter.schema && parameter.schema.enum && Array.isArray(parameter.schema.enum)) {
-            parameter.schema.enum = sortArr(parameter.schema.enum)
-          }
-        })
-      }
-    })
-  })
-
-  const { parameters, schemas } = components
-  components.parameters = sortObj(parameters)
-
-  components.schemas = sortObj(schemas)
-  Object.values(components.schemas).forEach((schema) => {
-    if (schema.properties) {
-      schema.properties = sortObj(schema.properties)
-      Object.values(schema.properties).forEach((property) => {
-        if (property.oneOf) {
-          property.oneOf = sortOneofRefs(property.oneOf)
-        }
-      })
+      return processedArr.sort((a, b) => getObjIndex(a) - getObjIndex(b))
     }
-  })
-
-  return swaggerObj
+    if (isPlainObject(value)) {
+      Object.entries(value).forEach(([k, v]) => {
+        value[k] = sortValue(v)
+      })
+      return sortObj(value)
+    }
+    return value
+  }
+  return sortValue(swaggerObj)
 }
 
 const filterTargetSchema = (swaggerJSON, tag) => {
