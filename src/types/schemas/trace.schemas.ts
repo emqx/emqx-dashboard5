@@ -42,8 +42,8 @@ export type GetTraceNameLog404Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTraceNameLog404Code = {
-  NOT_FOUND: 'NOT_FOUND',
   NODE_ERROR: 'NODE_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
 } as const
 
 export type GetTraceNameLog404 = {
@@ -80,8 +80,8 @@ export type GetTraceNameLog200 = {
 
 export type GetTraceNameLogParams = {
   bytes?: TraceBytesParameter
-  position?: TracePositionParameter
   node?: TraceNodeParameter
+  position?: TracePositionParameter
 }
 
 export type GetTraceNameDownload404Code =
@@ -89,8 +89,8 @@ export type GetTraceNameDownload404Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTraceNameDownload404Code = {
-  NOT_FOUND: 'NOT_FOUND',
   NODE_ERROR: 'NODE_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
 } as const
 
 export type GetTraceNameDownload404 = {
@@ -120,8 +120,8 @@ export type PostTrace409Code = (typeof PostTrace409Code)[keyof typeof PostTrace4
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTrace409Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
-  DUPLICATE_CONDITION: 'DUPLICATE_CONDITION',
   BAD_TYPE: 'BAD_TYPE',
+  DUPLICATE_CONDITION: 'DUPLICATE_CONDITION',
 } as const
 
 export type PostTrace409 = {
@@ -146,12 +146,12 @@ export type PostTraceBodyType = (typeof PostTraceBodyType)[keyof typeof PostTrac
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTraceBodyType = {
   clientid: 'clientid',
-  topic: 'topic',
   ip_address: 'ip_address',
   ruleid: 'ruleid',
+  topic: 'topic',
 } as const
 
-export type PostTraceBodyStartAt = number | string
+export type PostTraceBodyStartAt = string | number
 
 export type PostTraceBodyPayloadEncode =
   (typeof PostTraceBodyPayloadEncode)[keyof typeof PostTraceBodyPayloadEncode]
@@ -159,14 +159,14 @@ export type PostTraceBodyPayloadEncode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTraceBodyPayloadEncode = {
   hex: 'hex',
-  text: 'text',
   hidden: 'hidden',
+  text: 'text',
 } as const
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTraceBodyFormatter = { json: 'json', text: 'text' } as const
 
-export type PostTraceBodyEndAt = number | string
+export type PostTraceBodyEndAt = string | number
 
 export type PostTraceBody = {
   clientid?: string
@@ -193,9 +193,9 @@ export type TraceTraceType = (typeof TraceTraceType)[keyof typeof TraceTraceType
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TraceTraceType = {
   clientid: 'clientid',
-  topic: 'topic',
   ip_address: 'ip_address',
   ruleid: 'ruleid',
+  topic: 'topic',
 } as const
 
 export type TraceTraceStatus = (typeof TraceTraceStatus)[keyof typeof TraceTraceStatus]
@@ -207,7 +207,7 @@ export const TraceTraceStatus = {
   waiting: 'waiting',
 } as const
 
-export type TraceTraceStartAt = number | string
+export type TraceTraceStartAt = string | number
 
 export type TraceTracePayloadEncode =
   (typeof TraceTracePayloadEncode)[keyof typeof TraceTracePayloadEncode]
@@ -215,8 +215,8 @@ export type TraceTracePayloadEncode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TraceTracePayloadEncode = {
   hex: 'hex',
-  text: 'text',
   hidden: 'hidden',
+  text: 'text',
 } as const
 
 export type TraceTraceLogSizeItem = { [key: string]: unknown }
@@ -224,7 +224,7 @@ export type TraceTraceLogSizeItem = { [key: string]: unknown }
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TraceTraceFormatter = { json: 'json', text: 'text' } as const
 
-export type TraceTraceEndAt = number | string
+export type TraceTraceEndAt = string | number
 
 export interface TraceTrace {
   clientid?: string

@@ -3,8 +3,8 @@ export type PostListenersIdStop400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdStop400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
   BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostListenersIdStop400 = {
@@ -17,8 +17,8 @@ export type PostListenersIdStart400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdStart400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
   BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostListenersIdStart400 = {
@@ -31,53 +31,12 @@ export type PostListenersIdRestart400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostListenersIdRestart400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
   BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostListenersIdRestart400 = {
   code?: PostListenersIdRestart400Code
-  message?: string
-}
-
-export type PostListenersId400Code =
-  (typeof PostListenersId400Code)[keyof typeof PostListenersId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostListenersId400Code = {
-  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostListenersId400 = {
-  code?: PostListenersId400Code
-  message?: string
-}
-
-export type PostListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
-
-export type PostListenersIdBody =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
-
-export type DeleteListenersId404Code =
-  (typeof DeleteListenersId404Code)[keyof typeof DeleteListenersId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteListenersId404Code = {
-  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
-} as const
-
-export type DeleteListenersId404 = {
-  code?: DeleteListenersId404Code
   message?: string
 }
 
@@ -108,12 +67,33 @@ export type PutListenersId400 = {
   message?: string
 }
 
+export type PutListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
 export type PutListenersIdBody =
   | ListenersQuicNotRequiredBind
   | ListenersSslNotRequiredBind
   | ListenersTcpNotRequiredBind
   | ListenersWsNotRequiredBind
   | ListenersWssNotRequiredBind
+
+export type PostListenersId400Code =
+  (typeof PostListenersId400Code)[keyof typeof PostListenersId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostListenersId400Code = {
+  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostListenersId400 = {
+  code?: PostListenersId400Code
+  message?: string
+}
 
 export type GetListenersId404Code =
   (typeof GetListenersId404Code)[keyof typeof GetListenersId404Code]
@@ -126,6 +106,26 @@ export const GetListenersId404Code = {
 
 export type GetListenersId404 = {
   code?: GetListenersId404Code
+  message?: string
+}
+
+export type GetListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
+export type DeleteListenersId404Code =
+  (typeof DeleteListenersId404Code)[keyof typeof DeleteListenersId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteListenersId404Code = {
+  BAD_LISTENER_ID: 'BAD_LISTENER_ID',
+} as const
+
+export type DeleteListenersId404 = {
+  code?: DeleteListenersId404Code
   message?: string
 }
 
@@ -179,16 +179,16 @@ export const ListenersWssRequiredBindType = {
   wss: 'wss',
 } as const
 
-export type ListenersWssRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWssRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWssRequiredBindEnableAuthn =
   (typeof ListenersWssRequiredBindEnableAuthn)[keyof typeof ListenersWssRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWssRequiredBind {
@@ -219,13 +219,6 @@ export interface ListenersWssRequiredBind {
   zone?: string
 }
 
-export type GetListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
-
 export type ListenersWssNotRequiredBindType =
   (typeof ListenersWssNotRequiredBindType)[keyof typeof ListenersWssNotRequiredBindType]
 
@@ -234,16 +227,16 @@ export const ListenersWssNotRequiredBindType = {
   wss: 'wss',
 } as const
 
-export type ListenersWssNotRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWssNotRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWssNotRequiredBindEnableAuthn =
   (typeof ListenersWssNotRequiredBindEnableAuthn)[keyof typeof ListenersWssNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWssNotRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWssNotRequiredBind {
@@ -282,16 +275,16 @@ export const ListenersWsRequiredBindType = {
   ws: 'ws',
 } as const
 
-export type ListenersWsRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWsRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWsRequiredBindEnableAuthn =
   (typeof ListenersWsRequiredBindEnableAuthn)[keyof typeof ListenersWsRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWsRequiredBind {
@@ -321,7 +314,14 @@ export interface ListenersWsRequiredBind {
   zone?: string
 }
 
-export type PutListenersId200 =
+export type PostListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
+export type PostListenersIdBody =
   | ListenersQuicRequiredBind
   | ListenersSslRequiredBind
   | ListenersTcpRequiredBind
@@ -336,16 +336,16 @@ export const ListenersWsNotRequiredBindType = {
   ws: 'ws',
 } as const
 
-export type ListenersWsNotRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWsNotRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWsNotRequiredBindEnableAuthn =
   (typeof ListenersWsNotRequiredBindEnableAuthn)[keyof typeof ListenersWsNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWsNotRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWsNotRequiredBind {
@@ -383,16 +383,16 @@ export const ListenersWithNameWssRequiredBindType = {
   wss: 'wss',
 } as const
 
-export type ListenersWithNameWssRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWithNameWssRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWithNameWssRequiredBindEnableAuthn =
   (typeof ListenersWithNameWssRequiredBindEnableAuthn)[keyof typeof ListenersWithNameWssRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWssRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWithNameWssRequiredBind {
@@ -431,16 +431,16 @@ export const ListenersWithNameWsRequiredBindType = {
   ws: 'ws',
 } as const
 
-export type ListenersWithNameWsRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWithNameWsRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWithNameWsRequiredBindEnableAuthn =
   (typeof ListenersWithNameWsRequiredBindEnableAuthn)[keyof typeof ListenersWithNameWsRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameWsRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWithNameWsRequiredBind {
@@ -487,16 +487,16 @@ export const ListenersWithNameTcpRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersWithNameTcpRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWithNameTcpRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWithNameTcpRequiredBindEnableAuthn =
   (typeof ListenersWithNameTcpRequiredBindEnableAuthn)[keyof typeof ListenersWithNameTcpRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameTcpRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWithNameTcpRequiredBind {
@@ -543,16 +543,16 @@ export const ListenersWithNameSslRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersWithNameSslRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWithNameSslRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWithNameSslRequiredBindEnableAuthn =
   (typeof ListenersWithNameSslRequiredBindEnableAuthn)[keyof typeof ListenersWithNameSslRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameSslRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export type ListenersWithNameQuicRequiredBindType =
@@ -563,16 +563,16 @@ export const ListenersWithNameQuicRequiredBindType = {
   quic: 'quic',
 } as const
 
-export type ListenersWithNameQuicRequiredBindMaxConnections = number | 'infinity'
+export type ListenersWithNameQuicRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersWithNameQuicRequiredBindEnableAuthn =
   (typeof ListenersWithNameQuicRequiredBindEnableAuthn)[keyof typeof ListenersWithNameQuicRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersWithNameQuicRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersWithNameQuicRequiredBind {
@@ -616,16 +616,16 @@ export const ListenersTcpRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersTcpRequiredBindMaxConnections = number | 'infinity'
+export type ListenersTcpRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersTcpRequiredBindEnableAuthn =
   (typeof ListenersTcpRequiredBindEnableAuthn)[keyof typeof ListenersTcpRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersTcpRequiredBind {
@@ -672,16 +672,16 @@ export const ListenersTcpNotRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersTcpNotRequiredBindMaxConnections = number | 'infinity'
+export type ListenersTcpNotRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersTcpNotRequiredBindEnableAuthn =
   (typeof ListenersTcpNotRequiredBindEnableAuthn)[keyof typeof ListenersTcpNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpNotRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersTcpNotRequiredBind {
@@ -711,9 +711,9 @@ export interface ListenersTcpNotRequiredBind {
   zone?: string
 }
 
-export type ListenersStatusRunning = boolean | 'inconsistent'
+export type ListenersStatusRunning = 'inconsistent' | boolean
 
-export type ListenersStatusMaxConnections = number | 'infinity'
+export type ListenersStatusMaxConnections = 'infinity' | number
 
 export interface ListenersStatus {
   /** @minimum 0 */
@@ -739,16 +739,16 @@ export const ListenersSslRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersSslRequiredBindMaxConnections = number | 'infinity'
+export type ListenersSslRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersSslRequiredBindEnableAuthn =
   (typeof ListenersSslRequiredBindEnableAuthn)[keyof typeof ListenersSslRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersSslRequiredBind {
@@ -796,16 +796,16 @@ export const ListenersSslNotRequiredBindParseUnit = {
   frame: 'frame',
 } as const
 
-export type ListenersSslNotRequiredBindMaxConnections = number | 'infinity'
+export type ListenersSslNotRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersSslNotRequiredBindEnableAuthn =
   (typeof ListenersSslNotRequiredBindEnableAuthn)[keyof typeof ListenersSslNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersSslNotRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersSslNotRequiredBind {
@@ -844,16 +844,16 @@ export const ListenersQuicRequiredBindType = {
   quic: 'quic',
 } as const
 
-export type ListenersQuicRequiredBindMaxConnections = number | 'infinity'
+export type ListenersQuicRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersQuicRequiredBindEnableAuthn =
   (typeof ListenersQuicRequiredBindEnableAuthn)[keyof typeof ListenersQuicRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersQuicRequiredBind {
@@ -888,16 +888,16 @@ export const ListenersQuicNotRequiredBindType = {
   quic: 'quic',
 } as const
 
-export type ListenersQuicNotRequiredBindMaxConnections = number | 'infinity'
+export type ListenersQuicNotRequiredBindMaxConnections = 'infinity' | number
 
 export type ListenersQuicNotRequiredBindEnableAuthn =
   (typeof ListenersQuicNotRequiredBindEnableAuthn)[keyof typeof ListenersQuicNotRequiredBindEnableAuthn]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersQuicNotRequiredBindEnableAuthn = {
-  true: true,
-  false: false,
   quick_deny_anonymous: 'quick_deny_anonymous',
+  false: false,
+  true: true,
 } as const
 
 export interface ListenersQuicNotRequiredBind {
@@ -934,11 +934,11 @@ export type ListenersListenerTypeStatusType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersListenerTypeStatusType = {
-  tcp: 'tcp',
+  quic: 'quic',
   ssl: 'ssl',
+  tcp: 'tcp',
   ws: 'ws',
   wss: 'wss',
-  quic: 'quic',
 } as const
 
 export interface ListenersListenerTypeStatus {
@@ -954,11 +954,11 @@ export type ListenersListenerIdStatusType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersListenerIdStatusType = {
-  tcp: 'tcp',
+  quic: 'quic',
   ssl: 'ssl',
+  tcp: 'tcp',
   ws: 'ws',
   wss: 'wss',
-  quic: 'quic',
 } as const
 
 export interface ListenersListenerIdStatus {
@@ -980,11 +980,11 @@ export type EmqxWsOptsMqttPiggyback =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxWsOptsMqttPiggyback = {
-  single: 'single',
   multiple: 'multiple',
+  single: 'single',
 } as const
 
-export type EmqxWsOptsMaxFrameSize = number | 'infinity'
+export type EmqxWsOptsMaxFrameSize = 'infinity' | number
 
 export interface EmqxWsOpts {
   allow_origin_absence?: boolean
@@ -1033,8 +1033,8 @@ export type EmqxListenerWssOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerWssOptsPartialChain =
@@ -1042,10 +1042,10 @@ export type EmqxListenerWssOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -1053,16 +1053,16 @@ export type EmqxListenerWssOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerWssOpts {
@@ -1095,8 +1095,8 @@ export type EmqxListenerSslOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -1104,10 +1104,10 @@ export type EmqxListenerSslOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerSslOptsLogLevel =
@@ -1115,16 +1115,16 @@ export type EmqxListenerSslOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerSslOpts {
@@ -1188,8 +1188,8 @@ export type EmqxListenerQuicSslOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerQuicSslOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export interface EmqxListenerQuicSslOpts {
@@ -1217,18 +1217,18 @@ export type EmqxDeflateOptsServerContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsServerContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export type EmqxDeflateOptsLevel = (typeof EmqxDeflateOptsLevel)[keyof typeof EmqxDeflateOptsLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsLevel = {
-  none: 'none',
-  default: 'default',
   best_compression: 'best_compression',
   best_speed: 'best_speed',
+  default: 'default',
+  none: 'none',
 } as const
 
 export type EmqxDeflateOptsClientContextTakeover =
@@ -1236,8 +1236,8 @@ export type EmqxDeflateOptsClientContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsClientContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export interface EmqxDeflateOpts {

@@ -11,32 +11,6 @@ export type PutAuthorizationSourcesOrder400 = {
   message?: string
 }
 
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
-  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
-  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
-  message?: string
-}
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
-  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
-  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
-  message?: string
-}
-
 export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
 
@@ -60,6 +34,32 @@ export const GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code = {
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
   code?: GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
   message?: string
 }
 
@@ -90,35 +90,9 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers400 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
   like_username?: string
-}
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
-  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
-  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code
-  message?: string
-}
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
-  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
-  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code
-  message?: string
 }
 
 export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
@@ -147,6 +121,32 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
   message?: string
 }
 
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code
+  message?: string
+}
+
 export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code =
   (typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code]
 
@@ -161,8 +161,8 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
   like_clientid?: string
 }
 
@@ -244,19 +244,6 @@ export type PostAuthorizationSourcesTypeMove400 = {
   message?: string
 }
 
-export type DeleteAuthorizationSourcesType400Code =
-  (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesType400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteAuthorizationSourcesType400 = {
-  code?: DeleteAuthorizationSourcesType400Code
-  message?: string
-}
-
 export type PutAuthorizationSourcesType400Code =
   (typeof PutAuthorizationSourcesType400Code)[keyof typeof PutAuthorizationSourcesType400Code]
 
@@ -313,6 +300,19 @@ export type GetAuthorizationSourcesType200 =
   | AuthzRedisSentinel
   | AuthzRedisSingle
 
+export type DeleteAuthorizationSourcesType400Code =
+  (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesType400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteAuthorizationSourcesType400 = {
+  code?: DeleteAuthorizationSourcesType400Code
+  message?: string
+}
+
 export type PostAuthorizationSources400Code =
   (typeof PostAuthorizationSources400Code)[keyof typeof PostAuthorizationSources400Code]
 
@@ -368,8 +368,8 @@ export type PutAuthorizationSettings200DenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutAuthorizationSettings200DenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type PutAuthorizationSettings200 = {
@@ -392,8 +392,8 @@ export type PutAuthorizationSettingsBodyDenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutAuthorizationSettingsBodyDenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type PutAuthorizationSettingsBody = {
@@ -416,8 +416,8 @@ export type GetAuthorizationSettings200DenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetAuthorizationSettings200DenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type GetAuthorizationSettings200 = {
@@ -513,36 +513,36 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {
@@ -572,21 +572,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -594,16 +594,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -654,8 +654,8 @@ export type EmqxAuthzSchemaNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzSchemaNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
 } as const
 
 export interface EmqxAuthzSchemaNodeStatus {
@@ -679,8 +679,8 @@ export type EmqxAuthzSchemaMetricsStatusFieldsStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -711,19 +711,19 @@ export interface EmqxAuthzSchemaMetricsStatusFields {
 }
 
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
+  | AuthzBuiltinDb
+  | AuthzFile
+  | AuthzHttpGet
+  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoSharded
   | AuthzMongoRs
+  | AuthzMongoSharded
   | AuthzMongoSingle
-  | AuthzPostgresql
   | AuthzMysql
+  | AuthzPostgresql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
-  | AuthzHttpPost
-  | AuthzHttpGet
-  | AuthzBuiltinDb
-  | AuthzFile
 
 export interface EmqxAuthzApiSourcesSources {
   sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
@@ -734,14 +734,14 @@ export type EmqxAuthzApiSourcesRequestSourcesOrderType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzApiSourcesRequestSourcesOrderType = {
-  file: 'file',
   built_in_database: 'built_in_database',
+  file: 'file',
   http: 'http',
-  redis: 'redis',
+  ldap: 'ldap',
+  mongodb: 'mongodb',
   mysql: 'mysql',
   postgresql: 'postgresql',
-  mongodb: 'mongodb',
-  ldap: 'ldap',
+  redis: 'redis',
 } as const
 
 export interface EmqxAuthzApiSourcesRequestSourcesOrder {
@@ -757,7 +757,7 @@ export interface EmqxAuthzApiMnesiaUsernameResponseData {
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
+export type EmqxAuthzApiMnesiaRuleItemRetain = 'all' | boolean
 
 export type EmqxAuthzApiMnesiaRuleItemPermission =
   (typeof EmqxAuthzApiMnesiaRuleItemPermission)[keyof typeof EmqxAuthzApiMnesiaRuleItemPermission]
@@ -773,9 +773,9 @@ export type EmqxAuthzApiMnesiaRuleItemAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzApiMnesiaRuleItemAction = {
+  all: 'all',
   publish: 'publish',
   subscribe: 'subscribe',
-  all: 'all',
 } as const
 
 export interface EmqxAuthzApiMnesiaRuleItem {
@@ -812,9 +812,9 @@ export interface EmqxAuthzApiMnesiaClientidResponseData {
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = string | 'unlimited'
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = 'unlimited' | string
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = number | 'unlimited'
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = 'unlimited' | number
 
 export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
   cache_ttl?: string
@@ -988,8 +988,8 @@ export type AuthzMongoSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoSingleUseLegacyProtocol =
@@ -998,8 +998,8 @@ export type AuthzMongoSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoSingleType = (typeof AuthzMongoSingleType)[keyof typeof AuthzMongoSingleType]
@@ -1048,8 +1048,8 @@ export type AuthzMongoShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoShardedUseLegacyProtocol =
@@ -1058,8 +1058,8 @@ export type AuthzMongoShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoShardedType =
@@ -1108,8 +1108,8 @@ export type AuthzMongoRsWMode = (typeof AuthzMongoRsWMode)[keyof typeof AuthzMon
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoRsUseLegacyProtocol =
@@ -1118,8 +1118,8 @@ export type AuthzMongoRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoRsType = (typeof AuthzMongoRsType)[keyof typeof AuthzMongoRsType]

@@ -37,32 +37,6 @@ export type GetExhooksNameHooks400 = {
   message?: string
 }
 
-export type DeleteExhooksName500Code =
-  (typeof DeleteExhooksName500Code)[keyof typeof DeleteExhooksName500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteExhooksName500Code = {
-  BAD_RPC: 'BAD_RPC',
-} as const
-
-export type DeleteExhooksName500 = {
-  code?: DeleteExhooksName500Code
-  message?: string
-}
-
-export type DeleteExhooksName404Code =
-  (typeof DeleteExhooksName404Code)[keyof typeof DeleteExhooksName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteExhooksName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteExhooksName404 = {
-  code?: DeleteExhooksName404Code
-  message?: string
-}
-
 export type PutExhooksName500Code =
   (typeof PutExhooksName500Code)[keyof typeof PutExhooksName500Code]
 
@@ -115,6 +89,32 @@ export type GetExhooksName404 = {
   message?: string
 }
 
+export type DeleteExhooksName500Code =
+  (typeof DeleteExhooksName500Code)[keyof typeof DeleteExhooksName500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteExhooksName500Code = {
+  BAD_RPC: 'BAD_RPC',
+} as const
+
+export type DeleteExhooksName500 = {
+  code?: DeleteExhooksName500Code
+  message?: string
+}
+
+export type DeleteExhooksName404Code =
+  (typeof DeleteExhooksName404Code)[keyof typeof DeleteExhooksName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteExhooksName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteExhooksName404 = {
+  code?: DeleteExhooksName404Code
+  message?: string
+}
+
 export type PostExhooks500Code = (typeof PostExhooks500Code)[keyof typeof PostExhooks500Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -143,21 +143,21 @@ export type ExhookSslConfVerify = (typeof ExhookSslConfVerify)[keyof typeof Exho
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type ExhookSslConfServerNameIndication = string | 'disable'
+export type ExhookSslConfServerNameIndication = 'disable' | string
 
 export type ExhookSslConfPartialChain =
   (typeof ExhookSslConfPartialChain)[keyof typeof ExhookSslConfPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type ExhookSslConfLogLevel =
@@ -165,16 +165,16 @@ export type ExhookSslConfLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface ExhookSslConf {
@@ -215,7 +215,7 @@ export const ExhookServerConfigFailedAction = {
   ignore: 'ignore',
 } as const
 
-export type ExhookServerConfigAutoReconnect = string | false
+export type ExhookServerConfigAutoReconnect = false | string
 
 export interface ExhookServerConfig {
   auto_reconnect?: ExhookServerConfigAutoReconnect
@@ -237,8 +237,8 @@ export type ExhookNodeStatusStatus =
 export const ExhookNodeStatusStatus = {
   connected: 'connected',
   connecting: 'connecting',
-  disconnected: 'disconnected',
   disabled: 'disabled',
+  disconnected: 'disconnected',
   error: 'error',
 } as const
 
@@ -292,7 +292,7 @@ export const ExhookDetailServerInfoFailedAction = {
   ignore: 'ignore',
 } as const
 
-export type ExhookDetailServerInfoAutoReconnect = string | false
+export type ExhookDetailServerInfoAutoReconnect = false | string
 
 export interface ExhookDetailServerInfo {
   auto_reconnect?: ExhookDetailServerInfoAutoReconnect

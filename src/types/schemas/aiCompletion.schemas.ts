@@ -1,42 +1,3 @@
-export type DeleteAiProvidersName503Code =
-  (typeof DeleteAiProvidersName503Code)[keyof typeof DeleteAiProvidersName503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiProvidersName503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteAiProvidersName503 = {
-  code?: DeleteAiProvidersName503Code
-  message?: string
-}
-
-export type DeleteAiProvidersName404Code =
-  (typeof DeleteAiProvidersName404Code)[keyof typeof DeleteAiProvidersName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiProvidersName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAiProvidersName404 = {
-  code?: DeleteAiProvidersName404Code
-  message?: string
-}
-
-export type DeleteAiProvidersName400Code =
-  (typeof DeleteAiProvidersName400Code)[keyof typeof DeleteAiProvidersName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiProvidersName400Code = {
-  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
-} as const
-
-export type DeleteAiProvidersName400 = {
-  code?: DeleteAiProvidersName400Code
-  message?: string
-}
-
 export type PutAiProvidersName503Code =
   (typeof PutAiProvidersName503Code)[keyof typeof PutAiProvidersName503Code]
 
@@ -89,6 +50,45 @@ export type GetAiProvidersName404 = {
   message?: string
 }
 
+export type DeleteAiProvidersName503Code =
+  (typeof DeleteAiProvidersName503Code)[keyof typeof DeleteAiProvidersName503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiProvidersName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteAiProvidersName503 = {
+  code?: DeleteAiProvidersName503Code
+  message?: string
+}
+
+export type DeleteAiProvidersName404Code =
+  (typeof DeleteAiProvidersName404Code)[keyof typeof DeleteAiProvidersName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiProvidersName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAiProvidersName404 = {
+  code?: DeleteAiProvidersName404Code
+  message?: string
+}
+
+export type DeleteAiProvidersName400Code =
+  (typeof DeleteAiProvidersName400Code)[keyof typeof DeleteAiProvidersName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiProvidersName400Code = {
+  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
+} as const
+
+export type DeleteAiProvidersName400 = {
+  code?: DeleteAiProvidersName400Code
+  message?: string
+}
+
 export type PostAiProviders503Code =
   (typeof PostAiProviders503Code)[keyof typeof PostAiProviders503Code]
 
@@ -125,45 +125,6 @@ export const GetAiProviders503Code = {
 
 export type GetAiProviders503 = {
   code?: GetAiProviders503Code
-  message?: string
-}
-
-export type DeleteAiCompletionProfilesName503Code =
-  (typeof DeleteAiCompletionProfilesName503Code)[keyof typeof DeleteAiCompletionProfilesName503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiCompletionProfilesName503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteAiCompletionProfilesName503 = {
-  code?: DeleteAiCompletionProfilesName503Code
-  message?: string
-}
-
-export type DeleteAiCompletionProfilesName404Code =
-  (typeof DeleteAiCompletionProfilesName404Code)[keyof typeof DeleteAiCompletionProfilesName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiCompletionProfilesName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAiCompletionProfilesName404 = {
-  code?: DeleteAiCompletionProfilesName404Code
-  message?: string
-}
-
-export type DeleteAiCompletionProfilesName400Code =
-  (typeof DeleteAiCompletionProfilesName400Code)[keyof typeof DeleteAiCompletionProfilesName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAiCompletionProfilesName400Code = {
-  INVALID_COMPLETION_PROFILE: 'INVALID_COMPLETION_PROFILE',
-} as const
-
-export type DeleteAiCompletionProfilesName400 = {
-  code?: DeleteAiCompletionProfilesName400Code
   message?: string
 }
 
@@ -227,6 +188,45 @@ export type GetAiCompletionProfilesName200 =
   | AiAnthropicCompletionProfileApiGet
   | AiOpenaiCompletionProfileApiGet
 
+export type DeleteAiCompletionProfilesName503Code =
+  (typeof DeleteAiCompletionProfilesName503Code)[keyof typeof DeleteAiCompletionProfilesName503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteAiCompletionProfilesName503 = {
+  code?: DeleteAiCompletionProfilesName503Code
+  message?: string
+}
+
+export type DeleteAiCompletionProfilesName404Code =
+  (typeof DeleteAiCompletionProfilesName404Code)[keyof typeof DeleteAiCompletionProfilesName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAiCompletionProfilesName404 = {
+  code?: DeleteAiCompletionProfilesName404Code
+  message?: string
+}
+
+export type DeleteAiCompletionProfilesName400Code =
+  (typeof DeleteAiCompletionProfilesName400Code)[keyof typeof DeleteAiCompletionProfilesName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName400Code = {
+  INVALID_COMPLETION_PROFILE: 'INVALID_COMPLETION_PROFILE',
+} as const
+
+export type DeleteAiCompletionProfilesName400 = {
+  code?: DeleteAiCompletionProfilesName400Code
+  message?: string
+}
+
 export type PostAiCompletionProfiles503Code =
   (typeof PostAiCompletionProfiles503Code)[keyof typeof PostAiCompletionProfiles503Code]
 
@@ -269,15 +269,15 @@ export type GetAiCompletionProfiles503 = {
 }
 
 export type GetAiCompletionProfiles200Item =
-  | AiOpenaiCompletionProfileApiGet
   | AiAnthropicCompletionProfileApiGet
+  | AiOpenaiCompletionProfileApiGet
 
 export type AiProviderApiPutType = (typeof AiProviderApiPutType)[keyof typeof AiProviderApiPutType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderApiPutType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProviderApiPut {
@@ -290,11 +290,12 @@ export type AiProviderApiGetType = (typeof AiProviderApiGetType)[keyof typeof Ai
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderApiGetType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProviderApiGet {
+  api_key: string
   base_url?: string
   name: string
   type: AiProviderApiGetType
@@ -304,8 +305,8 @@ export type AiProviderType = (typeof AiProviderType)[keyof typeof AiProviderType
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProvider {

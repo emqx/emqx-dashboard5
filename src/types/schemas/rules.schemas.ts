@@ -63,18 +63,6 @@ export type GetRulesIdMetrics404 = {
   message?: string
 }
 
-export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteRulesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteRulesId404 = {
-  code?: DeleteRulesId404Code
-  message?: string
-}
-
 export type PutRulesId400Code = (typeof PutRulesId400Code)[keyof typeof PutRulesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -96,6 +84,18 @@ export const GetRulesId404Code = {
 
 export type GetRulesId404 = {
   code?: GetRulesId404Code
+  message?: string
+}
+
+export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteRulesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteRulesId404 = {
+  code?: DeleteRulesId404Code
   message?: string
 }
 
@@ -169,16 +169,16 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetRulesParams = {
+  limit?: PublicLimitParameter
+  page?: PublicPageParameter
+  action?: string[]
   enable?: boolean
   from?: string
-  like_id?: string
-  like_from?: string
   like_description?: string
+  like_from?: string
+  like_id?: string
   match_from?: string
-  action?: string[]
   source?: string[]
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
 }
 
 export type RuleEngineUserProvidedFunctionArgs = { [key: string]: unknown }
@@ -221,9 +221,9 @@ export interface RuleEngineRuleMetrics {
 export type RuleEngineRuleInfoMetadata = { [key: string]: unknown }
 
 export type RuleEngineRuleInfoActionsItem =
-  | RuleEngineUserProvidedFunction
   | RuleEngineBuiltinActionConsole
   | RuleEngineBuiltinActionRepublish
+  | RuleEngineUserProvidedFunction
   | string
 
 export interface RuleEngineRuleInfo {
@@ -247,34 +247,34 @@ export type RuleEngineRuleEventsEvent =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineRuleEventsEvent = {
-  '$events/sys/alarm_activated': '$events/sys/alarm_activated',
-  '$events/sys/alarm_deactivated': '$events/sys/alarm_deactivated',
-  '$events/client/connected': '$events/client/connected',
-  '$events/client/disconnected': '$events/client/disconnected',
-  '$events/client/connack': '$events/client/connack',
   '$events/auth/check_authn_complete': '$events/auth/check_authn_complete',
   '$events/auth/check_authz_complete': '$events/auth/check_authz_complete',
-  '$events/session/subscribed': '$events/session/subscribed',
-  '$events/session/unsubscribed': '$events/session/unsubscribed',
-  '$events/message/delivered': '$events/message/delivered',
-  '$events/message/acked': '$events/message/acked',
-  '$events/message/dropped': '$events/message/dropped',
-  '$events/message/delivery_dropped': '$events/message/delivery_dropped',
-  '$events/message_transformation/failed': '$events/message_transformation/failed',
-  '$events/schema_validation/failed': '$events/schema_validation/failed',
-  '$events/client_connected': '$events/client_connected',
-  '$events/client_disconnected': '$events/client_disconnected',
-  '$events/client_connack': '$events/client_connack',
   '$events/client_check_authn_complete': '$events/client_check_authn_complete',
   '$events/client_check_authz_complete': '$events/client_check_authz_complete',
+  '$events/client_connack': '$events/client_connack',
+  '$events/client_connected': '$events/client_connected',
+  '$events/client_disconnected': '$events/client_disconnected',
+  '$events/client/connack': '$events/client/connack',
+  '$events/client/connected': '$events/client/connected',
+  '$events/client/disconnected': '$events/client/disconnected',
+  '$events/delivery_dropped': '$events/delivery_dropped',
+  '$events/message_acked': '$events/message_acked',
+  '$events/message_delivered': '$events/message_delivered',
+  '$events/message_dropped': '$events/message_dropped',
+  '$events/message_transformation_failed': '$events/message_transformation_failed',
+  '$events/message_transformation/failed': '$events/message_transformation/failed',
+  '$events/message/acked': '$events/message/acked',
+  '$events/message/delivered': '$events/message/delivered',
+  '$events/message/delivery_dropped': '$events/message/delivery_dropped',
+  '$events/message/dropped': '$events/message/dropped',
+  '$events/schema_validation_failed': '$events/schema_validation_failed',
+  '$events/schema_validation/failed': '$events/schema_validation/failed',
   '$events/session_subscribed': '$events/session_subscribed',
   '$events/session_unsubscribed': '$events/session_unsubscribed',
-  '$events/message_delivered': '$events/message_delivered',
-  '$events/message_acked': '$events/message_acked',
-  '$events/message_dropped': '$events/message_dropped',
-  '$events/delivery_dropped': '$events/delivery_dropped',
-  '$events/message_transformation_failed': '$events/message_transformation_failed',
-  '$events/schema_validation_failed': '$events/schema_validation_failed',
+  '$events/session/subscribed': '$events/session/subscribed',
+  '$events/session/unsubscribed': '$events/session/unsubscribed',
+  '$events/sys/alarm_activated': '$events/sys/alarm_activated',
+  '$events/sys/alarm_deactivated': '$events/sys/alarm_deactivated',
 } as const
 
 export type RuleEngineRuleEventsColumns = { [key: string]: unknown }
@@ -296,9 +296,9 @@ export interface RuleEngineRuleEngine {
 export type RuleEngineRuleCreationMetadata = { [key: string]: unknown }
 
 export type RuleEngineRuleCreationActionsItem =
-  | RuleEngineUserProvidedFunction
   | RuleEngineBuiltinActionConsole
   | RuleEngineBuiltinActionRepublish
+  | RuleEngineUserProvidedFunction
   | string
 
 export interface RuleEngineRuleCreation {
@@ -342,11 +342,11 @@ export interface RuleEngineRepublishMqttProperties {
   'Response-Topic'?: string
 }
 
-export type RuleEngineRepublishArgsRetain = string | boolean
+export type RuleEngineRepublishArgsRetain = boolean | string
 
-export type RuleEngineRepublishArgsQos = string | number
+export type RuleEngineRepublishArgsQos = number | string
 
-export type RuleEngineRepublishArgsDirectDispatch = string | boolean
+export type RuleEngineRepublishArgsDirectDispatch = boolean | string
 
 export interface RuleEngineRepublishArgs {
   direct_dispatch?: RuleEngineRepublishArgsDirectDispatch

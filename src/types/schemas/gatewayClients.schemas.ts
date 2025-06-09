@@ -79,33 +79,6 @@ export type GetGatewaysNameClientsClientidSubscriptions400 = {
   message?: string
 }
 
-export type DeleteGatewaysNameClientsClientid404Code =
-  (typeof DeleteGatewaysNameClientsClientid404Code)[keyof typeof DeleteGatewaysNameClientsClientid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameClientsClientid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameClientsClientid404 = {
-  code?: DeleteGatewaysNameClientsClientid404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameClientsClientid400Code =
-  (typeof DeleteGatewaysNameClientsClientid400Code)[keyof typeof DeleteGatewaysNameClientsClientid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameClientsClientid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameClientsClientid400 = {
-  code?: DeleteGatewaysNameClientsClientid400Code
-  message?: string
-}
-
 export type GetGatewaysNameClientsClientid404Code =
   (typeof GetGatewaysNameClientsClientid404Code)[keyof typeof GetGatewaysNameClientsClientid404Code]
 
@@ -140,6 +113,33 @@ export type GetGatewaysNameClientsClientid200 =
   | EmqxGatewayApiClientsMqttsnClient
   | EmqxGatewayApiClientsStompClient
 
+export type DeleteGatewaysNameClientsClientid404Code =
+  (typeof DeleteGatewaysNameClientsClientid404Code)[keyof typeof DeleteGatewaysNameClientsClientid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameClientsClientid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameClientsClientid404 = {
+  code?: DeleteGatewaysNameClientsClientid404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameClientsClientid400Code =
+  (typeof DeleteGatewaysNameClientsClientid400Code)[keyof typeof DeleteGatewaysNameClientsClientid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameClientsClientid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameClientsClientid400 = {
+  code?: DeleteGatewaysNameClientsClientid400Code
+  message?: string
+}
+
 export type GetGatewaysNameClients404Code =
   (typeof GetGatewaysNameClients404Code)[keyof typeof GetGatewaysNameClients404Code]
 
@@ -168,23 +168,23 @@ export type GetGatewaysNameClients400 = {
 }
 
 export type GetGatewaysNameClientsParams = {
-  node?: string
-  clientid?: string
-  username?: string
-  ip_address?: string
-  conn_state?: string
-  proto_ver?: string
   clean_start?: boolean
-  like_clientid?: string
-  like_username?: string
-  gte_created_at?: number | string
-  lte_created_at?: number | string
-  gte_connected_at?: number | string
-  lte_connected_at?: number | string
+  clientid?: string
+  conn_state?: string
   endpoint_name?: string
-  like_endpoint_name?: string
+  gte_connected_at?: string | number
+  gte_created_at?: string | number
   gte_lifetime?: string
+  ip_address?: string
+  like_clientid?: string
+  like_endpoint_name?: string
+  like_username?: string
+  lte_connected_at?: string | number
+  lte_created_at?: string | number
   lte_lifetime?: string
+  node?: string
+  proto_ver?: string
+  username?: string
   page?: number
   limit?: number
 }
@@ -216,11 +216,11 @@ export interface EmqxGatewayApiClientsSubscription {
   topic?: string
 }
 
-export type EmqxGatewayApiClientsStompClientDisconnectedAt = number | string
+export type EmqxGatewayApiClientsStompClientDisconnectedAt = string | number
 
-export type EmqxGatewayApiClientsStompClientCreatedAt = number | string
+export type EmqxGatewayApiClientsStompClientCreatedAt = string | number
 
-export type EmqxGatewayApiClientsStompClientConnectedAt = number | string
+export type EmqxGatewayApiClientsStompClientConnectedAt = string | number
 
 export interface EmqxGatewayApiClientsStompClient {
   awaiting_rel_cnt?: number
@@ -262,17 +262,17 @@ export interface EmqxGatewayApiClientsStompClient {
 }
 
 export type GetGatewaysNameClients200Data =
+  | EmqxGatewayApiClientsCoapClient[]
   | EmqxGatewayApiClientsExprotoClient[]
   | EmqxGatewayApiClientsLwm2mClient[]
-  | EmqxGatewayApiClientsCoapClient[]
   | EmqxGatewayApiClientsMqttsnClient[]
   | EmqxGatewayApiClientsStompClient[]
 
-export type EmqxGatewayApiClientsMqttsnClientDisconnectedAt = number | string
+export type EmqxGatewayApiClientsMqttsnClientDisconnectedAt = string | number
 
-export type EmqxGatewayApiClientsMqttsnClientCreatedAt = number | string
+export type EmqxGatewayApiClientsMqttsnClientCreatedAt = string | number
 
-export type EmqxGatewayApiClientsMqttsnClientConnectedAt = number | string
+export type EmqxGatewayApiClientsMqttsnClientConnectedAt = string | number
 
 export interface EmqxGatewayApiClientsMqttsnClient {
   awaiting_rel_cnt?: number
@@ -313,11 +313,11 @@ export interface EmqxGatewayApiClientsMqttsnClient {
   username?: string
 }
 
-export type EmqxGatewayApiClientsLwm2mClientDisconnectedAt = number | string
+export type EmqxGatewayApiClientsLwm2mClientDisconnectedAt = string | number
 
-export type EmqxGatewayApiClientsLwm2mClientCreatedAt = number | string
+export type EmqxGatewayApiClientsLwm2mClientCreatedAt = string | number
 
-export type EmqxGatewayApiClientsLwm2mClientConnectedAt = number | string
+export type EmqxGatewayApiClientsLwm2mClientConnectedAt = string | number
 
 export interface EmqxGatewayApiClientsLwm2mClient {
   awaiting_rel_cnt?: number
@@ -364,11 +364,11 @@ export interface EmqxGatewayApiClientsExtraSubProps {
   subid?: string
 }
 
-export type EmqxGatewayApiClientsExprotoClientDisconnectedAt = number | string
+export type EmqxGatewayApiClientsExprotoClientDisconnectedAt = string | number
 
-export type EmqxGatewayApiClientsExprotoClientCreatedAt = number | string
+export type EmqxGatewayApiClientsExprotoClientCreatedAt = string | number
 
-export type EmqxGatewayApiClientsExprotoClientConnectedAt = number | string
+export type EmqxGatewayApiClientsExprotoClientConnectedAt = string | number
 
 export interface EmqxGatewayApiClientsExprotoClient {
   awaiting_rel_cnt?: number
@@ -409,11 +409,11 @@ export interface EmqxGatewayApiClientsExprotoClient {
   username?: string
 }
 
-export type EmqxGatewayApiClientsCoapClientDisconnectedAt = number | string
+export type EmqxGatewayApiClientsCoapClientDisconnectedAt = string | number
 
-export type EmqxGatewayApiClientsCoapClientCreatedAt = number | string
+export type EmqxGatewayApiClientsCoapClientCreatedAt = string | number
 
-export type EmqxGatewayApiClientsCoapClientConnectedAt = number | string
+export type EmqxGatewayApiClientsCoapClientConnectedAt = string | number
 
 export interface EmqxGatewayApiClientsCoapClient {
   awaiting_rel_cnt?: number

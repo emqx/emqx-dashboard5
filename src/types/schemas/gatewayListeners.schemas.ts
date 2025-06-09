@@ -1,30 +1,3 @@
-export type DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code =
-  (typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameListenersIdAuthenticationUsersUid404 = {
-  code?: DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code =
-  (typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code)[keyof typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameListenersIdAuthenticationUsersUid400 = {
-  code?: DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code
-  message?: string
-}
-
 export type PutGatewaysNameListenersIdAuthenticationUsersUid404Code =
   (typeof PutGatewaysNameListenersIdAuthenticationUsersUid404Code)[keyof typeof PutGatewaysNameListenersIdAuthenticationUsersUid404Code]
 
@@ -76,6 +49,33 @@ export const GetGatewaysNameListenersIdAuthenticationUsersUid400Code = {
 
 export type GetGatewaysNameListenersIdAuthenticationUsersUid400 = {
   code?: GetGatewaysNameListenersIdAuthenticationUsersUid400Code
+  message?: string
+}
+
+export type DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code =
+  (typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameListenersIdAuthenticationUsersUid404 = {
+  code?: DeleteGatewaysNameListenersIdAuthenticationUsersUid404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code =
+  (typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code)[keyof typeof DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameListenersIdAuthenticationUsersUid400 = {
+  code?: DeleteGatewaysNameListenersIdAuthenticationUsersUid400Code
   message?: string
 }
 
@@ -136,100 +136,6 @@ export type GetGatewaysNameListenersIdAuthenticationUsers400 = {
 export type GetGatewaysNameListenersIdAuthenticationUsersParams = {
   page?: number
   limit?: number
-}
-
-export type PostGatewaysNameListenersIdAuthentication404Code =
-  (typeof PostGatewaysNameListenersIdAuthentication404Code)[keyof typeof PostGatewaysNameListenersIdAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGatewaysNameListenersIdAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type PostGatewaysNameListenersIdAuthentication404 = {
-  code?: PostGatewaysNameListenersIdAuthentication404Code
-  message?: string
-}
-
-export type PostGatewaysNameListenersIdAuthentication400Code =
-  (typeof PostGatewaysNameListenersIdAuthentication400Code)[keyof typeof PostGatewaysNameListenersIdAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostGatewaysNameListenersIdAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostGatewaysNameListenersIdAuthentication400 = {
-  code?: PostGatewaysNameListenersIdAuthentication400Code
-  message?: string
-}
-
-export type PostGatewaysNameListenersIdAuthentication201 =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-
-export type PostGatewaysNameListenersIdAuthenticationBody =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-
-export type DeleteGatewaysNameListenersIdAuthentication404Code =
-  (typeof DeleteGatewaysNameListenersIdAuthentication404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersIdAuthentication404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
-} as const
-
-export type DeleteGatewaysNameListenersIdAuthentication404 = {
-  code?: DeleteGatewaysNameListenersIdAuthentication404Code
-  message?: string
-}
-
-export type DeleteGatewaysNameListenersIdAuthentication400Code =
-  (typeof DeleteGatewaysNameListenersIdAuthentication400Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersIdAuthentication400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteGatewaysNameListenersIdAuthentication400 = {
-  code?: DeleteGatewaysNameListenersIdAuthentication400Code
-  message?: string
 }
 
 export type PutGatewaysNameListenersIdAuthentication404Code =
@@ -299,6 +205,73 @@ export type PutGatewaysNameListenersIdAuthenticationBody =
   | AuthnRedisSentinel
   | AuthnRedisSingle
 
+export type PostGatewaysNameListenersIdAuthentication404Code =
+  (typeof PostGatewaysNameListenersIdAuthentication404Code)[keyof typeof PostGatewaysNameListenersIdAuthentication404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysNameListenersIdAuthentication404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type PostGatewaysNameListenersIdAuthentication404 = {
+  code?: PostGatewaysNameListenersIdAuthentication404Code
+  message?: string
+}
+
+export type PostGatewaysNameListenersIdAuthentication400Code =
+  (typeof PostGatewaysNameListenersIdAuthentication400Code)[keyof typeof PostGatewaysNameListenersIdAuthentication400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysNameListenersIdAuthentication400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostGatewaysNameListenersIdAuthentication400 = {
+  code?: PostGatewaysNameListenersIdAuthentication400Code
+  message?: string
+}
+
+export type PostGatewaysNameListenersIdAuthentication201 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+
+export type PostGatewaysNameListenersIdAuthenticationBody =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+
 export type GetGatewaysNameListenersIdAuthentication404Code =
   (typeof GetGatewaysNameListenersIdAuthentication404Code)[keyof typeof GetGatewaysNameListenersIdAuthentication404Code]
 
@@ -346,30 +319,30 @@ export type GetGatewaysNameListenersIdAuthentication200 =
   | AuthnRedisSentinel
   | AuthnRedisSingle
 
-export type DeleteGatewaysNameListenersId404Code =
-  (typeof DeleteGatewaysNameListenersId404Code)[keyof typeof DeleteGatewaysNameListenersId404Code]
+export type DeleteGatewaysNameListenersIdAuthentication404Code =
+  (typeof DeleteGatewaysNameListenersIdAuthentication404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersId404Code = {
+export const DeleteGatewaysNameListenersIdAuthentication404Code = {
   NOT_FOUND: 'NOT_FOUND',
   RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
 } as const
 
-export type DeleteGatewaysNameListenersId404 = {
-  code?: DeleteGatewaysNameListenersId404Code
+export type DeleteGatewaysNameListenersIdAuthentication404 = {
+  code?: DeleteGatewaysNameListenersIdAuthentication404Code
   message?: string
 }
 
-export type DeleteGatewaysNameListenersId400Code =
-  (typeof DeleteGatewaysNameListenersId400Code)[keyof typeof DeleteGatewaysNameListenersId400Code]
+export type DeleteGatewaysNameListenersIdAuthentication400Code =
+  (typeof DeleteGatewaysNameListenersIdAuthentication400Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteGatewaysNameListenersId400Code = {
+export const DeleteGatewaysNameListenersIdAuthentication400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type DeleteGatewaysNameListenersId400 = {
-  code?: DeleteGatewaysNameListenersId400Code
+export type DeleteGatewaysNameListenersIdAuthentication400 = {
+  code?: DeleteGatewaysNameListenersIdAuthentication400Code
   message?: string
 }
 
@@ -451,6 +424,33 @@ export type GetGatewaysNameListenersId200 =
   | EmqxGatewayApiWsListener
   | EmqxGatewayApiWssListener
 
+export type DeleteGatewaysNameListenersId404Code =
+  (typeof DeleteGatewaysNameListenersId404Code)[keyof typeof DeleteGatewaysNameListenersId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameListenersId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type DeleteGatewaysNameListenersId404 = {
+  code?: DeleteGatewaysNameListenersId404Code
+  message?: string
+}
+
+export type DeleteGatewaysNameListenersId400Code =
+  (typeof DeleteGatewaysNameListenersId400Code)[keyof typeof DeleteGatewaysNameListenersId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteGatewaysNameListenersId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteGatewaysNameListenersId400 = {
+  code?: DeleteGatewaysNameListenersId400Code
+  message?: string
+}
+
 export type PostGatewaysNameListeners404Code =
   (typeof PostGatewaysNameListeners404Code)[keyof typeof PostGatewaysNameListeners404Code]
 
@@ -523,9 +523,9 @@ export type GetGatewaysNameListeners400 = {
 
 export type GetGatewaysNameListeners200Item =
   | EmqxGatewayApiListenersDtlsListener
-  | EmqxGatewayApiListenersUdpListener
   | EmqxGatewayApiListenersSslListener
   | EmqxGatewayApiListenersTcpListener
+  | EmqxGatewayApiListenersUdpListener
 
 export interface MongoTopology {
   connect_timeout_ms?: string
@@ -541,9 +541,9 @@ export interface MongoTopology {
   wait_queue_timeout_ms?: string
 }
 
-export type ListenersStatusRunning = boolean | 'inconsistent'
+export type ListenersStatusRunning = 'inconsistent' | boolean
 
-export type ListenersStatusMaxConnections = number | 'infinity'
+export type ListenersStatusMaxConnections = 'infinity' | number
 
 export interface ListenersStatus {
   /** @minimum 0 */
@@ -561,36 +561,36 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {
@@ -620,11 +620,11 @@ export type GatewayWebsocketPiggyback =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayWebsocketPiggyback = {
-  single: 'single',
   multiple: 'multiple',
+  single: 'single',
 } as const
 
-export type GatewayWebsocketMaxFrameSize = number | 'infinity'
+export type GatewayWebsocketMaxFrameSize = 'infinity' | number
 
 export interface GatewayWebsocket {
   allow_origin_absence?: boolean
@@ -660,8 +660,8 @@ export type GatewayDtlsOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type GatewayDtlsOptsPartialChain =
@@ -669,10 +669,10 @@ export type GatewayDtlsOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type GatewayDtlsOptsLogLevel =
@@ -680,16 +680,16 @@ export type GatewayDtlsOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface GatewayDtlsOpts {
@@ -742,21 +742,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -764,16 +764,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -811,8 +811,8 @@ export type EmqxListenerWssOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerWssOptsPartialChain =
@@ -820,10 +820,10 @@ export type EmqxListenerWssOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -831,16 +831,16 @@ export type EmqxListenerWssOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerWssOpts {
@@ -873,8 +873,8 @@ export type EmqxListenerSslOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -882,10 +882,10 @@ export type EmqxListenerSslOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerSslOptsLogLevel =
@@ -893,16 +893,16 @@ export type EmqxListenerSslOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerSslOpts {
@@ -949,18 +949,18 @@ export type EmqxDeflateOptsServerContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsServerContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export type EmqxDeflateOptsLevel = (typeof EmqxDeflateOptsLevel)[keyof typeof EmqxDeflateOptsLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsLevel = {
-  none: 'none',
-  default: 'default',
   best_compression: 'best_compression',
   best_speed: 'best_speed',
+  default: 'default',
+  none: 'none',
 } as const
 
 export type EmqxDeflateOptsClientContextTakeover =
@@ -968,8 +968,8 @@ export type EmqxDeflateOptsClientContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsClientContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export interface EmqxDeflateOpts {
@@ -1537,8 +1537,8 @@ export type AuthnMongoSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoSingleUseLegacyProtocol =
@@ -1547,8 +1547,8 @@ export type AuthnMongoSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
@@ -1613,8 +1613,8 @@ export type AuthnMongoShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoShardedUseLegacyProtocol =
@@ -1623,8 +1623,8 @@ export type AuthnMongoShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
@@ -1688,8 +1688,8 @@ export type AuthnMongoRsWMode = (typeof AuthnMongoRsWMode)[keyof typeof AuthnMon
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoRsUseLegacyProtocol =
@@ -1698,8 +1698,8 @@ export type AuthnMongoRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoRsRMode = (typeof AuthnMongoRsRMode)[keyof typeof AuthnMongoRsRMode]
@@ -1837,8 +1837,8 @@ export type AuthnJwtPublicKeyFrom =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtPublicKeyFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export type AuthnJwtPublicKeyAlgorithm =
@@ -1884,8 +1884,8 @@ export type AuthnJwtJwksFrom = (typeof AuthnJwtJwksFrom)[keyof typeof AuthnJwtJw
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtJwksFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export interface AuthnJwtJwks {
@@ -1919,8 +1919,8 @@ export type AuthnJwtHmacFrom = (typeof AuthnJwtHmacFrom)[keyof typeof AuthnJwtHm
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtHmacFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export type AuthnJwtHmacAlgorithm =
@@ -2162,6 +2162,7 @@ export const AuthnBindMethodType = {
 
 export interface AuthnBindMethod {
   bind_password?: string
+  is_superuser_attribute?: string
   type?: AuthnBindMethodType
 }
 
@@ -2179,8 +2180,8 @@ export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof Auth
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnHashSimpleName = {
-  plain: 'plain',
   md5: 'md5',
+  plain: 'plain',
   sha: 'sha',
   sha256: 'sha256',
   sha512: 'sha512',

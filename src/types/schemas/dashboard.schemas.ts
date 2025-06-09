@@ -68,6 +68,58 @@ export type PostUsersUsernameChangePwdBody = {
   old_pwd?: string
 }
 
+export type PutUsersUsername404Code =
+  (typeof PutUsersUsername404Code)[keyof typeof PutUsersUsername404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsername404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type PutUsersUsername404 = {
+  code?: PutUsersUsername404Code
+  message?: string
+}
+
+export type PutUsersUsername200Mfa =
+  (typeof PutUsersUsername200Mfa)[keyof typeof PutUsersUsername200Mfa]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsername200Mfa = {
+  disabled: 'disabled',
+  none: 'none',
+  totp: 'totp',
+} as const
+
+export type PutUsersUsername200 = {
+  backend?: string
+  description?: string
+  mfa?: PutUsersUsername200Mfa
+  role?: string
+  /** @maxLength 100 */
+  username?: string
+}
+
+export type PutUsersUsernameBody = {
+  description?: string
+  role?: string
+}
+
+export type PutUsersUsernameBackend =
+  (typeof PutUsersUsernameBackend)[keyof typeof PutUsersUsernameBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsernameBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type PutUsersUsernameParams = {
+  backend?: PutUsersUsernameBackend
+}
+
 export type DeleteUsersUsername404Code =
   (typeof DeleteUsersUsername404Code)[keyof typeof DeleteUsersUsername404Code]
 
@@ -108,58 +160,6 @@ export const DeleteUsersUsernameBackend = {
 
 export type DeleteUsersUsernameParams = {
   backend?: DeleteUsersUsernameBackend
-}
-
-export type PutUsersUsername404Code =
-  (typeof PutUsersUsername404Code)[keyof typeof PutUsersUsername404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutUsersUsername404Code = {
-  USER_NOT_FOUND: 'USER_NOT_FOUND',
-} as const
-
-export type PutUsersUsername404 = {
-  code?: PutUsersUsername404Code
-  message?: string
-}
-
-export type PutUsersUsername200Mfa =
-  (typeof PutUsersUsername200Mfa)[keyof typeof PutUsersUsername200Mfa]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutUsersUsername200Mfa = {
-  none: 'none',
-  disabled: 'disabled',
-  totp: 'totp',
-} as const
-
-export type PutUsersUsername200 = {
-  backend?: string
-  description?: string
-  mfa?: PutUsersUsername200Mfa
-  role?: string
-  /** @maxLength 100 */
-  username?: string
-}
-
-export type PutUsersUsernameBody = {
-  description?: string
-  role?: string
-}
-
-export type PutUsersUsernameBackend =
-  (typeof PutUsersUsernameBackend)[keyof typeof PutUsersUsernameBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutUsersUsernameBackend = {
-  ldap: 'ldap',
-  local: 'local',
-  oidc: 'oidc',
-  saml: 'saml',
-} as const
-
-export type PutUsersUsernameParams = {
-  backend?: PutUsersUsernameBackend
 }
 
 export type PostUsers200 = {
@@ -214,8 +214,8 @@ export type PostLogin401Code = (typeof PostLogin401Code)[keyof typeof PostLogin4
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin401Code = {
-  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
   BAD_MFA_TOKEN: 'BAD_MFA_TOKEN',
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
   LOGIN_LOCKED: 'LOGIN_LOCKED',
 } as const
 
@@ -229,8 +229,8 @@ export type PostLogin200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type PostLogin200License = {
@@ -258,8 +258,8 @@ export type DashboardUserMfa = (typeof DashboardUserMfa)[keyof typeof DashboardU
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardUserMfa = {
-  none: 'none',
   disabled: 'disabled',
+  none: 'none',
   totp: 'totp',
 } as const
 

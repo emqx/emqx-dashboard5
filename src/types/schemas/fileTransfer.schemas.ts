@@ -81,8 +81,8 @@ export type PutFileTransfer400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutFileTransfer400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutFileTransfer400 = {
@@ -132,12 +132,12 @@ export type FileTransferS3ExporterAcl =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FileTransferS3ExporterAcl = {
-  private: 'private',
-  public_read: 'public_read',
-  public_read_write: 'public_read_write',
   authenticated_read: 'authenticated_read',
-  bucket_owner_read: 'bucket_owner_read',
   bucket_owner_full_control: 'bucket_owner_full_control',
+  bucket_owner_read: 'bucket_owner_read',
+  private: 'private',
+  public_read_write: 'public_read_write',
+  public_read: 'public_read',
 } as const
 
 export type FileTransferS3ExporterAccessMethod =
@@ -209,21 +209,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -231,16 +231,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {

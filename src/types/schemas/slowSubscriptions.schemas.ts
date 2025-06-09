@@ -3,8 +3,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetSlowSubscriptionsParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
 }
 
 export interface SlowSubscribersStatisticsRecord {
@@ -24,9 +24,9 @@ export type SlowSubsSlowSubsStatsType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SlowSubsSlowSubsStatsType = {
-  whole: 'whole',
   internal: 'internal',
   response: 'response',
+  whole: 'whole',
 } as const
 
 export interface SlowSubsSlowSubs {

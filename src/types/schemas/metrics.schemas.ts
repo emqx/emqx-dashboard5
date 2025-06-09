@@ -50,7 +50,7 @@ export type GetMonitorParams = {
   latest?: number
 }
 
-export type GetMetrics200 = EmqxMgmtApiMetricsNodeMetrics[] | EmqxMgmtApiMetricsAggregatedMetrics
+export type GetMetrics200 = EmqxMgmtApiMetricsAggregatedMetrics | EmqxMgmtApiMetricsNodeMetrics[]
 
 export type GetMetricsParams = {
   aggregate?: boolean

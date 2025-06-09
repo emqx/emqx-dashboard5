@@ -17,35 +17,9 @@ export type GetMqttRetainerMessages200 = {
 }
 
 export type GetMqttRetainerMessagesParams = {
-  topic?: string
   page?: number
   limit?: number
-}
-
-export type DeleteMqttRetainerMessageTopic404Code =
-  (typeof DeleteMqttRetainerMessageTopic404Code)[keyof typeof DeleteMqttRetainerMessageTopic404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttRetainerMessageTopic404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMqttRetainerMessageTopic404 = {
-  code?: DeleteMqttRetainerMessageTopic404Code
-  message?: string
-}
-
-export type DeleteMqttRetainerMessageTopic400Code =
-  (typeof DeleteMqttRetainerMessageTopic400Code)[keyof typeof DeleteMqttRetainerMessageTopic400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttRetainerMessageTopic400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteMqttRetainerMessageTopic400 = {
-  code?: DeleteMqttRetainerMessageTopic400Code
-  message?: string
+  topic?: string
 }
 
 export type GetMqttRetainerMessageTopic404Code =
@@ -71,6 +45,32 @@ export const GetMqttRetainerMessageTopic400Code = {
 
 export type GetMqttRetainerMessageTopic400 = {
   code?: GetMqttRetainerMessageTopic400Code
+  message?: string
+}
+
+export type DeleteMqttRetainerMessageTopic404Code =
+  (typeof DeleteMqttRetainerMessageTopic404Code)[keyof typeof DeleteMqttRetainerMessageTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttRetainerMessageTopic404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteMqttRetainerMessageTopic404 = {
+  code?: DeleteMqttRetainerMessageTopic404Code
+  message?: string
+}
+
+export type DeleteMqttRetainerMessageTopic400Code =
+  (typeof DeleteMqttRetainerMessageTopic400Code)[keyof typeof DeleteMqttRetainerMessageTopic400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttRetainerMessageTopic400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteMqttRetainerMessageTopic400 = {
+  code?: DeleteMqttRetainerMessageTopic400Code
   message?: string
 }
 
@@ -100,7 +100,7 @@ export type GetMqttRetainer404 = {
   message?: string
 }
 
-export type RetainerRetainerMsgExpiryIntervalOverride = string | 'disabled'
+export type RetainerRetainerMsgExpiryIntervalOverride = 'disabled' | string
 
 export type RetainerMnesiaConfigType =
   (typeof RetainerMnesiaConfigType)[keyof typeof RetainerMnesiaConfigType]
@@ -115,8 +115,8 @@ export type RetainerMnesiaConfigStorageType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RetainerMnesiaConfigStorageType = {
-  ram: 'ram',
   disc: 'disc',
+  ram: 'ram',
 } as const
 
 export interface RetainerMnesiaConfig {
