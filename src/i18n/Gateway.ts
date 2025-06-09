@@ -599,11 +599,11 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     en: "Configure how the gateway extracts the client username. Supports fixed strings and placeholder syntax. For example, `bar` means all clients use `bar` as the username; `foo-${'{'}Packet.user{'}'}` means the `user` field from the CONNECT packet is used for concatenation. Supported placeholders: `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`.",
   },
   clientInfoOverridePasswordDesc: {
-    zh: "配置网关如何提取客户端的用户名，支持固定字符串和占位符语法。例如 `bar` 即所有客户端使用的用户名为 `bar`；如 `foo-${'{'}Packet.user{'}'}` 即表示使用连接报文的 `user` 字段进行拼接。支持占位符有 `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`。",
-    en: "Configure how the gateway extracts the client password. Supports fixed strings and placeholder syntax. For example, `bar` means all clients use `bar` as the password; `foo-${'{'}Packet.user{'}'}` means the `user` field from the CONNECT packet is used for concatenation. Supported placeholders: `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`.",
+    zh: "配置网关如何提取客户端的密码字段，支持固定字符串和占位符语法。例如 `bar` 即所有客户端使用的密码为 `bar`；如 `foo-${'{'}Packet.pass{'}'}` 即表示使用连接报文的 `pass` 字段进行拼接。支持占位符有 `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`。",
+    en: "Configure how the gateway extracts the client password. Supports fixed strings and placeholder syntax. For example, `bar` means all clients use `bar` as the password; `foo-${'{'}Packet.pass{'}'}` means the `pass` field from the CONNECT packet is used for concatenation. Supported placeholders: `${'{'}Packet{'}'}`, `${'{'}ConnInfo{'}'}`.",
   },
   clientInfoOverrideClientIdDesc: {
-    zh: '配置网关如何提取客户端的密码字段，支持固定字符串和占位符语法。默认为网关随机生成。',
+    zh: '配置网关如何提取客户端的客户端 ID 字段，支持固定字符串和占位符语法。默认为网关随机生成。',
     en: 'Configure how the gateway extracts the client ID field. Supports fixed strings and placeholder syntax. By default, the gateway generates a random client ID.',
   },
   maxPayloadSizeDesc: {
