@@ -50,19 +50,6 @@ export type PostMessageTransformationsTransformationNameEnableEnable400 = {
   message?: string
 }
 
-export type DeleteMessageTransformationsTransformationName404Code =
-  (typeof DeleteMessageTransformationsTransformationName404Code)[keyof typeof DeleteMessageTransformationsTransformationName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageTransformationsTransformationName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMessageTransformationsTransformationName404 = {
-  code?: DeleteMessageTransformationsTransformationName404Code
-  message?: string
-}
-
 export type GetMessageTransformationsTransformationName404Code =
   (typeof GetMessageTransformationsTransformationName404Code)[keyof typeof GetMessageTransformationsTransformationName404Code]
 
@@ -73,6 +60,19 @@ export const GetMessageTransformationsTransformationName404Code = {
 
 export type GetMessageTransformationsTransformationName404 = {
   code?: GetMessageTransformationsTransformationName404Code
+  message?: string
+}
+
+export type DeleteMessageTransformationsTransformationName404Code =
+  (typeof DeleteMessageTransformationsTransformationName404Code)[keyof typeof DeleteMessageTransformationsTransformationName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMessageTransformationsTransformationName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteMessageTransformationsTransformationName404 = {
+  code?: DeleteMessageTransformationsTransformationName404Code
   message?: string
 }
 
@@ -105,19 +105,6 @@ export type PostMessageTransformationsDryrun400 = {
   message?: string
 }
 
-export type PostMessageTransformations400Code =
-  (typeof PostMessageTransformations400Code)[keyof typeof PostMessageTransformations400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageTransformations400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-} as const
-
-export type PostMessageTransformations400 = {
-  code?: PostMessageTransformations400Code
-  message?: string
-}
-
 export type PutMessageTransformations404Code =
   (typeof PutMessageTransformations404Code)[keyof typeof PutMessageTransformations404Code]
 
@@ -141,6 +128,19 @@ export const PutMessageTransformations400Code = {
 
 export type PutMessageTransformations400 = {
   code?: PutMessageTransformations400Code
+  message?: string
+}
+
+export type PostMessageTransformations400Code =
+  (typeof PostMessageTransformations400Code)[keyof typeof PostMessageTransformations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMessageTransformations400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostMessageTransformations400 = {
+  code?: PostMessageTransformations400Code
   message?: string
 }
 
@@ -169,8 +169,8 @@ export type MessageTransformationTransformationFailureAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationFailureAction = {
-  drop: 'drop',
   disconnect: 'disconnect',
+  drop: 'drop',
   ignore: 'ignore',
 } as const
 
@@ -184,12 +184,12 @@ export type MessageTransformationLogFailureLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationLogFailureLevel = {
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
   debug: 'debug',
+  error: 'error',
+  info: 'info',
   none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface MessageTransformationLogFailure {

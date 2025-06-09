@@ -128,45 +128,6 @@ export type PostConnectorsIdOperation400 = {
   message?: string
 }
 
-export type DeleteConnectorsId503Code =
-  (typeof DeleteConnectorsId503Code)[keyof typeof DeleteConnectorsId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteConnectorsId503 = {
-  code?: DeleteConnectorsId503Code
-  message?: string
-}
-
-export type DeleteConnectorsId404Code =
-  (typeof DeleteConnectorsId404Code)[keyof typeof DeleteConnectorsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteConnectorsId404 = {
-  code?: DeleteConnectorsId404Code
-  message?: string
-}
-
-export type DeleteConnectorsId400Code =
-  (typeof DeleteConnectorsId400Code)[keyof typeof DeleteConnectorsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteConnectorsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteConnectorsId400 = {
-  code?: DeleteConnectorsId400Code
-  message?: string
-}
-
 export type PutConnectorsId404Code =
   (typeof PutConnectorsId404Code)[keyof typeof PutConnectorsId404Code]
 
@@ -193,7 +154,7 @@ export type PutConnectorsId400 = {
   message?: string
 }
 
-export type PutConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
+export type PutConnectorsId200OneOf = IotdbGetRestapi | IotdbGetThrift
 
 export type PutConnectorsId200 =
   | BridgeAzureEventHubGetConnector
@@ -235,10 +196,10 @@ export type PutConnectorsId200 =
   | RedisGetConnector
   | RocketmqGetConnector
   | SyskeeperForwarderGet
-  | PutConnectorsId200OneOf
   | TdengineConnectorGet
+  | PutConnectorsId200OneOf
 
-export type PutConnectorsIdBodyOneOf = IotdbPutThrift | IotdbPutRestapi
+export type PutConnectorsIdBodyOneOf = IotdbPutRestapi | IotdbPutThrift
 
 export type PutConnectorsIdBody =
   | BridgeAzureEventHubPutConnector
@@ -280,8 +241,8 @@ export type PutConnectorsIdBody =
   | RedisPutConnector
   | RocketmqPutConnector
   | SyskeeperForwarderPut
-  | PutConnectorsIdBodyOneOf
   | TdengineConnectorPut
+  | PutConnectorsIdBodyOneOf
 
 export type GetConnectorsId404Code =
   (typeof GetConnectorsId404Code)[keyof typeof GetConnectorsId404Code]
@@ -296,7 +257,7 @@ export type GetConnectorsId404 = {
   message?: string
 }
 
-export type GetConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
+export type GetConnectorsId200OneOf = IotdbGetRestapi | IotdbGetThrift
 
 export type GetConnectorsId200 =
   | BridgeAzureEventHubGetConnector
@@ -338,8 +299,47 @@ export type GetConnectorsId200 =
   | RedisGetConnector
   | RocketmqGetConnector
   | SyskeeperForwarderGet
-  | GetConnectorsId200OneOf
   | TdengineConnectorGet
+  | GetConnectorsId200OneOf
+
+export type DeleteConnectorsId503Code =
+  (typeof DeleteConnectorsId503Code)[keyof typeof DeleteConnectorsId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteConnectorsId503 = {
+  code?: DeleteConnectorsId503Code
+  message?: string
+}
+
+export type DeleteConnectorsId404Code =
+  (typeof DeleteConnectorsId404Code)[keyof typeof DeleteConnectorsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteConnectorsId404 = {
+  code?: DeleteConnectorsId404Code
+  message?: string
+}
+
+export type DeleteConnectorsId400Code =
+  (typeof DeleteConnectorsId400Code)[keyof typeof DeleteConnectorsId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteConnectorsId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteConnectorsId400 = {
+  code?: DeleteConnectorsId400Code
+  message?: string
+}
 
 export type PostConnectorsProbe400Code =
   (typeof PostConnectorsProbe400Code)[keyof typeof PostConnectorsProbe400Code]
@@ -354,7 +354,7 @@ export type PostConnectorsProbe400 = {
   message?: string
 }
 
-export type PostConnectorsProbeBodyOneOf = IotdbPostThrift | IotdbPostRestapi
+export type PostConnectorsProbeBodyOneOf = IotdbPostRestapi | IotdbPostThrift
 
 export type PostConnectorsProbeBody =
   | BridgeAzureEventHubPostConnector
@@ -396,8 +396,8 @@ export type PostConnectorsProbeBody =
   | RedisPostConnector
   | RocketmqPostConnector
   | SyskeeperForwarderPost
-  | PostConnectorsProbeBodyOneOf
   | TdengineConnectorPost
+  | PostConnectorsProbeBodyOneOf
 
 export type PostConnectors400Code =
   (typeof PostConnectors400Code)[keyof typeof PostConnectors400Code]
@@ -412,7 +412,7 @@ export type PostConnectors400 = {
   message?: string
 }
 
-export type PostConnectors201OneOf = IotdbGetThrift | IotdbGetRestapi
+export type PostConnectors201OneOf = IotdbGetRestapi | IotdbGetThrift
 
 export type PostConnectors201 =
   | BridgeAzureEventHubGetConnector
@@ -454,95 +454,10 @@ export type PostConnectors201 =
   | RedisGetConnector
   | RocketmqGetConnector
   | SyskeeperForwarderGet
+  | TdengineConnectorGet
   | PostConnectors201OneOf
-  | TdengineConnectorGet
 
-export type PostConnectorsBodyOneOf = IotdbPostThrift | IotdbPostRestapi
-
-export type GetConnectors200ItemOneOf = IotdbGetThrift | IotdbGetRestapi
-
-export type GetConnectors200Item =
-  | KafkaConsumerGetConnector
-  | ConnectorDiskLogGetConnector
-  | OpentsConnectorGet
-  | BridgeAzureEventHubGetConnector
-  | BridgeMatrixGetConnector
-  | ConnectorDorisGetConnector
-  | ConfluentGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeKafkaGetConnector
-  | ConnectorPostgresGetConnector
-  | BridgeKinesisGetConnector
-  | PulsarGet
-  | BridgeDatalayersGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeMongodbGetConnector
-  | GcpPubsubProducerGetConnector
-  | ConnectorSnowflakeGetConnector
-  | BridgeHttpGetConnector
-  | ConnectorSyskeeperProxyGet
-  | SyskeeperForwarderGet
-  | BridgeCassaGetConnector
-  | RabbitmqGet
-  | GcpPubsubConsumerGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | RedisGetConnector
-  | BridgeInfluxdbGetConnector
-  | BridgeClickhouseGetConnector
-  | ConnectorS3tablesGetConnector
-  | BridgeS3GetConnector
-  | BridgeGreptimedbGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorCouchbaseGetConnector
-  | BridgeTimescaleGetConnector
-  | BridgeDynamoGetConnector
-  | GetConnectors200ItemOneOf
-  | RocketmqGetConnector
-  | TdengineConnectorGet
-  | BridgeHstreamdbGetConnector
-  | BridgeSqlserverGetConnector
-  | BridgeOracleGetConnector
-  | ElasticsearchGet
-
-export interface TdengineConnectorPut {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: TdengineConnectorConnectorResourceOpts
-  server: string
-  tags?: string[]
-  token?: string
-  username?: string
-}
-
-export type TdengineConnectorPostType =
-  (typeof TdengineConnectorPostType)[keyof typeof TdengineConnectorPostType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TdengineConnectorPostType = {
-  tdengine: 'tdengine',
-} as const
-
-export interface TdengineConnectorPost {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  name: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: TdengineConnectorConnectorResourceOpts
-  server: string
-  tags?: string[]
-  token?: string
-  type: TdengineConnectorPostType
-  username?: string
-}
+export type PostConnectorsBodyOneOf = IotdbPostRestapi | IotdbPostThrift
 
 export type PostConnectorsBody =
   | BridgeAzureEventHubPostConnector
@@ -584,8 +499,61 @@ export type PostConnectorsBody =
   | RedisPostConnector
   | RocketmqPostConnector
   | SyskeeperForwarderPost
-  | PostConnectorsBodyOneOf
   | TdengineConnectorPost
+  | PostConnectorsBodyOneOf
+
+export type GetConnectors200ItemOneOf = IotdbGetRestapi | IotdbGetThrift
+
+export type GetConnectors200Item =
+  | BridgeAzureEventHubGetConnector
+  | BridgeCassaGetConnector
+  | BridgeClickhouseGetConnector
+  | BridgeDatalayersGetConnector
+  | BridgeDynamoGetConnector
+  | BridgeGreptimedbGetConnector
+  | BridgeHstreamdbGetConnector
+  | BridgeHttpGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeKafkaGetConnector
+  | BridgeKinesisGetConnector
+  | BridgeMatrixGetConnector
+  | BridgeMongodbGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeOracleGetConnector
+  | BridgeS3GetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeTimescaleGetConnector
+  | ConfluentGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | ConnectorCouchbaseGetConnector
+  | ConnectorDiskLogGetConnector
+  | ConnectorDorisGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
+  | ConnectorSnowflakeGetConnector
+  | ConnectorSyskeeperProxyGet
+  | ElasticsearchGet
+  | GcpPubsubConsumerGetConnector
+  | GcpPubsubProducerGetConnector
+  | KafkaConsumerGetConnector
+  | OpentsConnectorGet
+  | PulsarGet
+  | RabbitmqGet
+  | RedisGetConnector
+  | RocketmqGetConnector
+  | SyskeeperForwarderGet
+  | TdengineConnectorGet
+  | GetConnectors200ItemOneOf
+
+export type TdengineConnectorPostType =
+  (typeof TdengineConnectorPostType)[keyof typeof TdengineConnectorPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TdengineConnectorPostType = {
+  tdengine: 'tdengine',
+} as const
 
 export type TdengineConnectorGetType =
   (typeof TdengineConnectorGetType)[keyof typeof TdengineConnectorGetType]
@@ -601,15 +569,50 @@ export type TdengineConnectorGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TdengineConnectorGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type TdengineConnectorConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface TdengineConnectorConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: TdengineConnectorConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface TdengineConnectorPut {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+  server: string
+  tags?: string[]
+  token?: string
+  username?: string
+}
+
+export interface TdengineConnectorPost {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  name: string
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: TdengineConnectorConnectorResourceOpts
+  server: string
+  tags?: string[]
+  token?: string
+  type: TdengineConnectorPostType
+  username?: string
 }
 
 export interface TdengineConnectorGet {
@@ -641,6 +644,18 @@ export const SyskeeperForwarderPutAckMode = {
   no_ack: 'no_ack',
 } as const
 
+export interface SyskeeperForwarderPut {
+  ack_mode?: SyskeeperForwarderPutAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+}
+
 export type SyskeeperForwarderPostType =
   (typeof SyskeeperForwarderPostType)[keyof typeof SyskeeperForwarderPostType]
 
@@ -658,20 +673,6 @@ export const SyskeeperForwarderPostAckMode = {
   no_ack: 'no_ack',
 } as const
 
-export interface SyskeeperForwarderPost {
-  ack_mode?: SyskeeperForwarderPostAckMode
-  ack_timeout?: string
-  description?: string
-  enable?: boolean
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: SyskeeperForwarderConnectorResourceOpts
-  server: string
-  tags?: string[]
-  type: SyskeeperForwarderPostType
-}
-
 export type SyskeeperForwarderGetType =
   (typeof SyskeeperForwarderGetType)[keyof typeof SyskeeperForwarderGetType]
 
@@ -686,8 +687,8 @@ export type SyskeeperForwarderGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -699,24 +700,6 @@ export const SyskeeperForwarderGetAckMode = {
   need_ack: 'need_ack',
   no_ack: 'no_ack',
 } as const
-
-export interface SyskeeperForwarderConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface SyskeeperForwarderPut {
-  ack_mode?: SyskeeperForwarderPutAckMode
-  ack_timeout?: string
-  description?: string
-  enable?: boolean
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: SyskeeperForwarderConnectorResourceOpts
-  server: string
-  tags?: string[]
-}
 
 export interface SyskeeperForwarderGet {
   ack_mode?: SyskeeperForwarderGetAckMode
@@ -736,6 +719,29 @@ export interface SyskeeperForwarderGet {
   type: SyskeeperForwarderGetType
 }
 
+export type SyskeeperForwarderConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface SyskeeperForwarderConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: SyskeeperForwarderConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface SyskeeperForwarderPost {
+  ack_mode?: SyskeeperForwarderPostAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+  type: SyskeeperForwarderPostType
+}
+
 export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
 export interface S3TransportOptions {
@@ -753,21 +759,6 @@ export interface S3TransportOptions {
   pool_size?: number
   request_timeout?: string
   ssl?: EmqxSslClientOpts
-}
-
-export interface RocketmqPutConnector {
-  access_key?: string
-  description?: string
-  enable?: boolean
-  namespace?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: RocketmqConnectorResourceOpts
-  secret_key?: string
-  security_token?: string
-  servers: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
 }
 
 export type RocketmqPostConnectorType =
@@ -809,16 +800,10 @@ export type RocketmqGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RocketmqGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface RocketmqConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface RocketmqGetConnector {
   access_key?: string
@@ -839,6 +824,30 @@ export interface RocketmqGetConnector {
   status_reason?: string
   tags?: string[]
   type: RocketmqGetConnectorType
+}
+
+export type RocketmqConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface RocketmqConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: RocketmqConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface RocketmqPutConnector {
+  access_key?: string
+  description?: string
+  enable?: boolean
+  namespace?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: RocketmqConnectorResourceOpts
+  secret_key?: string
+  security_token?: string
+  servers: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
 }
 
 export type RedisRedisSingleConnectorRedisType =
@@ -908,15 +917,6 @@ export type RedisPutConnectorParameters =
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
 
-export interface RedisPutConnector {
-  description?: string
-  enable?: boolean
-  parameters: RedisPutConnectorParameters
-  resource_opts?: RedisConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
-
 export type RedisPostConnectorType =
   (typeof RedisPostConnectorType)[keyof typeof RedisPostConnectorType]
 
@@ -955,8 +955,8 @@ export type RedisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -964,12 +964,6 @@ export type RedisGetConnectorParameters =
   | RedisRedisClusterConnector
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
-
-export interface RedisConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface RedisGetConnector {
   description?: string
@@ -985,6 +979,24 @@ export interface RedisGetConnector {
   type: RedisGetConnectorType
 }
 
+export type RedisConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface RedisConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: RedisConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface RedisPutConnector {
+  description?: string
+  enable?: boolean
+  parameters: RedisPutConnectorParameters
+  resource_opts?: RedisConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+}
+
 export type RabbitmqPostType = (typeof RabbitmqPostType)[keyof typeof RabbitmqPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -997,13 +1009,16 @@ export type RabbitmqGetStatus = (typeof RabbitmqGetStatus)[keyof typeof Rabbitmq
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RabbitmqGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type RabbitmqConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface RabbitmqConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: RabbitmqConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -1116,15 +1131,18 @@ export type PulsarGetStatus = (typeof PulsarGetStatus)[keyof typeof PulsarGetSta
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PulsarGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
 export type PulsarGetAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
 
+export type PulsarConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface PulsarConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: PulsarConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -1143,6 +1161,18 @@ export interface PulsarGet {
   tags?: string[]
 }
 
+export interface OpentsConnectorPut {
+  description?: string
+  details?: boolean
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: OpentsConnectorConnectorResourceOpts
+  server: string
+  summary?: boolean
+  tags?: string[]
+}
+
 export type OpentsConnectorPostType =
   (typeof OpentsConnectorPostType)[keyof typeof OpentsConnectorPostType]
 
@@ -1150,6 +1180,20 @@ export type OpentsConnectorPostType =
 export const OpentsConnectorPostType = {
   opents: 'opents',
 } as const
+
+export interface OpentsConnectorPost {
+  description?: string
+  details?: boolean
+  enable?: boolean
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: OpentsConnectorConnectorResourceOpts
+  server: string
+  summary?: boolean
+  tags?: string[]
+  type: OpentsConnectorPostType
+}
 
 export type OpentsConnectorGetType =
   (typeof OpentsConnectorGetType)[keyof typeof OpentsConnectorGetType]
@@ -1165,42 +1209,10 @@ export type OpentsConnectorGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentsConnectorGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface OpentsConnectorConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface OpentsConnectorPut {
-  description?: string
-  details?: boolean
-  enable?: boolean
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-  server: string
-  summary?: boolean
-  tags?: string[]
-}
-
-export interface OpentsConnectorPost {
-  description?: string
-  details?: boolean
-  enable?: boolean
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: OpentsConnectorConnectorResourceOpts
-  server: string
-  summary?: boolean
-  tags?: string[]
-  type: OpentsConnectorPostType
-}
 
 export interface OpentsConnectorGet {
   description?: string
@@ -1217,6 +1229,15 @@ export interface OpentsConnectorGet {
   summary?: boolean
   tags?: string[]
   type: OpentsConnectorGetType
+}
+
+export type OpentsConnectorConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface OpentsConnectorConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: OpentsConnectorConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export interface MongoTopology {
@@ -1238,8 +1259,8 @@ export type MongoConnectorSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorSingleMongoType =
@@ -1261,8 +1282,8 @@ export type MongoConnectorShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorShardedMongoType =
@@ -1284,8 +1305,8 @@ export type MongoConnectorRsWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorRsRMode =
@@ -1377,8 +1398,8 @@ export type KafkaConsumerGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1448,8 +1469,8 @@ export type IotdbPutRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbPutRestapiIotdbVersion =
@@ -1457,10 +1478,10 @@ export type IotdbPutRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbPutRestapiDriver =
@@ -1547,8 +1568,8 @@ export type IotdbPostRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbPostRestapiIotdbVersion =
@@ -1556,10 +1577,10 @@ export type IotdbPostRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbPostRestapiDriver =
@@ -1603,8 +1624,8 @@ export type IotdbGetThriftStatus = (typeof IotdbGetThriftStatus)[keyof typeof Io
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1661,8 +1682,8 @@ export type IotdbGetRestapiStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1671,8 +1692,8 @@ export type IotdbGetRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbGetRestapiIotdbVersion =
@@ -1680,10 +1701,10 @@ export type IotdbGetRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbGetRestapiDriver =
@@ -1693,17 +1714,6 @@ export type IotdbGetRestapiDriver =
 export const IotdbGetRestapiDriver = {
   restapi: 'restapi',
 } as const
-
-export interface IotdbConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface IotdbAuthentication {
-  password: string
-  username: string
-}
 
 export interface IotdbGetRestapi {
   authentication?: IotdbAuthentication
@@ -1729,57 +1739,18 @@ export interface IotdbGetRestapi {
   type: IotdbGetRestapiType
 }
 
-export type GcpPubsubProducerPostConnectorType =
-  (typeof GcpPubsubProducerPostConnectorType)[keyof typeof GcpPubsubProducerPostConnectorType]
+export type IotdbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerPostConnectorType = {
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-} as const
-
-export interface GcpPubsubProducerPostConnector {
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  max_inactive?: string
-  /** @minimum 0 */
-  max_retries?: number
-  name: string
-  /** @minimum 1 */
-  pipelining?: number
-  /** @minimum 1 */
-  pool_size?: number
-  /** @deprecated */
-  request_timeout?: string
-  resource_opts?: GcpPubsubProducerConnectorResourceOpts
-  service_account_json: string
-  tags?: string[]
-  type: GcpPubsubProducerPostConnectorType
-}
-
-export type GcpPubsubProducerGetConnectorType =
-  (typeof GcpPubsubProducerGetConnectorType)[keyof typeof GcpPubsubProducerGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerGetConnectorType = {
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-} as const
-
-export type GcpPubsubProducerGetConnectorStatus =
-  (typeof GcpPubsubProducerGetConnectorStatus)[keyof typeof GcpPubsubProducerGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GcpPubsubProducerGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface GcpPubsubProducerConnectorResourceOpts {
+export interface IotdbConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: IotdbConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
+}
+
+export interface IotdbAuthentication {
+  password: string
+  username: string
 }
 
 export interface GcpPubsubProducerPutConnector {
@@ -1799,6 +1770,33 @@ export interface GcpPubsubProducerPutConnector {
   service_account_json: string
   tags?: string[]
 }
+
+export type GcpPubsubProducerPostConnectorType =
+  (typeof GcpPubsubProducerPostConnectorType)[keyof typeof GcpPubsubProducerPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerPostConnectorType = {
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+} as const
+
+export type GcpPubsubProducerGetConnectorType =
+  (typeof GcpPubsubProducerGetConnectorType)[keyof typeof GcpPubsubProducerGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerGetConnectorType = {
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+} as const
+
+export type GcpPubsubProducerGetConnectorStatus =
+  (typeof GcpPubsubProducerGetConnectorStatus)[keyof typeof GcpPubsubProducerGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerGetConnectorStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
 
 export interface GcpPubsubProducerGetConnector {
   actions?: string[]
@@ -1822,6 +1820,35 @@ export interface GcpPubsubProducerGetConnector {
   status_reason?: string
   tags?: string[]
   type: GcpPubsubProducerGetConnectorType
+}
+
+export type GcpPubsubProducerConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface GcpPubsubProducerConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: GcpPubsubProducerConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface GcpPubsubProducerPostConnector {
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  max_inactive?: string
+  /** @minimum 0 */
+  max_retries?: number
+  name: string
+  /** @minimum 1 */
+  pipelining?: number
+  /** @minimum 1 */
+  pool_size?: number
+  /** @deprecated */
+  request_timeout?: string
+  resource_opts?: GcpPubsubProducerConnectorResourceOpts
+  service_account_json: string
+  tags?: string[]
+  type: GcpPubsubProducerPostConnectorType
 }
 
 export interface GcpPubsubConsumerPutConnector {
@@ -1884,16 +1911,10 @@ export type GcpPubsubConsumerGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface GcpPubsubConsumerConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface GcpPubsubConsumerGetConnector {
   actions?: string[]
@@ -1919,26 +1940,35 @@ export interface GcpPubsubConsumerGetConnector {
   type: GcpPubsubConsumerGetConnectorType
 }
 
+export type GcpPubsubConsumerConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface GcpPubsubConsumerConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: GcpPubsubConsumerConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -1946,16 +1976,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -1985,58 +2015,9 @@ export type ElasticsearchPutPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPutPoolType = {
-  random: 'random',
   hash: 'hash',
-} as const
-
-export type ElasticsearchPostType =
-  (typeof ElasticsearchPostType)[keyof typeof ElasticsearchPostType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ElasticsearchPostType = {
-  elasticsearch: 'elasticsearch',
-} as const
-
-export type ElasticsearchPostPoolType =
-  (typeof ElasticsearchPostPoolType)[keyof typeof ElasticsearchPostPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ElasticsearchPostPoolType = {
   random: 'random',
-  hash: 'hash',
 } as const
-
-export type ElasticsearchGetType = (typeof ElasticsearchGetType)[keyof typeof ElasticsearchGetType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ElasticsearchGetType = {
-  elasticsearch: 'elasticsearch',
-} as const
-
-export type ElasticsearchGetStatus =
-  (typeof ElasticsearchGetStatus)[keyof typeof ElasticsearchGetStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ElasticsearchGetStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export type ElasticsearchGetPoolType =
-  (typeof ElasticsearchGetPoolType)[keyof typeof ElasticsearchGetPoolType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ElasticsearchGetPoolType = {
-  random: 'random',
-  hash: 'hash',
-} as const
-
-export interface ElasticsearchAuthBasic {
-  password: string
-  username: string
-}
 
 export interface ElasticsearchPut {
   authentication?: ElasticsearchAuthBasic
@@ -2055,6 +2036,23 @@ export interface ElasticsearchPut {
   tags?: string[]
 }
 
+export type ElasticsearchPostType =
+  (typeof ElasticsearchPostType)[keyof typeof ElasticsearchPostType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ElasticsearchPostType = {
+  elasticsearch: 'elasticsearch',
+} as const
+
+export type ElasticsearchPostPoolType =
+  (typeof ElasticsearchPostPoolType)[keyof typeof ElasticsearchPostPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ElasticsearchPostPoolType = {
+  hash: 'hash',
+  random: 'random',
+} as const
+
 export interface ElasticsearchPost {
   authentication?: ElasticsearchAuthBasic
   connect_timeout?: string
@@ -2072,6 +2070,38 @@ export interface ElasticsearchPost {
   ssl?: EmqxSslClientOpts
   tags?: string[]
   type: ElasticsearchPostType
+}
+
+export type ElasticsearchGetType = (typeof ElasticsearchGetType)[keyof typeof ElasticsearchGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ElasticsearchGetType = {
+  elasticsearch: 'elasticsearch',
+} as const
+
+export type ElasticsearchGetStatus =
+  (typeof ElasticsearchGetStatus)[keyof typeof ElasticsearchGetStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ElasticsearchGetStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export type ElasticsearchGetPoolType =
+  (typeof ElasticsearchGetPoolType)[keyof typeof ElasticsearchGetPoolType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ElasticsearchGetPoolType = {
+  hash: 'hash',
+  random: 'random',
+} as const
+
+export interface ElasticsearchAuthBasic {
+  password: string
+  username: string
 }
 
 export interface ElasticsearchGet {
@@ -2096,8 +2126,11 @@ export interface ElasticsearchGet {
   type: ElasticsearchGetType
 }
 
+export type ConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface ConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: ConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -2108,8 +2141,8 @@ export type ConnectorNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2117,6 +2150,17 @@ export interface ConnectorNodeStatus {
   node?: string
   status?: ConnectorNodeStatusStatus
   status_reason?: string
+}
+
+export interface ConnectorSyskeeperProxyPut {
+  /** @minimum 0 */
+  acceptors?: number
+  description?: string
+  enable?: boolean
+  handshake_timeout?: string
+  listen: string
+  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
+  tags?: string[]
 }
 
 export type ConnectorSyskeeperProxyPostType =
@@ -2154,27 +2198,10 @@ export type ConnectorSyskeeperProxyGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSyskeeperProxyGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface ConnectorSyskeeperProxyConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface ConnectorSyskeeperProxyPut {
-  /** @minimum 0 */
-  acceptors?: number
-  description?: string
-  enable?: boolean
-  handshake_timeout?: string
-  listen: string
-  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
-  tags?: string[]
-}
 
 export interface ConnectorSyskeeperProxyGet {
   /** @minimum 0 */
@@ -2191,6 +2218,15 @@ export interface ConnectorSyskeeperProxyGet {
   status_reason?: string
   tags?: string[]
   type: ConnectorSyskeeperProxyGetType
+}
+
+export type ConnectorSyskeeperProxyConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface ConnectorSyskeeperProxyConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: ConnectorSyskeeperProxyConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export interface ConnectorSnowflakeProxyConfig {
@@ -2270,8 +2306,8 @@ export type ConnectorSnowflakeGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSnowflakeGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2365,8 +2401,8 @@ export type ConnectorS3tablesGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorS3tablesGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2388,8 +2424,11 @@ export interface ConnectorS3tablesGetConnector {
   type: ConnectorS3tablesGetConnectorType
 }
 
+export type ConnectorPostgresResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface ConnectorPostgresResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: ConnectorPostgresResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -2452,8 +2491,8 @@ export type ConnectorPostgresGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorPostgresGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2485,8 +2524,11 @@ export interface ConnectorMqttStaticClientidEntry {
   node: string
 }
 
+export type ConnectorMqttResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface ConnectorMqttResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: ConnectorMqttResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -2611,8 +2653,8 @@ export type ConnectorMqttGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2756,8 +2798,8 @@ export type ConnectorDorisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDorisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2829,8 +2871,8 @@ export type ConnectorDiskLogGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDiskLogGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2924,8 +2966,8 @@ export type ConnectorCouchbaseGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorCouchbaseGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2952,8 +2994,11 @@ export interface ConnectorCouchbaseGetConnector {
   username: string
 }
 
+export type ConnectorAzureBlobStorageResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface ConnectorAzureBlobStorageResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: ConnectorAzureBlobStorageResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -3000,8 +3045,8 @@ export type ConnectorAzureBlobStorageGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorAzureBlobStorageGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3020,17 +3065,17 @@ export interface ConnectorAzureBlobStorageGetConnector {
   type: ConnectorAzureBlobStorageGetConnectorType
 }
 
-export type ConfluentSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type ConfluentSslClientOptsServerNameIndication = 'auto' | 'disable' | string
 
 export type ConfluentSslClientOptsPartialChain =
   (typeof ConfluentSslClientOptsPartialChain)[keyof typeof ConfluentSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type ConfluentSslClientOptsLogLevel =
@@ -3038,16 +3083,16 @@ export type ConfluentSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface ConfluentSslClientOpts {
@@ -3093,6 +3138,30 @@ export const ConfluentPostConnectorType = {
   confluent_producer: 'confluent_producer',
 } as const
 
+export type ConfluentGetConnectorType =
+  (typeof ConfluentGetConnectorType)[keyof typeof ConfluentGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentGetConnectorType = {
+  confluent_producer: 'confluent_producer',
+} as const
+
+export type ConfluentGetConnectorStatus =
+  (typeof ConfluentGetConnectorStatus)[keyof typeof ConfluentGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConfluentGetConnectorStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ConfluentAuthUsernamePassword {
+  password: string
+  username: string
+}
+
 export interface ConfluentPostConnector {
   authentication: ConfluentAuthUsernamePassword
   bootstrap_hosts: string
@@ -3108,30 +3177,6 @@ export interface ConfluentPostConnector {
   ssl: ConfluentSslClientOpts
   tags?: string[]
   type: ConfluentPostConnectorType
-}
-
-export type ConfluentGetConnectorType =
-  (typeof ConfluentGetConnectorType)[keyof typeof ConfluentGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ConfluentGetConnectorType = {
-  confluent_producer: 'confluent_producer',
-} as const
-
-export type ConfluentGetConnectorStatus =
-  (typeof ConfluentGetConnectorStatus)[keyof typeof ConfluentGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ConfluentGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface ConfluentAuthUsernamePassword {
-  password: string
-  username: string
 }
 
 export interface ConfluentGetConnector {
@@ -3161,8 +3206,8 @@ export type BridgeNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3230,8 +3275,8 @@ export type BridgeTimescaleGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescaleGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3296,22 +3341,6 @@ export const BridgeTablestorePostConnectorStorageModelType = {
   timeseries: 'timeseries',
 } as const
 
-export interface BridgeTablestorePostConnector {
-  access_key_id: string
-  access_key_secret: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  instance_name: string
-  name: string
-  pool_size?: number
-  resource_opts?: BridgeTablestoreConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  storage_model_type?: BridgeTablestorePostConnectorStorageModelType
-  tags?: string[]
-  type: BridgeTablestorePostConnectorType
-}
-
 export type BridgeTablestoreGetConnectorType =
   (typeof BridgeTablestoreGetConnectorType)[keyof typeof BridgeTablestoreGetConnectorType]
 
@@ -3334,16 +3363,10 @@ export type BridgeTablestoreGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTablestoreGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeTablestoreConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface BridgeTablestoreGetConnector {
   access_key_id: string
@@ -3363,6 +3386,31 @@ export interface BridgeTablestoreGetConnector {
   storage_model_type?: BridgeTablestoreGetConnectorStorageModelType
   tags?: string[]
   type: BridgeTablestoreGetConnectorType
+}
+
+export type BridgeTablestoreConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeTablestoreConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeTablestoreConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface BridgeTablestorePostConnector {
+  access_key_id: string
+  access_key_secret: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  instance_name: string
+  name: string
+  pool_size?: number
+  resource_opts?: BridgeTablestoreConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  storage_model_type?: BridgeTablestorePostConnectorStorageModelType
+  tags?: string[]
+  type: BridgeTablestorePostConnectorType
 }
 
 export interface BridgeSqlserverPutConnector {
@@ -3421,13 +3469,16 @@ export type BridgeSqlserverGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeSqlserverGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeSqlserverConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeSqlserverConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeSqlserverConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -3454,8 +3505,11 @@ export interface BridgeSqlserverGetConnector {
   username?: string
 }
 
+export type BridgeS3S3ConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeS3S3ConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeS3S3ConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -3530,8 +3584,8 @@ export type BridgeS3GetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeS3GetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3616,25 +3670,6 @@ export const BridgeOraclePostConnectorRole = {
   sysdba: 'sysdba',
 } as const
 
-export interface BridgeOraclePostConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  name: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeOracleConnectorResourceOpts
-  role?: BridgeOraclePostConnectorRole
-  server: string
-  service_name?: string
-  sid?: string
-  tags?: string[]
-  type: BridgeOraclePostConnectorType
-  username: string
-}
-
 export type BridgeOracleGetConnectorType =
   (typeof BridgeOracleGetConnectorType)[keyof typeof BridgeOracleGetConnectorType]
 
@@ -3649,8 +3684,8 @@ export type BridgeOracleGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOracleGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3662,12 +3697,6 @@ export const BridgeOracleGetConnectorRole = {
   normal: 'normal',
   sysdba: 'sysdba',
 } as const
-
-export interface BridgeOracleConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface BridgeOracleGetConnector {
   actions?: string[]
@@ -3689,6 +3718,34 @@ export interface BridgeOracleGetConnector {
   status_reason?: string
   tags?: string[]
   type: BridgeOracleGetConnectorType
+  username: string
+}
+
+export type BridgeOracleConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeOracleConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeOracleConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface BridgeOraclePostConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  name: string
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeOracleConnectorResourceOpts
+  role?: BridgeOraclePostConnectorRole
+  server: string
+  service_name?: string
+  sid?: string
+  tags?: string[]
+  type: BridgeOraclePostConnectorType
   username: string
 }
 
@@ -3716,31 +3773,6 @@ export const BridgeMysqlPostConnectorType = {
   mysql: 'mysql',
 } as const
 
-export type BridgeMysqlGetConnectorType =
-  (typeof BridgeMysqlGetConnectorType)[keyof typeof BridgeMysqlGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeMysqlGetConnectorType = {
-  mysql: 'mysql',
-} as const
-
-export type BridgeMysqlGetConnectorStatus =
-  (typeof BridgeMysqlGetConnectorStatus)[keyof typeof BridgeMysqlGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeMysqlGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeMysqlConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
 export interface BridgeMysqlPostConnector {
   /** @deprecated */
   auto_reconnect?: boolean
@@ -3758,6 +3790,25 @@ export interface BridgeMysqlPostConnector {
   type: BridgeMysqlPostConnectorType
   username?: string
 }
+
+export type BridgeMysqlGetConnectorType =
+  (typeof BridgeMysqlGetConnectorType)[keyof typeof BridgeMysqlGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMysqlGetConnectorType = {
+  mysql: 'mysql',
+} as const
+
+export type BridgeMysqlGetConnectorStatus =
+  (typeof BridgeMysqlGetConnectorStatus)[keyof typeof BridgeMysqlGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMysqlGetConnectorStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
 
 export interface BridgeMysqlGetConnector {
   actions?: string[]
@@ -3781,14 +3832,23 @@ export interface BridgeMysqlGetConnector {
   username?: string
 }
 
+export type BridgeMysqlConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeMysqlConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeMysqlConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export type BridgeMongodbPutConnectorUseLegacyProtocol =
   (typeof BridgeMongodbPutConnectorUseLegacyProtocol)[keyof typeof BridgeMongodbPutConnectorUseLegacyProtocol]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPutConnectorParameters =
@@ -3820,8 +3880,8 @@ export type BridgeMongodbPostConnectorUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPostConnectorType =
@@ -3863,8 +3923,8 @@ export type BridgeMongodbGetConnectorUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbGetConnectorType =
@@ -3881,8 +3941,8 @@ export type BridgeMongodbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3893,6 +3953,7 @@ export type BridgeMongodbGetConnectorParameters =
 
 export interface BridgeMongodbConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeMongodbConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -3920,6 +3981,8 @@ export interface BridgeMongodbGetConnector {
   use_legacy_protocol?: BridgeMongodbGetConnectorUseLegacyProtocol
   username?: string
 }
+
+export type BridgeMongodbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
 
 export interface BridgeMatrixPutConnector {
   /** @deprecated */
@@ -3979,8 +4042,8 @@ export type BridgeMatrixGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4059,13 +4122,16 @@ export type BridgeKinesisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeKinesisConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeKinesisConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeKinesisConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -4095,21 +4161,21 @@ export type BridgeKafkaSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeKafkaSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeKafkaSslClientOptsServerNameIndication = 'auto' | 'disable' | string
 
 export type BridgeKafkaSslClientOptsPartialChain =
   (typeof BridgeKafkaSslClientOptsPartialChain)[keyof typeof BridgeKafkaSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type BridgeKafkaSslClientOptsLogLevel =
@@ -4117,16 +4183,16 @@ export type BridgeKafkaSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface BridgeKafkaSslClientOpts {
@@ -4158,45 +4224,6 @@ export interface BridgeKafkaSocketOpts {
   tcp_keepalive?: string
 }
 
-export type BridgeKafkaPostConnectorType =
-  (typeof BridgeKafkaPostConnectorType)[keyof typeof BridgeKafkaPostConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaPostConnectorType = {
-  kafka_producer: 'kafka_producer',
-} as const
-
-export type BridgeKafkaPostConnectorAuthentication =
-  | BridgeKafkaAuthGssapiKerberos
-  | BridgeKafkaAuthUsernamePassword
-  | 'msk_iam'
-  | 'none'
-
-export type BridgeKafkaGetConnectorType =
-  (typeof BridgeKafkaGetConnectorType)[keyof typeof BridgeKafkaGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaGetConnectorType = {
-  kafka_producer: 'kafka_producer',
-} as const
-
-export type BridgeKafkaGetConnectorStatus =
-  (typeof BridgeKafkaGetConnectorStatus)[keyof typeof BridgeKafkaGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeKafkaGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeKafkaConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
 export interface BridgeKafkaPutConnector {
   authentication?: BridgeKafkaPutConnectorAuthentication
   bootstrap_hosts: string
@@ -4211,6 +4238,20 @@ export interface BridgeKafkaPutConnector {
   ssl?: BridgeKafkaSslClientOpts
   tags?: string[]
 }
+
+export type BridgeKafkaPostConnectorType =
+  (typeof BridgeKafkaPostConnectorType)[keyof typeof BridgeKafkaPostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaPostConnectorType = {
+  kafka_producer: 'kafka_producer',
+} as const
+
+export type BridgeKafkaPostConnectorAuthentication =
+  | BridgeKafkaAuthGssapiKerberos
+  | BridgeKafkaAuthUsernamePassword
+  | 'msk_iam'
+  | 'none'
 
 export interface BridgeKafkaPostConnector {
   authentication?: BridgeKafkaPostConnectorAuthentication
@@ -4228,6 +4269,25 @@ export interface BridgeKafkaPostConnector {
   tags?: string[]
   type: BridgeKafkaPostConnectorType
 }
+
+export type BridgeKafkaGetConnectorType =
+  (typeof BridgeKafkaGetConnectorType)[keyof typeof BridgeKafkaGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaGetConnectorType = {
+  kafka_producer: 'kafka_producer',
+} as const
+
+export type BridgeKafkaGetConnectorStatus =
+  (typeof BridgeKafkaGetConnectorStatus)[keyof typeof BridgeKafkaGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaGetConnectorStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
 
 export interface BridgeKafkaGetConnector {
   actions?: string[]
@@ -4248,6 +4308,15 @@ export interface BridgeKafkaGetConnector {
   status_reason?: string
   tags?: string[]
   type: BridgeKafkaGetConnectorType
+}
+
+export type BridgeKafkaConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeKafkaConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeKafkaConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export type BridgeKafkaAuthUsernamePasswordMechanism =
@@ -4325,8 +4394,8 @@ export type BridgeInfluxdbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4334,8 +4403,11 @@ export type BridgeInfluxdbGetConnectorParameters =
   | ConnectorInfluxdbConnectorInfluxdbApiV1
   | ConnectorInfluxdbConnectorInfluxdbApiV2
 
+export type BridgeInfluxdbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeInfluxdbConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeInfluxdbConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -4382,8 +4454,8 @@ export type BridgeHttpPutConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPutConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPutConnectorHeaders = { [key: string]: unknown }
@@ -4427,8 +4499,8 @@ export type BridgeHttpPostConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPostConnectorHeaders = { [key: string]: unknown }
@@ -4470,8 +4542,8 @@ export type BridgeHttpGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4485,14 +4557,17 @@ export type BridgeHttpGetConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpGetConnectorHeaders = { [key: string]: unknown }
 
+export type BridgeHttpConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeHttpConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeHttpConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -4523,6 +4598,16 @@ export interface BridgeHttpGetConnector {
   url: string
 }
 
+export interface BridgeHstreamdbPutConnector {
+  description?: string
+  enable?: boolean
+  grpc_timeout?: string
+  resource_opts?: BridgeHstreamdbConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  url: string
+}
+
 export type BridgeHstreamdbPostConnectorType =
   (typeof BridgeHstreamdbPostConnectorType)[keyof typeof BridgeHstreamdbPostConnectorType]
 
@@ -4530,6 +4615,18 @@ export type BridgeHstreamdbPostConnectorType =
 export const BridgeHstreamdbPostConnectorType = {
   hstreamdb: 'hstreamdb',
 } as const
+
+export interface BridgeHstreamdbPostConnector {
+  description?: string
+  enable?: boolean
+  grpc_timeout?: string
+  name: string
+  resource_opts?: BridgeHstreamdbConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  type: BridgeHstreamdbPostConnectorType
+  url: string
+}
 
 export type BridgeHstreamdbGetConnectorType =
   (typeof BridgeHstreamdbGetConnectorType)[keyof typeof BridgeHstreamdbGetConnectorType]
@@ -4545,37 +4642,18 @@ export type BridgeHstreamdbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeHstreamdbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeHstreamdbConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeHstreamdbConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface BridgeHstreamdbPutConnector {
-  description?: string
-  enable?: boolean
-  grpc_timeout?: string
-  resource_opts?: BridgeHstreamdbConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  url: string
-}
-
-export interface BridgeHstreamdbPostConnector {
-  description?: string
-  enable?: boolean
-  grpc_timeout?: string
-  name: string
-  resource_opts?: BridgeHstreamdbConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  type: BridgeHstreamdbPostConnectorType
-  url: string
 }
 
 export interface BridgeHstreamdbGetConnector {
@@ -4642,13 +4720,16 @@ export type BridgeGreptimedbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeGreptimedbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
 export interface BridgeGreptimedbConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeGreptimedbConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -4671,21 +4752,6 @@ export interface BridgeGreptimedbGetConnector {
   username?: string
 }
 
-export interface BridgeDynamoPutConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  /** @minimum 1 */
-  pool_size?: number
-  region: string
-  resource_opts?: BridgeDynamoConnectorResourceOpts
-  tags?: string[]
-  url: string
-}
-
 export type BridgeDynamoPostConnectorType =
   (typeof BridgeDynamoPostConnectorType)[keyof typeof BridgeDynamoPostConnectorType]
 
@@ -4693,23 +4759,6 @@ export type BridgeDynamoPostConnectorType =
 export const BridgeDynamoPostConnectorType = {
   dynamo: 'dynamo',
 } as const
-
-export interface BridgeDynamoPostConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  region: string
-  resource_opts?: BridgeDynamoConnectorResourceOpts
-  tags?: string[]
-  type: BridgeDynamoPostConnectorType
-  url: string
-}
 
 export type BridgeDynamoGetConnectorType =
   (typeof BridgeDynamoGetConnectorType)[keyof typeof BridgeDynamoGetConnectorType]
@@ -4725,16 +4774,10 @@ export type BridgeDynamoGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeDynamoConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
 
 export interface BridgeDynamoGetConnector {
   actions?: string[]
@@ -4755,6 +4798,59 @@ export interface BridgeDynamoGetConnector {
   tags?: string[]
   type: BridgeDynamoGetConnectorType
   url: string
+}
+
+export type BridgeDynamoConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeDynamoConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeDynamoConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface BridgeDynamoPutConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  region: string
+  resource_opts?: BridgeDynamoConnectorResourceOpts
+  tags?: string[]
+  url: string
+}
+
+export interface BridgeDynamoPostConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  region: string
+  resource_opts?: BridgeDynamoConnectorResourceOpts
+  tags?: string[]
+  type: BridgeDynamoPostConnectorType
+  url: string
+}
+
+export interface BridgeDatalayersPutConnector {
+  description?: string
+  enable?: boolean
+  max_inactive?: string
+  parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
+  pool_size?: number
+  resource_opts?: BridgeDatalayersConnectorResourceOpts
+  server?: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
 }
 
 export type BridgeDatalayersPostConnectorType =
@@ -4793,28 +4889,10 @@ export type BridgeDatalayersGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDatalayersGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeDatalayersConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface BridgeDatalayersPutConnector {
-  description?: string
-  enable?: boolean
-  max_inactive?: string
-  parameters: ConnectorDatalayersDatalayersInfluxdbV1Parameters
-  pool_size?: number
-  resource_opts?: BridgeDatalayersConnectorResourceOpts
-  server?: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
 
 export interface BridgeDatalayersGetConnector {
   actions?: string[]
@@ -4834,35 +4912,11 @@ export interface BridgeDatalayersGetConnector {
   type: BridgeDatalayersGetConnectorType
 }
 
-export type BridgeClickhousePostConnectorType =
-  (typeof BridgeClickhousePostConnectorType)[keyof typeof BridgeClickhousePostConnectorType]
+export type BridgeDatalayersConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeClickhousePostConnectorType = {
-  clickhouse: 'clickhouse',
-} as const
-
-export type BridgeClickhouseGetConnectorType =
-  (typeof BridgeClickhouseGetConnectorType)[keyof typeof BridgeClickhouseGetConnectorType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeClickhouseGetConnectorType = {
-  clickhouse: 'clickhouse',
-} as const
-
-export type BridgeClickhouseGetConnectorStatus =
-  (typeof BridgeClickhouseGetConnectorStatus)[keyof typeof BridgeClickhouseGetConnectorStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeClickhouseGetConnectorStatus = {
-  connected: 'connected',
-  disconnected: 'disconnected',
-  connecting: 'connecting',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeClickhouseConnectorResourceOpts {
+export interface BridgeDatalayersConnectorResourceOpts {
   health_check_interval?: string
+  health_check_timeout?: BridgeDatalayersConnectorResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
 }
@@ -4883,6 +4937,14 @@ export interface BridgeClickhousePutConnector {
   username?: string
 }
 
+export type BridgeClickhousePostConnectorType =
+  (typeof BridgeClickhousePostConnectorType)[keyof typeof BridgeClickhousePostConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeClickhousePostConnectorType = {
+  clickhouse: 'clickhouse',
+} as const
+
 export interface BridgeClickhousePostConnector {
   /** @deprecated */
   auto_reconnect?: boolean
@@ -4899,6 +4961,34 @@ export interface BridgeClickhousePostConnector {
   type: BridgeClickhousePostConnectorType
   url: string
   username?: string
+}
+
+export type BridgeClickhouseGetConnectorType =
+  (typeof BridgeClickhouseGetConnectorType)[keyof typeof BridgeClickhouseGetConnectorType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeClickhouseGetConnectorType = {
+  clickhouse: 'clickhouse',
+} as const
+
+export type BridgeClickhouseGetConnectorStatus =
+  (typeof BridgeClickhouseGetConnectorStatus)[keyof typeof BridgeClickhouseGetConnectorStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeClickhouseGetConnectorStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export type BridgeClickhouseConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeClickhouseConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeClickhouseConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
 }
 
 export interface BridgeClickhouseGetConnector {
@@ -4920,6 +5010,22 @@ export interface BridgeClickhouseGetConnector {
   tags?: string[]
   type: BridgeClickhouseGetConnectorType
   url: string
+  username?: string
+}
+
+export interface BridgeCassaPutConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  description?: string
+  enable?: boolean
+  keyspace: string
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeCassaConnectorResourceOpts
+  servers: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
   username?: string
 }
 
@@ -4963,32 +5069,10 @@ export type BridgeCassaGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeCassaConnectorResourceOpts {
-  health_check_interval?: string
-  start_after_created?: boolean
-  start_timeout?: string
-}
-
-export interface BridgeCassaPutConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  description?: string
-  enable?: boolean
-  keyspace: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeCassaConnectorResourceOpts
-  servers: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  username?: string
-}
 
 export interface BridgeCassaGetConnector {
   actions?: string[]
@@ -5012,26 +5096,35 @@ export interface BridgeCassaGetConnector {
   username?: string
 }
 
+export type BridgeCassaConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeCassaConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeCassaConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export type BridgeAzureEventHubSslClientOptsVerify =
   (typeof BridgeAzureEventHubSslClientOptsVerify)[keyof typeof BridgeAzureEventHubSslClientOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeAzureEventHubSslClientOptsServerNameIndication = 'auto' | 'disable' | string
 
 export type BridgeAzureEventHubSslClientOptsPartialChain =
   (typeof BridgeAzureEventHubSslClientOptsPartialChain)[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type BridgeAzureEventHubSslClientOptsLogLevel =
@@ -5039,16 +5132,16 @@ export type BridgeAzureEventHubSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export type BridgeAzureEventHubSslClientOptsEnable =
@@ -5135,8 +5228,8 @@ export type BridgeAzureEventHubGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 

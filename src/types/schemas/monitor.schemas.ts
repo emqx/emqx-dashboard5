@@ -1,24 +1,24 @@
-export type GetPrometheusStats200Two = { [key: string]: unknown }
+export type GetPrometheusStats200One = { [key: string]: unknown }
 
-export type GetPrometheusSchemaValidation200Two = { [key: string]: unknown }
+export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
 export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusMessageTransformation200Two = { [key: string]: unknown }
+export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
 
 export type GetPrometheusMessageTransformationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusDataIntegration200Two = { [key: string]: unknown }
+export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
 
 export type GetPrometheusDataIntegrationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusAuth200Two = { [key: string]: unknown }
+export type GetPrometheusAuth200One = { [key: string]: unknown }
 
 export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
@@ -44,9 +44,9 @@ export type EmqxPrometheusApiModeParameter =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxPrometheusApiModeParameter = {
-  node: 'node',
   all_nodes_aggregated: 'all_nodes_aggregated',
   all_nodes_unaggregated: 'all_nodes_unaggregated',
+  node: 'node',
 } as const
 
 export type GetPrometheusStatsParams = {
@@ -58,8 +58,8 @@ export type PrometheusPushGatewayMethod =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusPushGatewayMethod = {
-  put: 'put',
   post: 'post',
+  put: 'put',
 } as const
 
 export type PrometheusPushGatewayHeaders = { [key: string]: unknown }
@@ -85,8 +85,8 @@ export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmSystemInfoCollector = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmStatisticsCollector =
@@ -94,8 +94,8 @@ export type PrometheusLegacyDeprecatedSettingVmStatisticsCollector =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmStatisticsCollector = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
@@ -103,8 +103,8 @@ export type PrometheusLegacyDeprecatedSettingVmMsaccCollector =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmMsaccCollector = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmMemoryCollector =
@@ -112,8 +112,8 @@ export type PrometheusLegacyDeprecatedSettingVmMemoryCollector =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingVmMemoryCollector = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusLegacyDeprecatedSettingVmDistCollector =
@@ -130,8 +130,8 @@ export type PrometheusLegacyDeprecatedSettingMnesiaCollector =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusLegacyDeprecatedSettingMnesiaCollector = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusLegacyDeprecatedSettingHeaders = { [key: string]: unknown }
@@ -155,8 +155,8 @@ export type PrometheusCollectorsVmSystemInfo =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmSystemInfo = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusCollectorsVmStatistics =
@@ -164,8 +164,8 @@ export type PrometheusCollectorsVmStatistics =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmStatistics = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusCollectorsVmMsacc =
@@ -173,8 +173,8 @@ export type PrometheusCollectorsVmMsacc =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmMsacc = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusCollectorsVmMemory =
@@ -182,8 +182,8 @@ export type PrometheusCollectorsVmMemory =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsVmMemory = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export type PrometheusCollectorsVmDist =
@@ -200,8 +200,8 @@ export type PrometheusCollectorsMnesia =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PrometheusCollectorsMnesia = {
-  enabled: 'enabled',
   disabled: 'disabled',
+  enabled: 'enabled',
 } as const
 
 export interface PrometheusCollectors {
@@ -218,8 +218,8 @@ export type OpentelemetryTraceFilterTraceMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentelemetryTraceFilterTraceMode = {
-  legacy: 'legacy',
   e2e: 'e2e',
+  legacy: 'legacy',
 } as const
 
 export interface OpentelemetryTraceFilter {
@@ -246,15 +246,15 @@ export type OpentelemetryOtelLogsLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentelemetryOtelLogsLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
   debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
   info: 'info',
   notice: 'notice',
   warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
 } as const
 
 export interface OpentelemetryOtelLogs {
@@ -299,21 +299,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -321,16 +321,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {

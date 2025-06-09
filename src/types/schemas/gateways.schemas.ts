@@ -46,6 +46,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiNats
   | EmqxGatewayApiOcpp
   | EmqxGatewayApiStomp
   | EmqxGatewayApiUpdateCoap
@@ -54,6 +55,7 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiUpdateJt808
   | EmqxGatewayApiUpdateLwm2m
   | EmqxGatewayApiUpdateMqttsn
+  | EmqxGatewayApiUpdateNats
   | EmqxGatewayApiUpdateOcpp
   | EmqxGatewayApiUpdateStomp
 
@@ -78,6 +80,7 @@ export type GetGatewaysName200 =
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
   | EmqxGatewayApiMqttsn
+  | EmqxGatewayApiNats
   | EmqxGatewayApiOcpp
   | EmqxGatewayApiStomp
 
@@ -111,11 +114,11 @@ export type GatewayWebsocketPiggyback =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayWebsocketPiggyback = {
-  single: 'single',
   multiple: 'multiple',
+  single: 'single',
 } as const
 
-export type GatewayWebsocketMaxFrameSize = number | 'infinity'
+export type GatewayWebsocketMaxFrameSize = 'infinity' | number
 
 export interface GatewayWebsocket {
   allow_origin_absence?: boolean
@@ -168,8 +171,8 @@ export type GatewaySslServerOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type GatewaySslServerOptsPartialChain =
@@ -177,10 +180,10 @@ export type GatewaySslServerOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type GatewaySslServerOptsLogLevel =
@@ -188,16 +191,16 @@ export type GatewaySslServerOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface GatewaySslServerOpts {
@@ -223,6 +226,11 @@ export interface GatewaySslServerOpts {
   verify?: GatewaySslServerOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
+}
+
+export interface GatewayProtocol {
+  /** @minimum 0 */
+  max_payload_size?: number
 }
 
 export interface GatewayMqttsnPredefined {
@@ -278,8 +286,8 @@ export type GatewayDtlsOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type GatewayDtlsOptsPartialChain =
@@ -287,10 +295,10 @@ export type GatewayDtlsOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type GatewayDtlsOptsLogLevel =
@@ -298,17 +306,45 @@ export type GatewayDtlsOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
+
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -366,21 +402,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -388,16 +424,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -430,41 +466,13 @@ export interface EmqxOcsp {
   responder_url?: string
 }
 
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
-}
-
 export type EmqxListenerWssOptsVerify =
   (typeof EmqxListenerWssOptsVerify)[keyof typeof EmqxListenerWssOptsVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerWssOptsPartialChain =
@@ -472,10 +480,10 @@ export type EmqxListenerWssOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -483,16 +491,16 @@ export type EmqxListenerWssOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerWssOpts {
@@ -525,8 +533,8 @@ export type EmqxListenerSslOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -534,10 +542,10 @@ export type EmqxListenerSslOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxListenerSslOptsLogLevel =
@@ -545,16 +553,16 @@ export type EmqxListenerSslOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerSslOpts {
@@ -601,18 +609,18 @@ export type EmqxDeflateOptsServerContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsServerContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export type EmqxDeflateOptsLevel = (typeof EmqxDeflateOptsLevel)[keyof typeof EmqxDeflateOptsLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsLevel = {
-  none: 'none',
-  default: 'default',
   best_compression: 'best_compression',
   best_speed: 'best_speed',
+  default: 'default',
+  none: 'none',
 } as const
 
 export type EmqxDeflateOptsClientContextTakeover =
@@ -620,8 +628,8 @@ export type EmqxDeflateOptsClientContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsClientContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export interface EmqxDeflateOpts {
@@ -737,6 +745,19 @@ export interface EmqxGatewayApiUpdateOcpp {
   upstream?: GatewayOcppUpstream
 }
 
+export interface EmqxGatewayApiUpdateNats {
+  clientinfo_override?: GatewayClientinfoOverride
+  default_heartbeat_interval?: string
+  enable?: boolean
+  enable_stats?: boolean
+  heartbeat_wait_timeout?: string
+  idle_timeout?: string
+  mountpoint?: string
+  protocol?: GatewayProtocol
+  server_id?: string
+  server_name?: string
+}
+
 export interface EmqxGatewayApiUpdateMqttsn {
   broadcast?: boolean
   clientinfo_override?: GatewayClientinfoOverride
@@ -817,10 +838,10 @@ export type EmqxGatewayApiUpdateCoapSubscribeQos =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapSubscribeQos = {
+  coap: 'coap',
   qos0: 'qos0',
   qos1: 'qos1',
   qos2: 'qos2',
-  coap: 'coap',
 } as const
 
 export type EmqxGatewayApiUpdateCoapPublishQos =
@@ -828,10 +849,10 @@ export type EmqxGatewayApiUpdateCoapPublishQos =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapPublishQos = {
+  coap: 'coap',
   qos0: 'qos0',
   qos1: 'qos1',
   qos2: 'qos2',
-  coap: 'coap',
 } as const
 
 export type EmqxGatewayApiUpdateCoapNotifyType =
@@ -839,8 +860,8 @@ export type EmqxGatewayApiUpdateCoapNotifyType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateCoapNotifyType = {
-  non: 'non',
   con: 'con',
+  non: 'non',
   qos: 'qos',
 } as const
 
@@ -919,8 +940,6 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
-
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -961,6 +980,8 @@ export interface EmqxGatewayApiSslListener {
   type?: EmqxGatewayApiSslListenerType
 }
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]
 
@@ -977,7 +998,7 @@ export const EmqxGatewayApiOcppMessageFormatChecking = {
   upstream_only: 'upstream_only',
 } as const
 
-export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWssListener | EmqxGatewayApiWsListener
+export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWsListener | EmqxGatewayApiWssListener
 
 export interface EmqxGatewayApiOcpp {
   clientinfo_override?: GatewayClientinfoOverride
@@ -994,6 +1015,35 @@ export interface EmqxGatewayApiOcpp {
   mountpoint?: string
   name?: EmqxGatewayApiOcppName
   upstream?: GatewayOcppUpstream
+}
+
+export type EmqxGatewayApiNatsName =
+  (typeof EmqxGatewayApiNatsName)[keyof typeof EmqxGatewayApiNatsName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiNatsName = {
+  nats: 'nats',
+} as const
+
+export type EmqxGatewayApiNatsListenersItem =
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
+
+export interface EmqxGatewayApiNats {
+  clientinfo_override?: GatewayClientinfoOverride
+  default_heartbeat_interval?: string
+  enable?: boolean
+  enable_stats?: boolean
+  heartbeat_wait_timeout?: string
+  idle_timeout?: string
+  listeners?: EmqxGatewayApiNatsListenersItem[]
+  mountpoint?: string
+  name?: EmqxGatewayApiNatsName
+  protocol?: GatewayProtocol
+  server_id?: string
+  server_name?: string
 }
 
 export type EmqxGatewayApiMqttsnName =
@@ -1171,10 +1221,10 @@ export type EmqxGatewayApiGatewayListenerOverviewType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayListenerOverviewType = {
-  tcp: 'tcp',
-  ssl: 'ssl',
-  udp: 'udp',
   dtls: 'dtls',
+  ssl: 'ssl',
+  tcp: 'tcp',
+  udp: 'udp',
 } as const
 
 export interface EmqxGatewayApiGatewayListenerOverview {
@@ -1233,19 +1283,19 @@ export interface EmqxGatewayApiDtlsListener {
 
 export type EmqxGatewayApiExprotoListenersItem =
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiCoapSubscribeQos =
   (typeof EmqxGatewayApiCoapSubscribeQos)[keyof typeof EmqxGatewayApiCoapSubscribeQos]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapSubscribeQos = {
+  coap: 'coap',
   qos0: 'qos0',
   qos1: 'qos1',
   qos2: 'qos2',
-  coap: 'coap',
 } as const
 
 export type EmqxGatewayApiCoapPublishQos =
@@ -1253,10 +1303,10 @@ export type EmqxGatewayApiCoapPublishQos =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapPublishQos = {
+  coap: 'coap',
   qos0: 'qos0',
   qos1: 'qos1',
   qos2: 'qos2',
-  coap: 'coap',
 } as const
 
 export type EmqxGatewayApiCoapNotifyType =
@@ -1264,8 +1314,8 @@ export type EmqxGatewayApiCoapNotifyType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiCoapNotifyType = {
-  non: 'non',
   con: 'con',
+  non: 'non',
   qos: 'qos',
 } as const
 

@@ -16,8 +16,8 @@ export type GetSsoSamlMetadata200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoSamlMetadata200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type GetSsoSamlMetadata200License = {
@@ -122,8 +122,8 @@ export type GetSsoOidcCallback200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type GetSsoOidcCallback200License = {
@@ -180,8 +180,8 @@ export type PostSsoLoginBackend200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type PostSsoLoginBackend200License = {
@@ -193,19 +193,6 @@ export type PostSsoLoginBackend200 = {
   role?: string
   token?: string
   version?: string
-}
-
-export type DeleteSsoBackend404Code =
-  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type DeleteSsoBackend404 = {
-  code?: DeleteSsoBackend404Code
-  message?: string
 }
 
 export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
@@ -236,14 +223,25 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type DeleteSsoBackend404Code =
+  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type DeleteSsoBackend404 = {
+  code?: DeleteSsoBackend404Code
+  message?: string
+}
 
 export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvider]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcProvider = {
-  okta: 'okta',
   generic: 'generic',
+  okta: 'okta',
 } as const
 
 export type SsoOidcPreferredAuthMethodsItem =
@@ -251,11 +249,11 @@ export type SsoOidcPreferredAuthMethodsItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcPreferredAuthMethodsItem = {
-  private_key_jwt: 'private_key_jwt',
+  client_secret_basic: 'client_secret_basic',
   client_secret_jwt: 'client_secret_jwt',
   client_secret_post: 'client_secret_post',
-  client_secret_basic: 'client_secret_basic',
   none: 'none',
+  private_key_jwt: 'private_key_jwt',
 } as const
 
 export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
@@ -283,6 +281,8 @@ export interface SsoOidc {
   secret: string
   session_expiry?: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
@@ -321,36 +321,36 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {

@@ -24,6 +24,19 @@ export type PutMqttTopicRewrite400 = {
   message?: string
 }
 
+export type GetMqttTopicMetricsTopic404Code =
+  (typeof GetMqttTopicMetricsTopic404Code)[keyof typeof GetMqttTopicMetricsTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttTopicMetricsTopic404Code = {
+  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
+} as const
+
+export type GetMqttTopicMetricsTopic404 = {
+  code?: GetMqttTopicMetricsTopic404Code
+  message?: string
+}
+
 export type DeleteMqttTopicMetricsTopic404Code =
   (typeof DeleteMqttTopicMetricsTopic404Code)[keyof typeof DeleteMqttTopicMetricsTopic404Code]
 
@@ -37,16 +50,16 @@ export type DeleteMqttTopicMetricsTopic404 = {
   message?: string
 }
 
-export type GetMqttTopicMetricsTopic404Code =
-  (typeof GetMqttTopicMetricsTopic404Code)[keyof typeof GetMqttTopicMetricsTopic404Code]
+export type PutMqttTopicMetrics404Code =
+  (typeof PutMqttTopicMetrics404Code)[keyof typeof PutMqttTopicMetrics404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMqttTopicMetricsTopic404Code = {
+export const PutMqttTopicMetrics404Code = {
   TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
 } as const
 
-export type GetMqttTopicMetricsTopic404 = {
-  code?: GetMqttTopicMetricsTopic404Code
+export type PutMqttTopicMetrics404 = {
+  code?: PutMqttTopicMetrics404Code
   message?: string
 }
 
@@ -81,19 +94,6 @@ export type PostMqttTopicMetricsBody = {
   topic: string
 }
 
-export type PutMqttTopicMetrics404Code =
-  (typeof PutMqttTopicMetrics404Code)[keyof typeof PutMqttTopicMetrics404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMqttTopicMetrics404Code = {
-  TOPIC_NOT_FOUND: 'TOPIC_NOT_FOUND',
-} as const
-
-export type PutMqttTopicMetrics404 = {
-  code?: PutMqttTopicMetrics404Code
-  message?: string
-}
-
 export type DeleteMqttDelayedMessagesTopic404Code =
   (typeof DeleteMqttDelayedMessagesTopic404Code)[keyof typeof DeleteMqttDelayedMessagesTopic404Code]
 
@@ -120,33 +120,6 @@ export type DeleteMqttDelayedMessagesTopic400 = {
   message?: string
 }
 
-export type DeleteMqttDelayedMessagesNodeMsgid404Code =
-  (typeof DeleteMqttDelayedMessagesNodeMsgid404Code)[keyof typeof DeleteMqttDelayedMessagesNodeMsgid404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttDelayedMessagesNodeMsgid404Code = {
-  MESSAGE_ID_NOT_FOUND: 'MESSAGE_ID_NOT_FOUND',
-} as const
-
-export type DeleteMqttDelayedMessagesNodeMsgid404 = {
-  code?: DeleteMqttDelayedMessagesNodeMsgid404Code
-  message?: string
-}
-
-export type DeleteMqttDelayedMessagesNodeMsgid400Code =
-  (typeof DeleteMqttDelayedMessagesNodeMsgid400Code)[keyof typeof DeleteMqttDelayedMessagesNodeMsgid400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttDelayedMessagesNodeMsgid400Code = {
-  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
-  INVALID_NODE: 'INVALID_NODE',
-} as const
-
-export type DeleteMqttDelayedMessagesNodeMsgid400 = {
-  code?: DeleteMqttDelayedMessagesNodeMsgid400Code
-  message?: string
-}
-
 export type GetMqttDelayedMessagesNodeMsgid404Code =
   (typeof GetMqttDelayedMessagesNodeMsgid404Code)[keyof typeof GetMqttDelayedMessagesNodeMsgid404Code]
 
@@ -165,12 +138,39 @@ export type GetMqttDelayedMessagesNodeMsgid400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttDelayedMessagesNodeMsgid400Code = {
-  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
   INVALID_NODE: 'INVALID_NODE',
+  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
 } as const
 
 export type GetMqttDelayedMessagesNodeMsgid400 = {
   code?: GetMqttDelayedMessagesNodeMsgid400Code
+  message?: string
+}
+
+export type DeleteMqttDelayedMessagesNodeMsgid404Code =
+  (typeof DeleteMqttDelayedMessagesNodeMsgid404Code)[keyof typeof DeleteMqttDelayedMessagesNodeMsgid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttDelayedMessagesNodeMsgid404Code = {
+  MESSAGE_ID_NOT_FOUND: 'MESSAGE_ID_NOT_FOUND',
+} as const
+
+export type DeleteMqttDelayedMessagesNodeMsgid404 = {
+  code?: DeleteMqttDelayedMessagesNodeMsgid404Code
+  message?: string
+}
+
+export type DeleteMqttDelayedMessagesNodeMsgid400Code =
+  (typeof DeleteMqttDelayedMessagesNodeMsgid400Code)[keyof typeof DeleteMqttDelayedMessagesNodeMsgid400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttDelayedMessagesNodeMsgid400Code = {
+  INVALID_NODE: 'INVALID_NODE',
+  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
+} as const
+
+export type DeleteMqttDelayedMessagesNodeMsgid400 = {
+  code?: DeleteMqttDelayedMessagesNodeMsgid400Code
   message?: string
 }
 
@@ -206,17 +206,17 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetMqttDelayedMessagesParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
 }
 
 export type ModulesRewriteAction = (typeof ModulesRewriteAction)[keyof typeof ModulesRewriteAction]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModulesRewriteAction = {
-  subscribe: 'subscribe',
-  publish: 'publish',
   all: 'all',
+  publish: 'publish',
+  subscribe: 'subscribe',
 } as const
 
 export interface ModulesRewrite {
@@ -231,9 +231,9 @@ export interface ModulesDelayed {
   max_delayed_messages?: number
 }
 
-export type EmqxTopicMetricsApiTopicMetricsResetTime = number | string
+export type EmqxTopicMetricsApiTopicMetricsResetTime = string | number
 
-export type EmqxTopicMetricsApiTopicMetricsCreateTime = number | string
+export type EmqxTopicMetricsApiTopicMetricsCreateTime = string | number
 
 export interface EmqxTopicMetricsApiReset {
   action: string

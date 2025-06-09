@@ -110,8 +110,8 @@ export type EmqxMgmtApiNodesNodeInfoEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiNodesNodeInfoEdition = {
-  Opensource: 'Opensource',
   Enterprise: 'Enterprise',
+  Opensource: 'Opensource',
 } as const
 
 export interface EmqxMgmtApiNodesNodeInfo {

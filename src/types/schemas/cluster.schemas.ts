@@ -24,19 +24,6 @@ export type GetClusterLinksLinkNameMetrics404 = {
   message?: string
 }
 
-export type DeleteClusterLinksLinkName404Code =
-  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClusterLinksLinkName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteClusterLinksLinkName404 = {
-  code?: DeleteClusterLinksLinkName404Code
-  message?: string
-}
-
 export type PutClusterLinksLinkName404Code =
   (typeof PutClusterLinksLinkName404Code)[keyof typeof PutClusterLinksLinkName404Code]
 
@@ -92,13 +79,26 @@ export type GetClusterLinksLinkName404 = {
   message?: string
 }
 
+export type DeleteClusterLinksLinkName404Code =
+  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClusterLinksLinkName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteClusterLinksLinkName404 = {
+  code?: DeleteClusterLinksLinkName404Code
+  message?: string
+}
+
 export type PostClusterLinks400Code =
   (typeof PostClusterLinks400Code)[keyof typeof PostClusterLinks400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostClusterLinks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
   ALREADY_EXISTS: 'ALREADY_EXISTS',
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostClusterLinks400 = {
@@ -156,21 +156,21 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+  false: false,
+  true: true,
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -178,16 +178,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -266,10 +266,12 @@ export interface ClusterInvitationStatus {
 
 export type ClusterCreationOptsRequestTtl = 'infinity' | string
 
+export type ClusterCreationOptsHealthCheckTimeout = 'infinity' | string
+
 /**
  * @deprecated
  */
-export type ClusterCreationOptsAutoRestartInterval = string | 'infinity'
+export type ClusterCreationOptsAutoRestartInterval = 'infinity' | string
 
 export interface ClusterCreationOpts {
   /** @deprecated */
@@ -277,6 +279,7 @@ export interface ClusterCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_timeout?: ClusterCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
   max_buffer_bytes?: string
@@ -314,8 +317,8 @@ export type ClusterLinkLinkConfigResponseStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ClusterLinkLinkConfigResponseStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
