@@ -10,6 +10,7 @@ export default (): {
   const idProcessing = createRandomString()
   const idSink = createRandomString()
   const idFallback = createRandomString()
+  const { fallbackEdgeStyle } = useFlowEdge()
   const guideFlowData: Array<Node | Edge> = [
     {
       id: idSource,
@@ -53,7 +54,7 @@ export default (): {
       id: createRandomString(),
       source: idSink,
       target: idFallback,
-      style: { stroke: '#bbb', strokeDasharray: '5 5' },
+      style: fallbackEdgeStyle,
     },
   ]
 

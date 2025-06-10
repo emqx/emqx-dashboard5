@@ -250,7 +250,7 @@ const currentConnectSourceNode = ref<undefined | Node>()
 const connectionLineOptions = computed(() => {
   const isConnectingFallback =
     currentConnectSourceNode.value && isActionBridgeNode(currentConnectSourceNode.value)
-  return isConnectingFallback ? { style: { stroke: '#bbb', strokeDasharray: '5 5' } } : {}
+  return isConnectingFallback ? { style: fallbackEdgeStyle } : {}
 })
 const handleConnectStart = (e: OnConnectStartParams) => {
   if (e.handleType === 'target') {

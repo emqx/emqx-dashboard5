@@ -115,6 +115,7 @@ export default (): {
   sourceNodeList: Array<NodeItem>
   processingNodeList: Array<NodeItem>
   sinkNodeList: Array<NodeItem>
+  getNodeHeight: (specificType: string) => number
   getNodeClass: (type: NodeType) => string
   getFlowNodeHookPosition: (nodeType: FlowNodeType) => PositionData
   getTypeCommonData: (type: NodeType) => { type: FlowNodeType; class: string } & PositionData
@@ -135,6 +136,15 @@ export default (): {
    * just record, not for setting
    */
   const nodeWidth = 200
+  const getNodeHeight = (specificType: string) => {
+    if ([ProcessingType.Function, SinkType.Console].includes(specificType)) {
+      return 42
+    }
+    if (isBridgeType(specificType)) {
+      return 66
+    }
+    return 66
+  }
 
   const nodeClassMap: Record<NodeType, string> = {
     [NodeType.Source]: 'node-source',
@@ -389,6 +399,7 @@ export default (): {
     sourceNodeList,
     processingNodeList,
     sinkNodeList,
+    getNodeHeight,
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,

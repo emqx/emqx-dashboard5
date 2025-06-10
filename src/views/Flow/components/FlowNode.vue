@@ -1,23 +1,44 @@
 <template>
-  <Handle v-if="data.type !== FlowNodeType.Input" type="target" :position="Position.Left">
+  <Handle
+    v-if="data.type !== FlowNodeType.Input"
+    type="target"
+    :position="Position.Left"
+    :class="{ 'is-error': isDisconnectedActionOrSource }"
+  >
     <el-icon class="icon-add" :size="10"><Plus /></el-icon>
   </Handle>
   <div class="flow-node">
     <img :src="getIconSrc()" alt="node-img" class="node-icon" :class="iconClass" />
     <div class="node-bd" :title="data.data.desc">
-      <p class="label">{{ data.label }}</p>
-      <p class="desc" v-if="!isAIType(data.data.specificType)">{{ data.data.desc }}</p>
+      <p class="label vertical-align-center">
+        <span>
+          {{ data.label }}
+        </span>
+        <span class="extra" v-if="isDisconnectedActionOrSource">
+          (<span class="status-label">{{ getActionStatusLabel(data?.data?.formData?.status) }}</span
+          >)
+        </span>
+      </p>
+      <p class="desc" v-if="!isAIType(data.data.specificType)">
+        {{ data.data.desc }}
+      </p>
       <template v-else>
         <CommonOverflowTooltip :content="data.data.desc" class="desc" />
       </template>
     </div>
   </div>
-  <Handle v-if="showSourceHandle" type="source" :position="Position.Right">
+  <Handle
+    v-if="showSourceHandle"
+    type="source"
+    :position="Position.Right"
+    :class="{ 'is-error': isDisconnectedActionOrSource }"
+  >
     <el-icon class="icon-add" :size="10"><Plus /></el-icon>
   </Handle>
 </template>
 
 <script setup lang="ts">
+import { ConnectionStatus } from '@/types/enum'
 import { Plus } from '@element-plus/icons-vue'
 import { Handle, Node, Position } from '@vue-flow/core'
 
@@ -33,6 +54,14 @@ const props = defineProps({
 })
 
 const { getNodeIcon, getIconClass, isBridgerNode, isWithFallbackNodes, isAIType } = useFlowNode()
+
+const isDisconnectedActionOrSource = computed(() => {
+  const isActionOrSource = isBridgerNode(props.data || {})
+  const isDisconnected =
+    isActionOrSource && props.data?.data?.formData?.status === ConnectionStatus.Disconnected
+  return isDisconnected
+})
+const { getActionStatusLabel } = useActionAndSourceStatus()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)
@@ -84,12 +113,32 @@ const showSourceHandle = computed(() => {
   }
   .label {
     font-weight: 600;
+    .extra {
+      font-weight: normal;
+      margin-left: 4px;
+    }
+    .status-label {
+      color: var(--el-color-danger);
+    }
   }
   .desc {
     color: rgba(101, 107, 125, 1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .status {
+    .el-tooltip__trigger {
+      line-height: 1;
+    }
+    .status-label {
+      margin-right: 4px;
+    }
+  }
+}
+.vue-flow__handle {
+  &.is-error {
+    --vf-handle: var(--el-color-danger);
   }
 }
 </style>

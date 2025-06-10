@@ -7,6 +7,7 @@ import useHandleActionItem from '../Rule/action/useHandleActionItem'
 import useActionList from '../Rule/action/useActionList'
 import useSourceList from '../Rule/action/useSourceList'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
+import { ConnectionStatus } from '@/types/enum'
 
 export default (): {
   isLoading: Ref<boolean>
@@ -267,6 +268,25 @@ export default (): {
     edgeArr.push(...actionFallbackEdges)
   }
 
+  const { unavailableEdgeStyle } = useFlowEdge()
+  const redUnavailableEdges = () => {
+    ;[...sourceNodes, ...sinkNodes, ...fallbackNodes].forEach((node) => {
+      if (isBridgerNode(node)) {
+        const status = node.data?.formData?.status
+        const needRed = status === ConnectionStatus.Disconnected
+        if (needRed) {
+          const targetEdges = edgeArr.filter(
+            (edge) => edge.target === node.id || edge.source === node.id,
+          )
+          targetEdges.forEach((edge) => {
+            edge.style = { ...(edge.style ?? {}), ...unavailableEdgeStyle }
+            console.log(JSON.stringify(edge.style, null, 2))
+          })
+        }
+      }
+    })
+  }
+
   const removeDuplicatedNodes = () => {
     const nodeArrays = [sourceNodes, functionNodes, filterNodes, sinkNodes]
     nodeArrays.forEach((nodeArray, i) => (nodeArrays[i] = unionBy(nodeArray, 'id')))
@@ -330,6 +350,7 @@ export default (): {
       initNodeAndEdge()
       generateFlowDataFromRuleData(ruleList)
       generateFlowDataFromActionData(actionList)
+      redUnavailableEdges()
       removeDuplicatedNodes()
       removeIsolatedBridge()
       setClassToRemovedBridges()
