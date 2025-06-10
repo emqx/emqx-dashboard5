@@ -50,6 +50,7 @@ export interface SSL {
   certfile?: string
   keyfile?: string
   cacertfile?: string
+  middlebox_comp_mode?: boolean
 }
 
 export interface BackendI18n {

@@ -14,6 +14,7 @@ export default (): {
     keyfile: '',
     cacertfile: '',
     server_name_indication: '',
+    middlebox_comp_mode: true,
   })
 
   const handleSSLDataBeforeSubmit = (data: SSL): SSL => {

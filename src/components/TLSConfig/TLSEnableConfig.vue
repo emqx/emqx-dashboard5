@@ -9,6 +9,17 @@
         @change="handleVerifyChange"
       />
     </el-form-item>
+    <el-form-item v-if="showMiddleboxCompMode" :prop="getFormItemProp(`middlebox_comp_mode`)">
+      <template #label>
+        <FormItemLabel
+          :label="t('Base.middleboxCompMode')"
+          :desc="t('Base.middleboxCompModeDesc')"
+          desc-marked
+        />
+      </template>
+      <el-switch v-model="record.middlebox_comp_mode" :disabled="readonly" />
+    </el-form-item>
+
     <CustomFormItem
       v-if="showSni"
       :readonly="readonly"
@@ -127,6 +138,10 @@ const props = defineProps({
     type: Boolean,
   },
   showSni: {
+    type: Boolean,
+    default: true,
+  },
+  showMiddleboxCompMode: {
     type: Boolean,
     default: true,
   },

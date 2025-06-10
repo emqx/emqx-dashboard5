@@ -323,6 +323,15 @@ export default {
     zh: '请填写服务器中 {file} 的文件路径或直接填写 {file} 文件内的内容',
     en: 'Please fill in the file path of {file} in the server or directly fill in the content of the {file} file',
   },
+  middleboxCompMode: {
+    zh: '中间件兼容模式',
+    en: 'Middle Box Compatibility Mode',
+  },
+  middleboxCompModeDesc: {
+    zh: '是否开启 TLS-1.3 连接的中间件兼容模式。<br /> 许多中间件在 TLS-1.3 连接协商时行为异常，启用后可以通过适应 TLS-1.3 握手，使其更类似于 TLS-1.2 握手，从而增加通过这些中间件建立连接的机会。',
+    en: `Enable the middle box compatibility mode for a TLS-1.3 connection.<br />
+A significant number of middle boxes misbehave when a TLS-1.3 connection is negotiated. Enabling this option can increase the chance of making connections through those middle boxes by adapting the TLS-1.3 handshake to resemble that of a TLS-1.2 handshake.`,
+  },
   confirmReplacement: {
     zh: '是否确认替换当前内容？',
     en: 'Are you sure you want to replace the current content?',
