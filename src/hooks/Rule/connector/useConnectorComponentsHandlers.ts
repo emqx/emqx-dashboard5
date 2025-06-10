@@ -175,14 +175,7 @@ export default (
     return { components, rules }
   }
 
-  const neededSSLConfig = [
-    'enable',
-    'verify',
-    'server_name_indication',
-    'cacertfile',
-    'certfile',
-    'keyfile',
-  ]
+  const neededSSLConfig = SSLKeys
   const azureEventHubsHandler: Handler = ({ components, rules }) => {
     const { authentication, ssl } = components
 
