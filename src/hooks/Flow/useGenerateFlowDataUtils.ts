@@ -12,7 +12,7 @@ import {
 import { BridgeType } from '@/types/enum'
 import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
-import { Edge, Node } from '@vue-flow/core'
+import { Edge, Node, Styles } from '@vue-flow/core'
 import ELK from 'elkjs/lib/elk.bundled'
 import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
@@ -82,7 +82,7 @@ export default (): {
     nodes: GroupedNode
     edges: Array<Edge>
   }
-  fallbackEdgeStyle: Record<string, string>
+  fallbackEdgeStyle: Styles
   generateFallbackEdge: (source: Node, target: Node, style?: Record<string, string>) => Edge
   countNodesPosition: (nodes: GroupedNode, edgeArr: Array<Edge>) => Promise<void>
   isRemovedBridge: (node: Node) => boolean
@@ -91,8 +91,15 @@ export default (): {
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const { nodeWidth, getTypeCommonData, getTypeLabel, getNodeInfo, isBridgerNode, isAIType } =
-    useFlowNode()
+  const {
+    nodeWidth,
+    getNodeHeight,
+    getTypeCommonData,
+    getTypeLabel,
+    getNodeInfo,
+    isBridgerNode,
+    isAIType,
+  } = useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const { detectFilterFormLevel, generateFilterForm } = useParseWhere()
   const { getFuncGroupByName, getFuncItemByName, getArgIndex } = useRuleFunc()
@@ -540,7 +547,7 @@ export default (): {
 
   /* ACTIONS */
   const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
-  const fallbackEdgeStyle = { stroke: '#bbb', strokeDasharray: '5 5' }
+  const { fallbackEdgeStyle } = useFlowEdge()
   const generateFallbackEdge = (source: Node, target: Node) =>
     generateEdgeFromTwoNodes(source, target, fallbackEdgeStyle)
   const addFallbackFlagToNodes = (nodes: Array<Node>) => {
@@ -644,9 +651,7 @@ export default (): {
         'elk.layered.layering.layerConstraint': 'FIRST',
       }
     }
-    const nodeHeight = [ProcessingType.Function, SinkType.Console].includes(node.data?.specificType)
-      ? 42
-      : 66
+    const nodeHeight = getNodeHeight(node.data?.specificType)
     return {
       ...node,
       layoutOptions,

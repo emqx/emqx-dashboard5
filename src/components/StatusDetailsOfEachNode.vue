@@ -7,7 +7,7 @@
     <span>
       <slot></slot>
       <span v-if="!$slots['default']" class="node-status" :class="{ tag: isTag }">
-        <CheckIcon v-show="statusData.statusLabel" :status="statusForIcon" />
+        <CheckIcon v-if="!noIcon" v-show="statusData.statusLabel" :status="statusForIcon" />
         <span class="text-status" :class="statusData.statusClass">
           {{ statusData.statusLabel }}
         </span>
@@ -66,6 +66,10 @@ const props = defineProps({
   showStatusDetail: {
     type: Boolean,
     default: true,
+  },
+  noIcon: {
+    type: Boolean,
+    default: false,
   },
 })
 

@@ -4,6 +4,7 @@
     :status-data="statusData"
     :is-tag="isTag"
     :show-status-detail="showDetailList"
+    :no-icon="noIcon"
   >
     <template #extra-content v-if="needShowStatusReason">
       <p class="reason-title">{{ tl('statusReason') }}</p>
@@ -24,6 +25,10 @@ const props = defineProps({
     type: String as PropType<'connector' | 'action'>,
   },
   isTag: {
+    type: Boolean,
+    default: false,
+  },
+  noIcon: {
     type: Boolean,
     default: false,
   },

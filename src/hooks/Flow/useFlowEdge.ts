@@ -1,8 +1,10 @@
-import { GraphEdge, ElementData, Node } from '@vue-flow/core'
+import { GraphEdge, ElementData, Node, Styles } from '@vue-flow/core'
 import { FlowNodeType, ProcessingType } from './useFlowNode'
 import useI18nTl from '../useI18nTl'
 
 export default (): {
+  fallbackEdgeStyle: Styles
+  unavailableEdgeStyle: Styles
   checkConnection: (
     edge:
       | GraphEdge<ElementData>
@@ -10,6 +12,9 @@ export default (): {
   ) => Promise<void>
 } => {
   const { tl } = useI18nTl('Flow')
+
+  const fallbackEdgeStyle = { stroke: '#bbb', strokeDasharray: '5 5' }
+  const unavailableEdgeStyle = { stroke: '#eb4e3d' }
 
   const isInputNode = (node: Node) => node.type === FlowNodeType.Input
   const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
@@ -51,6 +56,8 @@ export default (): {
   }
 
   return {
+    fallbackEdgeStyle,
+    unavailableEdgeStyle,
     checkConnection,
   }
 }
