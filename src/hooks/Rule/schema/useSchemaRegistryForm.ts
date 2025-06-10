@@ -93,6 +93,7 @@ export default () => {
       description: d,
       bundle,
       root_proto_file,
+      source,
       protobuf_creation_method,
     } = formData as any
     const name = n as string
@@ -101,10 +102,11 @@ export default () => {
       return checkNOmitFromObj(
         pick(formData, ['name', 'type', 'description', 'parameters']),
       ) as SchemaRegistryExternalHttp
-    } else if (protobuf_creation_method === ProtobufCreationMethod.UploadBundle) {
+    }
+    if (protobuf_creation_method === ProtobufCreationMethod.UploadBundle) {
       return createProtobufBundlePayload({ name, description, bundle, root_proto_file })
     }
-    return omit({ ...formData }, ['parameters']) as NormalSchemaRegistry
+    return { name, type, description, source }
   }
 
   const fileNameReg = /^(?<path>.+)\/(?<name>[^/]+)$/
