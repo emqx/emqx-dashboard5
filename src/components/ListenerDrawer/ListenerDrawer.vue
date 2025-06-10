@@ -105,6 +105,7 @@
               class="TLS-config"
               v-model="listenerRecord[SSLConfigKey]"
               :show-sni="false"
+              :show-middlebox-comp-mode="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
               :verify-label="t('Base.tlsVerifyClient')"

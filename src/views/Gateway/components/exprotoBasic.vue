@@ -41,6 +41,7 @@
           v-model="eValue.server.ssl_options"
           :is-edit="isEdit"
           :show-sni="false"
+          :show-middlebox-comp-mode="false"
           :verify-label="tl('tlsVerifyClient', 'Base')"
         />
       </div>
@@ -91,6 +92,7 @@ const createDefaultValue = () => ({
       keyfile: '',
       cacertfile: '',
       enable: false,
+      middlebox_comp_mode: true,
     },
   },
   server: {
