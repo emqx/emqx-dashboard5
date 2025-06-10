@@ -13,6 +13,9 @@
       font-size: 14px;
       font-weight: normal;
     }
+    & + .TLS-enable-config {
+      margin-top: 18px;
+    }
   }
   .TLS-enable-config {
     .TLS-input {
