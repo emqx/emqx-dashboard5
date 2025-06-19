@@ -46,7 +46,7 @@ jobs:
   build_ee_dashboard_package:
     needs:
       - check_package_version
-    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e')
+    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e') || startsWith(github.ref, 'refs/tags/2')
     uses: ./.github/workflows/build_enterprise_package.yaml
     secrets:
       VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN }}
@@ -83,7 +83,7 @@ jobs:
       - set_version
       - check_package_version
       - build_ee_dashboard_package
-    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e')
+    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e') || startsWith(github.ref, 'refs/tags/2')
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App token
