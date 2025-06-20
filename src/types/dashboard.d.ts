@@ -75,6 +75,7 @@ export type OpenTelemetry = Omit<OpentelemetryOpentelemetry, 'exporter'> & {
   exporter?: {
     endpoint?: string
     ssl_options?: SSL
+    headers?: Record<string, string>
   }
 }
 
