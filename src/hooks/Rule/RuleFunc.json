@@ -1214,7 +1214,8 @@
           {
             "name": "Bin",
             "type": "binary",
-            "required": true
+            "required": true,
+            "isReference": true
           },
           {
             "name": "Type",
@@ -1234,7 +1235,8 @@
           {
             "name": "Data",
             "type": "object",
-            "required": true
+            "required": true,
+            "isReference": true
           },
           {
             "name": "Type",
@@ -1254,7 +1256,8 @@
           {
             "name": "Data",
             "type": "object",
-            "required": true
+            "required": true,
+            "isReference": true
           }
         ]
       }
