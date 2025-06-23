@@ -1212,8 +1212,8 @@
             "required": true
           },
           {
-            "name": "Data",
-            "type": "string",
+            "name": "Bin",
+            "type": "binary",
             "required": true
           },
           {
@@ -1233,7 +1233,7 @@
           },
           {
             "name": "Data",
-            "type": "string",
+            "type": "object",
             "required": true
           },
           {
