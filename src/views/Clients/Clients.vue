@@ -543,6 +543,7 @@ const initExportWorker = () => {
       downloadClientsFile(data)
       exportLoading.value = false
       ElMessage.success(tl('exportSucMsg', { n: length }))
+      isExportDialogShow.value = false
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Client, ExportTableColumn } from '@/types/client'
 import { ClientsExportFormat } from '@/types/enum'
+import { stringifyObjSafely } from '@emqx/shared-ui-utils'
 
 let columns: Array<ExportTableColumn> = []
 let fileContent: Array<string> = []
@@ -9,7 +10,19 @@ const processToCSV = (data: Array<Client>, columns: Array<ExportTableColumn>) =>
   const ret = []
   for (let i = 0; i < data.length; i++) {
     const row = data[i]
-    const rowData = columns.map((col) => row[col.prop]).join(',')
+    const rowData = columns
+      .map((col) => {
+        let value = row[col.prop]
+        try {
+          if (typeof value === 'object') {
+            value = stringifyObjSafely(value)
+          }
+        } catch (error) {
+          console.error(error)
+        }
+        return value
+      })
+      .join(',')
     ret.push(rowData)
   }
   return ret
