@@ -179,18 +179,18 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       const { name, type } = getListenerNameNTypeById(data.id)
       listenerRecord.value = { ...data, name, type, bind: transPort(data.bind) }
       // Extract differences custom configs
-      const differences = extractDifferences(
-        type as 'tcp' | 'ssl' | 'ws' | 'wss',
-        listenerRecord.value,
-      )
-      listenerCustomConfigs.value = {}
-      if (!isEmptyObj(differences)) {
-        listenerCustomConfigs.value = unflattenObject(differences)
+      let differences = {}
+      if (Object.keys(unexposedConfigs).includes(type)) {
+        differences = extractDifferences(type as 'tcp' | 'ssl' | 'ws' | 'wss', listenerRecord.value)
+        listenerCustomConfigs.value = {}
+        if (!isEmptyObj(differences)) {
+          listenerCustomConfigs.value = unflattenObject(differences)
+        }
       }
       rawListenerRecord = cloneDeep(listenerRecord.value)
       rawListenerCustomConfigs = cloneDeep(listenerCustomConfigs.value)
     } catch (error) {
-      //
+      console.error(error)
     } finally {
       isLoading.value = false
     }
