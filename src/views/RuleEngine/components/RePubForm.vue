@@ -68,7 +68,7 @@
       />
     </el-collapse-transition>
     <el-row :gutter="26">
-      <el-col :span="getColSpan(24)">
+      <el-col :span="getColSpan(12)">
         <CustomFormItem>
           <template #label>
             <FormItemLabel
@@ -77,7 +77,10 @@
               desc-marked
             />
           </template>
-          <el-switch v-model="record.args.direct_dispatch" :disabled="readonly" />
+          <InputWithPlaceholderSelect
+            v-model="directDispatchProxy"
+            :options="[BooleanStr.True, BooleanStr.False]"
+          />
         </CustomFormItem>
       </el-col>
     </el-row>
@@ -89,6 +92,11 @@ import { QoSOptions as defaultQoSOptions } from '@/common/constants'
 import { RuleEngineBuiltinActionRepublish } from '@/types/schemas/rules.schemas'
 import { FormProps } from 'element-plus'
 import PubProps from './PubProps.vue'
+
+const BooleanStr = {
+  True: true.toString(),
+  False: false.toString(),
+}
 
 type RePubForm = RuleEngineBuiltinActionRepublish | any
 
@@ -136,6 +144,20 @@ const { completionProvider } = useAvailableProviders()
 const QoSOptions = [...defaultQoSOptions, '${qos}']
 
 const retainOptions = [true, false, '${flags.retain}']
+
+const directDispatchProxy = computed<string>({
+  get() {
+    const v = record.value.args.direct_dispatch
+    return [true, false].includes(v) ? v.toString() : v
+  },
+  set(v: string) {
+    if (Object.values(BooleanStr).includes(v)) {
+      record.value.args.direct_dispatch = v === BooleanStr.True
+    } else {
+      record.value.args.direct_dispatch = v
+    }
+  },
+})
 
 const record = computed({
   get() {
