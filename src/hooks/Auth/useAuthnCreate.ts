@@ -1,3 +1,4 @@
+import { HTTP_POST_DEFAULT_HEADERS } from '@/common/constants'
 import { LDAPAuthMethod } from '@/types/enum'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -31,9 +32,7 @@ export default function useAuthnCreate() {
     return {
       method: 'post',
       url: 'http://127.0.0.1:8080',
-      headers: {
-        'content-type': 'application/json',
-      },
+      headers: HTTP_POST_DEFAULT_HEADERS,
       body: JSON.stringify(
         {
           username: '${username}',

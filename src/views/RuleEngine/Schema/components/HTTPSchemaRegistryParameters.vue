@@ -23,11 +23,7 @@
     <el-col :span="16">
       <el-form-item prop="parameters.headers">
         <template #label>
-          <FormItemLabel
-            :label="t('RuleEngine.headers')"
-            :desc="tl('httpHeaderDesc')"
-            desc-marked
-          />
+          <FormItemLabel :label="t('RuleEngine.headers')" desc-marked />
         </template>
         <KeyAndValueEditor v-model="formData.headers" />
       </el-form-item>
