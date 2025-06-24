@@ -131,6 +131,7 @@ const propsOrderMap = {
       'acl',
       'transport_options',
       'verify',
+      'middlebox_comp_mode',
       'server_name_indication',
       'certfile',
       'keyfile',

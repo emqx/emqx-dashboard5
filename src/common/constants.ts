@@ -317,6 +317,7 @@ export const SSL_FIELDS = [
   'log_level',
   'partial_chain',
   'verify_peer_ext_key_usage',
+  'middlebox_comp_mode',
 ]
 
 export const EMQX_VERSION = __EMQX_VERSION__
