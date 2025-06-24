@@ -320,6 +320,11 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
   ssl_opts_verify: {
     label: 'TLS Verify',
   },
+  ssl_opts_middlebox_comp_mode: {
+    label: 'Middle Box Compatibility Mode',
+    desc: `Enable the middle box compatibility mode for a TLS-1.3 connection.<br />
+A significant number of middle boxes misbehave when a TLS-1.3 connection is negotiated. Enabling this option can increase the chance of making connections through those middle boxes by adapting the TLS-1.3 handshake to resemble that of a TLS-1.2 handshake.`,
+  },
   ssl_opts_keyfile: {
     desc: 'PEM format private key file.',
     label: 'Keyfile',
