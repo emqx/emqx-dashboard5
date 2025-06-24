@@ -23,6 +23,17 @@ export default () => {
       return Promise.reject(error)
     }
   }
+  const fillManagedNamespaceConfig = async (namespaceList: Array<NamespaceItem>) => {
+    return Promise.allSettled(
+      namespaceList.map(async (namespace) => {
+        if (namespace.not_explicit_created) {
+          return Promise.resolve()
+        }
+        const config = await getNamespaceConfig(namespace.ns)
+        namespace.config = config
+      }),
+    )
+  }
   const queryAllTypeNamespaceList = async (
     params: GetNamespaceListParams,
   ): Promise<Array<NamespaceItem>> => {
@@ -39,6 +50,7 @@ export default () => {
           not_explicit_created: !ns || !totalManagedNamespaceList.includes(ns),
         }),
       )
+      await fillManagedNamespaceConfig(namespaceList)
       return Promise.resolve(namespaceList)
     } catch (error) {
       return Promise.reject(error)
@@ -56,15 +68,7 @@ export default () => {
         config: {},
         not_explicit_created: false,
       }))
-      await Promise.allSettled(
-        namespaceList.map(async (namespace) => {
-          if (namespace.not_explicit_created) {
-            return Promise.resolve()
-          }
-          const config = await getNamespaceConfig(namespace.ns)
-          namespace.config = config
-        }),
-      )
+      await fillManagedNamespaceConfig(namespaceList)
       return Promise.resolve(namespaceList)
     } catch (error) {
       return Promise.reject(error)
