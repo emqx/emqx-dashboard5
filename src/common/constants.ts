@@ -187,19 +187,30 @@ export const MQTT_VERSION_LIST = [
 
 export const AUTH_PLACEHOLDER_CLIENT_ATTRS = ', ${client_attrs.<attribute>}'
 
+const getPlaceholderStr = (varArr: Array<string>) => varArr.map((item) => `\${${item}}`).join(', ')
+
 export const AUTH_PLACEHOLDERS =
-  '${clientid}, ${username}, ${password}' + AUTH_PLACEHOLDER_CLIENT_ATTRS
+  `${getPlaceholderStr(['clientid', 'username', 'password', 'peerport', 'zone', 'listener'])}` +
+  AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 /* MySQL, PgSQL, Redis */
+const AUTHZ_COMMON_PLACEHOLDER_VAR = [
+  'username',
+  'clientid',
+  'peerhost',
+  'peerport',
+  'zone',
+  'listener',
+]
 export const AUTHZ_COMMON_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}, ${cert_common_name}, ${cert_subject}' +
+  getPlaceholderStr([...AUTHZ_COMMON_PLACEHOLDER_VAR, 'cert_common_name', 'cert_subject']) +
   AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const AUTHZ_MONGODB_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}' + AUTH_PLACEHOLDER_CLIENT_ATTRS
+  getPlaceholderStr(AUTHZ_COMMON_PLACEHOLDER_VAR) + AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const AUTHZ_HTTP_PLACEHOLDERS =
-  '${username}, ${clientid}, ${peerhost}, ${mountpoint}, ${topic}, ${action}' +
+  getPlaceholderStr([...AUTHZ_COMMON_PLACEHOLDER_VAR, 'mountpoint', 'topic', 'action']) +
   AUTH_PLACEHOLDER_CLIENT_ATTRS
 
 export const MQTT_V3_RES_CODES = ['01', '02', '03', '04', '05']
