@@ -1,3 +1,4 @@
+import { HTTP_POST_DEFAULT_HEADERS } from '@/common/constants'
 import { SchemaRegistryType } from '@/types/enum'
 import {
   NormalSchemaRegistry,
@@ -19,7 +20,7 @@ export default () => {
   const createRawExternalHttpParams = () =>
     ({
       url: '',
-      headers: {},
+      headers: HTTP_POST_DEFAULT_HEADERS,
       max_retries: 2,
       request_timeout: '10s',
       external_params: '',
