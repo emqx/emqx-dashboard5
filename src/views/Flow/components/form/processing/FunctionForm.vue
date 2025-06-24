@@ -197,7 +197,7 @@ const rules: Rules = {
       const errors = []
       if (source.func.name && !value) {
         errors.push(new Error(t('Flow.aliasRequired')))
-      } else if (!correctAliasReg.test(value)) {
+      } else if (value && !correctAliasReg.test(value)) {
         errors.push(new Error(t('Flow.aliasFormatError')))
       }
       return errors
