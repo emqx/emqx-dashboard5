@@ -147,7 +147,12 @@
       </template>
     </el-dialog>
   </div>
-  <UserMFASettingDialog v-model="isMfaSettingsDialogVisible" :user="record" @submitted="loadData" />
+  <UserMFASettingDialog
+    v-model="isMfaSettingsDialogVisible"
+    :user="record"
+    :is-current-user="isCurrentUser(record?.username)"
+    @submitted="loadData"
+  />
 </template>
 
 <script setup>
