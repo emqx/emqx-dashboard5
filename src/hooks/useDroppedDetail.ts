@@ -52,6 +52,7 @@ export const useDroppedCharts = () => {
       animation: false,
       grid: {
         left: yAxisLabelWidth + 10,
+        right: 32,
       },
       tooltip: {
         trigger: 'axis',
@@ -89,6 +90,10 @@ export const useDroppedCharts = () => {
       tooltip: {
         trigger: 'item',
         formatter: '{b} {d}%',
+      },
+      grid: {
+        left: 0,
+        right: 0,
       },
       legend: {
         left: 'center',

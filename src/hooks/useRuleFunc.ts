@@ -22,6 +22,11 @@ export interface ArgItem {
    */
   range?: [null | number, null | number]
   default?: string | number
+  /**
+   * For some functions, it is unclear which parameter is most likely to be a reference value,
+   * so it is specified manually.
+   */
+  isReference?: boolean
 }
 
 export interface FuncItem {
@@ -81,11 +86,12 @@ const useRuleFunc = (): {
     arrFunc: ArgumentType.Array,
   }
   /**
-   * Get the index of the most important parameter in a function
+   * Get the index of the most important (most likely to use message data) parameter in a function
    */
   const getArgIndex = (func: FuncItem, groupLabel: string) => {
     const targetArgType = funcGroupMainArgTypeMap[groupLabel]
     let targetIndex = -1
+    const isReferenceIndex = func.args?.findIndex(({ isReference }) => isReference)
 
     // Find the first parameter of the current group operation type,
     // if not found, it will be placed first by default
@@ -93,6 +99,8 @@ const useRuleFunc = (): {
       targetIndex = func.args.findIndex((item) => item.type === targetArgType)
     } else if (/time/i.test(groupLabel)) {
       targetIndex = func.args.findIndex((item) => /timestamp/i.test(item.name))
+    } else if (isReferenceIndex > -1) {
+      targetIndex = isReferenceIndex
     }
     targetIndex = targetIndex > -1 ? targetIndex : 0
     return targetIndex

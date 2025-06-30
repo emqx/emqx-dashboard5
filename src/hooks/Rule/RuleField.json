@@ -2,7 +2,6 @@
   "connection_accepted",
   "unacceptable_protocol_version",
   "client_identifier_not_valid",
-  "server_unavaliable",
   "malformed_username_or_password",
   "unauthorized_client",
   "success",

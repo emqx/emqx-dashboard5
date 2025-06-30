@@ -54,6 +54,7 @@ declare global {
   const GATEWAY_DISABLED_LISTENER_TYPE_MAP: typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
   const GATEWAY_ENABLED_DATABASES_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']
   const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
+  const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
   const INPUT_HEIGHT: typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']
@@ -629,6 +630,7 @@ declare module 'vue' {
     readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']>
     readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']>
     readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']>
+    readonly HTTP_POST_DEFAULT_HEADERS: UnwrapRef<typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']>
     readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
     readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
     readonly INPUT_HEIGHT: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']>
