@@ -691,6 +691,10 @@ export default {
     en: 'After enabling, the user will set up TOTP secret key in the next login.',
     zh: '启用后，用户将在下次登录时，设置 TOTP 密钥。',
   },
+  currentEnableUserMFATip: {
+    en: 'After enabling, the user will be logged out immediately and set up TOTP secret key in the next login.',
+    zh: '启用后，将立即退出登录，进行 TOTP 设置。',
+  },
   mfa: {
     en: 'Multi-Factor Authentication',
     zh: '多因素认证',

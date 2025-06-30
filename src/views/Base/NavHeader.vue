@@ -81,8 +81,7 @@
 </template>
 
 <script lang="ts">
-import { loadAlarm, logout as queryLogout } from '@/api/common'
-import { toLogin } from '@/router'
+import { loadAlarm } from '@/api/common'
 import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
@@ -143,6 +142,7 @@ export default defineComponent({
         //
       }
     }
+    const { handleLogOut } = useLogOut()
     const logout = () => {
       ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
         confirmButtonText: t('components.signOut'),
@@ -157,9 +157,7 @@ export default defineComponent({
           instance.confirmButtonLoading = true
 
           try {
-            const { user, loginBackend } = store.state
-            await queryLogout(user.username, loginBackend)
-            toLogin()
+            await handleLogOut()
             ElNotification.success(t('components.loggedOut'))
             done()
           } catch (error) {

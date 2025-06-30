@@ -30,7 +30,7 @@
         />
       </el-select>
       <el-alert type="info" :closable="false">
-        {{ t('General.enableMAFTip') }}
+        {{ isCurrentUser ? t('General.currentEnableUserMFATip') : t('General.enableMAFTip') }}
       </el-alert>
       <div class="buttons">
         <el-button type="primary" @click="enableMFA">{{ tl('enableMFA') }}</el-button>
@@ -46,6 +46,7 @@ import { type User, UserMFA } from '@/types/typeAlias'
 const props = defineProps<{
   modelValue: boolean
   user: User
+  isCurrentUser: boolean
 }>()
 const emit = defineEmits(['update:modelValue', 'submitted'])
 
@@ -95,6 +96,7 @@ const resetTOTPSecret = async () => {
 }
 
 const selectedMFA = ref(defaultMFA)
+const { handleLogOut } = useLogOut()
 const enableMFA = async () => {
   try {
     submitLoading.value = true
@@ -106,9 +108,11 @@ const enableMFA = async () => {
     ElMessage.success(t('Base.enableSuccess'))
     emit('submitted')
     showDialog.value = false
+    submitLoading.value = false
+    if (props.isCurrentUser) {
+      await handleLogOut()
+    }
   } catch (error) {
-    //
-  } finally {
     submitLoading.value = false
   }
 }

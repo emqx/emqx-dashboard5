@@ -406,6 +406,7 @@ declare global {
   const useLimiter: typeof import('./hooks/Config/useLimiter')['default']
   const useListenerDrawer: typeof import('./hooks/Config/useListenerDrawer')['default']
   const useListenerUtils: typeof import('./hooks/Config/useListenerUtils')['default']
+  const useLogOut: typeof import('./hooks/useLogOut')['default']
   const useMFAMethods: typeof import('./hooks/useMFA')['useMFAMethods']
   const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
   const useMenus: typeof import('./hooks/useMenus')['default']
@@ -982,6 +983,7 @@ declare module 'vue' {
     readonly useLimiter: UnwrapRef<typeof import('./hooks/Config/useLimiter')['default']>
     readonly useListenerDrawer: UnwrapRef<typeof import('./hooks/Config/useListenerDrawer')['default']>
     readonly useListenerUtils: UnwrapRef<typeof import('./hooks/Config/useListenerUtils')['default']>
+    readonly useLogOut: UnwrapRef<typeof import('./hooks/useLogOut')['default']>
     readonly useMFAMethods: UnwrapRef<typeof import('./hooks/useMFA')['useMFAMethods']>
     readonly useMQTTVersion5NewConfig: UnwrapRef<typeof import('./hooks/useMQTTVersion5NewConfig')['default']>
     readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
