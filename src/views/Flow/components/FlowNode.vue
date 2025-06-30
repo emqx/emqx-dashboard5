@@ -22,7 +22,7 @@
       <p class="desc" v-if="!isAIType(data.data.specificType)">
         {{ data.data.desc }}
       </p>
-      <template v-else>
+      <template v-else-if="data.data.desc">
         <CommonOverflowTooltip :content="data.data.desc" class="desc" />
       </template>
     </div>

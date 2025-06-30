@@ -21,7 +21,7 @@
       <template #label>
         <FormItemLabel :label="t('Flow.systemPrompt')" :desc="t('Flow.systemPromptDesc')" />
       </template>
-      <el-input v-model="record.system_prompt" type="textarea" :rows="5" />
+      <InputWithTextEditDialog v-model="record.system_prompt" :title="t('Flow.systemPrompt')" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
       <el-select
@@ -132,7 +132,7 @@ const { createRequiredRule } = useFormRules()
 const { ruleWhenEditing } = useSpecialRuleForPassword({ edit: true })
 const rules = computed(() => ({
   input: createRequiredRule(t('RuleEngine.input')),
-  system_prompt: createRequiredRule(t('Flow.systemPrompt')),
+  system_prompt: [{ ...createRequiredRule(t('Flow.systemPrompt'))[0], trigger: 'change' }],
   api_key: [...createRequiredRule(tl('apiKey')), ...ruleWhenEditing],
   alias: [
     ...createRequiredRule(t('Flow.aiOutputAlias')),
