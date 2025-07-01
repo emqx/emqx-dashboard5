@@ -1,3 +1,4 @@
+import { GEMINI_DEFAULT_BASE_URL } from '@/common/constants'
 import {
   arraysAreEqual,
   getKeyPartsFromSQL,
@@ -11,6 +12,7 @@ import {
 } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { AiProviderType } from '@/types/schemas/aiCompletion.schemas'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { Edge, Node, Styles } from '@vue-flow/core'
 import ELK from 'elkjs/lib/elk.bundled'
@@ -313,13 +315,33 @@ export default (): {
     return nodes
   }
 
+  const aiNodeSpecificTypeMap = new Map([
+    [AiProviderType.openai, ProcessingType.AIOpenAI],
+    [AiProviderType.anthropic, ProcessingType.AIAnthropic],
+  ])
+
+  const geminiModelReg = /gemini|gemma/
+  const getAiNodeSpecificType = (
+    provider: AIProviderForm,
+    completion: AICompletionProfile,
+  ): string => {
+    if (provider.type === AiProviderType.openai) {
+      const isGeminiModel = completion.model && geminiModelReg.test(completion.model)
+      const isGeminiBaseUrl = provider.base_url === GEMINI_DEFAULT_BASE_URL
+      if (isGeminiModel || isGeminiBaseUrl) {
+        return ProcessingType.AIGemini
+      }
+    }
+    return aiNodeSpecificTypeMap.get(provider.type) ?? ''
+  }
+
   const addAIRecordToAINode = (
     node: Node,
     provider?: AIProviderForm,
     completion?: AICompletionProfile,
   ) => {
     if (isAIType(node.data.specificType) && provider && completion) {
-      const nodeType = `ai-${provider.type}`
+      const nodeType = getAiNodeSpecificType(provider, completion)
       node.label = getTypeLabel(nodeType)
       node.data.specificType = nodeType
       node.data.formData = {

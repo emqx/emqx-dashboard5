@@ -1,3 +1,4 @@
+import { GEMINI_DEFAULT_BASE_URL } from '@/common/constants'
 import { BridgeType, FilterLogicalOperator } from '@/types/enum'
 import { OutputItemObj } from '@/types/rule'
 import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
@@ -74,6 +75,13 @@ export const createAIAnthropicForm = () => ({
   max_tokens: 100,
 })
 
+export const createAIGeminiForm = () => ({
+  type: AIProviderType.openai,
+  model: 'gemini-2.0-flash',
+  ...createAICommonForm(),
+  base_url: GEMINI_DEFAULT_BASE_URL,
+})
+
 export const createRePubForm = (): OutputItemObj => ({
   function: 'republish',
   args: {
@@ -110,6 +118,7 @@ export default (): {
     [ProcessingType.Function]: createFunctionForm,
     [ProcessingType.AIOpenAI]: createAIOpenAIForm,
     [ProcessingType.AIAnthropic]: createAIAnthropicForm,
+    [ProcessingType.AIGemini]: createAIGeminiForm,
     [SinkType.RePub]: createRePubForm,
     [SinkType.Console]: createConsoleForm,
     [SinkType.InfluxDB]: createRawInfluxDBForm,

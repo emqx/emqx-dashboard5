@@ -35,6 +35,7 @@ export enum ProcessingType {
   Function = 'function',
   AIOpenAI = 'ai-openai',
   AIAnthropic = 'ai-anthropic',
+  AIGemini = 'ai-gemini',
   Filter = 'filter',
 }
 
@@ -186,6 +187,7 @@ export default (): {
     [ProcessingType.Filter]: tl('filter'),
     [ProcessingType.AIOpenAI]: 'OpenAI',
     [ProcessingType.AIAnthropic]: 'Anthropic',
+    [ProcessingType.AIGemini]: 'Gemini',
     [SinkType.Webhook]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTT]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
@@ -256,11 +258,12 @@ export default (): {
     return !isNotBridgeTypes.includes(type) && isBridge
   }
 
+  const defaultTypesNotAI = [ProcessingType.Filter, ProcessingType.Function]
   const isAIType = (type: string) => {
     return (
       type === AI_PLACEHOLDER_TYPE ||
       (Object.values(ProcessingType).includes(type as ProcessingType) &&
-        ![ProcessingType.Filter, ProcessingType.Function].includes(type as ProcessingType))
+        !defaultTypesNotAI.includes(type as ProcessingType))
     )
   }
 
@@ -319,15 +322,12 @@ export default (): {
   const typesIconNew: Array<string> = [
     ...inputTypesIconNew,
     SourceTypeAllMsgsAndEvents,
-    ProcessingType.Filter,
-    ProcessingType.Function,
-    ProcessingType.AIOpenAI,
-    ProcessingType.AIAnthropic,
     SinkType.Console,
     SinkType.RePub,
     SinkType.Webhook,
   ]
-  const isTypeUsingNewIcon = (type: string) => typesIconNew.includes(type)
+  const isTypeUsingNewIcon = (type: string) =>
+    typesIconNew.includes(type) || Object.values(ProcessingType).includes(type as ProcessingType)
   const { getBridgeIcon } = useBridgeTypeIcon()
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
