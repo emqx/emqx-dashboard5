@@ -58,13 +58,11 @@ export default (): {
   const formComponentMap: Record<string, Component> = {
     [SourceType.Message]: MessageForm,
     [SourceType.Event]: EventForm,
-    [SourceType.MQTT]: UsingSchemaBridgeConfig,
     [SourceTypeAllMsgsAndEvents]: AllMsgsAndEventsForm,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
-    [SinkType.MQTT]: UsingSchemaBridgeConfig,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
     [SinkType.Datalayers]: BridgeInfluxdbConfig,
   }
