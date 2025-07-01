@@ -457,3 +457,5 @@ export const correctAliasALevelReg = /([_a-zA-Z]\w*|".+")/
 export const correctAliasReg = new RegExp(
   `^${correctAliasALevelReg.source}(\\.${correctAliasALevelReg.source})*$`,
 )
+
+export const GEMINI_DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/'

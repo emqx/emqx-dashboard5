@@ -231,6 +231,10 @@ const getSchemaBridgeProps = (type: string) => ({
  * for function node and all ai nodes
  */
 const processingNodeFormProps = computed(() => ({ nodes: props.nodes }))
+const aiNodeFormProps = computed(() => ({
+  ...processingNodeFormProps.value,
+  nodeSpecificType: props.node?.data?.specificType,
+}))
 const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>> = computed(() => ({
   [SourceType.Message]: { existedTopics: existedTopics.value },
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
@@ -244,8 +248,12 @@ const getFormComponentProps = (type: string) => {
   if (!ret && isUsingSchemaBridgeType(type)) {
     return getSchemaBridgeProps(type)
   }
-  if (!ret && (isAIType(type) || type === ProcessingType.Function)) {
-    return processingNodeFormProps.value
+  if (!ret) {
+    if (isAIType(type)) {
+      return aiNodeFormProps.value
+    } else if (type === ProcessingType.Function) {
+      return processingNodeFormProps.value
+    }
   }
   return ret || {}
 }

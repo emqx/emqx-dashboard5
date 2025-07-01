@@ -28,7 +28,7 @@ export default (): {
   const { tl } = useI18nTl('RuleEngine')
 
   const { isUsingSchemaBridgeType } = useNodeForm()
-  const { isBridgeType, getTypeLabel } = useFlowNode()
+  const { isBridgeType, isAIType, getTypeLabel } = useFlowNode()
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
   const drawerTitleMap: Record<string, string> = {
@@ -62,8 +62,6 @@ export default (): {
     [SourceTypeAllMsgsAndEvents]: AllMsgsAndEventsForm,
     [ProcessingType.Filter]: FilterForm,
     [ProcessingType.Function]: FunctionForm,
-    [ProcessingType.AIOpenAI]: AINodeForm,
-    [ProcessingType.AIAnthropic]: AINodeForm,
     [SinkType.RePub]: RePubForm,
     [SinkType.Console]: ConsoleForm,
     [SinkType.MQTT]: UsingSchemaBridgeConfig,
@@ -77,6 +75,9 @@ export default (): {
     const component = formComponentMap[type]
     if (!component && isUsingSchemaBridgeType(type)) {
       return UsingSchemaBridgeConfig
+    }
+    if (!component && isAIType(type)) {
+      return AINodeForm
     }
     return component
   }

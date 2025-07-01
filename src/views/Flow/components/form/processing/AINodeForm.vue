@@ -24,15 +24,7 @@
       <InputWithTextEditDialog v-model="record.system_prompt" :title="t('Flow.systemPrompt')" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
-      <el-select
-        v-model="record.model"
-        allow-create
-        filterable
-        default-first-option
-        @blur="handleModelBlur"
-      >
-        <el-option v-for="item in modelOpts" :key="item" :label="item" :value="item" />
-      </el-select>
+      <InputWithOptions v-model="record.model" :options="modelOpts" :filterable="false" />
     </CustomFormItem>
     <template v-if="isAnthropicProfile(record)">
       <CustomFormItem prop="max_tokens" :label="t('Flow.maxTokens')" :readonly="readonly">
@@ -52,7 +44,7 @@
       <CustomInputPassword v-model="record.api_key" />
     </CustomFormItem>
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
-      <el-input v-model="record.base_url" />
+      <el-input v-model="baseUrlProxy" />
     </CustomFormItem>
     <CustomFormItem prop="alias" :readonly="readonly">
       <template #label>
@@ -68,14 +60,15 @@
 </template>
 
 <script setup lang="ts">
-import { correctAliasReg } from '@/common/constants'
+import { correctAliasReg, GEMINI_DEFAULT_BASE_URL } from '@/common/constants'
+import { ProcessingType } from '@/hooks/Flow/useFlowNode'
 import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
-import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
+import { AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
 
 const modelOptsMap = new Map([
   [
-    AIProviderType.openai,
+    ProcessingType.AIOpenAI,
     [
       'gpt-4.5-preview',
       'gpt-4.1',
@@ -94,7 +87,7 @@ const modelOptsMap = new Map([
     ],
   ],
   [
-    AIProviderType.anthropic,
+    ProcessingType.AIAnthropic,
     [
       'claude-3-7-sonnet-latest',
       'claude-3-5-haiku-latest',
@@ -105,10 +98,26 @@ const modelOptsMap = new Map([
       'claude-3-haiku-20240307',
     ],
   ],
+  [
+    ProcessingType.AIGemini,
+    [
+      'gemini-2.5-pro',
+      'gemini-2.5-pro-preview',
+      'gemini-2.5-flash',
+      'gemini-2.5-flash-preview',
+      'gemini-2.5-flash-lite-preview',
+      'gemini-2.0-flash',
+      'gemini-2.0-flash-lite',
+      'gemini-1.5-flash',
+      'gemini-1.5-pro',
+      'gemma-3-27b-it',
+    ],
+  ],
 ])
 
 const props = defineProps<{
   modelValue: AIConfig
+  nodeSpecificType: ProcessingType
   readonly: boolean
   nodes?: Array<Node>
 }>()
@@ -156,7 +165,7 @@ const getFieldList = (queryString: string, cb: any) => {
   cb(ret)
 }
 
-const modelOpts = computed(() => modelOptsMap.get(props.modelValue.type) ?? [])
+const modelOpts = computed(() => modelOptsMap.get(props.nodeSpecificType) ?? [])
 
 const anthropicVersionOpts = Object.values(AnthropicVersion)
 
@@ -164,12 +173,27 @@ const isAnthropicProfile = (profile: AIConfig): profile is AIAnthropicConfig => 
   return profile.type === 'anthropic'
 }
 
-const handleModelBlur = (e: FocusEvent) => {
-  const inputValue = (e.target as HTMLInputElement).value
-  if (inputValue) {
-    record.value.model = inputValue
-  }
-}
+const isGemini = computed(() => props.nodeSpecificType === ProcessingType.AIGemini)
+const baseUrlProxy = computed({
+  get() {
+    const { base_url } = record.value
+    if (isGemini.value && base_url === GEMINI_DEFAULT_BASE_URL) {
+      return ''
+    }
+    return base_url
+  },
+  set(val: string) {
+    if (isGemini.value) {
+      if (!val) {
+        record.value.base_url = GEMINI_DEFAULT_BASE_URL
+      } else {
+        record.value.base_url = val
+      }
+    } else {
+      record.value.base_url = val
+    }
+  },
+})
 
 defineExpose({ validate: () => FormCom.value.validate() })
 </script>
