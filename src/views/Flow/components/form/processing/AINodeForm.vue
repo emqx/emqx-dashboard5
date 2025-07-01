@@ -44,7 +44,18 @@
       <CustomInputPassword v-model="record.api_key" />
     </CustomFormItem>
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
-      <el-input v-model="baseUrlProxy" />
+      <el-input
+        v-model="baseUrlProxy"
+        :class="{ 'with-tooltip': isGemini, 'always-show-tooltip': isGemini && baseUrlProxy }"
+      >
+        <template #suffix>
+          <InfoTooltip>
+            <template #content>
+              <p>{{ t('RuleEngine.geminiBaseUrlTips') }}</p>
+            </template>
+          </InfoTooltip>
+        </template>
+      </el-input>
     </CustomFormItem>
     <CustomFormItem prop="alias" :readonly="readonly">
       <template #label>
@@ -201,5 +212,17 @@ defineExpose({ validate: () => FormCom.value.validate() })
 <style lang="scss">
 .provider-form {
   max-width: 480px;
+
+  .with-tooltip {
+    .icon-question {
+      display: none;
+    }
+    &.always-show-tooltip,
+    .is-focus {
+      .icon-question {
+        display: block;
+      }
+    }
+  }
 }
 </style>
