@@ -3,6 +3,39 @@
 import { jsonToAvro, avroToJson } from 'json-to-avro'
 import avro from 'avsc'
 
+const getFieldSchema = (schema: avro.Schema, fieldPath: Array<string>) => {
+  if (typeof schema === 'string' || !('type' in schema) || schema.type !== 'record') {
+    return null
+  }
+  const targetSchema = schema.fields.find((field) => field.name === fieldPath[0])
+  if (!targetSchema) {
+    return null
+  }
+  if (fieldPath.length === 1) {
+    return targetSchema
+  }
+  return getFieldSchema(targetSchema.type, fieldPath.slice(1))
+}
+
+const formatNumber = (schema: avro.Schema, record: Record<string, any>) => {
+  const format = (data: Record<string, any>, filePath: Array<string>) => {
+    Object.entries(data).forEach(([key, value]) => {
+      if (typeof value !== 'object') {
+        const fieldSchema = getFieldSchema(schema, [...filePath, key])
+        if (fieldSchema) {
+          if (fieldSchema.type === 'int' && typeof value === 'string' && intReg.test(value)) {
+            data[key] = Number(value)
+          }
+        }
+      } else {
+        format(value, [...filePath, key])
+      }
+    })
+  }
+  format(record, [])
+  return record
+}
+
 /**
  * Converts an object to Avro JSON format.
  * Special handling for union types. Converts a value like { value: 'test' } to { value: { string: 'test' } } for a schema ["null", "string"]
@@ -16,7 +49,8 @@ export function objectToAvroJson(
 ): Promise<Record<string, any>> {
   return new Promise((resolve, reject) => {
     try {
-      const result = jsonToAvro(schema, data)
+      const formattedData = formatNumber(schema, data)
+      const result = jsonToAvro(schema, formattedData)
       resolve(result)
     } catch (error) {
       const err = error as unknown as Error
