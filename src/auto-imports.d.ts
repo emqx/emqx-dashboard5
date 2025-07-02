@@ -54,6 +54,7 @@ declare global {
   const GATEWAY_DISABLED_LISTENER_TYPE_MAP: typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
   const GATEWAY_ENABLED_DATABASES_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']
   const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
+  const GEMINI_DEFAULT_BASE_URL: typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']
   const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
@@ -143,6 +144,7 @@ declare global {
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
   const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
   const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
+  const createAIGeminiForm: typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']
   const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
   const createConsoleForm: typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']
@@ -198,6 +200,7 @@ declare global {
   const h: typeof import('vue')['h']
   const handleTransformData: typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']
   const inject: typeof import('vue')['inject']
+  const intReg: typeof import('./common/tools')['intReg']
   const isArray: typeof import('lodash')['isArray']
   const isContainsAIExpression: typeof import('./common/tools')['isContainsAIExpression']
   const isEqual: typeof import('lodash')['isEqual']
@@ -222,6 +225,7 @@ declare global {
   const nextTick: typeof import('vue')['nextTick']
   const numToFixed: typeof import('./common/tools')['numToFixed']
   const numberArgTypes: typeof import('./hooks/useRuleFunc')['numberArgTypes']
+  const numberReg: typeof import('./common/tools')['numberReg']
   const objectToAvroJson: typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']
   const omit: typeof import('lodash')['omit']
   const omitArr: typeof import('./common/tools')['omitArr']
@@ -631,6 +635,7 @@ declare module 'vue' {
     readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']>
     readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']>
     readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']>
+    readonly GEMINI_DEFAULT_BASE_URL: UnwrapRef<typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']>
     readonly HTTP_POST_DEFAULT_HEADERS: UnwrapRef<typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']>
     readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
     readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
@@ -720,6 +725,7 @@ declare module 'vue' {
     readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
     readonly createAIAnthropicForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']>
     readonly createAICommonForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']>
+    readonly createAIGeminiForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']>
     readonly createAIOpenAIForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createConsoleForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']>
@@ -775,6 +781,7 @@ declare module 'vue' {
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly handleTransformData: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly intReg: UnwrapRef<typeof import('./common/tools')['intReg']>
     readonly isArray: UnwrapRef<typeof import('lodash')['isArray']>
     readonly isContainsAIExpression: UnwrapRef<typeof import('./common/tools')['isContainsAIExpression']>
     readonly isEqual: UnwrapRef<typeof import('lodash')['isEqual']>
@@ -799,6 +806,7 @@ declare module 'vue' {
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly numToFixed: UnwrapRef<typeof import('./common/tools')['numToFixed']>
     readonly numberArgTypes: UnwrapRef<typeof import('./hooks/useRuleFunc')['numberArgTypes']>
+    readonly numberReg: UnwrapRef<typeof import('./common/tools')['numberReg']>
     readonly objectToAvroJson: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']>
     readonly omit: UnwrapRef<typeof import('lodash')['omit']>
     readonly omitArr: UnwrapRef<typeof import('./common/tools')['omitArr']>
