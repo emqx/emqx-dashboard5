@@ -448,6 +448,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean

@@ -365,6 +365,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
   reuse_sessions?: boolean

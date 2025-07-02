@@ -434,6 +434,7 @@ export type GcpPubsubConsumerSourceResourceOptsHealthCheckTimeout = 'infinity' |
 
 export interface GcpPubsubConsumerSourceResourceOpts {
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: GcpPubsubConsumerSourceResourceOptsHealthCheckTimeout
   request_ttl?: GcpPubsubConsumerSourceResourceOptsRequestTtl
 }
@@ -616,6 +617,7 @@ export type BridgeMqttPublisherSourceResourceOptsHealthCheckTimeout = 'infinity'
 
 export interface BridgeMqttPublisherSourceResourceOpts {
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeMqttPublisherSourceResourceOptsHealthCheckTimeout
 }
 
@@ -694,6 +696,7 @@ export type ActionsAndSourcesSourceResourceOptsHealthCheckTimeout = 'infinity' |
 
 export interface ActionsAndSourcesSourceResourceOpts {
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: ActionsAndSourcesSourceResourceOptsHealthCheckTimeout
 }
 

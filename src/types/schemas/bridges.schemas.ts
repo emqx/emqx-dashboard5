@@ -648,6 +648,7 @@ export interface ResourceSchemaCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: ResourceSchemaCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -733,6 +734,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -1113,6 +1115,7 @@ export interface BridgeSqlserverCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeSqlserverCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -1506,6 +1509,7 @@ export interface BridgeRedisCreationOptsRedisSingle {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeRedisCreationOptsRedisSingleHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -1548,6 +1552,7 @@ export interface BridgeRedisCreationOptsRedisSentinel {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeRedisCreationOptsRedisSentinelHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -1587,6 +1592,7 @@ export interface BridgeRedisCreationOptsRedisCluster {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeRedisCreationOptsRedisClusterHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -1768,6 +1774,7 @@ export interface BridgeRabbitmqCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeRabbitmqCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -2492,6 +2499,7 @@ export interface BridgeMqttCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeMqttCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -3116,6 +3124,7 @@ export interface BridgeMongodbCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeMongodbCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -3291,6 +3300,7 @@ export interface BridgeKinesisCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeKinesisCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -3463,6 +3473,7 @@ export interface BridgeKafkaSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: BridgeKafkaSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: BridgeKafkaSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -4022,6 +4033,7 @@ export interface BridgeIotdbCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeIotdbCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -4296,6 +4308,7 @@ export interface BridgeHttpV1ResourceOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeHttpV1ResourceOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -5105,6 +5118,7 @@ export interface BridgeDynamoCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeDynamoCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -5215,6 +5229,7 @@ export interface BridgeClickhouseCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: BridgeClickhouseCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number
@@ -5385,6 +5400,7 @@ export interface BridgeAzureEventHubSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: BridgeAzureEventHubSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: BridgeAzureEventHubSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
