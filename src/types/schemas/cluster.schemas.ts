@@ -202,6 +202,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -279,6 +280,7 @@ export interface ClusterCreationOpts {
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
+  health_check_interval_jitter?: string
   health_check_timeout?: ClusterCreationOptsHealthCheckTimeout
   /** @minimum 1 */
   inflight_window?: number

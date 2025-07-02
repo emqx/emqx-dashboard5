@@ -605,6 +605,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -788,6 +789,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -1782,6 +1784,9 @@ export const AuthnLdapBackend = {
 } as const
 
 export interface AuthnLdap {
+  acl_rule_attribute?: string
+  acl_ttl_attribute?: string
+  all_attribute?: string
   backend: AuthnLdapBackend
   base_dn: string
   enable?: boolean
@@ -1792,10 +1797,12 @@ export interface AuthnLdap {
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
+  publish_attribute?: string
   query_timeout?: string
   request_timeout?: string
   server: string
   ssl?: LdapSsl
+  subscribe_attribute?: string
   username: string
 }
 

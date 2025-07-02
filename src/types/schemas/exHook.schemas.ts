@@ -189,6 +189,7 @@ export interface ExhookSslConf {
   hibernate_after?: string
   keyfile?: string
   log_level?: ExhookSslConfLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: ExhookSslConfPartialChain
   password?: string
   reuse_sessions?: boolean

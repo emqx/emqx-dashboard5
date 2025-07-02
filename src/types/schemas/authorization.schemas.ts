@@ -557,6 +557,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -618,6 +619,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -1181,6 +1183,7 @@ export const AuthzLdapType = {
 } as const
 
 export interface AuthzLdap {
+  acl_rule_attribute?: string
   all_attribute?: string
   base_dn: string
   enable?: boolean
