@@ -8,7 +8,7 @@
     :class="`is-column-${props.column}`"
   >
     <el-form-item :label="tl('action')" prop="action">
-      <el-select v-if="isEdit" v-model="record.action">
+      <el-select v-if="isEdit" v-model="record.action" @change="handleDataChanged">
         <el-option
           v-for="{ label, value } in actionOpts"
           :key="value"
@@ -22,7 +22,7 @@
     </el-form-item>
 
     <el-form-item :label="tl('permission')" prop="permission">
-      <el-select v-if="isEdit" v-model="record.permission">
+      <el-select v-if="isEdit" v-model="record.permission" @change="handleDataChanged">
         <el-option
           v-for="{ label, value } in permissionOpts"
           :key="value"
@@ -36,7 +36,7 @@
     </el-form-item>
 
     <el-form-item :label="t('Base.topic')" prop="topic" :rules="topicRules">
-      <el-input v-if="isEdit" v-model="record.topic" />
+      <el-input v-if="isEdit" v-model="record.topic" @change="handleDataChanged" />
       <template v-else>
         <OverflowTooltip>
           <p class="tip truncate">{{ replaceSpaceForHTML(record.topic) }}</p>
@@ -45,14 +45,14 @@
     </el-form-item>
 
     <el-form-item label="QoS">
-      <el-select v-if="isEdit" v-model="record.qos" multiple>
+      <el-select v-if="isEdit" v-model="record.qos" multiple @change="handleDataChanged">
         <el-option v-for="item in QoSOptions" :key="item" :label="item" :value="item" />
       </el-select>
       <p class="tip" v-else>{{ record.qos?.join?.(', ') }}</p>
     </el-form-item>
 
     <el-form-item label="Retain">
-      <el-select v-if="isEdit" v-model="record.retain">
+      <el-select v-if="isEdit" v-model="record.retain" @change="handleDataChanged">
         <el-option :value="true" label="true" />
         <el-option :value="false" label="false" />
         <el-option value="all" :label="retainAllLabel" />
@@ -63,7 +63,7 @@
     </el-form-item>
 
     <el-form-item :label="t('Clients.clientIdReg')" v-if="type !== BuiltInDBType.Client">
-      <el-input v-if="isEdit" v-model="record.clientid_re" />
+      <el-input v-if="isEdit" v-model="record.clientid_re" @change="handleDataChanged" />
       <template v-else>
         <OverflowTooltip>
           <p class="tip truncate">{{ record.clientid_re }}</p>
@@ -72,7 +72,7 @@
     </el-form-item>
 
     <el-form-item :label="t('Clients.usernameReg')" v-if="type !== BuiltInDBType.User">
-      <el-input v-if="isEdit" v-model="record.username_re" />
+      <el-input v-if="isEdit" v-model="record.username_re" @change="handleDataChanged" />
       <template v-else>
         <OverflowTooltip>
           <p class="tip truncate">{{ record.username_re }}</p>
@@ -81,7 +81,7 @@
     </el-form-item>
 
     <el-form-item :label="t('Clients.ipAddressRange')">
-      <el-input v-if="isEdit" v-model="record.ipaddr" />
+      <el-input v-if="isEdit" v-model="record.ipaddr" @change="handleDataChanged" />
       <template v-else>
         <OverflowTooltip>
           <p class="tip truncate">{{ record.ipaddr }}</p>
@@ -89,7 +89,7 @@
       </template>
     </el-form-item>
     <el-form-item :label="t('Dashboard.listener')">
-      <el-input v-if="isEdit" v-model="listenerInputValue">
+      <el-input v-if="isEdit" v-model="listenerInputValue" @change="handleDataChanged">
         <template #prepend>
           <el-select v-model="listenerType">
             <el-option
@@ -118,7 +118,7 @@
       </p>
     </el-form-item>
     <el-form-item label="Zone">
-      <el-input v-if="isEdit" v-model="zoneInputValue">
+      <el-input v-if="isEdit" v-model="zoneInputValue" @change="handleDataChanged">
         <template #prepend>
           <el-select v-model="zoneType">
             <el-option
@@ -178,6 +178,7 @@ const props = withDefaults(
 )
 const emit = defineEmits<{
   (e: 'update:modelValue', value: BuiltInDBRule): void
+  (e: 'change'): void
 }>()
 
 const record = computed({
@@ -283,6 +284,10 @@ const zoneInputTooltip = computed(() => {
     ? tl('permissionZoneDesc')
     : tl('permissionZoneRegexDesc')
 })
+
+const handleDataChanged = () => {
+  emit('change')
+}
 
 defineExpose({
   validate,
