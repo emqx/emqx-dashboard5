@@ -365,6 +365,10 @@ export default (
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
     ),
+    [BridgeType.BigQuery]: createOrderObj(
+      getPathArrInParameters(['dataset', 'table']),
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {

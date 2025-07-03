@@ -90,7 +90,7 @@
           </InfoTooltip>
         </template>
       </el-input>
-      <p class="tip" v-else>
+      <p class="tip align-" v-else>
         {{ listenerInputValue }} ({{
           getLabelFromValueInOptionList(listenerType, listenerTypeOpts)
         }})
