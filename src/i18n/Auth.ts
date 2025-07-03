@@ -834,4 +834,8 @@ Examples:
 
 Find more information about Variform expressions in EMQX doc.`,
   },
+  duplicatedPermission: {
+    zh: '存在重复的权限配置',
+    en: 'Duplicated permission configuration',
+  },
 }

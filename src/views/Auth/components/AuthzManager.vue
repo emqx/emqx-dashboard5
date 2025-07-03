@@ -164,7 +164,13 @@
           <el-input v-model="record.username" :disabled="isEdit" />
         </el-form-item>
         <el-form-item>
-          <AuthzRuleList class="form-table shadow-none" :data="record.rules" :type="type" is-edit>
+          <AuthzRuleList
+            ref="authzRuleListRef"
+            class="form-table shadow-none"
+            :data="record.rules"
+            :type="type"
+            is-edit
+          >
             <template #add-button>
               <div class="button-bar">
                 <CreateButton @click="addColumn" type="default">
@@ -257,6 +263,7 @@ const typeList = [
   },
 ]
 const recordForm = ref()
+const authzRuleListRef = ref()
 const tableData = ref([])
 const allTableData = ref<BuiltInDBRule[]>([])
 const createRawRuleItem = (): BuiltInDBRule => ({
@@ -360,7 +367,10 @@ const handleRulesBeforeSubmit = (rules: Array<BuiltInDBRule>) =>
 
 const handleSubmit = async () => {
   try {
-    await recordForm.value.validate()
+    await Promise.all([
+      recordForm.value.validate(),
+      !isTypeAll.value ? authzRuleListRef.value.validate() : Promise.resolve(),
+    ])
     const data: {
       [key: string]: any
     } = {}
