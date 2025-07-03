@@ -37,7 +37,11 @@
 
     <el-form-item :label="t('Base.topic')" prop="topic" :rules="topicRules">
       <el-input v-if="isEdit" v-model="record.topic" />
-      <p class="tip" v-else>{{ replaceSpaceForHTML(record.topic) }}</p>
+      <template v-else>
+        <OverflowTooltip>
+          <p class="tip truncate">{{ replaceSpaceForHTML(record.topic) }}</p>
+        </OverflowTooltip>
+      </template>
     </el-form-item>
 
     <el-form-item label="QoS">
@@ -53,22 +57,36 @@
         <el-option :value="false" label="false" />
         <el-option value="all" :label="retainAllLabel" />
       </el-select>
-      <p class="tip" v-else>{{ record.retain === 'all' ? retainAllLabel : record.retain }}</p>
+      <p class="tip" v-else>
+        {{ record.retain === 'all' ? retainAllLabel : record.retain }}
+      </p>
     </el-form-item>
 
     <el-form-item :label="t('Clients.clientIdReg')" v-if="type !== BuiltInDBType.Client">
       <el-input v-if="isEdit" v-model="record.clientid_re" />
-      <p class="tip" v-else>{{ record.clientid_re }}</p>
+      <template v-else>
+        <OverflowTooltip>
+          <p class="tip truncate">{{ record.clientid_re }}</p>
+        </OverflowTooltip>
+      </template>
     </el-form-item>
 
     <el-form-item :label="t('Clients.usernameReg')" v-if="type !== BuiltInDBType.User">
       <el-input v-if="isEdit" v-model="record.username_re" />
-      <p class="tip" v-else>{{ record.username_re }}</p>
+      <template v-else>
+        <OverflowTooltip>
+          <p class="tip truncate">{{ record.username_re }}</p>
+        </OverflowTooltip>
+      </template>
     </el-form-item>
 
     <el-form-item :label="t('Clients.ipAddressRange')">
       <el-input v-if="isEdit" v-model="record.ipaddr" />
-      <p class="tip" v-else>{{ record.ipaddr }}</p>
+      <template v-else>
+        <OverflowTooltip>
+          <p class="tip truncate">{{ record.ipaddr }}</p>
+        </OverflowTooltip>
+      </template>
     </el-form-item>
     <el-form-item :label="t('Dashboard.listener')">
       <el-input v-if="isEdit" v-model="listenerInputValue">
@@ -90,10 +108,13 @@
           </InfoTooltip>
         </template>
       </el-input>
-      <p class="tip align-" v-else>
-        {{ listenerInputValue }} ({{
-          getLabelFromValueInOptionList(listenerType, listenerTypeOpts)
-        }})
+      <p class="tip vertical-align-center" v-else>
+        <OverflowTooltip class="min-w-0">
+          <p class="tip truncate">{{ listenerInputValue }}</p>
+        </OverflowTooltip>
+        <span class="shrink-0">
+          ({{ getLabelFromValueInOptionList(listenerType, listenerTypeOpts) }})
+        </span>
       </p>
     </el-form-item>
     <el-form-item label="Zone">
@@ -116,8 +137,13 @@
           </InfoTooltip>
         </template>
       </el-input>
-      <p class="tip" v-else>
-        {{ zoneInputValue }} ({{ getLabelFromValueInOptionList(zoneType, listenerTypeOpts) }})
+      <p class="tip vertical-align-center" v-else>
+        <OverflowTooltip class="min-w-0">
+          <p class="tip truncate">{{ zoneInputValue }}</p>
+        </OverflowTooltip>
+        <span class="shrink-0">
+          ({{ getLabelFromValueInOptionList(zoneType, listenerTypeOpts) }})
+        </span>
       </p>
     </el-form-item>
     <div class="operation-container" v-if="$slots.operation">
@@ -285,12 +311,20 @@ $form-gap: 20px;
   }
   .el-form-item {
     margin-bottom: 0;
+    .tip {
+      min-width: 0;
+      max-width: 100%;
+    }
   }
   .operation-container {
     padding-top: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+  .overflow-tooltip,
+  .el-tooltip__trigger {
+    max-width: 100%;
   }
 }
 </style>
