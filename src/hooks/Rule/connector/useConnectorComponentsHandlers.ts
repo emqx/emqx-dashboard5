@@ -406,6 +406,7 @@ export default (
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.GCPProducer, GCPHandler],
     [BridgeType.GCPConsumer, GCPHandler],
+    [BridgeType.BigQuery, GCPHandler],
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],

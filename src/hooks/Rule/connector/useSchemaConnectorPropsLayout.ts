@@ -334,6 +334,7 @@ export default (
   > = {
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
+    [BridgeType.BigQuery]: GCPColClass,
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
