@@ -157,22 +157,30 @@
                   />
                 </el-form-item>
               </el-col>
-              <!-- Exporter -->
-              <el-col v-if="opentelemetryFormData.exporter" :span="21" class="custom-col">
-                <el-form-item :label="tl('endpoint')">
-                  <el-input v-model="opentelemetryFormData.exporter.endpoint" />
-                </el-form-item>
-              </el-col>
-              <!-- Exporter SSL Options -->
-              <el-col v-if="opentelemetryFormData.exporter" :span="21" class="custom-col">
-                <!-- Setting the key is to refresh the certificate content to the certificate path after updating the configuration. -->
-                <CommonTLSConfig
-                  :key="isDataLoading.toString()"
-                  v-model="opentelemetryFormData.exporter.ssl_options"
-                  :show-sni="false"
-                  is-edit
-                />
-              </el-col>
+              <template v-if="opentelemetryFormData.exporter">
+                <el-col :span="21" class="custom-col">
+                  <el-form-item :label="tl('endpoint')">
+                    <el-input v-model="opentelemetryFormData.exporter.endpoint" />
+                  </el-form-item>
+                </el-col>
+                <!-- Exporter -->
+                <el-col :span="21" class="custom-col">
+                  <el-form-item :label="t('RuleEngine.headers')">
+                    <KeyAndValueEditor v-model="opentelemetryFormData.exporter.headers" />
+                  </el-form-item>
+                </el-col>
+                <!-- Exporter SSL Options -->
+                <el-col :span="21" class="custom-col">
+                  <!-- Setting the key is to refresh the certificate content to the certificate path after updating the configuration. -->
+                  <CommonTLSConfig
+                    :key="isDataLoading.toString()"
+                    v-model="opentelemetryFormData.exporter.ssl_options"
+                    :show-sni="false"
+                    is-edit
+                  />
+                </el-col>
+              </template>
+
               <!-- Metrics -->
               <el-col :span="21" v-if="opentelemetryFormData.metrics?.enable">
                 <el-form-item :label="`${tl('metricsEnable')}${tl('exportInterval')}`">
@@ -419,6 +427,7 @@ const opentelemetryFormData = ref<OpenTelemetry>({
   exporter: {
     endpoint: 'http://localhost:4317',
     ssl_options: createSSLForm(),
+    headers: {},
   },
 })
 

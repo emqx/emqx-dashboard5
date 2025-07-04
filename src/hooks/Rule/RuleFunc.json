@@ -1212,9 +1212,10 @@
             "required": true
           },
           {
-            "name": "Data",
-            "type": "string",
-            "required": true
+            "name": "BinaryData",
+            "type": "binary",
+            "required": true,
+            "isReference": true
           },
           {
             "name": "Type",
@@ -1233,8 +1234,9 @@
           },
           {
             "name": "Data",
-            "type": "string",
-            "required": true
+            "type": "object",
+            "required": true,
+            "isReference": true
           },
           {
             "name": "Type",
@@ -1254,7 +1256,8 @@
           {
             "name": "Data",
             "type": "object",
-            "required": true
+            "required": true,
+            "isReference": true
           }
         ]
       }

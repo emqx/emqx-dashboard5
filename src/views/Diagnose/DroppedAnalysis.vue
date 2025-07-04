@@ -105,22 +105,27 @@ const chartItemStyle = computed(() =>
     : deliveryDroppedMetricItemStyle.value,
 )
 
+const { addListener: addBarListener } = useEchartResize()
 const BarChartEle = ref()
 const getBarOptions = () => getBarChartOptions(requiredMetrics.value, chartItemStyle.value)
 let barChart: any = undefined
+
 const drawBarChart = () => {
   if (!barChart) {
     barChart = initChart(BarChartEle.value)
+    addBarListener(barChart)
   }
   barChart.setOption(getBarOptions())
 }
 
+const { addListener: addPieListener } = useEchartResize()
 const PieChartEle = ref()
 const getPieOptions = () => getPieChartOptions(requiredMetrics.value, chartItemStyle.value)
 let pieChart: any = undefined
 const drawPieChart = () => {
   if (!pieChart) {
     pieChart = initChart(PieChartEle.value)
+    addPieListener(pieChart)
   }
   pieChart.setOption(getPieOptions())
 }

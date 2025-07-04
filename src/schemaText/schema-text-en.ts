@@ -98,7 +98,7 @@ export default {
   max_conn_rate: {
     desc: `Limits how quickly accepts connections, per each node.
 
-Once the limit is reached, EMQX will pause serving connections from the Accept queue, thereby delaying or rejecting new connections.
+Once the limit is reached, EMQX will automatically close any new connections right after they’re accepted, effectively draining the queue of connections waiting to be accepted.
 
 For example:
 
