@@ -22,10 +22,10 @@
             :key="$index"
             class="detail-item"
           >
-            <router-link class="space-between" :to="getRoute(type, name)" target="_blank">
-              <div>
-                <label>{{ name }}</label>
-                <span class="tip">({{ typeLabel }})</span>
+            <router-link class="space-between gap-2" :to="getRoute(type, name)" target="_blank">
+              <div class="min-w-0 vertical-align-center">
+                <label class="truncate min-w-0">{{ name }}</label>
+                <span class="tip shrink-0">({{ typeLabel }})</span>
               </div>
               <span class="text-status" :class="statusClass">{{ statusLabel }}</span>
             </router-link>
@@ -141,7 +141,7 @@ const getRoute = (type?: string, name?: string) => {
     padding: 4px 0;
     margin: 0;
     list-style: none;
-    width: 220px;
+    width: 280px;
   }
   .tip {
     margin-left: 2px;
