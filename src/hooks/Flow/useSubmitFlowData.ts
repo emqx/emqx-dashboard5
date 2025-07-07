@@ -13,7 +13,7 @@ import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
 type BridgeData = FlowDataItemForSubmit<BridgeItem>
 
-interface GroupedFlowData {
+export interface GroupedFlowData {
   rule: BasicRule
   actions: Array<BridgeData>
   sources: Array<BridgeData>
@@ -30,7 +30,7 @@ export default (): {
       completion: Array<string>
     },
     data: GroupedFlowData,
-  ) => Promise<void>
+  ) => Promise<{ uselessProvider: string[]; uselessCompletion: string[] }>
 } => {
   const isSubmitting = ref(false)
   const { addAction, updateAction, deleteAction } = useHandleActionItem()
@@ -281,6 +281,7 @@ export default (): {
     })
     await Promise.allSettled(uselessCompletion.map(deleteAICompletionProfile))
     await Promise.allSettled(uselessProvider.map(deleteAIProvider))
+    return Promise.resolve({ uselessProvider, uselessCompletion })
   }
 
   return {
