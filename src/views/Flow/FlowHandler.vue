@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { GroupedFlowData } from '@/hooks/Flow/useSubmitFlowData'
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem, RuleItem } from '@/types/rule'
 import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
@@ -111,6 +112,7 @@ const {
   addBridgeFormDataToNodes,
   addAIRecordDataToNodes,
   getData,
+  updateInitialAIDataAfterRemoveAINode,
 } = useEditFlow()
 const isCreate = computed(() => !flowId.value)
 const editingMethod = ref(EditingMethod.Flow)
@@ -185,6 +187,13 @@ if (flowId.value) {
 
 const { getAllRecordsFromFlow } = useFlowEditorDataHandler()
 const { isSubmitting, submitFlow, removeUselessAIData } = useSubmitFlowData()
+const handleUselessAIData = async (currentAllRecords: GroupedFlowData) => {
+  const { uselessProvider, uselessCompletion } = await removeUselessAIData(
+    initialAIData.value,
+    currentAllRecords,
+  )
+  updateInitialAIDataAfterRemoveAINode(uselessProvider, uselessCompletion)
+}
 const submit = async () => {
   try {
     const flowData = FlowEditorCom.value.getFlowData()
@@ -192,7 +201,7 @@ const submit = async () => {
     const isCallCreate = isCreate.value && !isFlowCreated.value
     const operation = isCallCreate ? 'create' : 'update'
     currentRule.value = await submitFlow(data, operation)
-    removeUselessAIData(initialAIData.value, data)
+    handleUselessAIData(data)
     ElMessage.success(t(`Base.${isCallCreate ? 'createSuccess' : 'updateSuccess'}`))
     updateFlowData()
     await nextTick()

@@ -18,6 +18,10 @@ export default (): {
   addBridgeFormDataToNodes: (nodes: Node[]) => Promise<Node[]>
   addAIRecordDataToNodes: (nodes: Node[]) => Promise<Node[]>
   getData: () => Promise<void>
+  updateInitialAIDataAfterRemoveAINode: (
+    uselessProvider: Array<string>,
+    uselessCompletion: Array<string>,
+  ) => void
 } => {
   const route = useRoute()
 
@@ -33,6 +37,11 @@ export default (): {
     provider: Array<string>
     completion: Array<string>
   }>({ provider: [], completion: [] })
+  const assignInitialAIData = (name: string, type: 'provider' | 'completion') => {
+    if (!initialAIData.value[type].includes(name)) {
+      initialAIData.value[type].push(name)
+    }
+  }
 
   const getRuleData = async () => {
     try {
@@ -66,9 +75,9 @@ export default (): {
         try {
           if (isAIType(item.data.specificType)) {
             const completion = await getAICompletionProfileDetail(item.data.formData?.name)
-            initialAIData.value.completion.push(completion.name)
+            assignInitialAIData(completion.name, 'completion')
             const provider = await getAIProviderDetail(completion.provider_name)
-            initialAIData.value.provider.push(provider.name)
+            assignInitialAIData(provider.name, 'provider')
             addAIRecordToAINode(item, provider, completion)
           }
           return Promise.resolve()
@@ -79,6 +88,18 @@ export default (): {
     )
 
     return nodes
+  }
+  const updateInitialAIDataAfterRemoveAINode = (
+    uselessProvider: Array<string>,
+    uselessCompletion: Array<string>,
+  ) => {
+    // Update initAIData to reflect current state after cleanup
+    initialAIData.value.provider = initialAIData.value.provider.filter(
+      (provider) => !uselessProvider.includes(provider),
+    )
+    initialAIData.value.completion = initialAIData.value.completion.filter(
+      (completion) => !uselessCompletion.includes(completion),
+    )
   }
   const addFallbackNodeToNodes = (fallbackNode: Node, nodes: GroupedNode) => {
     const sinkNodeIndex = nodes[NodeType.Sink].findIndex((item) => item.id === fallbackNode.id)
@@ -186,5 +207,6 @@ export default (): {
     addBridgeFormDataToNodes,
     addAIRecordDataToNodes,
     getData,
+    updateInitialAIDataAfterRemoveAINode,
   }
 }
