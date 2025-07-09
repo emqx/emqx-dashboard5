@@ -539,6 +539,46 @@ export default {
     zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
     en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
   },
+  publish_attribute: {
+    zh: '发布属性',
+    en: 'Publish Attribute',
+  },
+  publish_attributeDesc: {
+    zh: '指定用于表示 `publish` 允许主题列表的属性。',
+    en: 'Indicates which attribute is used to represent the allowed topics list of the `publish`.',
+  },
+  subscribe_attribute: {
+    zh: '订阅属性',
+    en: 'Subscribe Attribute',
+  },
+  subscribe_attributeDesc: {
+    zh: '指定用于表示 `subscribe` 允许主题列表的属性。',
+    en: 'Indicates which attribute is used to represent the allowed topics list of the `subscribe`.',
+  },
+  all_attribute: {
+    zh: '全部属性',
+    en: 'All Attribute',
+  },
+  all_attributeDesc: {
+    zh: '指定用于表示 `publish` 和 `subscribe` 都允许的主题列表的属性。',
+    en: 'Indicates which attribute is used to represent the both allowed topics list of  `publish` and `subscribe`.',
+  },
+  acl_rule_attribute: {
+    zh: 'ACL 规则属性',
+    en: 'ACL Rule Attribute',
+  },
+  acl_rule_attributeDesc: {
+    zh: '指定用于表示 JSON 编码的 ACL 规则的属性。',
+    en: 'Indicates which attribute is used to represent the JSON-encoded ACL rules.',
+  },
+  acl_ttl_attribute: {
+    zh: 'ACL TTL 属性',
+    en: 'ACL TTL Attribute',
+  },
+  acl_ttl_attributeDesc: {
+    zh: '指定用于表示 ACL TTL 的属性。',
+    en: 'Indicates which attribute is used to represent the ACL TTL.',
+  },
   authnTotalDesc: {
     zh: '认证器被触发执行的总次数',
     en: 'Total number of authenticator triggers',
