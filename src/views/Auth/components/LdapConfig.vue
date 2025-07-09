@@ -118,6 +118,66 @@
         <AdvancedSettingContainer>
           <el-row :gutter="20">
             <el-col :span="12">
+              <el-form-item prop="publish_attribute">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('publish_attribute')"
+                    :desc="tl('publish_attributeDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="ldapConfig.publish_attribute" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="subscribe_attribute">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('subscribe_attribute')"
+                    :desc="tl('subscribe_attributeDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="ldapConfig.subscribe_attribute" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="all_attribute">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('all_attribute')"
+                    :desc="tl('all_attributeDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="ldapConfig.all_attribute" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="acl_rule_attribute">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('acl_rule_attribute')"
+                    :desc="tl('acl_rule_attributeDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="ldapConfig.acl_rule_attribute" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="authType === 'authn'">
+              <el-form-item prop="acl_ttl_attribute">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('acl_ttl_attribute')"
+                    :desc="tl('acl_ttl_attributeDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="ldapConfig.acl_ttl_attribute" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item :label="$t('RuleEngine.connectionPoolSize')" prop="pool_size">
                 <el-input v-model.number="ldapConfig.pool_size" />
               </el-form-item>
