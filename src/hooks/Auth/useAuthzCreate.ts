@@ -123,6 +123,7 @@ export default function useAuthzCreate() {
       publish_attribute: 'mqttPublishTopic',
       subscribe_attribute: 'mqttSubscriptionTopic',
       all_attribute: 'mqttPubSubTopic',
+      acl_rule_attribute: 'mqttAclRule',
     }
   }
   const factory = (type: string) => {
