@@ -539,6 +539,9 @@ declare global {
   export type { GroupedNode } from './hooks/Flow/useGenerateFlowDataUtils'
   import('./hooks/Flow/useGenerateFlowDataUtils')
   // @ts-ignore
+  export type { GroupedFlowData } from './hooks/Flow/useSubmitFlowData'
+  import('./hooks/Flow/useSubmitFlowData')
+  // @ts-ignore
   export type { FlowNodeData, FlowEdgeData, FlowDataItem } from './hooks/Overview/useNodesGraph'
   import('./hooks/Overview/useNodesGraph')
   // @ts-ignore
