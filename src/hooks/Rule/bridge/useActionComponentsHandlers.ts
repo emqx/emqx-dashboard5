@@ -571,9 +571,18 @@ export default (
 
   const snowflakeHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
-    const { private_key } = components?.parameters?.properties || {}
-    if (private_key?.type === 'string') {
-      private_key.componentProps = { type: 'textarea', rows: 3 }
+    const { parameters } = components
+    if (parameters) {
+      const aggItem = parameters.oneOf?.find((item) => /aggreg/i.test(item.$ref || ''))
+      parameters.useNewCom = true
+      parameters.default = aggItem?.default ?? {}
+      setComponentProps(parameters, { type: 'radio' })
+
+      parameters.oneOf?.forEach((item) => {
+        if (item?.properties?.private_key) {
+          item.properties.private_key.componentProps = { type: 'textarea', rows: 3 }
+        }
+      })
     }
     return { components, rules }
   }
