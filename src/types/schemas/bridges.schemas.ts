@@ -4689,6 +4689,7 @@ export interface BridgeGreptimedbPutGrpcV1 {
   server?: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
+  ttl?: string
   username?: string
   write_syntax: string
 }
@@ -4724,6 +4725,7 @@ export interface BridgeGreptimedbPostGrpcV1 {
   server?: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
+  ttl?: string
   type: BridgeGreptimedbPostGrpcV1Type
   username?: string
   write_syntax: string
@@ -4774,6 +4776,7 @@ export interface BridgeGreptimedbGetGrpcV1 {
   status?: BridgeGreptimedbGetGrpcV1Status
   status_reason?: string
   tags?: string[]
+  ttl?: string
   type: BridgeGreptimedbGetGrpcV1Type
   username?: string
   write_syntax: string

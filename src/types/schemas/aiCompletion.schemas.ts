@@ -272,6 +272,14 @@ export type GetAiCompletionProfiles200Item =
   | AiAnthropicCompletionProfileApiGet
   | AiOpenaiCompletionProfileApiGet
 
+export interface AiTransportOptions {
+  checkout_timeout?: string
+  connect_timeout?: string
+  /** @minimum 1 */
+  max_connections?: number
+  recv_timeout?: string
+}
+
 export type AiProviderApiPutType = (typeof AiProviderApiPutType)[keyof typeof AiProviderApiPutType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -283,6 +291,7 @@ export const AiProviderApiPutType = {
 export interface AiProviderApiPut {
   api_key: string
   base_url?: string
+  transport_options?: AiTransportOptions
   type: AiProviderApiPutType
 }
 
@@ -298,6 +307,7 @@ export interface AiProviderApiGet {
   api_key: string
   base_url?: string
   name: string
+  transport_options?: AiTransportOptions
   type: AiProviderApiGetType
 }
 
@@ -313,6 +323,7 @@ export interface AiProvider {
   api_key: string
   base_url?: string
   name: string
+  transport_options?: AiTransportOptions
   type: AiProviderType
 }
 
