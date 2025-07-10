@@ -225,7 +225,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GreptimeDB]: createOrderObj(
-      ['server', 'dbname', 'username', 'password', 'ssl'],
+      ['server', 'dbname', 'username', 'password', 'ssl', 'ttl'],
       fieldStartIndex,
     ),
     [BridgeType.TDengine]: createOrderObj(
@@ -360,6 +360,7 @@ export default (
     [BridgeType.PgSQL]: pgSqlAdvancedFields,
     [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,
+    [BridgeType.GreptimeDB]: ['ttl'],
   }
 
   const advancedFields = computed(() => {
