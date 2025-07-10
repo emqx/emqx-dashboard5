@@ -531,8 +531,8 @@ export default (): {
     const aiNodes = nodes.filter((node) => isAIType(node.data.specificType))
     aiNodes.forEach((node) => {
       const { formData, isCreated } = node.data
-      const { type, api_key, name, base_url, ...rest } = formData
-      const aiProvider: AiProvider = { name, type, api_key }
+      const { type, api_key, name, base_url, transport_options, ...rest } = formData
+      const aiProvider: AiProvider = { name, type, api_key, transport_options }
       if (base_url) {
         aiProvider.base_url = base_url
       }
