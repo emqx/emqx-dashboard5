@@ -76,54 +76,12 @@ import { ProcessingType } from '@/hooks/Flow/useFlowNode'
 import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
 import { AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
+import aiModels from '@/common/aiModels.json'
 
 const modelOptsMap = new Map([
-  [
-    ProcessingType.AIOpenAI,
-    [
-      'gpt-4.5-preview',
-      'gpt-4.1',
-      'gpt-4.1-mini',
-      'gpt-4.1-nano',
-      'chatgpt-4o-latest',
-      'gpt-4o',
-      'gpt-4o-mini',
-      'gpt-4',
-      'o4-mini',
-      'gpt-3.5-turbo',
-      'o3',
-      'o3-mini',
-      // 'o1-pro',
-      'o1',
-    ],
-  ],
-  [
-    ProcessingType.AIAnthropic,
-    [
-      'claude-3-7-sonnet-latest',
-      'claude-3-5-haiku-latest',
-      'claude-3-5-sonnet-latest',
-      'claude-3-5-sonnet-20240620',
-      'claude-3-opus-latest',
-      'claude-3-sonnet-20240229',
-      'claude-3-haiku-20240307',
-    ],
-  ],
-  [
-    ProcessingType.AIGemini,
-    [
-      'gemini-2.5-pro',
-      'gemini-2.5-pro-preview',
-      'gemini-2.5-flash',
-      'gemini-2.5-flash-preview-05-20',
-      'gemini-2.5-flash-lite-preview',
-      'gemini-2.0-flash',
-      'gemini-2.0-flash-lite',
-      'gemini-1.5-flash',
-      'gemini-1.5-pro',
-      'gemma-3-27b-it',
-    ],
-  ],
+  [ProcessingType.AIOpenAI, aiModels.openai],
+  [ProcessingType.AIAnthropic, aiModels.anthropic],
+  [ProcessingType.AIGemini, aiModels.gemini],
 ])
 
 const props = defineProps<{
