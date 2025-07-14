@@ -446,6 +446,7 @@ export default (
     [BridgeType.AzureBlobStorage]: azureBlobStorageColClassMap,
     [BridgeType.IoTDB]: IoTDBClassMap,
     [BridgeType.Snowflake]: { 'parameters.mode': 'col-hidden' },
+    [BridgeType.S3Tables]: { 'parameters.aggregation.container.type': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
