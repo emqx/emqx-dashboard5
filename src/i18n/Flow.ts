@@ -199,4 +199,20 @@ export default {
     zh: 'Flow 详情页',
     en: 'flow details page',
   },
+  recvTimeout: {
+    zh: '接收数据超时时间',
+    en: 'Receive Timeout',
+  },
+  checkoutTimeout: {
+    zh: '连接池超时时间',
+    en: 'Checkout Timeout',
+  },
+  checkoutTimeoutDesc: {
+    zh: '从连接池中为请求 AI 服务的请求分配的超时时间。',
+    en: 'Timeout for the checkout from connection pool for a request to the AI provider.',
+  },
+  maxConnectionsDesc: {
+    zh: '最大并发连接数',
+    en: 'Maximum number of simultaneous connections to the AI provider.',
+  },
 }
