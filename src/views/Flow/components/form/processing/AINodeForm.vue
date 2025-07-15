@@ -67,6 +67,40 @@
       </template>
       <el-input v-model="record.alias" />
     </CustomFormItem>
+    <AdvancedSettingContainer v-if="record.transport_options">
+      <CustomFormItem prop="transport_options.connect_timeout" :readonly="readonly">
+        <template #label>
+          <FormItemLabel :label="t('Auth.connectTimeout')" desc-marked />
+        </template>
+        <TimeInputWithUnitSelect v-model="record.transport_options.connect_timeout" />
+      </CustomFormItem>
+      <CustomFormItem prop="transport_options.recv_timeout" :readonly="readonly">
+        <template #label>
+          <FormItemLabel :label="t('Flow.recvTimeout')" desc-marked />
+        </template>
+        <TimeInputWithUnitSelect v-model="record.transport_options.recv_timeout" />
+      </CustomFormItem>
+      <CustomFormItem prop="transport_options.checkout_timeout" :readonly="readonly">
+        <template #label>
+          <FormItemLabel
+            :label="t('Flow.checkoutTimeout')"
+            :desc="t('Flow.checkoutTimeoutDesc')"
+            desc-marked
+          />
+        </template>
+        <TimeInputWithUnitSelect v-model="record.transport_options.checkout_timeout" />
+      </CustomFormItem>
+      <CustomFormItem prop="transport_options.max_connections" :readonly="readonly">
+        <template #label>
+          <FormItemLabel
+            :label="t('Gateway.maxConn')"
+            :desc="t('Flow.maxConnectionsDesc')"
+            desc-marked
+          />
+        </template>
+        <CustomInputNumber v-model="record.transport_options.max_connections" />
+      </CustomFormItem>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 

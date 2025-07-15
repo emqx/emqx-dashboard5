@@ -61,6 +61,12 @@ export const createAICommonForm = () => ({
   input: '',
   base_url: '',
   name: `flow_ai_${createRandomString(4)}`,
+  transport_options: {
+    connect_timeout: '1s',
+    recv_timeout: '5s',
+    checkout_timeout: '1s',
+    max_connections: 50,
+  },
 })
 export const createAIOpenAIForm = () => ({
   type: AIProviderType.openai,
