@@ -58,7 +58,7 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
+                    {{ currentInfo.node['version'] }}
                   </span>
                 </div>
                 <div class="node-item">

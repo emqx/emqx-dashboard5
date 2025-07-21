@@ -73,7 +73,7 @@
       </el-col>
       <el-col :span="withSessionsHistHwmark ? 24 - 7 : 24 - 8">
         <el-card class="main-info-item">
-          <div class="count-item">
+          <!-- <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
               <p class="info-label">{{ tl('messageLatency', { target: 'QoS 0' }) }}</p>
@@ -82,7 +82,7 @@
               {{ latencyMetrics['message.qos0.latency'] }}
               <span class="unit">ms</span>
             </div>
-          </div>
+          </div> -->
           <div class="count-item">
             <div class="count-item-hd">
               <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
@@ -138,7 +138,7 @@
             </el-tooltip>
           </template> -->
         </el-card>
-        <el-card class="main-info-item with-three-items">
+        <el-card class="main-info-item">
           <router-link class="count-item" :to="{ name: 'subscription' }">
             <div class="count-item-hd">
               <img src="@/assets/img/subs.png" width="16" height="16" alt="subs" />
