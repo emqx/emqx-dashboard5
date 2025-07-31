@@ -478,6 +478,15 @@ export const ListenersWithNameTcpRequiredBindType = {
   tcp: 'tcp',
 } as const
 
+export type ListenersWithNameTcpRequiredBindTcpBackend =
+  (typeof ListenersWithNameTcpRequiredBindTcpBackend)[keyof typeof ListenersWithNameTcpRequiredBindTcpBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersWithNameTcpRequiredBindTcpBackend = {
+  gen_tcp: 'gen_tcp',
+  socket: 'socket',
+} as const
+
 export type ListenersWithNameTcpRequiredBindParseUnit =
   (typeof ListenersWithNameTcpRequiredBindParseUnit)[keyof typeof ListenersWithNameTcpRequiredBindParseUnit]
 
@@ -521,6 +530,7 @@ export interface ListenersWithNameTcpRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  tcp_backend?: ListenersWithNameTcpRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersWithNameTcpRequiredBindType
   zone?: string
@@ -554,6 +564,34 @@ export const ListenersWithNameSslRequiredBindEnableAuthn = {
   false: false,
   true: true,
 } as const
+
+export interface ListenersWithNameSslRequiredBind {
+  /** @minimum 1 */
+  acceptors?: number
+  access_rules?: string[]
+  bind: string
+  bytes_burst?: string
+  bytes_rate?: string
+  /** @minimum 0 */
+  current_connections?: number
+  enable?: boolean
+  enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
+  max_conn_burst?: string
+  max_conn_rate?: string
+  max_connections?: ListenersWithNameSslRequiredBindMaxConnections
+  messages_burst?: string
+  messages_rate?: string
+  mountpoint?: string
+  name: string
+  parse_unit?: ListenersWithNameSslRequiredBindParseUnit
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  running?: boolean
+  ssl_options?: EmqxListenerSslOpts
+  tcp_options?: EmqxTcpOpts
+  type: ListenersWithNameSslRequiredBindType
+  zone?: string
+}
 
 export type ListenersWithNameQuicRequiredBindType =
   (typeof ListenersWithNameQuicRequiredBindType)[keyof typeof ListenersWithNameQuicRequiredBindType]
@@ -607,6 +645,15 @@ export const ListenersTcpRequiredBindType = {
   tcp: 'tcp',
 } as const
 
+export type ListenersTcpRequiredBindTcpBackend =
+  (typeof ListenersTcpRequiredBindTcpBackend)[keyof typeof ListenersTcpRequiredBindTcpBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersTcpRequiredBindTcpBackend = {
+  gen_tcp: 'gen_tcp',
+  socket: 'socket',
+} as const
+
 export type ListenersTcpRequiredBindParseUnit =
   (typeof ListenersTcpRequiredBindParseUnit)[keyof typeof ListenersTcpRequiredBindParseUnit]
 
@@ -650,6 +697,7 @@ export interface ListenersTcpRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  tcp_backend?: ListenersTcpRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersTcpRequiredBindType
   zone?: string
@@ -661,6 +709,15 @@ export type ListenersTcpNotRequiredBindType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ListenersTcpNotRequiredBindType = {
   tcp: 'tcp',
+} as const
+
+export type ListenersTcpNotRequiredBindTcpBackend =
+  (typeof ListenersTcpNotRequiredBindTcpBackend)[keyof typeof ListenersTcpNotRequiredBindTcpBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ListenersTcpNotRequiredBindTcpBackend = {
+  gen_tcp: 'gen_tcp',
+  socket: 'socket',
 } as const
 
 export type ListenersTcpNotRequiredBindParseUnit =
@@ -706,6 +763,7 @@ export interface ListenersTcpNotRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  tcp_backend?: ListenersTcpNotRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersTcpNotRequiredBindType
   zone?: string
@@ -1153,34 +1211,6 @@ export interface EmqxListenerSslOpts {
   verify?: EmqxListenerSslOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
-}
-
-export interface ListenersWithNameSslRequiredBind {
-  /** @minimum 1 */
-  acceptors?: number
-  access_rules?: string[]
-  bind: string
-  bytes_burst?: string
-  bytes_rate?: string
-  /** @minimum 0 */
-  current_connections?: number
-  enable?: boolean
-  enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
-  max_conn_burst?: string
-  max_conn_rate?: string
-  max_connections?: ListenersWithNameSslRequiredBindMaxConnections
-  messages_burst?: string
-  messages_rate?: string
-  mountpoint?: string
-  name: string
-  parse_unit?: ListenersWithNameSslRequiredBindParseUnit
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  running?: boolean
-  ssl_options?: EmqxListenerSslOpts
-  tcp_options?: EmqxTcpOpts
-  type: ListenersWithNameSslRequiredBindType
-  zone?: string
 }
 
 export type EmqxListenerQuicSslOptsVerify =
