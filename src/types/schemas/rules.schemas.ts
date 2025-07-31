@@ -63,6 +63,18 @@ export type GetRulesIdMetrics404 = {
   message?: string
 }
 
+export type PutRulesId404Code = (typeof PutRulesId404Code)[keyof typeof PutRulesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutRulesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutRulesId404 = {
+  code?: PutRulesId404Code
+  message?: string
+}
+
 export type PutRulesId400Code = (typeof PutRulesId400Code)[keyof typeof PutRulesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -308,30 +320,6 @@ export interface RuleEngineRuleCreation {
   metadata?: RuleEngineRuleCreationMetadata
   name?: string
   sql: string
-}
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
-
-export interface RuleEngineRuleApplyTest {
-  context?: RuleEngineRuleApplyTestContext
-  stop_action_after_template_rendering?: boolean
 }
 
 export interface RuleEngineRepublishMqttProperties {
@@ -798,6 +786,30 @@ export interface RuleEngineCtxAcked {
   qos?: number
   topic?: string
   username?: string
+}
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxAcked
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxPub
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxSub
+  | RuleEngineCtxUnsub
+
+export interface RuleEngineRuleApplyTest {
+  context?: RuleEngineRuleApplyTestContext
+  stop_action_after_template_rendering?: boolean
 }
 
 export type RuleEngineBuiltinActionRepublishFunction =

@@ -1,5 +1,9 @@
 export type GetPrometheusStats200One = { [key: string]: unknown }
 
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
 export type GetPrometheusSchemaValidationParams = {
@@ -13,10 +17,6 @@ export type GetPrometheusMessageTransformationParams = {
 }
 
 export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
-
-export type GetPrometheusDataIntegrationParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
 
 export type GetPrometheusAuth200One = { [key: string]: unknown }
 
@@ -49,7 +49,7 @@ export const EmqxPrometheusApiModeParameter = {
   node: 'node',
 } as const
 
-export type GetPrometheusStatsParams = {
+export type GetPrometheusDataIntegrationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
@@ -263,8 +263,11 @@ export interface OpentelemetryOtelLogs {
   scheduled_delay?: string
 }
 
+export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
+
 export interface OpentelemetryOtelExporter {
   endpoint?: string
+  headers?: OpentelemetryOtelExporterHeaders
   ssl_options?: EmqxSslClientOpts
 }
 

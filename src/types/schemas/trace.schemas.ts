@@ -133,6 +133,7 @@ export type PostTrace400Code = (typeof PostTrace400Code)[keyof typeof PostTrace4
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostTrace400Code = {
+  EXCEED_LIMIT: 'EXCEED_LIMIT',
   INVALID_PARAMS: 'INVALID_PARAMS',
 } as const
 
