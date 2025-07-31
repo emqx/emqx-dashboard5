@@ -94,14 +94,14 @@ export default (
     'offset_commit_interval_seconds',
   ])
 
-  const HStreamAdvancedProps = getPathArrInParameters([
-    'grpc_flush_timeout',
-    'aggregation_pool_size',
-    'max_batches',
-    'writer_pool_size',
-    'batch_size',
-    'batch_interval',
-  ])
+  // const HStreamAdvancedProps = getPathArrInParameters([
+  //   'grpc_flush_timeout',
+  //   'aggregation_pool_size',
+  //   'max_batches',
+  //   'writer_pool_size',
+  //   'batch_size',
+  //   'batch_interval',
+  // ])
 
   const pulsarAdvancedProps = getPathArrInParameters([
     'max_inflight',
@@ -221,13 +221,13 @@ export default (
       ]),
       fieldStartIndex,
     ),
-    [BridgeType.HStream]: createOrderObj(
-      [
-        ...getPathArrInParameters(['stream', 'partition_key', 'record_template']),
-        ...HStreamAdvancedProps,
-      ],
-      fieldStartIndex,
-    ),
+    // [BridgeType.HStream]: createOrderObj(
+    //   [
+    //     ...getPathArrInParameters(['stream', 'partition_key', 'record_template']),
+    //     ...HStreamAdvancedProps,
+    //   ],
+    //   fieldStartIndex,
+    // ),
     [BridgeType.KafkaProducer]: kafkaProducerPropsOrderMap,
     [BridgeType.KafkaConsumer]: createOrderObj(
       [
@@ -465,7 +465,7 @@ export default (
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,
     [BridgeType.KafkaConsumer]: kafkaConsumerAdvancedProps,
-    [BridgeType.HStream]: HStreamAdvancedProps,
+    // [BridgeType.HStream]: HStreamAdvancedProps,
     [BridgeType.Pulsar]: pulsarAdvancedProps,
     [BridgeType.S3]: getPathArrInParameters(['headers', 'min_part_size', 'max_part_size']),
     [BridgeType.Snowflake]: snowflakeAdvancedProps,

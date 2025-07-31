@@ -135,7 +135,7 @@ export enum BridgeType {
   OracleDatabase = 'oracle',
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
-  HStream = 'hstreamdb',
+  // HStream = 'hstreamdb',
   AzureEventHubs = 'azure_event_hub_producer',
   AmazonKinesis = 'kinesis',
   GreptimeDB = 'greptimedb',

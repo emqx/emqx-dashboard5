@@ -265,7 +265,7 @@ export default (
       ],
       fieldStartIndex,
     ),
-    [BridgeType.HStream]: createOrderObj(['url', 'grpc_timeout', 'ssl'], fieldStartIndex),
+    // [BridgeType.HStream]: createOrderObj(['url', 'grpc_timeout', 'ssl'], fieldStartIndex),
     [BridgeType.DynamoDB]: createOrderObj(
       ['region', 'url', 'aws_access_key_id', 'aws_secret_access_key'],
       fieldStartIndex,

@@ -268,17 +268,17 @@ export default (
     return { components, rules }
   }
 
-  const hStreamHandler: Handler = (data) => {
-    const { components, rules } = commonHandler(data)
+  // const hStreamHandler: Handler = (data) => {
+  //   const { components, rules } = commonHandler(data)
 
-    if (components?.parameters?.properties?.record_template?.type === 'string') {
-      components.parameters.properties.record_template.format = 'sql'
-    }
-    if (components?.parameters?.properties?.batch_size) {
-      components.parameters.properties.batch_size.labelKey = 'hstream_batch_size'
-    }
-    return { components, rules }
-  }
+  //   if (components?.parameters?.properties?.record_template?.type === 'string') {
+  //     components.parameters.properties.record_template.format = 'sql'
+  //   }
+  //   if (components?.parameters?.properties?.batch_size) {
+  //     components.parameters.properties.batch_size.labelKey = 'hstream_batch_size'
+  //   }
+  //   return { components, rules }
+  // }
 
   const kafkaProducerHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
@@ -626,7 +626,7 @@ export default (
     [BridgeType.DynamoDB]: dynamoDBHandler,
     [BridgeType.RocketMQ]: rocketMQHandler,
     [BridgeType.RabbitMQ]: rabbitMQHandler,
-    [BridgeType.HStream]: hStreamHandler,
+    // [BridgeType.HStream]: hStreamHandler,
     [BridgeType.KafkaProducer]: kafkaProducerHandler,
     [BridgeType.KafkaConsumer]: kafkaConsumerHandler,
     [BridgeType.AzureEventHubs]: kafkaProducerHandler,
