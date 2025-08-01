@@ -138,6 +138,10 @@ export const getClusterNodes = (): Promise<ClusterInfo> => {
   return http.get('/cluster')
 }
 
+export const updateCluster = (body: ClusterInfo) => {
+  return http.put('/cluster', body)
+}
+
 export const inviteNode = (nodeName: string) => {
   return http.put(`/cluster/${encodeURIComponent(nodeName)}/invite`, { timeout: 60000 })
 }

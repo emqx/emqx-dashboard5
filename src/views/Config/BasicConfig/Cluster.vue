@@ -13,6 +13,16 @@
               <span>{{ clusterInfo.name }}</span>
             </el-form-item>
           </el-col>
+          <el-col :span="21">
+            <el-form-item prop="name" :label="t('Base.clusterDesc')">
+              <div class="description-input-wrapper vertical-align-center flex-1">
+                <el-input v-model="clusterInfo.description" />
+                <el-button type="primary" @click="updateClusterDesc">
+                  {{ t('Base.save') }}
+                </el-button>
+              </div>
+            </el-form-item>
+          </el-col>
 
           <!-- Core Nodes Section -->
           <el-col :span="21">
@@ -157,7 +167,7 @@
 import { ClusterInfo } from '@/types/typeAlias'
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
-import { forceLeaveNode, getClusterNodes, inviteNode, loadNodes } from '@/api/common'
+import { forceLeaveNode, getClusterNodes, inviteNode, loadNodes, updateCluster } from '@/api/common'
 import { toLower } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
 
@@ -168,7 +178,7 @@ type DetailedClusterInfo = Omit<ClusterInfo, 'nodes'> & {
 
 const { t, tl } = useI18nTl('BasicConfig')
 
-const { getters, state } = useStore()
+const { getters, state, commit } = useStore()
 const isCommunityLicense = computed(() => getters.isCommunityLicense)
 
 const clusterInfo = ref<DetailedClusterInfo>({ name: '', nodes: [], self: '' })
@@ -257,11 +267,22 @@ const getClusterInfo = async () => {
       name: clusterName,
       self: selfNodeIdentifier,
       nodes: mergedNodesData,
+      description: basicInfo.description,
     }
   } catch (error) {
     //
   } finally {
     isLoading.value = false
+  }
+}
+
+const updateClusterDesc = async () => {
+  try {
+    await updateCluster({ description: clusterInfo.value.description })
+    ElMessage.success(t('Base.updateSuccess'))
+    commit('SET_CLUSTER_DESC', clusterInfo.value.description)
+  } catch (error) {
+    //
   }
 }
 
@@ -316,8 +337,12 @@ const save = async () => {
   .el-form-item__content {
     font-size: 16px;
   }
-  .nodes-table {
+  .nodes-table,
+  .description-input-wrapper {
     max-width: 70%;
+  }
+  .description-input-wrapper {
+    gap: 8px;
   }
   .current-node-label {
     font-size: 14px;

@@ -3,7 +3,14 @@
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
       <LicensePromotion />
-
+      <div class="cluster-desc">
+        <span class="cluster-desc-label">{{ t('Base.clusterDesc') }}:</span>
+        <div v-if="clusterDesc" class="cluster-desc-content">
+          <CommonOverflowTooltip :content="clusterDesc" />
+        </div>
+        <span v-else>-</span>
+        <LinkButton class="is-link" :to="{ name: 'cluster' }" :icon="Edit" />
+      </div>
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
           <el-icon :size="16"><Search /></el-icon>
@@ -81,8 +88,8 @@
 </template>
 
 <script lang="ts">
-import { loadAlarm } from '@/api/common'
-import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
+import { getClusterNodes, loadAlarm } from '@/api/common'
+import { Right, Bell, Setting, Search, Edit } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
 import LicensePromotion from '@/components/LicensePromotion.vue'
@@ -115,6 +122,7 @@ export default defineComponent({
     const alertCount = computed(() => {
       return store.state.alertCount
     })
+    const clusterDesc = computed(() => store.state.clusterDesc)
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
     })
@@ -142,6 +150,11 @@ export default defineComponent({
         //
       }
     }
+    const getClusterDesc = async () => {
+      const { description } = await getClusterNodes()
+      store.commit('SET_CLUSTER_DESC', description)
+    }
+    getClusterDesc()
     const { handleLogOut } = useLogOut()
     const logout = () => {
       ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
@@ -213,6 +226,7 @@ export default defineComponent({
       leftBarCollapse,
       alertCount,
       alertText,
+      clusterDesc,
       user,
       isEvaluationLicense,
       routeToContactUs,
@@ -223,6 +237,7 @@ export default defineComponent({
       handleShowHelp,
       isMac,
       openQuickPanel,
+      Edit,
     }
   },
 })
@@ -312,6 +327,24 @@ export default defineComponent({
       font-size: 12px;
     }
   }
+}
+
+.cluster-desc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 4px;
+  color: #eaeaea;
+  cursor: default;
+  .cluster-desc-label {
+    margin-right: 4px;
+  }
+  .is-link {
+    color: inherit;
+  }
+}
+.cluster-desc-content {
+  max-width: 120px;
 }
 
 .func-item {
