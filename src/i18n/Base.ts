@@ -760,4 +760,8 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: 'API 密钥',
     en: 'API Key',
   },
+  clusterDesc: {
+    zh: '集群描述',
+    en: 'Cluster Description',
+  },
 }

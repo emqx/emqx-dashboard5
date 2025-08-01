@@ -146,6 +146,7 @@ export type DeleteClusterNodeForceLeave404 = {
 }
 
 export type GetCluster200 = {
+  description?: string
   name?: string
   nodes?: string[]
   self?: string

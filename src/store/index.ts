@@ -87,6 +87,7 @@ export default createStore({
     loginBackend: getLoginBackend(),
     enableSQLAI: getEnableSQLAI(),
     emqxVersion: null as VersionInfo | null,
+    clusterDesc: '',
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -215,6 +216,9 @@ export default createStore({
     /* rule page end */
     SET_EMQX_VERSION(state, versionInfo: VersionInfo) {
       state.emqxVersion = versionInfo
+    },
+    SET_CLUSTER_DESC(state, clusterDesc) {
+      state.clusterDesc = clusterDesc
     },
   },
   getters: {
