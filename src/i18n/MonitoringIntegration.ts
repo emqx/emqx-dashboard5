@@ -12,8 +12,8 @@ export default {
     en: 'Enable Pushgateway',
   },
   enablePushgatewayDesc: {
-    zh: '启用后，EMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
-    en: 'After enabling, EMQX will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
+    zh: '启用后，ApsaraEMQX 将会将监控数据推送到 Pushgateway，然后由 Prometheus 从 Pushgateway 中拉取数据。',
+    en: 'After enabling, ApsaraEMQX will push the monitoring metrics data to the Pushgateway, and then Prometheus will pull the data from the Pushgateway.',
   },
   interval: {
     zh: '采集间隔',
@@ -26,15 +26,15 @@ export default {
   jobNameDesc: {
     zh: `推送到 Pushgateway 的 Job 名称。可用变量为：<br/>
 - \${'{'}cluster_name{'}'}: 在 <code>cluster.name</code> 中配置的集群名称。<br/>
-- \${'{'}name{'}'}: EMQX 节点的名称。<br/>
-- \${'{'}host{'}'}: EMQX 节点主机名。<br/>
-例如，当 EMQX 节点名为 <code>emqx{'@'}127.0.0.1</code> 则 name 变量的值为 <code>emqx</code>，host 变量的值为 <code>127.0.0.1</code>。<br/>
+- \${'{'}name{'}'}: ApsaraEMQX 节点的名称。<br/>
+- \${'{'}host{'}'}: ApsaraEMQX 节点主机名。<br/>
+例如，当 ApsaraEMQX 节点名为 <code>ApsaraEMQX{'@'}127.0.0.1</code> 则 name 变量的值为 <code>ApsaraEMQX</code>，host 变量的值为 <code>127.0.0.1</code>。<br/>
 默认值为: <code>\${'{'}name{'}'}/instance/\${'{'}name{'}'}~\${'{'}host{'}'}</code>`,
     en: `Job Name that is pushed to the Pushgateway. Available variables:<br/>
 - \${'{'}cluster_name{'}'}: The cluster name configured in <code>cluster.name</code>.<br/>
-- \${'{'}name{'}'}: Name of EMQX node.<br/>
-- \${'{'}host{'}'}: Host name of EMQX node.<br/>
-For example, when the EMQX node name is <code>emqx{'@'}127.0.0.1</code> then the <code>name</code> variable takes value <code>emqx</code> and the <code>host</code> variable takes value <code>127.0.0.1</code>.<br/>
+- \${'{'}name{'}'}: Name of ApsaraEMQX node.<br/>
+- \${'{'}host{'}'}: Host name of ApsaraEMQX node.<br/>
+For example, when the ApsaraEMQX node name is <code>ApsaraEMQX{'@'}127.0.0.1</code> then the <code>name</code> variable takes value <code>ApsaraEMQX</code> and the <code>host</code> variable takes value <code>127.0.0.1</code>.<br/>
 Default value is: <code>\${'{'}name{'}'}/instance/\${'{'}name{'}'}~\${'{'}host{'}'}</code>`,
   },
   headersDesc: {
@@ -72,8 +72,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Prometheus and Grafana setup help',
   },
   promSetupHelpDesc: {
-    zh: 'EMQX 支持将数据集成到 Prometheus 服务中来监控数据，可以使用 Grafana 来可视化监控数据。通常使用默认方法即可完成配置，也可选择使用 Pushgateway。',
-    en: 'EMQX supports integrating data into the Prometheus service to monitor data, and you can use Grafana to visualize monitoring data. Usually the default method can be used to complete the configuration, or you can choose to use Pushgateway.',
+    zh: 'ApsaraEMQX 支持将数据集成到 Prometheus 服务中来监控数据，可以使用 Grafana 来可视化监控数据。通常使用默认方法即可完成配置，也可选择使用 Pushgateway。',
+    en: 'ApsaraEMQX supports integrating data into the Prometheus service to monitor data, and you can use Grafana to visualize monitoring data. Usually the default method can be used to complete the configuration, or you can choose to use Pushgateway.',
   },
   pushgatewayInstall: {
     zh: '安装 Pushgateway 或 Node Exporter 服务',
@@ -96,8 +96,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Configure Prometheus',
   },
   promConfigDesc: {
-    zh: '生成 Prometheus 配置文件，包括 EMQX 服务地址，以及 EMQX 提供监控数据 API 的 Path。',
-    en: 'Generate a Prometheus configuration file, including the EMQX service address, and the Path of the EMQX monitoring metrics data API.',
+    zh: '生成 Prometheus 配置文件，包括 ApsaraEMQX 服务地址，以及 ApsaraEMQX 提供监控数据 API 的 Path。',
+    en: 'Generate a Prometheus configuration file, including the ApsaraEMQX service address, and the Path of the ApsaraEMQX monitoring metrics data API.',
   },
   promStepTwo: {
     zh: '在 Prometheus 的配置文件中添加 Pushgateway 服务的地址，Node Exporter 和 Prometheus 的地址在有需要的情况下再添加。',
@@ -132,8 +132,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Please configure the Pushgateway address',
   },
   emqxRequired: {
-    zh: '请配置 EMQX 地址',
-    en: 'Please configure the EMQX address',
+    zh: '请配置 ApsaraEMQX 地址',
+    en: 'Please configure the ApsaraEMQX address',
   },
   metricsPathRequired: {
     zh: '请配置 metrics API path',
@@ -189,8 +189,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Traces All Messages',
   },
   tracesFilterTracesAllDesc: {
-    zh: '当启用时，EMQX 将追踪所有发布的消息，如果无法从消息中提取追踪ID，则会生成一个新的追踪ID。当禁用时，只有在发布时带有追踪上下文（Trace context）的消息才会被追踪。',
-    en: 'When enabled, the EMQX will trace all published messages. If a trace ID cannot be extracted from the message, a new trace ID will be generated. When disabled, only messages with trace context at the time of publishing will be traced.',
+    zh: '当启用时，ApsaraEMQX 将追踪所有发布的消息，如果无法从消息中提取追踪ID，则会生成一个新的追踪ID。当禁用时，只有在发布时带有追踪上下文（Trace context）的消息才会被追踪。',
+    en: 'When enabled, the ApsaraEMQX will trace all published messages. If a trace ID cannot be extracted from the message, a new trace ID will be generated. When disabled, only messages with trace context at the time of publishing will be traced.',
   },
   logsEnable: {
     zh: '日志',
@@ -209,8 +209,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'this doc',
   },
   datadogIntegration: {
-    zh: 'Datadog - EMQX 集成',
-    en: 'Datadog - EMQX Integration',
+    zh: 'Datadog - ApsaraEMQX 集成',
+    en: 'Datadog - ApsaraEMQX Integration',
   },
   e2e: {
     zh: '端到端',
@@ -237,8 +237,8 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     en: 'Cluster Identifier',
   },
   clusterIdentifierDesc: {
-    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 EMQX 集群。',
-    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different EMQX clusters.",
+    zh: '添加到 Span 的 Attributes 中的属性值。属性键将是 `cluster.id`。通常，设置一个简单且易于识别的名称或使用集群名称来标识不同的 ApsaraEMQX 集群。',
+    en: "An attribute value added into Span's Attributes. The attribute key will be `cluster.id`. Typically, set a simple and easily recognizable name or use the cluster name to identify different ApsaraEMQX clusters.",
   },
   alreadyExists: {
     zh: '已存在',

@@ -108,8 +108,8 @@ export default {
     en: 'Enable External Resource Cache',
   },
   enableNodeCacheDesc: {
-    zh: '启用外部资源缓存后，EMQX 将缓存外部资源（如 MySQL、MongoDB 等）的查询结果，以提高效率；对于本地数据源，如内置数据库或文件等不进行缓存。',
-    en: 'After enabling external resource cache, EMQX will cache the query results of external resources (such as MySQL, MongoDB, etc.), to improve efficiency; for local data sources, such as built-in databases or file, are not cached.',
+    zh: '启用外部资源缓存后，ApsaraEMQX 将缓存外部资源（如 MySQL、MongoDB 等）的查询结果，以提高效率；对于本地数据源，如内置数据库或文件等不进行缓存。',
+    en: 'After enabling external resource cache, ApsaraEMQX will cache the query results of external resources (such as MySQL, MongoDB, etc.), to improve efficiency; for local data sources, such as built-in databases or file, are not cached.',
   },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
@@ -413,7 +413,7 @@ export default {
   },
   delAuthnConfirm: {
     zh: '删除该认证器后，可能导致非法客户端连接至当前服务器，{additionalTip}是否确认删除？',
-    en: 'Deleting this authenticator may result in unauthorized clients connecting to the EMQX server, {additionalTip}continue? ',
+    en: 'Deleting this authenticator may result in unauthorized clients connecting to the ApsaraEMQX server, {additionalTip}continue? ',
   },
   delAuthzConfirm: {
     zh: '删除该授权后，可能影响客户端发布和订阅操作的权限控制，{additionalTip}是否确认删除？',
@@ -528,16 +528,16 @@ export default {
     en: 'Local Password Comparison',
   },
   methodHashDesc: {
-    zh: 'EMQX 查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
-    en: "EMQX queries LDAP to retrieve the client's password and then compares it locally.",
+    zh: 'ApsaraEMQX 查询 LDAP 以获取客户端的密码，然后在本地进行比对。',
+    en: "ApsaraEMQX queries LDAP to retrieve the client's password and then compares it locally.",
   },
   methodBindLabel: {
     zh: 'LDAP绑定验证',
     en: 'LDAP Bind Authentication',
   },
   methodBindDesc: {
-    zh: 'EMQX 直接使用 LDAP 绑定验证用户名和密码。',
-    en: 'EMQX directly uses LDAP binding to authenticate the username and password.',
+    zh: 'ApsaraEMQX 直接使用 LDAP 绑定验证用户名和密码。',
+    en: 'ApsaraEMQX directly uses LDAP binding to authenticate the username and password.',
   },
   authnTotalDesc: {
     zh: '认证器被触发执行的总次数',
@@ -726,8 +726,8 @@ export default {
     en: 'Principal',
   },
   principalDesc: {
-    zh: "服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net{'@'}MY.REALM.COM`。\n注意：使用的 realm 必须在 EMQX 节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。",
-    en: "Kerberos principal for server. For example, `mqtt/cluster1.my.net{'@'}MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in EMQX nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.",
+    zh: "服务器的 Kerberos 主体。例如 `mqtt/cluster1.my.net{'@'}MY.REALM.COM`。\n注意：使用的 realm 必须在 ApsaraEMQX 节点的 `/etc/krb5.conf` 中配置。\n注意：主体必须存在于默认的 keytab 文件中。系统默认的 keytab 文件通常是 `/etc/krb5.keytab`，也可以通过环境变量 `KRB5_KTNAME` 或 `/etc/krb5.conf` 中的 `default_keytab_name` 设置。",
+    en: "Kerberos principal for server. For example, `mqtt/cluster1.my.net{'@'}MY.REALM.COM`.\nNOTE: The realm in use has to be configured in `/etc/krb5.conf` in ApsaraEMQX nodes.\nNOTE: The principal must be found in the default keytab file. System default keytab file is usually `/etc/krb5.keytab`, or can be set with environment variable `KRB5_KTNAME` or `default_keytab_name` in `/etc/krb5.conf`.",
   },
   cinfoAuthDesc: {
     zh: '使用 Client Information 进行认证',
@@ -807,7 +807,7 @@ For more functions and advanced usage, please refer to the full documentation.`,
 - 仅当密码存在且区域为 \`zone1\` 时调用：
   \`iif(is_empty_val(password), false, str_eq(zone, 'zone1'))\`
 
-更多关于 Variform 表达式的信息，请参阅 EMQX 文档。
+更多关于 Variform 表达式的信息，请参阅 ApsaraEMQX 文档。
 `,
     en: `A Variform expression to evaluate with a set of pre-bound variables derived from the client information.<br />
 **The expression must evaluate to a string value of 'true' for this authenticator to be invoked.**<br />
@@ -832,6 +832,6 @@ Examples:
 - Only invoke if password exists and zone is 'zone1':
   \`iif(is_empty_val(password), false, str_eq(zone, 'zone1'))\`
 
-Find more information about Variform expressions in EMQX doc.`,
+Find more information about Variform expressions in ApsaraEMQX doc.`,
   },
 }
