@@ -391,7 +391,7 @@ const client = ref<MqttClient | null>(null)
 const connection = reactive<ConnectionRecord>({
   host: window.location.hostname,
   port: window.location.protocol === 'http:' ? 8083 : 8084,
-  clientId: `emqx_${props.name}`,
+  clientId: `ApsaraEMQX_${props.name}`,
   ssl: window.location.protocol === 'https:',
   protocolversion: MQTT_V5_VALUE,
   endpoint: '/mqtt',

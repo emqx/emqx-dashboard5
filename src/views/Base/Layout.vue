@@ -63,10 +63,10 @@
       </el-main>
     </el-container>
   </el-container>
-  <LicenseTipDialog
+  <!-- <LicenseTipDialog
     v-model="showLicenseTipDialog"
     :max-sessions="store.state.licenseData.max_sessions"
-  />
+  /> -->
   <QuickPanel v-model="showQuickPanel" />
 </template>
 

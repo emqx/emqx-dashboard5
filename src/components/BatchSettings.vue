@@ -106,7 +106,7 @@ const {
 
 function downloadTemplate() {
   const template = templateContentMap[props.type]
-  handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
+  handleDownloadTemp(template, `ApsaraEMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
 /**
