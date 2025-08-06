@@ -2,8 +2,6 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
-      <LicensePromotion />
-
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
           <el-icon :size="16"><Search /></el-icon>
@@ -27,17 +25,6 @@
             </router-link>
           </el-badge>
         </div>
-      </el-tooltip>
-
-      <el-tooltip
-        effect="dark"
-        :content="$t('components.help')"
-        placement="bottom"
-        :show-arrow="false"
-      >
-        <a href="javascript:;" @click="handleShowHelp" class="link-help">
-          <i class="iconfont icon-question"></i>
-        </a>
       </el-tooltip>
 
       <el-tooltip
@@ -86,7 +73,6 @@ import { toLogin } from '@/router'
 import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
-import LicensePromotion from '@/components/LicensePromotion.vue'
 
 export default defineComponent({
   name: 'NavHeader',
@@ -97,7 +83,6 @@ export default defineComponent({
     Settings,
     Help,
     Search,
-    LicensePromotion,
   },
   props: {
     title: {

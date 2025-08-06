@@ -116,8 +116,8 @@ export default {
     en: 'This plugin does not support configuration via the Dashboard.',
   },
   pluginInstallGuidance: {
-    zh: `为确保系统安全，EMQX 不允许直接通过 Dashboard 安装插件。点击“安装”按钮前，需先使用命令 \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` 授权插件安装，命令行执行后对集群内所有节点生效。安装完成后，授权将失效，如需再次安装插件，请重新授权。<br /><br />您也可以通过其他方法将插件包上传到 EMQX 服务器的 plugins/ 目录，并解压安装包进行安装。`,
-    en: `To ensure system security, EMQX does not allow direct installation of plugins through the Dashboard. Before clicking the "Install" button, you need to use the command \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` to allow plugin installation. After the installation is complete, the current authorization expires. If you need to install it again, you need to authorize again. <br /><br />You can also upload the plugin package to the plugins/ directory on the EMQX server and extract the package for installation.`,
+    zh: `为确保系统安全，ApsaraEMQX 不允许直接通过 Dashboard 安装插件。点击“安装”按钮前，需先使用命令 \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` 授权插件安装，命令行执行后对集群内所有节点生效。安装完成后，授权将失效，如需再次安装插件，请重新授权。<br /><br />您也可以通过其他方法将插件包上传到 ApsaraEMQX 服务器的 plugins/ 目录，并解压安装包进行安装。`,
+    en: `To ensure system security, ApsaraEMQX does not allow direct installation of plugins through the Dashboard. Before clicking the "Install" button, you need to use the command \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` to allow plugin installation. After the installation is complete, the current authorization expires. If you need to install it again, you need to authorize again. <br /><br />You can also upload the plugin package to the plugins/ directory on the ApsaraEMQX server and extract the package for installation.`,
   },
   pluginInstallCommand: {
     zh: '授权插件安装命令：',

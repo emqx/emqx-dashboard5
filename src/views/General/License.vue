@@ -27,9 +27,6 @@
               <div v-show="showTooltip" class="marked" :style="{ left: markedLeftPosition }"></div>
             </el-tooltip>
           </el-descriptions-item>
-          <el-descriptions-item :label="tl('EMQXVersion')">
-            <EMQXVersion />
-          </el-descriptions-item>
           <template v-if="!isEvaluationLicense && !isCommunityLicense">
             <el-descriptions-item :label="tl('customer')">
               <span>
@@ -61,44 +58,6 @@
             </el-descriptions-item>
           </template>
         </el-descriptions>
-        <!-- EVALUATION -->
-        <el-alert v-if="isEvaluationLicense" show-icon :closable="false" type="info">
-          <template #title>
-            <MarkdownContent
-              :content="
-                tl('licenseEvaluationTip', { n: `<strong> ${licenseData.max_sessions} </strong>` })
-              "
-            />
-          </template>
-        </el-alert>
-        <!-- COMMUNITY -->
-        <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
-          <MarkdownContent
-            :content="
-              tl('communityLicenseTip', {
-                applyLicenseLink: docMap.applyLicense,
-                faqLinkPlaceholder: docMap.licenseFaq,
-              })
-            "
-          />
-        </el-alert>
-
-        <!-- EXPIRED -->
-        <el-alert v-else-if="licenseData.expiry" show-icon :closable="false" type="info">
-          <template #title>
-            <i18n-t keypath="Dashboard.licenseExpiryTip" scope="global">
-              <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
-            </i18n-t>
-          </template>
-        </el-alert>
-        <!-- NOT EVALUATION (OFFICIAL OR TRIAL) -->
-        <el-alert
-          v-else
-          :title="tl('beforeTheCertificateExpires')"
-          show-icon
-          :closable="false"
-          type="info"
-        />
         <el-button
           type="primary"
           :disabled="!$hasPermission('put')"

@@ -30,10 +30,6 @@
                 <template #label>
                   <span>{{ tl('sqlEditor') }}</span>
                   <InfoTooltip :content="tl('ruleSQLDesc')" />
-                  <p class="sub-block-desc">
-                    <span>{{ tl('sqlEdit') }}</span>
-                    <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
-                  </p>
                   <el-alert
                     v-if="containsAIExpression"
                     type="warning"
@@ -462,7 +458,7 @@ defineExpose({ validate })
   }
   .action-col {
     padding: 12px 24px;
-    height: 640px;
+    height: 600px;
     .io-tabs {
       display: flex;
       max-height: 100%;

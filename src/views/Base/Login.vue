@@ -76,10 +76,7 @@
           <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
           <div class="cloud-list">
             <a :href="docMap.cloud" target="_blank" rel="noopener noreferrer">
-              <img src="@/assets/img/aws.png" width="32" height="32" alt="aws" />
-              <img src="@/assets/img/kubernetes.png" width="32" height="32" alt="kubernetes" />
-              <img src="@/assets/img/azure.png" width="32" height="32" alt="azure" />
-              <img src="@/assets/img/gcp.png" width="32" height="32" alt="gcp" />
+              <img src="@/assets/img/aliyun.svg" width="32" height="32" alt="aliyun" />
             </a>
           </div>
         </div>
@@ -135,16 +132,6 @@
                 @input="checkAuthCode"
               />
             </el-form-item>
-            <div class="btn-container">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                class="forgot-btn"
-                :href="docMap.resetPassword"
-              >
-                {{ $t('Base.forgetPassword') }}
-              </a>
-            </div>
             <el-form-item>
               <el-button class="btn-login" type="primary" @click="submit" :loading="isSubmitting">
                 {{ $t('Base.login') }}
@@ -730,9 +717,6 @@ const submitWithAuthCode = async () => {
           display: flex;
           justify-content: flex-end;
           margin-bottom: 28px;
-        }
-        .forgot-btn {
-          text-align: right;
         }
         &.ldap-login {
           .el-page-header__header {

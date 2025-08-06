@@ -364,8 +364,8 @@ export default {
     en: 'Source Type',
   },
   auditLogDesc: {
-    zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
-    en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
+    zh: '审计日志功能可以记录对 ApsaraEMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
+    en: 'The audit log feature records critical operations on the ApsaraEMQX cluster to meet enterprise requirements for compliance and data security.',
   },
   httpFilterParamsDesc: {
     zh: 'Dashboard/REST API 筛选条件',
@@ -552,8 +552,8 @@ export default {
     en: 'Upgrade Records',
   },
   packageTip: {
-    zh: '请上传 EMQ 支持人员提供的 .tar.gz 格式的升级包',
-    en: 'Please upload the .tar.gz upgrade package provided by EMQ support',
+    zh: '请上传阿里云支持人员提供的 .tar.gz 格式的升级包',
+    en: 'Please upload the .tar.gz upgrade package provided by Aliyun support',
   },
   selectUpgradePackage: {
     zh: '选择升级包',
@@ -628,10 +628,10 @@ export default {
     en: 'Update Log',
   },
   upgradeWarning: {
-    zh: `1. 请务必使用 EMQ 支持人员提供的升级包，并在其指导下进行升级。 
+    zh: `1. 请务必使用阿里云支持人员提供的升级包，并在其指导下进行升级。 
 2. 升级前，请备份重要数据。
 3. 在升级过程中，请勿进行其他操作。`,
-    en: `1. Be sure to use the upgrade package provided by EMQ support and upgrade under their guidance. 
+    en: `1. Be sure to use the upgrade package provided by Aliyun support and upgrade under their guidance. 
 2. Backup important data before upgrading. 
 3. Do not perform other operations during the upgrade process.`,
   },
