@@ -74,11 +74,11 @@
       <el-col class="intro" :span="8">
         <div class="content">
           <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
-          <div class="cloud-list">
+          <!-- <div class="cloud-list">
             <a :href="docMap.cloud" target="_blank" rel="noopener noreferrer">
               <img src="@/assets/img/aliyun.svg" width="32" height="32" alt="aliyun" />
             </a>
-          </div>
+          </div> -->
         </div>
       </el-col>
       <el-col class="form" :span="16">

@@ -51,11 +51,11 @@ export default {
   },
   client_attrs_init_expression: {
     label: '属性表达式',
-    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(clientid, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `user_property.{'{'}NAME{'}'}`：CONNECT 数据包中的用户属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。",
+    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(clientid, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `user_property.{'{'}NAME{'}'}`：CONNECT 数据包中的用户属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 ApsaraEMQX 文档中阅读更多关于 variform 表达式的信息。",
   },
   clientid_override: {
     label: '客户端 ID 重写表达式',
-    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(username, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：原始 MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `client_attrs.{'{'}NAME{'}'}`：通过每个配置的 `client_attrs_init` 初始化的客户端属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。",
+    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(username, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：原始 MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `client_attrs.{'{'}NAME{'}'}`：通过每个配置的 `client_attrs_init` 初始化的客户端属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 ApsaraEMQX 文档中阅读更多关于 variform 表达式的信息。",
   },
   retain_available: {
     desc: '是否启用对 MQTT 保留消息的支持。禁用此选项时，客户端将无法发布保留消息。',
@@ -98,7 +98,7 @@ export default {
   max_conn_rate: {
     desc: `限制每个节点上接受新连接的速率。
 
-当达到限制时，EMQX 将暂停处理 Accept 队列中的连接，从而延迟或拒绝新连接。
+当达到限制时，ApsaraEMQX 将暂停处理 Accept 队列中的连接，从而延迟或拒绝新连接。
 
 例如：
 
@@ -113,9 +113,9 @@ export default {
     label: '最大连接突发速率',
   },
   messages_rate: {
-    desc: `限制单个客户端向 EMQX 发送消息的速率（每个节点）。
+    desc: `限制单个客户端向 ApsaraEMQX 发送消息的速率（每个节点）。
 
-当达到限制时，EMQX 将丢弃 QoS 0 消息，并以 "配额超限" 错误码 (0x97) 拒绝 QoS 1 和 QoS 2 消息。
+当达到限制时，ApsaraEMQX 将丢弃 QoS 0 消息，并以 "配额超限" 错误码 (0x97) 拒绝 QoS 1 和 QoS 2 消息。
 
 例如：
 
@@ -132,7 +132,7 @@ export default {
   bytes_rate: {
     desc: `限制单个客户端向代理发送的数据量（每个节点）。
 
-当达到限制时，EMQX 将丢弃 QoS 0 消息，并以 "配额超限" 错误码 (0x97) 拒绝 QoS 1 和 QoS 2 消息。
+当达到限制时，ApsaraEMQX 将丢弃 QoS 0 消息，并以 "配额超限" 错误码 (0x97) 拒绝 QoS 1 和 QoS 2 消息。
 
 字节单位支持：B、KB、MB、GB。
 
@@ -171,7 +171,7 @@ export default {
     label: '最大待发 PUBREL 数量',
   },
   await_rel_timeout: {
-    desc: '对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 EMQX 将释放  packet ID  并产生一条告警日志。\n注意：EMQX 对消息的转发操作不依赖于 PUBREL收到与否。',
+    desc: '对于未收到 PUBREL 的 QoS 2 消息，将按照指定时间等待重传；超时后 ApsaraEMQX 将释放  packet ID  并产生一条告警日志。\n注意：ApsaraEMQX 对消息的转发操作不依赖于 PUBREL收到与否。',
     label: '最大 PUBREL 等待时长',
   },
   session_expiry_interval: {
@@ -308,7 +308,7 @@ export default {
     label: '忽略高频请求',
   },
   ssl_opts_user_lookup_fun: {
-    desc: '用于查找预共享密钥（PSK）标识的 EMQX 内部回调。',
+    desc: '用于查找预共享密钥（PSK）标识的 ApsaraEMQX 内部回调。',
     label: 'SSL PSK 用户回调',
   },
   ssl_opts_cacertfile: {
@@ -361,7 +361,7 @@ export default {
     label: '启用 TLS',
   },
   ssl_opts_ciphers: {
-    desc: "此配置保存由逗号分隔的 TLS 密码套件名称。例如\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
+    desc: "此配置保存由逗号分隔的 TLS 密码套件名称。例如\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>。\n<br/>\n密码（及其顺序）定义了客户端和服务器通过网络连接加密信息的方式。\n选择一个好的密码套件对于应用程序的数据安全性、机密性和性能至关重要。\n\n名称应为 OpenSSL 字符串格式（而不是 RFC 格式）。\nApsaraEMQX 配置文档提供的所有默认值和示例都是 OpenSSL 格式<br/>\n注意：某些密码套件仅与特定的 TLS <code>版本</code>兼容（'tlsv1.1'、'tlsv1.2'或'tlsv1.3'）。\n不兼容的密码套件将被自动删除。\n\n例如，如果只有 <code>versions</code> 仅配置为 <code>tlsv1.3</code>。为其他版本配置密码套件将无效。\n\n<br/>\n注：PSK 的 Ciphers 不支持 tlsv1.3<br/>\n如果打算使用PSK密码套件 <code>tlsv1.3</code>。应在<code>ssl.versions</code>中禁用。\n\n<br/>\nPSK 密码套件：\n<code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
     label: '加密套件',
   },
   ssl_opts_log_level: {
