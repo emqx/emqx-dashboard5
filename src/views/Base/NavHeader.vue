@@ -2,8 +2,6 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
-      <LicensePromotion />
-
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="enter-hd">
           <el-icon :size="16"><Search /></el-icon>
@@ -16,9 +14,9 @@
         </div>
       </div>
 
-      <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
+      <!-- <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
         {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
-      </el-button>
+      </el-button> -->
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="func-item">
           <el-badge :is-dot="!!alertCount">
@@ -27,17 +25,6 @@
             </router-link>
           </el-badge>
         </div>
-      </el-tooltip>
-
-      <el-tooltip
-        effect="dark"
-        :content="$t('components.help')"
-        placement="bottom"
-        :show-arrow="false"
-      >
-        <a href="javascript:;" @click="handleShowHelp" class="link-help">
-          <i class="iconfont icon-question"></i>
-        </a>
       </el-tooltip>
 
       <el-tooltip
@@ -83,21 +70,19 @@
 <script lang="ts">
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
-import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
+import { Bell, Setting, Search } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
-import LicensePromotion from '@/components/LicensePromotion.vue'
 
 export default defineComponent({
   name: 'NavHeader',
   components: {
-    Right,
+    // Right,
     Bell,
     Setting,
     Settings,
     Help,
     Search,
-    LicensePromotion,
   },
   props: {
     title: {

@@ -287,16 +287,7 @@
           </template>
           <!-- DATADOG -->
           <el-form-item v-if="selectedPlatform === DATADOG">
-            <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
-              <template #docUse>
-                <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
-              </template>
-              <template #docIntegration>
-                <a :href="docMap.datadogIntegration" target="_blank">
-                  {{ tl('datadogIntegration') }}
-                </a>
-              </template>
-            </i18n-t>
+            <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip"> </i18n-t>
           </el-form-item>
           <el-col class="btn-col" :span="24">
             <el-button
@@ -352,7 +343,7 @@ const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
 const { createSSLForm } = useSSL()
 
-const { docMap } = useDocLink()
+// const { docMap } = useDocLink()
 
 const platformOpts = [
   {

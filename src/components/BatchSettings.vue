@@ -18,11 +18,6 @@
             <div>{{ $t('Base.downloadTemplatePrompt') }}</div>
             <ul>
               <li>{{ $t('Base.batchSettingDownloadFirst') }}</li>
-              <i18n-t keypath="Base.moreImportInstructions" tag="li">
-                <template #link>
-                  <a :href="checkDocMap[type]" target="_blank">{{ $t('Base.helpDocs') }}</a>
-                </template>
-              </i18n-t>
             </ul>
           </template>
           <template #description>
@@ -79,14 +74,14 @@ const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
 const fileList = ref<any[]>([])
 const importLoading = ref(false)
-const { docMap } = useDocLink()
+// const { docMap } = useDocLink()
 
-const checkDocMap = {
-  [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
-  [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
-  [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
-  [BatchSettingDatabaseType.Datalayers]: docMap.datalayersBatchSettings,
-}
+// const checkDocMap = {
+//   [BatchSettingDatabaseType.InfluxDB]: docMap.influxDbBatchSettings,
+//   [BatchSettingDatabaseType.TDengine]: docMap.tdengineBatchSettings,
+//   [BatchSettingDatabaseType.IoTDB]: docMap.iotDbBatchSettings,
+//   [BatchSettingDatabaseType.Datalayers]: docMap.datalayersBatchSettings,
+// }
 
 const dbNameMap = {
   [BatchSettingDatabaseType.InfluxDB]: 'InfluxDB',
@@ -106,7 +101,7 @@ const {
 
 function downloadTemplate() {
   const template = templateContentMap[props.type]
-  handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
+  handleDownloadTemp(template, `ApsaraEMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
 /**

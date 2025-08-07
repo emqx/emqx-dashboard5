@@ -104,8 +104,8 @@ export default {
     en: 'Version',
   },
   EMQXVersion: {
-    zh: 'EMQX 版本信息：',
-    en: 'EMQX Version:',
+    zh: 'ApsaraEMQX 版本信息：',
+    en: 'ApsaraEMQX Version:',
   },
   basic: {
     zh: '基础信息',
@@ -256,8 +256,8 @@ export default {
     en: 'Expire At:',
   },
   beforeTheCertificateExpires: {
-    zh: '证书到期前 EMQ 将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
-    en: 'EMQ will send license expiration reminder by email. Please pay attention to the contact email inbox.',
+    zh: '证书到期前阿里云将通过邮件通知签发邮箱，请留意信息接收以免错过续期时间对业务造成影响。',
+    en: 'Aliyun will send license expiration reminder by email. Please pay attention to the contact email inbox.',
   },
   forTrialEdition: {
     zh: '当前 License 为试用版',
@@ -276,34 +276,34 @@ export default {
  - A 30-day uptime limit, must restart the node to regain the sessions quota.`,
   },
   communityLicenseTip: {
-    en: `You are running EMQX under the Community License (single-node).<br /><br />
+    en: `You are running ApsaraEMQX under the Community License (single-node).<br /><br />
 
 **Current Permissions (Free Use):**
 
 - All non-production activities.
-- Single-node production deployment: Provided you are not offering EMQX commercially as a hosted service or embedding it into a product you sell.
+- Single-node production deployment: Provided you are not offering ApsaraEMQX commercially as a hosted service or embedding it into a product you sell.
 
 **Commercial License Required For:**
 
 - Cluster deployments (2+ nodes)
-- Offering EMQX as a commercial SaaS or hosted service.
-- Embedding/distributing EMQX within a commercial product that you sell.
+- Offering ApsaraEMQX as a commercial SaaS or hosted service.
+- Embedding/distributing ApsaraEMQX within a commercial product that you sell.
 
 To enable clustering or for commercial use cases mentioned above, please obtain a commercial license:<br />
 
 [Get Commercial License]({applyLicenseLink}) &vert; [License FAQ]({faqLinkPlaceholder})`,
-    zh: `您当前正在使用 EMQX 社区版许可证（单节点）。<br /><br />
+    zh: `您当前正在使用 ApsaraEMQX 社区版许可证（单节点）。<br /><br />
 
 **当前许可的免费使用范围：**
 
 - 所有非生产活动（例如开发、测试）。
-- 单节点生产环境部署：前提是您不将 EMQX 作为商业托管服务提供，或将其嵌入到您的产品中进行销售。
+- 单节点生产环境部署：前提是您不将 ApsaraEMQX 作为商业托管服务提供，或将其嵌入到您的产品中进行销售。
 
 **以下情况需要商业许可证：**
 
 - 集群部署（2个及以上节点）。
-- 将 EMQX 作为商业 SaaS（软件即服务）或托管服务提供。
-- 将 EMQX 嵌入或分发到您销售的商业软件、解决方案或硬件产品中。<br /><br />
+- 将 ApsaraEMQX 作为商业 SaaS（软件即服务）或托管服务提供。
+- 将 ApsaraEMQX 嵌入或分发到您销售的商业软件、解决方案或硬件产品中。<br /><br />
 
 若需启用集群功能或用于上述商业用途，请 [获取商业许可证]({applyLicenseLink})。
 更多详情，请参阅 [许可证常见问题解答 (FAQ)]({faqLinkPlaceholder})。`,
@@ -335,12 +335,12 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Remove License',
   },
   clusterResetLicense: {
-    zh: '<strong>集群模式下无法移除许可证</strong><br /><br />EMQX 在集群模式下运行时，禁止移除许可证。<br /><br /><strong>需要操作：</strong> 请先解除集群配置。<br /><br />解散集群后，移除许可证会将 EMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。',
-    en: '<strong>Cannot Remove License in Cluster Mode</strong><br /><br />License removal is prohibited while EMQX is operating in cluster mode.<br /><br /><strong>Action Required:</strong> Please dissolve the cluster configuration first.<br /><br />After dissolving the cluster, removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.',
+    zh: '<strong>集群模式下无法移除许可证</strong><br /><br />ApsaraEMQX 在集群模式下运行时，禁止移除许可证。<br /><br /><strong>需要操作：</strong> 请先解除集群配置。<br /><br />解散集群后，移除许可证会将 ApsaraEMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。',
+    en: '<strong>Cannot Remove License in Cluster Mode</strong><br /><br />License removal is prohibited while ApsaraEMQX is operating in cluster mode.<br /><br /><strong>Action Required:</strong> Please dissolve the cluster configuration first.<br /><br />After dissolving the cluster, removing the license will revert ApsaraEMQX to the single-node Community License. Existing client connections will not be affected.',
   },
   resetLicenseConfirm: {
-    zh: '<strong>确认移除（解散集群后）：</strong> 在下方输入 <code>remove</code>。<br /><br />移除许可证会将 EMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。<br /><br /><strong>注意：</strong> 如果您的许可证只是即将到期，可以直接更新，无需移除。',
-    en: '<strong>Confirmation (requires single-node):</strong> Type <code>remove</code> to proceed with removal.<br /><br />Removing the license will revert EMQX to the single-node Community License. Existing client connections will not be affected.<br /><br /><strong>Note:</strong> If your license is expiring, you can update it directly without removal.',
+    zh: '<strong>确认移除（解散集群后）：</strong> 在下方输入 <code>remove</code>。<br /><br />移除许可证会将 ApsaraEMQX 恢复到单节点的社区版许可证。已连接的客户端不会受此影响。<br /><br /><strong>注意：</strong> 如果您的许可证只是即将到期，可以直接更新，无需移除。',
+    en: '<strong>Confirmation (requires single-node):</strong> Type <code>remove</code> to proceed with removal.<br /><br />Removing the license will revert ApsaraEMQX to the single-node Community License. Existing client connections will not be affected.<br /><br /><strong>Note:</strong> If your license is expiring, you can update it directly without removal.',
   },
   licenseSettings: {
     zh: 'License 设置',
@@ -637,16 +637,16 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   },
   /* message */
   messages_delayed: {
-    zh: 'EMQX 存储的延迟发布的消息数量',
-    en: 'Number of delay-published messages stored by EMQX Broker',
+    zh: 'ApsaraEMQX 存储的延迟发布的消息数量',
+    en: 'Number of delay-published messages stored by ApsaraEMQX Broker',
   },
   messages_delivered: {
-    zh: 'EMQX 内部转发到订阅进程的消息数量',
-    en: 'Number of messages forwarded to the subscription process internally by EMQX Broker',
+    zh: 'ApsaraEMQX 内部转发到订阅进程的消息数量',
+    en: 'Number of messages forwarded to the subscription process internally by ApsaraEMQX Broker',
   },
   messages_dropped: {
-    zh: 'EMQX 内部转发到订阅进程前丢弃的消息总数',
-    en: 'Total number of messages dropped by EMQX Broker before forwarding to the subscription process',
+    zh: 'ApsaraEMQX 内部转发到订阅进程前丢弃的消息总数',
+    en: 'Total number of messages dropped by ApsaraEMQX Broker before forwarding to the subscription process',
   },
   messages_dropped_no_subscribers: {
     zh: '由于没有订阅者而被丢弃的消息数量',
@@ -919,8 +919,8 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Message transformation succeeded',
   },
   multiVersionWarning: {
-    zh: '当前集群下存在不同 EMQX 版本的节点，请前往',
-    en: 'Different versions of EMQX nodes exist in the cluster, please go to ',
+    zh: '当前集群下存在不同 ApsaraEMQX 版本的节点，请前往',
+    en: 'Different versions of ApsaraEMQX nodes exist in the cluster, please go to ',
   },
   checkVersionInfo: {
     zh: '查看各节点的版本信息。',
@@ -944,8 +944,8 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Messages dropped due to not receiving a PUBREL packet within the timeout period for QoS 2 messages.',
   },
   dropped_await_pubrel_timeout_impact: {
-    zh: '可能表明发布客户端运行缓慢或行为异常，无法在 EMQX 等待超过最大 PUBREL 等待时长（`await_rel_timeout`）限制之前发送 `PUBREL` 消息。这并不一定表示消息丢失，因为 `PUBLISH` 数据包已经被路由至订阅客户端。',
-    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before EMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessarily indicate message loss since the `PUBLISH` packet itself has already been routed to the subscriber clients.',
+    zh: '可能表明发布客户端运行缓慢或行为异常，无法在 ApsaraEMQX 等待超过最大 PUBREL 等待时长（`await_rel_timeout`）限制之前发送 `PUBREL` 消息。这并不一定表示消息丢失，因为 `PUBLISH` 数据包已经被路由至订阅客户端。',
+    en: 'May indicate slow or misbehaving publishing clients which cannot send `PUBREL` messages before ApsaraEMQX gives up waiting after max awaiting PUBREL timeout(`await_rel_timeout`). This does not necessarily indicate message loss since the `PUBLISH` packet itself has already been routed to the subscriber clients.',
   },
   dropped_no_subscribers: {
     zh: '无订阅者',
@@ -972,8 +972,8 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Messages dropped because there were no subscribers for the topic.',
   },
   dropped_no_subscribers_impact: {
-    zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：EMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
-    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
+    zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：ApsaraEMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
+    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The ApsaraEMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',

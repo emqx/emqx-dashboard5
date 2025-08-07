@@ -72,8 +72,8 @@ export default {
     en: 'Client response time',
   },
   typeInternalDesc: {
-    zh: 'EMQX 内部中转时间',
-    en: 'EMQX internal transfer time',
+    zh: 'ApsaraEMQX 内部中转时间',
+    en: 'ApsaraEMQX internal transfer time',
   },
   wholeTypeDesc: {
     zh: '传输完成的全流程时间',

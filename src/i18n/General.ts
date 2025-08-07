@@ -64,16 +64,16 @@ export default {
     en: 'Administrator',
   },
   adminDesc: {
-    zh: '拥有对 EMQX 所有功能和资源的完全管理访问权限，包括客户端管理、系统配置、API 密钥以及用户管理。',
-    en: 'Has full access to manage all features and resources of EMQX, including client management, system configuration, API key and user management.',
+    zh: '拥有对 ApsaraEMQX 所有功能和资源的完全管理访问权限，包括客户端管理、系统配置、API 密钥以及用户管理。',
+    en: 'Has full access to manage all features and resources of ApsaraEMQX, including client management, system configuration, API key and user management.',
   },
   viewer: {
     zh: '查看者',
     en: 'Viewer',
   },
   viewerDesc: {
-    zh: '可以访问 EMQX 的所有数据和配置信息，但无权进行创建、修改和删除操作。',
-    en: 'Can access all data and configuration of EMQX, but has no rights to create, modify or delete.',
+    zh: '可以访问 ApsaraEMQX 的所有数据和配置信息，但无权进行创建、修改和删除操作。',
+    en: 'Can access all data and configuration of ApsaraEMQX, but has no rights to create, modify or delete.',
   },
   password: {
     zh: '密码',
@@ -364,8 +364,8 @@ export default {
     en: 'Source Type',
   },
   auditLogDesc: {
-    zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
-    en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
+    zh: '审计日志功能可以记录对 ApsaraApsaraEMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
+    en: 'The audit log feature records critical operations on the ApsaraApsaraEMQX cluster to meet enterprise requirements for compliance and data security.',
   },
   httpFilterParamsDesc: {
     zh: 'Dashboard/REST API 筛选条件',
@@ -476,8 +476,8 @@ export default {
     en: 'Session Heartbeat Interval',
   },
   lastAliveUpdateIntervalDesc: {
-    zh: '以设置的时间间隔，持续更新会话最后一次存活的时间戳。当会话非正常终止（例如，EMQX 节点以 kill -9 终止），会话垃圾回收器将根据会话最后存活时间计算过期时间，并销毁过期离线会话。',
-    en: 'At the configured interval, continuously update the timestamp of the last session alive. When a session terminates abnormally (e.g., when an EMQX node is terminated with kill -9), the session garbage collector will calculate the expiration time based on the last session alive timestamp and destroy expired offline sessions.',
+    zh: '以设置的时间间隔，持续更新会话最后一次存活的时间戳。当会话非正常终止（例如，ApsaraEMQX 节点以 kill -9 终止），会话垃圾回收器将根据会话最后存活时间计算过期时间，并销毁过期离线会话。',
+    en: 'At the configured interval, continuously update the timestamp of the last session alive. When a session terminates abnormally (e.g., when an ApsaraEMQX node is terminated with kill -9), the session garbage collector will calculate the expiration time based on the last session alive timestamp and destroy expired offline sessions.',
   },
   sessionGcInterval: {
     zh: '会话垃圾回收间隔',
@@ -524,8 +524,8 @@ export default {
     en: 'Max Mailbox Size',
   },
   maxMailboxSizeDesc: {
-    zh: 'EMQX 为每个客户端连接创建至少一个轻量级进程。每个进程都有自己的消息队列（邮箱）来保存来自其他进程（如 MQTT 消息）的消息，以便进程可以随时从消息队列（邮箱）中读取消息。如果系统繁忙或进程因繁忙的套接字而挂起，消息队列可能会积累大量消息。为避免过度使用内存，当进程的消息队列长度超过此值时，EMQX 将强制关闭该进程。',
-    en: 'EMQX creates at least one lightweight process for each client connection. Each process has its own message queue (aka mailbox) to hold messages from other processes (e.g. MQTT messages) so that the process can read messages from the message queue (mailbox) at any time. If the system is busy or the process hangs due to a busy socket (see <code>high_watermark</code>), the message queue can accumulate many messages. To avoid excessive memory usage, EMQX will force a process to shut down when the length of its message queue exceeds <code>max_mailbox_size</code>.',
+    zh: 'ApsaraEMQX 为每个客户端连接创建至少一个轻量级进程。每个进程都有自己的消息队列（邮箱）来保存来自其他进程（如 MQTT 消息）的消息，以便进程可以随时从消息队列（邮箱）中读取消息。如果系统繁忙或进程因繁忙的套接字而挂起，消息队列可能会积累大量消息。为避免过度使用内存，当进程的消息队列长度超过此值时，ApsaraEMQX 将强制关闭该进程。',
+    en: 'ApsaraEMQX creates at least one lightweight process for each client connection. Each process has its own message queue (aka mailbox) to hold messages from other processes (e.g. MQTT messages) so that the process can read messages from the message queue (mailbox) at any time. If the system is busy or the process hangs due to a busy socket (see <code>high_watermark</code>), the message queue can accumulate many messages. To avoid excessive memory usage, ApsaraEMQX will force a process to shut down when the length of its message queue exceeds <code>max_mailbox_size</code>.',
   },
   version: {
     zh: '版本号',
@@ -552,8 +552,8 @@ export default {
     en: 'Upgrade Records',
   },
   packageTip: {
-    zh: '请上传 EMQ 支持人员提供的 .tar.gz 格式的升级包',
-    en: 'Please upload the .tar.gz upgrade package provided by EMQ support',
+    zh: '请上传阿里云支持人员提供的 .tar.gz 格式的升级包',
+    en: 'Please upload the .tar.gz upgrade package provided by Aliyun support',
   },
   selectUpgradePackage: {
     zh: '选择升级包',
@@ -628,10 +628,10 @@ export default {
     en: 'Update Log',
   },
   upgradeWarning: {
-    zh: `1. 请务必使用 EMQ 支持人员提供的升级包，并在其指导下进行升级。 
+    zh: `1. 请务必使用阿里云支持人员提供的升级包，并在其指导下进行升级。 
 2. 升级前，请备份重要数据。
 3. 在升级过程中，请勿进行其他操作。`,
-    en: `1. Be sure to use the upgrade package provided by EMQ support and upgrade under their guidance. 
+    en: `1. Be sure to use the upgrade package provided by Aliyun support and upgrade under their guidance. 
 2. Backup important data before upgrading. 
 3. Do not perform other operations during the upgrade process.`,
   },

@@ -51,11 +51,11 @@ export default {
   },
   client_attrs_init_expression: {
     label: 'Attribute Expression',
-    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(clientid, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `user_property.{'{'}NAME{'}'}`: User properties in the CONNECT packet.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs.",
+    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(clientid, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `user_property.{'{'}NAME{'}'}`: User properties in the CONNECT packet.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in ApsaraEMQX docs.",
   },
   clientid_override: {
     label: 'Client ID Override Expression',
-    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs.",
+    desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in ApsaraEMQX docs.",
   },
   retain_available: {
     desc: 'Whether to enable support for MQTT retained message. When this option is disabled, clients will not be able to publish retained messages.',
@@ -92,13 +92,13 @@ export default {
     desc: 'The frequency of checking for incoming MQTT packets determines how often the server will check for new MQTT packets.<br />If a certain amount of time passes without any packets being sent from the client, this time will be added up.<br />Once the accumulated time exceeds `keepalive-interval * keepalive-multiplier`, the connection will be terminated.<br />The default is set to 30 seconds, with a minimum value of 1 second and a maximum value of `keepalive-interval / 2`.<br />',
   },
   max_packet_size: {
-    desc: 'If the size is out of the preset value, EMQX will disconnect the current connection',
+    desc: 'If the size is out of the preset value, ApsaraEMQX will disconnect the current connection',
     label: 'Max Packet Size',
   },
   max_conn_rate: {
     desc: `Limits how quickly accepts connections, per each node.
 
-Once the limit is reached, EMQX will pause serving connections from the Accept queue, thereby delaying or rejecting new connections.
+Once the limit is reached, ApsaraEMQX will pause serving connections from the Accept queue, thereby delaying or rejecting new connections.
 
 For example:
 
@@ -115,7 +115,7 @@ For example: \`10000/60m\`: Once every 60 minutes, up to 10000 connections can b
   messages_rate: {
     desc: `Limits the number of messages a single client can send to the broker, per each node.
 
-Once the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
+Once the limit is reached, ApsaraEMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
 with "Quota Exceeded" error code (0x97).
 
 For example:
@@ -133,7 +133,7 @@ For example: \`10000/60m\`: Once in 60 minutes, up to 10000 messages can be sent
   bytes_rate: {
     desc: `Limits the number of bytes a single client can send to the broker, per each node.
 
-Once the limit is reached, EMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
+Once the limit is reached, ApsaraEMQX will drop QoS 0 messages and reject QoS 1 and QoS 2 messages
 with "Quota Exceeded" error code (0x97).
 
 The unit of the bytes could be: B, KB, MB, GB.
@@ -173,7 +173,7 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'Max Awaiting PUBREL',
   },
   await_rel_timeout: {
-    desc: "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, EMQX will release the packet ID and also output a warning level log. <br />Note: EMQX's forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
+    desc: "Specifies the amount of time to wait for a publish of a QoS 2 message with no PUBREL received.   When this limit is reached, ApsaraEMQX will release the packet ID and also output a warning level log. <br />Note: ApsaraEMQX's forwarding of the received QoS 2 message is independent from the receiving of PUBREL",
     label: 'Max Awaiting PUBREL Timeout',
   },
   session_expiry_interval: {
@@ -310,11 +310,11 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'Ignore High Frequency Request',
   },
   ssl_opts_user_lookup_fun: {
-    desc: 'EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.',
+    desc: 'ApsaraEMQX-internal callback that is used to lookup pre-shared key (PSK) identity.',
     label: 'SSL PSK user lookup fun',
   },
   ssl_opts_cacertfile: {
-    desc: "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart EMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
+    desc: "Trusted PEM format CA certificates bundle file.<br/>\nThe certificates in this file are used to verify the TLS peer's certificates.\nAppend new certificates to the file if new CAs are to be trusted.\nThere is no need to restart ApsaraEMQX to have the updated file loaded, because\nthe system regularly checks if file has been updated (and reload).<br/>\nNOTE: invalidating (deleting) a certificate from the file will not affect\nalready established connections.",
     label: 'CACertfile',
   },
   ssl_opts_verify: {
@@ -368,7 +368,7 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'SSL log level',
   },
   ssl_opts_ciphers: {
-    desc: "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by EMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
+    desc: "This config holds TLS cipher suite names separated by comma. e.g.\n<code>TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256</code>.\n<br/>\nCiphers (and their ordering) define the way in which the\nclient and server encrypts information over the network connection.\nSelecting a good cipher suite is critical for the\napplication's data security, confidentiality and performance.\n\nThe names should be in OpenSSL string format (not RFC format).\nAll default values and examples provided by ApsaraEMQX config\ndocumentation are all in OpenSSL format.<br/>\n\nNOTE: Certain cipher suites are only compatible with\nspecific TLS <code>versions</code> ('tlsv1.1', 'tlsv1.2' or 'tlsv1.3')\nincompatible cipher suites will be silently dropped.\nFor instance, if only 'tlsv1.3' is given in the <code>versions</code>,\nconfiguring cipher suites for other versions will have no effect.\n<br/>\n\nNOTE: PSK ciphers are suppressed by 'tlsv1.3' version config<br/>\nIf PSK cipher suites are intended, 'tlsv1.3' should be disabled from <code>versions</code>.<br/>\nPSK cipher suites: <code>RSA-PSK-AES256-GCM-SHA384,RSA-PSK-AES256-CBC-SHA384,\nRSA-PSK-AES128-GCM-SHA256,RSA-PSK-AES128-CBC-SHA256,\nRSA-PSK-AES256-CBC-SHA,RSA-PSK-AES128-CBC-SHA,\nRSA-PSK-DES-CBC3-SHA,RSA-PSK-RC4-SHA</code>",
     label: 'Cipher Suites',
   },
   ssl_opts_partial_chain: {
