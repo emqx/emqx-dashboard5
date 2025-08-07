@@ -148,6 +148,7 @@ export enum BridgeType {
   Couchbase = 'couchbase',
   Datalayers = 'datalayers',
   Snowflake = 'snowflake',
+  SnowflakeStreaming = 'snowflake_streaming',
   Tablestore = 'tablestore',
   DiskLog = 'disk_log',
   S3Tables = 's3tables',

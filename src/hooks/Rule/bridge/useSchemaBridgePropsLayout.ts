@@ -334,6 +334,13 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.SnowflakeStreaming]: createOrderObj(
+      [
+        ...getPathArrInParameters(['database', 'schema', 'pipe', 'pipelining']),
+        ...pulsarAdvancedProps,
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.MicrosoftSQLServer]: createOrderObj(
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,

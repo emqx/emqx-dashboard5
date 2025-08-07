@@ -300,6 +300,10 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.SnowflakeStreaming]: createOrderObj(
+      ['server', 'account', 'pipe_user', 'private_key', 'private_key_password', 'proxy'],
+      fieldStartIndex,
+    ),
     [BridgeType.Tablestore]: createOrderObj(
       ['endpoint', 'instance_name', 'access_key_id', 'access_key_secret', 'storage_model_type'],
       fieldStartIndex,

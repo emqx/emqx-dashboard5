@@ -92,8 +92,8 @@ import type {
   AiOpenaiCompletionProfile,
 } from './schemas/aiCompletion.schemas'
 import {
-  AiAnthropicCompletionProfileApiPutAnthropicVersion,
-  AiProviderType,
+  AiAnthropicProviderApiPutAnthropicVersion,
+  AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
 
 /* GATEWAY */
@@ -213,12 +213,12 @@ export type PluginHealthStatusValueType = ValueOf<typeof PluginsHealthStatusVal>
 /* AI COMPLETION */
 export type AIProviderForm = AiProvider
 export type PutAIProviderForm = AiProviderApiPut
-export const AIProviderType = AiProviderType
+export const AIProviderType = AiAnthropicProviderType
 export type AIProviderTypeValueType = AiProviderTypeValueTypeAlias
 export type AnthropicCompletion = AiAnthropicCompletionProfile
 export type OpenAICompletion = AiOpenaiCompletionProfile
 export type AICompletionProfile = PostAiCompletionProfilesBody
-export const AnthropicVersion = AiAnthropicCompletionProfileApiPutAnthropicVersion
+export const AnthropicVersion = AiAnthropicProviderApiPutAnthropicVersion
 
 /* MULTI-TENANCY */
 export type GetNamespaceListParams = GetMtManagedNsListParams
