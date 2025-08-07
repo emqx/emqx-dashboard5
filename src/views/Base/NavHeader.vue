@@ -3,7 +3,7 @@
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
       <LicensePromotion />
-      <div class="cluster-desc">
+      <div class="cluster-desc" v-if="clusterDesc">
         <span class="cluster-desc-label">{{ t('Base.clusterDesc') }}:</span>
         <div v-if="clusterDesc" class="cluster-desc-content">
           <CommonOverflowTooltip :content="clusterDesc" />
