@@ -1,3 +1,42 @@
+export type GetAiProvidersNameModels503Code =
+  (typeof GetAiProvidersNameModels503Code)[keyof typeof GetAiProvidersNameModels503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAiProvidersNameModels503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetAiProvidersNameModels503 = {
+  code?: GetAiProvidersNameModels503Code
+  message?: string
+}
+
+export type GetAiProvidersNameModels404Code =
+  (typeof GetAiProvidersNameModels404Code)[keyof typeof GetAiProvidersNameModels404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAiProvidersNameModels404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetAiProvidersNameModels404 = {
+  code?: GetAiProvidersNameModels404Code
+  message?: string
+}
+
+export type GetAiProvidersNameModels400Code =
+  (typeof GetAiProvidersNameModels400Code)[keyof typeof GetAiProvidersNameModels400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAiProvidersNameModels400Code = {
+  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
+} as const
+
+export type GetAiProvidersNameModels400 = {
+  code?: GetAiProvidersNameModels400Code
+  message?: string
+}
+
 export type PutAiProvidersName503Code =
   (typeof PutAiProvidersName503Code)[keyof typeof PutAiProvidersName503Code]
 
@@ -37,6 +76,8 @@ export type PutAiProvidersName400 = {
   message?: string
 }
 
+export type PutAiProvidersNameBody = AiAnthropicProviderApiPut | AiOpenaiProviderApiPut
+
 export type GetAiProvidersName404Code =
   (typeof GetAiProvidersName404Code)[keyof typeof GetAiProvidersName404Code]
 
@@ -49,6 +90,8 @@ export type GetAiProvidersName404 = {
   code?: GetAiProvidersName404Code
   message?: string
 }
+
+export type GetAiProvidersName200 = AiAnthropicProviderApiGet | AiOpenaiProviderApiGet
 
 export type DeleteAiProvidersName503Code =
   (typeof DeleteAiProvidersName503Code)[keyof typeof DeleteAiProvidersName503Code]
@@ -115,6 +158,8 @@ export type PostAiProviders400 = {
   message?: string
 }
 
+export type PostAiProvidersBody = AiAnthropicProvider | AiOpenaiProvider
+
 export type GetAiProviders503Code =
   (typeof GetAiProviders503Code)[keyof typeof GetAiProviders503Code]
 
@@ -127,6 +172,8 @@ export type GetAiProviders503 = {
   code?: GetAiProviders503Code
   message?: string
 }
+
+export type GetAiProviders200Item = AiAnthropicProviderApiGet | AiOpenaiProviderApiGet
 
 export type PutAiCompletionProfilesName503Code =
   (typeof PutAiCompletionProfilesName503Code)[keyof typeof PutAiCompletionProfilesName503Code]
@@ -253,8 +300,6 @@ export type PostAiCompletionProfiles400 = {
   message?: string
 }
 
-export type PostAiCompletionProfilesBody = AiAnthropicCompletionProfile | AiOpenaiCompletionProfile
-
 export type GetAiCompletionProfiles503Code =
   (typeof GetAiCompletionProfiles503Code)[keyof typeof GetAiCompletionProfiles503Code]
 
@@ -280,51 +325,53 @@ export interface AiTransportOptions {
   recv_timeout?: string
 }
 
-export type AiProviderApiPutType = (typeof AiProviderApiPutType)[keyof typeof AiProviderApiPutType]
+export type AiOpenaiProviderApiPutType =
+  (typeof AiOpenaiProviderApiPutType)[keyof typeof AiOpenaiProviderApiPutType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiProviderApiPutType = {
+export const AiOpenaiProviderApiPutType = {
   anthropic: 'anthropic',
   openai: 'openai',
 } as const
 
-export interface AiProviderApiPut {
+export interface AiOpenaiProviderApiPut {
   api_key: string
   base_url?: string
   transport_options?: AiTransportOptions
-  type: AiProviderApiPutType
+  type: AiOpenaiProviderApiPutType
 }
 
-export type AiProviderApiGetType = (typeof AiProviderApiGetType)[keyof typeof AiProviderApiGetType]
+export type AiOpenaiProviderApiGetType =
+  (typeof AiOpenaiProviderApiGetType)[keyof typeof AiOpenaiProviderApiGetType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiProviderApiGetType = {
+export const AiOpenaiProviderApiGetType = {
   anthropic: 'anthropic',
   openai: 'openai',
 } as const
 
-export interface AiProviderApiGet {
+export interface AiOpenaiProviderApiGet {
   api_key: string
   base_url?: string
   name: string
   transport_options?: AiTransportOptions
-  type: AiProviderApiGetType
+  type: AiOpenaiProviderApiGetType
 }
 
-export type AiProviderType = (typeof AiProviderType)[keyof typeof AiProviderType]
+export type AiOpenaiProviderType = (typeof AiOpenaiProviderType)[keyof typeof AiOpenaiProviderType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiProviderType = {
+export const AiOpenaiProviderType = {
   anthropic: 'anthropic',
   openai: 'openai',
 } as const
 
-export interface AiProvider {
+export interface AiOpenaiProvider {
   api_key: string
   base_url?: string
   name: string
   transport_options?: AiTransportOptions
-  type: AiProviderType
+  type: AiOpenaiProviderType
 }
 
 export type AiOpenaiCompletionProfileApiPutType =
@@ -374,6 +421,85 @@ export interface AiOpenaiCompletionProfile {
   type: AiOpenaiCompletionProfileType
 }
 
+export type PostAiCompletionProfilesBody = AiAnthropicCompletionProfile | AiOpenaiCompletionProfile
+
+export type AiAnthropicProviderApiPutType =
+  (typeof AiAnthropicProviderApiPutType)[keyof typeof AiAnthropicProviderApiPutType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderApiPutType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+} as const
+
+export type AiAnthropicProviderApiPutAnthropicVersion =
+  (typeof AiAnthropicProviderApiPutAnthropicVersion)[keyof typeof AiAnthropicProviderApiPutAnthropicVersion]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderApiPutAnthropicVersion = {
+  '2023-06-01': '2023-06-01',
+} as const
+
+export interface AiAnthropicProviderApiPut {
+  anthropic_version?: AiAnthropicProviderApiPutAnthropicVersion
+  api_key: string
+  base_url?: string
+  transport_options?: AiTransportOptions
+  type: AiAnthropicProviderApiPutType
+}
+
+export type AiAnthropicProviderApiGetType =
+  (typeof AiAnthropicProviderApiGetType)[keyof typeof AiAnthropicProviderApiGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderApiGetType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+} as const
+
+export type AiAnthropicProviderApiGetAnthropicVersion =
+  (typeof AiAnthropicProviderApiGetAnthropicVersion)[keyof typeof AiAnthropicProviderApiGetAnthropicVersion]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderApiGetAnthropicVersion = {
+  '2023-06-01': '2023-06-01',
+} as const
+
+export interface AiAnthropicProviderApiGet {
+  anthropic_version?: AiAnthropicProviderApiGetAnthropicVersion
+  api_key: string
+  base_url?: string
+  name: string
+  transport_options?: AiTransportOptions
+  type: AiAnthropicProviderApiGetType
+}
+
+export type AiAnthropicProviderType =
+  (typeof AiAnthropicProviderType)[keyof typeof AiAnthropicProviderType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+} as const
+
+export type AiAnthropicProviderAnthropicVersion =
+  (typeof AiAnthropicProviderAnthropicVersion)[keyof typeof AiAnthropicProviderAnthropicVersion]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiAnthropicProviderAnthropicVersion = {
+  '2023-06-01': '2023-06-01',
+} as const
+
+export interface AiAnthropicProvider {
+  anthropic_version?: AiAnthropicProviderAnthropicVersion
+  api_key: string
+  base_url?: string
+  name: string
+  transport_options?: AiTransportOptions
+  type: AiAnthropicProviderType
+}
+
 export type AiAnthropicCompletionProfileApiPutType =
   (typeof AiAnthropicCompletionProfileApiPutType)[keyof typeof AiAnthropicCompletionProfileApiPutType]
 
@@ -382,16 +508,7 @@ export const AiAnthropicCompletionProfileApiPutType = {
   anthropic: 'anthropic',
 } as const
 
-export type AiAnthropicCompletionProfileApiPutAnthropicVersion =
-  (typeof AiAnthropicCompletionProfileApiPutAnthropicVersion)[keyof typeof AiAnthropicCompletionProfileApiPutAnthropicVersion]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiAnthropicCompletionProfileApiPutAnthropicVersion = {
-  '2023-06-01': '2023-06-01',
-} as const
-
 export interface AiAnthropicCompletionProfileApiPut {
-  anthropic_version?: AiAnthropicCompletionProfileApiPutAnthropicVersion
   /** @minimum 1 */
   max_tokens?: number
   model?: string
@@ -408,16 +525,7 @@ export const AiAnthropicCompletionProfileApiGetType = {
   anthropic: 'anthropic',
 } as const
 
-export type AiAnthropicCompletionProfileApiGetAnthropicVersion =
-  (typeof AiAnthropicCompletionProfileApiGetAnthropicVersion)[keyof typeof AiAnthropicCompletionProfileApiGetAnthropicVersion]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiAnthropicCompletionProfileApiGetAnthropicVersion = {
-  '2023-06-01': '2023-06-01',
-} as const
-
 export interface AiAnthropicCompletionProfileApiGet {
-  anthropic_version?: AiAnthropicCompletionProfileApiGetAnthropicVersion
   /** @minimum 1 */
   max_tokens?: number
   model?: string
@@ -435,16 +543,7 @@ export const AiAnthropicCompletionProfileType = {
   anthropic: 'anthropic',
 } as const
 
-export type AiAnthropicCompletionProfileAnthropicVersion =
-  (typeof AiAnthropicCompletionProfileAnthropicVersion)[keyof typeof AiAnthropicCompletionProfileAnthropicVersion]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AiAnthropicCompletionProfileAnthropicVersion = {
-  '2023-06-01': '2023-06-01',
-} as const
-
 export interface AiAnthropicCompletionProfile {
-  anthropic_version?: AiAnthropicCompletionProfileAnthropicVersion
   /** @minimum 1 */
   max_tokens?: number
   model?: string
