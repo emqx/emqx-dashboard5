@@ -193,6 +193,8 @@ export default (
     [BridgeType.RocketMQ]: createOrderObj(
       getPathArrInParameters([
         'topic',
+        'tag',
+        'key',
         'template',
         'strategy',
         'refresh_interval',
