@@ -39,6 +39,7 @@ const bridgesOrder = [
   BridgeType.SysKeeperForwarder,
   BridgeType.Datalayers,
   BridgeType.Snowflake,
+  BridgeType.SnowflakeStreaming,
   BridgeType.Tablestore,
 ]
 export const bridgeOrderIndex: Record<string, number> = bridgesOrder.reduce(
@@ -97,6 +98,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Couchbase, label: 'Couchbase' },
     { value: BridgeType.Datalayers, label: 'Datalayers' },
     { value: BridgeType.Snowflake, label: 'Snowflake' },
+    { value: BridgeType.SnowflakeStreaming, label: 'Snowflake Streaming' },
     { value: BridgeType.Tablestore, label: tl('tablestore') },
     { value: BridgeType.DiskLog, label: 'Disk Log' },
     { value: BridgeType.S3Tables, label: 'S3 Tables' },
@@ -249,6 +251,7 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.Confluent]: 'confluent',
     [BridgeType.SysKeeperForwarder]: 'syskeeper',
     [BridgeType.SysKeeperProxy]: 'syskeeper',
+    [BridgeType.SnowflakeStreaming]: BridgeType.Snowflake,
   }
 
   const { getBridgeGeneralType } = useBridgeTypeValue()
@@ -333,6 +336,7 @@ export const useConnectorSchema = (): {
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'connector_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
     [BridgeType.Snowflake, getRef('snowflake_aggregated', 'connector_')],
+    [BridgeType.SnowflakeStreaming, getRef(BridgeType.SnowflakeStreaming, 'connector_')],
     [BridgeType.DiskLog, getRef(BridgeType.DiskLog, 'connector_')],
     [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'connector_')],
     [BridgeType.Doris, getRef(BridgeType.Doris, 'connector_')],
@@ -395,6 +399,7 @@ export const useActionSchema = (): {
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'action_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'action_')],
     [BridgeType.Snowflake, getRef('snowflake_aggregated', 'action_')],
+    [BridgeType.SnowflakeStreaming, getRef(BridgeType.SnowflakeStreaming, 'action_')],
     [BridgeType.DiskLog, getRef(BridgeType.DiskLog, 'action_')],
     [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'action_')],
     [BridgeType.Doris, getRef(BridgeType.Doris, 'action_')],

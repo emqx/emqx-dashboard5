@@ -12,8 +12,7 @@ import {
 } from '@/common/tools'
 import { BridgeType } from '@/types/enum'
 import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
-import { AiProviderType } from '@/types/schemas/aiCompletion.schemas'
-import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
+import { AICompletionProfile, AIProviderForm, AIProviderType } from '@/types/typeAlias'
 import { Edge, Node, Styles } from '@vue-flow/core'
 import ELK from 'elkjs/lib/elk.bundled'
 import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
@@ -316,8 +315,8 @@ export default (): {
   }
 
   const aiNodeSpecificTypeMap = new Map([
-    [AiProviderType.openai, ProcessingType.AIOpenAI],
-    [AiProviderType.anthropic, ProcessingType.AIAnthropic],
+    [AIProviderType.openai, ProcessingType.AIOpenAI],
+    [AIProviderType.anthropic, ProcessingType.AIAnthropic],
   ])
 
   const geminiModelReg = /gemini|gemma/
@@ -325,7 +324,7 @@ export default (): {
     provider: AIProviderForm,
     completion: AICompletionProfile,
   ): string => {
-    if (provider.type === AiProviderType.openai) {
+    if (provider.type === AIProviderType.openai) {
       const isGeminiModel = completion.model && geminiModelReg.test(completion.model)
       const isGeminiBaseUrl = provider.base_url === GEMINI_DEFAULT_BASE_URL
       if (isGeminiModel || isGeminiBaseUrl) {

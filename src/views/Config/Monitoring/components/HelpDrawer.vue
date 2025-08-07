@@ -44,7 +44,7 @@
                       :model="promConfigDefault"
                       :rules="rulesDefault"
                     >
-                      <el-form-item label="EMQX" prop="emqxHost">
+                      <el-form-item label="ApsaraEMQX" prop="emqxHost">
                         <el-input
                           v-model="promConfigDefault.emqxHost"
                           placeholder="127.0.0.1:9091"
