@@ -1,6 +1,18 @@
 [
   {
     "method": "put",
+    "path": "/cluster",
+    "operation_label": {
+      "en": "Cluster",
+      "zh": "集群"
+    },
+    "operation_name_label": {
+      "en": "Update cluster information.",
+      "zh": "更新集群信息"
+    }
+  },
+  {
+    "method": "put",
     "path": "/cluster/:node/invite",
     "operation_label": {
       "en": "Cluster",
