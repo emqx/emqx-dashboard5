@@ -286,9 +286,9 @@ export default defineComponent({
 .quick-panel-enter {
   display: flex;
   height: 32px;
-  width: 360px;
+  width: 240px;
   padding: 4px 16px;
-  margin-right: 24px;
+  margin-right: 16px;
   justify-content: space-between;
   align-items: center;
   border-radius: 8px;
@@ -335,6 +335,7 @@ export default defineComponent({
   gap: 4px;
   margin-right: 4px;
   color: #eaeaea;
+  text-align: right;
   cursor: default;
   .cluster-desc-label {
     margin-right: 4px;
@@ -344,7 +345,7 @@ export default defineComponent({
   }
 }
 .cluster-desc-content {
-  max-width: 120px;
+  max-width: 100px;
 }
 
 .func-item {
