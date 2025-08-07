@@ -95,6 +95,13 @@ export type PostListenersId400 = {
   message?: string
 }
 
+export type PostListenersIdBody =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
 export type GetListenersId404Code =
   (typeof GetListenersId404Code)[keyof typeof GetListenersId404Code]
 
@@ -315,13 +322,6 @@ export interface ListenersWsRequiredBind {
 }
 
 export type PostListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
-
-export type PostListenersIdBody =
   | ListenersQuicRequiredBind
   | ListenersSslRequiredBind
   | ListenersTcpRequiredBind
