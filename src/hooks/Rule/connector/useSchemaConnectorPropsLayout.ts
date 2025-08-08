@@ -322,6 +322,9 @@ export default (
       ['server', 'database', 'username', 'password'],
       fieldStartIndex,
     ),
+    [BridgeType.AlloyDB]: pgSqlOrderMap,
+    [BridgeType.CockroachDB]: pgSqlOrderMap,
+    [BridgeType.Redshift]: pgSqlOrderMap,
   }
 
   const propsOrderMap = computed(() => {
@@ -365,6 +368,9 @@ export default (
     [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,
     [BridgeType.GreptimeDB]: ['ttl'],
+    [BridgeType.AlloyDB]: pgSqlAdvancedFields,
+    [BridgeType.CockroachDB]: pgSqlAdvancedFields,
+    [BridgeType.Redshift]: pgSqlAdvancedFields,
   }
 
   const advancedFields = computed(() => {
