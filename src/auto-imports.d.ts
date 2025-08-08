@@ -295,6 +295,7 @@ declare global {
   const uniq: typeof import('lodash')['uniq']
   const uniqBy: typeof import('lodash')['uniqBy']
   const unref: typeof import('vue')['unref']
+  const useAIModels: typeof import('./hooks/Flow/useAIModels')['default']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
   const useActionDataHandler: typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']
@@ -879,6 +880,7 @@ declare module 'vue' {
     readonly uniq: UnwrapRef<typeof import('lodash')['uniq']>
     readonly uniqBy: UnwrapRef<typeof import('lodash')['uniqBy']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useAIModels: UnwrapRef<typeof import('./hooks/Flow/useAIModels')['default']>
     readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
     readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>
     readonly useActionDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']>

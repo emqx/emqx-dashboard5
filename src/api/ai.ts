@@ -48,3 +48,9 @@ export const putAIProvider = (
 export const deleteAIProvider = (name: string): Promise<void> => {
   return http.delete(`/ai/providers/${encodeURIComponent(name)}`)
 }
+
+export const getAIModels = (providerName: string): Promise<Array<string>> => {
+  return http.get(`/ai/providers/${encodeURIComponent(providerName)}/models`, {
+    errorsHandleCustom: [503],
+  } as any)
+}
