@@ -41,7 +41,7 @@
       </CustomFormItem>
     </template>
     <CustomFormItem prop="api_key" :label="tl('apiKey')" :readonly="readonly">
-      <CustomInputPassword v-model="record.api_key" />
+      <CustomInputPassword v-model="record.api_key" @blur="getModelOpts" />
     </CustomFormItem>
     <CustomFormItem prop="base_url" :label="t('Flow.baseURL')" :readonly="readonly">
       <el-input
@@ -110,13 +110,6 @@ import { ProcessingType } from '@/hooks/Flow/useFlowNode'
 import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
 import { AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
-import aiModels from '@/common/aiModels.json'
-
-const modelOptsMap = new Map([
-  [ProcessingType.AIOpenAI, aiModels.openai],
-  [ProcessingType.AIAnthropic, aiModels.anthropic],
-  [ProcessingType.AIGemini, aiModels.gemini],
-])
 
 const props = defineProps<{
   modelValue: AIConfig
@@ -168,7 +161,14 @@ const getFieldList = (queryString: string, cb: any) => {
   cb(ret)
 }
 
-const modelOpts = computed(() => modelOptsMap.get(props.nodeSpecificType) ?? [])
+const { getModels } = useAIModels()
+const modelOpts = ref<Array<string>>([])
+const getModelOpts = async () => {
+  console.log('🍅🍅🍅 ~ getModelOpts ~ getModelOpts:')
+
+  modelOpts.value = await getModels(props.modelValue, props.nodeSpecificType)
+}
+getModelOpts()
 
 const anthropicVersionOpts = Object.values(AnthropicVersion)
 

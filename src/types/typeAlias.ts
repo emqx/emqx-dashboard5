@@ -84,10 +84,12 @@ import { RuleEngineActionDetails } from './schemas/rules.schemas'
 import type { PluginsHealthStatus } from './schemas/plugins.schemas'
 import { PluginsHealthStatusStatus } from './schemas/plugins.schemas'
 import type {
-  AiProvider,
-  AiProviderApiPut,
+  AiAnthropicProviderApiPut,
+  AiOpenaiProviderApiPut,
+  AiOpenaiProvider,
+  AiAnthropicProvider,
   PostAiCompletionProfilesBody,
-  AiProviderType as AiProviderTypeValueTypeAlias,
+  AiOpenaiProviderType,
   AiAnthropicCompletionProfile,
   AiOpenaiCompletionProfile,
 } from './schemas/aiCompletion.schemas'
@@ -211,10 +213,10 @@ export const PluginsHealthStatusVal = PluginsHealthStatusStatus
 export type PluginHealthStatusValueType = ValueOf<typeof PluginsHealthStatusVal>
 
 /* AI COMPLETION */
-export type AIProviderForm = AiProvider
-export type PutAIProviderForm = AiProviderApiPut
+export type AIProviderForm = AiOpenaiProvider | AiAnthropicProvider
+export type PutAIProviderForm = AiAnthropicProviderApiPut | AiOpenaiProviderApiPut
 export const AIProviderType = AiAnthropicProviderType
-export type AIProviderTypeValueType = AiProviderTypeValueTypeAlias
+export type AIProviderTypeValueType = AiOpenaiProviderType
 export type AnthropicCompletion = AiAnthropicCompletionProfile
 export type OpenAICompletion = AiOpenaiCompletionProfile
 export type AICompletionProfile = PostAiCompletionProfilesBody
