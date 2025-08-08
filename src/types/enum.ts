@@ -154,6 +154,9 @@ export enum BridgeType {
   S3Tables = 's3tables',
   Doris = 'doris',
   BigQuery = 'bigquery',
+  AlloyDB = 'alloydb',
+  CockroachDB = 'cockroachdb',
+  Redshift = 'redshift',
 }
 
 export enum PulsarType {

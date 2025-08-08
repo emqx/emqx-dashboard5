@@ -104,6 +104,9 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.S3Tables, label: 'S3 Tables' },
     { value: BridgeType.Doris, label: 'Doris' },
     { value: BridgeType.BigQuery, label: 'BigQuery' },
+    { value: BridgeType.AlloyDB, label: 'AlloyDB' },
+    { value: BridgeType.CockroachDB, label: 'CockroachDB' },
+    { value: BridgeType.Redshift, label: 'Redshift' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -341,6 +344,9 @@ export const useConnectorSchema = (): {
     [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'connector_')],
     [BridgeType.Doris, getRef(BridgeType.Doris, 'connector_')],
     [BridgeType.BigQuery, getRef(BridgeType.BigQuery, 'connector_')],
+    [BridgeType.AlloyDB, getRef(BridgeType.AlloyDB, 'connector_')],
+    [BridgeType.CockroachDB, getRef(BridgeType.CockroachDB, 'connector_')],
+    [BridgeType.Redshift, getRef(BridgeType.Redshift, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -404,6 +410,9 @@ export const useActionSchema = (): {
     [BridgeType.S3Tables, getRef(BridgeType.S3Tables, 'action_')],
     [BridgeType.Doris, getRef(BridgeType.Doris, 'action_')],
     [BridgeType.BigQuery, getRef(BridgeType.BigQuery, 'action_')],
+    [BridgeType.AlloyDB, getRef(BridgeType.AlloyDB, 'action_')],
+    [BridgeType.CockroachDB, getRef(BridgeType.CockroachDB, 'action_')],
+    [BridgeType.Redshift, getRef(BridgeType.Redshift, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
