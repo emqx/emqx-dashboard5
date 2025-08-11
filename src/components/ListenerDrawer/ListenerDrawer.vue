@@ -352,6 +352,14 @@
             <!-- TCP -->
             <template v-if="showTCPConfig">
               <el-col :span="24"><el-divider /></el-col>
+              <el-col :span="12" v-if="!gatewayName && isTCP">
+                <el-form-item label="TCP Backend">
+                  <el-select v-model="listenerRecord.tcp_backend">
+                    <el-option label="gen_tcp" value="gen_tcp" />
+                    <el-option label="socket" value="socket" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
               <el-col :span="12">
                 <el-form-item label="ActiveN">
                   <CustomInputNumber
@@ -560,6 +568,8 @@ const {
   onDelete,
   handleTLSVerifyChange,
 } = useListenerDrawer(props, emit)
+
+const isTCP = computed(() => listenerRecord.value.type === ListenerType.TCP)
 
 const isUDP = computed(() => listenerRecord.value.type === ListenerTypeForGateway.UDP)
 

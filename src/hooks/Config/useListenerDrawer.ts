@@ -249,6 +249,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
       merge(data, customConfigs)
     }
+    if (data.type !== ListenerType.TCP && data.tcp_backend) {
+      delete data.tcp_backend
+    }
     limiterConfigKeys.forEach((key) => {
       if (typeof data[key] === 'string' && data[key] === '') {
         data[key] = null
