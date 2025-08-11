@@ -2,6 +2,7 @@ import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
+import useSchemaHandlers from '../useSchemaHandlers'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -104,6 +105,7 @@ export default (
     return walk(components)
   }
 
+  const { handlePrivateKey } = useSchemaHandlers()
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.enable) {
@@ -122,8 +124,9 @@ export default (
       Reflect.deleteProperty(comRet, 'tags')
     }
     const filteredSSL = filterSSLParams(comRet)
+    const processedPrivateKey = handlePrivateKey(filteredSSL)
     const rulesRet = addRuleForPassword(rules)
-    return { components: filteredSSL, rules: rulesRet }
+    return { components: processedPrivateKey, rules: rulesRet }
   }
 
   const mqttHandler: Handler = ({ components, rules }) => {
