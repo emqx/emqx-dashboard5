@@ -231,6 +231,7 @@ import { SortableEvent } from 'sortablejs'
 import AuthzRuleForm from './AuthzRuleForm.vue'
 import AuthzRuleList from './AuthzRuleList.vue'
 import TableDropdown from './TableDropdown.vue'
+import useAuthzDataHandler from '@/hooks/Auth/useAuthzDataHandler'
 
 interface AllTableDataItem {
   action: string
@@ -362,8 +363,8 @@ const addColumn = () => {
 const deleteItem = (row: BuiltInDBItem, index: number) => {
   record.value.rules.splice(index, 1)
 }
-const handleRulesBeforeSubmit = (rules: Array<BuiltInDBRule>) =>
-  rules.map((rule) => checkNOmitFromObj(rule))
+
+const { handleRulesBeforeSubmit } = useAuthzDataHandler()
 
 const handleSubmit = async () => {
   try {

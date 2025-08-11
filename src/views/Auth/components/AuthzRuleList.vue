@@ -25,6 +25,7 @@
 import { BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType } from '@/types/enum'
 import AuthzRuleForm from './AuthzRuleForm.vue'
+import useAuthzDataHandler from '@/hooks/Auth/useAuthzDataHandler'
 
 const props = withDefaults(
   defineProps<{
@@ -56,16 +57,19 @@ const handleRef = (el: InstanceType<typeof AuthzRuleForm> | null, index: number)
 
 const { tl } = useI18nTl('Auth')
 
+const { handleRulesBeforeSubmit } = useAuthzDataHandler()
+
 /**
  * which index is duplicated
  */
 const duplicatedResult = ref<Array<number>>([])
 const checkDuplicate = async () => {
   duplicatedResult.value = []
-  for (let i = 0; i < list.value.length; i++) {
-    const currentItem = list.value[i]
-    for (let j = i + 1; j < list.value.length; j++) {
-      const nextItem = list.value[j]
+  const dataToSubmit = handleRulesBeforeSubmit(list.value)
+  for (let i = 0; i < dataToSubmit.length; i++) {
+    const currentItem = dataToSubmit[i]
+    for (let j = i + 1; j < dataToSubmit.length; j++) {
+      const nextItem = dataToSubmit[j]
       if (isEqual(currentItem, nextItem)) {
         duplicatedResult.value.push(j)
       }
