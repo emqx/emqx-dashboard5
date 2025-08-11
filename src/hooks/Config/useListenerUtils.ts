@@ -193,6 +193,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     mountpoint: '',
     proxy_protocol: false,
     proxy_protocol_timeout: '3s',
+    tcp_backend: 'gen_tcp',
     tcp_options: createRawTCPParams(),
     udp_options: createRawUDPParams(),
     dtls_options: {

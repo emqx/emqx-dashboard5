@@ -610,4 +610,22 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: 'NATS PUB/HPUB 消息的 Payload 最大字节数',
     en: 'The maximum number of bytes of Payload allowed per NATS PUB/HPUB message.',
   },
+  tcpBackendDesc: {
+    zh: `指示监听器应使用哪个 TCP 后端。
+
+- \`gen_tcp\`：标准后端，自 EMQX 5.0 版本起使用。
+
+- \`socket\`：实验性后端，旨在提升消息延迟和计算资源利用率。
+    注意，使用此后端时，部分 \`tcp_options\` 设置将无效，例如：\`high_watermark\` 和 \`send_timeout_close\`。
+
+更改后端需要重启监听器，这将断开其所有活动连接。`,
+    en: `Indicates which TCP backend should be used by the listener.
+
+- \`gen_tcp\`: Standard backend, in use since EMQX 5.0 release.
+
+- \`socket\`: Experimental backend, looking to improve message latency and compute resource usage.
+    Note that some \`tcp_options\` settings will have no effect when using this backend, e.g.: \`high_watermark\` and \`send_timeout_close\`.
+    
+Changing the backend require restarting the listener, which will terminate all its active connections.`,
+  },
 }
