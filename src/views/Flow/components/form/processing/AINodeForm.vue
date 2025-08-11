@@ -164,8 +164,9 @@ const getFieldList = (queryString: string, cb: any) => {
 const { getModels } = useAIModels()
 const modelOpts = ref<Array<string>>([])
 const getModelOpts = async () => {
-  console.log('🍅🍅🍅 ~ getModelOpts ~ getModelOpts:')
-
+  if (props.readonly) {
+    return []
+  }
   modelOpts.value = await getModels(props.modelValue, props.nodeSpecificType)
 }
 getModelOpts()
