@@ -3,6 +3,7 @@ import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { markRaw } from 'vue'
 import FallbackActionsEditor from '@/views/RuleEngine/Bridge/Components/FallbackActionsEditor.vue'
+import useSchemaHandlers from '../useSchemaHandlers'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -112,6 +113,7 @@ export default (
     return key
   })
 
+  const { handlePrivateKey } = useSchemaHandlers()
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
@@ -138,9 +140,9 @@ export default (
     if (paramsProps) {
       handleProp(paramsProps)
     }
-
+    const processedPrivateKey = handlePrivateKey(comRet)
     const rulesRet = addRuleForPassword(rules)
-    return { components: comRet, rules: rulesRet }
+    return { components: processedPrivateKey, rules: rulesRet }
   }
 
   const mqttHandler: Handler = (data) => {
