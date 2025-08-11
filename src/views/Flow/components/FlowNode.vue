@@ -15,7 +15,15 @@
           {{ data.label }}
         </span>
         <span class="extra" v-if="isDisconnectedActionOrSource">
-          (<span class="status-label">{{ getActionStatusLabel(data?.data?.formData?.status) }}</span
+          (<OverflowTooltip class="common-overflow-tooltip">
+            <span class="status-label">{{
+              getActionStatusLabel(data?.data?.formData?.status)
+            }}</span>
+            <template #content>
+              <span class="status-label">{{
+                getActionStatusLabel(data?.data?.formData?.status)
+              }}</span>
+            </template> </OverflowTooltip
           >)
         </span>
       </p>
@@ -114,11 +122,16 @@ const showSourceHandle = computed(() => {
   .label {
     font-weight: 600;
     .extra {
+      display: flex;
       font-weight: normal;
       margin-left: 4px;
+      min-width: 0;
     }
-    .status-label {
+    .overflow-tooltip {
       color: var(--el-color-danger);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .desc {
@@ -139,6 +152,12 @@ const showSourceHandle = computed(() => {
 .vue-flow__handle {
   &.is-error {
     --vf-handle: var(--el-color-danger);
+  }
+}
+.overflow-tooltip-popper {
+  .status-label {
+    color: var(--el-color-danger);
+    margin-right: 12px;
   }
 }
 </style>
