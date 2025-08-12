@@ -16,7 +16,7 @@ export default {
     en: 'Create Monitor',
   },
   wildcardNotSupport: {
-    zh: '主题监控暂不支持通配符',
-    en: 'Wildcards are not yet supported by Topic Metrics',
+    zh: '主题监控暂不支持通配符及共享订阅',
+    en: 'Wildcards and Shared Subscriptions are not yet supported by Topic Metrics',
   },
 }
