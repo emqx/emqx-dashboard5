@@ -7,7 +7,7 @@
       "zh": "集群"
     },
     "operation_name_label": {
-      "en": "Update cluster information.",
+      "en": "Update cluster information",
       "zh": "更新集群信息"
     }
   },
@@ -2767,7 +2767,7 @@
       "zh": "AI 助手"
     },
     "operation_name_label": {
-      "en": "Create provider entry for an AI provider.",
+      "en": "Create provider entry for an AI provider",
       "zh": "创建 AI 提供商条目"
     }
   },
@@ -2779,7 +2779,7 @@
       "zh": "AI 助手"
     },
     "operation_name_label": {
-      "en": "Update provider entry for an AI provider.",
+      "en": "Update provider entry for an AI provider",
       "zh": "更新 AI 提供商条目"
     }
   },
@@ -2791,7 +2791,7 @@
       "zh": "AI 助手"
     },
     "operation_name_label": {
-      "en": "Delete provider entry for an AI provider.",
+      "en": "Delete provider entry for an AI provider",
       "zh": "删除 AI 提供商条目"
     }
   },
@@ -2803,7 +2803,7 @@
       "zh": "AI 助手"
     },
     "operation_name_label": {
-      "en": "Create AI completion profile.",
+      "en": "Create AI completion profile",
       "zh": "创建 AI 助手条目"
     }
   },
@@ -2815,7 +2815,7 @@
       "zh": "AI 助手"
     },
     "operation_name_label": {
-      "en": "Update AI completion profile.",
+      "en": "Update AI completion profile",
       "zh": "更新 AI 助手条目"
     }
   },
