@@ -388,11 +388,9 @@ const { createRequiredRule } = useFormRules()
 const authCodeRule = [
   ...createRequiredRule(t('General.authenticationCode')),
   {
-    validator(rules: unknown, value: string) {
-      if (!/^\d{6}$/.test(value)) {
-        return [new Error(t('General.authenticationCodeError'))]
-      }
-    },
+    pattern: /^\d{6}$/,
+    message: t('General.authenticationCodeError'),
+    trigger: 'blur',
   },
 ]
 const rules = {
