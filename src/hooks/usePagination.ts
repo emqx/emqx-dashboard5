@@ -57,8 +57,10 @@ export const useCursorPagination = (): {
   }>
   hasNext: ComputedRef<boolean>
   resetCursorMap: () => void
+  getCursor: (pageNo: number) => string | undefined
   setCursor: (pageNo: number, cursor: string | undefined) => void
   resetPage: () => void
+  emptyCursorAfter: (index: number) => void
 } => {
   const page = ref(1)
   const limit = ref(20)
@@ -66,7 +68,8 @@ export const useCursorPagination = (): {
   const createEmptyCursorMap = () => new Map<number, string | undefined>([[1, FIRST_CURSOR]])
   const cursorMap = ref(createEmptyCursorMap())
 
-  const currentCursor = computed(() => cursorMap.value.get(page.value) ?? FIRST_CURSOR)
+  const getCursor = (pageNo: number) => cursorMap.value.get(pageNo) ?? FIRST_CURSOR
+  const currentCursor = computed(() => getCursor(page.value))
 
   const hasNext = computed(() => {
     return !!cursorMap.value.get(page.value + 1)
@@ -89,6 +92,14 @@ export const useCursorPagination = (): {
     page.value = 1
   }
 
+  const emptyCursorAfter = (index: number) => {
+    for (const key of cursorMap.value.keys()) {
+      if (key >= index) {
+        cursorMap.value.delete(key)
+      }
+    }
+  }
+
   return {
     page,
     limit,
@@ -96,8 +107,10 @@ export const useCursorPagination = (): {
     currentCursor,
     pageParams,
     hasNext,
+    getCursor,
     setCursor,
     resetCursorMap,
     resetPage,
+    emptyCursorAfter,
   }
 }

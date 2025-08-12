@@ -92,8 +92,17 @@ const handleSelectionChange = (clients: Array<string>) => {
 }
 
 const total = ref(0)
-const { page, limit, pageParams, hasNext, setCursor, resetPage, resetCursorMap } =
-  useCursorPagination()
+const {
+  page,
+  limit,
+  pageParams,
+  hasNext,
+  getCursor,
+  setCursor,
+  resetPage,
+  resetCursorMap,
+  emptyCursorAfter,
+} = useCursorPagination()
 
 const handleOpen = () => {
   getClients()
@@ -118,6 +127,8 @@ const getClients = async (isBack?: boolean) => {
     const data = await getNamespaceClientList(props.namespace, params)
     if (data.length === limit.value) {
       setCursor(page.value + 1, data[data.length - 1])
+    } else if (data.length < limit.value && getCursor(page.value + 1)) {
+      emptyCursorAfter(page.value + 1)
     }
     tableData.value = data
     if (isBack && page.value !== 1 && data.length === 0) {
