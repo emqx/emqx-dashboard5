@@ -31,7 +31,7 @@
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-tooltip
-              v-if="!isTopicCanCreateTopic(row.topic)"
+              v-if="!isTopicCanCreateMetrics(row.topic)"
               class="box-item"
               effect="dark"
               :content="tl('wildcardNotSupport')"
@@ -66,6 +66,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
 import CommonPagination from '../../components/commonPagination.vue'
+import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 
 const router = useRouter()
 const { tl } = useI18nTl('Subs')
@@ -104,8 +105,7 @@ const loadTopics = async (_params = {}) => {
   }
 }
 
-const wildcardReg = /\/(#|\+)/
-const isTopicCanCreateTopic = (topic: string) => !wildcardReg.test(topic)
+const { isTopicCanCreateMetrics } = useTopicMetrics()
 
 const createMetricForTopic = (topic: string) => {
   router.push({ name: 'topic-metrics', query: { topic } })

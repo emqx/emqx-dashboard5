@@ -171,24 +171,13 @@ import {
 import { ElMessageBox as MB, ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { waitAMoment } from '@/common/tools.ts'
+import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 
 const DEFAULT_QOS = 'all'
 
 export default defineComponent({
   name: 'TopicMetrics',
-  data: function () {
-    return {
-      topicRules: {
-        topic: [
-          {
-            required: true,
-            message: this.$t('Clients.topicRequired'),
-            trigger: 'blur',
-          },
-        ],
-      },
-    }
-  },
+
   setup() {
     const BTN_VIEW_CLASS = 'btn-view'
     const { t } = useI18n()
@@ -205,6 +194,26 @@ export default defineComponent({
     const tbLoading = ref(false)
     const tbRef = ref(null)
     const addLoading = ref(false)
+
+    const { isTopicCanCreateMetrics } = useTopicMetrics()
+    const topicRules = {
+      topic: [
+        {
+          required: true,
+          message: t('Clients.topicRequired'),
+          trigger: 'blur',
+        },
+        {
+          validator: (_rule, value, callback) => {
+            let error = undefined
+            if (!isTopicCanCreateMetrics(value)) {
+              error = new Error(t('Subs.wildcardNotSupport'))
+            }
+            callback(error)
+          },
+        },
+      ],
+    }
 
     const tableExpandRowKeys = computed(() => {
       return topicMetricsTb.value.filter(({ _expand }) => _expand).map(({ topic }) => topic)
@@ -355,6 +364,7 @@ export default defineComponent({
       addVisible,
       openAdd,
       record,
+      topicRules,
       topicInput,
       addTopic,
       topicMetricsTb,
