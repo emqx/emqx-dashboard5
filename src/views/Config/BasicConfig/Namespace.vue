@@ -176,7 +176,9 @@ const loadNamespaces = async (isBack?: boolean) => {
       ? queryManagedNamespaceList
       : queryAllTypeNamespaceList
     namespaceTableData.value = await funcForQuery(params)
-    cursorMap.value.set(page.value + 1, last(namespaceTableData.value)?.ns)
+    if (namespaceTableData.value.length === limit.value) {
+      cursorMap.value.set(page.value + 1, last(namespaceTableData.value)?.ns)
+    }
     if (isBack && page.value !== 1 && namespaceTableData.value.length === 0) {
       ElMessage.warning(tl('pageJumpTip'))
       handlePageChange(1)
