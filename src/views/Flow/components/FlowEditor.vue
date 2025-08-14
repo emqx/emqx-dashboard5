@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { FallbackAction, RuleEvent } from '@/types/rule'
+import { FallbackAction } from '@/types/rule'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import {
@@ -145,6 +145,7 @@ import FlowEdge from './FlowEdge.vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
+import { NodeType } from '@/hooks/Flow/useFlowNode'
 
 const props = defineProps({
   data: {
@@ -170,7 +171,6 @@ const {
   findNode,
   removeNodes,
   removeEdges,
-  setEdges,
   setNodes,
   getNodes,
   getEdges,
@@ -181,7 +181,6 @@ const {
   flowData,
   nodeTypeOnlyByOne,
   createFlowNodeDataFromEvent,
-  countNeededEdges,
 } = useFlowEditor(FlowerInstance, FlowWrapper)
 const nodeArr = computed(() => {
   const reg = new RegExp(`${searchText.value}`, `i`)
