@@ -141,7 +141,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import FlowEdge from './FlowEdge.vue'
+import { FlowEdge } from '@emqx/shared-ui-components'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
