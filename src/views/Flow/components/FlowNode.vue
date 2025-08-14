@@ -1,54 +1,18 @@
 <template>
-  <Handle
-    v-if="data.type !== FlowNodeType.Input"
-    type="target"
-    :position="Position.Left"
-    :class="{ 'is-error': isDisconnectedActionOrSource }"
-  >
-    <el-icon class="icon-add" :size="10"><Plus /></el-icon>
-  </Handle>
-  <div class="flow-node">
-    <img :src="getIconSrc()" alt="node-img" class="node-icon" :class="iconClass" />
-    <div class="node-bd" :title="data.data.desc">
-      <p class="label vertical-align-center">
-        <span>
-          {{ data.label }}
-        </span>
-        <span class="extra" v-if="isDisconnectedActionOrSource">
-          (<OverflowTooltip class="common-overflow-tooltip">
-            <span class="status-label">{{
-              getActionStatusLabel(data?.data?.formData?.status)
-            }}</span>
-            <template #content>
-              <span class="status-label">{{
-                getActionStatusLabel(data?.data?.formData?.status)
-              }}</span>
-            </template> </OverflowTooltip
-          >)
-        </span>
-      </p>
-      <p class="desc" v-if="!isAIType(data.data.specificType)">
-        {{ data.data.desc }}
-      </p>
-      <template v-else-if="data.data.desc">
-        <CommonOverflowTooltip :content="data.data.desc" class="desc" />
-      </template>
-    </div>
-  </div>
-  <Handle
-    v-if="showSourceHandle"
-    type="source"
-    :position="Position.Right"
-    :class="{ 'is-error': isDisconnectedActionOrSource }"
-  >
-    <el-icon class="icon-add" :size="10"><Plus /></el-icon>
-  </Handle>
+  <FlowNode
+    :data="data"
+    :is-edit="isEdit"
+    :node-label="data.label"
+    :node-icon-src="getIconSrc()"
+    :support-fallback-actions="isActionNodeButNotFallback"
+    :icon-class="iconClass"
+    :overflow-tooltip-component="OverflowTooltip"
+  />
 </template>
 
 <script setup lang="ts">
-import { ConnectionStatus } from '@/types/enum'
-import { Plus } from '@element-plus/icons-vue'
-import { Handle, Node, Position } from '@vue-flow/core'
+import OverflowTooltip from '@/components/OverflowTooltip.vue'
+import { FlowNode } from '@emqx/shared-ui-components'
 
 const props = defineProps({
   data: {
@@ -61,15 +25,7 @@ const props = defineProps({
   },
 })
 
-const { getNodeIcon, getIconClass, isBridgerNode, isWithFallbackNodes, isAIType } = useFlowNode()
-
-const isDisconnectedActionOrSource = computed(() => {
-  const isActionOrSource = isBridgerNode(props.data || {})
-  const isDisconnected =
-    isActionOrSource && props.data?.data?.formData?.status === ConnectionStatus.Disconnected
-  return isDisconnected
-})
-const { getActionStatusLabel } = useActionAndSourceStatus()
+const { getNodeIcon, getIconClass, isBridgerNode } = useFlowNode()
 
 const getIconSrc = (): string => {
   return getNodeIcon(props.data?.data?.specificType)
@@ -77,23 +33,11 @@ const getIconSrc = (): string => {
 
 const iconClass = computed(() => getIconClass(props.data?.data?.specificType))
 
-const withFallbackNodes = computed(() => isWithFallbackNodes(props.data as Node))
-
 const isActionNodeButNotFallback = computed(() => {
   if (props.data?.type !== FlowNodeType.Output) {
     return false
   }
   return isBridgerNode(props.data || {}) && !props.data?.data?.isFallback
-})
-
-const showSourceHandle = computed(() => {
-  if (props.data?.type !== FlowNodeType.Output) {
-    return true
-  }
-  if (!props.isEdit) {
-    return withFallbackNodes.value
-  }
-  return isActionNodeButNotFallback.value
 })
 </script>
 
