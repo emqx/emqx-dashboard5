@@ -577,7 +577,7 @@ const isQUIC = computed(() => listenerRecord.value.type === ListenerType.QUIC)
 
 const isWSS = computed(() => listenerRecord.value.type === ListenerType.WSS)
 
-const typesWithoutMaxConnectionRate = [ListenerType.WS, ListenerType.WSS, ListenerType.QUIC]
+const typesWithoutMaxConnectionRate = [ListenerType.QUIC]
 
 const cancel = async () => {
   await confirmClose()
