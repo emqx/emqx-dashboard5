@@ -252,9 +252,13 @@ export default (
 
   const rocketMQHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
-
-    if (components?.parameters?.properties?.template?.type === 'string') {
-      components.parameters.properties.template.format = 'sql'
+    const { strategy, template } = components?.parameters?.properties ?? {}
+    if (template?.type === 'string') {
+      template.format = 'sql'
+    }
+    if (strategy?.type === 'oneof') {
+      strategy.type = 'enum'
+      strategy.symbols = getSymbolsFromOneOfArr(strategy.oneOf)
     }
 
     return { components, rules }
