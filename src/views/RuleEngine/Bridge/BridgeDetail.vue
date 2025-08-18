@@ -104,7 +104,18 @@
               </i18n-t>
             </el-alert>
             <div class="setting-area" :style="{ width: inDrawer ? '100%' : '75%' }">
+              <bridge-influxdb-config
+                v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(bridgeType)"
+                ref="formCom"
+                v-model="bridgeInfo"
+                edit
+                :type="bridgeType"
+                :disabled="disabled"
+                :hide-name="hideName"
+                :form-props="formProps"
+              />
               <using-schema-bridge-config
+                v-else
                 ref="formCom"
                 v-model="bridgeInfo"
                 edit
@@ -152,7 +163,7 @@
 </template>
 
 <script lang="ts" setup>
-import { DetailTab } from '@/types/enum'
+import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Delete, Share } from '@element-plus/icons-vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
@@ -160,6 +171,7 @@ import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
 import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import DeleteFallbackActionConfirm from './Components/DeleteFallbackActionConfirm.vue'
+import BridgeInfluxdbConfig from './Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 
 enum Tab {
   Overview = 'overview',
