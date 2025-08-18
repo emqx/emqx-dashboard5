@@ -10,5 +10,8 @@
   },
   "rocketmq": {
     "strategy": "Producer key dispatch strategy.  Possible values: `key_dispatch`, `roundrobin`.  The default is `roundrobin`."
+  },
+  "datalayers": {
+    "server": "The default port should be 8360 when the driver type is Arrow Flight"
   }
 }
