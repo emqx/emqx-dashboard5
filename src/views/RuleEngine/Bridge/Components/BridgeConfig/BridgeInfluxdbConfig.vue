@@ -205,21 +205,27 @@ const isSQL = computed(() => {
   return isSelectedArrowFlightConnector.value
 })
 
+const defaultSQL =
+  'insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, ${timestamp})'
 const handleConnectorChange = (val?: Connector) => {
   if (props.type !== BridgeType.Datalayers) {
     return
   }
   const preV = isArrowFlightConnector(selectedConnector.value)
   const curV = isArrowFlightConnector(val)
-  if (selectedConnector.value && preV !== curV) {
+  if (preV !== curV) {
     if (curV) {
       delete formData.value.parameters.precision
       delete formData.value.parameters.write_syntax
-      formData.value.parameters.sql = ''
+      if (!selectedConnector.value) {
+        formData.value.parameters.sql = formData.value.parameters.sql ?? defaultSQL
+      } else {
+        formData.value.parameters.sql = formData.value.parameters.sql ?? ''
+      }
     } else {
       delete formData.value.parameters.sql
-      formData.value.parameters.precision = 'ms'
-      formData.value.parameters.write_syntax = ''
+      formData.value.parameters.precision = formData.value.parameters.precision ?? 'ms'
+      formData.value.parameters.write_syntax = formData.value.parameters.write_syntax ?? ''
     }
   }
   selectedConnector.value = val
