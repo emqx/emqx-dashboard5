@@ -48,6 +48,7 @@ const props = withDefaults(
 )
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'change', value?: Connector): void
 }>()
 
 const selected = computed({
@@ -56,6 +57,10 @@ const selected = computed({
   },
   set(val) {
     emit('update:modelValue', val)
+    emit(
+      'change',
+      connectorOpts.value.find((item) => item.name === val),
+    )
   },
 })
 

@@ -17,7 +17,11 @@
       </el-col>
       <el-col :span="colSpan">
         <CustomFormItem :label="t('components.connector')" prop="connector" :readonly="readonly">
-          <ConnectorSelect v-model="formData.connector" :type="formData.type" />
+          <ConnectorSelect
+            v-model="formData.connector"
+            :type="formData.type"
+            @change="handleConnectorChange"
+          />
         </CustomFormItem>
       </el-col>
       <el-col :span="colSpan">
@@ -27,7 +31,7 @@
       </el-col>
     </el-row>
     <el-divider />
-    <el-row :gutter="26">
+    <el-row :gutter="26" v-if="!isSQL">
       <el-col :span="colSpan">
         <el-form-item prop="parameters.precision">
           <template #label>
@@ -67,6 +71,20 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <el-row :gutter="26" v-else>
+      <el-col :span="24">
+        <el-form-item label="SQL">
+          <div class="monaco-container">
+            <Monaco
+              :id="createRandomString()"
+              v-model="formData.parameters.sql"
+              lang="sql"
+              :disabled="readonly || disabled"
+            />
+          </div>
+        </el-form-item>
+      </el-col>
+    </el-row>
     <AdvancedSettingContainer>
       <el-row :gutter="26">
         <BridgeResourceOpt
@@ -88,6 +106,7 @@ import { Property } from '@/types/schemaForm'
 import ConnectorSelect from '../ConnectorSelect.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
+import { Connector } from '@/types/rule'
 
 const props = defineProps({
   modelValue: {
@@ -169,6 +188,62 @@ const initFormData = async () => {
   }
 }
 
+const selectedConnector = ref<Connector | undefined>(undefined)
+const isArrowFlightConnector = (connector?: Connector) =>
+  /arrow_flight/i.test(connector?.parameters?.driver_type ?? '')
+
+const isSelectedArrowFlightConnector = computed(() => {
+  if (props.type !== BridgeType.Datalayers || !selectedConnector.value) {
+    return false
+  }
+  return isArrowFlightConnector(selectedConnector.value)
+})
+const isSQL = computed(() => {
+  if (props.type !== BridgeType.Datalayers) {
+    return false
+  }
+  return isSelectedArrowFlightConnector.value
+})
+
+const handleConnectorChange = (val?: Connector) => {
+  if (props.type !== BridgeType.Datalayers) {
+    return
+  }
+  const preV = isArrowFlightConnector(selectedConnector.value)
+  const curV = isArrowFlightConnector(val)
+  if (selectedConnector.value && preV !== curV) {
+    if (curV) {
+      delete formData.value.parameters.precision
+      delete formData.value.parameters.write_syntax
+      formData.value.parameters.sql = ''
+    } else {
+      delete formData.value.parameters.sql
+      formData.value.parameters.precision = 'ms'
+      formData.value.parameters.write_syntax = ''
+    }
+  }
+  selectedConnector.value = val
+}
+const { getConnectorList } = useConnectorList()
+const initConnector = async () => {
+  if (!formData.value.connector || selectedConnector.value) {
+    return
+  }
+  const list = await getConnectorList()
+  const connector = list.find(({ name }) => name === formData.value.connector)
+  if (connector) {
+    handleConnectorChange(connector as Connector)
+  }
+}
+initConnector()
+
+watch(
+  () => formData.value.connector,
+  async () => {
+    initConnector()
+  },
+)
+
 watch(
   () => formData.value,
   () => {
@@ -195,7 +270,10 @@ const getPrecisionOpts = () => {
 }
 
 const validate = () => {
-  return Promise.all([formCom.value.validate(), writeSyntaxInputCom.value.validate()])
+  return Promise.all([
+    formCom.value.validate(),
+    isSQL.value ? Promise.resolve() : writeSyntaxInputCom.value.validate(),
+  ])
 }
 
 const clearValidate = () => {
