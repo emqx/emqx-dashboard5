@@ -312,6 +312,7 @@ declare global {
   const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
   const useAuthz: typeof import('./hooks/Auth/useAuthz')['default']
   const useAuthzCreate: typeof import('./hooks/Auth/useAuthzCreate')['default']
+  const useAuthzDataHandler: typeof import('./hooks/Auth/useAuthzDataHandler')['default']
   const useAuthzManager: typeof import('./hooks/Auth/useAuthzManager')['default']
   const useAvailableProviders: typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']
   const useBackgroundCircle: typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']
@@ -469,6 +470,7 @@ declare global {
   const useSchemaConnectorPropsLayout: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['default']
   const useSchemaForm: typeof import('./hooks/Schema/useSchemaForm')['default']
   const useSchemaFormRules: typeof import('./hooks/Schema/useSchemaFormRules')['default']
+  const useSchemaHandlers: typeof import('./hooks/Rule/useSchemaHandlers')['default']
   const useSchemaRecord: typeof import('./hooks/Schema/useSchemaRecord')['default']
   const useSchemaRegistryForm: typeof import('./hooks/Rule/schema/useSchemaRegistryForm')['default']
   const useSchemaType: typeof import('./hooks/Rule/schema/useSchemaType')['default']
@@ -491,6 +493,7 @@ declare global {
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useTestConnector: typeof import('./hooks/Rule/connector/useTestConnector')['default']
   const useToggleAuthStatus: typeof import('./hooks/Auth/useToggleAuthStatus')['default']
+  const useTopicMetrics: typeof import('./hooks/Diagnose/useTopicMetrics')['default']
   const useTransName: typeof import('./hooks/useTransName')['default']
   const useTransformFailureAction: typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']
   const useTwoWayBindingManually: typeof import('./hooks/useTwoWayBindingManually')['default']
@@ -897,6 +900,7 @@ declare module 'vue' {
     readonly useAuthnMechanismType: UnwrapRef<typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']>
     readonly useAuthz: UnwrapRef<typeof import('./hooks/Auth/useAuthz')['default']>
     readonly useAuthzCreate: UnwrapRef<typeof import('./hooks/Auth/useAuthzCreate')['default']>
+    readonly useAuthzDataHandler: UnwrapRef<typeof import('./hooks/Auth/useAuthzDataHandler')['default']>
     readonly useAuthzManager: UnwrapRef<typeof import('./hooks/Auth/useAuthzManager')['default']>
     readonly useAvailableProviders: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']>
     readonly useBackgroundCircle: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']>
@@ -1054,6 +1058,7 @@ declare module 'vue' {
     readonly useSchemaConnectorPropsLayout: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['default']>
     readonly useSchemaForm: UnwrapRef<typeof import('./hooks/Schema/useSchemaForm')['default']>
     readonly useSchemaFormRules: UnwrapRef<typeof import('./hooks/Schema/useSchemaFormRules')['default']>
+    readonly useSchemaHandlers: UnwrapRef<typeof import('./hooks/Rule/useSchemaHandlers')['default']>
     readonly useSchemaRecord: UnwrapRef<typeof import('./hooks/Schema/useSchemaRecord')['default']>
     readonly useSchemaRegistryForm: UnwrapRef<typeof import('./hooks/Rule/schema/useSchemaRegistryForm')['default']>
     readonly useSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useSchemaType')['default']>
@@ -1076,6 +1081,7 @@ declare module 'vue' {
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useTestConnector: UnwrapRef<typeof import('./hooks/Rule/connector/useTestConnector')['default']>
     readonly useToggleAuthStatus: UnwrapRef<typeof import('./hooks/Auth/useToggleAuthStatus')['default']>
+    readonly useTopicMetrics: UnwrapRef<typeof import('./hooks/Diagnose/useTopicMetrics')['default']>
     readonly useTransName: UnwrapRef<typeof import('./hooks/useTransName')['default']>
     readonly useTransformFailureAction: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']>
     readonly useTwoWayBindingManually: UnwrapRef<typeof import('./hooks/useTwoWayBindingManually')['default']>

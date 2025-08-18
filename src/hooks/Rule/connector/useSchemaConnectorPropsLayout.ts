@@ -278,8 +278,8 @@ export default (
     [BridgeType.Couchbase]: createOrderObj(['server', 'username', 'password'], fieldStartIndex),
     [BridgeType.Datalayers]: createOrderObj(
       [
-        'server',
         'parameters.driver_type',
+        'server',
         'parameters.database',
         'parameters.username',
         'parameters.password',
@@ -335,6 +335,13 @@ export default (
     return ret
   })
   const GCPColClass = { service_account_json: 'custom-col-24' }
+  const getDatalayersColClass = (formData: Record<string, any>): Record<string, string> => {
+    const { driver_type } = formData?.parameters ?? {}
+    if (/arrow_flight/i.test(driver_type)) {
+      return {}
+    }
+    return { 'parameters.enable_prepared': 'col-hidden' }
+  }
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -347,6 +354,7 @@ export default (
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
     [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
+    [BridgeType.Datalayers]: getDatalayersColClass,
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
