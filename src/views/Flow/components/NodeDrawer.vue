@@ -99,7 +99,7 @@ import useFlowNode, {
   SourceType,
   SourceTypeAllMsgsAndEvents,
 } from '@/hooks/Flow/useFlowNode'
-import { BridgeDirection } from '@/types/enum'
+import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
 import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
@@ -240,8 +240,8 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [SourceType.Event]: { selectedEvents: selectedEvents.value },
   [ProcessingType.Function]: { nodes: props.nodes },
   [SinkType.RePub]: { isUsingInFlow: true },
-  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px' },
-  [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px' },
+  [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px', type: BridgeType.InfluxDB },
+  [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px', type: BridgeType.Datalayers },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
