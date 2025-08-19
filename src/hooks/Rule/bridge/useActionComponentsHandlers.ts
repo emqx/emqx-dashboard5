@@ -64,10 +64,8 @@ export default (
       return arr
     }, [])
   }
+  const { handlePrivateKey, setComponentProps } = useSchemaHandlers()
 
-  const setComponentProps = (prop: Property, componentProps: Record<string, any>) => {
-    prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
-  }
   const addRules = (rulesNeedAdd: FormRules, totalRules: FormRules) => {
     Object.entries(rulesNeedAdd).forEach(([key, value]) => {
       if (!totalRules[key]) {
@@ -113,7 +111,6 @@ export default (
     return key
   })
 
-  const { handlePrivateKey } = useSchemaHandlers()
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.resource_opts?.properties?.start_after_created) {
