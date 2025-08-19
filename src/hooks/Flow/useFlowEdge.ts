@@ -1,6 +1,5 @@
-import { GraphEdge, ElementData, Node, Styles } from '@vue-flow/core'
-import { FlowNodeType, ProcessingType } from './useFlowNode'
-import useI18nTl from '../useI18nTl'
+import { useFlowEdge } from '@emqx/shared-ui-components'
+import { ElementData, GraphEdge, Styles } from '@vue-flow/core'
 
 export default (): {
   fallbackEdgeStyle: Styles
@@ -11,49 +10,10 @@ export default (): {
       | Pick<GraphEdge<ElementData>, 'source' | 'sourceNode' | 'target' | 'targetNode'>,
   ) => Promise<void>
 } => {
-  const { tl } = useI18nTl('Flow')
-
   const fallbackEdgeStyle = { stroke: '#bbb', strokeDasharray: '5 5' }
   const unavailableEdgeStyle = { stroke: '#eb4e3d' }
 
-  const isInputNode = (node: Node) => node.type === FlowNodeType.Input
-  const isOutputNode = (node: Node) => node.type === FlowNodeType.Output
-  const isDefaultNode = (node: Node) => node.type === FlowNodeType.Default
-  const { isBridgerNode, isActionBridgeNode, isWithFallbackNodes, isLikeFunctionType } =
-    useFlowNode()
-  const checkConnection = async (
-    edge:
-      | GraphEdge<ElementData>
-      | Pick<GraphEdge<ElementData>, 'source' | 'sourceNode' | 'target' | 'targetNode'>,
-  ) => {
-    const { sourceNode, targetNode } = edge
-    if (
-      sourceNode.id === targetNode.id ||
-      (isInputNode(sourceNode) && isInputNode(targetNode)) ||
-      (isOutputNode(sourceNode) && isOutputNode(targetNode) && !isBridgerNode(sourceNode))
-    ) {
-      return Promise.reject(tl('incorrectConnection'))
-    }
-    if (isDefaultNode(sourceNode) && isDefaultNode(targetNode)) {
-      const sourceType = sourceNode.data?.specificType
-      const targetType = targetNode.data?.specificType
-      if (!sourceType || !targetType) {
-        return Promise.resolve()
-      }
-      if (sourceType === ProcessingType.Filter && isLikeFunctionType(targetType)) {
-        return Promise.reject(tl('filterFunctionsWrongOrder'))
-      }
-    }
-    if (isActionBridgeNode(sourceNode)) {
-      if (targetNode.data.specificType === SinkType.Console) {
-        return Promise.reject(tl('consoleFallbackWrong'))
-      }
-      if (isWithFallbackNodes(targetNode)) {
-        return Promise.reject(tl('multipleFallbackWrong'))
-      }
-    }
-    return Promise.resolve()
-  }
+  const { checkConnection } = useFlowEdge()
 
   return {
     fallbackEdgeStyle,
