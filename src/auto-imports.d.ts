@@ -960,7 +960,6 @@ declare module 'vue' {
     readonly useFlowEdge: UnwrapRef<typeof import('./hooks/Flow/useFlowEdge')['default']>
     readonly useFlowEditor: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['default']>
     readonly useFlowEditorDataHandler: UnwrapRef<typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']>
-    readonly useFlowGuideNodes: UnwrapRef<typeof import('./hooks/Flow/useFlowGuideNodes')['default']>
     readonly useFlowNode: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['default']>
     readonly useFlowView: UnwrapRef<typeof import('./hooks/Flow/useFlowView')['default']>
     readonly useFormRules: UnwrapRef<typeof import('./hooks/useFormRules')['default']>
