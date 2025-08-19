@@ -627,7 +627,6 @@ declare module 'vue' {
     readonly DEFAULT_SELECT: UnwrapRef<typeof import('./common/constants')['DEFAULT_SELECT']>
     readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']>
     readonly DEFAULT_ZONE: UnwrapRef<typeof import('./common/constants')['DEFAULT_ZONE']>
-    readonly DOT_RADIUS: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']>
     readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
     readonly ENCRYPTED_PASSWORD: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PASSWORD']>
     readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
@@ -646,8 +645,6 @@ declare module 'vue' {
     readonly HTTP_POST_DEFAULT_HEADERS: UnwrapRef<typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']>
     readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
     readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
-    readonly INPUT_HEIGHT: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']>
-    readonly INPUT_MARGIN_BOTTOM: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_MARGIN_BOTTOM']>
     readonly INTEGRATION_SCHEMA_TYPES: UnwrapRef<typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']>
     readonly INVALID_PUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']>
     readonly IP_REG: UnwrapRef<typeof import('./common/constants')['IP_REG']>
@@ -959,7 +956,6 @@ declare module 'vue' {
     readonly useExhookItemStatus: UnwrapRef<typeof import('./hooks/Exhook/useExhookItemStatus')['default']>
     readonly useExternalSchemaType: UnwrapRef<typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']>
     readonly useFillNewRecord: UnwrapRef<typeof import('./hooks/useFillNewRecord')['default']>
-    readonly useFilterConnectorInForm: UnwrapRef<typeof import('./hooks/Flow/useFilterConnectorInForm')['default']>
     readonly useFlowAvailableFields: UnwrapRef<typeof import('./hooks/Flow/useFlowAvailableFields')['default']>
     readonly useFlowEdge: UnwrapRef<typeof import('./hooks/Flow/useFlowEdge')['default']>
     readonly useFlowEditor: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['default']>
