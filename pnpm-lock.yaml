@@ -14,6 +14,9 @@ importers:
       '@emqx/shared-ui-components':
         specifier: ^0.0.10
         version: 0.0.10(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
+      '@emqx/shared-ui-constants':
+        specifier: ^0.0.3
+        version: 0.0.3
       '@emqx/shared-ui-i18n':
         specifier: ~0.0.55
         version: 0.0.55
@@ -397,6 +400,9 @@ packages:
       sortablejs: ^1.15.6
       tailwindcss: ^3.4
       vue: ^3.2.0
+
+  '@emqx/shared-ui-constants@0.0.3':
+    resolution: {integrity: sha512-ZhxYyoID4K6HXuBm0LbEQDQ4TcJSsoIvotnBDvo7U/fwIYTgFyQ9zaNPsJ4NKStU35K2VwbAO+t6DbV3/Ep3QQ==}
 
  '@emqx/shared-ui-i18n@0.0.55':
     resolution: {integrity: sha512-ueHZ39Ia4dPEcP3qH5HKJF6CGvcTTx5A2enTYFVxzOIqL+UApRclk57MXeUuUVoc5Xa6zKGbpEoelfRX64QQuA==}
@@ -4041,6 +4047,8 @@ snapshots:
       sortablejs: 1.15.3
       tailwindcss: 3.4.17
       vue: 3.5.4(typescript@5.5.4)
+
+  '@emqx/shared-ui-constants@0.0.3': {}
 
   '@emqx/shared-ui-i18n@0.0.55': {}
 

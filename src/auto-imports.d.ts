@@ -537,7 +537,7 @@ declare global {
   export type { NodeItem } from './hooks/Flow/useFlowEditor'
   import('./hooks/Flow/useFlowEditor')
   // @ts-ignore
-  export type { ProcessingType, FlowData, FilterItem, FunctionItem, FunctionForm, FilterFormData, FilterForm } from './hooks/Flow/useFlowNode'
+  export type { FlowData, FilterItem, FunctionItem, FunctionForm, FilterFormData, FilterForm } from './hooks/Flow/useFlowNode'
   import('./hooks/Flow/useFlowNode')
   // @ts-ignore
   export type { GroupedNode } from './hooks/Flow/useGenerateFlowDataUtils'
@@ -1062,7 +1062,6 @@ declare module 'vue' {
     readonly useShowTextByDifferent: UnwrapRef<typeof import('./hooks/useShowTextByDifferent')['default']>
     readonly useSizeMetric: UnwrapRef<typeof import('./hooks/useMetrics')['useSizeMetric']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
-    readonly useSortableFilterList: UnwrapRef<typeof import('./hooks/Flow/useSortableFilterList')['default']>
     readonly useSortableTable: UnwrapRef<typeof import('./hooks/useSortableTable')['default']>
     readonly useSourceList: UnwrapRef<typeof import('./hooks/Rule/action/useSourceList')['default']>
     readonly useSourceSchema: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useSourceSchema']>
