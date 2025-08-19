@@ -401,7 +401,7 @@ export default (
 
   const datalayersHandler: Handler = ({ components, rules }) => {
     const { driver_type } = components?.parameters?.properties ?? {}
-    if (driver_type) {
+    if (props.edit && driver_type) {
       setComponentProps(driver_type, { disabled: true })
     }
     return { components, rules }
