@@ -69,7 +69,7 @@ export const createAICommonForm = () => ({
   },
 })
 export const createAIOpenAIForm = () => ({
-  type: AIProviderType.openai,
+  type: AIProviderType.openai_response,
   model: 'gpt-4o',
   ...createAICommonForm(),
 })
