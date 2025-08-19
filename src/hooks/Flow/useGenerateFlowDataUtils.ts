@@ -315,8 +315,9 @@ export default (): {
   }
 
   const aiNodeSpecificTypeMap = new Map([
-    [AIProviderType.openai, ProcessingType.AIOpenAI],
+    [AIProviderType.openai_response, ProcessingType.AIOpenAI],
     [AIProviderType.anthropic, ProcessingType.AIAnthropic],
+    [AIProviderType.openai, ProcessingType.AIGemini],
   ])
 
   const geminiModelReg = /gemini|gemma/
