@@ -1,43 +1,36 @@
-import { getImg } from './../../common/tools'
 import useBridgeTypeValue, {
   bridgeOrderIndex,
   typesWithProducerAndConsumer,
   useBridgeTypeIcon,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, FilterLogicalOperator } from '@/types/enum'
+import { useFlowNode } from '@emqx/shared-ui-components'
+import {
+  AI_PLACEHOLDER_TYPE,
+  EditedWay,
+  FlowNodeType,
+  NodeType,
+  ProcessingType,
+  SourceTypeAllMsgsAndEvents,
+} from '@emqx/shared-ui-constants'
 import { Edge, Node, Position } from '@vue-flow/core'
 import { RuleSourceType, useRuleInputs } from '../Rule/rule/useRule'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
 import useI18nTl from '../useI18nTl'
+import { getImg } from './../../common/tools'
 
 export type FlowData = Array<Node | Edge>
 
-export const enum NodeType {
-  Source,
-  Processing,
-  Sink,
-  Fallback,
+export {
+  AI_PLACEHOLDER_TYPE,
+  EditedWay,
+  FlowNodeType,
+  NodeType,
+  ProcessingType,
+  SourceTypeAllMsgsAndEvents,
 }
 
 export const SourceType = RuleSourceType
-
-/**
- * Cannot be added, only for show webhook
- */
-export const SourceTypeAllMsgsAndEvents = 'all-msgs-and-events'
-
-/**
- * Because the exact type of the ai node needs to be known after the details are fetched,
- * in order to treat the data as an ai node when processing it, assign a placeholder to it first.
- */
-export const AI_PLACEHOLDER_TYPE = 'ai-placeholder'
-export enum ProcessingType {
-  Function = 'function',
-  AIOpenAI = 'ai-openai',
-  AIAnthropic = 'ai-anthropic',
-  AIGemini = 'ai-gemini',
-  Filter = 'filter',
-}
 
 type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'SysKeeperProxy'
 const ActionSinkType: Omit<typeof BridgeType, OmitKeys> = omit(
@@ -52,12 +45,6 @@ export const SinkType = {
   ...ActionSinkType,
   RePub: 'republish',
   Console: 'console',
-}
-
-export const enum FlowNodeType {
-  Input = 'custom_input',
-  Default = 'custom_default',
-  Output = 'custom_output',
 }
 
 export interface FilterItem {
@@ -79,11 +66,6 @@ export interface FunctionItem {
 interface NodeItem {
   name: string
   specificType: string
-}
-
-export const enum EditedWay {
-  Form,
-  SQL,
 }
 
 export type FunctionForm = {
@@ -133,10 +115,22 @@ export default (): {
 } => {
   const { t, tl } = useI18nTl('Flow')
 
+  const {
+    nodeWidth,
+    getNodeClass,
+    getFlowNodeHookPosition,
+    getTypeCommonData,
+    isBridgerNode,
+    isActionBridgeNode,
+    isWithFallbackNodes,
+    isBridgeType,
+    isAIType,
+    isLikeFunctionType,
+    getNodeInfoFunc: getNodeInfo,
+  } = useFlowNode()
   /**
    * just record, not for setting
    */
-  const nodeWidth = 200
   const getNodeHeight = (specificType: string) => {
     if ([ProcessingType.Function, SinkType.Console].includes(specificType)) {
       return 42
@@ -145,39 +139,6 @@ export default (): {
       return 66
     }
     return 66
-  }
-
-  const nodeClassMap: Record<NodeType, string> = {
-    [NodeType.Source]: 'node-source',
-    [NodeType.Processing]: 'node-processing',
-    [NodeType.Sink]: 'node-sink',
-    [NodeType.Fallback]: 'node-sink',
-  }
-  const getNodeClass = (type: NodeType) => nodeClassMap[type]
-
-  const getFlowNodeHookPosition = (nodeType: FlowNodeType) => {
-    if (nodeType === FlowNodeType.Input) {
-      return { sourcePosition: Position.Right }
-    }
-    if (nodeType === FlowNodeType.Output) {
-      return { targetPosition: Position.Left }
-    }
-    return { sourcePosition: Position.Right, targetPosition: Position.Left }
-  }
-
-  const typeMap = {
-    [NodeType.Source]: FlowNodeType.Input,
-    [NodeType.Processing]: FlowNodeType.Default,
-    [NodeType.Sink]: FlowNodeType.Output,
-    [NodeType.Fallback]: FlowNodeType.Output,
-  }
-  const getTypeCommonData = (type: NodeType) => {
-    const flowNodeType = typeMap[type]
-    return {
-      class: `node-item ${getNodeClass(type)}`,
-      type: flowNodeType,
-      ...getFlowNodeHookPosition(flowNodeType),
-    }
   }
 
   const typeLabelMap = {
@@ -203,109 +164,15 @@ export default (): {
     return ret || titleCase(specificType)
   }
 
-  const countFiltersNum = (filter: FilterFormData) => {
-    return filter.items.reduce((count, item) => {
-      if ('items' in item) {
-        count += countFiltersNum(item)
-      } else {
-        count += 1
-      }
-      return count
-    }, 0)
-  }
-
-  const { getEventList, getEventLabel } = useRuleEvents()
+  const { getEventList } = useRuleEvents()
   getEventList()
 
-  const isNotBridgeSourceNodeTypes = [
-    SourceType.Message,
-    SourceType.Event,
-    SourceTypeAllMsgsAndEvents,
-  ]
-  const isNotBridgeSinkNodeTypes = [SinkType.Console, SinkType.RePub]
-  /**
-   * ‼️‼️‼️ bridge node contains source and action node
-   */
-  const isBridgerNode = ({ type, data }: Partial<Node>): boolean => {
-    const { specificType } = data || {}
-    return (
-      (type === FlowNodeType.Input &&
-        !isNotBridgeSourceNodeTypes.includes(specificType as string)) ||
-      (type === FlowNodeType.Output && !isNotBridgeSinkNodeTypes.includes(specificType as string))
-    )
-  }
-  const isActionBridgeNode = (node: Partial<Node>): boolean =>
-    node.type === FlowNodeType.Output && isBridgerNode(node)
-
-  const isWithFallbackNodes = (node?: Node) => {
-    if (!node || node?.type !== FlowNodeType.Output || !isBridgerNode(node)) {
-      return false
-    }
-    const fallbackActions = node.data.formData?.fallback_actions ?? []
-    return fallbackActions.length > 0
-  }
-  const { sourceOptList, isNotBridgeSourceTypes, inputTypesIconNew, getRuleSourceIcon } =
-    useRuleInputs()
-
-  const isNotBridgeTypes = [
-    ...isNotBridgeSourceTypes,
-    ...Object.values(ProcessingType),
-    SinkType.RePub,
-    SinkType.Console,
-  ]
-  const isBridgeType = (type: string) => {
-    const isBridge = Object.entries(BridgeType).some(([, value]) => value === type)
-    return !isNotBridgeTypes.includes(type) && isBridge
-  }
-
-  const defaultTypesNotAI = [ProcessingType.Filter, ProcessingType.Function]
-  const isAIType = (type: string) => {
-    return (
-      type === AI_PLACEHOLDER_TYPE ||
-      (Object.values(ProcessingType).includes(type as ProcessingType) &&
-        !defaultTypesNotAI.includes(type as ProcessingType))
-    )
-  }
-
-  const isLikeFunctionType = (type: string) => {
-    return isAIType(type) || type === ProcessingType.Function
-  }
-
-  const getFilterInfo = (filter: FilterForm) => {
-    const num = countFiltersNum(filter.form)
-    return `${num} ${t('Flow.condition', num)}`
-  }
+  const { sourceOptList, inputTypesIconNew, getRuleSourceIcon } = useRuleInputs()
 
   // const getFunctionInfo = (func: FunctionForm) => {
   //   const num = func?.form?.length
   //   return num ? `${num} ${t('Flow.functionNum', num)}` : ''
   // }
-
-  const getNodeInfo = (node: Node): string => {
-    const { specificType, formData } = node.data
-    if (!specificType || !formData) {
-      return ''
-    }
-    if (isAIType(specificType)) {
-      return `${t('Flow.systemPrompt')}: ${formData.system_prompt}`
-    }
-    switch (specificType) {
-      case SourceType.Message:
-        return `${t('Base.topic')}: ${formData.topic}`
-      case SourceType.Event:
-        return `${t('RuleEngine.event')}: ${getEventLabel(formData.event)}`
-      case ProcessingType.Function:
-        return ''
-      case ProcessingType.Filter:
-        return getFilterInfo(formData)
-      case SinkType.Console:
-        return ''
-      case SinkType.RePub:
-        return `${t('Base.topic')}: ${formData.args?.topic}`
-      default:
-        return `${t('Base.name')}: ${formData.name}`
-    }
-  }
 
   const adjustTypeForSpecialCases = (type: string): string => {
     if (([SourceType.MQTTBroker, SinkType.MQTT] as Array<string>).includes(type)) {
@@ -369,7 +236,7 @@ export default (): {
     return isTypeUsingNewIcon(adjustedType) ? '' : 'is-scaled-up'
   }
 
-  const generateNodeByType = (type: string): NodeItem => ({
+  const generateNodeByType = (type: string | ProcessingType): NodeItem => ({
     name: getTypeLabel(type),
     specificType: type,
   })
