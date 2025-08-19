@@ -105,7 +105,7 @@ export default (
     return walk(components)
   }
 
-  const { handlePrivateKey } = useSchemaHandlers()
+  const { handlePrivateKey, setComponentProps } = useSchemaHandlers()
   const commonHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.enable) {
@@ -399,6 +399,14 @@ export default (
     return { components, rules }
   }
 
+  const datalayersHandler: Handler = ({ components, rules }) => {
+    const { driver_type } = components?.parameters?.properties ?? {}
+    if (driver_type) {
+      setComponentProps(driver_type, { disabled: true })
+    }
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
@@ -419,6 +427,7 @@ export default (
     [BridgeType.IoTDB, iotDbHandler],
     [BridgeType.DiskLog, diskLogHandler],
     [BridgeType.S3Tables, s3TablesHandler],
+    [BridgeType.Datalayers, datalayersHandler],
   ])
 
   const getComponentsHandler = () => {

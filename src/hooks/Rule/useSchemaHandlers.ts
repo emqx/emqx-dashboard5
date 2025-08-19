@@ -1,4 +1,4 @@
-import { Properties } from '@/types/schemaForm'
+import { Properties, Property } from '@/types/schemaForm'
 
 const useSchemaHandlers = () => {
   const handlePrivateKey = (components: Properties): Properties => {
@@ -19,8 +19,13 @@ const useSchemaHandlers = () => {
     return walk(components)
   }
 
+  const setComponentProps = (prop: Property, componentProps: Record<string, any>) => {
+    prop.componentProps = Object.assign(prop.componentProps || {}, componentProps)
+  }
+
   return {
     handlePrivateKey,
+    setComponentProps,
   }
 }
 
