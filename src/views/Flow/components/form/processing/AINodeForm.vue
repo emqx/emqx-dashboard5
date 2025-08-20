@@ -24,6 +24,15 @@
       <InputWithTextEditDialog v-model="record.system_prompt" :title="t('Flow.systemPrompt')" />
     </CustomFormItem>
     <CustomFormItem prop="model" :label="t('Flow.model')" :readonly="readonly">
+      <template #label>
+        <FormItemLabel
+          :label="t('Flow.model')"
+          :desc="
+            record.type === AIProviderType.openai_response ? t('Flow.openAiModelTip') : undefined
+          "
+          desc-marked
+        />
+      </template>
       <InputWithOptions v-model="record.model" :options="modelOpts" :filterable="false" />
     </CustomFormItem>
     <template v-if="isAnthropicProfile(record)">
@@ -108,7 +117,7 @@
 import { correctAliasReg, GEMINI_DEFAULT_BASE_URL } from '@/common/constants'
 import { ProcessingType } from '@/hooks/Flow/useFlowNode'
 import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
-import { AnthropicVersion } from '@/types/typeAlias'
+import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
 
 const props = defineProps<{
