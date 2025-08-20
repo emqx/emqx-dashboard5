@@ -130,11 +130,7 @@ const useAIModels = () => {
       if (provider === ProcessingType.AIGemini) {
         return requestGeminiModels(data)
       }
-      const { api_key, base_url } = data
-      let { type } = data
-      if (provider === ProcessingType.AIOpenAI) {
-        type = AIProviderType.openai
-      }
+      const { api_key, base_url, type } = data
       const res = await getAIModels({ api_key, type, ...(base_url ? { base_url } : {}) })
       return res
     } catch (error) {
@@ -154,9 +150,12 @@ const useAIModels = () => {
   const getModels = async (data: AIConfig, type: ProcessingType): Promise<Array<string>> => {
     try {
       let ret: Array<string> = []
-      if (/^\*{1,6}$/.test(data.api_key) && data.name) {
+      const isEncryptedPassword = /^\*{1,6}$/.test(data.api_key)
+      const isEditing = isEncryptedPassword && data.name
+      const isGemini = type === ProcessingType.AIGemini
+      if (isEditing && !isGemini) {
         ret = await getProviderModels(data.name)
-      } else if (data.api_key) {
+      } else if (data.api_key && !isEncryptedPassword) {
         ret = await requestModels(data, type)
       }
 
