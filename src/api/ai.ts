@@ -49,7 +49,15 @@ export const deleteAIProvider = (name: string): Promise<void> => {
   return http.delete(`/ai/providers/${encodeURIComponent(name)}`)
 }
 
-export const getAIModels = (providerName: string): Promise<Array<string>> => {
+export const getAIModels = (
+  data: Pick<AIProviderForm, 'api_key' | 'type' | 'base_url'>,
+): Promise<Array<string>> => {
+  return http.post(`/ai/models`, data, {
+    errorsHandleCustom: [503],
+  } as any)
+}
+
+export const getProviderModels = (providerName: string): Promise<Array<string>> => {
   return http.get(`/ai/providers/${encodeURIComponent(providerName)}/models`, {
     errorsHandleCustom: [503],
   } as any)
