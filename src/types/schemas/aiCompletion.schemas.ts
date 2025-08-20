@@ -184,6 +184,47 @@ export type GetAiProviders200Item =
   | AiOpenaiProviderApiGet
   | AiOpenaiResponseProviderApiGet
 
+export type PostAiModels503Code = (typeof PostAiModels503Code)[keyof typeof PostAiModels503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAiModels503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostAiModels503 = {
+  code?: PostAiModels503Code
+  message?: string
+}
+
+export type PostAiModels404Code = (typeof PostAiModels404Code)[keyof typeof PostAiModels404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAiModels404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostAiModels404 = {
+  code?: PostAiModels404Code
+  message?: string
+}
+
+export type PostAiModels400Code = (typeof PostAiModels400Code)[keyof typeof PostAiModels400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAiModels400Code = {
+  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
+} as const
+
+export type PostAiModels400 = {
+  code?: PostAiModels400Code
+  message?: string
+}
+
+export type PostAiModelsBody =
+  | AiAnthropicProviderApiPut
+  | AiOpenaiProviderApiPut
+  | AiOpenaiResponseProviderApiPut
+
 export type PutAiCompletionProfilesName503Code =
   (typeof PutAiCompletionProfilesName503Code)[keyof typeof PutAiCompletionProfilesName503Code]
 
