@@ -1,5 +1,6 @@
-import { getAIModels } from '@/api/ai'
+import { getAIModels, getProviderModels } from '@/api/ai'
 import { AIConfig } from '@/types/rule'
+import { AIProviderType } from '@/types/typeAlias'
 import { ProcessingType } from './useFlowNode'
 import aiModels from '@/common/aiModels.json'
 import axios from 'axios'
@@ -28,11 +29,7 @@ type ModelInfo = OpenAIModel | AnthropicModel | GeminiModel
 
 const useAIModels = () => {
   const getHeaders = (token: string) => ({ Authorization: `Bearer ${token}` })
-  const modelsUrlMap = new Map<ProcessingType, string>([
-    [ProcessingType.AIOpenAI, 'https://api.openai.com/v1/models'],
-    [ProcessingType.AIAnthropic, 'https://api.anthropic.com/v1/models'],
-    [ProcessingType.AIGemini, 'https://generativelanguage.googleapis.com/v1beta/openai/models'],
-  ])
+  const geminiModelsUrl = 'https://generativelanguage.googleapis.com/v1beta/openai/models'
   const filterOpenaiModels = (data: Array<string>) => {
     const doNotUseModels = [
       'whisper',
@@ -110,28 +107,36 @@ const useAIModels = () => {
     [ProcessingType.AIGemini, filterGeminiModels],
   ])
   const http = axios.create()
+  const requestGeminiModels = async (data: AIConfig) => {
+    try {
+      const { api_key, base_url } = data
+
+      const trueBaseUrl = base_url && /\/$/.test(base_url) ? base_url : `${base_url}/`
+      let url = geminiModelsUrl
+      if (trueBaseUrl) {
+        url = `${trueBaseUrl}models`
+      }
+      const { data: res } = await http.get(url, { headers: getHeaders(api_key) })
+      return res.data.map(({ id }: ModelInfo) => id)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
   const requestModels = async (
     data: AIConfig,
     provider: ProcessingType,
   ): Promise<Array<string>> => {
     try {
+      if (provider === ProcessingType.AIGemini) {
+        return requestGeminiModels(data)
+      }
       const { api_key, base_url } = data
-      if (base_url && provider !== ProcessingType.AIGemini) {
-        return Promise.reject()
+      let { type } = data
+      if (provider === ProcessingType.AIOpenAI) {
+        type = AIProviderType.openai
       }
-      const url = modelsUrlMap.get(provider)
-      if (!url) {
-        return Promise.reject(new Error('Invalid provider'))
-      }
-      const { data: res } = await http.get(url, {
-        headers: getHeaders(api_key),
-        params: {
-          ...(provider === ProcessingType.AIAnthropic ? { limit: 1000 } : {}),
-        },
-      })
-      return res.data.map(({ id }: ModelInfo) => {
-        return id
-      })
+      const res = await getAIModels({ api_key, type, ...(base_url ? { base_url } : {}) })
+      return res
     } catch (error) {
       return Promise.reject(error)
     }
@@ -150,7 +155,7 @@ const useAIModels = () => {
     try {
       let ret: Array<string> = []
       if (/^\*{1,6}$/.test(data.api_key) && data.name) {
-        ret = await getAIModels(data.name)
+        ret = await getProviderModels(data.name)
       } else if (data.api_key) {
         ret = await requestModels(data, type)
       }
