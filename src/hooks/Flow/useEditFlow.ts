@@ -1,6 +1,7 @@
 import { getAICompletionProfileDetail, getAIProviderDetail } from '@/api/ai'
 import { getRuleInfo } from '@/api/ruleengine'
 import { RuleItem } from '@/types/rule'
+import { useEditFlow } from '@emqx/shared-ui-components'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 import useRuleEvents from '../Rule/rule/useRuleEvents'
@@ -25,23 +26,17 @@ export default (): {
 } => {
   const route = useRoute()
 
+  const {
+    initialAIData,
+    addAIRecordDataToNodes: addAIRecordDataToNodesInSharedUI,
+    updateInitialAIDataAfterRemoveAINode,
+    addFallbackDataToFlow: addFallbackDataToFlowInSharedUI,
+  } = useEditFlow()
+
   const flowId = computed(() => route.params.id?.toString())
   const ruleData: Ref<undefined | RuleItem> = ref(undefined)
   // let bridgeInfoMap = {}
   const flowData: Ref<undefined | Array<Node | Edge>> = ref(undefined)
-
-  /**
-   * for remove useless AI data when submit
-   */
-  const initialAIData = ref<{
-    provider: Array<string>
-    completion: Array<string>
-  }>({ provider: [], completion: [] })
-  const assignInitialAIData = (name: string, type: 'provider' | 'completion') => {
-    if (!initialAIData.value[type].includes(name)) {
-      initialAIData.value[type].push(name)
-    }
-  }
 
   const getRuleData = async () => {
     try {
@@ -70,66 +65,15 @@ export default (): {
     return nodes
   }
   const addAIRecordDataToNodes = async (nodes: Array<Node>) => {
-    await Promise.allSettled(
-      nodes.map(async (item) => {
-        try {
-          if (isAIType(item.data.specificType)) {
-            const completion = await getAICompletionProfileDetail(item.data.formData?.name)
-            assignInitialAIData(completion.name, 'completion')
-            const provider = await getAIProviderDetail(completion.provider_name)
-            assignInitialAIData(provider.name, 'provider')
-            addAIRecordToAINode(item, provider, completion)
-          }
-          return Promise.resolve()
-        } catch (error) {
-          return Promise.reject()
-        }
-      }),
+    await addAIRecordDataToNodesInSharedUI(
+      nodes,
+      getAICompletionProfileDetail as any,
+      getAIProviderDetail as any,
     )
-
     return nodes
   }
-  const updateInitialAIDataAfterRemoveAINode = (
-    uselessProvider: Array<string>,
-    uselessCompletion: Array<string>,
-  ) => {
-    // Update initAIData to reflect current state after cleanup
-    initialAIData.value.provider = initialAIData.value.provider.filter(
-      (provider) => !uselessProvider.includes(provider),
-    )
-    initialAIData.value.completion = initialAIData.value.completion.filter(
-      (completion) => !uselessCompletion.includes(completion),
-    )
-  }
-  const addFallbackNodeToNodes = (fallbackNode: Node, nodes: GroupedNode) => {
-    const sinkNodeIndex = nodes[NodeType.Sink].findIndex((item) => item.id === fallbackNode.id)
-    if (sinkNodeIndex > -1) {
-      nodes[NodeType.Sink].splice(sinkNodeIndex, 1)
-    }
-    if (!nodes[NodeType.Fallback]) {
-      nodes[NodeType.Fallback] = []
-    }
-    nodes[NodeType.Fallback].push(fallbackNode)
-  }
   const addFallbackDataToFlow = (nodes: GroupedNode, edges: Array<Edge>) => {
-    const retEdges = [...edges]
-    const outputNodes = nodes[NodeType.Sink]
-    for (let index = 0; index < outputNodes.length; index++) {
-      const node = outputNodes[index]
-      if (isBridgerNode(node) && node.data.isCreated) {
-        const { nodes: fallbackNodes, edges: fallbackEdges } = generateFlowDataFromActionItem(
-          node.data.formData,
-        )
-        if (fallbackEdges.length) {
-          ;(fallbackNodes[NodeType.Fallback] ?? []).forEach((item) => {
-            addFallbackNodeToNodes(item, nodes)
-          })
-          retEdges.push(...fallbackEdges)
-        }
-      }
-    }
-    nodes[NodeType.Fallback] = unionBy(nodes[NodeType.Fallback], 'id')
-    return { nodes, edges: retEdges }
+    return addFallbackDataToFlowInSharedUI(nodes, edges, generateFlowDataFromActionItem)
   }
 
   /**
@@ -149,9 +93,8 @@ export default (): {
     addFlagToRemovedBridgeNode,
     addFlagToRemovedAINode,
     generateFlowDataFromActionItem,
-    addAIRecordToAINode,
   } = useGenerateFlowDataUtils()
-  const { isBridgerNode, isAIType } = useFlowNode()
+  const { isBridgerNode } = useFlowNode()
 
   const getFlowData = async () => {
     if (!ruleData.value) {
