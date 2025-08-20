@@ -215,4 +215,8 @@ export default {
     zh: '最大并发连接数',
     en: 'Maximum number of simultaneous connections to the AI provider.',
   },
+  openAiModelTip: {
+    zh: '当前 OpenAI 使用 Responses API，一些较旧的模型不支持该 API，具体请查询 https://platform.openai.com/docs/models/compare?model=o1-mini',
+    en: 'Current OpenAI uses Responses API, some older models do not support this API, please check the https://platform.openai.com/docs/models/compare?model=o1-mini',
+  },
 }
