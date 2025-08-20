@@ -6,12 +6,12 @@
     :node-icon-src="getIconSrc()"
     :support-fallback-actions="isActionNodeButNotFallback"
     :icon-class="iconClass"
-    :overflow-tooltip-component="OverflowTooltip"
+    :overflow-tooltip-component="CommonOverflowTooltip"
   />
 </template>
 
 <script setup lang="ts">
-import OverflowTooltip from '@/components/OverflowTooltip.vue'
+import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import { FlowNode } from '@emqx/shared-ui-components'
 
 const props = defineProps({
