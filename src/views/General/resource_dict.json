@@ -2830,5 +2830,17 @@
       "en": "Delete AI completion profile",
       "zh": "删除 AI 助手条目"
     }
+  },
+  {
+    "method": "post",
+    "path": "/ai/models",
+    "operation_label": {
+      "en": "AI Completion",
+      "zh": "AI 助手"
+    },
+    "operation_name_label": {
+      "en": "List all AI models available for a provider type",
+      "zh": "列出所有可用的 AI 模型"
+    }
   }
 ]
