@@ -15,7 +15,7 @@ import useFlowNode, {
   SinkType,
   SourceTypeAllMsgsAndEvents,
 } from './useFlowNode'
-import { createConsoleForm } from './useNodeForm'
+import { useNodeForm } from '@emqx/shared-ui-components'
 
 /**
  * ID rule of each node
@@ -147,6 +147,7 @@ export default (): {
     }
     return ''
   }
+  const { getCommonFormDataByType } = useNodeForm()
   const generateNodeBaseRuleOutput = (action: OutputItem): Node | undefined => {
     const type = detectOutputType(action)
     if (!type) {
@@ -163,7 +164,7 @@ export default (): {
 
     if (type === SinkType.Console) {
       id = SinkType.Console
-      formData = createConsoleForm()
+      formData = getCommonFormDataByType(SinkType.Console)
     } else if (type === SinkType.RePub) {
       id = `${SinkType.RePub}-${(action as OutputItemObj).args?.topic}`
       formData = action
