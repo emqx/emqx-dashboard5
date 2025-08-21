@@ -17,7 +17,6 @@ declare global {
   const AUTH_PLACEHOLDERS: typeof import('./common/constants')['AUTH_PLACEHOLDERS']
   const AUTH_PLACEHOLDER_CLIENT_ATTRS: typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']
   const AUTO_RESTART_INTERVAL_DEFAULT: typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']
-  const ArgumentType: typeof import('./hooks/useRuleFunc')['ArgumentType']
   const AvailableKey: typeof import('./hooks/Rule/transform/useMessageTransform')['AvailableKey']
   const AvroJsonToObject: typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']
   const BACKGROUND_CIRCLE_INNER_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']
@@ -39,7 +38,6 @@ declare global {
   const DEFAULT_SELECT: typeof import('./common/constants')['DEFAULT_SELECT']
   const DEFAULT_SSL_VERIFY_VALUE: typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']
   const DEFAULT_ZONE: typeof import('./common/constants')['DEFAULT_ZONE']
-  const DOT_RADIUS: typeof import('./hooks/Flow/useFilterConnectorInForm')['DOT_RADIUS']
   const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
   const ENCRYPTED_PASSWORD: typeof import('./common/constants')['ENCRYPTED_PASSWORD']
   const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
@@ -58,8 +56,6 @@ declare global {
   const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
-  const INPUT_HEIGHT: typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_HEIGHT']
-  const INPUT_MARGIN_BOTTOM: typeof import('./hooks/Flow/useFilterConnectorInForm')['INPUT_MARGIN_BOTTOM']
   const INTEGRATION_SCHEMA_TYPES: typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']
   const INVALID_PUB_TOPIC_REG: typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']
   const IP_REG: typeof import('./common/constants')['IP_REG']
@@ -147,17 +143,11 @@ declare global {
   const createAIGeminiForm: typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']
   const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
-  const createConsoleForm: typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']
-  const createEventForm: typeof import('./hooks/Flow/useNodeForm')['createEventForm']
   const createFilterForm: typeof import('./hooks/Flow/useNodeForm')['createFilterForm']
   const createFilterFormData: typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']
   const createFilterItem: typeof import('./hooks/Flow/useNodeForm')['createFilterItem']
-  const createFunctionForm: typeof import('./hooks/Flow/useNodeForm')['createFunctionForm']
-  const createFunctionItem: typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']
-  const createMessageForm: typeof import('./hooks/Flow/useNodeForm')['createMessageForm']
   const createOrderObj: typeof import('./common/tools')['createOrderObj']
   const createRandomString: typeof import('./common/tools')['createRandomString']
-  const createRePubForm: typeof import('./hooks/Flow/useNodeForm')['createRePubForm']
   const createRouter: typeof import('vue-router')['createRouter']
   const createStore: typeof import('vuex')['createStore']
   const createWebHashHistory: typeof import('vue-router')['createWebHashHistory']
@@ -224,7 +214,6 @@ declare global {
   const mergeWith: typeof import('lodash')['mergeWith']
   const nextTick: typeof import('vue')['nextTick']
   const numToFixed: typeof import('./common/tools')['numToFixed']
-  const numberArgTypes: typeof import('./hooks/useRuleFunc')['numberArgTypes']
   const numberReg: typeof import('./common/tools')['numberReg']
   const objectToAvroJson: typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']
   const omit: typeof import('lodash')['omit']
@@ -371,17 +360,14 @@ declare global {
   const useExhookItemStatus: typeof import('./hooks/Exhook/useExhookItemStatus')['default']
   const useExternalSchemaType: typeof import('./hooks/Rule/schema/useExternalSchemaType')['default']
   const useFillNewRecord: typeof import('./hooks/useFillNewRecord')['default']
-  const useFilterConnectorInForm: typeof import('./hooks/Flow/useFilterConnectorInForm')['default']
   const useFlowAvailableFields: typeof import('./hooks/Flow/useFlowAvailableFields')['default']
   const useFlowEdge: typeof import('./hooks/Flow/useFlowEdge')['default']
   const useFlowEditor: typeof import('./hooks/Flow/useFlowEditor')['default']
   const useFlowEditorDataHandler: typeof import('./hooks/Flow/useFlowEditorDataHandler')['default']
-  const useFlowGuideNodes: typeof import('./hooks/Flow/useFlowGuideNodes')['default']
   const useFlowNode: typeof import('./hooks/Flow/useFlowNode')['default']
   const useFlowView: typeof import('./hooks/Flow/useFlowView')['default']
   const useFormRules: typeof import('./hooks/useFormRules')['default']
   const useFormatDebugLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']
-  const useFunctionItemData: typeof import('./hooks/useRuleFunc')['useFunctionItemData']
   const useGatewayStatus: typeof import('./hooks/useTransName')['useGatewayStatus']
   const useGenPluginFormRules: typeof import('./hooks/Plugins/useGenPluginFormRules')['default']
   const useGenerateFlowDataUtils: typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']
@@ -395,7 +381,6 @@ declare global {
   const useHandleAuthzItem: typeof import('./hooks/Auth/useHandleAuthzItem')['default']
   const useHandleConnectorItem: typeof import('./hooks/Rule/connector/useHandleConnectorItem')['default']
   const useHandleExhookItem: typeof import('./hooks/Exhook/useHandleExhookItem')['default']
-  const useHandleFlowDataUtils: typeof import('./hooks/Flow/useHandleFlowDataUtils')['default']
   const useHandleGatewayData: typeof import('./hooks/Gateway/useHandleGatewayData')['default']
   const useHandleSourceItem: typeof import('./hooks/Rule/action/useHandleSourceItem')['default']
   const useI18n: typeof import('vue-i18n')['useI18n']
@@ -433,7 +418,6 @@ declare global {
   const usePaginationRemember: typeof import('./hooks/usePaginationRemember')['default']
   const usePaginationWithHasNext: typeof import('./hooks/usePaginationWithHasNext')['default']
   const usePaging: typeof import('./hooks/usePaging')['default']
-  const useParseWhere: typeof import('./hooks/Flow/useParseWhere')['default']
   const usePassword: typeof import('./hooks/usePassword')['default']
   const usePasswordHashRules: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']
   const usePieChart: typeof import('./hooks/useMetrics')['usePieChart']
@@ -454,7 +438,6 @@ declare global {
   const useRuleEvents: typeof import('./hooks/Rule/rule/useRuleEvents')['default']
   const useRuleFallbackActions: typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']
   const useRuleForm: typeof import('./hooks/Rule/rule/useRuleForm')['default']
-  const useRuleFunc: typeof import('./hooks/useRuleFunc')['default']
   const useRuleInputs: typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']
   const useRuleMetrics: typeof import('./hooks/useMetrics')['useRuleMetrics']
   const useRuleOutputs: typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']
@@ -479,7 +462,6 @@ declare global {
   const useShowTextByDifferent: typeof import('./hooks/useShowTextByDifferent')['default']
   const useSizeMetric: typeof import('./hooks/useMetrics')['useSizeMetric']
   const useSlots: typeof import('vue')['useSlots']
-  const useSortableFilterList: typeof import('./hooks/Flow/useSortableFilterList')['default']
   const useSortableTable: typeof import('./hooks/useSortableTable')['default']
   const useSourceList: typeof import('./hooks/Rule/action/useSourceList')['default']
   const useSourceSchema: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useSourceSchema']
@@ -584,9 +566,6 @@ declare global {
   // @ts-ignore
   export type { DataFilterItem } from './hooks/usePaging'
   import('./hooks/usePaging')
-  // @ts-ignore
-  export type { ArgItem, FuncItem } from './hooks/useRuleFunc'
-  import('./hooks/useRuleFunc')
 }
 
 // for vue template auto import
@@ -605,7 +584,6 @@ declare module 'vue' {
     readonly AUTH_PLACEHOLDERS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDERS']>
     readonly AUTH_PLACEHOLDER_CLIENT_ATTRS: UnwrapRef<typeof import('./common/constants')['AUTH_PLACEHOLDER_CLIENT_ATTRS']>
     readonly AUTO_RESTART_INTERVAL_DEFAULT: UnwrapRef<typeof import('./common/constants')['AUTO_RESTART_INTERVAL_DEFAULT']>
-    readonly ArgumentType: UnwrapRef<typeof import('./hooks/useRuleFunc')['ArgumentType']>
     readonly AvailableKey: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['AvailableKey']>
     readonly AvroJsonToObject: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['AvroJsonToObject']>
     readonly BACKGROUND_CIRCLE_INNER_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_INNER_RADIUS']>
@@ -732,17 +710,11 @@ declare module 'vue' {
     readonly createAIGeminiForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']>
     readonly createAIOpenAIForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
-    readonly createConsoleForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']>
-    readonly createEventForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createEventForm']>
     readonly createFilterForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterForm']>
     readonly createFilterFormData: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']>
     readonly createFilterItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterItem']>
-    readonly createFunctionForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFunctionForm']>
-    readonly createFunctionItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']>
-    readonly createMessageForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createMessageForm']>
     readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
     readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
-    readonly createRePubForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createRePubForm']>
     readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>
     readonly createStore: UnwrapRef<typeof import('vuex')['createStore']>
     readonly createWebHashHistory: UnwrapRef<typeof import('vue-router')['createWebHashHistory']>
@@ -809,7 +781,6 @@ declare module 'vue' {
     readonly mergeWith: UnwrapRef<typeof import('lodash')['mergeWith']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
     readonly numToFixed: UnwrapRef<typeof import('./common/tools')['numToFixed']>
-    readonly numberArgTypes: UnwrapRef<typeof import('./hooks/useRuleFunc')['numberArgTypes']>
     readonly numberReg: UnwrapRef<typeof import('./common/tools')['numberReg']>
     readonly objectToAvroJson: UnwrapRef<typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']>
     readonly omit: UnwrapRef<typeof import('lodash')['omit']>
@@ -964,7 +935,6 @@ declare module 'vue' {
     readonly useFlowView: UnwrapRef<typeof import('./hooks/Flow/useFlowView')['default']>
     readonly useFormRules: UnwrapRef<typeof import('./hooks/useFormRules')['default']>
     readonly useFormatDebugLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']>
-    readonly useFunctionItemData: UnwrapRef<typeof import('./hooks/useRuleFunc')['useFunctionItemData']>
     readonly useGatewayStatus: UnwrapRef<typeof import('./hooks/useTransName')['useGatewayStatus']>
     readonly useGenPluginFormRules: UnwrapRef<typeof import('./hooks/Plugins/useGenPluginFormRules')['default']>
     readonly useGenerateFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']>
@@ -978,7 +948,6 @@ declare module 'vue' {
     readonly useHandleAuthzItem: UnwrapRef<typeof import('./hooks/Auth/useHandleAuthzItem')['default']>
     readonly useHandleConnectorItem: UnwrapRef<typeof import('./hooks/Rule/connector/useHandleConnectorItem')['default']>
     readonly useHandleExhookItem: UnwrapRef<typeof import('./hooks/Exhook/useHandleExhookItem')['default']>
-    readonly useHandleFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useHandleFlowDataUtils')['default']>
     readonly useHandleGatewayData: UnwrapRef<typeof import('./hooks/Gateway/useHandleGatewayData')['default']>
     readonly useHandleSourceItem: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['default']>
     readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
@@ -1016,7 +985,6 @@ declare module 'vue' {
     readonly usePaginationRemember: UnwrapRef<typeof import('./hooks/usePaginationRemember')['default']>
     readonly usePaginationWithHasNext: UnwrapRef<typeof import('./hooks/usePaginationWithHasNext')['default']>
     readonly usePaging: UnwrapRef<typeof import('./hooks/usePaging')['default']>
-    readonly useParseWhere: UnwrapRef<typeof import('./hooks/Flow/useParseWhere')['default']>
     readonly usePassword: UnwrapRef<typeof import('./hooks/usePassword')['default']>
     readonly usePasswordHashRules: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']>
     readonly usePieChart: UnwrapRef<typeof import('./hooks/useMetrics')['usePieChart']>
@@ -1037,7 +1005,6 @@ declare module 'vue' {
     readonly useRuleEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleEvents')['default']>
     readonly useRuleFallbackActions: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']>
     readonly useRuleForm: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleForm')['default']>
-    readonly useRuleFunc: UnwrapRef<typeof import('./hooks/useRuleFunc')['default']>
     readonly useRuleInputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']>
     readonly useRuleMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useRuleMetrics']>
     readonly useRuleOutputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']>
