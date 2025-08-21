@@ -32,6 +32,7 @@ export default (): {
     updateInitialAIDataAfterRemoveAINode,
     addFallbackDataToFlow: addFallbackDataToFlowInSharedUI,
   } = useEditFlow()
+  const { customHandleAINode } = useGenerateFlowDataUtils()
 
   const flowId = computed(() => route.params.id?.toString())
   const ruleData: Ref<undefined | RuleItem> = ref(undefined)
@@ -70,6 +71,14 @@ export default (): {
       getAICompletionProfileDetail as any,
       getAIProviderDetail as any,
     )
+    nodes.forEach((node) => {
+      const { api_key, name, type, provider_name } = node.data.formData || {}
+      const provider = { api_key, name, type }
+      const completion = { provider_name, name, type }
+      if (!node.data.specificType) {
+        customHandleAINode(node, provider, completion)
+      }
+    })
     return nodes
   }
   const addFallbackDataToFlow = (nodes: GroupedNode, edges: Array<Edge>) => {
