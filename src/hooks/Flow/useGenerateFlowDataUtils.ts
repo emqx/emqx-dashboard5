@@ -1,6 +1,6 @@
 import { arraysAreEqual, getTypeAndNameFromKey } from '@/common/tools'
 import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
-import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
+import { AICompletionProfile, AIProviderForm, AIProviderType } from '@/types/typeAlias'
 import { useGenerateFlowDataUtils } from '@emqx/shared-ui-components'
 import { Edge, Node, Styles } from '@vue-flow/core'
 import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
@@ -54,6 +54,11 @@ export default (): {
     provider?: AIProviderForm,
     completion?: AICompletionProfile,
   ) => Node
+  customHandleAINode: (
+    node: Node,
+    provider: AIProviderForm,
+    completion: AICompletionProfile,
+  ) => Node
   generateFlowDataFromRuleItem: (ruleData: RuleItem) => {
     nodes: GroupedNode
     edges: Array<Edge>
@@ -71,13 +76,13 @@ export default (): {
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo, isAIType } = useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     detectFieldsExpressionsEditedWay,
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
-    addAIRecordToAINode,
+    addAIRecordToAINode: addAIRecordToAINodeInShared,
     generateFallbackEdge,
     countNodesPosition,
     isRemovedBridge,
@@ -101,6 +106,55 @@ export default (): {
   const getSpecificTypeForBridge = (bridgeType: string) => getBridgeGeneralType(bridgeType)
 
   /* FIELDS */
+  const aiNodeSpecificTypeMap = new Map([
+    [AIProviderType.openai_response, ProcessingType.AIOpenAI],
+    [AIProviderType.anthropic, ProcessingType.AIAnthropic],
+    [AIProviderType.openai, ProcessingType.AIGemini],
+  ])
+
+  const geminiModelReg = /gemini|gemma/
+  const getAiNodeSpecificType = (
+    provider: AIProviderForm,
+    completion: AICompletionProfile,
+  ): string => {
+    if (provider.type === AIProviderType.openai) {
+      const isGeminiModel = completion.model && geminiModelReg.test(completion.model)
+      const isGeminiBaseUrl = provider.base_url === GEMINI_DEFAULT_BASE_URL
+      if (isGeminiModel || isGeminiBaseUrl) {
+        return ProcessingType.AIGemini
+      }
+    }
+    return aiNodeSpecificTypeMap.get(provider.type) ?? ''
+  }
+
+  const customHandleAINode = (
+    node: Node,
+    provider: AIProviderForm,
+    completion: AICompletionProfile,
+  ) => {
+    if (!node.data.specificType) {
+      node.data.specificType = getAiNodeSpecificType(provider, completion)
+      node.label = getTypeLabel(node.data.specificType)
+      node.data.desc = getNodeInfo(node)
+    }
+    return node
+  }
+
+  const addAIRecordToAINode = (
+    node: Node,
+    provider?: AIProviderForm,
+    completion?: AICompletionProfile,
+  ) => {
+    let retNode = node
+    if (isAIType(node.data.specificType) && provider && completion) {
+      retNode = customHandleAINode(
+        addAIRecordToAINodeInShared(node, provider as any, completion as any),
+        provider as any,
+        completion as any,
+      )
+    }
+    return retNode
+  }
 
   /* SOURCE */
   const { getBridgeIdFromInput, detectInputType } = useRuleInputs()
@@ -258,6 +312,7 @@ export default (): {
     detectWhereDataEditedWay,
     generateFunctionFormFromExpression,
     addAIRecordToAINode,
+    customHandleAINode,
     generateFlowDataFromRuleItem,
     generateFallbackEdge,
     generateFlowDataFromActionItem,
