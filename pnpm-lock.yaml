@@ -404,7 +404,7 @@ packages:
   '@emqx/shared-ui-constants@0.0.3':
     resolution: {integrity: sha512-ZhxYyoID4K6HXuBm0LbEQDQ4TcJSsoIvotnBDvo7U/fwIYTgFyQ9zaNPsJ4NKStU35K2VwbAO+t6DbV3/Ep3QQ==}
 
- '@emqx/shared-ui-i18n@0.0.55':
+  '@emqx/shared-ui-i18n@0.0.55':
     resolution: {integrity: sha512-ueHZ39Ia4dPEcP3qH5HKJF6CGvcTTx5A2enTYFVxzOIqL+UApRclk57MXeUuUVoc5Xa6zKGbpEoelfRX64QQuA==}
 
   '@emqx/shared-ui-utils@0.0.22':
