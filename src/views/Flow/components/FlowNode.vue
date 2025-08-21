@@ -7,11 +7,18 @@
     :support-fallback-actions="isActionNodeButNotFallback"
     :icon-class="iconClass"
     :overflow-tooltip-component="CommonOverflowTooltip"
-  />
+  >
+    <template #label-extra>
+      <OverflowTooltip
+        ><component :is="statusLabel" /><template #content><component :is="statusLabel" /></template
+      ></OverflowTooltip>
+    </template>
+  </FlowNode>
 </template>
 
 <script setup lang="ts">
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
+import OverflowTooltip from '@/components/OverflowTooltip.vue'
 import { FlowNode } from '@emqx/shared-ui-components'
 
 const props = defineProps({
@@ -38,6 +45,17 @@ const isActionNodeButNotFallback = computed(() => {
     return false
   }
   return isBridgerNode(props.data || {}) && !props.data?.data?.isFallback
+})
+
+const { getActionStatusLabel } = useActionAndSourceStatus()
+const statusLabel = computed(() => {
+  return h(
+    'span',
+    {
+      class: 'status-label',
+    },
+    [getActionStatusLabel(props.data?.data?.formData?.status)],
+  )
 })
 </script>
 
