@@ -6,9 +6,15 @@
           <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
           <p class="block-title">{{ transGatewayName(gname) }}</p>
           <el-tag type="info" class="section-status">
-            <span>
-              <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
-              <span>{{ gInfo.status }}</span>
+            <span class="vertical-align-center">
+              <CheckIcon
+                class="status"
+                size="small"
+                :status="gInfo.status === 'running' ? CheckStatus.Check : CheckStatus.Close"
+              />
+              <span class="text-status" :class="gInfo.status === 'running' ? 'success' : 'danger'">
+                {{ statusLabel }}
+              </span>
             </span>
           </el-tag>
         </div>
@@ -28,9 +34,10 @@ import { computed, ref } from 'vue'
 import { getGateway } from '@/api/gateway'
 import { useRoute } from 'vue-router'
 import DetailHeader from '@/components/DetailHeader.vue'
-import { GatewayName } from '@/types/enum'
+import { CheckStatus, GatewayName } from '@/types/enum'
 import useTransName from '@/hooks/useTransName'
 import useI18nTl from '@/hooks/useI18nTl'
+import CheckIcon from '@/components/CheckIcon.vue'
 
 const gInfo = ref<Record<string, any>>({})
 const route = useRoute()
@@ -43,7 +50,7 @@ const types = computed(() => {
   return comonTypes
 })
 const { transGatewayName } = useTransName()
-const { tl } = useI18nTl('Gateway')
+const { t, tl } = useI18nTl('Gateway')
 const matchedUrl = computed(() => {
   const currentPath = route.path || ''
   return (
@@ -61,6 +68,14 @@ const loadGatewayInfo = async () => {
   }
 }
 loadGatewayInfo()
+
+const getStatusLabel = (status: string) => {
+  if (status === 'running') {
+    return t('Dashboard.running')
+  }
+  return t('Dashboard.stopped')
+}
+const statusLabel = computed(() => getStatusLabel(gInfo.value?.status))
 </script>
 
 <style lang="scss">
@@ -91,6 +106,9 @@ loadGatewayInfo()
   }
   .el-form {
     margin-bottom: 24px;
+  }
+  .el-icon.check-icon {
+    margin-right: 4px;
   }
 }
 </style>
