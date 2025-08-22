@@ -21,6 +21,15 @@ export interface PublicMeta {
   page?: number
 }
 
+export type GetAlarms200 = {
+  data?: EmqxMgmtApiAlarmsAlarm[]
+  meta?: PublicMeta
+}
+
+export interface EmqxMgmtApiAlarmsForceDeactivateAlarmRequest {
+  name?: string
+}
+
 export type EmqxMgmtApiAlarmsAlarmDetails = { [key: string]: unknown }
 
 export interface EmqxMgmtApiAlarmsAlarm {
@@ -31,9 +40,4 @@ export interface EmqxMgmtApiAlarmsAlarm {
   message?: string
   name?: string
   node?: string
-}
-
-export type GetAlarms200 = {
-  data?: EmqxMgmtApiAlarmsAlarm[]
-  meta?: PublicMeta
 }

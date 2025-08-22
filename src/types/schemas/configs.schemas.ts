@@ -1126,13 +1126,9 @@ export interface EmqxEventNames {
 export interface EmqxDurableSessions {
   /** @minimum 1 */
   batch_size?: number
+  checkpoint_interval?: string
   enable?: boolean
-  heartbeat_interval?: string
-  idle_poll_interval?: string
   message_retention_period?: string
-  /** @minimum 1 */
-  session_gc_batch_size?: number
-  session_gc_interval?: string
 }
 
 export type EmqxConsoleHandlerTimestampFormat =
