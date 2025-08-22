@@ -82,13 +82,13 @@ const gname = String(route.params.name).toLowerCase()
 
 const allMechanism = Object.values(AuthnMechanismType)
 const disabledMechanism = computed(() => {
-  const enabledMechanism = GATEWAY_ENABLED_MECHANISM_MAP[gname]
+  const enabledMechanism = GATEWAY_ENABLED_MECHANISM_MAP[gname] ?? []
   return allMechanism.filter((mechanism) => !enabledMechanism.includes(mechanism))
 })
 
 const allDatabases = Object.values(DatabasesType)
 const disabledDatabases = computed(() => {
-  const enabledDatabases = GATEWAY_ENABLED_DATABASES_MAP[gname]
+  const enabledDatabases = GATEWAY_ENABLED_DATABASES_MAP[gname] ?? []
   return allDatabases.filter((database) => !enabledDatabases.includes(database))
 })
 

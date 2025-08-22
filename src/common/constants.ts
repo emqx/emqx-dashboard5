@@ -76,7 +76,7 @@ export const GATEWAY_ENABLED_MECHANISM_MAP = {
   [GatewayName.LwM2M]: [AuthnMechanismType.PasswordBased],
   [GatewayName.GBT32960]: [AuthnMechanismType.PasswordBased],
   [GatewayName.JT808]: [],
-  [GatewayName.OCPP]: [AuthnMechanismType.PasswordBased, AuthnMechanismType.JWT],
+  [GatewayName.OCPP]: [AuthnMechanismType.PasswordBased],
 }
 
 const usefulDatabaseTypeArr = [
@@ -94,6 +94,7 @@ export const GATEWAY_ENABLED_DATABASES_MAP = {
   [GatewayName.MQTT_SN]: [DatabasesType.HTTPServer],
   [GatewayName.LwM2M]: [DatabasesType.HTTPServer],
   [GatewayName.GBT32960]: [DatabasesType.HTTPServer],
+  [GatewayName.OCPP]: usefulDatabaseTypeArr,
 }
 
 /* 
