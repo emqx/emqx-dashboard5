@@ -263,10 +263,24 @@ export default (
 
   const rabbitMQHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
+    const { payload_template, headers_template, properties_template } =
+      components?.parameters?.properties ?? {}
 
-    if (components?.parameters?.properties?.payload_template?.type === 'string') {
-      components.parameters.properties.payload_template.format = 'sql'
+    if (payload_template?.type === 'string') {
+      payload_template.format = 'sql'
     }
+
+    const addLabelForKeyValueArrProp = (prop: Property) => {
+      const { key, value } = prop?.items?.properties || {}
+      if (!key || !value) {
+        return
+      }
+      key.label = t('components.key')
+      value.label = t('components.value')
+    }
+
+    addLabelForKeyValueArrProp(headers_template)
+    addLabelForKeyValueArrProp(properties_template)
 
     return { components, rules }
   }

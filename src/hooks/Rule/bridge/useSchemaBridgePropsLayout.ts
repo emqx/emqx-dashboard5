@@ -213,13 +213,15 @@ export default (
         'exchange',
         'routing_key',
         'delivery_mode',
-        'wait_for_publish_confirmations',
-        'publish_confirmation_timeout',
-        'payload_template',
-        /* source */
+        /* source start */
         'queue',
         'no_ack',
+        /* source end */
         'wait_for_publish_confirmations',
+        'headers_template',
+        'properties_template',
+        'publish_confirmation_timeout',
+        'payload_template',
       ]),
       fieldStartIndex,
     ),
