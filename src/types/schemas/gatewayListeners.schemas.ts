@@ -1587,6 +1587,7 @@ export const AuthnMongoSingleBackend = {
 export interface AuthnMongoSingle {
   auth_source?: string
   backend: AuthnMongoSingleBackend
+  clientid_override_field?: string
   collection: string
   database: string
   enable?: boolean
@@ -1663,6 +1664,7 @@ export const AuthnMongoShardedBackend = {
 export interface AuthnMongoSharded {
   auth_source?: string
   backend: AuthnMongoShardedBackend
+  clientid_override_field?: string
   collection: string
   database: string
   enable?: boolean
@@ -1742,6 +1744,7 @@ export const AuthnMongoRsBackend = {
 export interface AuthnMongoRs {
   auth_source?: string
   backend: AuthnMongoRsBackend
+  clientid_override_field?: string
   collection: string
   database: string
   enable?: boolean
@@ -2065,6 +2068,7 @@ export const AuthnHashMethodType = {
 } as const
 
 export interface AuthnHashMethod {
+  clientid_override_attribute?: string
   is_superuser_attribute?: string
   password_attribute?: string
   type?: AuthnHashMethodType
@@ -2169,6 +2173,7 @@ export const AuthnBindMethodType = {
 
 export interface AuthnBindMethod {
   bind_password?: string
+  clientid_override_attribute?: string
   is_superuser_attribute?: string
   type?: AuthnBindMethodType
 }

@@ -143,6 +143,21 @@ export type GetMtManagedNsListParams = {
   limit?: number
 }
 
+export type PostMtBulkImportNsConfigs400Code =
+  (typeof PostMtBulkImportNsConfigs400Code)[keyof typeof PostMtBulkImportNsConfigs400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMtBulkImportNsConfigs400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostMtBulkImportNsConfigs400 = {
+  code?: PostMtBulkImportNsConfigs400Code
+  message?: string
+}
+
+export type PostMtBulkImportNsConfigs200 = { [key: string]: unknown }
+
 export type PostMtBulkImportConfigs500Code =
   (typeof PostMtBulkImportConfigs500Code)[keyof typeof PostMtBulkImportConfigs500Code]
 
@@ -168,6 +183,21 @@ export type PostMtBulkImportConfigs400 = {
   code?: PostMtBulkImportConfigs400Code
   message?: string
 }
+
+export type PostMtBulkExportNsConfigs400Code =
+  (typeof PostMtBulkExportNsConfigs400Code)[keyof typeof PostMtBulkExportNsConfigs400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMtBulkExportNsConfigs400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostMtBulkExportNsConfigs400 = {
+  code?: PostMtBulkExportNsConfigs400Code
+  message?: string
+}
+
+export type PostMtBulkExportNsConfigs200 = { [key: string]: unknown }
 
 export type DeleteMtBulkDeleteNs500Code =
   (typeof DeleteMtBulkDeleteNs500Code)[keyof typeof DeleteMtBulkDeleteNs500Code]
@@ -220,6 +250,21 @@ export interface MtConfigOut {
 export interface MtConfigIn {
   limiter?: MtLimiterConfigIn
   session?: MtSessionConfigIn
+}
+
+export type MtBulkImportNsConfigsInConfigsName = { [key: string]: unknown }
+
+export type MtBulkImportNsConfigsInConfigs = {
+  $name?: MtBulkImportNsConfigsInConfigsName
+}
+
+export interface MtBulkImportNsConfigsIn {
+  configs: MtBulkImportNsConfigsInConfigs
+  dry_run: boolean
+}
+
+export interface MtBulkExportNsConfigsIn {
+  namespaces: string[]
 }
 
 export interface MtBulkDeleteNsIn {
