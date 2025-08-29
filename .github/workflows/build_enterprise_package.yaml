@@ -14,8 +14,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    container: node:16.20
     steps:
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.20'
       - uses: actions/checkout@v2
       - name: install zip
         run: apt-get update && apt-get install -y zip
