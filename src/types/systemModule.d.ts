@@ -1,4 +1,4 @@
-import { ExhookFailedAction, ExhookStatus } from './enum'
+import { ExhookFailedAction, ExhookStatus, UserRole } from './enum'
 import { SSL } from './common'
 
 export interface APIKeyFormWhenCreating {
@@ -84,6 +84,8 @@ interface ExhookMetricItem {
 export interface User {
   description: string
   username: string
+  role: UserRole
+  namespace: string | null
 }
 
 export interface UserItem {

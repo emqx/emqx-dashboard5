@@ -28,6 +28,11 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column :label="t('BasicConfig.namespace')" :min-width="120">
+        <template #default="{ row }">
+          {{ row.namespace }}
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="386">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
@@ -109,6 +114,26 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item
+          v-if="accessType !== 'chPass'"
+          :label="t('BasicConfig.namespace')"
+          prop="namespace"
+        >
+          <div class="vertical-align-center">
+            <el-switch
+              v-model="isNamespaceEnabled"
+              :disabled="accessType === 'edit'"
+              @change="toggleNamespaceEnabled"
+            />
+            <el-select
+              v-if="isNamespaceEnabled"
+              v-model="record.namespace"
+              :disabled="accessType === 'edit'"
+            >
+              <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
+            </el-select>
+          </div>
+        </el-form-item>
         <div v-if="accessType === 'chPass'">
           <el-input class="username-placeholder" v-model="record.username" disabled />
           <el-form-item prop="newPassword" :label="tl('newPassword')">
@@ -156,6 +181,7 @@
 </template>
 
 <script setup>
+import { getManagedNamespaceList } from '@/api/config'
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
@@ -172,6 +198,28 @@ const accessType = ref('')
 const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
+
+const { processUserRecordForSubmit } = useNamespaceUser()
+
+const isNamespaceEnabled = ref(false)
+const namespaceOptions = ref([])
+const isNamespaceOptionsLoaded = ref(false)
+const queryNamespaceList = async () => {
+  try {
+    const res = await getManagedNamespaceList()
+    namespaceOptions.value = res
+    isNamespaceOptionsLoaded.value = true
+  } catch (error) {
+    //
+  }
+}
+const toggleNamespaceEnabled = () => {
+  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
+    queryNamespaceList()
+  } else if (!isNamespaceEnabled.value && record.value.namespace) {
+    record.value.namespace = ''
+  }
+}
 
 const { userRoleOptions } = useRole()
 
@@ -272,6 +320,7 @@ const generateRawForm = () => ({
   description: '',
   role: UserRole.Admin,
   password: '',
+  namespace: '',
 })
 
 const isCurrentUser = (user) => user === currentUser.value.username
@@ -292,6 +341,7 @@ const showDialog = (type = 'create', item = {}) => {
   } else {
     record.value = generateRawForm()
   }
+  isNamespaceEnabled.value = !!record.value.namespace
   accessType.value = type
 }
 
@@ -312,6 +362,11 @@ const trimUserName = () => {
 
 const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
+const getRecordForUpdating = () => {
+  const ret = processUserRecordForSubmit(record.value)
+  return pick(ret, ['description', 'role'])
+}
+
 const save = async () => {
   try {
     await formCom.value.validate()
@@ -319,7 +374,7 @@ const save = async () => {
     const { username } = record.value
     if (accessType.value === 'edit') {
       const backend = getBackend(record.value.backend)
-      await updateUser(username, pick(record.value, ['description', 'role']), backend)
+      await updateUser(username, getRecordForUpdating(), backend)
       ElMessage.success(t('Base.updateSuccess'))
     } else if (accessType.value === 'chPass') {
       const pass = {
@@ -332,7 +387,7 @@ const save = async () => {
         store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', true)
       }
     } else {
-      await createUser(record.value)
+      await createUser(processUserRecordForSubmit(record.value))
       ElMessage.success(tl('createUserSuccess'))
     }
     loadData()
@@ -383,5 +438,12 @@ onBeforeMount(async () => {
 <style lang="scss" scoped>
 .username-placeholder {
   display: none;
+}
+.vertical-align-center {
+  flex-grow: 1;
+  .el-select {
+    flex-grow: 1;
+    margin-left: 8px;
+  }
 }
 </style>
