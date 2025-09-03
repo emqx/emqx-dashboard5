@@ -409,6 +409,7 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
+  const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
