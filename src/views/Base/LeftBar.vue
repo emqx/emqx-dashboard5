@@ -94,7 +94,7 @@ export default defineComponent({
 
     const { menuList } = useMenus()
 
-    menus.value = menuList
+    menus.value = menuList.value
     return {
       store,
       theme,

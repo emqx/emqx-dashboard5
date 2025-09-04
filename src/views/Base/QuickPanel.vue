@@ -92,7 +92,7 @@ const findParentAndBlock = (path: string) => {
     return false
   }
 
-  const block = menuList.find((item) => walk(item))
+  const block = menuList.value.find((item) => walk(item))
   return {
     parentLabel: parent ? t(`components.${parent.title}`) : undefined,
     blockTitle: block ? t(`components.${block.title}`) : '',

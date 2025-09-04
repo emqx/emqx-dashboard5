@@ -77,6 +77,7 @@ import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
+import useNamespaceUserRouter from '@/hooks/useNamespaceUserRouter'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -142,6 +143,9 @@ export default defineComponent({
       }
       return true
     })
+
+    const { checkAndRemoveRoutersCanNotAccess } = useNamespaceUserRouter()
+    checkAndRemoveRoutersCanNotAccess()
 
     const initLicense = async () => {
       try {
