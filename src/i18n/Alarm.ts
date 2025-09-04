@@ -87,4 +87,16 @@ export default {
     zh: '确认清除当前所有历史告警吗？',
     en: 'Confirm to clear all history alarms?',
   },
+  deactivate: {
+    zh: '关闭',
+    en: 'Deactivate',
+  },
+  deactivateConfirm: {
+    zh: '确认关闭告警吗？关闭后告警记录可在历史告警中查看',
+    en: 'Confirm to deactivate the alarm? After deactivated, the alarm record can be viewed in the history alarm.',
+  },
+  deactivateSuccess: {
+    zh: '关闭告警成功',
+    en: 'Alarm is deactivated successfully',
+  },
 }
