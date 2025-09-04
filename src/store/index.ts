@@ -250,5 +250,8 @@ export default createStore({
     isCommunityLicense(state) {
       return state.licenseData.type === LicenseType.Community
     },
+    isNamespaceUser(state) {
+      return !!state.user.namespace
+    },
   },
 })

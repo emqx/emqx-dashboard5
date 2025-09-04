@@ -6,8 +6,11 @@ export interface Menu {
 }
 
 export default (): {
-  menuList: Array<Menu>
+  menuList: Ref<Array<Menu>>
 } => {
+  const store = useStore()
+  const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -88,7 +91,7 @@ export default (): {
     { title: 'hot-upgrade', path: '/hot-upgrade' },
   ]
 
-  const menuList = [
+  const totalMenuList = [
     {
       title: 'monitoring',
       icon: 'icon-monitoring',
@@ -125,6 +128,13 @@ export default (): {
       children: system,
     },
   ]
+
+  const menuList = computed(() => {
+    if (isNamespaceUser.value) {
+      return totalMenuList.filter((menu) => menu.title === 'ruleengine')
+    }
+    return totalMenuList
+  })
 
   return {
     menuList,

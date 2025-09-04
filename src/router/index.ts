@@ -1,3 +1,4 @@
+import { routesRegNamespaceUserCanAccess } from '@/hooks/useNamespaceUserRouter'
 import store from '@/store'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
@@ -1051,25 +1052,35 @@ router.beforeEach((to, from, next) => {
   const { fullPath, meta } = to
   const { authRequired = false } = meta
   const info = store.state.user
+  const isNamespaceUser = store.getters.isNamespaceUser
 
   if (authRequired && !info.token) {
     toLogin(fullPath)
+  }
+  if (
+    isNamespaceUser &&
+    !routesRegNamespaceUserCanAccess.some((reg) => reg.test(to.name as string))
+  ) {
+    next({ name: 'not-found' })
   }
   next()
 })
 
 //Logout and go to Login page
-export function toLogin(path?: string): void {
+export async function toLogin(path?: string): Promise<void> {
   store.commit('UPDATE_USER_INFO', { logOut: true })
   store.commit('UPDATE_EDITION', null)
   store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
   store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
   const currentPath = router.currentRoute.value.path
-  currentPath !== '/login' &&
-    router.push({
+  if (currentPath !== '/login') {
+    await router.push({
       path: '/login',
       query: { to: path ? path : (currentPath ?? undefined) },
     })
+    // for refresh routers
+    window.setTimeout(() => window.location.reload(), 500)
+  }
 }
 
 export default router

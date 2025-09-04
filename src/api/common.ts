@@ -13,15 +13,14 @@ import {
   LicenseData,
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
-import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
-import { ClusterInfo } from '@/types/typeAlias'
+import { ClusterInfo, LoginResponse } from '@/types/typeAlias'
 
 //account
 export function login(user: {
   password: string
   username: string
   mfa_token?: string
-}): Promise<PostLogin200> {
+}): Promise<LoginResponse> {
   return http.post('/login', user, { keepSpaces: true })
 }
 

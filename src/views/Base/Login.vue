@@ -326,9 +326,10 @@ import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
 import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
-import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { LoginResponse } from '@/types/typeAlias'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
+import type { RouteLocationRaw } from 'vue-router'
 
 interface MFAError {
   cluster_name: string
@@ -492,7 +493,7 @@ const checkPasswordChange = () => {
 }
 
 const { updateBaseInfo } = useUpdateBaseInfo()
-const updateStoreInfo = (username: string, data: PostLogin200) =>
+const updateStoreInfo = (username: string, data: LoginResponse) =>
   updateBaseInfo(username, data, currentLoginBackend.value)
 
 let timerForHideLoginLockedAlert: number | undefined
@@ -557,9 +558,12 @@ const login = async (auto = false) => {
 }
 
 const redirectToDashboard = () => {
-  router.replace({
-    path: (route.query.to ?? '/dashboard').toString(),
-  })
+  const preTo = route.query.to
+  let targetRoute: RouteLocationRaw = { path: (preTo ?? '/dashboard').toString() }
+  if (store.getters.isNamespaceUser) {
+    targetRoute = preTo ? { path: preTo.toString() } : { name: 'webhook' }
+  }
+  router.replace(targetRoute)
 }
 
 const submit = async () => {

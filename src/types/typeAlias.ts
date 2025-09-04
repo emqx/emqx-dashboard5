@@ -97,6 +97,12 @@ import {
   AiAnthropicProviderApiPutAnthropicVersion,
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
+import { PostLogin200 } from './schemas/dashboard.schemas'
+
+/* BASE */
+export interface LoginResponse extends PostLogin200 {
+  namespace?: string | null
+}
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp

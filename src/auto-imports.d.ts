@@ -977,6 +977,7 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
+    readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
