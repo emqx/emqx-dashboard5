@@ -195,6 +195,24 @@ export default {
     label: '存储 QoS 0 消息',
   },
   /* SESSION END */
+  /* DURABLE SESSIONS START */
+  durable_sessions_enable: {
+    label: '启用会话持久化',
+    desc: '暂不支持通过热配置修改，请在配置文件中设置 `durable_sessions.enable = true｜false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
+  },
+  batch_size: {
+    label: '消息查询批大小',
+    desc: '持久会话以批量方式查询已保存的消息，这个值指定了批处理的大小。注意：较大的批次通常会提高系统的吞吐量和整体性能，但会增加每个客户端的内存使用量。',
+  },
+  checkpoint_interval: {
+    label: '检查间隔',
+    desc: '持久会话定期将状态备份到磁盘的时间间隔。系统会按照此间隔定期执行检查操作。',
+  },
+  message_retention_period: {
+    label: '消息保留时长',
+    desc: '持久会话中消息保留时长，超期的消息不会发送到订阅者。',
+  },
+  /* DURABLE SESSIONS END */
   /* LOG START */
   enable: {
     desc: '启用此日志处理进程。',

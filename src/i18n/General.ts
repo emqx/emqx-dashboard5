@@ -447,62 +447,6 @@ export default {
     zh: '请先上传文件',
     en: 'Please upload file first',
   },
-  enableDurableSessions: {
-    zh: '启用会话持久化',
-    en: 'Enable Durable Sessions',
-  },
-  enableDurableSessionsDesc: {
-    zh: '暂不支持通过热配置修改，请在配置文件中设置 `durable_sessions.enable = true｜false` 以启用或禁用。启用后，客户端的会话数据将会被持久存储，即使服务器重启也能够进行恢复。',
-    en: "Not supported by hot config, please set `durable_sessions.enable = true｜false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
-  },
-  batchSize: {
-    zh: '消息查询批大小',
-    en: 'Message Query Batch Size',
-  },
-  batchSizeDesc: {
-    zh: '持久会话以批量方式查询已保存的消息，这个值指定了批处理的大小。注意：较大的批次通常会提高系统的吞吐量和整体性能，但会增加每个客户端的内存使用量。',
-    en: 'The persistent session queries stored messages in a batch; this value specifies the size of the batch. Note: larger batches generally improve the throughput and overall performance of the system, but increase RAM usage per client.',
-  },
-  idlePollInterval: {
-    zh: '空闲轮询间隔',
-    en: 'Idle Poll Interval',
-  },
-  idlePollIntervalDesc: {
-    zh: '当客户端空闲时（飞行窗口为空），以这个时间间隔内轮询持久存储，以查询新消息并将其发送给客户端。',
-    en: 'When the client is idle (the flight window is empty), it polls the durable storage at this interval to query for new messages and deliver them to the client.',
-  },
-  lastAliveUpdateInterval: {
-    zh: '会话心跳间隔',
-    en: 'Session Heartbeat Interval',
-  },
-  lastAliveUpdateIntervalDesc: {
-    zh: '以设置的时间间隔，持续更新会话最后一次存活的时间戳。当会话非正常终止（例如，EMQX 节点以 kill -9 终止），会话垃圾回收器将根据会话最后存活时间计算过期时间，并销毁过期离线会话。',
-    en: 'At the configured interval, continuously update the timestamp of the last session alive. When a session terminates abnormally (e.g., when an EMQX node is terminated with kill -9), the session garbage collector will calculate the expiration time based on the last session alive timestamp and destroy expired offline sessions.',
-  },
-  sessionGcInterval: {
-    zh: '会话垃圾回收间隔',
-    en: 'Session GC Interval',
-  },
-  sessionGcIntervalDesc: {
-    zh: '会话垃圾回收的时间间隔。',
-    en: 'The interval at which session garbage collection is executed for persistent sessions.',
-  },
-  sessionGcBatchSize: {
-    zh: '会话垃圾回收批大小',
-    en: 'Session GC Batch Size',
-  },
-  sessionGcBatchSizeDesc: {
-    zh: '过期会话垃圾回收批处理大小。',
-    en: 'The size of each batch of expired persistent sessions to be garbage collected per iteration.',
-  },
-  messageRetentionPeriod: {
-    zh: '消息保留时长',
-    en: 'Message Retention Period',
-  },
-  messageRetentionPeriodDesc: {
-    zh: '持久会话中消息保留时长，超期的消息不会发送到订阅者。',
-    en: 'The duration of message retention in a persistent session,  messages that expire are not delivered to subscribers.',
-  },
   enableForceShutdown: {
     zh: '启用强制关闭',
     en: 'Enable Force Shutdown',

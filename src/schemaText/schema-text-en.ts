@@ -197,6 +197,24 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'Store QoS 0 Message',
   },
   /* SESSION END */
+  /* DURABLE SESSIONS START */
+  durable_sessions_enable: {
+    label: 'Enable Durable Sessions',
+    desc: "Not supported by hot config, please set `durable_sessions.enable = true｜false` in config file to enable or disable. If enabled, the client's session data will be durable and can be restored even if the server is restarted.",
+  },
+  batch_size: {
+    label: 'Message Query Batch Size',
+    desc: 'The persistent session queries stored messages in a batch; this value specifies the size of the batch. Note: larger batches generally improve the throughput and overall performance of the system, but increase RAM usage per client.',
+  },
+  checkpoint_interval: {
+    label: 'Checkpoint Interval',
+    desc: 'Durable sessions periodically back up their state to disc. This happens every checkpoint interval.',
+  },
+  message_retention_period: {
+    label: 'Message Retention Period',
+    desc: 'The duration of message retention in a persistent session,  messages that expire are not delivered to subscribers.',
+  },
+  /* DURABLE SESSIONS END */
   /* LOG START */
   enable: {
     desc: 'Enable this log handler.',

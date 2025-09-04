@@ -1,163 +1,46 @@
 <template>
-  <div class="session-persistence app-wrapper">
-    <el-card class="allow-overflow">
-      <el-skeleton v-if="configLoading" :rows="12" animated />
-      <div class="schema-form" v-else>
-        <el-form
-          ref="sessionPersistenceForm"
-          class="configuration-form"
-          label-position="right"
-          :label-width="store.state.lang === 'zh' ? 202 : 238"
-          :model="sessionPersistenceConfig"
-          :validate-on-rule-change="false"
-          @keyup.enter="updateConfigData()"
-        >
-          <el-row>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="enable">
-                <template #label>
-                  <FormItemLabel
-                    desc-marked
-                    :label="tl('enableDurableSessions')"
-                    :desc="tl('enableDurableSessionsDesc')"
-                  />
-                </template>
-                <el-switch disabled v-model="sessionPersistenceConfig.enable" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="message_retention_period">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('messageRetentionPeriod')"
-                    :desc="tl('messageRetentionPeriodDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.message_retention_period"
-                  number-placeholder="5000"
-                  :enabled-units="['d', 'h', 'm']"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="batch_size">
-                <template #label>
-                  <FormItemLabel :label="tl('batchSize')" :desc="tl('batchSizeDesc')" />
-                </template>
-                <CustomInputNumber
-                  v-model.number="sessionPersistenceConfig.batch_size"
-                  placeholder="100"
-                  :min="0"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="idle_poll_interval">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('idlePollInterval')"
-                    :desc="tl('idlePollIntervalDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.idle_poll_interval"
-                  number-placeholder="100"
-                  :enabled-units="['m', 's', 'ms']"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="heartbeat_interval">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('lastAliveUpdateInterval')"
-                    :desc="tl('lastAliveUpdateIntervalDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.heartbeat_interval"
-                  number-placeholder="5000"
-                  :enabled-units="['m', 's', 'ms']"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="session_gc_interval">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('sessionGcInterval')"
-                    :desc="tl('sessionGcIntervalDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="sessionPersistenceConfig.session_gc_interval"
-                  number-placeholder="5000"
-                  :enabled-units="['h', 'm', 's']"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="session_gc_batch_size">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('sessionGcBatchSize')"
-                    :desc="tl('sessionGcBatchSizeDesc')"
-                  />
-                </template>
-                <CustomInputNumber
-                  v-model.number="sessionPersistenceConfig.session_gc_batch_size"
-                  placeholder="100"
-                  :min="0"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="24" class="btn-col">
-              <el-button
-                type="primary"
-                :loading="saveLoading"
-                :disabled="!$hasPermission('put')"
-                @click="updateConfigData()"
-              >
-                {{ $t('Base.saveChanges') }}
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
+  <div class="durable-sessions app-wrapper">
+    <el-card class="app-card allow-overflow">
+      <schema-form
+        ref="SchemaFormCom"
+        type="durable_sessions"
+        :according-to="accordingTo"
+        :form="configs"
+        :btn-loading="saveLoading"
+        :form-props="{ labelWidth: state.lang === 'zh' ? 160 : 250 }"
+        :record-loading="configLoading"
+        :data-handler="handleSchema"
+        :props-order-map="propsOrder"
+        @save="handleSave"
+      />
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { Zone } from '@/types/config'
+import { DurableSessions, Zone } from '@/types/config'
+import { Properties } from '@/types/schemaForm'
 
-const { t, tl } = useI18nTl('General')
-
-const configLoading = ref(false)
+const configs = ref<DurableSessions>({} as DurableSessions)
 const saveLoading = ref(false)
-const store = useStore()
-let rawData: any = undefined
-const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
-  enable: false,
-  batch_size: 100,
-  idle_poll_interval: '100ms',
-  heartbeat_interval: '5000ms',
-  session_gc_interval: '10m',
-  session_gc_batch_size: 100,
-  message_retention_period: '1d',
-})
+const configLoading = ref(false)
+const { state } = useStore()
+const { t } = useI18n()
 
-const checkDataIsChanged = () => !isEqual(sessionPersistenceConfig.value, rawData)
+let rawData: any = undefined
+const SchemaFormCom = ref()
+const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
+
+const accordingTo = { ref: `#/components/schemas/emqx.durable_sessions` }
 
 const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getDefaultZoneConfigs()
-    sessionPersistenceConfig.value = res.durable_sessions
-    rawData = cloneDeep(sessionPersistenceConfig.value)
+    configs.value = res.durable_sessions
+    rawData = cloneDeep(configs.value)
   } catch (error) {
     //
   } finally {
@@ -165,25 +48,42 @@ const loadData = async () => {
   }
 }
 
-const updateConfigData = async () => {
-  saveLoading.value = true
+const propsOrder = createOrderObj(
+  ['enable', 'message_retention_period', 'batch_size', 'checkpoint_interval'],
+  0,
+)
+
+interface SchemaData {
+  components: Properties
+  rules: SchemaRules
+}
+
+const handleSchema = (data: SchemaData) => {
+  const { components, rules } = data
+  const { enable, message_retention_period } = components
+  if (enable) {
+    enable.componentProps = { disabled: true }
+  }
+  if (message_retention_period) {
+    message_retention_period.componentProps = { enabledUnits: ['ms', 's', 'm', 'h', 'd'] }
+  }
+  return { components, rules }
+}
+
+const handleSave = async (val: DurableSessions) => {
   try {
+    await customValidate(SchemaFormCom.value)
     const zoneData: Zone = await getDefaultZoneConfigs()
-    zoneData.durable_sessions = sessionPersistenceConfig.value
+    zoneData.durable_sessions = val
+    saveLoading.value = true
     await updateDefaultZoneConfigs(zoneData)
     ElMessage.success(t('Base.updateSuccess'))
-    rawData = cloneDeep(sessionPersistenceConfig.value)
-  } catch (err) {
     loadData()
+  } catch (error) {
+    // ignore error
   } finally {
     saveLoading.value = false
   }
 }
-
-const { addObserverToFooter } = useConfFooterStyle()
-// Fetch data
-onMounted(async () => {
-  await loadData()
-  addObserverToFooter()
-})
+loadData()
 </script>
