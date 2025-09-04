@@ -132,6 +132,10 @@ export async function clearHistoryAlarm() {
   return http.delete('/alarms')
 }
 
+export async function deactivateAlarm(name: string) {
+  return http.post(`/alarms/force_deactivate`, { name })
+}
+
 // invite node
 export const getClusterNodes = (): Promise<ClusterInfo> => {
   return http.get('/cluster')

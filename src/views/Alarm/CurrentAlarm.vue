@@ -54,6 +54,13 @@
           <span v-show="row.duration">{{ transMsNumToSimpleStr(row.duration) }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('Base.operation')" width="120">
+        <template #default="{ row }">
+          <TableButton :disabled="!$hasPermission('put')" @click="deactivate(row)">
+            {{ tl('deactivate') }}
+          </TableButton>
+        </template>
+      </el-table-column>
     </el-table>
     <div class="emq-table-footer">
       <common-pagination v-model:metaData="pageMeta" @loadPage="loadData"></common-pagination>
@@ -68,7 +75,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { loadAlarm } from '@/api/common'
+import { deactivateAlarm, loadAlarm } from '@/api/common'
 import commonPagination from '../../components/commonPagination.vue'
 import { Setting } from '@element-plus/icons-vue'
 
@@ -104,6 +111,21 @@ const loadData = async (params = {}) => {
   }
 }
 loadData()
+
+const { operationWarning } = useOperationConfirm()
+const deactivate = async (row: any) => {
+  try {
+    await operationWarning(tl('deactivateConfirm'))
+    await deactivateAlarm(row.name)
+    ElMessage.success(tl('deactivateSuccess'))
+    if (currentAlarmData.value.length === 1 && pageMeta.value.page > 1) {
+      pageMeta.value.page--
+    }
+    loadData()
+  } catch (error) {
+    //
+  }
+}
 </script>
 
 <style lang="scss">
