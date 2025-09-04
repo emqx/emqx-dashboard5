@@ -2137,6 +2137,18 @@
   },
   {
     "method": "post",
+    "path": "/alarms/force_deactivate",
+    "operation_label": {
+      "en": "Alarms",
+      "zh": "告警"
+    },
+    "operation_name_label": {
+      "en": "Force deactivate an alarm",
+      "zh": "强制关闭一个告警"
+    }
+  },
+  {
+    "method": "post",
     "path": "/load_rebalance/:node/stop",
     "operation_label": {
       "en": "Load Rebalance",
@@ -2757,6 +2769,30 @@
     "operation_name_label": {
       "en": "Create managed namespace",
       "zh": "创建命名空间"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/mt/bulk_export_ns_configs",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Export one or more namespaced configurations",
+      "zh": "批量导出命名空间配置"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/mt/bulk_import_ns_configs",
+    "operation_label": {
+      "en": "Namespace",
+      "zh": "命名空间"
+    },
+    "operation_name_label": {
+      "en": "Import one or more namespaced configurations",
+      "zh": "批量导入命名空间配置"
     }
   },
   {
