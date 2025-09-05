@@ -144,9 +144,6 @@ export default defineComponent({
       return true
     })
 
-    const { checkAndRemoveRoutersCanNotAccess } = useNamespaceUserRouter()
-    checkAndRemoveRoutersCanNotAccess()
-
     const initLicense = async () => {
       try {
         const res = await loadLicenseInfo()

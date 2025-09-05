@@ -8,9 +8,6 @@ export interface Menu {
 export default (): {
   menuList: Ref<Array<Menu>>
 } => {
-  const store = useStore()
-  const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
-
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -130,9 +127,9 @@ export default (): {
   ]
 
   const menuList = computed(() => {
-    if (isNamespaceUser.value) {
-      return totalMenuList.filter((menu) => menu.title === 'ruleengine')
-    }
+    // if (isNamespaceUser.value) {
+    //   return totalMenuList.filter((menu) => menu.title === 'ruleengine')
+    // }
     return totalMenuList
   })
 
