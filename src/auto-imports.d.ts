@@ -245,6 +245,7 @@ declare global {
   const replaceSpaceForHTML: typeof import('./common/tools')['replaceSpaceForHTML']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const round: typeof import('lodash')['round']
+  const routesRegNamespaceUserCanAccess: typeof import('./hooks/useNamespaceUserRouter')['routesRegNamespaceUserCanAccess']
   const ruleSelectionAliasPartReg: typeof import('./common/tools')['ruleSelectionAliasPartReg']
   const scrollToTop: typeof import('./common/tools')['scrollToTop']
   const sentenceCase: typeof import('./common/tools')['sentenceCase']
@@ -410,6 +411,7 @@ declare global {
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
+  const useNamespaceUserRouter: typeof import('./hooks/useNamespaceUserRouter')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
@@ -813,6 +815,7 @@ declare module 'vue' {
     readonly replaceSpaceForHTML: UnwrapRef<typeof import('./common/tools')['replaceSpaceForHTML']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly round: UnwrapRef<typeof import('lodash')['round']>
+    readonly routesRegNamespaceUserCanAccess: UnwrapRef<typeof import('./hooks/useNamespaceUserRouter')['routesRegNamespaceUserCanAccess']>
     readonly ruleSelectionAliasPartReg: UnwrapRef<typeof import('./common/tools')['ruleSelectionAliasPartReg']>
     readonly scrollToTop: UnwrapRef<typeof import('./common/tools')['scrollToTop']>
     readonly sentenceCase: UnwrapRef<typeof import('./common/tools')['sentenceCase']>
@@ -978,6 +981,7 @@ declare module 'vue' {
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
+    readonly useNamespaceUserRouter: UnwrapRef<typeof import('./hooks/useNamespaceUserRouter')['default']>
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>

@@ -1,4 +1,3 @@
-import { routesRegNamespaceUserCanAccess } from '@/hooks/useNamespaceUserRouter'
 import store from '@/store'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
@@ -1052,16 +1051,9 @@ router.beforeEach((to, from, next) => {
   const { fullPath, meta } = to
   const { authRequired = false } = meta
   const info = store.state.user
-  const isNamespaceUser = store.getters.isNamespaceUser
 
   if (authRequired && !info.token) {
     toLogin(fullPath)
-  }
-  if (
-    isNamespaceUser &&
-    !routesRegNamespaceUserCanAccess.some((reg) => reg.test(to.name as string))
-  ) {
-    next({ name: 'not-found' })
   }
   next()
 })
