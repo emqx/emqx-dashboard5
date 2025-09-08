@@ -4,6 +4,7 @@ import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useI18nTl from '@/hooks/useI18nTl'
 import useSSL from '@/hooks/useSSL'
+import MQTTIds from '@/components/Connector/MQTTIds.vue'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
@@ -139,11 +140,33 @@ export default (
       const props = comRet.static_clientids.items.properties
       if (props.ids) {
         setLabelAndDesc(props.ids, `${i18nPrefix}ids`)
+        props.ids.customComponent = markRaw(MQTTIds)
       }
       if (props.node) {
         setLabelAndDesc(props.node, `${i18nPrefix}node`)
       }
+      addRules(
+        {
+          'static_clientids.ids': [
+            {
+              validator(_rules, value, cb) {
+                const allPass =
+                  value.length > 0 &&
+                  value.every((item) => {
+                    if (typeof item === 'string') {
+                      return !!item
+                    }
+                    return !!item.clientid
+                  })
+                cb(allPass ? undefined : new Error(t('Rule.inputRequired')))
+              },
+            },
+          ],
+        },
+        rules,
+      )
     }
+
     return { components: comRet, rules }
   }
 
