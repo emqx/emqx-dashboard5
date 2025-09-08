@@ -1889,4 +1889,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '包含以下事件<br />{events}',
     en: 'Contains the following events<br />{events}',
   },
+  specifyUsernameAndPassword: {
+    zh: '指定用户名和密码',
+    en: 'Specify Username and Password',
+  },
 }
