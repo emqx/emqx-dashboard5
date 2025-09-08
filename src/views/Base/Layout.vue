@@ -77,7 +77,6 @@ import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
-import useNamespaceUserRouter from '@/hooks/useNamespaceUserRouter'
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
 const routesNeedFullHeight = ['flow', ...routesNeedCollapseMenu]
@@ -153,11 +152,13 @@ export default defineComponent({
       }
     }
 
+    const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
     const tryOpenLicenseDialog = () => {
       showLicenseTipDialog.value =
-        isEvaluationLicense.value ||
-        store.state.licenseData.expiry ||
-        store.getters.isCommunityLicense
+        (isEvaluationLicense.value ||
+          store.state.licenseData.expiry ||
+          store.getters.isCommunityLicense) &&
+        !isNamespaceUser.value
     }
 
     onMounted(async () => {

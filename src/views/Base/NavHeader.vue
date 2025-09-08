@@ -2,7 +2,7 @@
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
-      <LicensePromotion />
+      <LicensePromotion v-if="!isNamespaceUser" />
       <div class="cluster-desc" v-if="clusterDesc">
         <span class="cluster-desc-label">{{ t('Base.clusterDesc') }}:</span>
         <div v-if="clusterDesc" class="cluster-desc-content">
@@ -137,6 +137,7 @@ export default defineComponent({
         : t('components.noWarning')
     })
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
+    const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
     const visibilityChangeFunc = () => {
       return document.visibilityState === 'visible' && loadData()
@@ -229,6 +230,7 @@ export default defineComponent({
       clusterDesc,
       user,
       isEvaluationLicense,
+      isNamespaceUser,
       routeToContactUs,
       handleDropdownCommand,
       logout,
