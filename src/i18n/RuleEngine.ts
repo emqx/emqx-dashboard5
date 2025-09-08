@@ -1889,6 +1889,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '包含以下事件<br />{events}',
     en: 'Contains the following events<br />{events}',
   },
+  specifyUsernameAndPassword: {
+    zh: '指定用户名和密码',
+    en: 'Specify Username and Password',
+  },
   geminiBaseUrlTips: {
     zh: '当前 Gemini 通过兼容 OpenAI 的接口来与之通信，请输入兼容 OpenAI 的基础 URL',
     en: 'This Gemini connection uses an OpenAI-compatible API. Please enter a compatible Base URL.',
