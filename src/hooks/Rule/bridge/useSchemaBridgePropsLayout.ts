@@ -439,6 +439,7 @@ export default (
     [BridgeType.S3]: s3ColClassMap,
     [BridgeType.AzureBlobStorage]: azureBlobStorageColClassMap,
     [BridgeType.IoTDB]: IoTDBClassMap,
+    [BridgeType.S3Tables]: { 'parameters.aggregation.container.type': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
