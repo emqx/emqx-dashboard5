@@ -177,7 +177,7 @@ export const useRedisCommandCheck = (): {
   const strReg = /('(([^'\\]|(\\')|\\))+')|("(([^"\\]|(\\")|\\))+")/g
   const partItem = /[^\s"']+/
   const commandReg = new RegExp(
-    `^((${strReg.source}|${partItem.source})\\s)*(${strReg.source}|${partItem.source})$`,
+    `^((${strReg.source}|${partItem.source})(\\s)+)*(${strReg.source}|${partItem.source})$`,
   )
   const SPACE = ' '
 
