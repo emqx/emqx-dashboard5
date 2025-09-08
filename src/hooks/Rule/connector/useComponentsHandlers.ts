@@ -3,10 +3,13 @@ import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPass
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
 import useSSL from '@/hooks/useSSL'
+import MQTTIds from '@/components/Connector/MQTTIds.vue'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
 import { pick } from 'lodash'
 import { useI18n } from 'vue-i18n'
+import { markRaw } from 'vue'
+import { FormRules } from '@/types/common'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -36,7 +39,7 @@ export default (
 ): {
   getComponentsHandler: () => Handler
 } => {
-  const { t } = useI18n()
+  const { t, te } = useI18n()
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
   const { createCommonIdRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
@@ -55,6 +58,28 @@ export default (
       rules.name.push(...createCommonIdRule())
     }
     return rules
+  }
+
+  const addRules = (rulesNeedAdd: FormRules, totalRules: FormRules) => {
+    Object.entries(rulesNeedAdd).forEach(([key, value]) => {
+      if (!totalRules[key]) {
+        totalRules[key] = []
+      }
+      if (Array.isArray(value)) {
+        totalRules[key].push(...value)
+      }
+    })
+  }
+
+  const getI18nPrefix = (type: string): string => `BridgeSchema.${type}.`
+
+  const setLabelAndDesc = (prop: Property, path: string): void => {
+    if (prop) {
+      prop.label = t(`${path}.label`)
+      if (te(`${path}.desc`)) {
+        prop.description = t(`${path}.desc`)
+      }
+    }
   }
 
   const { createSSLForm } = useSSL()
@@ -126,25 +151,39 @@ export default (
     if (comRet?.keepalive?.type === 'string') {
       comRet.keepalive.type = 'duration'
     }
-
     // Add labels and descriptions for ids and node
-    const getI18nPrefix = (type: string) => `BridgeSchema.${type}.`
-    const setLabelAndDesc = (prop: Property, path: string) => {
-      if (prop) {
-        prop.label = t(`${path}.label`)
-        prop.description = t(`${path}.desc`)
-      }
-    }
     const i18nPrefix = getI18nPrefix(BridgeType.MQTT)
     if (comRet?.static_clientids?.items?.properties) {
       const props = comRet.static_clientids.items.properties
       if (props.ids) {
         setLabelAndDesc(props.ids, `${i18nPrefix}ids`)
+        props.ids.customComponent = markRaw(MQTTIds)
       }
       if (props.node) {
         setLabelAndDesc(props.node, `${i18nPrefix}node`)
       }
+      addRules(
+        {
+          'static_clientids.ids': [
+            {
+              validator(_rules: any, value: any, cb: any) {
+                const allPass =
+                  value.length > 0 &&
+                  value.every((item: any) => {
+                    if (typeof item === 'string') {
+                      return !!item
+                    }
+                    return !!item.clientid
+                  })
+                cb(allPass ? undefined : new Error(t('Rule.inputRequired')))
+              },
+            },
+          ],
+        },
+        rules,
+      )
     }
+
     return { components: comRet, rules }
   }
 

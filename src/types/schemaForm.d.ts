@@ -1,4 +1,5 @@
 import { FormRules } from './common'
+import { Component as VueComponent } from 'vue'
 
 export type InjectSchema = Ref<any> | undefined
 
@@ -40,6 +41,8 @@ export interface Property {
    * exist in oneof refs item
    */
   rules?: FormRules | any
+  customComponent?: VueComponent
+  placeholder?: string
 }
 
 export interface Properties {

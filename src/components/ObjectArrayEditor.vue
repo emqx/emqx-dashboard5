@@ -20,10 +20,13 @@
       <template #default="{ $index }">
         <template v-if="arr[$index] !== undefined">
           <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
-            <SchemaFormItem
+            <component
+              :is="value.customComponent ? value.customComponent : SchemaFormItem"
               v-model="arr[$index][key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols as string[] | number[] | undefined)"
+              :type="value.type"
+              :format="value.format"
+              :symbols="value.symbols"
+              :placeholder="value.placeholder"
               :custom-props="value.componentProps"
               :property="value"
               :items="value.items"
@@ -59,10 +62,15 @@
             :rules="getFormItemRules(key)"
             label-width="118px"
           >
-            <SchemaFormItem
+            <component
+              :is="value.customComponent ? value.customComponent : SchemaFormItem"
               v-model="item[key]"
-              :type="(value.type as any)"
-              :symbols="(value.symbols  as string[] | number[] | undefined)"
+              :type="value.type"
+              :format="value.format"
+              :symbols="value.symbols"
+              :placeholder="value.placeholder"
+              :property="value"
+              :items="value.items"
             />
           </CustomFormItem>
         </div>
@@ -206,6 +214,9 @@ onMounted(async () => {
   .el-table {
     .el-form-item {
       margin-bottom: 0;
+    }
+    .el-table__cell {
+      vertical-align: top;
     }
   }
   ul {
