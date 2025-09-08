@@ -16,7 +16,8 @@
         <template #default="{ $index }">
           <template v-if="displayTableData[$index] !== undefined">
             <CustomFormItem :prop="getProp($index, key)" :rules="getFormItemRules(key)">
-              <SchemaFormItem
+              <component
+                :is="value.customComponent ? value.customComponent : SchemaFormItem"
                 v-model="displayTableData[$index][key]"
                 :type="value.type"
                 :format="value.format"
@@ -265,6 +266,9 @@ onMounted(async () => {
   .el-table {
     .el-form-item {
       margin-bottom: 0;
+    }
+    .el-table__cell {
+      vertical-align: top;
     }
   }
   ul {
