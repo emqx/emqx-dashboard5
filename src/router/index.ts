@@ -685,6 +685,11 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Config/BasicConfig/SystemTopics.vue'),
       },
       {
+        path: 'message-queue',
+        name: 'mqtt-message-queue',
+        component: () => import('@/views/Config/BasicConfig/MessageQueue.vue'),
+      },
+      {
         path: 'force-shutdown',
         name: 'mqtt-force-shutdown',
         component: () => import('@/views/Config/BasicConfig/ForceShutdown.vue'),

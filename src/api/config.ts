@@ -12,6 +12,7 @@ import {
 import {
   FileTransferConf,
   GetNamespaceListParams,
+  MessageQueueConfig,
   NamespaceConfig,
   NamespaceDetailItem,
 } from '@/types/typeAlias'
@@ -105,3 +106,9 @@ export const getDetailNamespaceList = (
 export const getConfigs = (key?: string) => http.get('/configs', { params: { key } })
 
 export const putConfigs = (configs: any) => http.put('/configs', configs)
+
+export const getMessageQueueConfigs = (): Promise<MessageQueueConfig> =>
+  http.get('/message_queues/config')
+
+export const putMessageQueueConfigs = (data: MessageQueueConfig): Promise<MessageQueueConfig> =>
+  http.put('/message_queues/config', data)
