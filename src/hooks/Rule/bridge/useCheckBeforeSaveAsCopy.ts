@@ -1,3 +1,5 @@
+import { useCommonDataHandler } from '../useDataHandler'
+
 export default (): {
   pwdErrorWhenCoping: Ref<string>
   checkLikePwdField: (bridge: any, errorMsg?: string) => Promise<void>
@@ -6,9 +8,16 @@ export default (): {
 
   const pwdErrorWhenCoping = ref('')
 
-  const { likePasswordFieldKeys } = useBridgeDataHandler()
+  const { likePasswordFieldKeys, getLikePasswordFieldKeys } = useCommonDataHandler()
   const getPwdValues = (bridge: any) => {
-    return likePasswordFieldKeys.map((key) => get(bridge, key)).filter(Boolean)
+    const ret = likePasswordFieldKeys.map((key) => get(bridge, key)).filter(Boolean)
+    const specialKeys = getLikePasswordFieldKeys(bridge)
+    specialKeys.forEach((key) => {
+      if (get(bridge, key) !== undefined) {
+        ret.push(get(bridge, key))
+      }
+    })
+    return ret
   }
 
   const tryToViewPwdInput = () => {
