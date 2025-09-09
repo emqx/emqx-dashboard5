@@ -415,6 +415,10 @@ export default {
     zh: '强制关闭',
     en: 'Force Shutdown',
   },
+  'mqtt-message-queue': {
+    zh: '消息队列',
+    en: 'Message Queue',
+  },
   'message-queue': {
     zh: '消息队列',
     en: 'Message Queue',

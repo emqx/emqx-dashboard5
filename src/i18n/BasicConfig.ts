@@ -338,4 +338,12 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '如果启用，属于非显示创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
+  gcInterval: {
+    zh: '垃圾回收间隔',
+    en: 'GC Interval',
+  },
+  regularQueueRetentionPeriod: {
+    zh: '常规队列保留周期',
+    en: 'Regular Queue Retention Period',
+  },
 }

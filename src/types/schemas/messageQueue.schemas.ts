@@ -1,156 +1,169 @@
-export type PutMessageQueuesTopicFilter503Code =
-  (typeof PutMessageQueuesTopicFilter503Code)[keyof typeof PutMessageQueuesTopicFilter503Code]
+export type PutMessageQueuesQueuesTopicFilter503Code =
+  (typeof PutMessageQueuesQueuesTopicFilter503Code)[keyof typeof PutMessageQueuesQueuesTopicFilter503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesTopicFilter503Code = {
+export const PutMessageQueuesQueuesTopicFilter503Code = {
   SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
 } as const
 
-export type PutMessageQueuesTopicFilter503 = {
-  code?: PutMessageQueuesTopicFilter503Code
+export type PutMessageQueuesQueuesTopicFilter503 = {
+  code?: PutMessageQueuesQueuesTopicFilter503Code
   message?: string
 }
 
-export type PutMessageQueuesTopicFilter404Code =
-  (typeof PutMessageQueuesTopicFilter404Code)[keyof typeof PutMessageQueuesTopicFilter404Code]
+export type PutMessageQueuesQueuesTopicFilter404Code =
+  (typeof PutMessageQueuesQueuesTopicFilter404Code)[keyof typeof PutMessageQueuesQueuesTopicFilter404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesTopicFilter404Code = {
+export const PutMessageQueuesQueuesTopicFilter404Code = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type PutMessageQueuesTopicFilter404 = {
-  code?: PutMessageQueuesTopicFilter404Code
+export type PutMessageQueuesQueuesTopicFilter404 = {
+  code?: PutMessageQueuesQueuesTopicFilter404Code
   message?: string
 }
 
-export type PutMessageQueuesTopicFilter400Code =
-  (typeof PutMessageQueuesTopicFilter400Code)[keyof typeof PutMessageQueuesTopicFilter400Code]
+export type PutMessageQueuesQueuesTopicFilter400Code =
+  (typeof PutMessageQueuesQueuesTopicFilter400Code)[keyof typeof PutMessageQueuesQueuesTopicFilter400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesTopicFilter400Code = {
-  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
-} as const
-
-export type PutMessageQueuesTopicFilter400 = {
-  code?: PutMessageQueuesTopicFilter400Code
-  message?: string
-}
-
-export type GetMessageQueuesTopicFilter503Code =
-  (typeof GetMessageQueuesTopicFilter503Code)[keyof typeof GetMessageQueuesTopicFilter503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesTopicFilter503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type GetMessageQueuesTopicFilter503 = {
-  code?: GetMessageQueuesTopicFilter503Code
-  message?: string
-}
-
-export type GetMessageQueuesTopicFilter404Code =
-  (typeof GetMessageQueuesTopicFilter404Code)[keyof typeof GetMessageQueuesTopicFilter404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesTopicFilter404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMessageQueuesTopicFilter404 = {
-  code?: GetMessageQueuesTopicFilter404Code
-  message?: string
-}
-
-export type DeleteMessageQueuesTopicFilter503Code =
-  (typeof DeleteMessageQueuesTopicFilter503Code)[keyof typeof DeleteMessageQueuesTopicFilter503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesTopicFilter503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteMessageQueuesTopicFilter503 = {
-  code?: DeleteMessageQueuesTopicFilter503Code
-  message?: string
-}
-
-export type DeleteMessageQueuesTopicFilter404Code =
-  (typeof DeleteMessageQueuesTopicFilter404Code)[keyof typeof DeleteMessageQueuesTopicFilter404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesTopicFilter404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMessageQueuesTopicFilter404 = {
-  code?: DeleteMessageQueuesTopicFilter404Code
-  message?: string
-}
-
-export type DeleteMessageQueuesTopicFilter400Code =
-  (typeof DeleteMessageQueuesTopicFilter400Code)[keyof typeof DeleteMessageQueuesTopicFilter400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesTopicFilter400Code = {
-  INVALID_CREDENTIAL: 'INVALID_CREDENTIAL',
-} as const
-
-export type DeleteMessageQueuesTopicFilter400 = {
-  code?: DeleteMessageQueuesTopicFilter400Code
-  message?: string
-}
-
-export type PostMessageQueues503Code =
-  (typeof PostMessageQueues503Code)[keyof typeof PostMessageQueues503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageQueues503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type PostMessageQueues503 = {
-  code?: PostMessageQueues503Code
-  message?: string
-}
-
-export type PostMessageQueues400Code =
-  (typeof PostMessageQueues400Code)[keyof typeof PostMessageQueues400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageQueues400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-} as const
-
-export type PostMessageQueues400 = {
-  code?: PostMessageQueues400Code
-  message?: string
-}
-
-export type GetMessageQueues503Code =
-  (typeof GetMessageQueues503Code)[keyof typeof GetMessageQueues503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueues503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type GetMessageQueues503 = {
-  code?: GetMessageQueues503Code
-  message?: string
-}
-
-export type GetMessageQueues400Code =
-  (typeof GetMessageQueues400Code)[keyof typeof GetMessageQueues400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueues400Code = {
+export const PutMessageQueuesQueuesTopicFilter400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type GetMessageQueues400 = {
-  code?: GetMessageQueues400Code
+export type PutMessageQueuesQueuesTopicFilter400 = {
+  code?: PutMessageQueuesQueuesTopicFilter400Code
+  message?: string
+}
+
+export type GetMessageQueuesQueuesTopicFilter503Code =
+  (typeof GetMessageQueuesQueuesTopicFilter503Code)[keyof typeof GetMessageQueuesQueuesTopicFilter503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMessageQueuesQueuesTopicFilter503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetMessageQueuesQueuesTopicFilter503 = {
+  code?: GetMessageQueuesQueuesTopicFilter503Code
+  message?: string
+}
+
+export type GetMessageQueuesQueuesTopicFilter404Code =
+  (typeof GetMessageQueuesQueuesTopicFilter404Code)[keyof typeof GetMessageQueuesQueuesTopicFilter404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMessageQueuesQueuesTopicFilter404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMessageQueuesQueuesTopicFilter404 = {
+  code?: GetMessageQueuesQueuesTopicFilter404Code
+  message?: string
+}
+
+export type DeleteMessageQueuesQueuesTopicFilter503Code =
+  (typeof DeleteMessageQueuesQueuesTopicFilter503Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMessageQueuesQueuesTopicFilter503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteMessageQueuesQueuesTopicFilter503 = {
+  code?: DeleteMessageQueuesQueuesTopicFilter503Code
+  message?: string
+}
+
+export type DeleteMessageQueuesQueuesTopicFilter404Code =
+  (typeof DeleteMessageQueuesQueuesTopicFilter404Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMessageQueuesQueuesTopicFilter404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteMessageQueuesQueuesTopicFilter404 = {
+  code?: DeleteMessageQueuesQueuesTopicFilter404Code
+  message?: string
+}
+
+export type DeleteMessageQueuesQueuesTopicFilter400Code =
+  (typeof DeleteMessageQueuesQueuesTopicFilter400Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMessageQueuesQueuesTopicFilter400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteMessageQueuesQueuesTopicFilter400 = {
+  code?: DeleteMessageQueuesQueuesTopicFilter400Code
+  message?: string
+}
+
+export type PostMessageQueuesQueues503Code =
+  (typeof PostMessageQueuesQueues503Code)[keyof typeof PostMessageQueuesQueues503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMessageQueuesQueues503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostMessageQueuesQueues503 = {
+  code?: PostMessageQueuesQueues503Code
+  message?: string
+}
+
+export type PostMessageQueuesQueues400Code =
+  (typeof PostMessageQueuesQueues400Code)[keyof typeof PostMessageQueuesQueues400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMessageQueuesQueues400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostMessageQueuesQueues400 = {
+  code?: PostMessageQueuesQueues400Code
+  message?: string
+}
+
+export type GetMessageQueuesQueues503Code =
+  (typeof GetMessageQueuesQueues503Code)[keyof typeof GetMessageQueuesQueues503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMessageQueuesQueues503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetMessageQueuesQueues503 = {
+  code?: GetMessageQueuesQueues503Code
+  message?: string
+}
+
+export type GetMessageQueuesQueues400Code =
+  (typeof GetMessageQueuesQueues400Code)[keyof typeof GetMessageQueuesQueues400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMessageQueuesQueues400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMessageQueuesQueues400 = {
+  code?: GetMessageQueuesQueues400Code
+  message?: string
+}
+
+export type PutMessageQueuesConfig400Code =
+  (typeof PutMessageQueuesConfig400Code)[keyof typeof PutMessageQueuesConfig400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutMessageQueuesConfig400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutMessageQueuesConfig400 = {
+  code?: PutMessageQueuesConfig400Code
   message?: string
 }
 
@@ -158,7 +171,7 @@ export type PublicLimitParameter = number
 
 export type PublicCursorParameter = string
 
-export type GetMessageQueuesParams = {
+export type GetMessageQueuesQueuesParams = {
   cursor?: PublicCursorParameter
   limit?: PublicLimitParameter
 }
@@ -168,6 +181,11 @@ export interface PublicMetaWithCursor {
   count?: number
   cursor?: string
   hasnext: boolean
+}
+
+export interface MqMessageQueuesApiGet {
+  data?: MqMessageQueueApiGet[]
+  meta?: PublicMetaWithCursor
 }
 
 export type MqMessageQueueApiPutDispatchStrategy =
@@ -202,11 +220,6 @@ export interface MqMessageQueueApiGet {
   topic_filter: string
 }
 
-export interface MqMessageQueuesApiGet {
-  data?: MqMessageQueueApiGet[]
-  meta?: PublicMetaWithCursor
-}
-
 export type MqMessageQueueDispatchStrategy =
   (typeof MqMessageQueueDispatchStrategy)[keyof typeof MqMessageQueueDispatchStrategy]
 
@@ -222,4 +235,14 @@ export interface MqMessageQueue {
   dispatch_strategy?: MqMessageQueueDispatchStrategy
   is_lastvalue?: boolean
   topic_filter: string
+}
+
+export interface MqApiConfigPut {
+  gc_interval: string
+  regular_queue_retention_period: string
+}
+
+export interface MqApiConfigGet {
+  gc_interval: string
+  regular_queue_retention_period: string
 }

@@ -98,7 +98,11 @@ import {
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
 import { PostLogin200 } from './schemas/dashboard.schemas'
-import type { MqMessageQueue, MqMessageQueueDispatchStrategy } from './schemas/messageQueue.schemas'
+import type {
+  MqApiConfigPut,
+  MqMessageQueue,
+  MqMessageQueueDispatchStrategy,
+} from './schemas/messageQueue.schemas'
 import { MqMessageQueueDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 
 /* BASE */
@@ -246,3 +250,4 @@ export type GatewayItem = EmqxGatewayApiGatewayOverview
 export type MessageQueue = MqMessageQueue
 export type MessageQueueDispatchStrategy = MqMessageQueueDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
+export type MessageQueueConfig = MqApiConfigPut
