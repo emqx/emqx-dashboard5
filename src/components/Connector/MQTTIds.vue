@@ -3,7 +3,7 @@
     <ul class="obj-list" v-if="inputValue && inputValue.length">
       <li class="obj-item" v-for="(item, $index) in inputValue" :key="keyArr[$index]">
         <div class="obj-item-bd">
-          <div class="vertical-align-center switch-container">
+          <div v-if="!getSwitchProxy($index)" class="vertical-align-center switch-container">
             <span class="switch-label">{{ t('RuleEngine.specifyUsernameAndPassword') }}</span>
             <el-switch
               :model-value="getSwitchProxy($index)"
@@ -98,7 +98,11 @@ const setSwitchProxy = (index: number, value: boolean) => {
 }
 
 const addItem = () => {
-  inputValue.value.push('')
+  inputValue.value.push({
+    clientid: '',
+    username: '',
+    password: '',
+  })
 }
 
 const deleteItem = (index: number) => {

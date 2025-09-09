@@ -3,7 +3,7 @@ import { jumpToErrorFormItem } from '@/common/tools'
 import useI18nTl from '@/hooks/useI18nTl'
 import { get } from 'lodash'
 import { ref, Ref } from 'vue'
-import { useBridgeDataHandler } from '../useDataHandler'
+import { useCommonDataHandler } from '../useDataHandler'
 
 export default (): {
   pwdErrorWhenCoping: Ref<string>
@@ -13,9 +13,16 @@ export default (): {
 
   const pwdErrorWhenCoping = ref('')
 
-  const { likePasswordFieldKeys } = useBridgeDataHandler()
+  const { likePasswordFieldKeys, getLikePasswordFieldKeys } = useCommonDataHandler()
   const getPwdValues = (bridge: any) => {
-    return likePasswordFieldKeys.map((key) => get(bridge, key)).filter(Boolean)
+    const ret = likePasswordFieldKeys.map((key) => get(bridge, key)).filter(Boolean)
+    const specialKeys = getLikePasswordFieldKeys(bridge)
+    specialKeys.forEach((key) => {
+      if (get(bridge, key) !== undefined) {
+        ret.push(get(bridge, key))
+      }
+    })
+    return ret
   }
 
   const tryToViewPwdInput = () => {
