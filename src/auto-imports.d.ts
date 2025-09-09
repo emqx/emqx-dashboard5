@@ -338,6 +338,7 @@ declare global {
   const useClusterLinkingMetrics: typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']
   const useClusterNodes: typeof import('./hooks/useClusterNodes')['default']
   const useCommonConnectionStatus: typeof import('./hooks/useCommonConnectionStatus')['default']
+  const useCommonDataHandler: typeof import('./hooks/Rule/useDataHandler')['useCommonDataHandler']
   const useConfFooterStyle: typeof import('./hooks/useConfFooterStyle')['default']
   const useConnectorComponentsHandlers: typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['default']
   const useConnectorDataHandler: typeof import('./hooks/Rule/useDataHandler')['useConnectorDataHandler']
@@ -919,6 +920,7 @@ declare module 'vue' {
     readonly useClusterLinkingMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']>
     readonly useClusterNodes: UnwrapRef<typeof import('./hooks/useClusterNodes')['default']>
     readonly useCommonConnectionStatus: UnwrapRef<typeof import('./hooks/useCommonConnectionStatus')['default']>
+    readonly useCommonDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useCommonDataHandler']>
     readonly useConfFooterStyle: UnwrapRef<typeof import('./hooks/useConfFooterStyle')['default']>
     readonly useConnectorComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['default']>
     readonly useConnectorDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useConnectorDataHandler']>
