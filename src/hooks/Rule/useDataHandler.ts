@@ -126,10 +126,25 @@ export const useConnectorDataHandler = (): {
     }
     return data
   }
+  const handleMQTTData = (data: any) => {
+    const { static_clientids } = data
+    static_clientids?.forEach((item: any) => {
+      item.ids?.forEach((id: any) => {
+        if (!id.username) {
+          delete id.username
+        }
+        if (!id.password) {
+          delete id.password
+        }
+      })
+    })
+    return data
+  }
 
   const specialDataHandlerBeforeSubmit = new Map([
     [BridgeType.GCPProducer, handleGCPData],
     [BridgeType.GCPConsumer, handleGCPData],
+    [BridgeType.MQTT, handleMQTTData],
   ])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
