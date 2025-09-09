@@ -20,7 +20,7 @@ export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> =>
 
 export const updateMessageQueue = (
   topicFilter: string,
-  data: MessageQueue,
+  data: Omit<MessageQueue, 'topic_filter'>,
 ): Promise<MessageQueue> => {
   return http.put(`/message_queues/${encodeURIComponent(topicFilter)}`, data)
 }

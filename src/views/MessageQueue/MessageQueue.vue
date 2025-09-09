@@ -66,7 +66,7 @@
     <MessageQueueDialog
       v-model="isDialogShow"
       :queue="currentMessageQueue"
-      @created="handleCreated"
+      @submitted="loadMessageQueues"
     />
   </div>
 </template>
@@ -135,11 +135,6 @@ const { confirmDel } = useOperationConfirm()
 const handleDelete = async (messageQueue: MessageQueue) => {
   const confirmText = tl('deleteTip', { topicFilter: messageQueue.topic_filter })
   await confirmDel(() => deleteMessageQueue(messageQueue.topic_filter), confirmText)
-  loadMessageQueues()
-}
-
-// 处理创建成功
-const handleCreated = () => {
   loadMessageQueues()
 }
 

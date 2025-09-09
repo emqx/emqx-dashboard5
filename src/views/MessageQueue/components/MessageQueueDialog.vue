@@ -14,7 +14,7 @@
             <template #label>
               <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" />
             </template>
-            <el-input v-model="form.topic_filter" clearable />
+            <el-input v-model="form.topic_filter" clearable :disable="isEdit" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { createMessageQueue } from '@/api/messageQueue'
+import { createMessageQueue, updateMessageQueue } from '@/api/messageQueue'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { MessageQueueDispatchStrategyValue, type MessageQueue } from '@/types/typeAlias'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
@@ -90,7 +90,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:modelValue', value: boolean): void
-  (e: 'created'): void
+  (e: 'submitted'): void
 }
 
 const props = defineProps<Props>()
@@ -127,6 +127,12 @@ const resetForm = () => {
   form.value = createEmptyForm()
 }
 
+const createQueue = () => createMessageQueue(form.value)
+const updateQueue = () => {
+  const { topic_filter, ...data } = form.value
+  return updateMessageQueue(topic_filter, omit(data, 'is_lastvalue'))
+}
+
 const handleSubmit = async () => {
   if (!formRef.value) return
 
@@ -136,10 +142,10 @@ const handleSubmit = async () => {
 
     submitting.value = true
 
-    await createMessageQueue(form.value)
+    await (isEdit.value ? updateQueue : createQueue)()
 
-    ElMessage.success(t('Base.createSuccess'))
-    emit('created')
+    ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
+    emit('submitted')
     dialogVisible.value = false
   } catch (error: any) {
     //
