@@ -41,8 +41,7 @@
 
           <el-table-column prop="data_retention_period" :label="tl('dataRetentionPeriod')">
             <template #default="{ row }">
-              <span>{{ row.data_retention_period }}</span>
-              <span v-if="typeof row.data_retention_period === 'number'"> (ms)</span>
+              <span>{{ transMsNumToSimpleStr(row.data_retention_period) }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="160">
@@ -94,6 +93,7 @@ const loading = ref(false)
 const messageQueues = ref<MessageQueue[]>([])
 
 const { page, limit, pageParams, hasNext, setCursor } = useCursorPagination()
+const { transMsNumToSimpleStr } = useDurationStr()
 
 const isDialogShow = ref(false)
 const currentMessageQueue = ref<MessageQueue | undefined>(undefined)

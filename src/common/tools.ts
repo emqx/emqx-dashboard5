@@ -174,6 +174,26 @@ export const transMSNumToString = (num: number): string => {
   return cutNumberDecimal(num / ONE_DAY) + 'd'
 }
 
+export const transMsNumToDuration = (num: number): string => {
+  if (num <= 0) return '0ms'
+
+  const timeUnits = [
+    { threshold: ONE_DAY, divisor: ONE_DAY, unit: 'd' },
+    { threshold: ONE_HOUR, divisor: ONE_HOUR, unit: 'h' },
+    { threshold: ONE_MINUTE, divisor: ONE_MINUTE, unit: 'm' },
+    { threshold: ONE_SECOND, divisor: ONE_SECOND, unit: 's' },
+  ]
+
+  for (const { threshold, divisor, unit } of timeUnits) {
+    if (num >= threshold) {
+      const value = num / divisor
+      return Number.isInteger(value) ? value + unit : num + 'ms'
+    }
+  }
+
+  return num + 'ms'
+}
+
 export const transTimeStrToMS = (timeStr: string): number | string => {
   const reg = /^(\d+(\.\d+)?)(ms|s|m|h|d)$/
   const matchResult = timeStr.trim().match(reg)
