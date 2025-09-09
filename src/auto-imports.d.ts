@@ -338,6 +338,7 @@ declare global {
   const useClusterLinkingMetrics: typeof import('./hooks/useMetrics')['useClusterLinkingMetrics']
   const useClusterNodes: typeof import('./hooks/useClusterNodes')['default']
   const useCommonConnectionStatus: typeof import('./hooks/useCommonConnectionStatus')['default']
+  const useCommonDataHandler: typeof import('./hooks/Rule/useDataHandler')['useCommonDataHandler']
   const useConfFooterStyle: typeof import('./hooks/useConfFooterStyle')['default']
   const useConnectorComponentsHandlers: typeof import('./hooks/Rule/connector/useConnectorComponentsHandlers')['default']
   const useConnectorDataHandler: typeof import('./hooks/Rule/useDataHandler')['useConnectorDataHandler']
@@ -418,6 +419,7 @@ declare global {
   const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
   const useMenus: typeof import('./hooks/useMenus')['default']
   const useMessageDroppedDetails: typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']
+  const useMessageQueue: typeof import('./hooks/MessageQueue/useMessageQueue')['default']
   const useMessageTransformForm: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']
   const useMessageTransformLogLevel: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']
   const useMessageTransformMetrics: typeof import('./hooks/useMetrics')['useMessageTransformMetrics']
@@ -991,6 +993,7 @@ declare module 'vue' {
     readonly useMQTTVersion5NewConfig: UnwrapRef<typeof import('./hooks/useMQTTVersion5NewConfig')['default']>
     readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
     readonly useMessageDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']>
+    readonly useMessageQueue: UnwrapRef<typeof import('./hooks/MessageQueue/useMessageQueue')['default']>
     readonly useMessageTransformForm: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']>
     readonly useMessageTransformLogLevel: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']>
     readonly useMessageTransformMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useMessageTransformMetrics']>
