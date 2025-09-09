@@ -89,8 +89,6 @@ const setSwitchProxy = (index: number, value: boolean) => {
   if (value && typeof inputValue.value[index] !== 'object') {
     inputValue.value[index] = {
       clientid: '',
-      username: '',
-      password: '',
     }
   } else if (!value && typeof inputValue.value[index] === 'object') {
     inputValue.value[index] = ''
@@ -98,11 +96,7 @@ const setSwitchProxy = (index: number, value: boolean) => {
 }
 
 const addItem = () => {
-  inputValue.value.push({
-    clientid: '',
-    username: '',
-    password: '',
-  })
+  inputValue.value.push({ clientid: '' })
 }
 
 const deleteItem = (index: number) => {
