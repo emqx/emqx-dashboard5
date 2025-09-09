@@ -49,7 +49,14 @@ const loadData = async () => {
 }
 
 const propsOrder = createOrderObj(
-  ['enable', 'message_retention_period', 'batch_size', 'checkpoint_interval'],
+  [
+    'enable',
+    'message_retention_period',
+    'batch_size',
+    'realloc_interval',
+    'checkpoint_interval',
+    'revocation_timeout',
+  ],
   0,
 )
 

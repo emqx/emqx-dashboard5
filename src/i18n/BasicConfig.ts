@@ -346,4 +346,8 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '常规队列保留周期',
     en: 'Regular Queue Retention Period',
   },
+  shared_subs: {
+    zh: '共享订阅',
+    en: 'Shared Subscriptions',
+  },
 }
