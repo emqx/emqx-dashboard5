@@ -1008,6 +1008,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Message Queue
+  {
+    path: '/message-queue',
+    component: Layout,
+    meta: {
+      hideKey: 'messageQueue',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-queue',
+        component: () => import('@/views/MessageQueue/MessageQueue.vue'),
+      },
+    ],
+  },
   {
     path: '/dropped-analysis',
     component: Layout,

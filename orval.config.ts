@@ -56,6 +56,7 @@ const tagArr = [
   'Opentelemetry',
   'Multi-tenancy',
   'AI Completion',
+  'Message Queue',
 ]
 
 const typesFolder = './src/types/schemas/'

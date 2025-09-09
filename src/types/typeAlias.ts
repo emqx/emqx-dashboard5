@@ -98,6 +98,8 @@ import {
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
 import { PostLogin200 } from './schemas/dashboard.schemas'
+import type { MqMessageQueue, MqMessageQueueDispatchStrategy } from './schemas/messageQueue.schemas'
+import { MqMessageQueueDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -239,3 +241,8 @@ export type NamespaceDetailItem = Merge<
 
 /* GATEWAY */
 export type GatewayItem = EmqxGatewayApiGatewayOverview
+
+/* MESSAGE QUEUE */
+export type MessageQueue = MqMessageQueue
+export type MessageQueueDispatchStrategy = MqMessageQueueDispatchStrategy
+export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
