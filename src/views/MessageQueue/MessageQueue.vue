@@ -70,7 +70,7 @@
       </div>
     </template>
 
-    <MQGuidance v-else @create-mq="handleCreate" />
+    <MQGuidance v-else @create="handleCreate" />
 
     <MessageQueueDialog v-model="isDialogShow" @created="handleCreated" />
   </div>
