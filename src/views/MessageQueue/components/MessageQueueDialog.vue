@@ -10,12 +10,18 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
       <el-row :gutter="24">
         <el-col :span="12">
-          <el-form-item :label="tl('topicFilter')" prop="topic_filter">
+          <el-form-item prop="topic_filter">
+            <template #label>
+              <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" />
+            </template>
             <el-input v-model="form.topic_filter" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('dispatchStrategy')" prop="dispatch_strategy">
+          <el-form-item prop="dispatch_strategy">
+            <template #label>
+              <FormItemLabel :label="tl('dispatchStrategy')" :desc="tl('dispatchStrategyDesc')" />
+            </template>
             <el-select
               v-model="form.dispatch_strategy"
               :placeholder="tl('pleaseSelect')"
@@ -31,7 +37,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('dataRetentionPeriod')" prop="data_retention_period">
+          <el-form-item prop="data_retention_period">
+            <template #label>
+              <FormItemLabel
+                :label="tl('dataRetentionPeriod')"
+                :desc="tl('dataRetentionPeriodDesc')"
+              />
+            </template>
             <TimeInputWithUnitSelect
               v-model="form.data_retention_period"
               :enabled-units="['ms', 's', 'm', 'h', 'd']"
@@ -40,7 +52,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="tl('isLastvalue')" prop="is_lastvalue">
+          <el-form-item prop="is_lastvalue">
+            <template #label>
+              <FormItemLabel :label="tl('isLastvalue')" :desc="tl('isLastvalueDesc')" />
+            </template>
             <el-switch v-model="form.is_lastvalue" />
           </el-form-item>
         </el-col>
