@@ -14,46 +14,37 @@
           class="data-table"
           :default-sort="{ prop: 'topic_filter', order: 'ascending' }"
         >
-          <el-table-column prop="topic_filter" :label="tl('topicFilter')" min-width="200">
+          <el-table-column prop="topic_filter" :label="tl('topicFilter')">
             <template #default="{ row }">
               <span class="topic-filter">{{ row.topic_filter }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column prop="dispatch_strategy" :label="tl('dispatchStrategy')" width="140">
+          <el-table-column prop="dispatch_strategy" :label="tl('dispatchStrategy')">
             <template #default="{ row }">
-              <el-tag :type="getDispatchStrategyType(row.dispatch_strategy)">
-                {{ getDispatchStrategyLabel(row.dispatch_strategy) }}
-              </el-tag>
+              {{ getDispatchStrategyLabel(row.dispatch_strategy) }}
             </template>
           </el-table-column>
 
-          <el-table-column prop="is_lastvalue" :label="tl('isLastvalue')" width="120">
+          <el-table-column prop="is_lastvalue" :label="tl('isLastvalue')">
             <template #default="{ row }">
-              <el-tag :type="row.is_lastvalue ? 'success' : 'info'">
-                {{ row.is_lastvalue ? t('Base.yes') : t('Base.no') }}
-              </el-tag>
+              {{ row.is_lastvalue ? t('Base.yes') : t('Base.no') }}
             </template>
           </el-table-column>
 
-          <el-table-column
-            prop="data_retention_period"
-            :label="tl('dataRetentionPeriod')"
-            width="140"
-          >
+          <el-table-column prop="data_retention_period" :label="tl('dataRetentionPeriod')">
             <template #default="{ row }">
               <span>{{ row.data_retention_period }}</span>
             </template>
           </el-table-column>
-
-          <el-table-column :label="t('Base.operation')" width="180" fixed="right">
+          <el-table-column :label="t('Base.operation')" width="160">
             <template #default="{ row }">
-              <el-button type="primary" size="small" text @click="handleEdit(row)">
+              <TableButton @click="handleEdit(row)">
                 {{ t('Base.edit') }}
-              </el-button>
-              <el-button type="danger" size="small" text @click="handleDelete(row)">
+              </TableButton>
+              <TableButton @click="handleDelete(row)">
                 {{ t('Base.delete') }}
-              </el-button>
+              </TableButton>
             </template>
           </el-table-column>
         </el-table>
@@ -79,7 +70,8 @@
 <script setup lang="ts">
 import { deleteMessageQueue, getMessageQueues } from '@/api/messageQueue'
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
-import { MessageQueue, MessageQueueDispatchStrategy } from '@/types/typeAlias'
+import useMessageQueue from '@/hooks/MessageQueue/useMessageQueue'
+import { MessageQueue } from '@/types/typeAlias'
 import MessageQueueDialog from './components/MessageQueueDialog.vue'
 import MQGuidance from './components/MQGuidance.vue'
 
@@ -97,6 +89,7 @@ const noData = computed(() => messageQueues.value.length === 0 && page.value ===
 
 const loadMessageQueues = async (isBack?: boolean) => {
   try {
+    loading.value = true
     const { data = [], meta = {} } = await getMessageQueues(pageParams.value)
     messageQueues.value = data
     setCursor(page.value + 1, meta.cursor)
@@ -122,23 +115,7 @@ const handleSizeChange = (size: number) => {
   handlePageChange(1)
 }
 
-const getDispatchStrategyLabel = (strategy: MessageQueueDispatchStrategy) => {
-  const labels = {
-    random: tl('dispatchStrategyRandom'),
-    least_inflight: tl('dispatchStrategyLeastInflight'),
-    round_robin: tl('dispatchStrategyRoundRobin'),
-  }
-  return labels[strategy] || strategy
-}
-
-const getDispatchStrategyType = (strategy: MessageQueueDispatchStrategy) => {
-  const types: Record<MessageQueueDispatchStrategy, 'primary' | 'success' | 'warning' | 'info'> = {
-    random: 'primary',
-    least_inflight: 'success',
-    round_robin: 'warning',
-  }
-  return types[strategy] || 'info'
-}
+const { getDispatchStrategyLabel } = useMessageQueue()
 
 const handleCreate = () => {
   currentMessageQueue.value = undefined
