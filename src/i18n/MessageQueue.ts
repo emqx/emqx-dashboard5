@@ -8,48 +8,56 @@ export default {
     en: 'Edit Message Queue',
   },
   topicFilter: {
-    zh: '主题过滤器',
+    zh: '过滤主题',
     en: 'Topic Filter',
   },
   topicFilterDesc: {
     zh: '用于确定哪些消息进入消息队列的过滤器',
-    en: 'Filter used to determine which messages enter the message queue',
-  },
-  topicFilterReadonly: {
-    zh: '主题过滤器创建后不可修改',
-    en: 'Topic filter cannot be modified after creation',
+    en: 'The filter used to determine which messages are getting into the message queue.',
   },
   invalidTopicFilter: {
-    zh: '无效的主题过滤器格式',
+    zh: '无效的过滤主题格式',
     en: 'Invalid topic filter format',
   },
   dataRetentionPeriod: {
     zh: '数据保留期',
     en: 'Data Retention Period',
   },
+  dataRetentionPeriodDesc: {
+    zh: '消息队列中数据保留的时间',
+    en: 'The period for which data is retained in the Message Queue.',
+  },
   dispatchStrategy: {
     zh: '派发策略',
     en: 'Dispatch Strategy',
   },
+  dispatchStrategyDesc: {
+    zh: '用于确定消息队列中消息的派发策略',
+    en: 'The strategy used to determine how messages are dispatched in the Message Queue.',
+  },
   isLastvalue: {
     zh: '最后值语义',
     en: 'Last Value Semantics',
+  },
+  isLastvalueDesc: {
+    zh: '指示消息是否具有最后值语义。最后值语义意味着消息覆盖同一主题中相同队列键的先前消息。',
+    en: 'Indicates if the message has Last-Value semantics. Last-Value semantics means that messages overwrite previous messages with the same queue key in the same topic.',
   },
   dispatchStrategyRandom: {
     zh: '随机',
     en: 'Random',
   },
   dispatchStrategyLeastInflight: {
-    zh: '最少飞行中',
-    en: 'Least Inflight',
+    zh: '最少未确认消息订阅者',
+    en: 'Least Inflight Subscriber',
   },
   dispatchStrategyRoundRobin: {
     zh: '轮询',
     en: 'Round Robin',
   },
   deleteTip: {
-    zh: '确定要删除消息队列 {topicFilter} 吗？',
-    en: 'Are you sure you want to delete message queue {topicFilter}?',
+    zh: '确定删除过滤主题为 {topicFilter} 的消息队列吗？',
+    en: 'Confirm to delete message queue with topic filter {topicFilter}?',
   },
   // Guidance component
   createFirstMQTitle: {
