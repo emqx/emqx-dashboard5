@@ -110,6 +110,11 @@ export default (): {
       children: smartDataHub,
     },
     {
+      title: 'message-queue',
+      icon: 'icon-a-messagequeue',
+      path: '/message-queue',
+    },
+    {
       title: 'management',
       icon: 'icon-configuration',
       children: management,

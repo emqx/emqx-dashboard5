@@ -415,6 +415,10 @@ export default {
     zh: '强制关闭',
     en: 'Force Shutdown',
   },
+  'message-queue': {
+    zh: '消息队列',
+    en: 'Message Queue',
+  },
   /* For Quick Panel Start */
   'rule-create': {
     zh: '创建规则',

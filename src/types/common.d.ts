@@ -32,6 +32,16 @@ export type ListDataWithPagination<T> = {
   meta: PageData
 }
 
+export interface CursorMeta {
+  cursor?: string
+  hasnext?: boolean
+}
+
+export type ListDataWithCursor<T> = {
+  data: Array<T>
+  meta: CursorMeta
+}
+
 export interface PageParams {
   limit: number
   page: number
