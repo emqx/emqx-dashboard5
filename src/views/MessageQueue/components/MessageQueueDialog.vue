@@ -14,7 +14,7 @@
             <template #label>
               <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" />
             </template>
-            <el-input v-model="form.topic_filter" clearable :disable="isEdit" />
+            <el-input v-model="form.topic_filter" clearable :disabled="isEdit" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -22,11 +22,7 @@
             <template #label>
               <FormItemLabel :label="tl('dispatchStrategy')" :desc="tl('dispatchStrategyDesc')" />
             </template>
-            <el-select
-              v-model="form.dispatch_strategy"
-              :placeholder="tl('pleaseSelect')"
-              style="width: 100%"
-            >
+            <el-select v-model="form.dispatch_strategy">
               <el-option
                 v-for="{ value, label } in dispatchStrategyOptions"
                 :key="value"
@@ -56,7 +52,7 @@
             <template #label>
               <FormItemLabel :label="tl('isLastvalue')" :desc="tl('isLastvalueDesc')" />
             </template>
-            <el-switch v-model="form.is_lastvalue" />
+            <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -77,6 +73,7 @@
 
 <script setup lang="ts">
 import { createMessageQueue, updateMessageQueue } from '@/api/messageQueue'
+import { transMsNumToDuration } from '@/common/tools'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import { MessageQueueDispatchStrategyValue, type MessageQueue } from '@/types/typeAlias'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
@@ -157,6 +154,9 @@ const handleSubmit = async () => {
 const handleOpen = () => {
   if (isEdit.value && props.queue) {
     form.value = cloneDeep(props.queue)
+    if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
+      form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)
+    }
   }
 }
 

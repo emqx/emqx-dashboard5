@@ -184,7 +184,7 @@ export default {
     en: 'hour|hours',
   },
   min: {
-    zh: '分',
+    zh: '分钟',
     en: 'minute|minutes',
   },
   sec: {
