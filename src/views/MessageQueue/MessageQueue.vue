@@ -5,6 +5,13 @@
       <div class="app-wrapper">
         <div class="section-header">
           <div></div>
+          <LinkButton
+            :icon="Setting"
+            :disabled="!$hasPermission('put')"
+            :to="{ name: 'mqtt-message-queue' }"
+          >
+            {{ t('Base.setting') }}
+          </LinkButton>
           <CreateButton @click="handleCreate" />
         </div>
 
@@ -76,6 +83,7 @@ import { deleteMessageQueue, getMessageQueues } from '@/api/messageQueue'
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import useMessageQueue from '@/hooks/MessageQueue/useMessageQueue'
 import { MessageQueue } from '@/types/typeAlias'
+import { Setting } from '@element-plus/icons-vue'
 import MessageQueueDialog from './components/MessageQueueDialog.vue'
 import MQGuidance from './components/MQGuidance.vue'
 

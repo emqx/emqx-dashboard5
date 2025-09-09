@@ -19,13 +19,13 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <el-button
+        <LinkButton
           :icon="Setting"
           :disabled="!$hasPermission('put')"
-          @click="$router.push({ name: 'mqtt-retainer' })"
+          :to="{ name: 'mqtt-retainer' }"
         >
-          {{ $t('Base.setting') }}
-        </el-button>
+          {{ t('Base.setting') }}
+        </LinkButton>
         <el-button
           type="danger"
           plain
