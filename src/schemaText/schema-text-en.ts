@@ -214,6 +214,26 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
     label: 'Message Retention Period',
     desc: 'The duration of message retention in a persistent session,  messages that expire are not delivered to subscribers.',
   },
+  durable_sessions_shared_subs_checkpoint_interval: {
+    label: 'Checkpoint Interval',
+    desc: `Shared subscription leader periodically commits progress of the topic replay to the database.
+This parameter specifies minimum interval between such commits.`,
+  },
+  realloc_interval: {
+    label: 'Reallocation Interval',
+    desc: `Shared subscription leader accumulates changes to the group (such as subscribers joining or leaving the group) over this period of time before re-distributing the work between the subscribers.
+
+This is done to avoid unnecessary work when multiple subscribers join or leave the group in short succession.`,
+  },
+  revocation_timeout: {
+    label: 'Revocation Timeout',
+    desc: `Maximum time given to the shared subscriber to complete processing of the last batch of messages.
+
+Re-balancing of a shared subscription group may involve taking work from one subscriber and transferring it to another.
+The first subscriber is allowed to finish the remaining work on the revoked tasks during this interval.
+
+If subscriber fails to reply in time, it's kicked from the group and all its work is redistributed.`,
+  },
   /* DURABLE SESSIONS END */
   /* LOG START */
   enable: {
