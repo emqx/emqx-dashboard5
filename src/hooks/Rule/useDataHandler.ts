@@ -33,7 +33,7 @@ const keysNeedRemovedForUpdate = ['type', 'name']
 /**
  * common for connector, action and bridge
  */
-const useCommonDataHandler = () => {
+export const useCommonDataHandler = () => {
   const { handleSSLDataBeforeSubmit } = useSSL()
 
   const handleDataBeforeSubmit = (data: any): any => {
@@ -58,9 +58,30 @@ const useCommonDataHandler = () => {
     'access_key_id',
     'access_key_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
+  const getLikePasswordFieldKeys = (data: any) => {
+    const ret: Array<string> = []
+    const { type } = data
+    if (type === BridgeType.MQTT && data.static_clientids) {
+      const { static_clientids } = data
+      static_clientids?.forEach?.(
+        (item: { ids: Array<{ password?: string } & unknown>; node: string }, outIndex: number) => {
+          item?.ids?.forEach((id, inIndex) => {
+            ret.push(`static_clientids[${outIndex}].ids[${inIndex}].password`)
+          })
+        },
+      )
+    }
+    return ret
+  }
   const handleDataForCopy = (data: any): any => {
     const ret = omit(data, keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
+      if (get(ret, key) !== undefined) {
+        set(ret, key, '')
+      }
+    })
+    const specialKeys = getLikePasswordFieldKeys(ret)
+    specialKeys.forEach((key) => {
       if (get(ret, key) !== undefined) {
         set(ret, key, '')
       }
@@ -75,6 +96,7 @@ const useCommonDataHandler = () => {
   return {
     handleDataBeforeSubmit,
     likePasswordFieldKeys,
+    getLikePasswordFieldKeys,
     handleDataForCopy,
     handleDataForSaveAsCopy,
   }
