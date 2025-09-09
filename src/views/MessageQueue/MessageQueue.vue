@@ -42,6 +42,7 @@
           <el-table-column prop="data_retention_period" :label="tl('dataRetentionPeriod')">
             <template #default="{ row }">
               <span>{{ row.data_retention_period }}</span>
+              <span v-if="typeof row.data_retention_period === 'number'"> (ms)</span>
             </template>
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="160">
