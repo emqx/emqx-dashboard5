@@ -3,6 +3,10 @@ export default {
     zh: '创建消息队列',
     en: 'Create Message Queue',
   },
+  editMessageQueue: {
+    zh: '编辑消息队列',
+    en: 'Edit Message Queue',
+  },
   topicFilter: {
     zh: '主题过滤器',
     en: 'Topic Filter',

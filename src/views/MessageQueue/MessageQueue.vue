@@ -63,7 +63,11 @@
 
     <MQGuidance v-else @create="handleCreate" />
 
-    <MessageQueueDialog v-model="isDialogShow" @created="handleCreated" />
+    <MessageQueueDialog
+      v-model="isDialogShow"
+      :queue="currentMessageQueue"
+      @created="handleCreated"
+    />
   </div>
 </template>
 
