@@ -108,9 +108,37 @@ export const useConnectorDataHandler = (): {
     handleDataForSaveAsCopy,
   } = useCommonDataHandler()
 
+  const handleMQTTData = (data: any) => {
+    const { static_clientids } = data
+    static_clientids?.forEach((item: any) => {
+      item.ids?.forEach((id: any) => {
+        if (!id.username) {
+          delete id.username
+        }
+        if (!id.password) {
+          delete id.password
+        }
+      })
+    })
+    return data
+  }
+
+  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.MQTT, handleMQTTData]])
+
   const handleConnectorDataBeforeSubmit: ConnectorDataHandler = (data) => {
-    const ret: Connector = handleDataBeforeSubmit(data)
-    return omit(ret, connectorKeysDoNotNeedForAPI) as Connector
+    try {
+      let ret = cloneDeep(data)
+      const type = data.type
+      const handler = specialDataHandlerBeforeSubmit.get(type)
+      if (handler) {
+        ret = handler(ret)
+      }
+      ret = handleDataBeforeSubmit(ret)
+      return omit(ret, connectorKeysDoNotNeedForAPI) as Connector
+    } catch (error) {
+      console.error(error)
+      return data
+    }
   }
 
   const handleConnectorDataBeforeUpdate = (data: Connector): Connector => {
