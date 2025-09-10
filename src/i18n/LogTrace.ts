@@ -131,4 +131,16 @@ export default {
     zh: '日志格式',
     en: 'Formatter',
   },
+  eof: {
+    zh: '已到达文件末尾',
+    en: 'End of File',
+  },
+  runningEof: {
+    zh: '已到达文件末尾，请稍后再试',
+    en: 'End of file, please try again later',
+  },
+  staleCursor: {
+    zh: '日志加载游标已失效，请刷新以重新加载',
+    en: 'The log loading cursor has become invalid. Please refresh to reload',
+  },
 }

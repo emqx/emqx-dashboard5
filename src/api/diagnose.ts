@@ -47,8 +47,8 @@ export function getTraceNodesMsg(
 
 export function getTraceLog(
   name: string,
-  params: { bytes: number; position: number; node: string },
-): Promise<{ items: string; meta: { bytes: number; position: number } }> {
+  params: { bytes: number; position?: string; node: string },
+): Promise<{ items: string; meta: { bytes: number; position: string; hint?: 'eof' | 'retry' } }> {
   if (!name) return Promise.reject()
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
 }
