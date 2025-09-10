@@ -9,7 +9,7 @@
           <div class="vertical-align-center">
             <img :src="currImg" height="40" />
             <p class="block-title">{{ titleMap[currBackend] }}</p>
-            <AuthItemStatus is-tag :metrics="authMetrics" />
+            <CommonItemStatus is-tag :metrics="authMetrics" />
             <el-tag type="info" class="section-status">
               {{ getLabelByValue(configData.mechanism) }}
             </el-tag>
@@ -158,7 +158,6 @@ import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typ
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthItemOverview from './components/AuthItemOverview.vue'
-import AuthItemStatus from './components/AuthItemStatus.vue'
 import AuthnManager from './components/AuthnManager.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'

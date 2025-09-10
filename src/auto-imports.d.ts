@@ -284,6 +284,7 @@ declare global {
   const transMSNumToString: typeof import('./common/tools')['transMSNumToString']
   const transMemorySizeNumToStr: typeof import('./common/tools')['transMemorySizeNumToStr']
   const transMemorySizeStrToNum: typeof import('./common/tools')['transMemorySizeStrToNum']
+  const transMsNumToDuration: typeof import('./common/tools')['transMsNumToDuration']
   const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
   const triggerRef: typeof import('vue')['triggerRef']
   const trim: typeof import('lodash')['trim']
@@ -863,6 +864,7 @@ declare module 'vue' {
     readonly transMSNumToString: UnwrapRef<typeof import('./common/tools')['transMSNumToString']>
     readonly transMemorySizeNumToStr: UnwrapRef<typeof import('./common/tools')['transMemorySizeNumToStr']>
     readonly transMemorySizeStrToNum: UnwrapRef<typeof import('./common/tools')['transMemorySizeStrToNum']>
+    readonly transMsNumToDuration: UnwrapRef<typeof import('./common/tools')['transMsNumToDuration']>
     readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly trim: UnwrapRef<typeof import('lodash')['trim']>

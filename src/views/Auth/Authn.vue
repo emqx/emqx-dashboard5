@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column prop="metrics" :label="$t('Auth.status')">
         <template #default="{ row }">
-          <AuthItemStatus :metrics="row.metrics" />
+          <CommonItemStatus :metrics="row.metrics" />
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
@@ -76,7 +76,6 @@ export default {
 import { deleteAuthn } from '@/api/auth'
 import { AuthnItem } from '@/types/auth'
 import { ElMessageBox as MB } from 'element-plus'
-import AuthItemStatus from './components/AuthItemStatus.vue'
 import TableDropdown from './components/TableDropdown.vue'
 import NodeCache from './components/NodeCache.vue'
 
