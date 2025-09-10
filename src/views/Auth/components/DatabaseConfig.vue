@@ -116,14 +116,21 @@
                 </el-form-item>
               </el-col>
             </template>
-            <el-col v-if="isAuthn" :span="12">
-              <el-form-item :label="$t('Auth.superuserField')">
-                <el-input
-                  v-model="databaseConfig.is_superuser_field"
-                  :placeholder="$t('Auth.isSuperuser')"
-                />
-              </el-form-item>
-            </el-col>
+            <template v-if="isAuthn">
+              <el-col :span="12">
+                <el-form-item :label="$t('Auth.superuserField')">
+                  <el-input
+                    v-model="databaseConfig.is_superuser_field"
+                    :placeholder="$t('Auth.isSuperuser')"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('Auth.clientidOverrideField')">
+                  <el-input v-model="databaseConfig.clientid_override_field" />
+                </el-form-item>
+              </el-col>
+            </template>
           </template>
           <PreconditionFormItem v-if="isAuthn" v-model="databaseConfig.precondition" />
 

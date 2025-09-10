@@ -267,6 +267,10 @@ export default {
     zh: 'is_superuser 字段名',
     en: 'is_superuser Field',
   },
+  clientidOverrideField: {
+    zh: 'Client ID 覆盖字段名',
+    en: 'Client ID Override Field',
+  },
   sentinel: {
     zh: 'Sentinel 名字',
     en: 'Sentinel Name',
@@ -520,8 +524,16 @@ export default {
     en: 'Is Superuser Attribute',
   },
   is_superuser_attribute_desc: {
-    zh: '存储客户端超级用户角色的 LDAP 属性名称',
+    zh: '存储客户端超级用户角色的 LDAP 属性名称。',
     en: "The LDAP attribute that indicates a client's superuser role.",
+  },
+  clientid_override_attribute: {
+    zh: 'Client ID 覆盖属性',
+    en: 'Client ID Override Attribute',
+  },
+  clientid_override_attribute_desc: {
+    zh: '指定用于表示覆盖客户端 ID 的属性。',
+    en: 'Indicates which attribute is used to represent a clientid override value.',
   },
   methodHashLabel: {
     zh: '本地密码比对',

@@ -22,16 +22,16 @@ export default {
   },
   /* MySQL, PostgreSQL, Redis */
   authnSQLParagraph2: {
-    zh: '支持查询 is_superuser 字段来向客户端赋予超级权限。',
-    en: 'Allows querying is_superuser field to grant superuser privileges to a client.',
+    zh: '支持查询 is_superuser 字段来向客户端赋予超级权限，支持查询 clientid_override 字段来覆盖客户端 ID。',
+    en: 'Allows querying is_superuser field to grant superuser privileges to a client, and querying clientid_override field to override the client ID.',
   },
   authnMongoDBParagraph1: {
     zh: '当启用 加盐方式 后，查询器需要从 MongoDB 中查询出 password_hash  salt 字段。',
     en: 'When the Salt Position is enabled, the Selector needs to query out the password_hash salt from MongoDB.',
   },
   authnMongoDBParagraph2: {
-    zh: '支持设置 `is_superuser` 字段 来向客户端赋予超级权限。',
-    en: 'Allows setting `is_superuser` Field to grant superuser privileges to a client.',
+    zh: '支持设置 `is_superuser` 字段 来向客户端赋予超级权限，支持设置 `Client ID 覆盖字段名` 来覆盖客户端 ID。',
+    en: 'Allows setting `is_superuser` Field to grant superuser privileges to a client, and setting `Client ID Override Field` to override the client ID.',
   },
   authnRedisParagraph1: {
     zh: '当启用 加盐方式 后，查询命令需要从 Redis 中查询出 password_hash  salt 字段。',
@@ -50,8 +50,8 @@ export default {
     en: 'The Request Body supports the following placeholders: ',
   },
   authnHTTPParagraph3: {
-    zh: 'HTTP 应答支持设置 is_superuser 字段来向客户端赋予超级权限。',
-    en: 'The HTTP Response supports setting is_superuser field to grant superuser privileges to the client.',
+    zh: 'HTTP 应答支持设置 is_superuser 字段来向客户端赋予超级权限，支持设置 clientid_override 字段来覆盖客户端 ID。',
+    en: 'The HTTP Response supports setting is_superuser field to grant superuser privileges to the client, and setting clientid_override field to override the client ID.',
   },
   /* Authz */
   theTableStructureExample: {

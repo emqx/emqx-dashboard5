@@ -77,12 +77,22 @@
               >
                 <template #label>
                   {{ tl('is_superuser_attribute') }}
-                  <InfoTooltip
-                    v-if="ldapConfig.method.is_superuser_attribute"
-                    :content="tl('is_superuser_attribute_desc')"
-                  />
+                  <InfoTooltip :content="tl('is_superuser_attribute_desc')" />
                 </template>
                 <el-input v-model="ldapConfig.method.is_superuser_attribute" />
+              </el-form-item>
+            </el-col>
+            <!-- ClientID Override Attribute -->
+            <el-col :span="12">
+              <el-form-item
+                :label="tl('clientid_override_attribute')"
+                prop="method.clientid_override_attribute"
+              >
+                <template #label>
+                  {{ tl('clientid_override_attribute') }}
+                  <InfoTooltip :content="tl('clientid_override_attribute_desc')" />
+                </template>
+                <el-input v-model="ldapConfig.method.clientid_override_attribute" />
               </el-form-item>
             </el-col>
           </template>
