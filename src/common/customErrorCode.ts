@@ -12,3 +12,5 @@ export const { LOGIN_LOCKED } = PostLogin401Code
 export const NAME_PWD_ERROR = 'BAD_USERNAME_OR_PWD'
 
 export const MFA_REQUIRED = 'BAD_MFA_TOKEN'
+
+export const UNAUTHORIZED_ROLE = 'UNAUTHORIZED_ROLE'
