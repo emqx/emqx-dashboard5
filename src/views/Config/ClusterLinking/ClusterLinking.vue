@@ -22,6 +22,11 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column :label="t('Base.status')" :min-width="124" sortable>
+        <template #default="{ row }">
+          <CommonItemStatus :metrics="row" />
+        </template>
+      </el-table-column>
       <el-table-column :label="t('Base.isEnabled')">
         <template #default="{ row }">
           <el-switch

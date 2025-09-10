@@ -2,28 +2,14 @@
   <StatusDetailsOfEachNode :status-data="statusData" :is-tag="isTag" />
 </template>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'AuthItemStatus',
-})
-</script>
-
 <script setup lang="ts">
 import { ConnectionStatus } from '@/types/enum'
 import { Metrics } from '@/types/auth'
 
-const props = defineProps({
-  enable: {
-    type: Boolean,
-  },
-  metrics: {
-    type: Object as PropType<Metrics>,
-  },
-  isTag: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = defineProps<{
+  metrics: Metrics & unknown
+  isTag?: boolean
+}>()
 
 const { getStatusClass, getStatusLabel } = useCommonConnectionStatus()
 

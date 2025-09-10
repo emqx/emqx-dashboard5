@@ -6,7 +6,7 @@
           <div class="vertical-align-center">
             <img :src="currImg" height="40" />
             <p class="block-title">{{ titleMap[type] }}</p>
-            <AuthItemStatus is-tag :metrics="authMetrics" />
+            <CommonItemStatus is-tag :metrics="authMetrics" />
           </div>
         </template>
         <template #extra>
@@ -106,7 +106,6 @@ import { deleteAuthz, loadAuthz, queryAuthzItemMetrics, updateAuthz } from '@/ap
 import { Metrics } from '@/types/auth'
 import { Delete } from '@element-plus/icons-vue'
 import AuthItemOverview from './components/AuthItemOverview.vue'
-import AuthItemStatus from './components/AuthItemStatus.vue'
 import AuthzManager from './components/AuthzManager.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
