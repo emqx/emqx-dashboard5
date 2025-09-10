@@ -4,6 +4,7 @@ import {
   MFA_REQUIRED,
   NAME_PWD_ERROR,
   TOKEN_TIME_OUT,
+  UNAUTHORIZED_ROLE,
 } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import i18n from '@/i18n'
@@ -72,6 +73,8 @@ axios.interceptors.request.use(async (config: CustomRequestConfig) => {
 
 const isTokenExpired = (status: number, data: any) =>
   status === 401 && [BAD_TOKEN, TOKEN_TIME_OUT].includes(data.code)
+const isUnauthorizedRole = (status: number, data: any) =>
+  status === 403 && data.code === UNAUTHORIZED_ROLE
 
 const readBlobResponse = async (data: Blob) => {
   try {
@@ -150,6 +153,10 @@ axios.interceptors.response.use(
           toLogin()
           // reset set, otherwise will not popup error msg
           window.setTimeout(resetRespSet, 1000)
+          return Promise.reject(error)
+        }
+        if (isUnauthorizedRole(status, data)) {
+          ElMessage.error(t('Base.unauthorizedRole'))
           return Promise.reject(error)
         }
         // some special cases

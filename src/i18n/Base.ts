@@ -764,4 +764,8 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '集群描述',
     en: 'Cluster Description',
   },
+  unauthorizedRole: {
+    zh: '您没有权限访问此资源，请联系管理员',
+    en: "You don't have permission to access this resource, please contact the administrator",
+  },
 }
