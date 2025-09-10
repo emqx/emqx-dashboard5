@@ -15,17 +15,22 @@ import safeHTML from '@/common/safeHTML'
 import i18n from './i18n'
 import globalComponents from './components/global-components'
 import permissionsPlugin from './plugins/permissionsPlugin'
+import { FlowComponents } from '@emqx/shared-ui-components'
 
 function bindDirective(app: Application) {
   app.directive('safe-html', safeHTML)
 }
 
 const elementLang = store.state.lang === 'en' ? elementI18nEn : elementI18nZhCn
+const componentLocale = store.state.lang === 'zh' ? 'zh' : 'en'
 const app = createApp(App)
   .use(store)
   .use(router)
   .use(ElementPlus, {
     locale: elementLang,
+  })
+  .use(FlowComponents, {
+    locale: componentLocale,
   })
   .use(i18n)
   .use(bindDirective)
