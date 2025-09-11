@@ -12,8 +12,9 @@ export default {
     en: 'Topic Filter',
   },
   topicFilterDesc: {
-    zh: '用于确定哪些消息进入消息队列的过滤器',
-    en: 'The filter used to determine which messages are getting into the message queue.',
+    zh: `用于确定哪些消息进入消息队列的过滤器。客户端可以通过订阅 \`$q/{'{'}过滤主题{'}'}\` 来从队列中消费消息`,
+    en: `The filter used to determine which messages are getting into the message queue.
+Clients can consume messages from the queue by subscribing to \`$q/{'{'}Topic Filter{'}'}\`.`,
   },
   invalidTopicFilter: {
     zh: '无效的过滤主题格式',
@@ -40,8 +41,10 @@ export default {
     en: 'Last Value Semantics',
   },
   isLastvalueDesc: {
-    zh: '指示消息是否具有最后值语义。最后值语义意味着消息覆盖同一主题中相同队列键的先前消息。',
-    en: 'Indicates if the message has Last-Value semantics. Last-Value semantics means that messages overwrite previous messages with the same queue key in the same topic.',
+    zh: `指示消息是否具有最后值语义。最后值语义意味着消息覆盖同一主题中相同队列键的先前消息。<br />
+请注意，启用此选项后，每条消息应该具有 \`mq-key\` 用户属性设置，以保存到队列中。`,
+    en: `Indicates if the message has Last-Value semantics. Last-Value semantics means that messages overwrite previous messages with the same queue key in the same topic.<br />
+Please note that each message should have \`mq-key\` user property set to be saved in the queue.`,
   },
   dispatchStrategyRandom: {
     zh: '随机',

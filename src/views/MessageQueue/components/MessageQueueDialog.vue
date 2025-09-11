@@ -12,7 +12,7 @@
         <el-col :span="12">
           <el-form-item prop="topic_filter">
             <template #label>
-              <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" />
+              <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" desc-marked />
             </template>
             <el-input v-model="form.topic_filter" clearable :disabled="isEdit" />
           </el-form-item>
@@ -50,7 +50,7 @@
         <el-col :span="12">
           <el-form-item prop="is_lastvalue">
             <template #label>
-              <FormItemLabel :label="tl('isLastvalue')" :desc="tl('isLastvalueDesc')" />
+              <FormItemLabel :label="tl('isLastvalue')" :desc="tl('isLastvalueDesc')" desc-marked />
             </template>
             <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
