@@ -584,6 +584,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: 'session.discarded 钩子触发次数',
     en: 'session.discarded hook trigger times',
   },
+  session_disconnected: {
+    zh: 'session.disconnected 钩子触发次数',
+    en: 'session.disconnected hook trigger times',
+  },
   session_resumed: {
     zh: 'session.resumed 钩子触发次数',
     en: 'session.resumed hook trigger times',
