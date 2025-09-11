@@ -134,7 +134,12 @@
                 :desc="tl('connection_high_watermark_desc')"
               />
             </template>
-            <InputWithUnit v-model="licenseConfig.connection_high_watermark" :units="['%']" />
+            <InputWithUnit
+              v-model="licenseConfig.connection_high_watermark"
+              :units="['%']"
+              :max="100"
+              :min="0"
+            />
           </el-form-item>
           <el-form-item prop="connection_low_watermark">
             <template #label>
@@ -143,7 +148,12 @@
                 :desc="tl('connection_low_watermark_desc')"
               />
             </template>
-            <InputWithUnit v-model="licenseConfig.connection_low_watermark" :units="['%']" />
+            <InputWithUnit
+              v-model="licenseConfig.connection_low_watermark"
+              :units="['%']"
+              :max="100"
+              :min="0"
+            />
           </el-form-item>
           <el-button
             type="primary"
