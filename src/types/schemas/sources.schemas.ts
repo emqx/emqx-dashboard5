@@ -25,8 +25,8 @@ export type GetSourcesIdMetrics404 = {
 }
 
 export type GetSourcesIdMetrics200 = {
-  metrics?: BridgeMetrics
-  node_metrics?: BridgeNodeMetrics[]
+  metrics?: ActionsAndSourcesMetrics
+  node_metrics?: ActionsAndSourcesNodeMetrics[]
 }
 
 export type PutSourcesIdEnableEnable503Code =
@@ -419,7 +419,7 @@ export interface KafkaConsumerGetSource {
   description?: string
   enable?: boolean
   name: string
-  node_status?: BridgeNodeStatus[]
+  node_status?: ActionsAndSourcesNodeStatus[]
   parameters: KafkaConsumerSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
   status?: KafkaConsumerGetSourceStatus
@@ -492,58 +492,18 @@ export const GcpPubsubConsumerGetSourceStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export type BridgeNodeStatusStatus =
-  (typeof BridgeNodeStatusStatus)[keyof typeof BridgeNodeStatusStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeNodeStatusStatus = {
-  connected: 'connected',
-  connecting: 'connecting',
-  disconnected: 'disconnected',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface BridgeNodeStatus {
-  node?: string
-  status?: BridgeNodeStatusStatus
-  status_reason?: string
-}
-
 export interface GcpPubsubConsumerGetSource {
   connector: string
   description?: string
   enable?: boolean
   name: string
-  node_status?: BridgeNodeStatus[]
+  node_status?: ActionsAndSourcesNodeStatus[]
   parameters: GcpPubsubConsumerSourceParameters
   resource_opts?: GcpPubsubConsumerSourceResourceOpts
   status?: GcpPubsubConsumerGetSourceStatus
   status_reason?: string
   tags?: string[]
   type: GcpPubsubConsumerGetSourceType
-}
-
-export interface BridgeMetrics {
-  dropped?: number
-  'dropped.other'?: number
-  'dropped.queue_full'?: number
-  'dropped.resource_not_found'?: number
-  'dropped.resource_stopped'?: number
-  failed?: number
-  inflight?: number
-  matched?: number
-  queuing?: number
-  rate?: number
-  rate_last5m?: number
-  rate_max?: number
-  received?: number
-  retried?: number
-  success?: number
-}
-
-export interface BridgeNodeMetrics {
-  metrics?: BridgeMetrics
-  node?: string
 }
 
 export interface BridgeRabbitmqSourceParameters {
@@ -604,7 +564,7 @@ export interface BridgeRabbitmqGetSource {
   description?: string
   enable?: boolean
   name: string
-  node_status?: BridgeNodeStatus[]
+  node_status?: ActionsAndSourcesNodeStatus[]
   parameters: BridgeRabbitmqSourceParameters
   resource_opts?: ActionsAndSourcesSourceResourceOpts
   status?: BridgeRabbitmqGetSourceStatus
@@ -683,7 +643,7 @@ export interface BridgeMqttPublisherGetSource {
   description?: string
   enable?: boolean
   name: string
-  node_status?: BridgeNodeStatus[]
+  node_status?: ActionsAndSourcesNodeStatus[]
   parameters: BridgeMqttPublisherIngressParameters
   resource_opts?: BridgeMqttPublisherSourceResourceOpts
   status?: BridgeMqttPublisherGetSourceStatus
@@ -717,4 +677,44 @@ export interface ActionsAndSourcesResponseSummary {
   status?: string
   status_reason?: string
   type?: string
+}
+
+export type ActionsAndSourcesNodeStatusStatus =
+  (typeof ActionsAndSourcesNodeStatusStatus)[keyof typeof ActionsAndSourcesNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionsAndSourcesNodeStatusStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ActionsAndSourcesNodeStatus {
+  node?: string
+  status?: ActionsAndSourcesNodeStatusStatus
+  status_reason?: string
+}
+
+export interface ActionsAndSourcesMetrics {
+  dropped?: number
+  'dropped.other'?: number
+  'dropped.queue_full'?: number
+  'dropped.resource_not_found'?: number
+  'dropped.resource_stopped'?: number
+  failed?: number
+  inflight?: number
+  matched?: number
+  queuing?: number
+  rate?: number
+  rate_last5m?: number
+  rate_max?: number
+  received?: number
+  retried?: number
+  success?: number
+}
+
+export interface ActionsAndSourcesNodeMetrics {
+  metrics?: ActionsAndSourcesMetrics
+  node?: string
 }

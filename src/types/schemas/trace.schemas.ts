@@ -57,6 +57,8 @@ export type GetTraceNameLog400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTraceNameLog400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
+  INVALID_PARAMETER: 'INVALID_PARAMETER',
+  STALE_CURSOR: 'STALE_CURSOR',
 } as const
 
 export type GetTraceNameLog400 = {
@@ -64,18 +66,30 @@ export type GetTraceNameLog400 = {
   message?: string
 }
 
-export type GetTraceNameLog200Meta = {
-  /**
-   * @minimum 0
-   * @maximum 2147483647
-   */
-  bytes?: number
-  position?: number
-}
-
 export type GetTraceNameLog200 = {
   items?: string
   meta?: GetTraceNameLog200Meta
+}
+
+export type GetTraceNameLog200MetaPosition = number | string
+
+export type GetTraceNameLog200MetaHint =
+  (typeof GetTraceNameLog200MetaHint)[keyof typeof GetTraceNameLog200MetaHint]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetTraceNameLog200MetaHint = {
+  eof: 'eof',
+  retry: 'retry',
+} as const
+
+export type GetTraceNameLog200Meta = {
+  /**
+   * @minimum 0
+   * @maximum 67108864
+   */
+  bytes?: number
+  hint?: GetTraceNameLog200MetaHint
+  position?: GetTraceNameLog200MetaPosition
 }
 
 export type GetTraceNameLogParams = {
@@ -183,7 +197,7 @@ export type PostTraceBody = {
   type: PostTraceBodyType
 }
 
-export type TracePositionParameter = number
+export type TracePositionParameter = number | string
 
 export type TraceNodeParameter = string
 

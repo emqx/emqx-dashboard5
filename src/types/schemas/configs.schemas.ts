@@ -432,7 +432,6 @@ export const GetConfigsKey = {
   authorization: 'authorization',
   auto_subscribe: 'auto_subscribe',
   banned: 'banned',
-  bridges: 'bridges',
   cluster: 'cluster',
   config_backup_interval: 'config_backup_interval',
   conn_congestion: 'conn_congestion',
@@ -440,7 +439,6 @@ export const GetConfigsKey = {
   crl_cache: 'crl_cache',
   dashboard: 'dashboard',
   delayed: 'delayed',
-  durable_queues: 'durable_queues',
   durable_sessions: 'durable_sessions',
   durable_storage: 'durable_storage',
   exhook: 'exhook',
@@ -453,6 +451,7 @@ export const GetConfigsKey = {
   listeners: 'listeners',
   log: 'log',
   message_transformation: 'message_transformation',
+  mq: 'mq',
   mqtt: 'mqtt',
   multi_tenancy: 'multi_tenancy',
   node: 'node',
@@ -1123,12 +1122,19 @@ export interface EmqxEventNames {
   client_unsubscribed?: boolean
 }
 
+export interface EmqxDurableSharedSubs {
+  checkpoint_interval?: string
+  realloc_interval?: string
+  revocation_timeout?: string
+}
+
 export interface EmqxDurableSessions {
   /** @minimum 1 */
   batch_size?: number
   checkpoint_interval?: string
   enable?: boolean
   message_retention_period?: string
+  shared_subs?: EmqxDurableSharedSubs
 }
 
 export type EmqxConsoleHandlerTimestampFormat =
