@@ -104,6 +104,7 @@ import type {
   MqMessageQueueDispatchStrategy,
 } from './schemas/messageQueue.schemas'
 import { MqMessageQueueDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
+import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -251,3 +252,7 @@ export type MessageQueue = MqMessageQueue
 export type MessageQueueDispatchStrategy = MqMessageQueueDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
 export type MessageQueueConfig = MqApiConfigPut
+
+/* LOG TRACE */
+export type GetTraceContentParams = GetTraceNameLogParams
+export type GetTraceContentResponse = GetTraceNameLog200

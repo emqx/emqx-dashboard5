@@ -7,6 +7,7 @@ import {
   TraceItem,
 } from '@/types/diagnose'
 import { getLocalMessage } from '@/i18n'
+import { GetTraceContentParams, GetTraceContentResponse } from '@/types/typeAlias'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
@@ -47,8 +48,8 @@ export function getTraceNodesMsg(
 
 export function getTraceLog(
   name: string,
-  params: { bytes: number; position?: string; node: string },
-): Promise<{ items: string; meta: { bytes: number; position: string; hint?: 'eof' | 'retry' } }> {
+  params: GetTraceContentParams,
+): Promise<GetTraceContentResponse> {
   if (!name) return Promise.reject()
   return http.get(`/trace/${encodeURIComponent(name)}/log`, { params })
 }
