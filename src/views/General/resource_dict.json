@@ -2878,5 +2878,53 @@
       "en": "List all AI models available for a provider type",
       "zh": "列出所有可用的 AI 模型"
     }
+  },
+  {
+    "method": "post",
+    "path": "/message_queues/queues",
+    "operation_label": {
+      "en": "Message Queue",
+      "zh": "消息队列"
+    },
+    "operation_name_label": {
+      "en": "Create a new message queue",
+      "zh": "创建新的消息队列"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_queues/config",
+    "operation_label": {
+      "en": "Message Queue",
+      "zh": "消息队列"
+    },
+    "operation_name_label": {
+      "en": "Update message queue config",
+      "zh": "更新消息队列配置"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/message_queues/queues/:topic_filter",
+    "operation_label": {
+      "en": "Message Queue",
+      "zh": "消息队列"
+    },
+    "operation_name_label": {
+      "en": "Delete message queue",
+      "zh": "删除消息队列"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_queues/queues/:topic_filter",
+    "operation_label": {
+      "en": "Message Queue",
+      "zh": "消息队列"
+    },
+    "operation_name_label": {
+      "en": "Update message queue",
+      "zh": "更新消息队列"
+    }
   }
 ]
