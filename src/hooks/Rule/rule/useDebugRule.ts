@@ -9,10 +9,11 @@ import {
   TraceEncodeType,
 } from '@/types/enum'
 import { BasicRule, BridgeItem, RuleEvent, RuleItem } from '@/types/rule'
+import { GetTraceContentParams } from '@/types/typeAlias'
 import { Edge, Node } from '@vue-flow/core'
 import dayjs from 'dayjs'
 
-const BYTE_PER_PAGE = Math.pow(2, 30)
+const BYTE_PER_PAGE = Math.pow(2, 26)
 
 export default (): {
   logData: Ref<FormattedLog>
@@ -90,7 +91,7 @@ export default (): {
     return ret
   }
 
-  const logLastPositionMap: Map<string, number> = new Map()
+  const logLastPositionMap: Map<string, number | string> = new Map()
   const getCurrentTraceNodesMsg = async () => {
     try {
       if (!traceName) {
@@ -119,16 +120,18 @@ export default (): {
         return
       }
       logLastPositionMap.forEach(async (position, node) => {
-        const { items, meta } = await getTraceLog(traceName, {
-          node,
-          bytes: BYTE_PER_PAGE,
-          position: position,
-        })
-        const logArr = convertLogStrToLogArr(items)
+        const params: GetTraceContentParams = { node, bytes: BYTE_PER_PAGE }
+        if (position) {
+          params.position = position
+        }
+        const { items, meta } = await getTraceLog(traceName, params)
+        const logArr = convertLogStrToLogArr(items ?? '')
         const filteredLogArr = traceStartTime ? filterExpiredLog(logArr, traceStartTime) : logArr
         const data = formatLog(filteredLogArr)
         logData.value = addNewLogToCurrentLog(logData.value, data)
-        logLastPositionMap.set(node, meta.position)
+        if (meta?.position) {
+          logLastPositionMap.set(node, meta.position)
+        }
       })
       return Promise.resolve()
     } catch (error) {

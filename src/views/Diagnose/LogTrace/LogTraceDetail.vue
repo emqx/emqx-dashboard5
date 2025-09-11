@@ -49,9 +49,10 @@
 import { downloadTrace, getTraceList, getTraceLog, getTraceNodesMsg } from '@/api/diagnose'
 import { TraceItem } from '@/types/diagnose'
 import { TraceTraceStatus } from '@/types/schemas/trace.schemas'
+import { GetTraceContentParams } from '@/types/typeAlias'
 import { IScrollEvent } from 'monaco-editor'
 
-let lastPosition: undefined | string = undefined
+let lastPosition: undefined | string | number = undefined
 let isEndOfFile = false
 let LAST_ACTIVITY_SCROLL_TOP = 0
 const BYTE_PER_PAGE = 50 * 1024
@@ -145,7 +146,7 @@ const scrollLoadFunc = async (event: IScrollEvent) => {
 }
 
 const loadLogDetail = async (name: string) => {
-  const params: { bytes: number; position?: string; node: string } = {
+  const params: GetTraceContentParams = {
     bytes: BYTE_PER_PAGE,
     node: selectedNode.value,
   }
