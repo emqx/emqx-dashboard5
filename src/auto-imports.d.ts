@@ -677,6 +677,10 @@ declare module 'vue' {
     readonly NO_CHINESE_REG: UnwrapRef<typeof import('./hooks/useFormRules')['NO_CHINESE_REG']>
     readonly NUM_REG: UnwrapRef<typeof import('./common/constants')['NUM_REG']>
     readonly NodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['NodeType']>
+    readonly ONE_DAY: UnwrapRef<typeof import('./common/tools')['ONE_DAY']>
+    readonly ONE_HOUR: UnwrapRef<typeof import('./common/tools')['ONE_HOUR']>
+    readonly ONE_MINUTE: UnwrapRef<typeof import('./common/tools')['ONE_MINUTE']>
+    readonly ONE_SECOND: UnwrapRef<typeof import('./common/tools')['ONE_SECOND']>
     readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']>
     readonly PASSWORD_REG: UnwrapRef<typeof import('./common/constants')['PASSWORD_REG']>
     readonly ProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['ProcessingType']>
