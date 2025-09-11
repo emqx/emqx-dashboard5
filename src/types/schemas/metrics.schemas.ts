@@ -355,6 +355,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'session.discarded'?: number
   /** @minimum 0 */
+  'session.disconnected'?: number
+  /** @minimum 0 */
   'session.resumed'?: number
   /** @minimum 0 */
   'session.takenover'?: number
@@ -551,6 +553,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number
+  /** @minimum 0 */
+  'session.disconnected'?: number
   /** @minimum 0 */
   'session.resumed'?: number
   /** @minimum 0 */
