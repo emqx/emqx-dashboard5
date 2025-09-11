@@ -31,6 +31,7 @@ export default (): {
   getDurationStr: (val: number | string, unit: TimeUnit) => string | number
   transMsNumToSimpleStr: (num: number) => string | number
   transSecondNumToSimpleStr: (num: number) => string | number
+  getIntDurationStr: (num: number) => string
 } => {
   const { t } = useI18nTl('General')
 
@@ -80,9 +81,32 @@ export default (): {
 
   const transSecondNumToSimpleStr = (num: number) => getDurationStr(num, TimeUnit.Second)
 
+  const getIntDurationStr = (num: number) => {
+    if (num <= 0) return '0ms'
+
+    const timeUnits = [
+      { threshold: ONE_DAY, unit: TimeUnit.Day },
+      { threshold: ONE_HOUR, unit: TimeUnit.Hour },
+      { threshold: ONE_MINUTE, unit: TimeUnit.Minute },
+      { threshold: ONE_SECOND, unit: TimeUnit.Second },
+    ]
+
+    for (const { threshold, unit } of timeUnits) {
+      if (num >= threshold) {
+        const value = num / threshold
+        if (Number.isInteger(value)) {
+          return `${value} ${t(unitStrKeyMap[unit], value)}`
+        }
+      }
+    }
+
+    return `${num} ${t(unitStrKeyMap[TimeUnit.Millisecond], num)}`
+  }
+
   return {
     getDurationStr,
     transMsNumToSimpleStr,
     transSecondNumToSimpleStr,
+    getIntDurationStr,
   }
 }

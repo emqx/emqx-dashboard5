@@ -150,10 +150,10 @@ const cutNumberDecimal = (num: number, length = 10): string => {
 /**
  * with unit ms
  */
-const ONE_SECOND = 1000
-const ONE_MINUTE = ONE_SECOND * 60
-const ONE_HOUR = ONE_MINUTE * 60
-const ONE_DAY = ONE_HOUR * 24
+export const ONE_SECOND = 1000
+export const ONE_MINUTE = ONE_SECOND * 60
+export const ONE_HOUR = ONE_MINUTE * 60
+export const ONE_DAY = ONE_HOUR * 24
 
 /**
  * number (ms) to string (with unit ms/s/m/h/d)
@@ -178,16 +178,18 @@ export const transMsNumToDuration = (num: number): string => {
   if (num <= 0) return '0ms'
 
   const timeUnits = [
-    { threshold: ONE_DAY, divisor: ONE_DAY, unit: 'd' },
-    { threshold: ONE_HOUR, divisor: ONE_HOUR, unit: 'h' },
-    { threshold: ONE_MINUTE, divisor: ONE_MINUTE, unit: 'm' },
-    { threshold: ONE_SECOND, divisor: ONE_SECOND, unit: 's' },
+    { threshold: ONE_DAY, unit: 'd' },
+    { threshold: ONE_HOUR, unit: 'h' },
+    { threshold: ONE_MINUTE, unit: 'm' },
+    { threshold: ONE_SECOND, unit: 's' },
   ]
 
-  for (const { threshold, divisor, unit } of timeUnits) {
+  for (const { threshold, unit } of timeUnits) {
     if (num >= threshold) {
-      const value = num / divisor
-      return Number.isInteger(value) ? value + unit : num + 'ms'
+      const value = num / threshold
+      if (Number.isInteger(value)) {
+        return value + unit
+      }
     }
   }
 
