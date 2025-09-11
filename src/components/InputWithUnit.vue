@@ -6,6 +6,7 @@
     :readonly="disabledOpt && unit === disabledOpt.value"
     @change="$emit('change')"
     :placeholder="numberPlaceholder"
+    @blur="checkNumPart"
   >
     <template #append>
       <span class="single-unit" v-if="units && units.length === 1">
@@ -61,6 +62,12 @@ const props = defineProps({
       value: string | number | boolean
       label: number | string
     }>,
+  },
+  max: {
+    type: Number,
+  },
+  min: {
+    type: Number,
   },
 })
 
@@ -200,6 +207,15 @@ const inputValue: WritableComputedRef<string> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const checkNumPart = () => {
+  if (props.max && parseFloat(numPart.value) > props.max) {
+    numPart.value = props.max.toString()
+  }
+  if (props.min && parseFloat(numPart.value) < props.min) {
+    numPart.value = props.min.toString()
+  }
+}
 </script>
 
 <style lang="scss">
