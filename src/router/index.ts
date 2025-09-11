@@ -1091,8 +1091,6 @@ export async function toLogin(path?: string): Promise<void> {
       path: '/login',
       query: { to: path ? path : (currentPath ?? undefined) },
     })
-    // for refresh routers
-    window.setTimeout(() => window.location.reload(), 500)
   }
 }
 
