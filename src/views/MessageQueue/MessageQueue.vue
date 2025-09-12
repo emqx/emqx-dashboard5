@@ -46,10 +46,10 @@
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="160">
             <template #default="{ row }">
-              <TableButton @click="handleEdit(row)">
+              <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
                 {{ t('Base.edit') }}
               </TableButton>
-              <TableButton @click="handleDelete(row)">
+              <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
                 {{ t('Base.delete') }}
               </TableButton>
             </template>

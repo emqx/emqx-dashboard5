@@ -55,6 +55,7 @@ declare global {
   const GATEWAY_ENABLED_DATABASES_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']
   const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
   const GEMINI_DEFAULT_BASE_URL: typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']
+  const GLOBAL_NAMESPACE: typeof import('./common/constants')['GLOBAL_NAMESPACE']
   const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
@@ -648,6 +649,7 @@ declare module 'vue' {
     readonly GATEWAY_ENABLED_DATABASES_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']>
     readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']>
     readonly GEMINI_DEFAULT_BASE_URL: UnwrapRef<typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']>
+    readonly GLOBAL_NAMESPACE: UnwrapRef<typeof import('./common/constants')['GLOBAL_NAMESPACE']>
     readonly HTTP_POST_DEFAULT_HEADERS: UnwrapRef<typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']>
     readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
     readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
