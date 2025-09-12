@@ -23,6 +23,11 @@
           {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
         </template>
       </el-table-column>
+      <el-table-column :label="t('BasicConfig.namespace')">
+        <template #default="{ row }">
+          {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" :label="t('Base.note')" />
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
@@ -57,6 +62,7 @@
 import { APIKey } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
+import { GLOBAL_NAMESPACE } from '@/common/constants'
 import dayjs from 'dayjs'
 
 const { t } = useI18n()

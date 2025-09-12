@@ -1,5 +1,3 @@
-import { User } from '@/types/systemModule'
-
 const useNamespaceUser = () => {
   /**
    * Role format
@@ -19,12 +17,14 @@ const useNamespaceUser = () => {
    * Role format
    * ns:{namespace name}::{role}
    */
-  const processUserRecordForSubmit = (user: User) => {
+  const processUserRecordForSubmit = <T extends { namespace?: string; role: string }>(
+    user: T,
+  ): T => {
     const { namespace, ...record } = user
     if (namespace) {
-      return { ...record, role: `ns:${namespace}::${user.role}` }
+      return { ...record, role: `ns:${namespace}::${user.role}` } as T
     }
-    return user
+    return user as T
   }
 
   return {

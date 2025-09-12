@@ -12,6 +12,7 @@ export interface APIKeyFormWhenCreating {
   enable: boolean
   api_key?: string
   role: string
+  namespace?: string
 }
 
 export interface APIKey extends APIKeyFormWhenCreating {
@@ -21,7 +22,10 @@ export interface APIKey extends APIKeyFormWhenCreating {
   expired: boolean
 }
 
-export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
+export type APIKeyFormWhenEditing = Pick<
+  APIKey,
+  'name' | 'expired_at' | 'desc' | 'enable' | 'role' | 'namespace'
+>
 
 export interface ExhookFormForCreate {
   auto_reconnect: false | string
