@@ -98,6 +98,8 @@ export default function useAuthnCreate() {
       filter: '',
       password_hash_field: 'password_hash',
       salt_field: 'salt',
+      is_superuser_field: 'is_superuser',
+      clientid_override_field: 'clientid_override',
       r_mode: 'master',
       w_mode: 'unsafe',
       use_legacy_protocol: 'auto',
@@ -150,6 +152,7 @@ export default function useAuthnCreate() {
         bind_password: '${password}',
         password_attribute: 'userPassword',
         is_superuser_attribute: 'isSuperuser',
+        clientid_override_attribute: 'clientIdOverride',
       },
     }
   }
