@@ -206,7 +206,7 @@ const namespaceOptions = ref([])
 const isNamespaceOptionsLoaded = ref(false)
 const queryNamespaceList = async () => {
   try {
-    const res = await getManagedNamespaceList()
+    const res = await getManagedNamespaceList({ limit: 10000 })
     namespaceOptions.value = res
     isNamespaceOptionsLoaded.value = true
   } catch (error) {

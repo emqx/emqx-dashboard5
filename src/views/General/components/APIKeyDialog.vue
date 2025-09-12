@@ -58,6 +58,30 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="t('BasicConfig.namespace')" prop="namespace">
+            <div class="vertical-align-center">
+              <el-switch
+                v-model="isNamespaceEnabled"
+                :disabled="operationType !== 'create'"
+                @change="toggleNamespaceEnabled"
+              />
+              <el-select
+                v-if="isNamespaceEnabled"
+                v-model="formData.namespace"
+                :disabled="operationType !== 'create'"
+              >
+                <el-option
+                  v-for="item in namespaceOptions"
+                  :key="item"
+                  :value="item"
+                  :label="item"
+                />
+              </el-select>
+            </div>
+          </el-form-item>
+        </el-col>
+
         <el-col :span="24" v-if="operationType === 'view'">
           <el-form-item label="API Key">
             <el-row :gutter="12">
@@ -109,8 +133,10 @@
 </template>
 
 <script lang="ts" setup>
-import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
+import { getManagedNamespaceList } from '@/api/config'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
+import { GLOBAL_NAMESPACE } from '@/common/constants'
+import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
@@ -178,6 +204,26 @@ const showResultDialog: Ref<boolean> = ref(false)
 
 const { datePickerShortcuts } = useDatePickerShortcuts()
 
+const isNamespaceEnabled = ref(false)
+const namespaceOptions = ref<Array<string>>([])
+const isNamespaceOptionsLoaded = ref(false)
+const queryNamespaceList = async () => {
+  try {
+    const res = await getManagedNamespaceList({ limit: 10000 })
+    namespaceOptions.value = res
+    isNamespaceOptionsLoaded.value = true
+  } catch (error) {
+    //
+  }
+}
+const toggleNamespaceEnabled = () => {
+  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
+    queryNamespaceList()
+  } else if (!isNamespaceEnabled.value && formData.value.namespace) {
+    formData.value.namespace = ''
+  }
+}
+
 const showDialog = computed({
   get: () => props.modelValue,
   set: (val: boolean) => {
@@ -196,6 +242,8 @@ watch(showDialog, async (val) => {
       await nextTick()
       formCom.value.clearValidate()
     }
+    isNamespaceEnabled.value =
+      !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
   } else {
     formData.value = createRawFormData()
   }
@@ -221,11 +269,19 @@ const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
   return ret
 }
 
-const submitAddedData = () => createAPIKey(handleExpiredAt(formData.value))
+const { processUserRecordForSubmit } = useNamespaceUser()
+const submitAddedData = () =>
+  createAPIKey(handleExpiredAt(processUserRecordForSubmit(formData.value)))
 
 const submitUpdatedData = () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing
-  return updateAPIKey(name, handleExpiredAt(data as APIKeyFormWhenCreating))
+  if (data.namespace === GLOBAL_NAMESPACE) {
+    Reflect.deleteProperty(data, 'namespace')
+  }
+  return updateAPIKey(
+    name,
+    handleExpiredAt(processUserRecordForSubmit(data) as APIKeyFormWhenCreating),
+  )
 }
 
 const submit = async () => {
@@ -267,6 +323,14 @@ const submit = async () => {
       .el-textarea__inner {
         box-shadow: 0 0 0 1px var(--el-disabled-border-color) inset;
       }
+    }
+  }
+
+  .vertical-align-center {
+    flex-grow: 1;
+    .el-select {
+      flex-grow: 1;
+      margin-left: 8px;
     }
   }
 }
