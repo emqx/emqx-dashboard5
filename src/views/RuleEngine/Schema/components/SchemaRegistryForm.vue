@@ -25,7 +25,11 @@
         <el-col :span="8" />
         <el-col :span="8">
           <el-form-item :label="tl('type')" prop="type">
-            <el-select v-model="schemaForm.type" :disabled="isEdit && isEditingProtobufBundle">
+            <el-select
+              v-model="schemaForm.type"
+              :disabled="isEdit && isEditingProtobufBundle"
+              @change="handleTypeChanged"
+            >
               <el-option
                 v-for="{ label, value } in schemaTypeOpts"
                 :key="value"
