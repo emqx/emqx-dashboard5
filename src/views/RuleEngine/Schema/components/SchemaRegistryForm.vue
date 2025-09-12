@@ -25,7 +25,11 @@
         <el-col :span="8" />
         <el-col :span="8">
           <el-form-item :label="tl('type')" prop="type">
-            <el-select v-model="schemaForm.type" :disabled="isEdit && isEditingProtobufBundle">
+            <el-select
+              v-model="schemaForm.type"
+              :disabled="isEdit && isEditingProtobufBundle"
+              @change="handleTypeChanged"
+            >
               <el-option
                 v-for="{ label, value } in schemaTypeOpts"
                 :key="value"
@@ -264,6 +268,21 @@ const onBlurChanged = () => {
     FormCom.value.validateField('source')
   } else {
     FormCom.value.clearValidate('source')
+  }
+}
+
+const { createRawExternalHttpForm } = useSchemaRegistryForm()
+const handleTypeChanged = () => {
+  if (!props.isEdit) {
+    return
+  }
+  if (schemaForm.value.type === SchemaRegistryType.ExternalHTTP && !schemaForm.value.parameters) {
+    schemaForm.value.parameters = createRawExternalHttpForm().parameters
+  } else if (
+    schemaForm.value.type !== SchemaRegistryType.ExternalHTTP &&
+    'parameters' in schemaForm.value
+  ) {
+    delete (schemaForm.value as any).parameters
   }
 }
 
