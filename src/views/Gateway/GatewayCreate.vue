@@ -73,8 +73,8 @@ import Listeners from './components/listeners.vue'
 
 type GatewayData = any
 
-const STATIC_LISTENER: Record<string, GatewayListener> = {
-  exproto: {
+const STATIC_LISTENER: Record<GatewayName, GatewayListener> = {
+  [GatewayName.ExProto]: {
     type: 'tcp',
     name: 'default',
     bind: '7993',
@@ -82,28 +82,28 @@ const STATIC_LISTENER: Record<string, GatewayListener> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  lwm2m: {
+  [GatewayName.LwM2M]: {
     type: 'udp',
     name: 'default',
     bind: '5783',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  coap: {
+  [GatewayName.CoAP]: {
     type: 'udp',
     name: 'default',
     bind: '5683',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  mqttsn: {
+  [GatewayName.MQTT_SN]: {
     type: 'udp',
     name: 'default',
     bind: '1884',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  stomp: {
+  [GatewayName.STOMP]: {
     type: 'tcp',
     name: 'default',
     bind: '61613',
@@ -111,7 +111,7 @@ const STATIC_LISTENER: Record<string, GatewayListener> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  gbt32960: {
+  [GatewayName.GBT32960]: {
     type: 'tcp',
     name: 'default',
     bind: '7325',
@@ -119,7 +119,7 @@ const STATIC_LISTENER: Record<string, GatewayListener> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  jt808: {
+  [GatewayName.JT808]: {
     type: 'tcp',
     name: 'default',
     bind: '6207',
@@ -127,7 +127,7 @@ const STATIC_LISTENER: Record<string, GatewayListener> = {
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
-  ocpp: {
+  [GatewayName.OCPP]: {
     type: 'ws',
     name: 'default',
     bind: '33033',
@@ -135,6 +135,13 @@ const STATIC_LISTENER: Record<string, GatewayListener> = {
     websocket: {
       path: '/ocpp',
     },
+    max_conn_rate: 1000,
+    max_connections: 1024000,
+  },
+  [GatewayName.NATS]: {
+    type: 'tcp',
+    name: 'default',
+    bind: '4222',
     max_conn_rate: 1000,
     max_connections: 1024000,
   },
