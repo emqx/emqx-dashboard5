@@ -27,9 +27,20 @@ const useNamespaceUser = () => {
     return user as T
   }
 
+  const processAPIKeyRecordForUpdating = <T extends { namespace?: string; role: string }>(
+    data: T,
+  ): T => {
+    const ret = { ...data }
+    if (ret.namespace === GLOBAL_NAMESPACE) {
+      Reflect.deleteProperty(ret, 'namespace')
+    }
+    return processUserRecordForSubmit(ret)
+  }
+
   return {
     getNamespaceFromRole,
     processUserRecordForSubmit,
+    processAPIKeyRecordForUpdating,
   }
 }
 

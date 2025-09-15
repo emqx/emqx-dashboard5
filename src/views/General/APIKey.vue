@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { APIKey } from '@/types/systemModule'
+import { APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
@@ -91,12 +91,14 @@ const operateKeyItem = (type: 'edit' | 'view', itemData: APIKey) => {
   showDialog.value = true
 }
 
+const { processAPIKeyRecordForUpdating } = useNamespaceUser()
 const toggleKeyItemEnable = async (itemData: APIKey) => {
   try {
-    const { name, enable, expired_at, desc } = itemData
-    const body: { enable: boolean; desc: string; expired_at?: string } = {
+    const { name, enable, expired_at, desc, role } = processAPIKeyRecordForUpdating(itemData)
+    const body: Omit<APIKeyFormWhenEditing, 'name'> = {
       enable,
       desc,
+      role,
     }
     if (expired_at) {
       body.expired_at = expired_at
