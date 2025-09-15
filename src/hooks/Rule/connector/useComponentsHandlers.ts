@@ -11,6 +11,8 @@ import { compare } from 'compare-versions'
 import { cloneDeep, pick } from 'lodash'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
 import useI18nPrefix from '@/hooks/useI18nPrefix'
+import { markRaw } from 'vue'
+import { FormRules } from '@/types/common'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -79,12 +81,23 @@ export default (
     return rules
   }
 
+  const addRules = (rulesNeedAdd: FormRules, totalRules: FormRules) => {
+    Object.entries(rulesNeedAdd).forEach(([key, value]) => {
+      if (!totalRules[key]) {
+        totalRules[key] = []
+      }
+      if (Array.isArray(value)) {
+        totalRules[key].push(...value)
+      }
+    })
+  }
+
   const { createSSLForm } = useSSL()
   const SSLKeys = Object.keys(createSSLForm())
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
     const walk = (com: Properties): Properties => {
-      Object.entries(com).forEach(([key, prop]) => {
+      Object.entries(com).forEach(([, prop]) => {
         if (prop.properties) {
           if (prop.key === SSL_KEY) {
             prop.properties = pick(prop.properties, SSLKeys)
@@ -152,7 +165,7 @@ export default (
               validator(_rules, value, cb) {
                 const allPass =
                   value.length > 0 &&
-                  value.every((item) => {
+                  value.every((item: string | Record<string, any>) => {
                     if (typeof item === 'string') {
                       return !!item
                     }

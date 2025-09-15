@@ -46,8 +46,10 @@
 </template>
 
 <script setup lang="ts">
+import { createRandomString } from '@/common/tools'
+import useI18nTl from '@/hooks/useI18nTl'
 import { Delete, Plus } from '@element-plus/icons-vue'
-import {} from 'vue'
+import { computed, defineProps, defineEmits } from 'vue'
 
 interface MQTTIds {
   clientid?: string
