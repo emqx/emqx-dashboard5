@@ -156,8 +156,7 @@ axios.interceptors.response.use(
           return Promise.reject(error)
         }
         if (isUnauthorizedRole(status, data)) {
-          ElMessage.error(t('Base.unauthorizedRole'))
-          return Promise.reject(error)
+          data.message = t('Base.unauthorizedRole')
         }
         // some special cases
         const handleErrorSelf =
