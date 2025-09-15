@@ -43,6 +43,7 @@ export interface Property {
   rules?: FormRules | any
   customComponent?: VueComponent
   placeholder?: string
+  customComponent?: Component
 }
 
 export interface Properties {

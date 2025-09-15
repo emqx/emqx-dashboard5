@@ -87,7 +87,7 @@ export default (
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
     const walk = (com: Properties): Properties => {
-      Object.entries(com).forEach(([key, prop]) => {
+      Object.entries(com).forEach(([, prop]) => {
         if (prop.properties) {
           if (prop.key === SSL_KEY) {
             prop.properties = pick(prop.properties, SSLKeys)
