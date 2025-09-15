@@ -269,18 +269,15 @@ const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
   return ret
 }
 
-const { processUserRecordForSubmit } = useNamespaceUser()
+const { processUserRecordForSubmit, processAPIKeyRecordForUpdating } = useNamespaceUser()
 const submitAddedData = () =>
   createAPIKey(handleExpiredAt(processUserRecordForSubmit(formData.value)))
 
 const submitUpdatedData = () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing
-  if (data.namespace === GLOBAL_NAMESPACE) {
-    Reflect.deleteProperty(data, 'namespace')
-  }
   return updateAPIKey(
     name,
-    handleExpiredAt(processUserRecordForSubmit(data) as APIKeyFormWhenCreating),
+    handleExpiredAt(processAPIKeyRecordForUpdating(data) as APIKeyFormWhenCreating),
   )
 }
 
