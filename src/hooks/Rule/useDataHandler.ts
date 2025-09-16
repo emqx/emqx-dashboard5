@@ -244,11 +244,21 @@ export const useRedisCommandCheck = (): {
       .filter((item) => !!item)
   }
 
+  const specialCharReg = /[$!*?[\]{}~#<>|\\,=#\s]/
+
   const transCommandArrToStr = (commandArr: Array<string>) => {
     // If an string item has space or escape characters, wrap it in double quotes.
     return commandArr.reduce((str, current) => {
-      const item =
-        current.indexOf(SPACE) > -1 || current.indexOf('\\') > -1 ? `"${current}"` : current
+      let item = current
+      const withSpecialChar = specialCharReg.test(current)
+      const withUnescapeDoubleQuote = /(?<!\/)"/.test(current)
+      if (withSpecialChar) {
+        if (withUnescapeDoubleQuote) {
+          item = `'${current}'`
+        } else {
+          item = `"${current}"`
+        }
+      }
       return str ? `${str} ${item}` : item
     }, '')
   }
