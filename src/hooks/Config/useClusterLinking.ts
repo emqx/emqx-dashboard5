@@ -11,7 +11,7 @@ import useSSL from '../useSSL'
 export default (): {
   getDataForUpdate: (link: CreatedClusterLinking) => ClusterLinkingFormForUpdate
   toggleClusterLinkingEnable: (link: CreatedClusterLinking) => Promise<CreatedClusterLinking>
-  handleTogglerEnable: (data: CreatedClusterLinking) => Promise<void>
+  handleTogglerEnable: (data: CreatedClusterLinking) => Promise<CreatedClusterLinking>
   handleLinkingDataBeforeSubmit: (data: ClusterLinkingForm) => ClusterLinkingForm
 } => {
   const { t } = useI18nTl('BasicConfig')
@@ -30,11 +30,15 @@ export default (): {
       if (enable) {
         await operationWarning(t('Base.confirmDisabled'))
       }
-      await toggleClusterLinkingEnable({ ...data, enable: !enable })
+      const ret: CreatedClusterLinking = await toggleClusterLinkingEnable({
+        ...data,
+        enable: !enable,
+      })
       data.enable = !data.enable
       ElMessage.success(t(data.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
+      return Promise.resolve(ret)
     } catch (error) {
-      //
+      return Promise.reject()
     }
   }
 

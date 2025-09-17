@@ -3,7 +3,7 @@
     <div class="detail-top">
       <detail-header :item="{ name: linkingName, routeName: 'cluster-linking' }">
         <template #content>
-          <StatusDetailsOfEachNode :status-data="statusData" is-tag />
+          <CommonItemStatus v-bind="{ metrics: clusterLinkingData as any, isTag: true }" />
         </template>
 
         <template #extra>
@@ -63,7 +63,8 @@
 
 <script setup lang="ts">
 import { deleteClusterLinking, getClusterLinkingDetail, putClusterLinking } from '@/api/cluster'
-import { DetailTab, NodeStatusClass } from '@/types/enum'
+import CommonItemStatus from '@/components/CommonItemStatus.vue'
+import { DetailTab } from '@/types/enum'
 import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
 import { Delete } from '@element-plus/icons-vue'
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
@@ -90,14 +91,6 @@ const queryTab = computed(() => {
 if (queryTab.value !== undefined) {
   activeTab.value = queryTab.value as DetailTab
 }
-
-const statusData = computed(() => {
-  const { enable } = clusterLinkingData.value
-  return {
-    statusLabel: enable ? t('Base.enable') : t('Base.disabled'),
-    statusClass: enable ? NodeStatusClass.Success : NodeStatusClass.Danger,
-  }
-})
 
 const getDetail = async () => {
   try {
@@ -130,7 +123,8 @@ const updateLinking = async () => {
 }
 
 const toggleEnable = async () => {
-  handleTogglerEnable(clusterLinkingData.value)
+  await handleTogglerEnable(clusterLinkingData.value)
+  getDetail()
 }
 
 const { confirmDel } = useOperationConfirm()

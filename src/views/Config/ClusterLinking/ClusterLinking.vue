@@ -28,11 +28,11 @@
         </template>
       </el-table-column>
       <el-table-column :label="t('Base.isEnabled')">
-        <template #default="{ row }">
+        <template #default="{ row, $index }">
           <el-switch
             :model-value="row.enable"
             :disabled="!$hasPermission('put')"
-            @update:modelValue="handleTogglerEnable(row)"
+            @update:modelValue="handleToggle(row, $index)"
           />
         </template>
       </el-table-column>
@@ -74,6 +74,10 @@ const loadLinks = async () => {
 }
 
 const { handleTogglerEnable } = useClusterLinking()
+const handleToggle = async (row: CreatedClusterLinking, $index: number) => {
+  const currentData = await handleTogglerEnable(row)
+  tableData.value[$index] = currentData
+}
 
 const router = useRouter()
 const createLink = () => {
