@@ -4,10 +4,12 @@
 
 <script setup lang="ts">
 import { ConnectionStatus } from '@/types/enum'
-import { Metrics } from '@/types/auth'
 
 const props = defineProps<{
-  metrics: Metrics & unknown
+  metrics: {
+    status?: ConnectionStatus
+    node_status?: Array<{ node: string; status: ConnectionStatus }>
+  }
   isTag?: boolean
 }>()
 
