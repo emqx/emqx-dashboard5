@@ -251,7 +251,9 @@ export type GatewayItem = EmqxGatewayApiGatewayOverview
 export type MessageQueue = MqMessageQueue
 export type MessageQueueDispatchStrategy = MqMessageQueueDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
-export type MessageQueueConfig = MqApiConfigPut
+export type MessageQueueConfig = MqApiConfigPut & {
+  find_queue_retry_interval: string
+}
 
 /* LOG TRACE */
 export type GetTraceContentParams = GetTraceNameLogParams
