@@ -1,7 +1,8 @@
 [data-theme='light'] {
   /* Background */
-  --color-bg: #071927;
+  --color-bg: ##fff;
   --color-bg-content: #fff;
+  --color-primary-card-bg: #f7f8fc;
   --color-bg-split: #f8fafe;
   --color-bg-main: #f9fafb;
   --color-bg-popper: #282e38;
@@ -20,14 +21,15 @@
   --color-text-footer: #8e8e8e;
   --color-text-mdcode: #eb4e3d;
   --color-text-progress: #131518cf;
+  --color-menu-text-normal: unset;
+  --color-menu-text-active: unset;
   /* Border */
   --color-border-primary: #d0d4dc;
-  --color-border-card: #e2e6f0;
+  --color-border-card: #e8e8e8;
   --color-border-normal: #eeedf6;
   /* Colors */
   --color-primary: #5e4eff;
   --color-hover: #eeeefe;
-  --color-stream: #604dff;
   --menu-active-color: #5e4eff;
   --bg-hover: linear-gradient(33deg, #9a66ff20 0%, #3651ec20 100%);
   /* Shdow */

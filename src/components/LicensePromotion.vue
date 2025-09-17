@@ -49,13 +49,11 @@ const dismiss = () => {
   height: 32px;
   margin-right: 16px;
   padding: 0 12px;
-  background: linear-gradient(135deg, #363b58 0%, #404673 100%);
+  background: linear-gradient(135deg, var(--color-primary-card-bg) 0%, var(--color-bg-main) 100%);
   border-radius: 6px;
   font-size: 14px;
-  color: #fff;
   position: relative;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
 
   &:hover {
     background: linear-gradient(135deg, #3c4164 0%, #474e83 100%);
@@ -69,7 +67,6 @@ const dismiss = () => {
   }
 
   .header-action-link {
-    color: #9babff;
     text-decoration: none;
     font-weight: 500;
     margin: 0 2px;
@@ -77,7 +74,6 @@ const dismiss = () => {
     transition: all 0.2s ease;
 
     &:hover {
-      color: #b6c4ff;
       text-decoration: none;
       text-shadow: 0 0 8px #96aaff80;
     }
@@ -86,12 +82,10 @@ const dismiss = () => {
   .close-promo-icon {
     cursor: pointer;
     font-size: 16px;
-    color: #ffffffb3;
     transition: all 0.2s;
     margin-left: 2px;
 
     &:hover {
-      color: #fff;
       transform: scale(1.1);
     }
   }
