@@ -1,5 +1,8 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
+    <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
+      <img :src="appLogo" alt="emqx-logo" />
+    </div>
     <h1 class="header-title">{{ title }}</h1>
     <div class="pull-right">
       <LicensePromotion v-if="!isNamespaceUser" />
@@ -119,6 +122,8 @@ export default defineComponent({
     const router = useRouter()
     const { docMap } = useDocLink()
 
+    const { appLogo } = useEditionConfigs()
+
     const alertCount = computed(() => {
       return store.state.alertCount
     })
@@ -220,6 +225,7 @@ export default defineComponent({
 
     return {
       t,
+      appLogo,
       IS_ENTERPRISE,
       showSettings,
       showHelp,
@@ -266,6 +272,31 @@ export default defineComponent({
     border-radius: 50%;
     margin-right: 10px;
     margin-left: 4px;
+  }
+}
+
+.logo {
+  background-color: var(--color-bg);
+  overflow: hidden;
+  z-index: 100;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  margin-right: 12px;
+  img {
+    max-width: initial;
+    max-height: 100%;
+    height: 36px;
+    transition: all 0.3s;
+  }
+}
+
+.logo.logo-colap {
+  width: 60px;
+  padding-left: 12px;
+  img {
+    height: 36px;
   }
 }
 

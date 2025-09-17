@@ -1,32 +1,29 @@
 <template>
   <el-container>
-    <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
-      <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
-        <img :src="appLogo" alt="emqx-logo" />
-      </div>
-      <left-bar></left-bar>
-      <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
-        <div
-          class="footer-menu-item"
-          @click="
-            () => {
-              store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
-            }
-          "
-        >
-          <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
-          <EMQXVersion v-show="!leftBarCollapse" />
-        </div>
-      </div>
-    </el-aside>
+    <el-header :style="{ height: 'auto' }">
+      <nav-header
+        :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
+        @open-quick-panel="openQuickPanel"
+      />
+    </el-header>
     <el-container class="layout">
-      <el-header :style="{ left: elMainStyle, height: 'auto' }">
-        <nav-header
-          :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
-          @open-quick-panel="openQuickPanel"
-        />
-      </el-header>
-      <el-main :style="{ marginLeft: elMainStyle }">
+      <el-aside :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+        <left-bar></left-bar>
+        <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
+          <div
+            class="footer-menu-item"
+            @click="
+              () => {
+                store.dispatch('SET_LEFT_BAR_COLLAPSE', !leftBarCollapse)
+              }
+            "
+          >
+            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+            <EMQXVersion v-show="!leftBarCollapse" />
+          </div>
+        </div>
+      </el-aside>
+      <el-main>
         <div class="main-content">
           <el-scrollbar>
             <el-menu
@@ -96,22 +93,14 @@ export default defineComponent({
     },
   },
   setup() {
-    const kebab2pascal = (s: string) => String(s).replace(/-([a-z])/g, (s, m1) => m1.toUpperCase())
     const store = useStore()
     const route = useRoute()
-    const { appLogo } = useEditionConfigs()
 
     const showLicenseTipDialog = ref(false)
     const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 
-    const edition = computed(() => {
-      return store.state.edition
-    })
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
-    })
-    const elMainStyle = computed(() => {
-      return !leftBarCollapse.value ? '200px' : '80px'
     })
     const topLvRoute: any = computed(() => {
       const { path } = route
@@ -216,20 +205,16 @@ export default defineComponent({
       store,
       route,
       showLicenseTipDialog,
-      edition,
-      elMainStyle,
       topLvRoute,
       defaultSubMenu,
       hasSubMenu,
       showSubMenu,
       leftBarCollapse,
       fullHeight,
-      kebab2pascal,
       isNotFound,
       firstPath,
       showQuickPanel,
       openQuickPanel,
-      appLogo,
     }
   },
 })
@@ -238,14 +223,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .el-aside {
   transition: all 0.3s;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
   z-index: 100;
   overflow-x: hidden;
   background-color: var(--color-bg);
-  height: 100vh;
   border-right: 1px solid var(--color-border-card);
   .footer-menu {
     cursor: pointer;
@@ -282,55 +262,16 @@ $header-heigh: 60px;
 .el-main {
   transition: margin-left 0.3s;
   background-color: var(--color-bg);
-  height: 100vh;
   .main-content {
     background-color: var(--color-bg-content);
-    margin-top: $header-heigh;
     position: relative;
     height: 100%;
-    height: calc(100% - #{$header-heigh}); /* 60px + 12px padding */
     overflow: hidden;
-  }
-}
-
-.el-container {
-  min-height: 100vh;
-}
-
-.logo {
-  position: fixed;
-  background-color: var(--color-bg);
-  height: $header-heigh;
-  line-height: $header-heigh;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  img {
-    max-width: initial;
-    max-height: 100%;
-    height: 36px;
-    transition: all 0.3s;
-  }
-}
-
-.logo.logo-colap {
-  width: 60px;
-  padding-left: 25px;
-  img {
-    height: 36px;
   }
 }
 
 .el-header {
   padding: 0;
-  right: 0;
-  left: 0;
-  position: fixed;
   z-index: 101;
   border-bottom: 1px solid var(--color-border-card);
   transition: all 0.3s;
