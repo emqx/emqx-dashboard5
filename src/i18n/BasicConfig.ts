@@ -350,4 +350,12 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '共享订阅',
     en: 'Shared Subscriptions',
   },
+  findQueueRetryInterval: {
+    zh: '查找队列重试间隔',
+    en: 'Find Queue Retry Interval',
+  },
+  findQueueRetryIntervalDesc: {
+    zh: '当订阅队列主题时，如果未找到队列，订阅者重新查找队列的重试间隔时间',
+    en: 'The interval at which subscribers will retry to find a queue if the queue is not found when subscribing to a queue topic',
+  },
 }

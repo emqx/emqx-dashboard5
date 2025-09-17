@@ -7,7 +7,7 @@
           ref="forceShutdownForm"
           class="configuration-form"
           label-position="right"
-          :label-width="store.state.lang === 'zh' ? 150 : 252"
+          :label-width="store.state.lang === 'zh' ? 172 : 252"
           :model="queueConfig"
           :validate-on-rule-change="false"
           @keyup.enter="updateConfigData()"
@@ -31,6 +31,20 @@
                 </template>
                 <TimeInputWithUnitSelect
                   v-model="queueConfig.regular_queue_retention_period"
+                  :enabled-units="['ms', 's', 'm', 'h', 'd']"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="find_queue_retry_interval">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('findQueueRetryInterval')"
+                    :desc="tl('findQueueRetryIntervalDesc')"
+                  />
+                </template>
+                <TimeInputWithUnitSelect
+                  v-model="queueConfig.find_queue_retry_interval"
                   :enabled-units="['ms', 's', 'm', 'h', 'd']"
                 />
               </el-form-item>
@@ -67,6 +81,7 @@ let rawData: any = undefined
 const queueConfig = ref<MessageQueueConfig>({
   gc_interval: '',
   regular_queue_retention_period: '',
+  find_queue_retry_interval: '',
 })
 
 const checkDataIsChanged = () => !isEqual(queueConfig.value, rawData)
