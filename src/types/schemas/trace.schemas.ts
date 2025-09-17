@@ -1,3 +1,15 @@
+export type PutTracing400Code = (typeof PutTracing400Code)[keyof typeof PutTracing400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutTracing400Code = {
+  INVALID_CONFIG: 'INVALID_CONFIG',
+} as const
+
+export type PutTracing400 = {
+  code?: PutTracing400Code
+  message?: string
+}
+
 export type PutTraceNameStop404Code =
   (typeof PutTraceNameStop404Code)[keyof typeof PutTraceNameStop404Code]
 
@@ -66,11 +78,6 @@ export type GetTraceNameLog400 = {
   message?: string
 }
 
-export type GetTraceNameLog200 = {
-  items?: string
-  meta?: GetTraceNameLog200Meta
-}
-
 export type GetTraceNameLog200MetaPosition = number | string
 
 export type GetTraceNameLog200MetaHint =
@@ -90,6 +97,11 @@ export type GetTraceNameLog200Meta = {
   bytes?: number
   hint?: GetTraceNameLog200MetaHint
   position?: GetTraceNameLog200MetaPosition
+}
+
+export type GetTraceNameLog200 = {
+  items?: string
+  meta?: GetTraceNameLog200Meta
 }
 
 export type GetTraceNameLogParams = {
@@ -156,52 +168,52 @@ export type PostTrace400 = {
   message?: string
 }
 
-export type PostTraceBodyType = (typeof PostTraceBodyType)[keyof typeof PostTraceBodyType]
+export type TracePositionParameter = number | string
+
+export type TraceNodeParameter = string
+
+export type TraceBytesParameter = number
+
+export type TraceTraceParamsType = (typeof TraceTraceParamsType)[keyof typeof TraceTraceParamsType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostTraceBodyType = {
+export const TraceTraceParamsType = {
   clientid: 'clientid',
   ip_address: 'ip_address',
   ruleid: 'ruleid',
   topic: 'topic',
 } as const
 
-export type PostTraceBodyStartAt = string | number
+export type TraceTraceParamsStartAt = string | number
 
-export type PostTraceBodyPayloadEncode =
-  (typeof PostTraceBodyPayloadEncode)[keyof typeof PostTraceBodyPayloadEncode]
+export type TraceTraceParamsPayloadEncode =
+  (typeof TraceTraceParamsPayloadEncode)[keyof typeof TraceTraceParamsPayloadEncode]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostTraceBodyPayloadEncode = {
+export const TraceTraceParamsPayloadEncode = {
   hex: 'hex',
   hidden: 'hidden',
   text: 'text',
 } as const
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostTraceBodyFormatter = { json: 'json', text: 'text' } as const
+export const TraceTraceParamsFormatter = { json: 'json', text: 'text' } as const
 
-export type PostTraceBodyEndAt = string | number
+export type TraceTraceParamsEndAt = string | number
 
-export type PostTraceBody = {
+export interface TraceTraceParams {
   clientid?: string
-  end_at?: PostTraceBodyEndAt
-  formatter?: (typeof PostTraceBodyFormatter)[keyof typeof PostTraceBodyFormatter]
+  end_at?: TraceTraceParamsEndAt
+  formatter?: (typeof TraceTraceParamsFormatter)[keyof typeof TraceTraceParamsFormatter]
   ip_address?: string
   name: string
-  payload_encode?: PostTraceBodyPayloadEncode
+  payload_encode?: TraceTraceParamsPayloadEncode
   payload_limit?: number
   ruleid?: string
-  start_at?: PostTraceBodyStartAt
+  start_at?: TraceTraceParamsStartAt
   topic?: string
-  type: PostTraceBodyType
+  type: TraceTraceParamsType
 }
-
-export type TracePositionParameter = number | string
-
-export type TraceNodeParameter = string
-
-export type TraceBytesParameter = number
 
 export type TraceTraceType = (typeof TraceTraceType)[keyof typeof TraceTraceType]
 
@@ -261,4 +273,13 @@ export interface TraceLogFileDetail {
   mtime?: number
   node?: string
   size?: number
+}
+
+export interface EmqxTrace {
+  max_file_size?: string
+  /**
+   * @minimum 0
+   * @maximum 100
+   */
+  max_traces?: number
 }
