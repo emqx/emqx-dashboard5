@@ -6,7 +6,7 @@
       </div>
       <left-bar></left-bar>
       <div class="footer-menu" :style="{ width: leftBarCollapse ? '79px' : '199px' }">
-        <a
+        <div
           class="footer-menu-item"
           @click="
             () => {
@@ -16,7 +16,7 @@
         >
           <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
           <EMQXVersion v-show="!leftBarCollapse" />
-        </a>
+        </div>
       </div>
     </el-aside>
     <el-container class="layout">
@@ -262,10 +262,8 @@ export default defineComponent({
       align-items: center;
       justify-content: space-around;
       height: 100%;
-      color: #fff;
       .iconfont {
         transition: all 0.3s;
-        color: #fff;
         &.rotate {
           transform: rotate(180deg);
         }
@@ -279,7 +277,6 @@ export default defineComponent({
   }
 }
 
-$padding: 8px;
 $header-heigh: 60px;
 
 .el-main {
@@ -289,11 +286,9 @@ $header-heigh: 60px;
   .main-content {
     background-color: var(--color-bg-content);
     margin-top: $header-heigh;
-    margin-right: $padding;
-    border-radius: $padding;
     position: relative;
     height: 100%;
-    height: calc(100% - #{$header-heigh} - #{$padding}); /* 60px + 12px padding */
+    height: calc(100% - #{$header-heigh}); /* 60px + 12px padding */
     overflow: hidden;
   }
 }
@@ -347,6 +342,6 @@ $header-heigh: 60px;
 
 // 60px is header height
 .is-full-height {
-  height: calc(100vh - #{$header-heigh} - #{$padding});
+  height: calc(100vh - #{$header-heigh});
 }
 </style>
