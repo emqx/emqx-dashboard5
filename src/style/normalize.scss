@@ -67,6 +67,7 @@
   --el-fill-color-blank: var(--color-bg-content);
   --el-border-color: var(--color-border-primary);
   --el-menu-hover-bg-color: var(--color-bg-split);
+  --el-menu-text-color: var(--el-text-color-primary);
 }
 
 /* Menu */
@@ -75,7 +76,7 @@
     background-color: var(--color-bg);
     $menu-item-height: 50px;
     border-right: none;
-    color: #ffffffd9;
+    color: var(--color-menu-text-normal);
     .menu-item-title {
       $line-height: 20px;
       padding-left: 10px;
@@ -91,16 +92,16 @@
       margin: 0px 12px;
       border-radius: 8px;
       border-left: 4px solid transparent;
-      color: #ffffffd9;
+      color: var(--color-menu-text-normal);
       &:hover {
-        background-color: #1f303c;
+        background-color: var(--color-bg-table-hd);
         border-radius: 8px;
       }
     }
     .el-sub-menu {
       &.is-active.is-opened {
         .el-sub-menu__title {
-          color: #fff;
+          color: var(--color-menu-text-active);
         }
       }
       .el-menu-item,
@@ -113,17 +114,17 @@
       }
     }
     .el-menu-item {
-      color: #ffffffd9;
+      color: var(--color-menu-text-normal);
       border-radius: 8px;
       padding: 0px 0px 0px 8px !important;
       min-width: initial;
       &.is-active {
-        color: #fff;
-        background-color: #1f303c;
+        color: var(--color-menu-text-active);
+        background-color: var(--color-bg-table-hd);
         border-radius: 8px;
       }
       &:hover {
-        background-color: #1f303c;
+        background-color: var(--color-bg-table-hd);
         border-radius: 8px;
       }
     }
@@ -142,14 +143,14 @@
     min-width: initial;
     background-color: var(--color-bg);
     .el-menu-item {
-      color: #ffffffd9;
+      color: var(--color-menu-text-normal);
       &.is-active {
-        color: #fff;
-        background-color: #1f303c;
+        color: var(--color-menu-text-active);
+        background-color: var(--color-bg-table-hd);
       }
       &:hover {
-        color: #fff;
-        background-color: #1f303c;
+        color: var(--color-menu-text-active);
+        background-color: var(--color-bg-table-hd);
       }
     }
   }
@@ -171,8 +172,8 @@
   }
   &.el-menu--collapse {
     > .el-sub-menu.is-active .el-sub-menu__title {
-      background-color: #1f303c;
-      color: #fff;
+      background-color: var(--color-bg-table-hd);
+      color: var(--color-menu-text-active);
     }
   }
 }

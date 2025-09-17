@@ -246,6 +246,7 @@ export default defineComponent({
   overflow-x: hidden;
   background-color: var(--color-bg);
   height: 100vh;
+  border-right: 1px solid var(--color-border-card);
   .footer-menu {
     cursor: pointer;
     z-index: 100;
@@ -336,6 +337,7 @@ $header-heigh: 60px;
   left: 0;
   position: fixed;
   z-index: 101;
+  border-bottom: 1px solid var(--color-border-card);
   transition: all 0.3s;
 }
 

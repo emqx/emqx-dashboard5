@@ -259,8 +259,7 @@ export default defineComponent({
   .user-avatar {
     width: 21px;
     height: 21px;
-    background: var(--color-stream);
-    color: #fff;
+    background: var(--color-border-primary);
     display: inline-block;
     text-align: center;
     line-height: 21px;
@@ -274,7 +273,6 @@ export default defineComponent({
   margin-top: 0;
   margin-bottom: 0;
   font-size: 22px;
-  color: #fff;
 }
 
 .pull-right {
@@ -295,7 +293,7 @@ export default defineComponent({
   align-items: center;
   border-radius: 8px;
   border: 1px solid transparent;
-  background: #27353e;
+  background: var(--color-primary-card-bg);
   color: #a7abb1;
   cursor: pointer;
   font-family: 'PingFang SC';
@@ -311,7 +309,6 @@ export default defineComponent({
     font-size: 14px;
     .el-icon {
       margin-right: 10px;
-      color: #fff;
     }
   }
   .icon-key {
@@ -322,7 +319,6 @@ export default defineComponent({
     text-align: center;
     line-height: 1;
     font-size: 11px;
-    color: #fff;
     border-radius: 2px;
     background: rgba(255, 255, 255, 0.14);
     &.is-cmd {
@@ -336,7 +332,6 @@ export default defineComponent({
   align-items: center;
   gap: 4px;
   margin-right: 4px;
-  color: #eaeaea;
   text-align: right;
   cursor: default;
   .cluster-desc-label {
@@ -354,7 +349,6 @@ export default defineComponent({
   padding: 0 10px;
   transition: all 0.3s;
   cursor: pointer;
-  color: #fff;
 }
 
 .el-badge {
@@ -369,7 +363,6 @@ export default defineComponent({
 
 .el-button.go-link {
   background-color: transparent;
-  color: #fff;
   border: 1px solid var(--color-border-primary);
   margin-right: 12px;
   .el-icon {
@@ -386,6 +379,7 @@ export default defineComponent({
   width: 24px;
   height: 24px;
   display: inline-block;
+  color: inherit;
 }
 .settings-trigger {
   display: flex;
@@ -399,7 +393,6 @@ export default defineComponent({
 }
 .el-icon.bell,
 .el-icon.settings {
-  color: #fff;
   font-size: 21px;
   width: 24px;
   height: 24px;
@@ -407,7 +400,6 @@ export default defineComponent({
   top: 1px;
 }
 .icon-question {
-  color: #fff;
   font-size: 21px;
 }
 </style>
