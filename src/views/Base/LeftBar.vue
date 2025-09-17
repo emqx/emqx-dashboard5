@@ -15,7 +15,7 @@
             :popper-class="needFixedHeight(menu) ? 'sub-menu-popper' : ''"
           >
             <template #title>
-              <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
+              <i :class="['iconfont', menu.icon]"></i>
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
@@ -49,7 +49,7 @@
             </el-scrollbar>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
-            <i v-show="leftBarCollapse" :class="['iconfont', menu.icon]"></i>
+            <i :class="['iconfont', menu.icon]"></i>
             <p class="menu-item-title first-level">
               {{ $t(`components.${menu.title}`) }}
             </p>
@@ -127,11 +127,6 @@ export default defineComponent({
       padding-left: 26px;
       opacity: 0;
       left: 0;
-    }
-    .el-sub-menu {
-      .menu-item-title {
-        padding-left: 26px;
-      }
     }
     & i {
       margin-left: 6px;

@@ -68,13 +68,17 @@
   --el-border-color: var(--color-border-primary);
   --el-menu-hover-bg-color: var(--color-bg-split);
   --el-menu-text-color: var(--el-text-color-primary);
+  --el-menu-sub-item-height: 32px;
+  --el-menu-item-height: 32px;
 }
 
 /* Menu */
 .el-menu {
+  $menu-item-padding: 0;
+  $menu-icon-size: 21px;
   &:not(.el-menu--horizontal, .el-menu--popup) {
     background-color: var(--color-bg);
-    $menu-item-height: 50px;
+    $menu-item-height: 32px;
     border-right: none;
     color: var(--color-menu-text-normal);
     .menu-item-title {
@@ -87,15 +91,18 @@
       padding-top: math.div($menu-item-height - $line-height, 2);
       padding-bottom: math.div($menu-item-height - $line-height, 2);
     }
+    .group-name {
+      padding-left: $menu-icon-size + 10px;
+    }
     .el-sub-menu__title {
-      padding: 0px 0px 0px 8px !important;
-      margin: 0px 12px;
-      border-radius: 8px;
+      padding: $menu-item-padding !important;
+      margin: 0px 16px 8px;
+      border-radius: var(--menu-item-border-radius);
       border-left: 4px solid transparent;
       color: var(--color-menu-text-normal);
       &:hover {
         background-color: var(--color-bg-table-hd);
-        border-radius: 8px;
+        border-radius: var(--menu-item-border-radius);
       }
     }
     .el-sub-menu {
@@ -106,7 +113,7 @@
       }
       .el-menu-item,
       .el-menu-item-group__title {
-        padding: 0px 0px 0px 31px !important;
+        padding: 0px 0px 0px $menu-icon-size !important;
       }
       .el-sub-menu__icon-arrow {
         top: 52%;
@@ -115,29 +122,32 @@
     }
     .el-menu-item {
       color: var(--color-menu-text-normal);
-      border-radius: 8px;
-      padding: 0px 0px 0px 8px !important;
+      border-radius: var(--menu-item-border-radius);
+      padding: $menu-item-padding !important;
       min-width: initial;
       &.is-active {
         color: var(--color-menu-text-active);
         background-color: var(--color-bg-table-hd);
-        border-radius: 8px;
+        border-radius: var(--menu-item-border-radius);
       }
       &:hover {
         background-color: var(--color-bg-table-hd);
-        border-radius: 8px;
+        border-radius: var(--menu-item-border-radius);
       }
     }
     .el-menu-item,
     .el-menu-item-group__title {
       border-left: 4px solid transparent;
-      margin: 0 12px;
+      margin: 0 16px 8px;
+    }
+    .el-sub-menu {
+      margin-bottom: 8px;
     }
   }
   .el-menu-item-group__title {
     font-size: 14px;
     cursor: default;
-    color: #ffffff59;
+    opacity: 0.8;
   }
   &.el-menu--popup {
     min-width: initial;
