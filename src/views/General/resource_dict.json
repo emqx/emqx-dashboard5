@@ -1980,6 +1980,18 @@
     }
   },
   {
+    "method": "put",
+    "path": "/tracing",
+    "operation_label": {
+      "en": "Trace",
+      "zh": "日志追踪"
+    },
+    "operation_name_label": {
+      "en": "Update Tracing configuration.",
+      "zh": "更新日志追踪配置"
+    }
+  },
+  {
     "method": "post",
     "path": "/trace",
     "operation_label": {
@@ -2553,30 +2565,6 @@
     "operation_name_label": {
       "en": "Reset a cluster link's metrics",
       "zh": "重置集群链接的指标"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/durable_queues/:id",
-    "operation_label": {
-      "en": "Durable Queue",
-      "zh": "持久队列"
-    },
-    "operation_name_label": {
-      "en": "Delete durable queue",
-      "zh": "删除一个持久队列"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/durable_queues",
-    "operation_label": {
-      "en": "Durable Queue",
-      "zh": "持久队列"
-    },
-    "operation_name_label": {
-      "en": "Declare new durable queue",
-      "zh": "声明新的持久队列"
     }
   },
   {
