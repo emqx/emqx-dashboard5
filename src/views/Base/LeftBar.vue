@@ -70,9 +70,6 @@ export default defineComponent({
     const leftBarCollapse = computed(() => {
       return store.state.leftBarCollapse
     })
-    const theme = computed(() => {
-      return store.state.theme
-    })
     const defaultSelectedKeys = computed(() => {
       const { path } = route
       return `/${path.split('/')[1]}`
@@ -97,7 +94,6 @@ export default defineComponent({
     menus.value = menuList.value
     return {
       store,
-      theme,
       leftBarCollapse,
       defaultSelectedKeys,
       menus,
@@ -111,7 +107,7 @@ export default defineComponent({
 .left-bar {
   transition: all 0.3s;
   height: 100%;
-  padding: 16px 0 64px;
+  padding: 16px 0 calc(var(--left-menu-footer-height) + 16px);
   background-color: var(--color-bg);
   // border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
