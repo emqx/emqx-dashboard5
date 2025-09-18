@@ -46,6 +46,14 @@ Clients can consume messages from the queue by subscribing to \`$q/{'{'}Topic Fi
     en: `Indicates if the message has Last-Value semantics. Last-Value semantics means that messages overwrite previous messages with the same queue key in the same topic.<br />
 Please note that each message should have \`mq-key\` user property set to be saved in the queue.`,
   },
+  keyExpression: {
+    zh: '队列键表达式',
+    en: 'Queue Key Expression',
+  },
+  keyExpressionDesc: {
+    zh: '用于确定 Last-Value 消息队列中消息的队列键表达式',
+    en: 'The expression used to determine the key of the message for Last-Value Message Queues.',
+  },
   dispatchStrategyRandom: {
     zh: '随机',
     en: 'Random',

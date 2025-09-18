@@ -37,6 +37,14 @@ export type PutMessageQueuesQueuesTopicFilter400 = {
   message?: string
 }
 
+export type PutMessageQueuesQueuesTopicFilter200 =
+  | MqMessageQueueLastvalueApiGet
+  | MqMessageQueueRegularApiGet
+
+export type PutMessageQueuesQueuesTopicFilterBody =
+  | MqMessageQueueApiLastvaluePut
+  | MqMessageQueueApiRegularPut
+
 export type GetMessageQueuesQueuesTopicFilter503Code =
   (typeof GetMessageQueuesQueuesTopicFilter503Code)[keyof typeof GetMessageQueuesQueuesTopicFilter503Code]
 
@@ -62,6 +70,10 @@ export type GetMessageQueuesQueuesTopicFilter404 = {
   code?: GetMessageQueuesQueuesTopicFilter404Code
   message?: string
 }
+
+export type GetMessageQueuesQueuesTopicFilter200 =
+  | MqMessageQueueLastvalueApiGet
+  | MqMessageQueueRegularApiGet
 
 export type DeleteMessageQueuesQueuesTopicFilter503Code =
   (typeof DeleteMessageQueuesQueuesTopicFilter503Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter503Code]
@@ -128,6 +140,12 @@ export type PostMessageQueuesQueues400 = {
   message?: string
 }
 
+export type PostMessageQueuesQueues200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
+
+export type PostMessageQueuesQueuesBody =
+  | MqMessageQueueLastvalueApiPost
+  | MqMessageQueueRegularApiPost
+
 export type GetMessageQueuesQueues503Code =
   (typeof GetMessageQueuesQueues503Code)[keyof typeof GetMessageQueuesQueues503Code]
 
@@ -154,6 +172,10 @@ export type GetMessageQueuesQueues400 = {
   message?: string
 }
 
+export type GetMessageQueuesQueues200Item =
+  | MqMessageQueueLastvalueApiGet
+  | MqMessageQueueRegularApiGet
+
 export type PutMessageQueuesConfig400Code =
   (typeof PutMessageQueuesConfig400Code)[keyof typeof PutMessageQueuesConfig400Code]
 
@@ -176,65 +198,155 @@ export type GetMessageQueuesQueuesParams = {
   limit?: PublicLimitParameter
 }
 
-export interface PublicMetaWithCursor {
-  /** @minimum 0 */
-  count?: number
-  cursor?: string
-  hasnext: boolean
-}
-
-export interface MqMessageQueuesApiGet {
-  data?: MqMessageQueueApiGet[]
-  meta?: PublicMetaWithCursor
-}
-
-export type MqMessageQueueApiPutDispatchStrategy =
-  (typeof MqMessageQueueApiPutDispatchStrategy)[keyof typeof MqMessageQueueApiPutDispatchStrategy]
+export type MqMessageQueueRegularApiPostIsLastvalue =
+  (typeof MqMessageQueueRegularApiPostIsLastvalue)[keyof typeof MqMessageQueueRegularApiPostIsLastvalue]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MqMessageQueueApiPutDispatchStrategy = {
+export const MqMessageQueueRegularApiPostIsLastvalue = {
+  false: false,
+} as const
+
+export type MqMessageQueueRegularApiPostDispatchStrategy =
+  (typeof MqMessageQueueRegularApiPostDispatchStrategy)[keyof typeof MqMessageQueueRegularApiPostDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueRegularApiPostDispatchStrategy = {
   least_inflight: 'least_inflight',
   random: 'random',
   round_robin: 'round_robin',
 } as const
 
-export interface MqMessageQueueApiPut {
+export interface MqMessageQueueRegularApiPost {
   data_retention_period?: string
-  dispatch_strategy?: MqMessageQueueApiPutDispatchStrategy
-}
-
-export type MqMessageQueueApiGetDispatchStrategy =
-  (typeof MqMessageQueueApiGetDispatchStrategy)[keyof typeof MqMessageQueueApiGetDispatchStrategy]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MqMessageQueueApiGetDispatchStrategy = {
-  least_inflight: 'least_inflight',
-  random: 'random',
-  round_robin: 'round_robin',
-} as const
-
-export interface MqMessageQueueApiGet {
-  data_retention_period?: string
-  dispatch_strategy?: MqMessageQueueApiGetDispatchStrategy
-  is_lastvalue?: boolean
+  dispatch_strategy?: MqMessageQueueRegularApiPostDispatchStrategy
+  is_lastvalue: MqMessageQueueRegularApiPostIsLastvalue
   topic_filter: string
 }
 
-export type MqMessageQueueDispatchStrategy =
-  (typeof MqMessageQueueDispatchStrategy)[keyof typeof MqMessageQueueDispatchStrategy]
+export type MqMessageQueueRegularApiGetIsLastvalue =
+  (typeof MqMessageQueueRegularApiGetIsLastvalue)[keyof typeof MqMessageQueueRegularApiGetIsLastvalue]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MqMessageQueueDispatchStrategy = {
+export const MqMessageQueueRegularApiGetIsLastvalue = {
+  false: false,
+} as const
+
+export type MqMessageQueueRegularApiGetDispatchStrategy =
+  (typeof MqMessageQueueRegularApiGetDispatchStrategy)[keyof typeof MqMessageQueueRegularApiGetDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueRegularApiGetDispatchStrategy = {
   least_inflight: 'least_inflight',
   random: 'random',
   round_robin: 'round_robin',
 } as const
 
-export interface MqMessageQueue {
+export interface MqMessageQueueRegularApiGet {
   data_retention_period?: string
-  dispatch_strategy?: MqMessageQueueDispatchStrategy
-  is_lastvalue?: boolean
+  dispatch_strategy?: MqMessageQueueRegularApiGetDispatchStrategy
+  is_lastvalue: MqMessageQueueRegularApiGetIsLastvalue
   topic_filter: string
+}
+
+export type MqMessageQueueLastvalueApiPostIsLastvalue =
+  (typeof MqMessageQueueLastvalueApiPostIsLastvalue)[keyof typeof MqMessageQueueLastvalueApiPostIsLastvalue]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueLastvalueApiPostIsLastvalue = {
+  true: true,
+} as const
+
+export type MqMessageQueueLastvalueApiPostDispatchStrategy =
+  (typeof MqMessageQueueLastvalueApiPostDispatchStrategy)[keyof typeof MqMessageQueueLastvalueApiPostDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueLastvalueApiPostDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqMessageQueueLastvalueApiPost {
+  data_retention_period?: string
+  dispatch_strategy?: MqMessageQueueLastvalueApiPostDispatchStrategy
+  is_lastvalue: MqMessageQueueLastvalueApiPostIsLastvalue
+  key_expression: string
+  topic_filter: string
+}
+
+export type MqMessageQueueLastvalueApiGetIsLastvalue =
+  (typeof MqMessageQueueLastvalueApiGetIsLastvalue)[keyof typeof MqMessageQueueLastvalueApiGetIsLastvalue]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueLastvalueApiGetIsLastvalue = {
+  true: true,
+} as const
+
+export type MqMessageQueueLastvalueApiGetDispatchStrategy =
+  (typeof MqMessageQueueLastvalueApiGetDispatchStrategy)[keyof typeof MqMessageQueueLastvalueApiGetDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueLastvalueApiGetDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqMessageQueueLastvalueApiGet {
+  data_retention_period?: string
+  dispatch_strategy?: MqMessageQueueLastvalueApiGetDispatchStrategy
+  is_lastvalue: MqMessageQueueLastvalueApiGetIsLastvalue
+  key_expression: string
+  topic_filter: string
+}
+
+export type MqMessageQueueApiRegularPutIsLastvalue =
+  (typeof MqMessageQueueApiRegularPutIsLastvalue)[keyof typeof MqMessageQueueApiRegularPutIsLastvalue]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueApiRegularPutIsLastvalue = {
+  false: false,
+} as const
+
+export type MqMessageQueueApiRegularPutDispatchStrategy =
+  (typeof MqMessageQueueApiRegularPutDispatchStrategy)[keyof typeof MqMessageQueueApiRegularPutDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueApiRegularPutDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqMessageQueueApiRegularPut {
+  data_retention_period?: string
+  dispatch_strategy?: MqMessageQueueApiRegularPutDispatchStrategy
+  is_lastvalue: MqMessageQueueApiRegularPutIsLastvalue
+}
+
+export type MqMessageQueueApiLastvaluePutIsLastvalue =
+  (typeof MqMessageQueueApiLastvaluePutIsLastvalue)[keyof typeof MqMessageQueueApiLastvaluePutIsLastvalue]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueApiLastvaluePutIsLastvalue = {
+  true: true,
+} as const
+
+export type MqMessageQueueApiLastvaluePutDispatchStrategy =
+  (typeof MqMessageQueueApiLastvaluePutDispatchStrategy)[keyof typeof MqMessageQueueApiLastvaluePutDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMessageQueueApiLastvaluePutDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqMessageQueueApiLastvaluePut {
+  data_retention_period?: string
+  dispatch_strategy?: MqMessageQueueApiLastvaluePutDispatchStrategy
+  is_lastvalue: MqMessageQueueApiLastvaluePutIsLastvalue
+  key_expression: string
 }
 
 export interface MqApiConfigPut {
