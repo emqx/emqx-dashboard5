@@ -100,10 +100,11 @@ import {
 import { PostLogin200 } from './schemas/dashboard.schemas'
 import type {
   MqApiConfigPut,
-  MqMessageQueue,
-  MqMessageQueueDispatchStrategy,
+  MqMessageQueueRegularApiPost,
+  MqMessageQueueLastvalueApiPost,
+  MqMessageQueueRegularApiPostDispatchStrategy,
 } from './schemas/messageQueue.schemas'
-import { MqMessageQueueDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
+import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 
 /* BASE */
@@ -248,8 +249,10 @@ export type NamespaceDetailItem = Merge<
 export type GatewayItem = EmqxGatewayApiGatewayOverview
 
 /* MESSAGE QUEUE */
-export type MessageQueue = MqMessageQueue
-export type MessageQueueDispatchStrategy = MqMessageQueueDispatchStrategy
+export type MessageQueueRegular = MqMessageQueueRegularApiPost
+export type MessageQueueLastValue = MqMessageQueueLastvalueApiPost
+export type MessageQueue = MessageQueueRegular | MessageQueueLastValue
+export type MessageQueueDispatchStrategy = MqMessageQueueRegularApiPostDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
 export type MessageQueueConfig = MqApiConfigPut & {
   find_queue_retry_interval: string

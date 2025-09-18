@@ -55,6 +55,18 @@
             <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
         </el-col>
+        <el-col :span="12" v-if="form.is_lastvalue">
+          <el-form-item prop="key_expression">
+            <template #label>
+              <FormItemLabel
+                :label="tl('keyExpression')"
+                :desc="tl('keyExpressionDesc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="form.key_expression" />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -106,6 +118,7 @@ const createEmptyForm = () => ({
   dispatch_strategy: MessageQueueDispatchStrategyValue.random,
   data_retention_period: '7d',
   is_lastvalue: true,
+  key_expression: 'message.from',
 })
 
 const form = ref<MessageQueue>(createEmptyForm())
@@ -124,10 +137,18 @@ const resetForm = () => {
   form.value = createEmptyForm()
 }
 
-const createQueue = () => createMessageQueue(form.value)
+const processForm = (data: MessageQueue): MessageQueue => {
+  const ret = { ...data }
+  if (!ret.is_lastvalue) {
+    delete (ret as any).key_expression
+  }
+  return ret
+}
+
+const createQueue = () => createMessageQueue(processForm(form.value))
 const updateQueue = () => {
-  const { topic_filter, ...data } = form.value
-  return updateMessageQueue(topic_filter, omit(data, 'is_lastvalue'))
+  const { topic_filter, ...data } = processForm(form.value)
+  return updateMessageQueue(topic_filter, data)
 }
 
 const handleSubmit = async () => {
