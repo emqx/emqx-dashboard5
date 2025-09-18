@@ -1,4 +1,4 @@
-import RuleFunc from './RuleFunc.json'
+import { RULE_FUNCS as RuleFunc } from '@emqx/shared-ui-constants'
 import RuleField from './RuleField.json'
 
 const funcList = RuleFunc.reduce((arr: Array<string>, { list }): Array<string> => {
