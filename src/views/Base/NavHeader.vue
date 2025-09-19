@@ -1,6 +1,6 @@
 <template>
   <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
-    <div :class="['logo', leftBarCollapse ? 'logo-colap' : '']">
+    <div class="logo">
       <img :src="appLogo" alt="emqx-logo" />
     </div>
     <h1 class="header-title">{{ title }}</h1>
@@ -256,9 +256,8 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  height: 100%;
   padding: 0 24px;
-  background-color: var(--color-bg);
   left: 200px;
   z-index: 100;
   transition: all 0.3s;
@@ -282,28 +281,18 @@ export default defineComponent({
   transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding-left: 12px;
   margin-right: 12px;
   img {
     max-width: initial;
     max-height: 100%;
-    height: 36px;
-    transition: all 0.3s;
-  }
-}
-
-.logo.logo-colap {
-  width: 60px;
-  padding-left: 12px;
-  img {
-    height: 36px;
+    height: 26px;
   }
 }
 
 .header-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .pull-right {
@@ -316,7 +305,7 @@ export default defineComponent({
 
 .quick-panel-enter {
   display: flex;
-  height: 32px;
+  height: 26px;
   width: 240px;
   padding: 4px 16px;
   margin-right: 16px;

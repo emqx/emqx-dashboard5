@@ -6,7 +6,7 @@
     'padding': 0px,
   ),
   $card: (
-    'border-radius': 16px,
+    'border-radius': 8px,
     'bg-color': var(--color-bg-content),
   ),
   $input: (
@@ -43,6 +43,16 @@
   ),
   $drawer: (
     'bg-color': var(--color-bg-content),
+  ),
+  $header: (
+    'height': 48px,
+  ),
+  $menu: (
+    'item-height': 32px,
+    'sub-item-height': 32px,
+    'text-color': var(--color-menu-text-normal),
+    'hover-bg-color': var(--color-bg-table-hd),
+    'border-radius': 4px,
   )
 );
 
@@ -50,7 +60,7 @@
 
 /* Root Colors */
 :root {
-  --el-border-radius-base: 8px;
+  --el-border-radius-base: 4px;
   --el-color-primary: var(--color-primary);
   --el-text-color-regular: var(--color-text-primary);
   --el-text-color-primary: var(--color-text-primary);
@@ -66,10 +76,6 @@
   --el-fill-color-light: var(--color-bg-split);
   --el-fill-color-blank: var(--color-bg-content);
   --el-border-color: var(--color-border-primary);
-  --el-menu-hover-bg-color: var(--color-bg-split);
-  --el-menu-text-color: var(--el-text-color-primary);
-  --el-menu-sub-item-height: 32px;
-  --el-menu-item-height: 32px;
 }
 
 /* Menu */
@@ -189,7 +195,7 @@
 }
 /* Table */
 .el-table {
-  border-radius: 16px;
+  border-radius: 8px;
   &:after,
   &:before,
   .el-table__inner-wrapper:after,

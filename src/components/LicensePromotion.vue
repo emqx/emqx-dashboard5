@@ -46,7 +46,7 @@ const dismiss = () => {
 .license-actions-header {
   display: inline-flex;
   align-items: center;
-  height: 32px;
+  height: 26px;
   margin-right: 16px;
   padding: 0 12px;
   background: linear-gradient(135deg, var(--color-primary-card-bg) 0%, var(--color-bg-main) 100%);
