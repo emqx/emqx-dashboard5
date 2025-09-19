@@ -203,17 +203,15 @@ bindKeyupListener()
 </script>
 
 <style lang="scss" scoped>
-$header-heigh: 60px;
-
 .layout {
   height: 100vh;
 }
 .el-aside {
   position: fixed;
-  top: #{$header-heigh};
+  top: var(--el-header-height);
   left: 0;
   bottom: 0;
-  height: calc(100vh - #{$header-heigh});
+  height: calc(100vh - var(--el-header-height));
   transition: all 0.3s;
   z-index: 100;
   overflow-x: hidden;
@@ -260,11 +258,11 @@ $header-heigh: 60px;
 }
 
 .el-header {
+  box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: $header-heigh;
   padding: 0;
   z-index: 101;
   border-bottom: 1px solid var(--color-border-card);
@@ -273,7 +271,7 @@ $header-heigh: 60px;
 }
 
 .main {
-  padding-top: $header-heigh;
+  padding-top: var(--el-header-height);
 }
 
 .top-submenu {
@@ -282,6 +280,6 @@ $header-heigh: 60px;
 
 // 60px is header height
 .is-full-height {
-  height: calc(100vh - #{$header-heigh});
+  height: calc(100vh - var(--el-header-height));
 }
 </style>
