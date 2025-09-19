@@ -129,6 +129,7 @@ const submitting = ref(false)
 const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules: FormRules = {
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
+  key_expression: createRequiredRule(tl('keyExpression')),
 }
 
 const { dispatchStrategyOptions } = useMessageQueue()
