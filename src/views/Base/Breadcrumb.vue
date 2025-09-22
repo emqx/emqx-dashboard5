@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { usePathInMenu } from '@/hooks/useMenus'
-import { last } from 'lodash'
+import { last, sortBy } from 'lodash'
 import type { RouteLocationRaw } from 'vue-router'
 
 interface BreadcrumbItem {
@@ -21,20 +21,35 @@ interface BreadcrumbItem {
 }
 
 const route = useRoute()
-
+const router = useRouter()
 const currentRoute = computed(() => last(route.matched))
-const { findPathParentAndBlock, getRouteLabel } = usePathInMenu()
+const currentRoutePath = computed(() => currentRoute.value?.path)
+
+const { getRouteLabel, createChildReg } = usePathInMenu()
+
+const uniqueAllMatchRoutes = computed(() => {
+  if (!currentRoutePath.value) {
+    return []
+  }
+  const allRoutes = router.getRoutes()
+  const matchedRoutes = allRoutes.filter((route) => {
+    const isParent = createChildReg(route.path).test(currentRoutePath.value as string)
+    const isSelf = route.path === currentRoutePath.value
+    return isParent || isSelf
+  })
+  const uniqueMatchedRoutes = uniqBy(matchedRoutes, 'path')
+  return sortBy(uniqueMatchedRoutes, (item) => item.path?.length)
+})
 
 const breadcrumbList = computed<Array<BreadcrumbItem>>(() => {
   if (!currentRoute.value) {
     return []
   }
-  const result = []
-  const { parent, parentLabel } = findPathParentAndBlock(currentRoute.value?.path)
-  if (parent) {
-    result.push({ label: parentLabel ?? '', route: parent.path })
-  }
-  result.push({ label: getRouteLabel(currentRoute.value), route: currentRoute.value.path })
+  const result = uniqueAllMatchRoutes.value.reduce((arr: Array<BreadcrumbItem>, route) => {
+    const label = getRouteLabel(route)
+    arr.push({ label, route })
+    return arr
+  }, [])
   return result
 })
 </script>
