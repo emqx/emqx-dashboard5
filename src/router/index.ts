@@ -24,6 +24,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Overview
   {
     path: '/dashboard',
+    name: 'dashboard',
     component: Layout,
     redirect: '/dashboard/overview',
     meta: {
@@ -63,6 +64,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Alarm
   {
     path: '/alarm',
+    name: 'alarm',
     component: Layout,
     redirect: '/alarm/current-alarm',
     meta: {
@@ -109,6 +111,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Subscription
   {
     path: '/subscriptions',
+    name: 'subscriptions',
     redirect: '/subscriptions/subscription',
     component: Layout,
     meta: {
@@ -468,6 +471,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Webhook
   {
     path: '/webhook',
+    name: 'webhook',
     component: Layout,
     meta: {
       hideKey: 'Webhook',
@@ -494,6 +498,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Rule
   {
     path: '/rule',
+    name: 'rules',
     component: Layout,
     redirect: '/rule/rules',
     meta: {
@@ -651,6 +656,7 @@ export const routes: Array<RouteRecordRaw> = [
   // mqtt config
   {
     path: '/mqtt',
+    name: 'mqtt',
     component: Layout,
     redirect: '/mqtt/general',
     meta: {
@@ -792,6 +798,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Monitoring integration
   {
     path: '/monitoring',
+    name: 'monitoring',
     component: Layout,
     redirect: '/monitoring/alarm-settings',
     meta: {
@@ -891,6 +898,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Schema Registry
   {
     path: '/schema',
+    name: 'schema',
     component: Layout,
     redirect: '/schema/internal',
     meta: {

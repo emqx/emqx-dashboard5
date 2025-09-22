@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import { usePathInMenu } from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 
@@ -70,34 +71,9 @@ watch(showDialog, async (val) => {
   }
 })
 
-const { te } = useI18n()
-const { t, tl } = useI18nTl('Base')
+const { tl } = useI18nTl('Base')
 
-const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
-
-const { menuList } = useMenus()
-const findParentAndBlock = (path: string) => {
-  let parent: Menu | any = undefined
-  const walk = (menuItem: Menu): boolean => {
-    if (menuItem.path) {
-      const isTarget = menuItem.path === path
-      const isChild = createChildReg(menuItem.path).test(path)
-      if (isChild) {
-        parent = menuItem
-      }
-      return isTarget || isChild
-    } else if (menuItem.children) {
-      return menuItem.children.some((item: Menu) => walk(item))
-    }
-    return false
-  }
-
-  const block = menuList.value.find((item) => walk(item))
-  return {
-    parentLabel: parent ? t(`components.${parent.title}`) : undefined,
-    blockTitle: block ? t(`components.${block.title}`) : '',
-  }
-}
+const { findPathParentAndBlock, getRouteLabel } = usePathInMenu()
 
 const withParamsPathReg = /:/
 const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {
@@ -112,11 +88,8 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
       const path = `${parent?.path ? parent.path : ''}${parent?.path && route.path ? '/' : ''}${
         route.path
       }`
-      const labelKey = route.name
-      const label = te(`components.${labelKey as string}`)
-        ? t(`components.${labelKey as string}`)
-        : titleCase(route.name as string)
-      const { parentLabel, blockTitle } = findParentAndBlock(path)
+      const label = getRouteLabel(route)
+      const { parentLabel, blockTitle } = findPathParentAndBlock(path)
       ret.push({ path, name: route.name, label, parentLabel, blockTitle })
     }
     if (route.children && level === 0) {

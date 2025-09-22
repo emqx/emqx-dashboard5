@@ -3,7 +3,7 @@
     <div class="logo">
       <img :src="appLogo" alt="emqx-logo" />
     </div>
-    <h1 class="header-title">{{ title }}</h1>
+    <Breadcrumb />
     <div class="pull-right">
       <LicensePromotion v-if="!isNamespaceUser" />
       <div class="cluster-desc" v-if="clusterDesc">
@@ -90,164 +90,117 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { getClusterNodes, loadAlarm } from '@/api/common'
 import { Right, Bell, Setting, Search, Edit } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
 import LicensePromotion from '@/components/LicensePromotion.vue'
+import Breadcrumb from './Breadcrumb.vue'
 
-export default defineComponent({
-  name: 'NavHeader',
-  components: {
-    Right,
-    Bell,
-    Setting,
-    Settings,
-    Help,
-    Search,
-    LicensePromotion,
-  },
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-  },
-  setup(props, ctx) {
-    const showSettings = ref(false)
-    const showHelp = ref(false)
-    const store = useStore()
-    const { t } = useI18n()
-    const router = useRouter()
-    const { docMap } = useDocLink()
+const emit = defineEmits<{
+  (e: 'open-quick-panel'): void
+}>()
 
-    const { appLogo } = useEditionConfigs()
+const showHelp = ref(false)
+const store = useStore()
+const { t } = useI18n()
+const router = useRouter()
+const { docMap } = useDocLink()
 
-    const alertCount = computed(() => {
-      return store.state.alertCount
-    })
-    const clusterDesc = computed(() => store.state.clusterDesc)
-    const leftBarCollapse = computed(() => {
-      return store.state.leftBarCollapse
-    })
-    const user = computed(() => {
-      return store.state.user
-    })
-    const alertText = computed(() => {
-      return alertCount.value > 0
-        ? `${t('components.theSystemHas')} ${alertCount.value} ${t(
-            'components.noteAlertClickView',
-          )}`
-        : t('components.noWarning')
-    })
-    const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
-    const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const { appLogo } = useEditionConfigs()
 
-    const visibilityChangeFunc = () => {
-      return document.visibilityState === 'visible' && loadData()
-    }
+const alertCount = computed(() => store.state.alertCount)
+const clusterDesc = computed(() => store.state.clusterDesc)
+const leftBarCollapse = computed(() => {
+  return store.state.leftBarCollapse
+})
+const user = computed(() => {
+  return store.state.user
+})
+const alertText = computed(() => {
+  return alertCount.value > 0
+    ? `${t('components.theSystemHas')} ${alertCount.value} ${t('components.noteAlertClickView')}`
+    : t('components.noWarning')
+})
+const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
-    const loadData = async () => {
-      try {
-        const { data } = await loadAlarm()
-        store.dispatch('SET_ALERT_COUNT', (data || []).length)
-      } catch (error) {
-        //
-      }
-    }
-    const getClusterDesc = async () => {
-      const { description } = await getClusterNodes()
-      store.commit('SET_CLUSTER_DESC', description)
-    }
-    getClusterDesc()
-    const { handleLogOut } = useLogOut()
-    const logout = () => {
-      ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
-        confirmButtonText: t('components.signOut'),
-        cancelButtonText: t('Base.cancel'),
-        type: 'warning',
-        beforeClose: async (action, instance, done) => {
-          if (action !== 'confirm') {
-            done()
-            return
-          }
+const visibilityChangeFunc = () => {
+  return document.visibilityState === 'visible' && loadData()
+}
 
-          instance.confirmButtonLoading = true
-
-          try {
-            await handleLogOut()
-            ElNotification.success(t('components.loggedOut'))
-            done()
-          } catch (error) {
-            instance.confirmButtonLoading = false
-            instance.confirmButtonText = t('components.signOut')
-            done()
-          }
-        },
-      })
-    }
-
-    const handleDropdownCommand = (command: string) => {
-      if (!command) {
+const loadData = async () => {
+  try {
+    const { data } = await loadAlarm()
+    store.dispatch('SET_ALERT_COUNT', (data || []).length)
+  } catch (error) {
+    //
+  }
+}
+const getClusterDesc = async () => {
+  const { description } = await getClusterNodes()
+  store.commit('SET_CLUSTER_DESC', description)
+}
+getClusterDesc()
+const { handleLogOut } = useLogOut()
+const logout = () => {
+  ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
+    confirmButtonText: t('components.signOut'),
+    cancelButtonText: t('Base.cancel'),
+    type: 'warning',
+    beforeClose: async (action, instance, done) => {
+      if (action !== 'confirm') {
+        done()
         return
       }
-      if (command === 'logout') {
-        return logout()
+
+      instance.confirmButtonLoading = true
+
+      try {
+        await handleLogOut()
+        ElNotification.success(t('components.loggedOut'))
+        done()
+      } catch (error) {
+        instance.confirmButtonLoading = false
+        instance.confirmButtonText = t('components.signOut')
+        done()
       }
-      router.currentRoute.value.name !== command && router.push({ name: command })
-    }
+    },
+  })
+}
 
-    const routeToContactUs = () => {
-      const windowUrl = window.open(docMap.contactUs)
-      if (windowUrl) {
-        windowUrl.opener = null
-      }
-    }
-    const handleShowSettings = () => {
-      showSettings.value = true
-    }
-    const handleShowHelp = () => {
-      showHelp.value = true
-    }
+const handleDropdownCommand = (command: string) => {
+  if (!command) {
+    return
+  }
+  if (command === 'logout') {
+    return logout()
+  }
+  router.currentRoute.value.name !== command && router.push({ name: command })
+}
 
-    const isMac = computed(() => /Mac/.test(navigator.userAgent))
-    const openQuickPanel = () => {
-      ctx.emit('open-quick-panel')
-    }
-    loadData()
-    onMounted(() => {
-      document.addEventListener('visibilitychange', visibilityChangeFunc)
-    })
-    onBeforeUnmount(() => {
-      document.removeEventListener('visibilitychange', visibilityChangeFunc)
-    })
+const routeToContactUs = () => {
+  const windowUrl = window.open(docMap.contactUs)
+  if (windowUrl) {
+    windowUrl.opener = null
+  }
+}
 
-    return {
-      t,
-      appLogo,
-      IS_ENTERPRISE,
-      showSettings,
-      showHelp,
-      store,
-      leftBarCollapse,
-      alertCount,
-      alertText,
-      clusterDesc,
-      user,
-      isEvaluationLicense,
-      isNamespaceUser,
-      routeToContactUs,
-      handleDropdownCommand,
-      logout,
-      visibilityChangeFunc,
-      handleShowSettings,
-      handleShowHelp,
-      isMac,
-      openQuickPanel,
-      Edit,
-    }
-  },
+const handleShowHelp = () => {
+  showHelp.value = true
+}
+
+const isMac = computed(() => /Mac/.test(navigator.userAgent))
+const openQuickPanel = () => {
+  emit('open-quick-panel')
+}
+loadData()
+onMounted(() => {
+  document.addEventListener('visibilitychange', visibilityChangeFunc)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('visibilitychange', visibilityChangeFunc)
 })
 </script>
 
@@ -287,12 +240,6 @@ export default defineComponent({
     max-height: 100%;
     height: 26px;
   }
-}
-
-.header-title {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 18px;
 }
 
 .pull-right {

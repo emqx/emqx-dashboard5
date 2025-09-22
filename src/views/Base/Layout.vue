@@ -1,10 +1,8 @@
 <template>
   <el-container class="layout">
     <el-header>
-      <nav-header
-        :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')"
-        @open-quick-panel="openQuickPanel"
-      />
+      <!-- :title="!isNotFound ? $t(`components.${firstPath}`) : $t('Base.pageNotFound')" -->
+      <nav-header @open-quick-panel="openQuickPanel" />
     </el-header>
     <el-container class="main">
       <el-aside :style="asideStyle">
