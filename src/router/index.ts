@@ -306,6 +306,7 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'detail/:name',
         name: 'gateway-detail',
         component: () => import('@/views/Gateway/GatewayDetail.vue'),
+        redirect: 'settings',
         children: [
           {
             path: 'settings',
