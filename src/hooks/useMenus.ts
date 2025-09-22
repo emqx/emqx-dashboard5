@@ -5,7 +5,7 @@ export interface Menu {
   children?: Menu[]
 }
 
-export default (): {
+const useMenus = (): {
   menuList: Ref<Array<Menu>>
 } => {
   const monitoring = [
@@ -140,5 +140,53 @@ export default (): {
 
   return {
     menuList,
+  }
+}
+
+export default useMenus
+
+export const usePathInMenu = () => {
+  const { t, te } = useI18nTl('Base')
+
+  const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-|:)+)+$`)
+
+  const { menuList } = useMenus()
+
+  const findPathParentAndBlock = (path: string) => {
+    let parent: Menu | any = undefined
+    const walk = (menuItem: Menu): boolean => {
+      if (menuItem.path) {
+        const isTarget = menuItem.path === path
+        const isChild = createChildReg(menuItem.path).test(path)
+        if (isChild) {
+          parent = menuItem
+        }
+        return isTarget || isChild
+      } else if (menuItem.children) {
+        return menuItem.children.some((item: Menu) => walk(item))
+      }
+      return false
+    }
+
+    const block = menuList.value.find((item) => walk(item))
+    return {
+      parent,
+      parentLabel: parent ? t(`components.${parent.title}`) : undefined,
+      blockTitle: block ? t(`components.${block.title}`) : '',
+    }
+  }
+
+  const getRouteLabel = (route: RouteRecordRaw): string => {
+    if (!route?.name || typeof route.name !== 'string') {
+      return route.name?.toString() ?? ''
+    }
+    const labelKey = route.name
+    const label = te(`components.${labelKey}`) ? t(`components.${labelKey}`) : titleCase(route.name)
+    return label
+  }
+
+  return {
+    findPathParentAndBlock,
+    getRouteLabel,
   }
 }
