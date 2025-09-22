@@ -24,9 +24,8 @@ export const routes: Array<RouteRecordRaw> = [
   // Overview
   {
     path: '/dashboard',
-    name: 'dashboard',
     component: Layout,
-    redirect: '/dashboard/overview',
+    redirect: { name: 'overview' },
     meta: {
       authRequired: true,
       subMenu: true,
@@ -64,9 +63,8 @@ export const routes: Array<RouteRecordRaw> = [
   // Alarm
   {
     path: '/alarm',
-    name: 'alarm',
     component: Layout,
-    redirect: '/alarm/current-alarm',
+    redirect: { name: 'current-alarm' },
     meta: {
       hideKey: 'alarm',
       authRequired: true,
@@ -111,8 +109,7 @@ export const routes: Array<RouteRecordRaw> = [
   // Subscription
   {
     path: '/subscriptions',
-    name: 'subscriptions',
-    redirect: '/subscriptions/subscription',
+    redirect: { name: 'subscription' },
     component: Layout,
     meta: {
       hideKey: 'subscriptions',
@@ -306,7 +303,7 @@ export const routes: Array<RouteRecordRaw> = [
         path: 'detail/:name',
         name: 'gateway-detail',
         component: () => import('@/views/Gateway/GatewayDetail.vue'),
-        redirect: 'settings',
+        redirect: { name: 'gateway-detail-settings' },
         children: [
           {
             path: 'settings',
@@ -472,7 +469,6 @@ export const routes: Array<RouteRecordRaw> = [
   // Webhook
   {
     path: '/webhook',
-    name: 'webhook',
     component: Layout,
     meta: {
       hideKey: 'Webhook',
@@ -499,9 +495,8 @@ export const routes: Array<RouteRecordRaw> = [
   // Rule
   {
     path: '/rule',
-    name: 'rules',
     component: Layout,
-    redirect: '/rule/rules',
+    redirect: { name: 'rule' },
     meta: {
       hideKey: 'rule',
       authRequired: true,
@@ -657,9 +652,8 @@ export const routes: Array<RouteRecordRaw> = [
   // mqtt config
   {
     path: '/mqtt',
-    name: 'mqtt',
     component: Layout,
-    redirect: '/mqtt/general',
+    redirect: { name: 'mqtt-general' },
     meta: {
       hideKey: 'mqtt',
       authRequired: true,
@@ -799,9 +793,8 @@ export const routes: Array<RouteRecordRaw> = [
   // Monitoring integration
   {
     path: '/monitoring',
-    name: 'monitoring',
     component: Layout,
-    redirect: '/monitoring/alarm-settings',
+    redirect: { name: 'alarm-settings' },
     meta: {
       authRequired: true,
       subMenu: true,
@@ -899,9 +892,8 @@ export const routes: Array<RouteRecordRaw> = [
   // Schema Registry
   {
     path: '/schema',
-    name: 'schema',
     component: Layout,
-    redirect: '/schema/internal',
+    redirect: { name: 'internal-schema' },
     meta: {
       hideKey: 'schema',
       authRequired: true,
