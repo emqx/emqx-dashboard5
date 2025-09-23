@@ -21,11 +21,12 @@ interface BreadcrumbItem {
 }
 
 const route = useRoute()
+const { t, te } = useI18nTl('Base')
 const router = useRouter()
 const currentRoute = computed(() => last(route.matched))
 const currentRoutePath = computed(() => currentRoute.value?.path)
 
-const { getRouteLabel, createChildReg } = usePathInMenu()
+const { getRouteLabel, createChildReg, getMenuItemByPath } = usePathInMenu()
 
 const uniqueAllMatchRoutes = computed(() => {
   if (!currentRoutePath.value) {
@@ -46,8 +47,14 @@ const breadcrumbList = computed<Array<BreadcrumbItem>>(() => {
     return []
   }
   const result = uniqueAllMatchRoutes.value.reduce((arr: Array<BreadcrumbItem>, route) => {
-    const label = getRouteLabel(route)
-    arr.push({ label, route })
+    let label: undefined | string = getRouteLabel(route)
+    if (!label) {
+      const menuItem = getMenuItemByPath(route.path)
+      if (menuItem?.title && te(`components.${menuItem.title}`)) {
+        label = `${t(`components.${menuItem.title}`)}`
+      }
+    }
+    arr.push({ label: label ?? titleCase(route.path), route })
     return arr
   }, [])
   return result
