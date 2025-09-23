@@ -42,21 +42,40 @@ const uniqueAllMatchRoutes = computed(() => {
   return sortBy(uniqueMatchedRoutes, (item) => item.path?.length)
 })
 
+const lastLevelPathReg = /\/(\w|-|:)+$/
+const getLastLevelPath = (path: string) => path.match(lastLevelPathReg)?.[0] ?? ''
+const routePathWithParamsReg = /((:(\w)+))+/g
+const getParamNamesFromPath = (path: string) => {
+  const matchParamsResult = getLastLevelPath(path).match(routePathWithParamsReg)
+  if (matchParamsResult) {
+    return matchParamsResult.map((item) => {
+      return item.replace(/^:/, '')
+    })
+  }
+  return undefined
+}
+const getBreadcrumbLabel = (breadRoute: RouteRecordRaw) => {
+  let label: undefined | string = getRouteLabel(breadRoute)
+  const paramNames = getParamNamesFromPath(breadRoute.path)
+  if (paramNames) {
+    label = paramNames.map((name) => route.params[name]).join('-')
+  }
+  if (!label) {
+    const menuItem = getMenuItemByPath(breadRoute.path)
+    if (menuItem?.title && te(`components.${menuItem.title}`)) {
+      label = `${t(`components.${menuItem.title}`)}`
+    }
+  }
+  return label ?? titleCase(breadRoute.path)
+}
+
 const breadcrumbList = computed<Array<BreadcrumbItem>>(() => {
   if (!currentRoute.value) {
     return []
   }
-  const result = uniqueAllMatchRoutes.value.reduce((arr: Array<BreadcrumbItem>, route) => {
-    let label: undefined | string = getRouteLabel(route)
-    if (!label) {
-      const menuItem = getMenuItemByPath(route.path)
-      if (menuItem?.title && te(`components.${menuItem.title}`)) {
-        label = `${t(`components.${menuItem.title}`)}`
-      }
-    }
-    arr.push({ label: label ?? titleCase(route.path), route })
-    return arr
-  }, [])
+  const result = uniqueAllMatchRoutes.value.map((route) => {
+    return { label: getBreadcrumbLabel(route), route }
+  })
   return result
 })
 </script>
