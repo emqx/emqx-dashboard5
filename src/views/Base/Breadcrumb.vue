@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { usePathInMenu } from '@/hooks/useMenus'
+import { GatewayName } from '@/types/enum'
 import { last, sortBy } from 'lodash'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -54,11 +55,47 @@ const getParamNamesFromPath = (path: string) => {
   }
   return undefined
 }
+
+const { transGatewayName } = useTransName()
+const getGatewayDetailRouteLabel = (): string => {
+  const gatewayName = String(route.params.name).toLowerCase() as GatewayName
+  return transGatewayName(gatewayName)
+}
+const { getBackendLabel } = useSSOBackendsLabel()
+const getSSODetailRouteLabel = (): string => {
+  const backend = route.params.backend.toString()
+  return getBackendLabel(backend)
+}
+const { titleMap } = useAuth()
+const authnIdReg = /(?<mechanism>\w+):(?<backend>\w+)/
+const getAuthnDetailRouteLabel = (): string => {
+  const id = route.params.id.toString()
+  const matchResult = id.match(authnIdReg)
+  if (matchResult?.groups?.backend) {
+    return titleMap[matchResult.groups.backend]
+  }
+  return titleMap[id] ?? t('Base.detail')
+}
+const { titleMap: authTitleMap } = useAuth()
+const getAuthzDetailRouteLabel = (): string => {
+  const type = route.params.type.toString()
+  return authTitleMap[type]
+}
+const specialRouteNameLabelFuncMap = new Map([
+  ['gateway-detail', getGatewayDetailRouteLabel],
+  ['SSO-detail', getSSODetailRouteLabel],
+  ['authenticationDetail', getAuthnDetailRouteLabel],
+  ['authorizationDetail', getAuthzDetailRouteLabel],
+])
 const getBreadcrumbLabel = (breadRoute: RouteRecordRaw) => {
   let label: undefined | string = getRouteLabel(breadRoute)
   const paramNames = getParamNamesFromPath(breadRoute.path)
   if (paramNames) {
-    label = paramNames.map((name) => route.params[name]).join('-')
+    if (breadRoute.name && specialRouteNameLabelFuncMap.get(breadRoute.name as string)) {
+      label = specialRouteNameLabelFuncMap.get(breadRoute.name as string)?.(breadRoute)
+    } else {
+      label = paramNames.map((name) => route.params[name]).join('-')
+    }
   }
   if (!label) {
     const menuItem = getMenuItemByPath(breadRoute.path)
