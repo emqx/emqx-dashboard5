@@ -351,6 +351,11 @@ export const useActionDataHandler = (): {
       if (handler) {
         ret = await handler(ret)
       }
+      if (ret.fallback_actions && ret.fallback_actions.length) {
+        ret.fallback_actions.forEach((item: any) => {
+          delete item.tags
+        })
+      }
       return Promise.resolve(await handleDataBeforeSubmit(ret))
     } catch (error) {
       console.error(error)
