@@ -1019,3 +1019,9 @@
     font-size: 14px;
   }
 }
+
+/* Breadcrumb */
+.el-breadcrumb__inner.is-link,
+.el-breadcrumb__inner a {
+  font-weight: normal;
+}

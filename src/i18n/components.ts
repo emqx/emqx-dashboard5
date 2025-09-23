@@ -477,4 +477,23 @@ export default {
     en: 'Create Cluster Linking',
   },
   /* For Quick Panel End */
+
+  /* For Breadcrumb Start */
+  'gateway-detail-settings': {
+    zh: '设置',
+    en: 'Settings',
+  },
+  'gateway-detail-listeners': {
+    en: 'Listeners',
+    zh: '监听器',
+  },
+  'gateway-detail-auth': {
+    en: 'Authentication',
+    zh: '认证',
+  },
+  'gateway-detail-clients': {
+    en: 'Clients',
+    zh: '客户端',
+  },
+  /* For Breadcrumb End */
 }
