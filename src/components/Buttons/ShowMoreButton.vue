@@ -1,5 +1,9 @@
 <template>
-  <el-tooltip :content="!showMoreQuery ? t('Base.showMore') : t('Base.lessMore')" placement="top">
+  <el-tooltip
+    :content="!showMoreQuery ? t('Base.showMore') : t('Base.lessMore')"
+    placement="top"
+    :hide-after="0"
+  >
     <el-button
       class="icon-button"
       plain
