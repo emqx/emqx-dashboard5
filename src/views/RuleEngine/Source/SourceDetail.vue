@@ -36,15 +36,7 @@
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              :disabled="!$hasPermission('delete')"
-              type="danger"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
+            <DeleteButton @click="handleDelete" />
           </el-tooltip>
         </template>
       </detail-header>

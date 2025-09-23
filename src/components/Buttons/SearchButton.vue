@@ -1,6 +1,6 @@
 <template>
   <el-tooltip :content="tl('search')" placement="top" :hide-after="0">
-    <IconButton :icon="Search" />
+    <IconButton :icon="Search" v-bind="$attrs" />
   </el-tooltip>
 </template>
 
