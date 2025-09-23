@@ -23,18 +23,7 @@
               />
             </span>
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="!$hasPermission('delete')"
-              :loading="deleteLoading"
-              @click="handleDeleteWebhook"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton :loading="deleteLoading" @click="handleDeleteWebhook" />
         </template>
       </detail-header>
     </div>

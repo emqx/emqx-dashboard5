@@ -1,6 +1,6 @@
 <template>
   <el-tooltip :content="t('Base.reset')" placement="top" :hide-after="0">
-    <IconButton :icon="RefreshLeft" />
+    <IconButton :icon="RefreshLeft" v-bind="$attrs" />
   </el-tooltip>
 </template>
 
