@@ -152,6 +152,20 @@ export const usePathInMenu = () => {
 
   const { menuList } = useMenus()
 
+  const getMenuItemByPath = (path: string): Menu | undefined => {
+    let ret = undefined
+    const walk = (menuItem: Menu) => {
+      if (menuItem.path === path) {
+        ret = menuItem
+      }
+      if (menuItem.children) {
+        menuItem.children.forEach((item) => walk(item))
+      }
+    }
+    menuList.value.forEach((item) => walk(item))
+    return ret
+  }
+
   const findPathParentAndBlock = (path: string) => {
     let parent: Menu | any = undefined
     const walk = (menuItem: Menu): boolean => {
@@ -176,9 +190,9 @@ export const usePathInMenu = () => {
     }
   }
 
-  const getRouteLabel = (route: RouteRecordRaw): string => {
+  const getRouteLabel = (route: RouteRecordRaw): string | undefined => {
     if (!route?.name || typeof route.name !== 'string') {
-      return route.name?.toString() ?? ''
+      return undefined
     }
     const labelKey = route.name
     const label = te(`components.${labelKey}`) ? t(`components.${labelKey}`) : titleCase(route.name)
@@ -189,5 +203,6 @@ export const usePathInMenu = () => {
     findPathParentAndBlock,
     createChildReg,
     getRouteLabel,
+    getMenuItemByPath,
   }
 }
