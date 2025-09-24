@@ -39,7 +39,7 @@
     'expanded-cell-bg-color': var(--color-bg-content),
   ),
   $dialog: (
-    'border-radius': 16px,
+    'border-radius': 8px,
     'bg-color': var(--color-bg-content),
   ),
   $drawer: (
@@ -53,6 +53,9 @@
     'sub-item-height': 32px,
     'text-color': var(--color-menu-text-normal),
     'hover-bg-color': var(--color-bg-table-hd),
+    'border-radius': 4px,
+  ),
+  $pagination: (
     'border-radius': 4px,
   )
 );
@@ -77,12 +80,19 @@
   --el-fill-color-light: var(--color-bg-split);
   --el-fill-color-blank: var(--color-bg-content);
   --el-border-color: var(--color-border-primary);
+  --menu-item-border-radius: 4px;
+  --menu-normal-width: 200px;
+  --menu-collapse-width: 71px;
 }
 
 /* Menu */
 .el-menu {
   $menu-item-padding: 0;
   $menu-icon-size: 21px;
+  @mixin menu-item-hover {
+    color: var(--color-menu-text-active);
+    background-color: var(--color-bg-table-hd);
+  }
   &:not(.el-menu--horizontal, .el-menu--popup) {
     background-color: var(--color-bg);
     $menu-item-height: 32px;
@@ -128,18 +138,16 @@
       }
     }
     .el-menu-item {
+      min-width: initial;
+      padding: $menu-item-padding !important;
       color: var(--color-menu-text-normal);
       border-radius: var(--menu-item-border-radius);
-      padding: $menu-item-padding !important;
-      min-width: initial;
       &.is-active {
-        color: var(--color-menu-text-active);
-        background-color: var(--color-bg-table-hd);
-        border-radius: var(--menu-item-border-radius);
+        @include menu-item-hover;
+        font-weight: bold;
       }
       &:hover {
         background-color: var(--color-bg-table-hd);
-        border-radius: var(--menu-item-border-radius);
       }
     }
     .el-menu-item,
@@ -161,13 +169,12 @@
     background-color: var(--color-bg);
     .el-menu-item {
       color: var(--color-menu-text-normal);
-      &.is-active {
-        color: var(--color-menu-text-active);
-        background-color: var(--color-bg-table-hd);
-      }
+      &.is-active,
       &:hover {
-        color: var(--color-menu-text-active);
-        background-color: var(--color-bg-table-hd);
+        @include menu-item-hover;
+      }
+      &.is-active {
+        font-weight: bold;
       }
     }
   }
@@ -189,8 +196,7 @@
   }
   &.el-menu--collapse {
     > .el-sub-menu.is-active .el-sub-menu__title {
-      background-color: var(--color-bg-table-hd);
-      color: var(--color-menu-text-active);
+      @include menu-item-hover;
     }
   }
 }
@@ -897,7 +903,6 @@
 .el-pagination.is-background .btn-prev,
 .el-pagination.is-background .btn-next,
 .el-pagination.is-background .el-pager li {
-  border-radius: 8px;
   border: 1px solid var(--color-border-primary);
   background-color: var(--color-bg-content);
   color: var(--color-text-primary);

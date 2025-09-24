@@ -3,7 +3,7 @@
     <div class="graph-entity" ref="graph" v-loading.lock="infoLoading">
       <div class="nodes-graph-container">
         <span class="node-count">
-          <img src="@/assets/img/node.png" width="12" height="12" alt="node" />
+          <img src="@/assets/img/node.svg" width="12" height="12" alt="node" />
           <span class="cluster-name">
             <CommonOverflowTooltip :content="clusterName" />
           </span>

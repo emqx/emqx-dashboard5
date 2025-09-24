@@ -5,9 +5,9 @@
       <nav-header @open-quick-panel="openQuickPanel" />
     </el-header>
     <el-container class="main">
-      <el-aside :style="asideStyle">
+      <el-aside class="layout-aside" :class="{ 'is-collapse': leftBarCollapse }">
         <LeftBar />
-        <div class="footer-menu" :style="footMenuStyle">
+        <div class="footer-menu" :class="{ 'is-collapse': leftBarCollapse }">
           <div
             class="footer-menu-item"
             @click="
@@ -21,7 +21,7 @@
           </div>
         </div>
       </el-aside>
-      <el-main :style="elMainStyle">
+      <el-main class="layout-main" :class="{ 'is-menu-collapse': leftBarCollapse }">
         <div class="main-content">
           <el-scrollbar>
             <el-menu
@@ -73,11 +73,6 @@ import LicenseTipDialog from './LicenseTipDialog.vue'
 import NavHeader from './NavHeader.vue'
 import QuickPanel from './QuickPanel.vue'
 
-const LeftBarWidth = {
-  collapse: '80px',
-  expand: '200px',
-}
-
 defineProps<{ keepAlive?: boolean }>()
 
 const routesNeedCollapseMenu = ['flow-create', 'flow-detail']
@@ -90,15 +85,6 @@ const showLicenseTipDialog = ref(false)
 const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 
 const leftBarCollapse = computed(() => store.state.leftBarCollapse)
-const asideStyle = computed(() => ({
-  width: leftBarCollapse.value ? LeftBarWidth.collapse : LeftBarWidth.expand,
-}))
-const footMenuStyle = computed(() => ({
-  width: parseInt(leftBarCollapse.value ? LeftBarWidth.collapse : LeftBarWidth.expand) - 1 + 'px',
-}))
-const elMainStyle = computed(() => ({
-  paddingLeft: !leftBarCollapse.value ? LeftBarWidth.expand : LeftBarWidth.collapse,
-}))
 const topLvRoute: any = computed(() => {
   const { path } = route
   const topLvRoute = routes.find((v) => {
@@ -204,6 +190,12 @@ bindKeyupListener()
 .layout {
   height: 100vh;
 }
+.layout-aside {
+  width: var(--menu-normal-width);
+  &.is-collapse {
+    width: var(--menu-collapse-width);
+  }
+}
 .el-aside {
   position: fixed;
   top: var(--el-header-height);
@@ -221,10 +213,14 @@ bindKeyupListener()
     position: fixed;
     box-sizing: border-box;
     bottom: 0;
+    width: calc(var(--menu-normal-width) - 1px);
     height: var(--left-menu-footer-height);
     background-color: var(--color-bg);
     border-top: 1px solid #ffffff24;
     transition: all 0.3s;
+    &.is-collapse {
+      width: calc(var(--menu-collapse-width) - 1px);
+    }
     .footer-menu-item {
       display: flex;
       align-items: center;
@@ -245,6 +241,12 @@ bindKeyupListener()
   }
 }
 
+.layout-main {
+  padding-left: var(--menu-normal-width);
+  &.is-menu-collapse {
+    padding-left: var(--menu-collapse-width);
+  }
+}
 .el-main {
   transition: all 0.3s;
   background-color: var(--color-bg);

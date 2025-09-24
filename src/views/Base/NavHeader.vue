@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-header" :style="{ left: leftBarCollapse ? '201px' : '80px' }">
+  <div class="nav-header">
     <div class="logo">
       <img :src="appLogo" alt="emqx-logo" />
     </div>
@@ -112,9 +112,6 @@ const { appLogo } = useEditionConfigs()
 
 const alertCount = computed(() => store.state.alertCount)
 const clusterDesc = computed(() => store.state.clusterDesc)
-const leftBarCollapse = computed(() => {
-  return store.state.leftBarCollapse
-})
 const user = computed(() => {
   return store.state.user
 })
@@ -210,7 +207,8 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 24px;
+  padding-right: 24px;
+  padding-left: 19px;
   left: 200px;
   z-index: 100;
   transition: all 0.3s;
@@ -258,7 +256,7 @@ onBeforeUnmount(() => {
   margin-right: 16px;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
+  border-radius: var(--el-border-radius-base);
   border: 1px solid transparent;
   background: var(--color-primary-card-bg);
   color: #a7abb1;
