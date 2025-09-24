@@ -1,5 +1,5 @@
 <template>
-  <div class="left-bar" :style="{ width: leftBarCollapse ? '80px' : '200px' }">
+  <div class="left-bar" :class="{ 'is-collapse': leftBarCollapse }">
     <el-scrollbar>
       <el-menu
         :default-active="defaultSelectedKeys"
@@ -107,8 +107,12 @@ export default defineComponent({
 .left-bar {
   transition: all 0.3s;
   height: 100%;
+  width: var(--menu-normal-width);
   padding: 16px 0 calc(var(--left-menu-footer-height) + 16px);
   background-color: var(--color-bg);
+  &.is-collapse {
+    width: var(--menu-collapse-width);
+  }
   // border-right: 1px solid var(--color-border-card);
   .el-menu:not(.el-menu--horizontal, .el-menu--popup) .menu-item-title {
     white-space: nowrap;
@@ -118,7 +122,7 @@ export default defineComponent({
     left: -23px;
   }
   .el-menu.el-menu--collapse {
-    width: 80px;
+    width: var(--menu-collapse-width);
     .menu-item-title {
       padding-left: 26px;
       opacity: 0;

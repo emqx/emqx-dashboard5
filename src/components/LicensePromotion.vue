@@ -50,14 +50,15 @@ const dismiss = () => {
   margin-right: 16px;
   padding: 0 12px;
   background: linear-gradient(135deg, var(--color-primary-card-bg) 0%, var(--color-bg-main) 100%);
-  border-radius: 6px;
+  border-radius: var(--el-border-radius-base);
   font-size: 14px;
   position: relative;
   transition: all 0.2s ease;
+  cursor: default;
 
   &:hover {
-    background: linear-gradient(135deg, #3c4164 0%, #474e83 100%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    // background: linear-gradient(135deg, #3c4164 0%, #474e83 100%);
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.1);
   }
 
   .promo-text {
