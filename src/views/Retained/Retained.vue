@@ -5,7 +5,7 @@
         <el-col :span="8">
           <el-input
             v-model="searchValue"
-            :placeholder="$t('Topics.topic')"
+            :placeholder="t('Topics.topic')"
             clearable
             @clear="handleSearch"
           />
@@ -26,25 +26,23 @@
         >
           {{ t('Base.setting') }}
         </LinkButton>
-        <el-button
-          type="danger"
-          plain
+        <DangerButton
           :icon="Remove"
           :disabled="tbData.length === 0 || !$hasPermission('delete')"
           @click="handleDeleteAll"
         >
-          {{ $t('General.clearAll') }}
-        </el-button>
+          {{ t('General.clearAll') }}
+        </DangerButton>
         <RefreshButton :disabled="!$hasPermission('get')" @click="refresh" />
       </div>
       <el-table :data="tbData" v-loading="tbLoading" row-key="topic">
-        <el-table-column :label="$t('Base.topic')" prop="topic" min-width="100">
+        <el-table-column :label="t('Base.topic')" prop="topic" min-width="100">
           <template #default="{ row }">
             <CommonOverflowTooltip :content="row.topic" />
           </template>
         </el-table-column>
         <el-table-column :label="'QoS'" prop="qos" min-width="30" />
-        <el-table-column :label="$t('Base.clientid')" prop="from_clientid" />
+        <el-table-column :label="t('Base.clientid')" prop="from_clientid" />
         <el-table-column
           :label="tl('createDate')"
           prop="publish_at"
@@ -54,13 +52,13 @@
             {{ row.publish_at && dateFormat(row.publish_at) }}
           </template>
         </el-table-column>
-        <el-table-column :label="$t('Base.operation')">
+        <el-table-column :label="t('Base.operation')">
           <template #default="{ row }">
             <TableButton @click="checkPayload(row)">
               {{ tl('openPayload') }}
             </TableButton>
             <TableButton :disabled="!$hasPermission('delete')" @click="deleteRetainerTopic(row)">
-              {{ $t('Base.delete') }}
+              {{ t('Base.delete') }}
             </TableButton>
           </template>
         </el-table-column>

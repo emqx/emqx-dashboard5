@@ -26,21 +26,11 @@
         <el-tooltip :content="$t('Base.refresh')" placement="top">
           <RefreshButton class="icon-button" no-text @click="loadData" />
         </el-tooltip>
-        <el-tooltip
-          :content="record.connected ? tl('kickOut') : tl('cleanSession')"
-          placement="top"
-        >
-          <el-button
-            v-if="doesTheClientExist"
-            class="icon-button"
-            type="danger"
-            :icon="Delete"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="handleDisconnect"
-          >
-          </el-button>
-        </el-tooltip>
+        <DeleteButton
+          v-if="doesTheClientExist"
+          :tooltip-content="record.connected ? tl('kickOut') : tl('cleanSession')"
+          @click="handleDisconnect"
+        />
       </div>
     </div>
     <template v-if="doesTheClientExist">
@@ -213,7 +203,7 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
-import { Delete, Warning } from '@element-plus/icons-vue'
+import { Warning } from '@element-plus/icons-vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
 import ClientAttrsDialog from './components/ClientAttrsDialog.vue'

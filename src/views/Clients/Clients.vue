@@ -85,17 +85,15 @@
         <el-button class="export-btn" type="primary" plain :icon="Download" @click="handleExport">
           {{ tl('export') }}
         </el-button>
-        <el-button
+        <DangerButton
           class="kick-btn"
-          type="danger"
-          plain
-          :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           :icon="Delete"
           :loading="batchDeleteLoading"
+          :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           @click="cleanBatchClients"
         >
           {{ tl('kickOut') }}
-        </el-button>
+        </DangerButton>
         <RefreshButton @click="loadNodeClients" />
       </div>
       <el-table

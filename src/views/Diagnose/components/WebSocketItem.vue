@@ -156,7 +156,6 @@
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
             <TableButton
-              type="danger"
               plain
               @click="unSubscribe(row)"
               :disabled="!compareConnStatus(WEB_SOCKET_STATUS.Connected)"

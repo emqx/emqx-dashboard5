@@ -43,6 +43,10 @@ export default {
     zh: '停止',
     en: 'Stop',
   },
+  confirmStopTrace: {
+    zh: '确认停止名称为 {name} 的日志追踪？',
+    en: 'Confirm to stop the log trace named {name}?',
+  },
   delete: {
     zh: '删除',
     en: 'Delete',

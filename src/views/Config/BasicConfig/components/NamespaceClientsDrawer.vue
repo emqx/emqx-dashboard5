@@ -14,16 +14,14 @@
         <span>{{ props.namespace }}</span>
       </div>
       <div>
-        <el-button
+        <DangerButton
           class="kick-btn"
-          type="danger"
-          plain
           :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           :loading="isDeleteLoading"
           @click="cleanBatchClients"
         >
           {{ tl('batchKickOut') }}
-        </el-button>
+        </DangerButton>
       </div>
     </div>
 

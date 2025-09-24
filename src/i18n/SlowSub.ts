@@ -37,7 +37,7 @@ export default {
   },
   clearData: {
     zh: '清空数据',
-    en: 'Clear data',
+    en: 'Clear Data',
   },
   confirmClearData: {
     zh: '清除当前所有数据并重新统计慢订阅',

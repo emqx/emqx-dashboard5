@@ -40,14 +40,9 @@
           <el-button @click="handleEnable" :disabled="!$hasPermission('put')" v-else>
             {{ tl('start') }}
           </el-button>
-          <el-button
-            type="danger"
-            :disabled="!$hasPermission('delete')"
-            plain
-            @click="handleUninstall"
-          >
+          <DangerButton :disabled="!$hasPermission('delete')" plain @click="handleUninstall">
             {{ tl('uninstall') }}
-          </el-button>
+          </DangerButton>
         </template>
       </detail-header>
     </div>
