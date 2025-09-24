@@ -18,17 +18,7 @@
               @update:modelValue="toggleEnable"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :disabled="!$hasPermission('delete')"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </template>
       </detail-header>
     </div>
@@ -66,7 +56,6 @@ import { deleteClusterLinking, getClusterLinkingDetail, putClusterLinking } from
 import CommonItemStatus from '@/components/CommonItemStatus.vue'
 import { DetailTab } from '@/types/enum'
 import type { ClusterLinkingForm as ClusterLinkingFormData } from '@/types/typeAlias'
-import { Delete } from '@element-plus/icons-vue'
 import ClusterLinkingForm from './components/ClusterLinkingForm.vue'
 import ClusterLinkingOverview from './components/ClusterLinkingOverview.vue'
 

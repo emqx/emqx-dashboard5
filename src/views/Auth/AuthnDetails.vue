@@ -27,17 +27,7 @@
               @change="updateEnable"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="!$hasPermission('delete')"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </template>
       </detail-header>
       <div v-else class="section-header embed-gateway">
@@ -54,17 +44,7 @@
               @change="updateEnable"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :disabled="!$hasPermission('delete')"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </div>
       </div>
     </div>
@@ -155,7 +135,6 @@ import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/ap
 import { DatabaseAndServer, Metrics } from '@/types/auth'
 import { LDAPAuthMethod } from '@/types/enum'
 import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'
-import { Delete } from '@element-plus/icons-vue'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthnManager from './components/AuthnManager.vue'

@@ -7,17 +7,7 @@
         </template>
       </detail-header>
       <div class="btn-wrap">
-        <el-tooltip :content="$t('Base.delete')" placement="top">
-          <el-button
-            class="icon-button"
-            type="danger"
-            :disabled="!$hasPermission('delete')"
-            :icon="Delete"
-            @click="handleDelete"
-            plain
-          >
-          </el-button>
-        </el-tooltip>
+        <DeleteButton @click="handleDelete" />
       </div>
     </div>
     <el-tabs class="detail-tabs">
@@ -48,7 +38,6 @@
 <script lang="ts" setup>
 import { deleteExternalSchema, getExternalSchemaDetail, putExternalSchema } from '@/api/ruleengine'
 import type { ExternalSchema } from '@/types/typeAlias'
-import { Delete } from '@element-plus/icons-vue'
 import ExternalSchemaForm from './components/ExternalSchemaForm.vue'
 
 const route = useRoute()

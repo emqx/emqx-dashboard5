@@ -26,21 +26,14 @@
               @update:modelValue="enableOrDisableConnector"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="isWebhookConnector"
-              @click="
-                handleDeleteConnector(connectorData, () => {
-                  $router.push({ name: 'connector' })
-                })
-              "
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton
+            :disabled="isWebhookConnector"
+            @click="
+              handleDeleteConnector(connectorData, () => {
+                $router.push({ name: 'connector' })
+              })
+            "
+          />
         </template>
       </detail-header>
       <div>
@@ -125,7 +118,6 @@ import useBridgeTypeValue, {
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { Connector } from '@/types/rule'
-import { Delete } from '@element-plus/icons-vue'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'

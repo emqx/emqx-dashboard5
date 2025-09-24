@@ -66,7 +66,6 @@ import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
-import { Delete } from '@element-plus/icons-vue'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import WebhookFormCom from './components/WebhookForm.vue'
 
