@@ -9,17 +9,7 @@
           </div>
         </template>
         <template #extra>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :disabled="!$hasPermission('delete')"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </template>
       </detail-header>
       <div class="btn-wrap"></div>
@@ -58,7 +48,6 @@ import {
 } from '@/api/ruleengine'
 import { ConnectionStatus, SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistryEditForm } from '@/types/rule'
-import { Delete } from '@element-plus/icons-vue'
 import SchemaRegistryForm from './components/SchemaRegistryForm.vue'
 
 const route = useRoute()

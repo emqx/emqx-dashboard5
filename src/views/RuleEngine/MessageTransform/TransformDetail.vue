@@ -17,17 +17,7 @@
               @change="(val: boolean) => toggleEnable(val)"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :disabled="!$hasPermission('delete')"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </template>
       </detail-header>
     </div>
@@ -69,7 +59,6 @@ import {
 } from '@/api/messageTransformation'
 import { DetailTab, NodeStatusClass } from '@/types/enum'
 import type { MessageTransform } from '@/types/typeAlias'
-import { Delete } from '@element-plus/icons-vue'
 import TestDrawer from './components/TestDrawer.vue'
 import TransformForm from './components/TransformForm.vue'
 import TransformOverview from './components/TransformOverview.vue'

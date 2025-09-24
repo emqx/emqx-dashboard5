@@ -21,17 +21,7 @@
               @change="updateEnable"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              :disabled="!$hasPermission('delete')"
-              type="danger"
-              :icon="Delete"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton @click="handleDelete" />
         </template>
       </detail-header>
     </div>
@@ -104,7 +94,6 @@
 <script lang="ts" setup>
 import { deleteAuthz, loadAuthz, queryAuthzItemMetrics, updateAuthz } from '@/api/auth'
 import { Metrics } from '@/types/auth'
-import { Delete } from '@element-plus/icons-vue'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthzManager from './components/AuthzManager.vue'
 import BuiltInConfig from './components/BuiltInConfig.vue'

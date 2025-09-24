@@ -47,17 +47,7 @@
             >
             </el-button>
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              type="danger"
-              :icon="Delete"
-              :disabled="isWebhookAction"
-              @click="handleDelete"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton :disabled="isWebhookAction" @click="handleDelete" />
         </template>
       </detail-header>
     </div>
@@ -165,7 +155,7 @@
 <script lang="ts" setup>
 import { BridgeType, DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { Delete, Share } from '@element-plus/icons-vue'
+import { Share } from '@element-plus/icons-vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'

@@ -20,17 +20,10 @@
               @change="enableOrDisableRule"
             />
           </el-tooltip>
-          <el-tooltip :content="$t('Base.delete')" placement="top">
-            <el-button
-              class="icon-button"
-              :disabled="!$hasPermission('delete') || isWebhookRule"
-              type="danger"
-              :icon="Delete"
-              @click="deleteRule"
-              plain
-            >
-            </el-button>
-          </el-tooltip>
+          <DeleteButton
+            :disabled="!$hasPermission('delete') || isWebhookRule"
+            @click="deleteRule"
+          />
         </template>
       </detail-header>
     </div>
@@ -84,7 +77,6 @@
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
-import { Delete } from '@element-plus/icons-vue'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
 import RuleForm from '../components/RuleForm.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
