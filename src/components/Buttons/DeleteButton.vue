@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip :content="tl('delete')" placement="top" :hide-after="0">
+  <el-tooltip :content="tooltipCon" placement="top" :hide-after="0">
     <IconButton class="delete-button" :icon="Delete" :disabled="disableButton" v-bind="$attrs" />
   </el-tooltip>
 </template>
@@ -9,6 +9,7 @@ import { Delete } from '@element-plus/icons-vue'
 
 const props = defineProps<{
   disabled?: boolean
+  tooltipContent?: string
 }>()
 
 const { tl } = useI18nTl('Base')
@@ -24,6 +25,10 @@ const disableButton = computed(() => {
     return !hasPermission('delete')
   }
   return false
+})
+
+const tooltipCon = computed(() => {
+  return props.tooltipContent ?? tl('delete')
 })
 </script>
 

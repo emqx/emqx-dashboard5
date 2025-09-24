@@ -83,11 +83,7 @@
             {{ $t('LogTrace.download') }}
           </TableButton>
           <template v-if="row.status !== 'stopped'">
-            <TableButton
-              type="danger"
-              :disabled="!$hasPermission('put')"
-              @click="stopTraceHandler(row)"
-            >
+            <TableButton :disabled="!$hasPermission('put')" @click="stopTraceHandler(row)">
               {{ $t('LogTrace.stop') }}
             </TableButton>
           </template>
@@ -380,9 +376,12 @@ export default defineComponent({
       record.value = createRawTraceForm()
     }
 
+    const { operationWarning } = useOperationConfirm()
     const stopTraceHandler = async (row: TraceRecord) => {
       if (!row.name) return
+      const confirmText = t('LogTrace.confirmStopTrace', { name: row.name })
       try {
+        await operationWarning(confirmText)
         await stopTrace(row.name)
         M.success(t('LogTrace.stopSuc'))
         loadTraceList()

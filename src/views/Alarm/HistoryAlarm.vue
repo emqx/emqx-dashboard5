@@ -3,21 +3,19 @@
     <div class="section-header">
       <div></div>
       <div>
-        <el-button
-          type="danger"
-          plain
+        <DangerButton
           :icon="Remove"
-          @click="handleClearHistory"
           :disabled="!historyAlarmData.length || !$hasPermission('delete')"
+          @click="handleClearHistory"
         >
-          {{ $t('Alarm.clearHistory') }}
-        </el-button>
+          {{ t('Alarm.clearHistory') }}
+        </DangerButton>
       </div>
     </div>
 
     <el-table :data="historyAlarmData" v-loading.lock="historyLockTable">
-      <el-table-column prop="name" :label="$t('Alarm.alarmName')" />
-      <el-table-column :label="$t('Alarm.alarmMsg')">
+      <el-table-column prop="name" :label="t('Alarm.alarmName')" />
+      <el-table-column :label="t('Alarm.alarmMsg')">
         <template #default="{ row }">
           <div class="message-with-icon">
             <InfoTooltip v-if="Object.keys(row.details).length">
@@ -31,17 +29,17 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="node" :label="$t('Alarm.triggerNode')" />
-      <el-table-column :label="$t('Alarm.alarmLevel')">
-        <span>{{ $t('Alarm.system') }}</span>
+      <el-table-column prop="node" :label="t('Alarm.triggerNode')" />
+      <el-table-column :label="t('Alarm.alarmLevel')">
+        <span>{{ t('Alarm.system') }}</span>
       </el-table-column>
-      <el-table-column prop="activate_at" :label="$t('Alarm.activateTime')">
+      <el-table-column prop="activate_at" :label="t('Alarm.activateTime')">
         <template #default="{ row }">
           {{ row.activate_at && dateFormat(row.activate_at) }}<br />
           {{ row.deactivate_at && dateFormat(row.deactivate_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="deactivate_at" :label="$t('Alarm.duration')">
+      <el-table-column prop="deactivate_at" :label="t('Alarm.duration')">
         <template #default="{ row }">
           {{ transMsNumToSimpleStr(row.duration) }}
         </template>

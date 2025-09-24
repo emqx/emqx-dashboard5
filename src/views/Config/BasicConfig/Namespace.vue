@@ -6,16 +6,14 @@
         <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
       </div>
       <div>
-        <el-button
+        <DangerButton
           class="kick-btn"
-          type="danger"
-          plain
           :disabled="selectedNamespace.length === 0 || !$hasPermission('delete')"
           :icon="Delete"
           @click="batchDeleteNamespace"
         >
           {{ tl('batchDelete') }}
-        </el-button>
+        </DangerButton>
         <SettingsButton @click="isConfigsDrawerVisible = true" />
         <CreateButton @click="handleCreate" />
       </div>

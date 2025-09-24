@@ -29,6 +29,7 @@ declare module 'vue' {
     CustomFormItem: typeof import('./components/CustomFormItem.vue')['default']
     CustomInputNumber: typeof import('./components/CustomInputNumber.vue')['default']
     CustomInputPassword: typeof import('./components/CustomInputPassword.vue')['default']
+    DangerButton: typeof import('./components/Buttons/DangerButton.vue')['default']
     DeleteButton: typeof import('./components/Buttons/DeleteButton.vue')['default']
     DetailHeader: typeof import('./components/DetailHeader.vue')['default']
     DTLSVersionSelect: typeof import('./components/ListenerDrawer/DTLSVersionSelect.vue')['default']

@@ -9,9 +9,9 @@
         >
           {{ $t('Base.setting') }}
         </el-button>
-        <el-button type="danger" :disabled="!$hasPermission('delete')" plain @click="clearData">
+        <DangerButton :disabled="!$hasPermission('delete')" @click="clearData">
           {{ tl('clearData') }}
-        </el-button>
+        </DangerButton>
       </div>
     </div>
     <el-table ref="TableCom" :data="statistics" @sort-change="sortTable">

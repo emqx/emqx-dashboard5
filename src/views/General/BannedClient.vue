@@ -39,17 +39,15 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <CreateButton @click="dialogVisible = true" />
-        <el-button
-          type="danger"
-          plain
+        <DangerButton
           :icon="Remove"
+          :loading="clearLoading"
           :disabled="!tableData.length || !$hasPermission('delete')"
           @click="clearAllConfirm"
-          :loading="clearLoading"
         >
           {{ tl('clearAll') }}
-        </el-button>
+        </DangerButton>
+        <CreateButton @click="dialogVisible = true" />
       </div>
       <el-table :data="tableData" v-loading="tbLoading" row-key="who">
         <el-table-column prop="who" :label="tl('who')" />
