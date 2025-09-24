@@ -56,6 +56,7 @@ let lastPosition: undefined | string | number = undefined
 let isEndOfFile = false
 let LAST_ACTIVITY_SCROLL_TOP = 0
 const BYTE_PER_PAGE = 50 * 1024
+const EDITOR_LINE_HEIGHT = 20
 
 interface NodeInfo {
   mtime: number
@@ -68,6 +69,8 @@ const route = useRoute()
 const monacoContainer = ref()
 const initialHeight = ref(300)
 const logContent = ref('')
+let fullScreenLines = 30
+let totalLine: number = 0
 const viewNodeLoading = ref(false)
 const nodeOpts: Ref<Array<NodeInfo>> = ref([])
 const selectedNode = ref('')
@@ -93,6 +96,7 @@ const countInitialHeight = () => {
   const offsetTop = (monacoContainer.value?.getBoundingClientRect()?.top || 250) + 30
   const windowHeight = window.innerHeight
   initialHeight.value = windowHeight - offsetTop
+  fullScreenLines = Math.floor(initialHeight.value / EDITOR_LINE_HEIGHT) + 10
 }
 
 const sortNodesByTime = (nodeList: Array<NodeInfo>) => {
@@ -162,6 +166,11 @@ const loadLogDetail = async (name: string) => {
       isEndOfFile = meta?.hint === 'eof'
       if (isTraceRunning.value && isEndOfFile && !logResp.items) {
         ElMessage.info(t('LogTrace.runningEof'))
+      }
+      totalLine = logContent.value.match(/\n/g)?.length || 0
+      // Try to load the log to fill the content of the first screen
+      if (totalLine < fullScreenLines) {
+        await loadLogDetail(name)
       }
     }
   } catch (error: any) {
