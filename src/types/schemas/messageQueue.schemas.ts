@@ -350,11 +350,13 @@ export interface MqMessageQueueApiLastvaluePut {
 }
 
 export interface MqApiConfigPut {
+  find_queue_retry_interval: string
   gc_interval: string
   regular_queue_retention_period: string
 }
 
 export interface MqApiConfigGet {
+  find_queue_retry_interval: string
   gc_interval: string
   regular_queue_retention_period: string
 }
