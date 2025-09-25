@@ -82,7 +82,7 @@
       <div class="section-header">
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
-        <el-button class="export-btn" type="primary" plain :icon="Download" @click="handleExport">
+        <el-button class="export-btn" :icon="Download" @click="handleExport">
           {{ tl('export') }}
         </el-button>
         <DangerButton
