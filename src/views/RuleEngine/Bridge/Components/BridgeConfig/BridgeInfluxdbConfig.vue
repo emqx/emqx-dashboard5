@@ -206,7 +206,8 @@ const isSQL = computed(() => {
 })
 
 const defaultSQL =
-  'insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, ${timestamp})'
+  'insert into t_mqtt_msg(time, msgid, sender, topic, qos, payload, arrived) values (${timestamp}, ${id}, ${clientid}, ${topic}, ${qos}, ${payload}, ${timestamp})'
+
 const handleConnectorChange = (val?: Connector) => {
   if (props.type !== BridgeType.Datalayers) {
     return
