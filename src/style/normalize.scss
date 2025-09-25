@@ -23,8 +23,9 @@
     'hover-bg-color': var(--color-bg-content),
     'hover-border-color': var(--color-primary),
     'border-color': var(--color-border-primary),
-    'disabled-bg-color': var(--color-bg-split),
     'font-weight': 400,
+    'disabled-text-color': var(--color-text-placeholder),
+    'disabled-bg-color': var(--color-bg-content),
   ),
   $radio: (
     'input-border-color': var(--color-border-primary),
@@ -74,6 +75,7 @@
   --el-text-color-secondary: var(--color-text-secondary);
   --el-disabled-text-color: var(--color-text-primary);
   --el-border-color-light: var(--color-border-normal);
+  --el-disabled-text-color: var(--color-text-placeholder);
   --el-color-success: #00b173;
   --el-color-danger: #eb4e3d;
   --el-color-warning: #f19710;
@@ -438,7 +440,11 @@
 /* Button */
 .el-button--primary {
   --el-button-hover-bg-color: var(--color-primary);
-  --el-button-hover-bg-color: var(--color-primary);
+  --el-button-hover-border-color: var(--color-primary);
+  --el-button-disabled-bg-color: var(--color-primary);
+  --el-button-disabled-border-color: var(--color-primary);
+  --el-button-active-border-color: var(--color-primary);
+  --el-button-active-bg-color: var(--color-primary);
 }
 .el-button--primary.is-plain,
 .el-button--primary.is-text,
@@ -454,15 +460,8 @@
   --el-button-hover-border-color: var(--color-primary-border);
 }
 .el-button {
-  &.el-button--primary:not(.is-link) {
-    &.is-disabled {
-      &,
-      &:hover,
-      &:focus,
-      &:active {
-        color: #fff;
-      }
-    }
+  &.el-button--primary:not(.is-plain, .is-link, .is-text).is-disabled {
+    opacity: 0.4;
   }
   &:not(.is-disabled):hover {
     opacity: 0.8;
@@ -493,6 +492,23 @@
 }
 .el-button:focus-visible {
   outline: none;
+}
+.el-button--primary.is-plain.is-disabled,
+.el-button--primary.is-plain.is-disabled:hover,
+.el-button--primary.is-plain.is-disabled:focus,
+.el-button--primary.is-plain.is-disabled:active,
+.el-button--primary.is-text.is-disabled,
+.el-button--primary.is-text.is-disabled:hover,
+.el-button--primary.is-text.is-disabled:focus,
+.el-button--primary.is-text.is-disabled:active,
+.el-button--primary.is-link.is-disabled,
+.el-button--primary.is-link.is-disabled:hover,
+.el-button--primary.is-link.is-disabled:focus,
+.el-button--primary.is-link.is-disabled:active {
+  --el-button-disabled-text-color: var(--color-text-placeholder);
+  color: var(--el-button-disabled-text-color);
+  --el-button-disabled-bg-color: var(--color-bg-content);
+  background-color: var(--el-button-disabled-bg-color);
 }
 
 /* Dropdown */
