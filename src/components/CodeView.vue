@@ -40,7 +40,7 @@ const { copyText } = useCopy()
   position: relative;
   margin: 1em 0;
   .hljs {
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
     padding: 20px;
     background-color: #232933;
     border: 1px solid var(--color-border-primary);
@@ -58,7 +58,7 @@ const { copyText } = useCopy()
 }
 .el-popper {
   .hljs {
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
   }
 }
 </style>

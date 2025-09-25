@@ -368,7 +368,7 @@ syncPolling(loadData, POLLING_INTERVAL)
   }
   .cluster-card {
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius-card);
     .el-card__body {
       padding: 0px;
     }

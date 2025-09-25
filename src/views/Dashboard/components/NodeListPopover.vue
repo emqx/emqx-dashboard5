@@ -59,7 +59,7 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
   width: 430px;
   padding: 16px;
   border: 1px solid var(--color-border-card);
-  border-radius: 16px;
+  border-radius: var(--border-radius-card);
   box-shadow: 0px 2px 4px var(--color-shadow-primary);
   background: var(--color-bg-content);
   .popover-hd {
@@ -76,7 +76,7 @@ const nodeList: ComputedRef<NodeList> = computed(() => {
     padding: 4px 16px;
     height: 32px;
     background: var(--color-bg-split);
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
   }
   ul {
     list-style: none;
