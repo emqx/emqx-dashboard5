@@ -95,7 +95,7 @@
       </el-row>
     </el-form>
     <template #footer>
-      <el-button @click="closeDialog()">{{ $t('Base.cancel') }}</el-button>
+      <CancelButton @click="closeDialog()" />
       <el-button
         type="primary"
         :disabled="!$hasPermission('post')"

@@ -32,9 +32,7 @@
           </el-badge>
         </el-radio-group>
         <div class="step-btn">
-          <el-button @click="$router.push('/authorization')">
-            {{ $t('Base.cancel') }}
-          </el-button>
+          <CancelButton @click="$router.push('/authorization')" />
           <el-button type="primary" @click="handleNext" :disabled="!type">
             {{ $t('Base.nextStep') }}
           </el-button>

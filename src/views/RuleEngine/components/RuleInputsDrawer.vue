@@ -79,9 +79,7 @@
       >
         {{ tl('testTheConnection') }}
       </el-button>
-      <el-button class="btn-cancel" @click="cancel">
-        {{ $t('Base.cancel') }}
-      </el-button>
+      <CancelButton class="btn-cancel" @click="cancel" />
       <el-button type="primary" @click="submit" :loading="isSubmitting">
         {{ submitBtnText }}
       </el-button>

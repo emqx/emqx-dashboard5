@@ -140,9 +140,7 @@
       </el-table>
     </div>
     <template #footer>
-      <el-button class="btn-cancel" @click="cancel">
-        {{ t('Base.cancel') }}
-      </el-button>
+      <CancelButton class="btn-cancel" @click="cancel" />
       <el-button type="primary" @click="submit" :loading="isSubmitting">
         {{ t('Base.confirm') }}
       </el-button>

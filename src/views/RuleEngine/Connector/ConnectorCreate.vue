@@ -31,9 +31,7 @@
         />
       </div>
       <div class="form-ft">
-        <el-button v-if="(isInSinglePage && step === 0) || !isInSinglePage" @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
+        <CancelButton v-if="(isInSinglePage && step === 0) || !isInSinglePage" @click="cancel" />
         <el-button v-if="step === 0" type="primary" :disabled="isSubmitting" @click="goNextStep">
           {{ $t('Base.nextStep') }}
         </el-button>

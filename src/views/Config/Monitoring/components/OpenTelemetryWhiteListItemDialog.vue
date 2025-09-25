@@ -12,7 +12,7 @@
     </el-form>
     <template #footer>
       <div class="dialog-align-footer">
-        <el-button @click="close">{{ t('Base.cancel') }}</el-button>
+        <CancelButton @click="close" />
         <el-button type="primary" :disabled="!$hasPermission('post')" @click="confirm">
           {{ isEdit ? t('Base.confirm') : t('Base.add') }}
         </el-button>

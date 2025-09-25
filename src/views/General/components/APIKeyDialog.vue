@@ -114,9 +114,9 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="showDialog = false">{{
-          operationType === 'view' ? tl('close') : $t('Base.cancel')
-        }}</el-button>
+        <el-button type="primary" plain @click="showDialog = false">
+          {{ operationType === 'view' ? tl('close') : $t('Base.cancel') }}
+        </el-button>
         <el-button
           type="primary"
           @click="submit"

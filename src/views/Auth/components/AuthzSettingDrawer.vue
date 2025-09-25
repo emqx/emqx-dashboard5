@@ -45,9 +45,7 @@
               </el-form-item>
             </section>
           </el-form>
-          <el-button @click="showDrawer = false">
-            {{ $t('Base.cancel') }}
-          </el-button>
+          <CancelButton @click="showDrawer = false" />
           <el-button type="primary" :disabled="!$hasPermission('post')" @click="save">
             {{ $t('Base.save') }}
           </el-button>

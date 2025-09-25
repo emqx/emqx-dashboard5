@@ -55,9 +55,7 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button @click="cancelSettings">
-        {{ t('Base.cancel') }}
-      </el-button>
+      <CancelButton @click="cancelSettings" />
       <el-button type="primary" @click="updateSettings" :loading="isSubmitting">
         {{ t('Base.update') }}
       </el-button>

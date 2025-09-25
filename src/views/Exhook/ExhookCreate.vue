@@ -4,9 +4,7 @@
     <el-card class="app-card exhook-create-card">
       <ExhookForm ref="formCom" v-model="formData" />
       <div class="exhook-create-ft">
-        <el-button @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="cancel" />
         <el-button
           type="primary"
           :disabled="!$hasPermission('post')"

@@ -53,10 +53,10 @@
       </el-steps>
 
       <template #footer>
-        <el-button @click="dialogVisible = false">{{ $t('Base.cancel') }}</el-button>
-        <el-button type="primary" @click="importData" :loading="importLoading">{{
-          $t('Base.import')
-        }}</el-button>
+        <CancelButton @click="dialogVisible = false" />
+        <el-button type="primary" @click="importData" :loading="importLoading">
+          {{ $t('Base.import') }}
+        </el-button>
       </template>
     </el-dialog>
   </div>

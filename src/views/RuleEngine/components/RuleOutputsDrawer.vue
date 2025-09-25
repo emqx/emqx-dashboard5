@@ -77,9 +77,7 @@
       >
         {{ tl('testTheConnection') }}
       </el-button>
-      <el-button class="btn-cancel" @click="cancel">
-        {{ $t('Base.cancel') }}
-      </el-button>
+      <CancelButton class="btn-cancel" @click="cancel" />
       <el-button
         v-if="isOutputToBridge && isCreatingAction"
         type="primary"

@@ -60,9 +60,7 @@
           </template>
         </el-row>
         <el-row class="config-btn">
-          <el-button v-if="step === 0" @click="cancel">
-            {{ $t('Base.cancel') }}
-          </el-button>
+          <CancelButton v-if="step === 0" @click="cancel" />
           <el-button @click="goPreStep" v-if="step > 0" :disabled="submitLoading">
             {{ $t('Base.backStep') }}
           </el-button>

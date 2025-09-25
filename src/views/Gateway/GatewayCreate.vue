@@ -36,9 +36,7 @@
         </el-col>
       </el-row>
       <el-row class="config-op">
-        <el-button v-if="stepActive === 0" @click="gotoList">
-          {{ t('Base.cancel') }}
-        </el-button>
+        <CancelButton v-if="stepActive === 0" @click="gotoList" />
         <el-button @click="--stepActive" v-if="stepActive > 0" :disabled="submitLoading">
           {{ t('Base.backStep') }}
         </el-button>

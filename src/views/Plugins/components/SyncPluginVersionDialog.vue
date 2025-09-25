@@ -27,9 +27,7 @@
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="showDialog = false">
-          {{ $t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="showDialog = false" />
         <el-button type="danger" plain @click="submit" :loading="isSubmitting">
           {{ $t('Base.confirm') }}
         </el-button>

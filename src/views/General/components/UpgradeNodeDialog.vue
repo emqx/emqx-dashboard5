@@ -88,7 +88,7 @@
     </div>
     <template #footer v-if="!isLoading">
       <div class="first-step-ft" v-if="currentStep === 0 && !nodePackage">
-        <el-button size="large" @click="cancel">{{ t('Base.cancel') }}</el-button>
+        <CancelButton size="large" @click="cancel" />
         <el-button
           size="large"
           type="primary"
@@ -99,9 +99,7 @@
           {{ tl('upload') }}
         </el-button>
       </div>
-      <el-button v-else-if="currentStep === 0 && nodePackage" @click="showDialog = false">
-        {{ t('Base.cancel') }}
-      </el-button>
+      <CancelButton v-else-if="currentStep === 0 && nodePackage" @click="showDialog = false" />
       <el-button @click="goPreStep" v-if="currentStep > 0" :disabled="isSubmitting">
         {{ $t('Base.backStep') }}
       </el-button>

@@ -72,9 +72,7 @@
 
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="handleClose">
-          {{ t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="handleClose" />
         <el-button type="primary" :loading="submitting" @click="handleSubmit">
           {{ isEdit ? t('Base.save') : t('Base.create') }}
         </el-button>

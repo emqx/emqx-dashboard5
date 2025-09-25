@@ -30,9 +30,7 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="showDialog = false">
-          {{ t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="showDialog = false" />
         <el-button
           v-if="!isClusterMode"
           type="primary"

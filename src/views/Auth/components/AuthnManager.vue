@@ -92,10 +92,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="dialogVisible = false">
-            {{ $t('Base.cancel') }}
-          </el-button>
-
+          <CancelButton @click="dialogVisible = false" />
           <el-button
             type="primary"
             :disabled="!$hasPermission('post')"

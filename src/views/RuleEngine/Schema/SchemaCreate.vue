@@ -12,9 +12,7 @@
         :fixed-type="!isInSinglePage && !!type"
       />
       <div class="schema-create-ft">
-        <el-button @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="cancel" />
         <el-button
           type="primary"
           :disabled="!$hasPermission('post')"

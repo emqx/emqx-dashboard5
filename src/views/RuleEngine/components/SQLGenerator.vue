@@ -68,7 +68,7 @@
       <template #footer>
         <span class="dialog-footer">
           <template v-if="currentStep === 1">
-            <el-button @click="dialogVisible = false">{{ $t('Base.cancel') }}</el-button>
+            <CancelButton @click="dialogVisible = false" />
             <el-button type="primary" @click="handleGenerate" :loading="isGenerating">
               {{ tl('generate') }}
             </el-button>

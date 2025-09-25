@@ -7,9 +7,7 @@
     <el-card class="app-card schema-create-card">
       <ExternalSchemaForm class="schema-create-form" ref="FormCom" v-model="formData" />
       <div class="schema-create-ft">
-        <el-button @click="cancel">
-          {{ $t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="cancel" />
         <el-button
           type="primary"
           :disabled="!$hasPermission('post')"

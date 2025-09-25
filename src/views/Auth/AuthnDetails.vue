@@ -98,9 +98,7 @@
               ref="formCom"
             />
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
-            <el-button @click="$router.push('/authentication')" v-if="!gateway">
-              {{ $t('Base.cancel') }}
-            </el-button>
+            <CancelButton @click="$router.push('/authentication')" v-if="!gateway" />
             <el-button
               type="primary"
               :loading="isSubmitting"

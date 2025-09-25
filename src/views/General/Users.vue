@@ -156,9 +156,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="closeDialog">
-            {{ $t('Base.cancel') }}
-          </el-button>
+          <CancelButton @click="closeDialog" />
 
           <el-button
             type="primary"
