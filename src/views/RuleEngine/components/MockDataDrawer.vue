@@ -38,9 +38,7 @@
       <el-button v-if="isFormModified" plain :icon="RefreshLeft" @click="resetContext">
         {{ t('Base.reset') }}
       </el-button>
-      <el-button @click="showDrawer = false" :disabled="isSubmitting">
-        {{ $t('Base.cancel') }}
-      </el-button>
+      <CancelButton @click="showDrawer = false" :disabled="isSubmitting" />
       <el-button type="primary" plain :icon="CaretRight" :loading="isSubmitting" @click="submit">
         {{ tl('submitTest') }}
       </el-button>

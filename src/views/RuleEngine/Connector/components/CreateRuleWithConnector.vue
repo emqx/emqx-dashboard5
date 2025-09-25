@@ -16,7 +16,7 @@
     </div>
     <template #footer>
       <div v-if="confirmStep === 0">
-        <el-button @click="cancel">
+        <el-button type="primary" plain @click="cancel">
           {{ cancelText ?? t('Base.cancel') }}
         </el-button>
         <el-button type="primary" @click="confirm">

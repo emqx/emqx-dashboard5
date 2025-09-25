@@ -70,9 +70,7 @@
               v-model="configData"
               ref="formCom"
             />
-            <el-button @click="$router.push('/authorization')">
-              {{ $t('Base.cancel') }}
-            </el-button>
+            <CancelButton @click="$router.push('/authorization')" />
             <el-button
               type="primary"
               :loading="isSubmitting"

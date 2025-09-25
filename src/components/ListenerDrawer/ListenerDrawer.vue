@@ -486,9 +486,7 @@
       </advanced-setting-container>
     </el-form>
     <template #footer>
-      <el-button @click="cancel">
-        {{ $t('Base.cancel') }}
-      </el-button>
+      <CancelButton @click="cancel" />
       <el-button
         v-if="canBeDeleted"
         type="danger"

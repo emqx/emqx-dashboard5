@@ -16,9 +16,7 @@
     </el-form>
     <template #footer>
       <div class="dialog-align-footer">
-        <el-button @click="showDialog = false">
-          {{ t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="showDialog = false" />
         <el-button type="primary" @click="submit">
           {{ t('Base.confirm') }}
         </el-button>

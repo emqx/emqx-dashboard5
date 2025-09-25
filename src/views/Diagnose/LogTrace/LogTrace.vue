@@ -202,7 +202,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="cancelDialog()">{{ $t('Base.cancel') }}</el-button>
+          <CancelButton @click="cancelDialog()" />
           <el-button
             class="dialog-primary-btn"
             type="primary"

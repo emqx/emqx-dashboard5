@@ -151,9 +151,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button :disabled="isSaving" @click="isInviteDialogShow = false">
-            {{ t('Base.cancel') }}
-          </el-button>
+          <CancelButton :disabled="isSaving" @click="isInviteDialogShow = false" />
           <el-button type="primary" :loading="isSaving" @click="save()">
             {{ t('Base.confirm') }}
           </el-button>

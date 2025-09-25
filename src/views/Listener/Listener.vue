@@ -78,7 +78,7 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="showDeleteDialog = false">{{ $t('Base.cancel') }}</el-button>
+          <CancelButton @click="showDeleteDialog = false" />
           <el-button
             type="danger"
             plain

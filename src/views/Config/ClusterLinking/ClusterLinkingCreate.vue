@@ -6,9 +6,7 @@
     <el-card class="app-card">
       <ClusterLinkingForm ref="FormCom" v-model="formData" />
       <div>
-        <el-button @click="cancel">
-          {{ t('Base.cancel') }}
-        </el-button>
+        <CancelButton @click="cancel" />
         <el-button
           type="primary"
           :disabled="!$hasPermission('post')"

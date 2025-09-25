@@ -62,7 +62,7 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button @click="opRewrite = false">{{ $t('Base.cancel') }}</el-button>
+      <CancelButton @click="opRewrite = false" />
       <el-button
         type="primary"
         :disabled="!$hasPermission('post')"

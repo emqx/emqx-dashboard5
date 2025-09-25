@@ -146,7 +146,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <el-button @click="addVisible = false">{{ $t('Base.cancel') }}</el-button>
+          <CancelButton @click="addVisible = false" />
           <el-button
             type="primary"
             :disabled="!$hasPermission('post')"

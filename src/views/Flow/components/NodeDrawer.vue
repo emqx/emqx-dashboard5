@@ -58,7 +58,7 @@
           </el-button>
         </div>
         <div>
-          <el-button @click="cancel">{{ tl('cancel') }}</el-button>
+          <CancelButton @click="cancel" />
           <el-button
             :disabled="isSaveDisabled || !$hasPermission('post')"
             :type="isSaveDisabled ? 'info' : 'primary'"

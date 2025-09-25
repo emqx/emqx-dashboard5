@@ -171,7 +171,7 @@
     </el-form-item>
 
     <template #footer>
-      <el-button @click="cancelExport">{{ t('Base.cancel') }}</el-button>
+      <CancelButton @click="cancelExport" />
       <el-button type="primary" @click="confirmExport" :loading="exportLoading">
         {{ t('Base.confirm') }}
       </el-button>
