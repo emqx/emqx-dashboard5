@@ -15,6 +15,7 @@ export default (): {
       write_syntax: '',
       precision: 'ms',
     },
+    fallback_actions: [],
     resource_opts: createDefaultResourceOptsForm({
       inflight: true,
       batch: true,
