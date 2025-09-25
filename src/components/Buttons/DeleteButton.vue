@@ -35,6 +35,7 @@ const tooltipCon = computed(() => {
 <style lang="scss">
 .el-button.is-plain.delete-button {
   --el-button-hover-text-color: var(--el-color-danger);
+  --el-button-active-border-color: var(--el-color-danger);
   &:hover {
     --el-button-hover-border-color: var(--el-color-danger);
   }
