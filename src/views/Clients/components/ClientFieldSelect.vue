@@ -4,12 +4,7 @@
     class="client-field-select"
     @visible-change="dropdownVisibleChanged"
   >
-    <el-button type="primary" plain>
-      <el-icon><Setting /></el-icon>
-      <span>
-        {{ t('Base.selectColumn') }}
-      </span>
-    </el-button>
+    <el-button :icon="Setting"> {{ t('Base.selectColumn') }} </el-button>
     <template #dropdown>
       <div class="client-field-select-dropdown">
         <el-scrollbar max-height="320px">

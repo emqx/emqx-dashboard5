@@ -9,8 +9,8 @@
       <div class="section-header">
         <div></div>
         <div>
-          <CreateButton @click="$router.push({ name: 'rule-create' })" />
           <RefreshButton @click="refreshTotalRuleListAndTable" />
+          <CreateButton @click="$router.push({ name: 'rule-create' })" />
         </div>
       </div>
       <el-table

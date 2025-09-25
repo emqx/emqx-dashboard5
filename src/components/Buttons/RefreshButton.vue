@@ -1,6 +1,6 @@
 <template>
-  <el-button type="primary" :icon="Refresh" v-if="noText"></el-button>
-  <el-button type="primary" :icon="Refresh" v-else>
+  <el-button :icon="Refresh" v-if="noText"></el-button>
+  <el-button :icon="Refresh" v-else>
     <template v-if="!$slots.default">
       {{ t('Base.refresh') }}
     </template>
