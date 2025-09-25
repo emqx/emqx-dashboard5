@@ -24,7 +24,7 @@ defineProps({
   padding: 8px;
   background-color: var(--color-bg-split);
   border: 1px solid var(--color-border-normal);
-  border-radius: 8px;
+  border-radius: var(--border-radius-small);
   .result-tip {
     display: flex;
     align-items: flex-start;

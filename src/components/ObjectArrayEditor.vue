@@ -274,7 +274,7 @@ onMounted(async () => {
   .obj-item-bd {
     flex-grow: 1;
     padding: 16px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
     background-color: var(--color-bg-split);
     .el-input:not(.el-input-group--append),
     .el-select {

@@ -6,7 +6,7 @@
     'padding': 0px,
   ),
   $card: (
-    'border-radius': 8px,
+    'border-radius': var(--border-radius-card),
     'bg-color': var(--color-bg-content),
   ),
   $input: (
@@ -16,7 +16,7 @@
     'bg-color': var(--color-bg-content),
   ),
   $messagebox: (
-    'border-radius': 8px,
+    'border-radius': var(--border-radius-card),
   ),
   $button: (
     'bg-color': var(--color-bg-content),
@@ -39,7 +39,7 @@
     'expanded-cell-bg-color': var(--color-bg-content),
   ),
   $dialog: (
-    'border-radius': 8px,
+    'border-radius': var(--border-radius-card),
     'bg-color': var(--color-bg-content),
   ),
   $drawer: (
@@ -53,10 +53,13 @@
     'sub-item-height': 32px,
     'text-color': var(--color-menu-text-normal),
     'hover-bg-color': var(--color-bg-table-hd),
-    'border-radius': 4px,
+    'border-radius': var(--border-radius-small),
   ),
   $pagination: (
-    'border-radius': 4px,
+    'border-radius': var(--border-radius-small),
+  ),
+  $popper: (
+    'border-radius': var(--border-radius-small),
   )
 );
 
@@ -64,7 +67,7 @@
 
 /* Root Colors */
 :root {
-  --el-border-radius-base: 4px;
+  --el-border-radius-base: var(--border-radius-small);
   --el-color-primary: var(--color-primary);
   --el-text-color-regular: var(--color-text-primary);
   --el-text-color-primary: var(--color-text-primary);
@@ -80,7 +83,7 @@
   --el-fill-color-light: var(--color-bg-split);
   --el-fill-color-blank: var(--color-bg-content);
   --el-border-color: var(--color-border-primary);
-  --menu-item-border-radius: 4px;
+  --menu-item-border-radius: var(--border-radius-small);
   --menu-normal-width: 200px;
   --menu-collapse-width: 71px;
 }
@@ -659,9 +662,6 @@
   }
 }
 
-.el-popper {
-  --el-popper-border-radius: 8px;
-}
 .el-popper.is-dark {
   background: var(--color-bg-popper);
   color: var(--color-text-popper);
@@ -687,7 +687,7 @@
 /* Tag */
 .el-tag {
   font-weight: normal;
-  border-radius: 8px;
+  border-radius: var(--border-radius-small);
   &.el-tag--danger {
     background-color: #fcecec;
     border: 1px solid #e44242;
@@ -706,7 +706,7 @@
     align-items: center;
   }
   &.el-tag--large {
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
   }
 }
 
@@ -714,7 +714,7 @@
 .el-message {
   align-items: flex-start;
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-small);
   box-shadow: var(--el-notification-shadow);
   min-height: 56px;
   .el-icon {
