@@ -169,7 +169,7 @@ const loadLogDetail = async (name: string) => {
       }
       totalLine = logContent.value.match(/\n/g)?.length || 0
       // Try to load the log to fill the content of the first screen
-      if (totalLine < fullScreenLines) {
+      if (logResp.items.length && !isEndOfFile && totalLine < fullScreenLines) {
         await loadLogDetail(name)
       }
     }
