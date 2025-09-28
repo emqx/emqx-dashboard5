@@ -32,3 +32,12 @@ pnpm-debug.log*
 
 # asdf
 .tool-versions
+
+# AI tools
+CLAUDE.md
+CLAUDE.local.md
+.cursorignore
+.aider*
+.continue/
+.codeium/
+.tabby/
