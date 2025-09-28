@@ -85,6 +85,18 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <el-row :gutter="26">
+      <el-col :span="24" class="col-fallback-actions">
+        <el-form-item :label="tl('fallbackActions')">
+          <FallbackActionsEditor
+            v-model="formData.fallback_actions"
+            :action-key="modelValue?.id"
+            :readonly="readonly"
+            :is-fallback="isFallback"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
     <AdvancedSettingContainer>
       <el-row :gutter="26">
         <BridgeResourceOpt
@@ -101,12 +113,12 @@
 
 <script setup lang="ts">
 import { BridgeType } from '@/types/enum'
-import { BridgeItem, OtherBridge } from '@/types/rule'
+import { BridgeItem, Connector, OtherBridge } from '@/types/rule'
 import { Property } from '@/types/schemaForm'
 import ConnectorSelect from '../ConnectorSelect.vue'
+import FallbackActionsEditor from '../FallbackActionsEditor.vue'
 import BridgeResourceOpt from './BridgeResourceOpt.vue'
 import InfluxdbWriteSyntaxInput from './InfluxdbWriteSyntaxInput.vue'
-import { Connector } from '@/types/rule'
 
 const props = defineProps({
   modelValue: {
@@ -139,6 +151,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
+const isFallback = inject('isFallback', false)
 
 const emit = defineEmits(['update:modelValue', 'init'])
 
@@ -206,7 +219,8 @@ const isSQL = computed(() => {
 })
 
 const defaultSQL =
-  'insert into t_mqtt_msg(msgid, topic, qos, payload, arrived) values (${id}, ${topic}, ${qos}, ${payload}, ${timestamp})'
+  'insert into t_mqtt_msg(time, msgid, sender, topic, qos, payload, arrived) values (${timestamp}, ${id}, ${clientid}, ${topic}, ${qos}, ${payload}, ${timestamp})'
+
 const handleConnectorChange = (val?: Connector) => {
   if (props.type !== BridgeType.Datalayers) {
     return

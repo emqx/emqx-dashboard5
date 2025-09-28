@@ -2388,6 +2388,18 @@
     }
   },
   {
+    "method": "put",
+    "path": "/ds/sites/:site/forget",
+    "operation_label": {
+      "en": "Durable Storage",
+      "zh": "持久化存储"
+    },
+    "operation_name_label": {
+      "en": "Forget site",
+      "zh": "遗忘站点"
+    }
+  },
+  {
     "method": "post",
     "path": "/message_transformations",
     "operation_label": {

@@ -42,17 +42,21 @@ Clients can consume messages from the queue by subscribing to \`$q/{'{'}Topic Fi
   },
   isLastvalueDesc: {
     zh: `指示消息是否具有最后值语义。最后值语义意味着消息覆盖同一主题中相同队列键的先前消息。<br />
-请注意，启用此选项后，每条消息应该具有 \`mq-key\` 用户属性设置，以保存到队列中。`,
+请注意，启用此选项后，每条消息应该具有“队列键表达式”所配置的属性，以保存到队列中。`,
     en: `Indicates if the message has Last-Value semantics. Last-Value semantics means that messages overwrite previous messages with the same queue key in the same topic.<br />
-Please note that each message should have \`mq-key\` user property set to be saved in the queue.`,
+Please note that each message should have the property set by "Queue Key Expression" to be saved in the queue.`,
   },
   keyExpression: {
     zh: '队列键表达式',
     en: 'Queue Key Expression',
   },
   keyExpressionDesc: {
-    zh: '用于确定 Last-Value 消息队列中消息的队列键表达式',
-    en: 'The expression used to determine the key of the message for Last-Value Message Queues.',
+    zh: `用于确定 Last-Value 消息队列中消息的队列键表达式，默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节<br />
+可使用的变量请参考以下数据结构：
+`,
+    en: `The expression used to determine the key of the message for Last-Value Message Queues, the default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter.
+The variables can be referenced as follows:
+`,
   },
   dispatchStrategyRandom: {
     zh: '随机',

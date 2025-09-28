@@ -114,8 +114,10 @@
 </template>
 
 <script setup lang="ts">
-import { FallbackAction } from '@/types/rule'
+import { NodeType } from '@/hooks/Flow/useFlowNode'
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
+import { FlowEdge } from '@emqx/shared-ui-components'
+import { FallbackActionKind } from '@emqx/shared-ui-constants'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import {
   Edge,
@@ -141,11 +143,9 @@ import {
   ref,
   watch,
 } from 'vue'
-import { FlowEdge } from '@emqx/shared-ui-components'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
-import { NodeType } from '@/hooks/Flow/useFlowNode'
 
 const props = defineProps({
   data: {
@@ -280,9 +280,12 @@ const handleFallbackItemInActionNodeFormData = (
     }
     fallbackActions.push(actionItem)
   } else {
-    const fallbackActionIndex = fallbackActions.findIndex((item: FallbackAction) =>
-      isEqual(item, actionItem),
-    )
+    const fallbackActionIndex = fallbackActions.findIndex((item: any) => {
+      const aI = actionItem as any
+      return (
+        item.kind === FallbackActionKind.Reference && item.type === aI.type && item.name === aI.name
+      )
+    })
     if (fallbackActionIndex !== -1) {
       fallbackActions.splice(fallbackActionIndex, 1)
     }
@@ -433,6 +436,32 @@ const addFallbackNodes = (node: Node) => {
     }
   }
 }
+const removeFallbackNodes = (node: Node) => {
+  if (!isActionBridgeNode(node)) {
+    return
+  }
+  const fallbackActions = node.data.formData.fallback_actions ?? []
+  const sourceIsNodeEdge = getEdges.value.filter((edge) => edge.source === node.id)
+  const targetNodes = sourceIsNodeEdge.map(({ targetNode }) => targetNode)
+  const uselessTargetNodes = targetNodes.filter(({ data }) => {
+    const { formData } = data
+    const isUseless = !fallbackActions.some((item: any) => {
+      return (
+        item.kind === FallbackActionKind.Reference &&
+        item.type === formData.type &&
+        item.name === formData.name
+      )
+    })
+    return isUseless
+  })
+  uselessTargetNodes.forEach((targetNode) => {
+    const targetIsNodeEdge = getEdges.value.filter((edge) => edge.target === targetNode.id)
+    if (targetIsNodeEdge.length === 1) {
+      removeNodes([targetNode.id])
+      removeEdges([targetIsNodeEdge[0]])
+    }
+  })
+}
 const saveDataToNode = (data: Record<string, any>) => {
   const node = findNode(currentNodeID)
   if (node) {
@@ -443,6 +472,7 @@ const saveDataToNode = (data: Record<string, any>) => {
       node.data.isCreated = !!data.id
     }
     node.data.desc = getNodeInfo(node)
+    removeFallbackNodes(node)
     addFallbackNodes(node)
   }
   resetDrawerData()
