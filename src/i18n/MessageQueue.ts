@@ -51,10 +51,10 @@ Please note that each message should have the property set by "Queue Key Express
     en: 'Queue Key Expression',
   },
   keyExpressionDesc: {
-    zh: `用于确定 Last-Value 消息队列中消息的队列键表达式，默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节<br />
+    zh: `用于确定 Last-Value 消息队列中消息的队列键表达式，默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节。注意：不支持从 \`message.payload.xxx\` 中取值作为队列键<br />
 可使用的变量请参考以下数据结构：
 `,
-    en: `The expression used to determine the key of the message for Last-Value Message Queues, the default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter.
+    en: `The expression used to determine the key of the message for Last-Value Message Queues, the default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter. Note: Extracting values from \`message.payload.xxx\` is not supported as queue key.
 The variables can be referenced as follows:
 `,
   },
