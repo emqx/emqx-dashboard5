@@ -16,7 +16,7 @@
               }
             "
           >
-            <i :class="['iconfont', 'icon-fold', leftBarCollapse ? 'rotate' : '']"></i>
+            <i :class="['iconfont', 'icon-fold1']"></i>
             <EMQXVersion v-show="!leftBarCollapse" />
           </div>
         </div>
@@ -224,17 +224,21 @@ bindKeyupListener()
     .footer-menu-item {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
       height: 100%;
+      padding: 0 18px;
       .iconfont {
-        transition: all 0.3s;
-        &.rotate {
-          transform: rotate(180deg);
-        }
-      }
-      &:hover {
-        .iconfont {
-          color: var(--color-primary);
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        font-size: 21px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        &:hover {
+          background-color: var(--color-bg-table-hd);
         }
       }
     }
