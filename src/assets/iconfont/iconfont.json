@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "45351180",
+      "name": "fold",
+      "font_class": "fold1",
+      "unicode": "e81e",
+      "unicode_decimal": 59422
+    },
+    {
       "icon_id": "45485963",
       "name": "message queue",
       "font_class": "a-messagequeue",
@@ -151,13 +158,6 @@
       "font_class": "subscriptions",
       "unicode": "e7ab",
       "unicode_decimal": 59307
-    },
-    {
-      "icon_id": "28773351",
-      "name": "fold",
-      "font_class": "fold",
-      "unicode": "e748",
-      "unicode_decimal": 59208
     }
   ]
 }
