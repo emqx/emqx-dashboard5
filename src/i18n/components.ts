@@ -429,8 +429,8 @@ export default {
     en: 'Create Rule',
   },
   overview: {
-    zh: '集群概览',
-    en: 'Cluster Overview',
+    zh: '概览',
+    en: 'Overview',
   },
   'connector-create': {
     zh: '创建连接器',
