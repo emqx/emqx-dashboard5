@@ -129,7 +129,7 @@ export default defineComponent({
       left: 0;
     }
     & i {
-      margin-left: 6px;
+      margin-left: 3px;
     }
   }
   .el-scrollbar {
