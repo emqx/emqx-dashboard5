@@ -226,18 +226,21 @@ bindKeyupListener()
       align-items: center;
       justify-content: space-between;
       height: 100%;
-      padding: 0 18px;
+      padding: 0 16px;
+      padding-bottom: 29px;
       .iconfont {
         flex-shrink: 0;
         width: 32px;
         height: 32px;
-        font-size: 21px;
+        font-size: 20px;
+        color: var(--color-menu-text-normal);
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 4px;
         transition: background-color 0.3s;
         &:hover {
+          color: var(--color-menu-text-active);
           background-color: var(--color-bg-table-hd);
         }
       }
@@ -267,6 +270,7 @@ bindKeyupListener()
   top: 0;
   left: 0;
   right: 0;
+  height: var(--el-header-height);
   padding: 0;
   z-index: 101;
   border-bottom: 1px solid var(--color-border-card);
@@ -282,7 +286,6 @@ bindKeyupListener()
   margin: 24px 24px 32px;
 }
 
-// 60px is header height
 .is-full-height {
   height: calc(100vh - var(--el-header-height));
 }

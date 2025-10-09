@@ -213,12 +213,12 @@ onBeforeUnmount(() => {
   z-index: 100;
   transition: all 0.3s;
   .user-avatar {
-    width: 21px;
-    height: 21px;
+    width: 32px;
+    height: 32px;
     background: var(--color-border-primary);
     display: inline-block;
     text-align: center;
-    line-height: 21px;
+    line-height: 32px;
     border-radius: 50%;
     margin-right: 10px;
     margin-left: 4px;
