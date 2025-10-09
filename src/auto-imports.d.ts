@@ -448,6 +448,7 @@ declare global {
   const usePassword: typeof import('./hooks/usePassword')['default']
   const usePasswordHashRules: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']
   const usePath: typeof import('./hooks/useMenus')['usePathInMenu']
+  const usePathInMenu: typeof import('./hooks/useMenus')['usePathInMenu']
   const usePieChart: typeof import('./hooks/useMetrics')['usePieChart']
   const usePluginItem: typeof import('./hooks/Plugins/usePluginItem')['default']
   const usePluginStatus: typeof import('./hooks/Plugins/usePluginStatus')['default']
@@ -1028,7 +1029,7 @@ declare module 'vue' {
     readonly usePaging: UnwrapRef<typeof import('./hooks/usePaging')['default']>
     readonly usePassword: UnwrapRef<typeof import('./hooks/usePassword')['default']>
     readonly usePasswordHashRules: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']>
-    readonly usePath: UnwrapRef<typeof import('./hooks/useMenus')['usePathInMenu']>
+    readonly usePathInMenu: UnwrapRef<typeof import('./hooks/useMenus')['usePathInMenu']>
     readonly usePieChart: UnwrapRef<typeof import('./hooks/useMetrics')['usePieChart']>
     readonly usePluginItem: UnwrapRef<typeof import('./hooks/Plugins/usePluginItem')['default']>
     readonly usePluginStatus: UnwrapRef<typeof import('./hooks/Plugins/usePluginStatus')['default']>
