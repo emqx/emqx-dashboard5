@@ -168,7 +168,7 @@ type CurrentMetrics = Record<string, number> & {
 
 const POLLING_INTERVAL = 2000
 
-const { tl } = useI18nTl('Dashboard')
+// const { tl } = useI18nTl('Dashboard')
 
 const createEmptyDataItem = (length: number) => ({
   x: new Array(length).fill(undefined),
@@ -192,11 +192,11 @@ const currentMetrics: Ref<CurrentMetrics> = ref({
   topics: 0, // Topics
   live_connections: 0, // Live Connections
 })
-const withSessionsHistHwmark = computed(
-  () => !isUndefined(currentMetrics.value.sessions_hist_hwmark),
-)
+// const withSessionsHistHwmark = computed(
+//   () => !isUndefined(currentMetrics.value.sessions_hist_hwmark),
+// )
 
-const rateType = ref<'msg' | 'byte'>('msg')
+// const rateType = ref<'msg' | 'byte'>('msg')
 
 const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num))
 const { syncPolling } = useSyncPolling()
@@ -266,13 +266,13 @@ syncPolling(loadData, POLLING_INTERVAL)
   }
 
   .stat-card {
-    background: var(--el-bg-color);
+    background: var(--color-bg-content);
     padding: 24px;
     transition: all 0.2s ease;
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--el-border-color-lighter);
+    border: 1px solid var(--color-border-card);
     border-radius: var(--border-radius-card);
 
     // Rate 卡片占 2 列
@@ -304,6 +304,10 @@ syncPolling(loadData, POLLING_INTERVAL)
         color: var(--color-primary);
       }
 
+      .stat-label {
+        color: var(--color-primary);
+      }
+
       .stat-number {
         color: var(--color-primary);
       }
@@ -332,9 +336,13 @@ syncPolling(loadData, POLLING_INTERVAL)
     }
 
     &:hover {
-      background: var(--el-fill-color-extra-light);
+      background: var(--color-bg-split);
 
       .stat-icon {
+        color: var(--color-primary);
+      }
+
+      .stat-label {
         color: var(--color-primary);
       }
 
@@ -346,7 +354,7 @@ syncPolling(loadData, POLLING_INTERVAL)
 
   .stat-divider {
     height: 1px;
-    background: var(--el-border-color-lighter);
+    background: var(--color-border-card);
   }
 
   .stat-header {

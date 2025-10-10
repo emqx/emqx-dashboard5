@@ -21,96 +21,83 @@
             </router-link>
           </div>
           <div class="node-card-body">
-            <el-row :gutter="26">
-              <el-col :span="14">
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('nodeName') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.node['node'] }}</span>
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-label">{{ tl('nodeName') }}</div>
+                <div class="info-value">{{ currentInfo.node['node'] }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('nodeRole') }}</div>
+                <div class="info-value">{{ currentInfo.node['role'] }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('uptime') }}</div>
+                <div class="info-value">{{ transMsNumToSimpleStr(currentInfo.node.uptime) }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('version') }}</div>
+                <div class="info-value">
+                  <a :href="releaseNoteLink" target="_blank">
+                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
+                  </a>
                 </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('uptime') }}: </label>
-                  <span class="node-item-content">
-                    {{ transMsNumToSimpleStr(currentInfo.node.uptime) }}
-                  </span>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('currentConnection') }}</div>
+                <div class="info-value">{{ currentInfo.stats['connections.count'] }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('maxFds') }}</div>
+                <div class="info-value">{{ currentInfo.node['max_fds'] }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('Subscription') }}</div>
+                <div class="info-value">{{ currentInfo.stats['subscriptions.count'] }}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('osCpuLoad') }}</div>
+                <div class="info-value">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="load1/load5/load15"
+                    placement="top"
+                  >
+                    <span>
+                      {{
+                        currentInfo.node['load1'] +
+                        '/' +
+                        currentInfo.node['load5'] +
+                        '/' +
+                        currentInfo.node['load15']
+                      }}
+                    </span>
+                  </el-tooltip>
                 </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('currentConnection') }}: </label>
-                  <span class="node-item-content">{{
-                    currentInfo.stats['connections.count']
-                  }}</span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('Subscription') }}: </label>
-                  <span class="node-item-content">{{
-                    currentInfo.stats['subscriptions.count']
-                  }}</span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('topics') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.stats['topics.count'] }}</span>
-                </div>
-              </el-col>
-              <el-col :span="10">
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('nodeRole') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.node['role'] }}</span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('version') }}: </label>
-                  <span class="node-item-content">
-                    <a :href="releaseNoteLink" target="_blank">
-                      {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
-                    </a>
-                  </span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('maxFds') }}: </label>
-                  <span class="node-item-content">{{ currentInfo.node['max_fds'] }}</span>
-                </div>
-                <div class="node-item">
-                  <label class="node-item-label">{{ tl('osCpuLoad') }}: </label>
-                  <span class="node-item-content">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      content="load1/load5/load15"
-                      placement="top"
+              </div>
+              <div class="info-item">
+                <div class="info-label">{{ tl('topics') }}</div>
+                <div class="info-value">{{ currentInfo.stats['topics.count'] }}</div>
+              </div>
+              <div v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])" class="info-item">
+                <div class="info-label">{{ tl('memory') }}</div>
+                <div class="info-value">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
+                    placement="top"
+                  >
+                    <el-progress
+                      :stroke-width="8"
+                      :format="() => ''"
+                      :percentage="calcMemoryPercentage"
                     >
-                      <span>
-                        {{
-                          currentInfo.node['load1'] +
-                          '/' +
-                          currentInfo.node['load5'] +
-                          '/' +
-                          currentInfo.node['load15']
-                        }}
-                      </span>
-                    </el-tooltip>
-                  </span>
+                    </el-progress>
+                  </el-tooltip>
                 </div>
-                <div
-                  v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])"
-                  class="node-item"
-                >
-                  <span class="node-item-label">{{ tl('memory') }}: </span>
-                  <span class="node-item-content">
-                    <el-tooltip
-                      class="box-item"
-                      effect="dark"
-                      :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
-                      placement="top"
-                    >
-                      <el-progress
-                        :stroke-width="14"
-                        :format="() => ''"
-                        :percentage="calcMemoryPercentage"
-                      >
-                      </el-progress>
-                    </el-tooltip>
-                  </span>
-                </div>
-              </el-col>
-            </el-row>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -236,77 +223,127 @@ syncPolling(loadData, POLLING_INTERVAL)
 .graph-wrapper {
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-split);
   border-radius: var(--border-radius-card);
 }
+
 .graph-entity {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-evenly;
+  gap: 16px;
+  width: 100%;
 }
 
 .nodes-graph-container {
-  flex-grow: 1;
-  padding: 16px 0 4px;
+  flex: 0 0 calc(50% - 8px);
+  padding: 20px;
   position: relative;
+  background: var(--color-bg-split);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--border-radius-card);
+  min-height: 450px;
+
   .node-count {
     position: absolute;
-    top: 14px;
-    left: 12px;
-    border-radius: var(--border-radius-card);
-    padding: 6px 12px;
+    top: 16px;
+    left: 16px;
+    border-radius: 6px;
+    padding: 8px 12px;
     color: var(--color-text-primary);
-    background: var(--bg-hover);
+    background: var(--color-bg-content);
+    border: 1px solid var(--color-border-card);
     display: flex;
     align-items: center;
+    font-size: 13px;
     z-index: 1;
+
     img {
       margin-right: 6px;
     }
+
     .cluster-name {
-      max-width: 80px;
+      max-width: 100px;
+      font-weight: 500;
     }
   }
 }
 
 .node-detail {
-  width: 55%;
-  padding: 26px 26px 8px;
+  flex: 0 0 calc(50% - 8px);
+  padding: 0;
+  background: var(--color-bg-content);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--border-radius-card);
+
   .node-card-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--color-border-card);
+
     .nodes-link {
+      font-size: 14px;
+      color: var(--color-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
       .el-icon {
-        margin-left: 6px;
-        position: relative;
-        top: 2px;
+        margin-left: 4px;
       }
     }
   }
+
   .node-title {
     font-size: 16px;
-    margin-bottom: 20px;
+    font-weight: 600;
     color: var(--color-title-primary);
   }
-  .node-item {
-    margin: 18px 0;
-    display: flex;
-    .node-item-label {
-      color: var(--color-text-secondary);
-      margin-right: 12px;
+
+  .node-card-body {
+    padding: 32px;
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 32px;
     }
-    .node-item-content {
+
+    .info-item {
       display: flex;
-      align-items: center;
-    }
-    .el-progress {
-      display: block;
-      width: 90px;
-    }
-    .progress-wrap {
-      height: 100%;
-      display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+
+      .info-label {
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        line-height: 18px;
+      }
+
+      .info-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--color-title-primary);
+        line-height: 20px;
+
+        a {
+          color: var(--color-primary);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .el-progress {
+          width: 100%;
+          max-width: 180px;
+        }
+      }
     }
   }
 }
