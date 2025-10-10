@@ -11,8 +11,10 @@
       :zoom-on-double-click="false"
       :zoom-on-pinch="false"
       :pan-on-drag="false"
-      :min-zoom="1"
-      :max-zoom="1"
+      :min-zoom="1.3"
+      :max-zoom="1.3"
+      :default-viewport="{ zoom: 1.3, x: 0, y: 0 }"
+      :fit-view-on-init="true"
     >
       <template #node-background>
         <BackgroundCircle @show-popover="showPopover" />
@@ -194,11 +196,13 @@ const onClickCountCardOutside = () => {
   .vue-flow__edge {
     cursor: default;
     pointer-events: none;
+    z-index: -1;
   }
   .vue-flow__edge-path,
   .vue-flow__connection-path {
-    stroke: #c0b9f8;
-    opacity: 0.5;
+    stroke: var(--color-text-placeholder);
+    stroke-width: 1.5;
+    opacity: 0.6;
   }
   .node-list-popover {
     position: absolute;
