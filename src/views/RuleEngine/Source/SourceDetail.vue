@@ -116,7 +116,7 @@
 <script lang="ts" setup>
 import { BridgeDirection } from '@/types/enum'
 import { Source } from '@/types/rule'
-import { Delete, Share } from '@element-plus/icons-vue'
+import { Share } from '@element-plus/icons-vue'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'

@@ -93,7 +93,7 @@
 /* Menu */
 .el-menu {
   $menu-item-padding: 0;
-  $menu-icon-size: 21px;
+  $menu-icon-size: 20px;
   @mixin menu-item-hover {
     color: var(--color-menu-text-active);
     background-color: var(--color-bg-table-hd);
@@ -139,7 +139,7 @@
       }
       .el-sub-menu__icon-arrow {
         top: 52%;
-        right: 8px;
+        right: 3px;
       }
     }
     .el-menu-item {
@@ -170,9 +170,9 @@
     opacity: 0.8;
   }
   &.el-menu--popup {
-    min-width: initial;
     background-color: var(--color-bg);
     .el-menu-item {
+      margin: 6px 0;
       color: var(--color-menu-text-normal);
       &.is-active,
       &:hover {
@@ -186,16 +186,21 @@
   &.el-menu--horizontal {
     height: auto;
     background-color: transparent;
-    border-bottom: 1px solid var(--color-border-card);
+    border-bottom: 3px solid var(--color-bg-table-hd);
     margin-bottom: 32px;
     height: auto;
     & > .el-menu-item {
-      height: 36px;
+      height: 40px;
       padding: 0px 12px;
       margin-right: 16px;
+      position: relative;
+      top: 3px;
       &:hover {
         background-color: var(--color-hover);
         color: var(--color-primary);
+      }
+      &.is-active {
+        border-bottom: 3px solid var(--color-primary);
       }
     }
   }
@@ -361,11 +366,14 @@
   .el-tabs__content {
     overflow: visible;
   }
+  .el-tabs__active-bar {
+    height: 3px;
+  }
 }
 .el-tabs.el-tabs--top:not(.el-tabs--card) {
   & .is-top .el-tabs__nav-wrap::after {
-    height: 1px;
-    background-color: var(--color-border-primary);
+    height: 3px;
+    background-color: var(--color-bg-table-hd);
   }
 }
 .el-tabs.el-tabs--left:not(.el-tabs--card) {
@@ -393,13 +401,9 @@
 /* Tabs Card */
 .el-tabs--card {
   & > .el-tabs__header {
-    border-bottom: 1px solid var(--color-border-card);
     margin-bottom: 0px;
     .el-tabs__nav {
       border: none;
-    }
-    .el-tabs__item.is-active {
-      border-bottom: 1px solid var(--color-bg-content);
     }
     .el-tabs__item,
     .is-focus {
@@ -1045,4 +1049,7 @@
 .el-breadcrumb__inner.is-link,
 .el-breadcrumb__inner a {
   font-weight: normal;
+}
+.el-breadcrumb__separator {
+  margin: 0 16px;
 }

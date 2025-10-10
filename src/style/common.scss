@@ -447,10 +447,6 @@ input:disabled {
     background-color: var(--color-bg-details);
     padding: 0 24px;
     margin-bottom: 24px;
-    border-bottom: 1px solid var(--color-border-primary);
-    .el-tabs__item.is-active {
-      border-bottom: 1px solid var(--color-border-card);
-    }
   }
   .app-wrapper {
     padding-top: 0px;
@@ -463,9 +459,6 @@ input:disabled {
   .el-tabs.detail-tabs {
     .el-tabs__header {
       margin-bottom: 24px;
-      .el-tabs__item.is-active {
-        border-bottom: 1px solid var(--color-bg-content);
-      }
     }
   }
 }
