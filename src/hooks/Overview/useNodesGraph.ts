@@ -72,7 +72,7 @@ export const useCoreNodeSize = (): {
 export const BACKGROUND_CIRCLE_RADIUS = 37 * 1.28
 export const BACKGROUND_CIRCLE_INNER_RADIUS = 53 * 1.28
 export const BACKGROUND_CIRCLE_OUTER_RADIUS = 89 * 1.28
-export const ACTIVE_RING_STROKE_WIDTH = 6
+export const ACTIVE_RING_STROKE_WIDTH = 2
 
 export const useRepCodeNodeSize = (): {
   nonactivatedRadius: number
@@ -157,7 +157,7 @@ export default (
   const countCoreNodeHeight = () => {
     if (coreNodesNum.value === 1) {
       coreNodeHeight.value = numToFixed(
-        showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS / 1.5 : flowEleHeight.value / 2.8,
+        showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS / 2.5 : flowEleHeight.value / 3.5,
         3,
       )
     } else {

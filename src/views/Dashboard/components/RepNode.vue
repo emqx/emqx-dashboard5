@@ -4,31 +4,26 @@
       :cx="nonactivatedRadius"
       :cy="nonactivatedRadius"
       :r="nonactivatedRadius"
-      :fill="dotNonactivatedColor"
+      fill="transparent"
+      :stroke="dotStrokeColor"
+      stroke-width="2"
       @mouseenter="selectNode"
     />
-    <g v-if="isSelected">
-      <circle
-        :cx="nonactivatedRadius"
-        :cy="nonactivatedRadius"
-        :r="activatedOuterRadius"
-        :fill="dotActivatedColor"
-        opacity="0.35"
-      />
-      <circle
-        :cx="nonactivatedRadius"
-        :cy="nonactivatedRadius"
-        :r="activatedInnerRadius"
-        :fill="dotActivatedColor"
-      />
-    </g>
+    <circle
+      v-if="isSelected"
+      :cx="nonactivatedRadius"
+      :cy="nonactivatedRadius"
+      :r="activatedOuterRadius"
+      :fill="dotActivatedColor"
+      opacity="0.15"
+    />
   </svg>
 </template>
 
 <script setup lang="ts">
 import { NodeStatus } from '@/types/enum'
 
-const { nonactivatedRadius, activatedInnerRadius, activatedOuterRadius } = useRepCodeNodeSize()
+const { nonactivatedRadius, activatedOuterRadius } = useRepCodeNodeSize()
 
 const props = defineProps({
   isSelected: {
@@ -44,9 +39,9 @@ const emit = defineEmits(['select'])
 
 const isRunning = computed(() => props.status === NodeStatus.Running)
 
-const dotNonactivatedColor = computed(() => (isRunning.value ? '#1890ff' : '#bac1cd'))
+const dotStrokeColor = computed(() => (isRunning.value ? '#6366f1' : '#bac1cd'))
 
-const dotActivatedColor = computed(() => (isRunning.value ? '#469cf7' : '#bac1cd'))
+const dotActivatedColor = computed(() => (isRunning.value ? '#6366f1' : '#bac1cd'))
 
 const selectNode = () => {
   emit('select')
