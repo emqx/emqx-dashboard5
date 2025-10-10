@@ -315,9 +315,6 @@ const downloadGrafaTemplate = () => {
   }
   .el-tabs .el-tabs__header {
     margin-bottom: 24px;
-    .el-tabs__item.is-active {
-      border-bottom: 1px solid var(--color-bg-content);
-    }
   }
 }
 </style>
