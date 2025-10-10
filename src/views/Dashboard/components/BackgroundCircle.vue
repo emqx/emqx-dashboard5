@@ -8,9 +8,10 @@
         :fill="backgroundCircle"
         :d="ringPath"
         :stroke-width="ACTIVE_RING_STROKE_WIDTH"
-        :stroke="isRingActivated ? 'rgba(0, 177, 115, 0.35)' : undefined"
+        :stroke="isRingActivated ? 'rgba(99, 102, 241, 0.4)' : undefined"
       />
-      <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#f0eeff" :cx="SVGCenter" :cy="SVGCenter" />
+      <!-- Remove background circle -->
+      <!-- <circle :r="BACKGROUND_CIRCLE_RADIUS" fill="#f0eeff" :cx="SVGCenter" :cy="SVGCenter" /> -->
     </svg>
   </div>
 </template>
@@ -20,7 +21,6 @@ import {
   ACTIVE_RING_STROKE_WIDTH,
   BACKGROUND_CIRCLE_INNER_RADIUS,
   BACKGROUND_CIRCLE_OUTER_RADIUS,
-  BACKGROUND_CIRCLE_RADIUS,
   useBackgroundCircle,
 } from '@/hooks/Overview/useNodesGraph'
 import { ClickOutside as vClickOutside } from 'element-plus'
@@ -33,7 +33,7 @@ const SVGCenter = SVGSideLength / 2
 
 const backgroundCircle = computed(() => {
   const { theme } = store.state
-  return theme === 'dark' ? '#469cf71a' : '#E7F7FF'
+  return theme === 'dark' ? '#469cf71a' : 'rgba(199, 210, 254, 0.2)'
 })
 
 const ringPath = computed(() => {

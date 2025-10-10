@@ -9,7 +9,7 @@
         </linearGradient>
       </defs>
       <g>
-        <g v-if="isSelected">
+        <g v-if="isSelected && nodesNum > 1">
           <polygon :points="getPoints(INNER_SIDE_MULTIPLES)" :fill="`url(#${id})`" opacity="0.6" />
         </g>
         <polygon :points="getPoints()" :fill="`url(#${id})`" @mouseenter="selectNode" />
@@ -49,7 +49,9 @@ const emit = defineEmits(['select'])
 const id = createRandomString()
 
 const gradientColor = computed(() =>
-  props.status === NodeStatus.Running ? ['#5e4eff', '#5e4eff'] : ['#dcdcdc', '#dcdcdc'],
+  props.status === NodeStatus.Running
+    ? ['rgba(94, 78, 255, 0.9)', 'rgba(94, 78, 255, 0.9)']
+    : ['#dcdcdc', '#dcdcdc'],
 )
 
 const getPoints = (multiple = 1) => {
