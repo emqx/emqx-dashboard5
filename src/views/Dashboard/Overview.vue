@@ -1,23 +1,22 @@
 <template>
   <div class="overview app-wrapper">
-    <el-row class="block" :gutter="16">
-      <el-col :span="withSessionsHistHwmark ? 7 : 8">
-        <el-card class="rate-card">
-          <!-- <el-radio-group class="rate-type-radio" v-model="rateType" size="small">
-            <el-radio-button value="byte" />
-            <el-radio-button value="msg"> {{ $t('Dashboard.messageNumber') }} </el-radio-button>
-          </el-radio-group> -->
-          <template v-if="rateType === 'msg'">
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span class="unit">
-                  {{ $t('Dashboard.strip', { n: currentMetrics.received_msg_rate }) }}/{{
-                    $t('Dashboard.second')
-                  }}
-                </span>
+    <el-row class="block stats-overview" :gutter="16">
+      <el-col :span="24">
+        <el-card class="stats-grid-card">
+          <div class="stats-grid">
+            <!-- Rate Cards -->
+            <div class="stat-card rate-card-in">
+              <div class="stat-header">
+                <el-icon class="stat-icon"><Top /></el-icon>
+                <span class="stat-label">{{ $t('Dashboard.currentMessageInRate') }}</span>
               </div>
-              <div class="line-wrapper">
+              <div class="stat-value">
+                <span class="stat-number">{{
+                  _formatNumber(currentMetrics.received_msg_rate)
+                }}</span>
+                <span class="stat-unit">msg/s</span>
+              </div>
+              <div class="stat-chart">
                 <rate-chart
                   :value="currentMetricsLogs.received_msg_rate"
                   type="bar"
@@ -25,142 +24,102 @@
                 />
               </div>
             </div>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span class="unit">
-                  {{ $t('Dashboard.strip', { n: currentMetrics.sent_msg_rate }) }}/{{
-                    $t('Dashboard.second')
-                  }}
-                </span>
+
+            <div class="stat-card rate-card-out">
+              <div class="stat-header">
+                <el-icon class="stat-icon"><Bottom /></el-icon>
+                <span class="stat-label">{{ $t('Dashboard.currentMessageOutRate') }}</span>
               </div>
-              <div class="line-wrapper">
+              <div class="stat-value">
+                <span class="stat-number">{{ _formatNumber(currentMetrics.sent_msg_rate) }}</span>
+                <span class="stat-unit">msg/s</span>
+              </div>
+              <div class="stat-chart">
                 <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
               </div>
             </div>
-          </template>
-          <template v-else>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageInRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.received_bytes_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
-              </div>
-              <div class="line-wrapper">
-                <rate-chart
-                  :value="currentMetricsLogs.received_bytes_rate"
-                  type="bar"
-                  color="#3D7FF9"
-                />
-              </div>
-            </div>
-            <div class="rate-item">
-              <div>
-                <label class="rate-label">{{ $t('Dashboard.currentMessageOutRate') }}</label>
-                <span>{{ _formatNumber(currentMetrics.sent_bytes_rate) }}</span>
-                <span class="unit">{{ $t('Dashboard.byte') }}/{{ $t('Dashboard.second') }}</span>
-              </div>
-              <div class="line-wrapper">
-                <rate-chart
-                  :value="currentMetricsLogs.sent_bytes_rate"
-                  type="bar"
-                  color="#5D4EFF"
-                />
-              </div>
-            </div>
-          </template>
-        </el-card>
-      </el-col>
-      <el-col :span="withSessionsHistHwmark ? 13 : 10">
-        <el-card class="main-info-item">
-          <router-link class="count-item" :to="{ name: 'clients' }">
-            <div class="count-item-hd">
-              <img src="@/assets/img/connections.png" width="16" height="16" alt="clients" />
-              <p class="info-label">{{ $t('Dashboard.allConnections') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.connections) }}</div>
-          </router-link>
-          <router-link
-            class="count-item"
-            :to="{ name: 'clients', query: { conn_state: 'connected' } }"
-          >
-            <div class="count-item-hd">
-              <img src="@/assets/img/live_connections.png" width="16" height="16" alt="clients" />
-              <p class="info-label">{{ $t('Dashboard.liveConnections') }}</p>
-            </div>
-            <div class="num">
-              {{ _formatNumber(currentMetrics.live_connections) }}
-            </div>
-          </router-link>
 
-          <template v-if="withSessionsHistHwmark">
-            <el-tooltip placement="top">
-              <template #content>
-                <MarkdownContent
-                  :content="
-                    tl('histPeakSessionsDesc', {
-                      current_value:
-                        currentMetrics.sessions_hist_hwmark?.current_value?.toString?.() ?? '0',
-                      time: dateFormat(currentMetrics.sessions_hist_hwmark?.peak_time ?? ''),
-                    })
-                  "
-                />
-              </template>
-              <div class="count-item">
-                <div class="count-item-hd">
-                  <img
-                    src="@/assets/img/live_connections.png"
-                    width="16"
-                    height="16"
-                    alt="historic peak sessions"
-                  />
-                  <p class="info-label">{{ $t('Dashboard.histPeakSessions') }}</p>
+            <!-- Sessions Card -->
+            <div class="stat-card combined-card">
+              <router-link class="stat-item" :to="{ name: 'clients' }">
+                <div class="stat-header">
+                  <el-icon class="stat-icon"><Connection /></el-icon>
+                  <span class="stat-label">{{ $t('Dashboard.allConnections') }}</span>
                 </div>
+                <div class="stat-value">
+                  <span class="stat-number">{{ _formatNumber(currentMetrics.connections) }}</span>
+                </div>
+              </router-link>
 
-                <div class="num">
-                  <span>
-                    {{ _formatNumber(currentMetrics.sessions_hist_hwmark?.peak_value ?? 0) }}
-                  </span>
+              <div class="stat-divider"></div>
+
+              <router-link
+                class="stat-item"
+                :to="{ name: 'clients', query: { conn_state: 'connected' } }"
+              >
+                <div class="stat-header">
+                  <el-icon class="stat-icon"><Link /></el-icon>
+                  <span class="stat-label">{{ $t('Dashboard.liveConnections') }}</span>
+                </div>
+                <div class="stat-value">
+                  <span class="stat-number">{{
+                    _formatNumber(currentMetrics.live_connections)
+                  }}</span>
+                </div>
+              </router-link>
+            </div>
+
+            <!-- Subscriptions Card -->
+            <div class="stat-card combined-card">
+              <router-link class="stat-item" :to="{ name: 'subscription' }">
+                <div class="stat-header">
+                  <el-icon class="stat-icon"><Bell /></el-icon>
+                  <span class="stat-label">{{ $t('Dashboard.subscriptionNumber') }}</span>
+                </div>
+                <div class="stat-value">
+                  <span class="stat-number">{{ _formatNumber(currentMetrics.subscriptions) }}</span>
+                </div>
+              </router-link>
+
+              <div class="stat-divider"></div>
+
+              <div class="stat-item">
+                <div class="stat-header">
+                  <el-icon class="stat-icon"><Share /></el-icon>
+                  <span class="stat-label">{{ $t('Dashboard.shareSubscription') }}</span>
+                </div>
+                <div class="stat-value">
+                  <span class="stat-number">{{
+                    _formatNumber(currentMetrics.shared_subscriptions)
+                  }}</span>
                 </div>
               </div>
-            </el-tooltip>
-          </template>
-        </el-card>
-        <el-card class="main-info-item" :class="{ 'with-three-items': withSessionsHistHwmark }">
-          <router-link class="count-item" :to="{ name: 'subscription' }">
-            <div class="count-item-hd">
-              <img src="@/assets/img/subs.png" width="16" height="16" alt="subs" />
-              <p class="info-label">{{ $t('Dashboard.subscriptionNumber') }}</p>
             </div>
-            <div class="num">{{ _formatNumber(currentMetrics.subscriptions) }}</div>
-          </router-link>
-          <div class="count-item">
-            <div class="count-item-hd">
-              <img src="@/assets/img/shared_subscriptions.png" width="16" height="16" alt="subs" />
-              <p class="info-label">{{ $t('Dashboard.shareSubscription') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.shared_subscriptions) }}</div>
+
+            <!-- Topics -->
+            <router-link class="stat-card" :to="{ name: 'topics' }">
+              <div class="stat-header">
+                <el-icon class="stat-icon"><ChatDotRound /></el-icon>
+                <span class="stat-label">{{ $t('Dashboard.topics') }}</span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-number">{{ _formatNumber(currentMetrics.topics) }}</span>
+              </div>
+            </router-link>
+
+            <!-- Retained -->
+            <router-link class="stat-card" :to="{ name: 'retained' }">
+              <div class="stat-header">
+                <el-icon class="stat-icon"><Collection /></el-icon>
+                <span class="stat-label">{{ $t('Dashboard.retained') }}</span>
+              </div>
+              <div class="stat-value">
+                <span class="stat-number">{{
+                  _formatNumber(currentMetrics.retained_msg_count)
+                }}</span>
+              </div>
+            </router-link>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="withSessionsHistHwmark ? 4 : 6">
-        <el-card class="main-info-item">
-          <router-link class="count-item" :to="{ name: 'topics' }">
-            <div class="count-item-hd">
-              <img src="@/assets/img/topics.png" width="16" height="16" alt="topics" />
-              <p class="info-label">{{ $t('Dashboard.topics') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.topics) }}</div>
-          </router-link>
-        </el-card>
-        <el-card class="main-info-item">
-          <router-link class="count-item" :to="{ name: 'retained' }">
-            <div class="count-item-hd">
-              <img src="@/assets/img/retained.png" width="16" height="16" alt="topics" />
-              <p class="info-label">{{ $t('Dashboard.retained') }}</p>
-            </div>
-            <div class="num">{{ _formatNumber(currentMetrics.retained_msg_count) }}</div>
-          </router-link>
         </el-card>
       </el-col>
     </el-row>
@@ -183,6 +142,16 @@ import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import dayjs from 'dayjs'
 import { loadCurrentMetrics } from '@/api/common'
+import {
+  Connection,
+  Link,
+  Bell,
+  Share,
+  ChatDotRound,
+  Collection,
+  Top,
+  Bottom,
+} from '@element-plus/icons-vue'
 
 interface MetricData {
   x: Array<string>
@@ -274,98 +243,167 @@ syncPolling(loadData, POLLING_INTERVAL)
     margin-top: 14px;
     margin-bottom: 28px;
   }
-  .main-info-item {
-    width: 100%;
-    height: calc(math.div(100%, 2) - math.div(16px, 2));
-    &:not(:last-child) {
-      margin-bottom: 16px;
-    }
-    &.with-three-items {
-      .count-item {
-        flex-basis: 33.3%;
-        flex-grow: 0;
-      }
-    }
+
+  .stats-overview {
+    margin-bottom: 24px;
+  }
+
+  .stats-grid-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
     .el-card__body {
-      display: flex;
-      padding: 24px 32px;
+      padding: 0;
     }
-    div.count-item {
-      cursor: default;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
+    gap: 16px;
+  }
+
+  .stat-card {
+    background: var(--el-bg-color);
+    padding: 24px;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--el-border-color-lighter);
+    border-radius: var(--border-radius-card);
+
+    // Rate 卡片占 2 列
+    &.rate-card-in,
+    &.rate-card-out {
+      grid-column: span 2;
+      padding: 24px;
     }
-    .count-item {
-      flex: 1;
-    }
-    .count-item-hd {
-      display: flex;
-      align-items: center;
-      margin-bottom: 4px;
-      img {
-        margin-right: 8px;
-      }
-    }
-    a {
-      position: relative;
-      transition: none;
+
+    // 合并卡片样式
+    &.combined-card {
+      padding: 0;
+
       &:hover {
-        .info-label {
-          color: var(--color-primary);
-        }
-        img {
-          filter: contrast(125%);
-        }
-      }
-      .img-container {
-        line-height: 0;
+        border-color: var(--color-primary);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
       }
     }
-    .info-label {
-      display: flex;
-      align-items: center;
-      height: 24px;
-      margin-top: 0;
-      margin-bottom: 0;
-      font-size: 16px;
-      color: var(--color-text-secondary);
+
+    &:not(.combined-card):not(.rate-card-in):not(.rate-card-out) {
+      align-self: start;
     }
-    .num {
-      color: var(--color-title-primary);
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 32px;
+
+    &:not(.combined-card):hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+
+      .stat-icon {
+        color: var(--color-primary);
+      }
+
+      .stat-number {
+        color: var(--color-primary);
+      }
     }
   }
-  .rate-card {
-    height: 100%;
-    .el-card__body {
+
+  a.stat-card {
+    text-decoration: none;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    overflow: hidden;
+
+    &:first-child {
+      border-radius: var(--border-radius-card) var(--border-radius-card) 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--border-radius-card) var(--border-radius-card);
+    }
+
+    &:hover {
+      background: var(--el-fill-color-extra-light);
+
+      .stat-icon {
+        color: var(--color-primary);
+      }
+
+      .stat-number {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .stat-divider {
+    height: 1px;
+    background: var(--el-border-color-lighter);
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .stat-icon {
+    font-size: 18px;
+    color: var(--color-text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 18px;
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
+    color: var(--color-title-primary);
+    transition: color 0.2s ease;
+  }
+
+  .stat-unit {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 20px;
+  }
+
+  .stat-chart {
+    margin-top: 16px;
+    height: 52px;
+    width: 100%;
+
+    .rate-chart {
       height: 100%;
-      .rate-item {
-        height: 50%;
-        margin-bottom: 8px;
-      }
-    }
-    .rate-label {
-      color: var(--color-text-secondary);
-      padding-right: 10px;
-    }
-    span {
-      color: var(--color-text-primary);
-    }
-    .line-wrapper {
       width: 100%;
-      box-sizing: border-box;
-      margin: 16px 0;
-      .rate-chart {
-        box-sizing: border-box;
-        height: 36px;
-      }
-    }
-    .rate-type-radio {
-      position: absolute;
-      right: 10px;
-      top: 16px;
     }
   }
+
+  a.stat-card {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
   .cluster-card {
     border: none;
     border-radius: var(--border-radius-card);
