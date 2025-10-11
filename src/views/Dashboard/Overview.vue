@@ -241,7 +241,7 @@ syncPolling(loadData, POLLING_INTERVAL)
   .block {
     align-items: stretch;
     margin-top: 14px;
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 
   .stats-overview {
