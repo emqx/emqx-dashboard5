@@ -43,7 +43,7 @@
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'clients' }">
                 <div class="stat-header">
-                  <Icon icon="lucide:network" class="stat-icon" />
+                  <Icon icon="lucide:link" class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.allConnections') }}</span>
                 </div>
                 <div class="stat-value">
