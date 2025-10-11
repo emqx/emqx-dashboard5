@@ -9,7 +9,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import * as echarts from 'echarts/lib/echarts'
+import * as echarts from 'echarts'
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
@@ -70,12 +70,12 @@ const option: EChartsOption = reactive({
     axisPointer: {
       type: 'none',
     },
-    formatter: (params: Array<any>) => {
+    formatter: (params: any) => {
       if (!params[0]) {
         return ''
       }
       const { axisValue, value } = params[0]
-      return createTooltip(axisValue, value)
+      return createTooltip(axisValue, value).innerHTML
     },
   },
   xAxis: {
@@ -135,6 +135,9 @@ const setSeriesConfig = async () => {
       symbolSize: 0,
       lineStyle: {
         color,
+      },
+      itemStyle: {
+        borderRadius: type === 'bar' ? [2, 2, 2, 2] : 0,
       },
       label: {
         show: false,

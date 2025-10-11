@@ -9,7 +9,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import * as echarts from 'echarts/lib/echarts'
+import * as echarts from 'echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/tooltip'
