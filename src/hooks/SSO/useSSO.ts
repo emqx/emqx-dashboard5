@@ -1,7 +1,6 @@
 import { getSSORunning, postSSOLogin } from '@/api/sso'
 import {
   DashboardSsoBackendStatusBackend,
-  SsoLogin,
   DashboardSamlBackend,
   PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -19,6 +18,12 @@ export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => s
 
 type LoginBackend = 'local' | 'ldap'
 
+interface LdapLoginCredentials {
+  username: string
+  password: string
+  backend: LoginBackend
+}
+
 interface LdapLoginResult {
   username: string | undefined
   response: PostSsoLoginBackend200
@@ -32,15 +37,14 @@ export default function useSSO(): {
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
-  ldapRecord: SsoLogin
+  ldapRecord: LdapLoginCredentials
   hasSSOEnabled: ComputedRef<boolean>
   ldapLogin: () => Promise<LdapLoginResult>
   getEnabledSSO: () => Promise<void>
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
-  // FIXME: remove any
-  const ldapRecord = reactive<SsoLogin | any>({
+  const ldapRecord = reactive<LdapLoginCredentials>({
     username: '',
     password: '',
     backend: 'ldap',
@@ -66,7 +70,8 @@ export default function useSSO(): {
   const ldapLogin = async (): Promise<LdapLoginResult> => {
     try {
       isSSOLoading.value = true
-      const res = await postSSOLogin('ldap', ldapRecord)
+      // Type assertion needed because auto-generated types don't match actual API requirements
+      const res = await postSSOLogin('ldap', ldapRecord as any)
       const { username } = ldapRecord
       return Promise.resolve({ username, response: res })
     } catch (error) {
