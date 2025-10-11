@@ -34,140 +34,160 @@
       </div>
     </div>
     <template v-if="doesTheClientExist">
-      <el-row :gutter="26" class="client-row block">
-        <el-col :span="12">
-          <el-card class="top-border client-info" v-loading="clientDetailLock">
-            <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
-              <el-descriptions-item :label="tl('connectedStatus')">
-                <ClientInfoItem :client="record" field="connected" />
-              </el-descriptions-item>
-              <el-descriptions-item
-                v-for="item in clientDetailParts.connection"
-                :key="item"
-                :label="getLabel(item)"
-              >
-                <ClientInfoItem v-if="item !== 'client_attrs'" :client="record" :field="item" />
-                <template v-else>
-                  <el-button type="primary" size="small" plain @click="viewClientAttrs">
-                    {{ t('Base.view') }}
-                  </el-button>
-                </template>
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card class="top-border client-session" v-loading="clientDetailLock">
-            <span class="stats-tip">({{ $t('Base.current') }} / {{ $t('Base.max') }})</span>
-            <el-descriptions :title="tl('sessionInfo')" border :column="1" size="large">
-              <el-descriptions-item
-                v-for="item in clientDetailParts.session"
-                :key="item"
-                :label="getLabel(item)"
-              >
-                <div>
-                  <ClientInfoItem :client="record" :field="item" />
-                  <template v-if="withMsgList(item)">
-                    <el-tooltip
-                      :disabled="!record.durable"
-                      :content="tl('cannotViewMsg')"
-                      :show-after="500"
-                      placement="top"
-                    >
-                      <el-button
-                        class="btn-view-msg"
-                        type="primary"
-                        :plain="!record.durable"
-                        :disabled="record.durable"
-                        size="small"
-                        @click="viewMsgList(item as 'mqueue' | 'inflight')"
-                      >
-                        {{ tl('viewMsg') }}
+      <el-tabs v-model="activeTab" class="client-detail-tabs">
+        <el-tab-pane :label="tl('clientInfo')" name="info">
+          <el-row :gutter="26" class="client-row block">
+            <el-col :span="12">
+              <el-card class="top-border client-info" v-loading="clientDetailLock">
+                <el-descriptions :title="tl('connectionInfo')" border :column="1" size="large">
+                  <el-descriptions-item :label="tl('connectedStatus')">
+                    <ClientInfoItem :client="record" field="connected" />
+                  </el-descriptions-item>
+                  <el-descriptions-item
+                    v-for="item in clientDetailParts.connection"
+                    :key="item"
+                    :label="getLabel(item)"
+                  >
+                    <ClientInfoItem v-if="item !== 'client_attrs'" :client="record" :field="item" />
+                    <template v-else>
+                      <el-button type="primary" size="small" plain @click="viewClientAttrs">
+                        {{ t('Base.view') }}
                       </el-button>
-                    </el-tooltip>
-                  </template>
-                  <info-tooltip
-                    v-if="withItemDesc(item)"
-                    class="client-info-tips"
-                    :content="getClientInfoDesc(item)"
-                  ></info-tooltip>
-                </div>
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-card>
-        </el-col>
-      </el-row>
-      <h2>
-        {{ $t('components.metrics') }}
-      </h2>
-      <el-row class="block client-metrics" :gutter="26">
-        <el-col :span="12">
-          <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
-            <el-table :data="filterMetrics(clientDetailParts.bytes)">
-              <el-table-column prop="label" min-width="140" :label="tl('bytes')" />
-              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-            </el-table>
-          </el-card>
-          <el-card class="top-border table-card packets" v-loading="clientDetailLock">
-            <el-table :data="filterMetrics(clientDetailParts.packets)">
-              <el-table-column prop="label" min-width="140" :label="tl('packets')" />
-              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-            </el-table>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
-            <el-table :data="filterMetrics(clientDetailParts.messages)">
-              <el-table-column prop="label" min-width="140" :label="tl('messages')" />
-              <el-table-column prop="value" sortable class-name="sortable-without-header-text" />
-            </el-table>
-          </el-card>
-        </el-col>
-      </el-row>
-      <div class="section-header">
-        <div>
-          {{ tl('currentSubscription') }}
-        </div>
-        <div>
-          <RefreshButton @click="handleRefreshSubs" />
-          <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
-            {{ tl('addASubscription') }}
-          </CreateButton>
-        </div>
-      </div>
-      <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
-        <el-table-column prop="topic" :label="$t('Base.topic')">
-          <template #default="{ row }">
-            <CommonOverflowTooltip :content="row.topic" />
+                    </template>
+                  </el-descriptions-item>
+                </el-descriptions>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card class="top-border client-session" v-loading="clientDetailLock">
+                <span class="stats-tip">({{ $t('Base.current') }} / {{ $t('Base.max') }})</span>
+                <el-descriptions :title="tl('sessionInfo')" border :column="1" size="large">
+                  <el-descriptions-item
+                    v-for="item in clientDetailParts.session"
+                    :key="item"
+                    :label="getLabel(item)"
+                  >
+                    <div>
+                      <ClientInfoItem :client="record" :field="item" />
+                      <template v-if="withMsgList(item)">
+                        <el-tooltip
+                          :disabled="!record.durable"
+                          :content="tl('cannotViewMsg')"
+                          :show-after="500"
+                          placement="top"
+                        >
+                          <el-button
+                            class="btn-view-msg"
+                            type="primary"
+                            :plain="!record.durable"
+                            :disabled="record.durable"
+                            size="small"
+                            @click="viewMsgList(item as 'mqueue' | 'inflight')"
+                          >
+                            {{ tl('viewMsg') }}
+                          </el-button>
+                        </el-tooltip>
+                      </template>
+                      <info-tooltip
+                        v-if="withItemDesc(item)"
+                        class="client-info-tips"
+                        :content="getClientInfoDesc(item)"
+                      ></info-tooltip>
+                    </div>
+                  </el-descriptions-item>
+                </el-descriptions>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+
+        <el-tab-pane :label="$t('components.metrics')" name="metrics">
+          <el-row class="block client-metrics" :gutter="26">
+            <el-col :span="12">
+              <el-card class="top-border table-card bytes" v-loading="clientDetailLock">
+                <el-table :data="filterMetrics(clientDetailParts.bytes)">
+                  <el-table-column prop="label" min-width="140" :label="tl('bytes')" />
+                  <el-table-column
+                    prop="value"
+                    sortable
+                    class-name="sortable-without-header-text"
+                  />
+                </el-table>
+              </el-card>
+              <el-card class="top-border table-card packets" v-loading="clientDetailLock">
+                <el-table :data="filterMetrics(clientDetailParts.packets)">
+                  <el-table-column prop="label" min-width="140" :label="tl('packets')" />
+                  <el-table-column
+                    prop="value"
+                    sortable
+                    class-name="sortable-without-header-text"
+                  />
+                </el-table>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card class="top-border table-card client messages" v-loading="clientDetailLock">
+                <el-table :data="filterMetrics(clientDetailParts.messages)">
+                  <el-table-column prop="label" min-width="140" :label="tl('messages')" />
+                  <el-table-column
+                    prop="value"
+                    sortable
+                    class-name="sortable-without-header-text"
+                  />
+                </el-table>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+
+        <el-tab-pane name="subscriptions">
+          <template #label>
+            <span>{{ tl('currentSubscription') }}</span>
           </template>
-        </el-table-column>
-        <el-table-column prop="qos" min-width="110px" label="QoS" />
-        <template v-if="isMQTTVersion5">
-          <el-table-column prop="nl" :label="tl('noLocal')">
-            <template #default="{ row }">
-              {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
+          <div class="section-header">
+            <div></div>
+            <div>
+              <RefreshButton @click="handleRefreshSubs" />
+              <CreateButton v-if="allowSubscriptionOperations" @click="handlePreAdd">
+                {{ tl('addASubscription') }}
+              </CreateButton>
+            </div>
+          </div>
+          <el-table class="subs" :data="subscriptions" v-loading.lock="subsLockTable" key="topic">
+            <el-table-column prop="topic" :label="$t('Base.topic')">
+              <template #default="{ row }">
+                <CommonOverflowTooltip :content="row.topic" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="qos" min-width="110px" label="QoS" />
+            <template v-if="isMQTTVersion5">
+              <el-table-column prop="nl" :label="tl('noLocal')">
+                <template #default="{ row }">
+                  {{ getLabelFromValueInOptionList(row.nl, noLocalOpts) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="rap" :label="tl('retainAsPublished')">
+                <template #default="{ row }">
+                  {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="rh" :label="tl('retainHandling')" />
             </template>
-          </el-table-column>
-          <el-table-column prop="rap" :label="tl('retainAsPublished')">
-            <template #default="{ row }">
-              {{ getLabelFromValueInOptionList(row.rap, retainAsPublishedOpts) }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="rh" :label="tl('retainHandling')" />
-        </template>
-        <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
-          <template #default="{ row }">
-            <el-button
-              :disabled="!$hasPermission('delete')"
-              plain
-              size="small"
-              @click="handleUnSubscription(row)"
-            >
-              {{ $t('Clients.unsubscribe') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+            <el-table-column :label="$t('Base.operation')" v-if="allowSubscriptionOperations">
+              <template #default="{ row }">
+                <el-button
+                  :disabled="!$hasPermission('delete')"
+                  plain
+                  size="small"
+                  @click="handleUnSubscription(row)"
+                >
+                  {{ $t('Clients.unsubscribe') }}
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
       <create-subscribe
         v-model:visible="dialogVisible"
         :client-id="record.clientid"
@@ -227,6 +247,7 @@ const emit = defineEmits(['refreshGateway'])
 
 const isGateway = computed(() => !!props.gateway)
 
+const activeTab = ref('info')
 const dialogVisible = ref(false)
 const clientDetailLock = ref(true)
 const subsLockTable = ref(true)
@@ -376,7 +397,7 @@ const handleDisconnect = async () => {
     confirmButtonClass: 'confirm-danger',
     type: 'warning',
   })
-    .then(() => {
+    .then(async () => {
       if (props.gateway) {
         return handleDisconnectGateway()
       } else {
@@ -457,7 +478,7 @@ const loadSubs = async () => {
     subsLockTable.value = false
   })
   if (res) {
-    subscriptions.value = res
+    subscriptions.value = res as unknown as Subscription[]
   } else {
     subscriptions.value = []
   }
@@ -470,7 +491,7 @@ const loadGatewaySubs = async () => {
     subsLockTable.value = false
   })
   if (res) {
-    subscriptions.value = res
+    subscriptions.value = res as unknown as Subscription[]
   } else {
     subscriptions.value = []
   }
@@ -633,6 +654,11 @@ loadSubs()
     margin-right: 12px;
     & i {
       margin-right: 6px;
+    }
+  }
+  .client-detail-tabs {
+    .el-tabs__header.is-top {
+      margin-bottom: 24px;
     }
   }
   .section-header:not(:first-of-type) {
