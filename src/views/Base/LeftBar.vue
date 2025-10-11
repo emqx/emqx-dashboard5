@@ -15,7 +15,7 @@
             :popper-class="needFixedHeight(menu) ? 'sub-menu-popper' : ''"
           >
             <template #title>
-              <i :class="['iconfont', menu.icon]"></i>
+              <Icon :icon="menu.icon" class="menu-icon" />
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
@@ -49,7 +49,7 @@
             </el-scrollbar>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
-            <i :class="['iconfont', menu.icon]"></i>
+            <Icon :icon="menu.icon" class="menu-icon" />
             <p class="menu-item-title first-level">
               {{ $t(`components.${menu.title}`) }}
             </p>
@@ -140,9 +140,20 @@ export default defineComponent({
       display: none;
     }
   }
-  .icon.menu-icon {
-    font-size: 24px;
+  .menu-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+  }
+  .el-menu.el-menu--collapse {
+    .menu-icon {
+      margin-left: 3px;
+    }
   }
 }
 .sub-menu-popper {

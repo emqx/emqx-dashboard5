@@ -84,7 +84,9 @@
             <RefreshButton class="icon-button" no-text @click="loadCacheMetrics" />
           </el-tooltip>
           <el-tooltip :content="tl('resetNodeCacheStatus')" placement="top">
-            <el-button class="icon-button" :icon="Close" @click="resetCacheMetrics"></el-button>
+            <el-button class="icon-button" @click="resetCacheMetrics">
+              <Icon icon="lucide:x" class="w-4 h-4" />
+            </el-button>
           </el-tooltip>
         </div>
       </div>
@@ -203,7 +205,6 @@ import {
   updateAuthzSettings,
 } from '@/api/auth'
 import { useSizeMetric } from '@/hooks/useMetrics'
-import { Close } from '@element-plus/icons-vue'
 
 type NodeCacheConfig = {
   enable?: boolean

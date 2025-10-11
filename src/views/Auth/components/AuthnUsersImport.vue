@@ -3,10 +3,10 @@
     <el-button
       type="primary"
       plain
-      :icon="Upload"
       :disabled="!$hasPermission('post')"
       @click="dialogVisible = true"
     >
+      <Icon icon="lucide:upload" class="mr-2" />
       {{ t('Auth.importUsers') }}
     </el-button>
 
@@ -71,7 +71,6 @@
 </template>
 
 <script setup lang="ts">
-import { Upload } from '@element-plus/icons-vue'
 import { ImportResult } from '@/types/auth'
 import { ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'

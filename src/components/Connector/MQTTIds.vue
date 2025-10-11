@@ -35,18 +35,18 @@
           </div>
         </div>
         <el-button v-if="!readonly && !disabled" link @click="deleteItem($index)">
-          <el-icon :size="16" class="icon-del"><Delete /></el-icon>
+          <el-icon :size="16" class="icon-del"><Icon icon="lucide:trash-2" /></el-icon>
         </el-button>
       </li>
     </ul>
-    <el-button v-if="!readonly && !disabled" link type="primary" :icon="Plus" @click="addItem">
+    <el-button v-if="!readonly && !disabled" link type="primary" @click="addItem">
+      <Icon icon="lucide:plus" class="mr-2" />
       {{ tl('add') }}
     </el-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Delete, Plus } from '@element-plus/icons-vue'
 import {} from 'vue'
 
 interface MQTTIds {

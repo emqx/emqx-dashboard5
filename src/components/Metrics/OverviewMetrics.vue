@@ -18,10 +18,11 @@
           <el-tooltip v-if="requestReset" :content="tl('resetStatistics')" placement="top">
             <el-button
               class="icon-button"
-              :icon="Close"
               :disabled="!$hasPermission('put')"
               @click="resetStatistics"
-            ></el-button>
+            >
+              <Icon icon="lucide:x" class="w-4 h-4" />
+            </el-button>
           </el-tooltip>
         </div>
       </div>
@@ -179,7 +180,6 @@ import {
   useRateChart,
 } from '@/hooks/useMetrics'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
-import { Close } from '@element-plus/icons-vue'
 import TypeMetrics from './TypeMetrics.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>

@@ -27,10 +27,11 @@
           <el-button
             v-if="showAddSubButton(row.propBelong)"
             class="btn-add"
-            :icon="Plus"
             :disabled="!$hasPermission('post')"
             @click="addSubOperation(row)"
-          />
+          >
+            <Icon icon="lucide:plus" class="w-4 h-4" />
+          </el-button>
         </div>
         <!-- CHILD -->
         <div v-else class="sub-convert-container">
@@ -42,12 +43,8 @@
       <template #header>
         <div class="target-value-header">
           <label :class="required ? 'mock-required-label' : ''">{{ tl('targetValue') }}</label>
-          <el-button
-            type="primary"
-            :icon="Plus"
-            :disabled="!$hasPermission('post')"
-            @click="addOperation"
-          >
+          <el-button type="primary" :disabled="!$hasPermission('post')" @click="addOperation">
+            <Icon icon="lucide:plus" class="w-4 h-4" />
           </el-button>
         </div>
       </template>
@@ -57,20 +54,22 @@
           <TargetValue v-model="data.row.convert" @blur="handleBlur" />
           <el-button
             class="btn-del"
-            :icon="Delete"
             :disabled="!$hasPermission('delete')"
             @click="deleteOperation(data.$index)"
-          />
+          >
+            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+          </el-button>
         </template>
         <!-- CHILD -->
         <template v-else-if="!data.row.convert">
           <TargetValue v-model="data.row" @blur="handleBlur" />
           <el-button
             class="btn-del"
-            :icon="Delete"
             :disabled="!$hasPermission('delete')"
             @click="deleteSubOperation(data.$index)"
-          />
+          >
+            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+          </el-button>
         </template>
       </template>
     </el-table-column>
@@ -84,7 +83,6 @@ import {
   useMessageTransformForm,
 } from '@/hooks/Rule/transform/useMessageTransform'
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
-import { Delete, Plus } from '@element-plus/icons-vue'
 import TargetValue from './TargetValue.vue'
 
 interface SubOperation {

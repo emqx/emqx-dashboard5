@@ -6,17 +6,19 @@
         <div class="btn-container vertical-align-center">
           <el-button
             class="btn-del"
-            :icon="Delete"
             :disabled="(!allowEmpty && topics.length <= 1) || !$hasPermission('delete')"
             @click="delTopic($index)"
-          />
+          >
+            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+          </el-button>
           <el-button
             v-if="$index === topics.length - 1"
             class="btn-add"
-            :icon="Plus"
             :disabled="!$hasPermission('post')"
             @click="addTopic"
-          />
+          >
+            <Icon icon="lucide:plus" class="w-4 h-4" />
+          </el-button>
         </div>
       </el-form-item>
     </li>
@@ -24,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { Delete, Plus } from '@element-plus/icons-vue'
 import type { FormItemRule } from 'element-plus'
 
 const props = defineProps<{

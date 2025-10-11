@@ -3,10 +3,10 @@
     <div class="slow-sub-data-bar">
       <div>
         <el-button
-          :icon="Setting"
           @click="$router.push({ name: 'slow-sub-config' })"
           :disabled="!$hasPermission('put')"
         >
+          <Icon icon="lucide:settings" class="mr-2" />
           {{ $t('Base.setting') }}
         </el-button>
         <DangerButton :disabled="!$hasPermission('delete')" @click="clearData">
@@ -54,7 +54,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
 import { SlowSubStatistic } from '@/types/diagnose'
-import { Setting } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
 

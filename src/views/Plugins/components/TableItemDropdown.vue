@@ -15,14 +15,14 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="up" :disabled="rowIndex === 0 || !$hasPermission('put')">
-          <el-icon><ArrowUp /></el-icon>
+          <Icon icon="lucide:chevron-up" class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.up') }}</span>
         </el-dropdown-item>
         <el-dropdown-item
           command="down"
           :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
-          <el-icon><ArrowDown /></el-icon>
+          <Icon icon="lucide:chevron-down" class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.down') }}</span>
         </el-dropdown-item>
         <el-dropdown-item
@@ -30,7 +30,7 @@
           :class="{ disabled: filtered }"
           :disabled="rowIndex === 0 || !$hasPermission('put')"
         >
-          <el-icon><Top /></el-icon>
+          <Icon icon="lucide:chevrons-up" class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToTop') }}</span>
         </el-dropdown-item>
         <el-dropdown-item
@@ -38,11 +38,11 @@
           :class="{ disabled: filtered }"
           :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
-          <el-icon><Bottom /></el-icon>
+          <Icon icon="lucide:chevrons-down" class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
         <el-dropdown-item :disabled="!$hasPermission('delete')" command="uninstall">
-          <el-icon><Delete /></el-icon>
+          <Icon icon="lucide:trash-2" class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.uninstall') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -58,7 +58,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
-import { CaretBottom, ArrowUp, ArrowDown, Top, Bottom, Delete } from '@element-plus/icons-vue'
+import { CaretBottom } from '@element-plus/icons-vue'
 
 const props = defineProps({
   rowData: {

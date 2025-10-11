@@ -35,7 +35,8 @@
       <TestSQLContextForm v-model="testParams.context" />
     </div>
     <template #footer>
-      <el-button v-if="isFormModified" plain :icon="RefreshLeft" @click="resetContext">
+      <el-button v-if="isFormModified" plain @click="resetContext">
+        <Icon icon="lucide:rotate-ccw" class="mr-2" />
         {{ t('Base.reset') }}
       </el-button>
       <CancelButton @click="showDrawer = false" :disabled="isSubmitting" />
@@ -48,7 +49,7 @@
 
 <script setup lang="ts">
 import { BridgeItem } from '@/types/rule'
-import { CaretRight, RefreshLeft } from '@element-plus/icons-vue'
+import { CaretRight } from '@element-plus/icons-vue'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 

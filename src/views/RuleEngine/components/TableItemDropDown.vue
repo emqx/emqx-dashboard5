@@ -20,15 +20,15 @@
           v-if="canCreateRule"
           :disabled="!$hasPermission('post')"
         >
-          <el-icon><DocumentAdd /></el-icon>
+          <Icon icon="lucide:file-plus" class="w-4 h-4 mr-2" />
           <span>{{ tl('createRule') }}</span>
         </el-dropdown-item>
         <el-dropdown-item command="copy" :disabled="!$hasPermission('post')" v-if="canCopy">
-          <el-icon><CopyDocument /></el-icon>
+          <Icon icon="lucide:copy" class="w-4 h-4 mr-2" />
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
         <el-dropdown-item :disabled="!$hasPermission('post') || disableDel" command="delete">
-          <el-icon><Delete /></el-icon>
+          <Icon icon="lucide:trash-2" class="w-4 h-4 mr-2" />
           <span>{{ tl('delete', 'Base') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -44,7 +44,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { PluginItem } from '@/types/plugin'
-import { CaretBottom, Delete, CopyDocument, DocumentAdd } from '@element-plus/icons-vue'
+import { CaretBottom } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'RuleEngine') => t(`${moduleName}.${key}`)

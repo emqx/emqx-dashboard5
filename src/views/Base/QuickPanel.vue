@@ -15,14 +15,14 @@
       @select="handleSelect"
     >
       <template #prefix>
-        <el-icon :size="20"> <Search /> </el-icon>
+        <Icon icon="lucide:search" :width="20" :height="20" />
       </template>
       <template #default="{ item }">
         <div class="space-between quick-result-item">
           <div class="value vertical-align-center">
             <div v-show="item.parentLabel">
               <span>{{ item.parentLabel }}</span>
-              <el-icon class="icon-arrow"><ArrowRight /></el-icon>
+              <Icon icon="lucide:arrow-right" class="icon-arrow" />
             </div>
             <span>{{ item.label }}</span>
           </div>
@@ -36,7 +36,6 @@
 <script lang="ts" setup>
 import { usePathInMenu } from '@/hooks/useMenus'
 import { routes } from '@/router'
-import { ArrowRight, Search } from '@element-plus/icons-vue'
 
 interface MenuItem {
   path: string

@@ -12,28 +12,30 @@
           <CommonOverflowTooltip :content="clusterDesc" />
         </div>
         <span v-else>-</span>
-        <LinkButton class="is-link" :to="{ name: 'cluster' }" :icon="Edit" />
+        <LinkButton class="is-link" :to="{ name: 'cluster' }">
+          <Icon icon="lucide:pencil" class="w-4 h-4" />
+        </LinkButton>
       </div>
       <div class="quick-panel-enter" @click="openQuickPanel">
-        <div class="enter-hd">
-          <el-icon :size="16"><Search /></el-icon>
-          <span>{{ t('Base.quickFind') }}</span>
+        <div class="flex items-center gap-2">
+          <Icon icon="lucide:search" :width="16" :height="16" class="text-gray-400" />
+          <span class="text-sm">{{ t('Base.quickFind') }}</span>
         </div>
-        <div class="enter-ft">
-          <span class="icon-key is-cmd" v-if="isMac">⌘</span>
-          <span class="icon-key" v-else>Ctrl</span>
-          <span class="icon-key">K</span>
+        <div class="flex items-center gap-1">
+          <kbd class="kbd-key" v-if="isMac">⌘</kbd>
+          <kbd class="kbd-key" v-else>Ctrl</kbd>
+          <kbd class="kbd-key">K</kbd>
         </div>
       </div>
 
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
-        {{ $t('Base.contactUs') }}<el-icon><right /></el-icon>
+        {{ $t('Base.contactUs') }}<Icon icon="lucide:arrow-right" class="arrow-icon" />
       </el-button>
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="func-item">
           <el-badge :is-dot="!!alertCount">
             <router-link class="link-alarm" to="/alarm">
-              <el-icon class="bell"><bell /></el-icon>
+              <Icon icon="lucide:bell" class="bell" />
             </router-link>
           </el-badge>
         </div>
@@ -45,9 +47,11 @@
         placement="bottom"
         :show-arrow="false"
       >
-        <a href="javascript:;" @click="handleShowHelp" class="link-help">
-          <i class="iconfont icon-question"></i>
-        </a>
+        <div class="func-item">
+          <a href="javascript:;" @click="handleShowHelp" class="link-help">
+            <Icon icon="lucide:help-circle" class="icon-question" />
+          </a>
+        </div>
       </el-tooltip>
 
       <el-tooltip
@@ -58,7 +62,7 @@
       >
         <el-dropdown trigger="click" :hide-on-click="false">
           <div class="func-item settings-trigger">
-            <el-icon class="settings"><Setting /></el-icon>
+            <Icon icon="lucide:settings" class="settings" />
           </div>
           <template #dropdown>
             <el-dropdown-menu class="settings-dropdown-menu">
@@ -68,18 +72,28 @@
         </el-dropdown>
       </el-tooltip>
 
-      <el-dropdown placement="bottom" @command="handleDropdownCommand">
-        <div class="func-item">
+      <el-dropdown placement="bottom" @command="handleDropdownCommand" popper-class="user-dropdown">
+        <div class="func-item user-menu-trigger">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
-          <span>{{ user.username }}</span>
+          <Icon icon="lucide:chevron-down" class="w-4 h-4" />
         </div>
 
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="users">
+            <el-dropdown-item disabled class="user-info-item">
+              <div class="flex items-center gap-2">
+                <span class="user-avatar-small">
+                  {{ user.username?.substr(0, 1).toUpperCase() }}
+                </span>
+                <span class="font-medium">{{ user.username }}</span>
+              </div>
+            </el-dropdown-item>
+            <el-dropdown-item divided command="users">
+              <Icon icon="lucide:users" class="w-4 h-4 mr-2" />
               {{ $t('components.usersManagement') }}
             </el-dropdown-item>
-            <el-dropdown-item divided command="logout">
+            <el-dropdown-item command="logout">
+              <Icon icon="lucide:log-out" class="w-4 h-4 mr-2" />
               {{ $t('components.logOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -92,7 +106,6 @@
 
 <script lang="ts" setup>
 import { getClusterNodes, loadAlarm } from '@/api/common'
-import { Right, Bell, Setting, Search, Edit } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
 import LicensePromotion from '@/components/LicensePromotion.vue'
@@ -212,16 +225,53 @@ onBeforeUnmount(() => {
   left: 200px;
   z-index: 100;
   transition: all 0.3s;
+  .user-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
   .user-avatar {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: var(--color-border-primary);
-    display: inline-block;
-    text-align: center;
-    line-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 400;
     border-radius: 50%;
-    margin-right: 10px;
-    margin-left: 4px;
+  }
+
+  .user-avatar-small {
+    width: 28px;
+    height: 28px;
+    background: var(--color-border-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 400;
+    border-radius: 50%;
+  }
+
+  .user-info-item {
+    cursor: default !important;
+    &:hover {
+      background: transparent !important;
+    }
+  }
+
+  .el-dropdown {
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 
@@ -250,45 +300,39 @@ onBeforeUnmount(() => {
 
 .quick-panel-enter {
   display: flex;
-  height: 26px;
-  width: 240px;
-  padding: 4px 16px;
+  height: 32px;
+  width: 200px;
+  padding: 6px 12px;
   margin-right: 16px;
   justify-content: space-between;
   align-items: center;
-  border-radius: var(--el-border-radius-base);
-  border: 1px solid transparent;
-  background: var(--color-primary-card-bg);
-  color: #a7abb1;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-card);
+  background: var(--color-bg-content);
+  color: var(--color-text-secondary);
   cursor: pointer;
-  font-family: 'PingFang SC';
+  transition: all 0.2s;
+
   &:hover {
     border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(61, 127, 249, 0.1);
   }
-  .enter-hd,
-  .enter-ft {
-    display: flex;
+
+  .kbd-key {
+    display: inline-flex;
     align-items: center;
-  }
-  .enter-hd {
-    font-size: 14px;
-    .el-icon {
-      margin-right: 10px;
-    }
-  }
-  .icon-key {
-    height: 20px;
-    min-width: 20px;
-    padding: 4px;
-    margin-left: 4px;
-    text-align: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     line-height: 1;
-    font-size: 11px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.14);
-    &.is-cmd {
-      font-size: 12px;
-    }
+    color: var(--color-text-secondary);
+    background: var(--color-bg-split);
+    border: 1px solid var(--color-border-card);
+    border-radius: 4px;
+    box-shadow: 0 1px 0 0 var(--color-border-card);
   }
 }
 
@@ -330,10 +374,10 @@ onBeforeUnmount(() => {
   background-color: transparent;
   border: 1px solid var(--color-border-primary);
   margin-right: 12px;
-  .el-icon {
+  .arrow-icon {
     padding-left: 10px;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
   &:hover {
     border: 1px solid var(--color-primary);
@@ -343,7 +387,9 @@ onBeforeUnmount(() => {
 .link-alarm {
   width: 24px;
   height: 24px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: inherit;
 }
 .settings-trigger {
@@ -354,17 +400,36 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 .link-help {
-  margin: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
 }
-.el-icon.bell,
-.el-icon.settings {
-  font-size: 21px;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  top: 1px;
-}
+.bell,
+.settings,
 .icon-question {
-  font-size: 21px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+</style>
+
+<style lang="scss">
+.user-dropdown {
+  .el-dropdown-menu {
+    min-width: 200px !important;
+  }
+
+  .el-dropdown-menu__item {
+    padding: 10px 16px !important;
+    display: flex;
+    align-items: center;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
   <el-tooltip :content="tooltipCon" placement="top" :hide-after="0">
-    <IconButton class="delete-button" :icon="Delete" :disabled="disableButton" v-bind="$attrs" />
+    <el-button class="icon-button delete-button" plain :disabled="disableButton" v-bind="$attrs">
+      <Icon icon="lucide:trash-2" />
+    </el-button>
   </el-tooltip>
 </template>
 
 <script setup lang="ts">
-import { Delete } from '@element-plus/icons-vue'
-
 const props = defineProps<{
   disabled?: boolean
   tooltipContent?: string

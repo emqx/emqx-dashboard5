@@ -101,10 +101,10 @@
           <div></div>
           <!-- TODO:router -->
           <el-button
-            :icon="Setting"
             :disabled="!$hasPermission('put')"
             @click="$router.push({ name: 'log', query: { tab: 'audit' } })"
           >
+            <Icon icon="lucide:settings" class="mr-2" />
             {{ t('Base.setting') }}
           </el-button>
         </div>
@@ -181,7 +181,6 @@ import {
   AuditLogOperationResult,
   GetAuditParams,
 } from '@/types/typeAlias'
-import { Setting } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import resourceDictArr from './resource_dict.json'
 
