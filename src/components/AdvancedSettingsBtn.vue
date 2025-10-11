@@ -8,13 +8,11 @@
     @click="toggle"
   >
     {{ buttonText ?? tl('advancedSettings') }}
-    <el-icon :class="{ 'is-rotate': modelValue }"><ArrowRight /></el-icon>
+    <Icon icon="lucide:chevron-right" :class="{ 'is-rotate': modelValue }" class="icon-arrow" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ArrowRight } from '@element-plus/icons-vue'
-
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -41,10 +39,12 @@ const toggle = () => {
     padding-left: 0;
     padding-right: 0;
   }
-  .el-icon {
+  .icon-arrow {
     margin-left: 4px;
     transition: transform 0.3s;
     color: var(--color-text-placeholder);
+    width: 16px;
+    height: 16px;
     &.is-rotate {
       transform: rotate(90deg);
     }

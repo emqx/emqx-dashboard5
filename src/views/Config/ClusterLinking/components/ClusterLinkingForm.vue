@@ -64,18 +64,20 @@
                   >
                     <el-button
                       class="btn-del"
-                      :icon="Delete"
                       :disabled="disabledEditTopic($index) || !$hasPermission('delete')"
                       @click="delTopic($index)"
-                    />
+                    >
+                      <Icon icon="lucide:trash-2" class="w-4 h-4" />
+                    </el-button>
                   </el-tooltip>
                   <el-button
                     v-if="$index === record.topics.length - 1"
                     class="btn-add"
-                    :icon="Plus"
                     :disabled="!$hasPermission('post')"
                     @click="addTopic"
-                  />
+                  >
+                    <Icon icon="lucide:plus" class="w-4 h-4" />
+                  </el-button>
                 </div>
               </el-form-item>
             </li>
@@ -83,10 +85,11 @@
           <el-button
             v-if="!record.topics.length"
             class="btn-add"
-            :icon="Plus"
             :disabled="!$hasPermission('post')"
             @click="addTopic"
-          />
+          >
+            <Icon icon="lucide:plus" class="w-4 h-4" />
+          </el-button>
         </el-form-item>
       </el-col>
     </el-row>
@@ -163,7 +166,6 @@
 
 <script setup lang="ts">
 import { ClusterLinkingForm } from '@/types/typeAlias'
-import { Delete, Plus } from '@element-plus/icons-vue'
 
 const props = defineProps<{
   modelValue: ClusterLinkingForm

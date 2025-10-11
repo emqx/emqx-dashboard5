@@ -10,11 +10,8 @@
           <span>{{ tl('setUpWebhook') }}</span>
         </LinkButton>
       </el-tooltip>
-      <LinkButton
-        :icon="Setting"
-        :to="{ name: 'alarm-settings' }"
-        :disabled="!$hasPermission('put')"
-      >
+      <LinkButton :to="{ name: 'alarm-settings' }" :disabled="!$hasPermission('put')">
+        <Icon icon="lucide:settings" class="mr-2" />
         {{ $t('Base.setting') }}
       </LinkButton>
       <RefreshButton :disabled="!$hasPermission('get')" @click="loadData({ page: 1 })" />
@@ -77,7 +74,6 @@ export default defineComponent({
 <script lang="ts" setup>
 import { deactivateAlarm, loadAlarm } from '@/api/common'
 import commonPagination from '../../components/commonPagination.vue'
-import { Setting } from '@element-plus/icons-vue'
 
 const { tl } = useI18nTl('Alarm')
 

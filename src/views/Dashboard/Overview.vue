@@ -7,7 +7,7 @@
             <!-- Rate Cards -->
             <div class="stat-card rate-card-in">
               <div class="stat-header">
-                <el-icon class="stat-icon"><Top /></el-icon>
+                <Icon icon="lucide:arrow-down" class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.currentMessageInRate') }}</span>
               </div>
               <div class="stat-value">
@@ -27,7 +27,7 @@
 
             <div class="stat-card rate-card-out">
               <div class="stat-header">
-                <el-icon class="stat-icon"><Bottom /></el-icon>
+                <Icon icon="lucide:arrow-up" class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.currentMessageOutRate') }}</span>
               </div>
               <div class="stat-value">
@@ -43,7 +43,7 @@
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'clients' }">
                 <div class="stat-header">
-                  <el-icon class="stat-icon"><Connection /></el-icon>
+                  <Icon icon="lucide:network" class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.allConnections') }}</span>
                 </div>
                 <div class="stat-value">
@@ -58,7 +58,7 @@
                 :to="{ name: 'clients', query: { conn_state: 'connected' } }"
               >
                 <div class="stat-header">
-                  <el-icon class="stat-icon"><Link /></el-icon>
+                  <Icon icon="lucide:activity" class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.liveConnections') }}</span>
                 </div>
                 <div class="stat-value">
@@ -73,7 +73,7 @@
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'subscription' }">
                 <div class="stat-header">
-                  <el-icon class="stat-icon"><Bell /></el-icon>
+                  <Icon icon="lucide:bell" class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.subscriptionNumber') }}</span>
                 </div>
                 <div class="stat-value">
@@ -85,7 +85,7 @@
 
               <div class="stat-item">
                 <div class="stat-header">
-                  <el-icon class="stat-icon"><Share /></el-icon>
+                  <Icon icon="lucide:share-2" class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.shareSubscription') }}</span>
                 </div>
                 <div class="stat-value">
@@ -99,7 +99,7 @@
             <!-- Topics -->
             <router-link class="stat-card" :to="{ name: 'topics' }">
               <div class="stat-header">
-                <el-icon class="stat-icon"><ChatDotRound /></el-icon>
+                <Icon icon="lucide:hash" class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.topics') }}</span>
               </div>
               <div class="stat-value">
@@ -110,7 +110,7 @@
             <!-- Retained -->
             <router-link class="stat-card" :to="{ name: 'retained' }">
               <div class="stat-header">
-                <el-icon class="stat-icon"><Collection /></el-icon>
+                <Icon icon="lucide:archive" class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.retained') }}</span>
               </div>
               <div class="stat-value">
@@ -142,16 +142,6 @@ import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import dayjs from 'dayjs'
 import { loadCurrentMetrics } from '@/api/common'
-import {
-  Connection,
-  Link,
-  Bell,
-  Share,
-  ChatDotRound,
-  Collection,
-  Top,
-  Bottom,
-} from '@element-plus/icons-vue'
 
 interface MetricData {
   x: Array<string>
@@ -366,8 +356,11 @@ syncPolling(loadData, POLLING_INTERVAL)
 
   .stat-icon {
     font-size: 18px;
+    width: 18px;
+    height: 18px;
     color: var(--color-text-secondary);
     transition: all 0.2s ease;
+    flex-shrink: 0;
   }
 
   .stat-label {

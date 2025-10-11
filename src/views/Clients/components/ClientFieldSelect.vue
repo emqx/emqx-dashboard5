@@ -4,7 +4,10 @@
     class="client-field-select"
     @visible-change="dropdownVisibleChanged"
   >
-    <el-button :icon="Setting"> {{ t('Base.selectColumn') }} </el-button>
+    <el-button>
+      <Icon icon="lucide:columns-3" class="mr-2" />
+      {{ t('Base.selectColumn') }}
+    </el-button>
     <template #dropdown>
       <div class="client-field-select-dropdown">
         <el-scrollbar max-height="320px">
@@ -29,8 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { Setting } from '@element-plus/icons-vue'
-
 const { t, tl } = useI18nTl('Clients')
 
 const props = defineProps<{

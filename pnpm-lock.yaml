@@ -135,6 +135,12 @@ importers:
         specifier: ^1.0.14
         version: 1.0.15
     devDependencies:
+      '@iconify-json/lucide':
+        specifier: ^1.2.69
+        version: 1.2.69
+      '@iconify/vue':
+        specifier: ^5.0.0
+        version: 5.0.0(vue@3.5.4(typescript@5.5.4))
       '@types/crypto-js':
         specifier: ^4.1.1
         version: 4.2.2
@@ -748,6 +754,17 @@ packages:
   '@ibm-cloud/openapi-ruleset@1.21.1':
     resolution: {integrity: sha512-l0Sj8LkOwIGB5vABqiToW3Uvr6mwmI2Rc2QOAu2G6jKL3BtVYCAXS8adN3BOSzUUWZSaaimF3dnDYvv7HRXrSg==}
     engines: {node: '>=16.0.0'}
+
+  '@iconify-json/lucide@1.2.69':
+    resolution: {integrity: sha512-xOhNf74m+C+nSCObfEqYi34dXk1GMfMUcOB+gfqKY/bn0RcsPLinGfgouOvrUFEreDEFbCti7sdheTf5HESLTA==}
+
+  '@iconify/types@2.0.0':
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+
+  '@iconify/vue@5.0.0':
+    resolution: {integrity: sha512-C+KuEWIF5nSBrobFJhT//JS87OZ++QDORB6f2q2Wm6fl2mueSTpFBeBsveK0KW9hWiZ4mNiPjsh6Zs4jjdROSg==}
+    peerDependencies:
+      vue: '>=3'
 
   '@intlify/core-base@9.14.0':
     resolution: {integrity: sha512-zJn0imh9HIsZZUtt9v8T16PeVstPv6bP2YzlrYJwoF8F30gs4brZBwW2KK6EI5WYKFi3NeqX6+UU4gniz5TkGg==}
@@ -4342,6 +4359,17 @@ snapshots:
       validator: 13.12.0
     transitivePeerDependencies:
       - encoding
+
+  '@iconify-json/lucide@1.2.69':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify/types@2.0.0': {}
+
+  '@iconify/vue@5.0.0(vue@3.5.4(typescript@5.5.4))':
+    dependencies:
+      '@iconify/types': 2.0.0
+      vue: 3.5.4(typescript@5.5.4)
 
   '@intlify/core-base@9.14.0':
     dependencies:

@@ -1,6 +1,17 @@
 <template>
-  <el-button :icon="Refresh" v-if="noText"></el-button>
-  <el-button :icon="Refresh" v-else>
+  <el-button v-if="noText" @click="handleClick">
+    <Icon
+      icon="lucide:refresh-cw"
+      :class="isSpinning ? 'animate-spin' : ''"
+      class="transition-transform duration-600"
+    />
+  </el-button>
+  <el-button v-else @click="handleClick">
+    <Icon
+      icon="lucide:refresh-cw"
+      :class="isSpinning ? 'animate-spin' : ''"
+      class="mr-2 transition-transform duration-600"
+    />
     <template v-if="!$slots.default">
       {{ t('Base.refresh') }}
     </template>
@@ -9,13 +20,17 @@
 </template>
 
 <script setup lang="ts">
-import { Refresh } from '@element-plus/icons-vue'
-
 defineProps<{
   noText?: boolean
 }>()
 
 const { t } = useI18n()
-</script>
+const isSpinning = ref(false)
 
-<style lang="scss"></style>
+const handleClick = () => {
+  isSpinning.value = true
+  setTimeout(() => {
+    isSpinning.value = false
+  }, 600)
+}
+</script>

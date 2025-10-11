@@ -19,11 +19,8 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <LinkButton
-          :icon="Setting"
-          :disabled="!$hasPermission('put')"
-          :to="{ name: 'mqtt-retainer' }"
-        >
+        <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-retainer' }">
+          <Icon icon="lucide:settings" class="mr-2" />
           {{ t('Base.setting') }}
         </LinkButton>
         <DangerButton
@@ -90,7 +87,7 @@ import {
   getRetainerTopic,
 } from '@/api/extension'
 import { RetainerMessage } from '@/types/extension'
-import { Remove, Setting } from '@element-plus/icons-vue'
+import { Remove } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')

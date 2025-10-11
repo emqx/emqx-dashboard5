@@ -10,7 +10,9 @@
         ></el-option>
       </el-select>
       <el-tooltip :content="tl('resetMonitorData')" placement="top">
-        <el-button class="icon-button" :icon="Close" @click="resetMetrics"></el-button>
+        <el-button class="icon-button" @click="resetMetrics">
+          <Icon icon="lucide:rotate-ccw" />
+        </el-button>
       </el-tooltip>
     </div>
     <div class="block">
@@ -21,10 +23,13 @@
               <div class="card-title">
                 <span>{{ item.text }}</span>
                 <div class="icons-container">
-                  <el-icon v-if="item.value === ChartType.Dropped" @click="openDropDetailDialog">
-                    <data-analysis />
-                  </el-icon>
-                  <el-icon @click="showChartDetails(item)"><full-screen /></el-icon>
+                  <Icon
+                    v-if="item.value === ChartType.Dropped"
+                    icon="lucide:chart-no-axes-combined"
+                    @click="openDropDetailDialog"
+                    class="icon-btn"
+                  />
+                  <Icon icon="lucide:maximize-2" @click="showChartDetails(item)" class="icon-btn" />
                 </div>
               </div>
               <polyline-chart
@@ -47,7 +52,7 @@
               <div class="card-title">
                 <span>{{ item.text }}</span>
                 <div class="icons-container">
-                  <el-icon @click="showChartDetails(item)"><full-screen /></el-icon>
+                  <Icon icon="lucide:maximize-2" @click="showChartDetails(item)" class="icon-btn" />
                 </div>
               </div>
               <polyline-chart
@@ -130,7 +135,6 @@ import PolylineChart from './PolylineChart.vue'
 import { loadChartData, loadMetrics as loadDroppedDetail, resetMonitorData } from '@/api/common'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
-import { Close, FullScreen, DataAnalysis } from '@element-plus/icons-vue'
 import DroppedDetailDialog from './DroppedDetailDialog.vue'
 
 const POLLING_INTERVAL = 60000
@@ -417,9 +421,13 @@ syncPolling(loadMetrics, POLLING_INTERVAL)
       .icons-container {
         visibility: hidden;
         color: var(--color-text-primary);
-        .el-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .icon-btn {
           cursor: pointer;
-          margin-left: 8px;
+          width: 16px;
+          height: 16px;
           &:hover {
             color: var(--color-primary);
           }

@@ -91,42 +91,42 @@ const useMenus = (): {
   const totalMenuList = [
     {
       title: 'monitoring',
-      icon: 'icon-monitoring',
+      icon: 'lucide:gauge',
       children: monitoring,
     },
     {
       title: 'auth',
-      icon: 'icon-authentication',
+      icon: 'lucide:shield-check',
       children: accessControl,
     },
     {
       title: 'ruleengine',
-      icon: 'icon-integration',
+      icon: 'lucide:workflow',
       children: integration,
     },
     {
       title: 'smart-data-hub',
-      icon: 'icon-a-SmartDataHub',
+      icon: 'lucide:database',
       children: smartDataHub,
     },
     {
       title: 'message-queue',
-      icon: 'icon-a-messagequeue',
+      icon: 'lucide:messages-square',
       path: '/message-queue',
     },
     {
       title: 'management',
-      icon: 'icon-configuration',
+      icon: 'lucide:settings',
       children: management,
     },
     {
       title: 'diagnose',
-      icon: 'icon-diagnosis',
+      icon: 'lucide:stethoscope',
       children: diagnose,
     },
     {
       title: 'system',
-      icon: 'icon-system',
+      icon: 'lucide:server',
       children: system,
     },
   ]

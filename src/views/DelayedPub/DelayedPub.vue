@@ -2,7 +2,8 @@
   <div class="app-wrapper delayed-pub" v-loading="tbLoading">
     <div class="section-header">
       <div></div>
-      <el-button :icon="Setting" :disabled="!$hasPermission('put')" @click="goSetting">
+      <el-button :disabled="!$hasPermission('put')" @click="goSetting">
+        <Icon icon="lucide:settings" class="mr-2" />
         {{ $t('Base.setting') }}
       </el-button>
     </div>
@@ -46,7 +47,6 @@
 <script lang="ts" setup>
 import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
 import { DelayedMessage } from '@/types/extension'
-import { Setting } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
 
 const { tl, t } = useI18nTl('Extension')

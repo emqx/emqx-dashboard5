@@ -12,7 +12,8 @@
         :on-error="handleUploadError"
         :http-request="customUploadRequest"
       >
-        <el-button plain :icon="Upload" :disabled="!$hasPermission('post')" :loading="uploading">
+        <el-button plain :disabled="!$hasPermission('post')" :loading="uploading">
+          <Icon icon="lucide:upload" class="mr-2" />
           {{ tl('upload') }}
         </el-button>
       </el-upload>
@@ -62,7 +63,6 @@ import {
 } from '@/api/systemModule'
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
-import { Upload } from '@element-plus/icons-vue'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import {
   ElMessage,

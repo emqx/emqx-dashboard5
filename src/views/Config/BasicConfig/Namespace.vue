@@ -9,9 +9,9 @@
         <DangerButton
           class="kick-btn"
           :disabled="selectedNamespace.length === 0 || !$hasPermission('delete')"
-          :icon="Delete"
           @click="batchDeleteNamespace"
         >
+          <Icon icon="lucide:trash-2" class="mr-2" />
           {{ tl('batchDelete') }}
         </DangerButton>
         <SettingsButton @click="isConfigsDrawerVisible = true" />
@@ -143,7 +143,6 @@ import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
 import NamespaceDialog from './components/NamespaceDialog.vue'
 import { last } from 'lodash'
-import { Delete } from '@element-plus/icons-vue'
 
 const { tl, t } = useI18nTl('BasicConfig')
 

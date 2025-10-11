@@ -19,28 +19,28 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item command="moveUp" :disabled="position === 0 || !$hasPermission('put')">
-            <el-icon><ArrowUp /></el-icon>
+            <Icon icon="lucide:chevron-up" class="w-4 h-4 mr-2" />
             {{ $t('Base.up') }}
           </el-dropdown-item>
           <el-dropdown-item
             command="moveDown"
             :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
           >
-            <el-icon><ArrowDown /></el-icon>
+            <Icon icon="lucide:chevron-down" class="w-4 h-4 mr-2" />
             {{ $t('Base.down') }}
           </el-dropdown-item>
           <el-dropdown-item
             command="moveToTop"
             :disabled="position === 0 || !$hasPermission('put')"
           >
-            <el-icon><Top /></el-icon>
+            <Icon icon="lucide:chevrons-up" class="w-4 h-4 mr-2" />
             {{ $t('Base.moveToTop') }}
           </el-dropdown-item>
           <el-dropdown-item
             command="moveToBottom"
             :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
           >
-            <el-icon><Bottom /></el-icon>
+            <Icon icon="lucide:chevrons-down" class="w-4 h-4 mr-2" />
             {{ $t('Base.moveToBottom') }}
           </el-dropdown-item>
           <el-dropdown-item
@@ -48,7 +48,7 @@
             command="delete"
             v-if="isAuthItem"
           >
-            <el-icon><Delete /></el-icon>
+            <Icon icon="lucide:trash-2" class="w-4 h-4 mr-2" />
             {{ $t('Base.delete') }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -58,12 +58,12 @@
 </template>
 
 <script lang="ts">
-import { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { CaretBottom } from '@element-plus/icons-vue'
 import { AuthnItem } from '@/types/auth'
 
 export default defineComponent({
   name: 'TableDropdown',
-  components: { Top, Bottom, Delete, CaretBottom, ArrowUp, ArrowDown },
+  components: { CaretBottom },
   props: {
     tableDataLen: {
       required: true,

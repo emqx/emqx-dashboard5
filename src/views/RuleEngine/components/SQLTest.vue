@@ -74,7 +74,8 @@
                 >
                   {{ tl('testsql') }}
                 </el-button>
-                <el-button plain :icon="RefreshLeft" @click="resetContext">
+                <el-button plain @click="resetContext">
+                  <Icon icon="lucide:rotate-ccw" class="mr-2" />
                   {{ t('Base.reset') }}
                 </el-button>
               </div>
@@ -102,7 +103,7 @@
 import { testsql } from '@/api/ruleengine'
 import { TestRuleTarget } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-import { CaretRight, CopyDocument, RefreshLeft } from '@element-plus/icons-vue'
+import { CaretRight, CopyDocument } from '@element-plus/icons-vue'
 import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'

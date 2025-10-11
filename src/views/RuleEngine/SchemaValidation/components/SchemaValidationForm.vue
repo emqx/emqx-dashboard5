@@ -117,10 +117,11 @@
                   <div class="space-between">
                     <el-button
                       class="btn-del"
-                      :icon="Delete"
                       :disabled="!$hasPermission('delete')"
                       @click="deleteValidationItem($index)"
-                    />
+                    >
+                      <Icon icon="lucide:trash-2" class="w-4 h-4" />
+                    </el-button>
                     <template
                       v-if="
                         formData.checks[$index].type &&
@@ -130,10 +131,11 @@
                       <el-tooltip :content="t('components.schema-create')" placement="top">
                         <el-button
                           class="btn-add"
-                          :icon="Plus"
                           :disabled="!$hasPermission('post')"
                           @click="addSchema($index)"
-                        />
+                        >
+                          <Icon icon="lucide:plus" class="w-4 h-4" />
+                        </el-button>
                       </el-tooltip>
                     </template>
                   </div>
@@ -207,7 +209,6 @@ import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { SchemaValidation, SchemaValidationCheckItem } from '@/types/typeAlias'
 import { SchemaValidationLogLevel } from '@/types/typeAlias'
-import { Delete, Plus } from '@element-plus/icons-vue'
 import {
   PropType,
   WritableComputedRef,

@@ -26,11 +26,16 @@
         <el-tooltip :content="$t('Base.refresh')" placement="top">
           <RefreshButton class="icon-button" no-text @click="loadData" />
         </el-tooltip>
-        <DeleteButton
+        <el-tooltip
           v-if="doesTheClientExist"
-          :tooltip-content="record.connected ? tl('kickOut') : tl('cleanSession')"
-          @click="handleDisconnect"
-        />
+          :content="record.connected ? tl('kickOut') : tl('cleanSession')"
+          placement="top"
+          :hide-after="0"
+        >
+          <el-button class="icon-button delete-button" plain @click="handleDisconnect">
+            <Icon icon="lucide:user-x" />
+          </el-button>
+        </el-tooltip>
       </div>
     </div>
     <template v-if="doesTheClientExist">
@@ -197,7 +202,7 @@
       />
     </template>
     <div class="client-does-not-exist" v-else>
-      <el-icon><Warning /></el-icon>
+      <Icon icon="lucide:triangle-alert" class="warning-icon" />
       <span>{{ tl('clientDoesNotExist') }}</span>
     </div>
   </div>
@@ -223,7 +228,6 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
-import { Warning } from '@element-plus/icons-vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
 import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
@@ -670,8 +674,10 @@ loadSubs()
     display: flex;
     align-items: center;
     justify-content: center;
-    i {
+    .warning-icon {
       margin-right: 8px;
+      width: 16px;
+      height: 16px;
     }
   }
   .subs.el-table {

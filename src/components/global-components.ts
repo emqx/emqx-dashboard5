@@ -9,6 +9,7 @@ import {
   LinkButton,
 } from './Buttons'
 import { App } from 'vue'
+import { Icon } from '@iconify/vue'
 
 export default {
   install(app: App): void {
@@ -20,6 +21,7 @@ export default {
     app.component('ResetButton', ResetButton)
     app.component('ShowMoreButton', ShowMoreButton)
     app.component('LinkButton', LinkButton)
+    app.component('Icon', Icon)
   },
 }
 

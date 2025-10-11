@@ -19,12 +19,9 @@
                   <el-popover placement="bottom" popper-class="is-wider" :width="360">
                     <div class="space-between">
                       <span>{{ totpSecret }}</span>
-                      <el-button
-                        type="primary"
-                        link
-                        :icon="CopyDocument"
-                        @click="copyText(totpSecret)"
-                      />
+                      <el-button type="primary" link @click="copyText(totpSecret)">
+                        <Icon icon="lucide:copy" class="w-4 h-4" />
+                      </el-button>
                     </div>
                     <template #reference>
                       <el-button type="primary" link class="setup-key-btn">
@@ -209,7 +206,11 @@
         </div>
         <!-- LDAP Login -->
         <div v-else-if="currentLoginBackend === 'ldap'" class="login-wrapper ldap-login">
-          <el-page-header :icon="ArrowLeft" @back="currentLoginBackend = 'local'"> </el-page-header>
+          <el-page-header @back="currentLoginBackend = 'local'">
+            <template #icon>
+              <Icon icon="lucide:arrow-left" class="w-5 h-5" />
+            </template>
+          </el-page-header>
           <div class="form-hd">
             <h1>{{ $t('Base.ldapLogin') }}</h1>
           </div>
@@ -328,7 +329,6 @@ import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { LoginResponse } from '@/types/typeAlias'
-import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 interface MFAError {

@@ -1,7 +1,11 @@
 <template>
   <el-card class="node-list-popover with-border">
     <div class="popover-hd">
-      <el-input v-model="filter" :prefix-icon="Search" />
+      <el-input v-model="filter">
+        <template #prefix>
+          <Icon icon="lucide:search" class="w-4 h-4" />
+        </template>
+      </el-input>
     </div>
     <div class="popover-bd">
       <div class="list-block" v-for="(value, key) in nodeList" :key="key">
@@ -22,7 +26,6 @@
 
 <script setup lang="ts">
 import { NodeInfo } from '@/types/dashboard'
-import { Search } from '@element-plus/icons-vue'
 
 interface NodeList {
   core: Array<NodeInfo>

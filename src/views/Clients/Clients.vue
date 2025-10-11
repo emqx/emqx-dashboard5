@@ -82,16 +82,17 @@
       <div class="section-header">
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
-        <el-button class="export-btn" :icon="Download" @click="handleExport">
+        <el-button class="export-btn" @click="handleExport">
+          <Icon icon="lucide:download" class="mr-2" />
           {{ tl('export') }}
         </el-button>
         <DangerButton
           class="kick-btn"
-          :icon="Delete"
           :loading="batchDeleteLoading"
           :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           @click="cleanBatchClients"
         >
+          <Icon icon="lucide:user-x" class="mr-2" />
           {{ tl('kickOut') }}
         </DangerButton>
         <RefreshButton @click="loadNodeClients" />
@@ -193,7 +194,6 @@ import {
 } from '@/common/constants'
 import { Client } from '@/types/client'
 import { CheckStatus, ClientsExportFormat } from '@/types/enum'
-import { Delete, Download } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'

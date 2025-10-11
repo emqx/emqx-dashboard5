@@ -2,7 +2,11 @@
   <div class="flow flow-editor">
     <div class="nodes-panel">
       <div class="search-bar">
-        <el-input placeholder="Search" :suffix-icon="Search" clearable v-model="searchText" />
+        <el-input placeholder="Search" clearable v-model="searchText">
+          <template #suffix>
+            <Icon icon="lucide:search" class="w-4 h-4" />
+          </template>
+        </el-input>
       </div>
       <el-collapse
         v-if="nodeArr.length"
@@ -115,7 +119,7 @@
 
 <script setup lang="ts">
 import { NodeType } from '@/hooks/Flow/useFlowNode'
-import { CircleCloseFilled, Search } from '@element-plus/icons-vue'
+import { CircleCloseFilled } from '@element-plus/icons-vue'
 import { FlowEdge } from '@emqx/shared-ui-components'
 import { FallbackActionKind } from '@emqx/shared-ui-constants'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
