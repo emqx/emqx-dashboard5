@@ -14,7 +14,7 @@
       </el-tooltip>
     </div>
     <div class="block">
-      <el-row :gutter="26">
+      <el-row :gutter="16">
         <template v-for="item in messageDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
@@ -40,7 +40,7 @@
       </el-row>
     </div>
     <div class="block">
-      <el-row :gutter="26">
+      <el-row :gutter="16">
         <template v-for="item in connectionDataTypeFilter" :key="item.value">
           <el-col :span="8">
             <el-card class="polyline-card">
@@ -137,7 +137,7 @@ const POLLING_INTERVAL = 60000
 
 type ChartData = Array<{
   xData: Array<number>
-  yData: Array<number | undefined>
+  yData: Array<number>
 }>
 
 // Define an interface for the structure you expect
@@ -346,7 +346,7 @@ const openedFullScreen = async () => {
   fullScreenChart.value?.chart?.resize()
 }
 
-const calculateStatistics = (data: Array<number | null>) => {
+const calculateStatistics = (data: Array<number>) => {
   const validData: Array<number> = data.filter(
     (item) => isNumber(item) && item !== -1,
   ) as Array<number>
