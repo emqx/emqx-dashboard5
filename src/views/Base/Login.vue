@@ -660,7 +660,7 @@ const submitWithAuthCode = async () => {
   .el-row {
     height: 100%;
     .el-col.intro {
-      background-color: var(--color-bg);
+      background-color: #212429;
       position: relative;
       .logo {
         padding: 32px;
