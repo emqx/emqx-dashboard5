@@ -1,16 +1,3 @@
-export type DeleteSchemaRegistryName404Code =
-  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaRegistryName404 = {
-  code?: DeleteSchemaRegistryName404Code
-  message?: string
-}
-
 export type PutSchemaRegistryName404Code =
   (typeof PutSchemaRegistryName404Code)[keyof typeof PutSchemaRegistryName404Code]
 
@@ -34,6 +21,25 @@ export const GetSchemaRegistryName404Code = {
 
 export type GetSchemaRegistryName404 = {
   code?: GetSchemaRegistryName404Code
+  message?: string
+}
+
+export type GetSchemaRegistryName200 =
+  | SchemaRegistryGetAvro
+  | SchemaRegistryGetExternalHttp
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+
+export type DeleteSchemaRegistryName404Code =
+  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteSchemaRegistryName404 = {
+  code?: DeleteSchemaRegistryName404Code
   message?: string
 }
 
@@ -116,18 +122,6 @@ export interface SchemaRegistryProtobuf {
   source: string
   type: SchemaRegistryProtobufType
 }
-
-export type PutSchemaRegistryName200 =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
-
-export type PutSchemaRegistryNameBody =
-  | SchemaRegistryAvro
-  | SchemaRegistryExternalHttp
-  | SchemaRegistryJson
-  | SchemaRegistryProtobuf
 
 export type SchemaRegistryPostProtobufType =
   (typeof SchemaRegistryPostProtobufType)[keyof typeof SchemaRegistryPostProtobufType]
@@ -215,6 +209,18 @@ export interface SchemaRegistryJson {
   type: SchemaRegistryJsonType
 }
 
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryAvro
+  | SchemaRegistryExternalHttp
+  | SchemaRegistryJson
+  | SchemaRegistryProtobuf
+
 export type SchemaRegistryGetProtobufType =
   (typeof SchemaRegistryGetProtobufType)[keyof typeof SchemaRegistryGetProtobufType]
 
@@ -276,12 +282,6 @@ export interface SchemaRegistryGetAvro {
   source: string
   type: SchemaRegistryGetAvroType
 }
-
-export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetAvro
-  | SchemaRegistryGetExternalHttp
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
 
 export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType =
   (typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType)[keyof typeof SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType]

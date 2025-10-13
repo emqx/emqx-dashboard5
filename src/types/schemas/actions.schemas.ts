@@ -159,50 +159,6 @@ export type PostActionsIdOperation400 = {
   message?: string
 }
 
-export type DeleteActionsId503Code =
-  (typeof DeleteActionsId503Code)[keyof typeof DeleteActionsId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteActionsId503 = {
-  code?: DeleteActionsId503Code
-  message?: string
-}
-
-export type DeleteActionsId404Code =
-  (typeof DeleteActionsId404Code)[keyof typeof DeleteActionsId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteActionsId404 = {
-  code?: DeleteActionsId404Code
-  message?: string
-}
-
-export type DeleteActionsId400Code =
-  (typeof DeleteActionsId400Code)[keyof typeof DeleteActionsId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteActionsId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteActionsId400 = {
-  code?: DeleteActionsId400Code
-  message?: string
-  rules?: string[]
-}
-
-export type DeleteActionsIdParams = {
-  also_delete_dep_actions?: boolean
-}
-
 export type PutActionsId503Code = (typeof PutActionsId503Code)[keyof typeof PutActionsId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -364,6 +320,50 @@ export type GetActionsId200 =
   | RedisGetBridgeV2
   | RocketmqGetBridgeV2
   | SyskeeperGetBridgeV2
+
+export type DeleteActionsId503Code =
+  (typeof DeleteActionsId503Code)[keyof typeof DeleteActionsId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteActionsId503 = {
+  code?: DeleteActionsId503Code
+  message?: string
+}
+
+export type DeleteActionsId404Code =
+  (typeof DeleteActionsId404Code)[keyof typeof DeleteActionsId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteActionsId404 = {
+  code?: DeleteActionsId404Code
+  message?: string
+}
+
+export type DeleteActionsId400Code =
+  (typeof DeleteActionsId400Code)[keyof typeof DeleteActionsId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteActionsId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteActionsId400 = {
+  code?: DeleteActionsId400Code
+  message?: string
+  rules?: string[]
+}
+
+export type DeleteActionsIdParams = {
+  also_delete_dep_actions?: boolean
+}
 
 export type PostActionsProbe400Code =
   (typeof PostActionsProbe400Code)[keyof typeof PostActionsProbe400Code]

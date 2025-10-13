@@ -417,7 +417,7 @@ export type GetConfigs400 = {
   message?: string
 }
 
-export type GetConfigs200Two = { [key: string]: unknown }
+export type GetConfigs200One = { [key: string]: unknown }
 
 export type GetConfigsKey = (typeof GetConfigsKey)[keyof typeof GetConfigsKey]
 

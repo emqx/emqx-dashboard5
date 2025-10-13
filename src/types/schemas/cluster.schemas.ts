@@ -24,19 +24,6 @@ export type GetClusterLinksLinkNameMetrics404 = {
   message?: string
 }
 
-export type DeleteClusterLinksLinkName404Code =
-  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClusterLinksLinkName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteClusterLinksLinkName404 = {
-  code?: DeleteClusterLinksLinkName404Code
-  message?: string
-}
-
 export type PutClusterLinksLinkName404Code =
   (typeof PutClusterLinksLinkName404Code)[keyof typeof PutClusterLinksLinkName404Code]
 
@@ -63,22 +50,6 @@ export type PutClusterLinksLinkName400 = {
   message?: string
 }
 
-export type PutClusterLinksLinkNameBody = {
-  clientid?: string
-  enable?: boolean
-  /** @minimum 0 */
-  max_inflight?: number
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: ClusterCreationOpts
-  retry_interval?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  topics: string[]
-  username?: string
-}
-
 export type GetClusterLinksLinkName404Code =
   (typeof GetClusterLinksLinkName404Code)[keyof typeof GetClusterLinksLinkName404Code]
 
@@ -89,6 +60,19 @@ export const GetClusterLinksLinkName404Code = {
 
 export type GetClusterLinksLinkName404 = {
   code?: GetClusterLinksLinkName404Code
+  message?: string
+}
+
+export type DeleteClusterLinksLinkName404Code =
+  (typeof DeleteClusterLinksLinkName404Code)[keyof typeof DeleteClusterLinksLinkName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClusterLinksLinkName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteClusterLinksLinkName404 = {
+  code?: DeleteClusterLinksLinkName404Code
   message?: string
 }
 
@@ -210,6 +194,22 @@ export interface EmqxSslClientOpts {
   verify?: EmqxSslClientOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
+}
+
+export type PutClusterLinksLinkNameBody = {
+  clientid?: string
+  enable?: boolean
+  /** @minimum 0 */
+  max_inflight?: number
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: ClusterCreationOpts
+  retry_interval?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  topics: string[]
+  username?: string
 }
 
 export interface ClusterTimeout {

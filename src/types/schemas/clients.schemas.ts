@@ -194,19 +194,6 @@ export type GetClientsClientidInflightMessagesParams = {
   limit?: PublicLimitParameter
 }
 
-export type DeleteClientsClientidAuthorizationCache404Code =
-  (typeof DeleteClientsClientidAuthorizationCache404Code)[keyof typeof DeleteClientsClientidAuthorizationCache404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClientsClientidAuthorizationCache404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
-} as const
-
-export type DeleteClientsClientidAuthorizationCache404 = {
-  code?: DeleteClientsClientidAuthorizationCache404Code
-  message?: string
-}
-
 export type GetClientsClientidAuthorizationCache404Code =
   (typeof GetClientsClientidAuthorizationCache404Code)[keyof typeof GetClientsClientidAuthorizationCache404Code]
 
@@ -220,16 +207,16 @@ export type GetClientsClientidAuthorizationCache404 = {
   message?: string
 }
 
-export type DeleteClientsClientid404Code =
-  (typeof DeleteClientsClientid404Code)[keyof typeof DeleteClientsClientid404Code]
+export type DeleteClientsClientidAuthorizationCache404Code =
+  (typeof DeleteClientsClientidAuthorizationCache404Code)[keyof typeof DeleteClientsClientidAuthorizationCache404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClientsClientid404Code = {
+export const DeleteClientsClientidAuthorizationCache404Code = {
   CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
-export type DeleteClientsClientid404 = {
-  code?: DeleteClientsClientid404Code
+export type DeleteClientsClientidAuthorizationCache404 = {
+  code?: DeleteClientsClientidAuthorizationCache404Code
   message?: string
 }
 
@@ -243,6 +230,19 @@ export const GetClientsClientid404Code = {
 
 export type GetClientsClientid404 = {
   code?: GetClientsClientid404Code
+  message?: string
+}
+
+export type DeleteClientsClientid404Code =
+  (typeof DeleteClientsClientid404Code)[keyof typeof DeleteClientsClientid404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClientsClientid404Code = {
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
+} as const
+
+export type DeleteClientsClientid404 = {
+  code?: DeleteClientsClientid404Code
   message?: string
 }
 

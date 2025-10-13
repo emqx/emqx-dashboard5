@@ -107,50 +107,6 @@ export type PostSourcesIdOperation400 = {
   message?: string
 }
 
-export type DeleteSourcesId503Code =
-  (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSourcesId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteSourcesId503 = {
-  code?: DeleteSourcesId503Code
-  message?: string
-}
-
-export type DeleteSourcesId404Code =
-  (typeof DeleteSourcesId404Code)[keyof typeof DeleteSourcesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSourcesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSourcesId404 = {
-  code?: DeleteSourcesId404Code
-  message?: string
-}
-
-export type DeleteSourcesId400Code =
-  (typeof DeleteSourcesId400Code)[keyof typeof DeleteSourcesId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSourcesId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteSourcesId400 = {
-  code?: DeleteSourcesId400Code
-  message?: string
-  rules?: string[]
-}
-
-export type DeleteSourcesIdParams = {
-  also_delete_dep_actions?: boolean
-}
-
 export type PutSourcesId503Code = (typeof PutSourcesId503Code)[keyof typeof PutSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -216,6 +172,50 @@ export type GetSourcesId200 =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+
+export type DeleteSourcesId503Code =
+  (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSourcesId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteSourcesId503 = {
+  code?: DeleteSourcesId503Code
+  message?: string
+}
+
+export type DeleteSourcesId404Code =
+  (typeof DeleteSourcesId404Code)[keyof typeof DeleteSourcesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSourcesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteSourcesId404 = {
+  code?: DeleteSourcesId404Code
+  message?: string
+}
+
+export type DeleteSourcesId400Code =
+  (typeof DeleteSourcesId400Code)[keyof typeof DeleteSourcesId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSourcesId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteSourcesId400 = {
+  code?: DeleteSourcesId400Code
+  message?: string
+  rules?: string[]
+}
+
+export type DeleteSourcesIdParams = {
+  also_delete_dep_actions?: boolean
+}
 
 export type PostSourcesProbe400Code =
   (typeof PostSourcesProbe400Code)[keyof typeof PostSourcesProbe400Code]

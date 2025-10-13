@@ -195,19 +195,6 @@ export type PostSsoLoginBackend200 = {
   version?: string
 }
 
-export type DeleteSsoBackend404Code =
-  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type DeleteSsoBackend404 = {
-  code?: DeleteSsoBackend404Code
-  message?: string
-}
-
 export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -236,7 +223,18 @@ export type GetSsoBackend404 = {
   message?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type DeleteSsoBackend404Code =
+  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type DeleteSsoBackend404 = {
+  code?: DeleteSsoBackend404Code
+  message?: string
+}
 
 export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvider]
 
@@ -283,6 +281,8 @@ export interface SsoOidc {
   secret: string
   session_expiry?: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 

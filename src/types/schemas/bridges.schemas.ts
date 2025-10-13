@@ -172,46 +172,6 @@ export type PostBridgesIdOperation400 = {
   message?: string
 }
 
-export type DeleteBridgesId503Code =
-  (typeof DeleteBridgesId503Code)[keyof typeof DeleteBridgesId503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteBridgesId503 = {
-  code?: DeleteBridgesId503Code
-  message?: string
-}
-
-export type DeleteBridgesId404Code =
-  (typeof DeleteBridgesId404Code)[keyof typeof DeleteBridgesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteBridgesId404 = {
-  code?: DeleteBridgesId404Code
-  message?: string
-}
-
-export type DeleteBridgesId400Code =
-  (typeof DeleteBridgesId400Code)[keyof typeof DeleteBridgesId400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteBridgesId400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteBridgesId400 = {
-  code?: DeleteBridgesId400Code
-  message?: string
-  rules?: string[]
-}
-
 export type PutBridgesId404Code = (typeof PutBridgesId404Code)[keyof typeof PutBridgesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -352,6 +312,46 @@ export type GetBridgesId200 =
   | BridgeTdengineGet
   | BridgeTimescaleGet
   | RocketmqGet
+
+export type DeleteBridgesId503Code =
+  (typeof DeleteBridgesId503Code)[keyof typeof DeleteBridgesId503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteBridgesId503 = {
+  code?: DeleteBridgesId503Code
+  message?: string
+}
+
+export type DeleteBridgesId404Code =
+  (typeof DeleteBridgesId404Code)[keyof typeof DeleteBridgesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteBridgesId404 = {
+  code?: DeleteBridgesId404Code
+  message?: string
+}
+
+export type DeleteBridgesId400Code =
+  (typeof DeleteBridgesId400Code)[keyof typeof DeleteBridgesId400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteBridgesId400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteBridgesId400 = {
+  code?: DeleteBridgesId400Code
+  message?: string
+  rules?: string[]
+}
 
 export type PostBridgesProbe400Code =
   (typeof PostBridgesProbe400Code)[keyof typeof PostBridgesProbe400Code]
@@ -594,33 +594,6 @@ export const RocketmqGetStatus = {
   inconsistent: 'inconsistent',
 } as const
 
-export interface RocketmqGet {
-  access_key?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  enable?: boolean
-  local_topic?: string
-  name: string
-  namespace?: string
-  node_status?: BridgeNodeStatus[]
-  /** @minimum 1 */
-  pool_size?: number
-  refresh_interval?: string
-  resource_opts?: ResourceSchemaCreationOpts
-  secret_key?: string
-  security_token?: string
-  send_buffer?: string
-  servers: string
-  ssl?: EmqxSslClientOpts
-  status?: RocketmqGetStatus
-  status_reason?: string
-  strategy?: RocketmqGetStrategy
-  sync_timeout?: string
-  template?: string
-  topic?: string
-  type: RocketmqGetType
-}
-
 export type ResourceSchemaCreationOptsRequestTtl = 'infinity' | string
 
 export type ResourceSchemaCreationOptsQueryMode =
@@ -740,8 +713,43 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
+export interface RocketmqGet {
+  access_key?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  enable?: boolean
+  local_topic?: string
+  name: string
+  namespace?: string
+  node_status?: BridgeNodeStatus[]
+  /** @minimum 1 */
+  pool_size?: number
+  refresh_interval?: string
+  resource_opts?: ResourceSchemaCreationOpts
+  secret_key?: string
+  security_token?: string
+  send_buffer?: string
+  servers: string
+  ssl?: EmqxSslClientOpts
+  status?: RocketmqGetStatus
+  status_reason?: string
+  strategy?: RocketmqGetStrategy
+  sync_timeout?: string
+  template?: string
+  topic?: string
+  type: RocketmqGetType
+}
+
+export interface ConnectorMqttStaticClientidEntryTuple {
+  clientid: string
+  password?: string
+  username?: string
+}
+
+export type ConnectorMqttStaticClientidEntryIdsItem = ConnectorMqttStaticClientidEntryTuple | string
+
 export interface ConnectorMqttStaticClientidEntry {
-  ids: string[]
+  ids: ConnectorMqttStaticClientidEntryIdsItem[]
   node: string
 }
 
