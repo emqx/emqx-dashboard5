@@ -10,7 +10,9 @@
       <el-col :span="8" v-for="{ link, icon, title } in platformList" :key="link">
         <a :href="link" target="_blank">
           <el-card class="card-link" shadow="never">
-            <img :src="icon" />
+            <div class="card-icon">
+              <Icon :icon="icon" class="icon-platform" />
+            </div>
             <p class="text-title">{{ title }}</p>
           </el-card>
         </a>
@@ -86,9 +88,6 @@ export default defineComponent({
 <script setup lang="ts">
 import cloudIcon from '@/assets/img/cloud.png'
 import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
-import helpBlogIcon from '@/assets/img/help-blog.png'
-import helpDocIcon from '@/assets/img/help-doc.png'
-import helpForumIcon from '@/assets/img/help-forum.png'
 import { Right } from '@element-plus/icons-vue'
 import DocListCard from './components/DocListCard.vue'
 
@@ -113,17 +112,17 @@ const { docMap } = useDocLink()
 const platformList = [
   {
     link: docMap.documentation,
-    icon: helpDocIcon,
+    icon: 'lucide:book-open',
     title: tl('documentation'),
   },
   {
     link: docMap.forum,
-    icon: helpForumIcon,
+    icon: 'lucide:message-circle',
     title: tl('forum'),
   },
   {
     link: docMap.blog,
-    icon: helpBlogIcon,
+    icon: 'lucide:newspaper',
     title: tl('blog'),
   },
 ]
@@ -187,9 +186,19 @@ const handleLinkGo = (key: 'feedback' | 'contactUs') => {
       .el-card__body {
         text-align: center;
         padding: 16px;
-        img {
-          width: 32px;
-          height: 32px;
+        .card-icon {
+          width: 48px;
+          height: 48px;
+          margin: 0 auto 12px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--el-color-primary-light-9);
+        }
+        .icon-platform {
+          font-size: 24px;
+          color: var(--color-primary);
         }
         p {
           margin-bottom: 0;
