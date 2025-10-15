@@ -338,6 +338,14 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '如果启用，属于非显示创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
+  enableMessageQueue: {
+    zh: '启用消息队列',
+    en: 'Enable Message Queue',
+  },
+  maxQueueCount: {
+    zh: '最大队列数',
+    en: 'Max Queue Count',
+  },
   gcInterval: {
     zh: '垃圾回收间隔',
     en: 'GC Interval',
@@ -345,6 +353,22 @@ These clients must be manually kicked out if one wants them to abide to the new 
   regularQueueRetentionPeriod: {
     zh: '常规队列保留周期',
     en: 'Regular Queue Retention Period',
+  },
+  enableAutoCreateLastValueMQ: {
+    zh: '启用自动创建最后值语义消息队列',
+    en: 'Enable Auto Create Last Value Semantics Queue',
+  },
+  lastValueMQConf: {
+    zh: '最后值语义消息队列配置',
+    en: 'Last Value Semantics Message Queue Configuration',
+  },
+  enableAutoCreateRegularMQ: {
+    zh: '启用自动创建常规消息队列',
+    en: 'Enable Auto Create Regular Message Queue',
+  },
+  regularMQConf: {
+    zh: '常规消息队列配置',
+    en: 'Regular Message Queue Configuration',
   },
   shared_subs: {
     zh: '共享订阅',
