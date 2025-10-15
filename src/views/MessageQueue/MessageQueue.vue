@@ -1,7 +1,7 @@
 <template>
   <div class="message-queue-page">
-    <!-- 有数据时显示表格 -->
-    <template v-if="!noData || loading">
+    <MQGuidance v-if="showPlaceholder" :enabled="isMQEnabled" @create="handleCreate" />
+    <template v-else>
       <div class="app-wrapper">
         <div class="section-header">
           <div></div>
@@ -68,8 +68,6 @@
       </div>
     </template>
 
-    <MQGuidance v-else @create="handleCreate" />
-
     <MessageQueueDialog
       v-model="isDialogShow"
       :queue="currentMessageQueue"
@@ -79,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+import { getMessageQueueConfigs } from '@/api/config'
 import { deleteMessageQueue, getMessageQueues } from '@/api/messageQueue'
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import useMessageQueue from '@/hooks/MessageQueue/useMessageQueue'
@@ -89,8 +88,12 @@ import MQGuidance from './components/MQGuidance.vue'
 
 const { t, tl } = useI18nTl('MessageQueue')
 
+const isMQEnabled = ref(true)
+
 const loading = ref(false)
 const messageQueues = ref<MessageQueue[]>([])
+
+const showPlaceholder = computed(() => !loading.value && (noData.value || !isMQEnabled.value))
 
 const { page, limit, pageParams, hasNext, setCursor } = useCursorPagination()
 const { getIntDurationStr } = useDurationStr()
@@ -99,6 +102,18 @@ const isDialogShow = ref(false)
 const currentMessageQueue = ref<MessageQueue | undefined>(undefined)
 
 const noData = computed(() => messageQueues.value.length === 0 && page.value === 1)
+
+const loadMQEnabled = async () => {
+  try {
+    loading.value = true
+    const { enable } = await getMessageQueueConfigs()
+    isMQEnabled.value = enable
+  } catch (error) {
+    //
+  } finally {
+    loading.value = false
+  }
+}
 
 const loadMessageQueues = async (isBack?: boolean) => {
   try {
@@ -147,5 +162,11 @@ const handleDelete = async (messageQueue: MessageQueue) => {
   loadMessageQueues()
 }
 
-loadMessageQueues()
+;(async () => {
+  await loadMQEnabled()
+  if (!isMQEnabled.value) {
+    return
+  }
+  loadMessageQueues()
+})()
 </script>

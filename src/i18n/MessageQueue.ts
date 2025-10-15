@@ -87,6 +87,10 @@ The variables can be referenced as follows:
     zh: '即使客户端处于离线状态时也确保消息永不丢失。',
     en: 'Ensuring messages are never lost even when clients are offline.',
   },
+  mqDisabledTip: {
+    zh: '消息队列未启用，请先通过配置文件启用该功能。',
+    en: 'Message queue is not enabled, please enable it through the configuration file.',
+  },
   createMQQueue: {
     zh: '创建队列',
     en: 'Create Queue',
