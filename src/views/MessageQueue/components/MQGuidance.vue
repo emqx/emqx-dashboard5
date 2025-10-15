@@ -6,8 +6,14 @@
         <div class="guidance-description">
           <p>{{ tl('mqGuidance1') }}</p>
           <p>{{ tl('mqGuidance2') }}</p>
+          <p class="disabled-tip" v-if="!enabled">{{ tl('mqDisabledTip') }}</p>
         </div>
-        <el-button type="primary" :disabled="!$hasPermission('post')" @click="handleCreateMQ">
+        <el-button
+          v-if="enabled"
+          type="primary"
+          :disabled="!$hasPermission('post')"
+          @click="handleCreateMQ"
+        >
           {{ tl('createMQQueue') }}
         </el-button>
       </div>
@@ -17,6 +23,10 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  enabled: boolean
+}>()
+
 const emit = defineEmits<(e: 'create') => void>()
 
 const { tl } = useI18nTl('MessageQueue')
@@ -59,6 +69,10 @@ const handleCreateMQ = () => {
       line-height: 1.6;
       p {
         margin: 0;
+      }
+      .disabled-tip {
+        margin-top: 16px;
+        font-weight: 600;
       }
     }
   }
