@@ -6,7 +6,6 @@ const useMessageQueue = () => {
   const descForKeyExpression = `${tl('keyExpressionDesc')}<br />
 <pre>
 {
-    "extra": {},
     "flags": {
         "dup": false,
         "retain": false
