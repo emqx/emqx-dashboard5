@@ -342,6 +342,10 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '启用消息队列',
     en: 'Enable Message Queue',
   },
+  disableMessageQueueTip: {
+    zh: '不支持通过热配置禁用消息队列，请在配置文件中修改。',
+    en: 'Cannot disable message queue through hot configuration, please modify it in the configuration file.',
+  },
   maxQueueCount: {
     zh: '最大队列数',
     en: 'Max Queue Count',
