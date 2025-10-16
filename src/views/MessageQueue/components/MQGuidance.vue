@@ -6,7 +6,16 @@
         <div class="guidance-description">
           <p>{{ tl('mqGuidance1') }}</p>
           <p>{{ tl('mqGuidance2') }}</p>
-          <p class="disabled-tip" v-if="!enabled">{{ tl('mqDisabledTip') }}</p>
+          <template v-if="!enabled">
+            <p class="disabled-tip">{{ tl('mqDisabledTip') }}</p>
+            <LinkButton
+              :icon="Setting"
+              :disabled="!$hasPermission('put')"
+              :to="{ name: 'mqtt-message-queue' }"
+            >
+              {{ t('Base.setting') }}
+            </LinkButton>
+          </template>
         </div>
         <el-button
           v-if="enabled"
@@ -23,13 +32,15 @@
 </template>
 
 <script setup lang="ts">
+import { Setting } from '@element-plus/icons-vue'
+
 defineProps<{
   enabled: boolean
 }>()
 
 const emit = defineEmits<(e: 'create') => void>()
 
-const { tl } = useI18nTl('MessageQueue')
+const { t, tl } = useI18nTl('MessageQueue')
 
 const handleCreateMQ = () => {
   emit('create')
@@ -72,6 +83,7 @@ const handleCreateMQ = () => {
       }
       .disabled-tip {
         margin-top: 16px;
+        margin-bottom: 8px;
         font-weight: 600;
       }
     }
