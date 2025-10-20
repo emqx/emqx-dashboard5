@@ -136,7 +136,7 @@
             <el-col :span="21" class="custom-col">
               <el-form-item prop="auto_create.lastvalue">
                 <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateLastValueMQ')" desc-marked />
+                  <FormItemLabel :label="tl('enableAutoCreateRegularMQ')" desc-marked />
                 </template>
                 <el-switch v-model="regularProxy" />
               </el-form-item>
