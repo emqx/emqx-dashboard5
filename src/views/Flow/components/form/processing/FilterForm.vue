@@ -1,5 +1,11 @@
 <template>
-  <FilterForm ref="FormCom" v-model="record" :readonly="readonly" :monaco-component="Monaco" />
+  <FilterForm
+    class="filter-form"
+    ref="FormCom"
+    v-model="record"
+    :readonly="readonly"
+    :monaco-component="Monaco"
+  />
 </template>
 
 <script setup lang="ts">
@@ -49,3 +55,13 @@ const validate = () => {
 }
 defineExpose({ validate })
 </script>
+
+<style lang="scss">
+.filter-form {
+  .monaco-view {
+    height: 300px;
+    border: 1px solid var(--color-border-primary);
+    width: 100%;
+  }
+}
+</style>
