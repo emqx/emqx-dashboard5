@@ -131,38 +131,7 @@ const rules: FormRules = {
   key_expression: createRequiredRule(tl('keyExpression')),
 }
 
-const descForKeyExpression = `${tl('keyExpressionDesc')}<br />
-<pre>
-{
-    "extra": {},
-    "flags": {
-        "dup": false,
-        "retain": false
-    },
-    "id": "00063f23103ef819d4e0000099f4000b",
-    "timestamp": 1758269689231,
-    "from": "p2K5KGVANDYmaIq1",
-    "headers": {
-        "peername": "127.0.0.1:43856",
-        "protocol": "mqtt",
-        "proto_ver": 5,
-        "peerhost": "127.0.0.1",
-        "username": null,
-        "properties": {
-            "User-Property": {
-                "mq-key": "k-9"
-            }
-        },
-        "client_attrs": {}
-    },
-    "payload": "payload-9",
-    "topic": "t/9",
-    "qos": 1
-}
-<pre />
-`
-
-const { dispatchStrategyOptions } = useMessageQueue()
+const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
 
 const resetForm = () => {
   form.value = createEmptyForm()

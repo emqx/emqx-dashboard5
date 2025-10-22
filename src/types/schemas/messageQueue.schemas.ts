@@ -133,6 +133,7 @@ export type PostMessageQueuesQueues400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostMessageQueuesQueues400Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
+  MAX_QUEUE_COUNT_REACHED: 'MAX_QUEUE_COUNT_REACHED',
 } as const
 
 export type PostMessageQueuesQueues400 = {
@@ -171,10 +172,6 @@ export type GetMessageQueuesQueues400 = {
   code?: GetMessageQueuesQueues400Code
   message?: string
 }
-
-export type GetMessageQueuesQueues200Item =
-  | MqMessageQueueLastvalueApiGet
-  | MqMessageQueueRegularApiGet
 
 export type PutMessageQueuesConfig400Code =
   (typeof PutMessageQueuesConfig400Code)[keyof typeof PutMessageQueuesConfig400Code]
@@ -300,6 +297,10 @@ export interface MqMessageQueueLastvalueApiGet {
   topic_filter: string
 }
 
+export type GetMessageQueuesQueues200Item =
+  | MqMessageQueueLastvalueApiGet
+  | MqMessageQueueRegularApiGet
+
 export type MqMessageQueueApiRegularPutIsLastvalue =
   (typeof MqMessageQueueApiRegularPutIsLastvalue)[keyof typeof MqMessageQueueApiRegularPutIsLastvalue]
 
@@ -349,14 +350,62 @@ export interface MqMessageQueueApiLastvaluePut {
   key_expression: string
 }
 
+export type MqAutoCreateRegularDispatchStrategy =
+  (typeof MqAutoCreateRegularDispatchStrategy)[keyof typeof MqAutoCreateRegularDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqAutoCreateRegularDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqAutoCreateRegular {
+  data_retention_period?: string
+  dispatch_strategy?: MqAutoCreateRegularDispatchStrategy
+}
+
+export type MqAutoCreateLastvalueDispatchStrategy =
+  (typeof MqAutoCreateLastvalueDispatchStrategy)[keyof typeof MqAutoCreateLastvalueDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqAutoCreateLastvalueDispatchStrategy = {
+  least_inflight: 'least_inflight',
+  random: 'random',
+  round_robin: 'round_robin',
+} as const
+
+export interface MqAutoCreateLastvalue {
+  data_retention_period?: string
+  dispatch_strategy?: MqAutoCreateLastvalueDispatchStrategy
+  key_expression: string
+}
+
+export type MqAutoCreateRegularProperty = MqAutoCreateRegular | false
+
+export type MqAutoCreateLastvalueProperty = MqAutoCreateLastvalue | false
+
+export interface MqAutoCreate {
+  lastvalue: MqAutoCreateLastvalueProperty
+  regular: MqAutoCreateRegularProperty
+}
+
 export interface MqApiConfigPut {
+  auto_create: MqAutoCreate
+  enable: boolean
   find_queue_retry_interval: string
   gc_interval: string
+  /** @minimum 1 */
+  max_queue_count: number
   regular_queue_retention_period: string
 }
 
 export interface MqApiConfigGet {
+  auto_create: MqAutoCreate
+  enable: boolean
   find_queue_retry_interval: string
   gc_interval: string
+  /** @minimum 1 */
+  max_queue_count: number
   regular_queue_retention_period: string
 }

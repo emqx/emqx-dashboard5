@@ -3254,8 +3254,6 @@ export interface BridgeHttpParametersOpts {
   max_retries?: number
   method?: BridgeHttpParametersOptsMethod
   path?: string
-  /** @deprecated */
-  request_timeout?: string
 }
 
 export type BridgeHttpGetBridgeV2Type =

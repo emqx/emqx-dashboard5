@@ -1,5 +1,6 @@
 <template>
   <FunctionForm
+    class="function-form"
     ref="FormCom"
     v-model="record"
     :readonly="readonly"
@@ -55,3 +56,13 @@ const validate = () => {
 
 defineExpose({ validate })
 </script>
+
+<style lang="scss">
+.function-form {
+  .monaco-view {
+    height: 300px;
+    border: 1px solid var(--color-border-primary);
+    width: 100%;
+  }
+}
+</style>
