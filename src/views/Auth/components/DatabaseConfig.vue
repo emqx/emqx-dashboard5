@@ -72,7 +72,7 @@
               <el-input v-model="databaseConfig.collection" />
             </el-form-item>
           </el-col>
-          <el-col v-if="!isRedis" :span="12">
+          <el-col :span="12">
             <el-form-item :label="$t('Base.username')">
               <el-input v-model="databaseConfig.username" />
             </el-form-item>
