@@ -23,9 +23,12 @@
                 :format="value.format"
                 :symbols="value.symbols"
                 :placeholder="value.placeholder"
-                :custom-props="value.componentProps"
                 :property="value"
-                :items="value.items"
+                v-bind="
+                  value.customComponent
+                    ? value.componentProps
+                    : { customProps: value.componentProps }
+                "
               />
             </CustomFormItem>
           </template>
@@ -78,8 +81,10 @@
               :format="value.format"
               :symbols="value.symbols"
               :placeholder="value.placeholder"
-              :custom-props="value.componentProps"
               :property="value"
+              v-bind="
+                value.customComponent ? value.componentProps : { customProps: value.componentProps }
+              "
             />
           </CustomFormItem>
         </div>
