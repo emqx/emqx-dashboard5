@@ -1237,4 +1237,8 @@ export default {
     zh: '指定用户名和密码',
     en: 'Specify Username and Password',
   },
+  canNotEditNode: {
+    zh: '节点名称不可修改',
+    en: 'Node name cannot be modified',
+  },
 }

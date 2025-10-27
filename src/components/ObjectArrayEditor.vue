@@ -30,6 +30,9 @@
               :custom-props="value.componentProps"
               :property="value"
               :items="value.items"
+              v-bind="
+                value.customComponent ? value.componentProps : { customProps: value.componentProps }
+              "
             />
           </CustomFormItem>
         </template>
@@ -71,6 +74,9 @@
               :placeholder="value.placeholder"
               :property="value"
               :items="value.items"
+              v-bind="
+                value.customComponent ? value.componentProps : { customProps: value.componentProps }
+              "
             />
           </CustomFormItem>
         </div>
