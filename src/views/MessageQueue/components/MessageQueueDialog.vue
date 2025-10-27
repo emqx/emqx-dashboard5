@@ -68,6 +68,41 @@
             <el-input v-model="form.key_expression" />
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-divider> {{ t('Gateway.showLimiter') }} </el-divider>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="limits.max_shard_message_count">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxShardMessageCount')"
+                :desc="tl('maxShardMessageCountDesc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="form.limits.max_shard_message_count"
+              :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="limits.max_shard_message_bytes">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxShardMessageBytes')"
+                :desc="tl('maxShardMessageBytesDesc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="form.limits.max_shard_message_bytes"
+              :items="[{ type: 'byteSize' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -114,12 +149,16 @@ const dialogVisible = computed({
 const isEdit = computed(() => !!props.queue)
 const title = computed(() => (isEdit.value ? tl('editMessageQueue') : tl('createMessageQueue')))
 
-const createEmptyForm = () => ({
+const createEmptyForm = (): MessageQueue => ({
   topic_filter: '',
   dispatch_strategy: MessageQueueDispatchStrategyValue.random,
   data_retention_period: '7d',
   is_lastvalue: true,
   key_expression: 'message.from',
+  limits: {
+    max_shard_message_count: 'infinity',
+    max_shard_message_bytes: 'infinity',
+  },
 })
 
 const form = ref<MessageQueue>(createEmptyForm())
@@ -131,6 +170,8 @@ const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules: FormRules = {
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
+  'limits.max_shard_message_count': createRequiredRule(tl('maxShardMessageCount')),
+  'limits.max_shard_message_bytes': createRequiredRule(tl('maxShardMessageBytes')),
 }
 
 const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
@@ -179,6 +220,16 @@ const handleOpen = () => {
     form.value = cloneDeep(props.queue)
     if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
       form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)
+    }
+    if (
+      form.value.limits.max_shard_message_bytes &&
+      typeof form.value.limits.max_shard_message_bytes === 'number'
+    ) {
+      form.value.limits.max_shard_message_bytes = transMemorySizeNumToStr(
+        form.value.limits.max_shard_message_bytes,
+        undefined,
+        false,
+      )
     }
   }
 }

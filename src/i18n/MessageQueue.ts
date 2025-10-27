@@ -58,6 +58,22 @@ Please note that each message should have the property set by "Queue Key Express
 The variables can be referenced as follows:
 `,
   },
+  maxShardMessageCount: {
+    zh: '最大分片消息数量',
+    en: 'Max Shard Message Count',
+  },
+  maxShardMessageCountDesc: {
+    zh: `消息队列中每个分片的最大消息数量，配置将进行持久化存储。`,
+    en: `The maximum number of messages in a shard for the Message Queue, the configuration will be saved to the durable storage.`,
+  },
+  maxShardMessageBytes: {
+    zh: '最大分片消息字节数',
+    en: 'Max Shard Message Bytes',
+  },
+  maxShardMessageBytesDesc: {
+    zh: `消息队列中每个分片的最大字节数，配置将进行持久化存储。`,
+    en: `The maximum number of bytes in a shard for the Message Queue, the configuration will be saved to the durable storage.`,
+  },
   dispatchStrategyRandom: {
     zh: '随机',
     en: 'Random',
