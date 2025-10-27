@@ -33,7 +33,7 @@
         :key="index"
       >
         <!-- Pie Chart Stats -->
-        <el-col v-if="totals && totals[typeMetricsData.name]" :span="isFlowNode ? 24 : 8">
+        <el-col v-if="totals && totals[typeMetricsData.name]" :span="pieChartColSpan">
           <el-card class="metric-pie">
             <el-row>
               <el-col :span="12" class="pie-base">
@@ -52,6 +52,7 @@
         </el-col>
         <!-- Number Stats -->
         <TypeMetrics
+          :span="typeMetricsColSpan"
           :data="typeMetricsData.stats"
           :is-flow-node="isFlowNode"
           :selected-node="selectedNode"
@@ -223,6 +224,7 @@ const props = defineProps<{
   tableData?: Array<string>
   nodeStatusDesc?: string
   childrenTitle?: string
+  pieColSpan?: number
 }>()
 const emit = defineEmits<{
   (e: 'metrics-change', totalMetrics: MetricsData): void
@@ -233,6 +235,19 @@ const emit = defineEmits<{
 const isFlowNode = inject('isFlowNode', false)
 
 const { t, tl } = useI18nTl('RuleEngine')
+
+const pieChartColSpan = computed(() => {
+  if (isFlowNode) {
+    return 24
+  }
+  return props.pieColSpan ?? 8
+})
+const typeMetricsColSpan = computed(() => {
+  if (isFlowNode) {
+    return 24
+  }
+  return 24 - pieChartColSpan.value
+})
 
 const metricsData = ref<MetricsData>({ metrics: {}, node_metrics: [] })
 
@@ -407,6 +422,7 @@ const { syncPolling } = useSyncPolling()
   .metric-name {
     color: var(--color-text-primary);
     line-height: 24px;
+    text-wrap: nowrap;
   }
   .metric-num {
     height: 32px;
@@ -452,7 +468,7 @@ const { syncPolling } = useSyncPolling()
   }
   $column-gap: 24px;
   .metric-pie {
-    height: 144px;
+    height: 100%;
     flex-shrink: 0;
     .el-card__body {
       display: flex;
@@ -497,8 +513,7 @@ const { syncPolling } = useSyncPolling()
       }
     }
     .flow-node-col {
-      &:nth-child(1),
-      &:nth-child(2) {
+      &:not(:last-child) {
         margin-bottom: 24px;
       }
       .type-metrics {
