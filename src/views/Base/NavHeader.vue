@@ -6,16 +6,31 @@
     <Breadcrumb />
     <div class="pull-right">
       <LicensePromotion v-if="!isNamespaceUser" />
-      <div class="cluster-desc" v-if="clusterDesc">
-        <span class="cluster-desc-label">{{ t('Base.clusterDesc') }}:</span>
-        <div v-if="clusterDesc" class="cluster-desc-content">
-          <CommonOverflowTooltip :content="clusterDesc" />
+      <el-tooltip
+        v-if="clusterDesc !== undefined"
+        class="cluster-desc-tooltip"
+        effect="dark"
+        placement="bottom"
+        :show-arrow="false"
+      >
+        <template #content>
+          <div class="cluster-desc-tooltip-content">
+            <span class="cluster-desc-tooltip-label">{{ t('Base.clusterDesc') }}:</span>
+            <span class="cluster-desc-tooltip-text">{{ clusterDescDisplay }}</span>
+          </div>
+        </template>
+        <div class="cluster-desc">
+          <div class="cluster-desc-content">
+            <span v-if="clusterDescTrimmed" class="cluster-desc-text">{{
+              clusterDescTrimmed
+            }}</span>
+            <span v-else class="cluster-desc-placeholder">-</span>
+          </div>
+          <LinkButton class="is-link cluster-desc-edit" :to="{ name: 'cluster' }">
+            <Icon icon="lucide:square-pen" class="w-4 h-4" />
+          </LinkButton>
         </div>
-        <span v-else>-</span>
-        <LinkButton class="is-link" :to="{ name: 'cluster' }">
-          <Icon icon="lucide:pencil" class="w-4 h-4" />
-        </LinkButton>
-      </div>
+      </el-tooltip>
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="flex items-center gap-2">
           <Icon icon="lucide:search" :width="16" :height="16" class="text-gray-400" />
@@ -125,6 +140,13 @@ const { appLogo } = useEditionConfigs()
 
 const alertCount = computed(() => store.state.alertCount)
 const clusterDesc = computed(() => store.state.clusterDesc)
+const clusterDescTrimmed = computed(() => {
+  const rawDesc = clusterDesc.value ?? ''
+  return rawDesc.toString().trim()
+})
+const clusterDescDisplay = computed(() => {
+  return clusterDescTrimmed.value || '-'
+})
 const user = computed(() => {
   return store.state.user
 })
@@ -339,19 +361,71 @@ onBeforeUnmount(() => {
 .cluster-desc {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-right: 4px;
-  text-align: right;
+  gap: 6px;
+  margin-right: 8px;
+  padding: 0 8px;
+  height: 32px;
+  min-width: 0;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-card);
+  background: var(--color-bg-content);
   cursor: default;
-  .cluster-desc-label {
-    margin-right: 4px;
-  }
-  .is-link {
-    color: inherit;
+  .cluster-desc-edit {
+    margin-left: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+    &:hover {
+      color: var(--color-primary);
+      background-color: var(--color-primary-soft);
+    }
   }
 }
 .cluster-desc-content {
-  max-width: 100px;
+  display: flex;
+  align-items: center;
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 0;
+}
+.cluster-desc-text {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cluster-desc-placeholder {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.cluster-desc-tooltip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+}
+
+.cluster-desc-tooltip-content {
+  max-width: 320px;
+}
+
+.cluster-desc-tooltip-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.cluster-desc-tooltip-text {
+  white-space: normal;
+  word-break: break-word;
 }
 
 .func-item {
