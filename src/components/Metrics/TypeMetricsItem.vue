@@ -98,7 +98,7 @@ watch(
 .type-metrics {
   display: flex;
   user-select: none;
-  padding: 40px 32px;
+  padding: 40px 30px;
   .desc-container {
     padding: 30px 24px 30px 0;
   }
@@ -118,10 +118,6 @@ watch(
     border-radius: 50%;
     background-color: v-bind(typeColor);
     margin-right: 8px;
-  }
-
-  .metric-name {
-    margin-right: 6px;
   }
 
   .detail-trigger {
