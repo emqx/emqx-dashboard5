@@ -73,13 +73,6 @@ export interface PrometheusPushGateway {
   url?: string
 }
 
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  push_gateway?: PrometheusPushGateway
-}
-
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
   (typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
 
@@ -213,6 +206,13 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
 }
 
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  push_gateway?: PrometheusPushGateway
+}
+
 export type OpentelemetryTraceFilterTraceMode =
   (typeof OpentelemetryTraceFilterTraceMode)[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -336,6 +336,11 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -348,6 +353,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string

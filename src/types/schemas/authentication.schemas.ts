@@ -456,6 +456,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
@@ -506,6 +507,11 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -518,6 +524,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -640,29 +647,6 @@ export interface AuthnScramRestapiPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
-
-export type GetAuthentication200Item =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-  | AuthnScram
 
 export type AuthnScramRestapiGetMethod =
   (typeof AuthnScramRestapiGetMethod)[keyof typeof AuthnScramRestapiGetMethod]
@@ -918,6 +902,71 @@ export interface AuthnRedisCluster {
   username?: string
 }
 
+export interface AuthnPostgresql {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  backend: AuthnPostgresqlBackend
+  database: string
+  disable_prepared_statements?: boolean
+  enable?: boolean
+  mechanism: AuthnPostgresqlMechanism
+  password?: string
+  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
+  /** @minimum 1 */
+  pool_size?: number
+  precondition?: string
+  query: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  username: string
+}
+
+export type PostAuthentication200 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+  | AuthnScram
+
+export type PostAuthenticationBody =
+  | AuthnBuiltinDbApi
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+  | AuthnScram
+
 export type AuthnPostgresqlPasswordHashAlgorithm =
   | AuthnHashBcrypt
   | AuthnHashPbkdf2
@@ -938,25 +987,6 @@ export type AuthnPostgresqlBackend =
 export const AuthnPostgresqlBackend = {
   postgresql: 'postgresql',
 } as const
-
-export interface AuthnPostgresql {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  backend: AuthnPostgresqlBackend
-  database: string
-  disable_prepared_statements?: boolean
-  enable?: boolean
-  mechanism: AuthnPostgresqlMechanism
-  password?: string
-  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
-  /** @minimum 1 */
-  pool_size?: number
-  precondition?: string
-  query: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  username: string
-}
 
 export type AuthnNodeStatusStatus =
   (typeof AuthnNodeStatusStatus)[keyof typeof AuthnNodeStatusStatus]
@@ -1022,52 +1052,6 @@ export interface AuthnMysql {
   ssl?: EmqxSslClientOpts
   username?: string
 }
-
-export type PostAuthentication200 =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-  | AuthnScram
-
-export type PostAuthenticationBody =
-  | AuthnBuiltinDbApi
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-  | AuthnScram
 
 export type AuthnMongoSingleWMode =
   (typeof AuthnMongoSingleWMode)[keyof typeof AuthnMongoSingleWMode]
@@ -1784,6 +1768,29 @@ export interface AuthnBuiltinDb {
   precondition?: string
   user_id_type: AuthnBuiltinDbUserIdType
 }
+
+export type GetAuthentication200Item =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+  | AuthnScram
 
 export type AuthnBindMethodType = (typeof AuthnBindMethodType)[keyof typeof AuthnBindMethodType]
 

@@ -223,6 +223,12 @@ export const SchemaRegistryPutExternalHttpType = {
   external_http: 'external_http',
 } as const
 
+export interface SchemaRegistryPutExternalHttp {
+  description?: string
+  parameters: SchemaRegistryExternalHttpParams
+  type: SchemaRegistryPutExternalHttpType
+}
+
 export type SchemaRegistryPutAvroType =
   (typeof SchemaRegistryPutAvroType)[keyof typeof SchemaRegistryPutAvroType]
 
@@ -417,12 +423,6 @@ export interface SchemaRegistryExternalHttpParams {
   url: string
 }
 
-export interface SchemaRegistryPutExternalHttp {
-  description?: string
-  parameters: SchemaRegistryExternalHttpParams
-  type: SchemaRegistryPutExternalHttpType
-}
-
 export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
   password: string
   username: string
@@ -494,6 +494,11 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -506,6 +511,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string

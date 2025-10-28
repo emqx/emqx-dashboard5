@@ -312,26 +312,6 @@ export type PostGatewaysNameAuthentication400 = {
   message?: string
 }
 
-export type PostGatewaysNameAuthenticationBody =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-
 export type GetGatewaysNameAuthentication404Code =
   (typeof GetGatewaysNameAuthentication404Code)[keyof typeof GetGatewaysNameAuthentication404Code]
 
@@ -469,29 +449,6 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
-export interface LdapSsl {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  /** @minimum 0 */
-  depth?: number
-  enable?: boolean
-  hibernate_after?: string
-  keyfile?: string
-  log_level?: LdapSslLogLevel
-  middlebox_comp_mode?: boolean
-  partial_chain?: LdapSslPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  server_name_indication?: LdapSslServerNameIndication
-  verify?: LdapSslVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
-}
-
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -531,6 +488,35 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: LdapSslPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: LdapSslServerNameIndication
+  verify?: LdapSslVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -543,6 +529,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -766,6 +753,26 @@ export interface AuthnPostgresql {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+
+export type PostGatewaysNameAuthenticationBody =
   | AuthnBuiltinDb
   | AuthnCinfo
   | AuthnGcpDevice

@@ -57,6 +57,7 @@ const tagArr = [
   'Multi-tenancy',
   'AI Completion',
   'Message Queue',
+  'TLS Management',
 ]
 
 const typesFolder = './src/types/schemas/'
