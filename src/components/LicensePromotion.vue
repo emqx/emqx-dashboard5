@@ -10,17 +10,14 @@
       {{ t('Base.promoOrTry') }}
       <a :href="cloudServiceUrl" target="_blank" class="chip-link" rel="noopener noreferrer">
         {{ t('Base.promoManagedServiceText') }}
-      </a>
-    </span>
-    <el-icon class="chip-close" @click="dismiss" aria-label="Dismiss promotion">
-      <Close />
-    </el-icon>
+      </a> </span
+    ><button class="chip-close" type="button" @click="dismiss" aria-label="Dismiss promotion">
+      <Icon icon="lucide:x" class="chip-close-icon" aria-hidden="true" />
+    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Close } from '@element-plus/icons-vue'
-
 const { t } = useI18n()
 const store = useStore()
 const { docMap } = useDocLink()
@@ -52,14 +49,14 @@ const dismiss = () => {
 .license-chip {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   height: 32px;
-  padding: 0 16px;
-  margin-right: 16px;
+  padding: 0 12px;
+  margin-right: 12px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--color-primary-card-bg) 0%, var(--color-bg-main) 100%);
   border: 1px solid var(--color-border-card);
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-secondary);
   cursor: default;
   transition: box-shadow 0.2s ease;
@@ -71,7 +68,7 @@ const dismiss = () => {
 
 .chip-text {
   white-space: nowrap;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
 }
 
 .chip-link {
@@ -91,7 +88,7 @@ const dismiss = () => {
 
 .chip-divider {
   color: var(--color-border-primary);
-  margin: 0 4px;
+  margin: 0 2px;
 }
 
 .chip-label {
@@ -101,17 +98,30 @@ const dismiss = () => {
 }
 
 .chip-close {
-  cursor: pointer;
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
   color: var(--color-text-secondary);
-  margin-left: 2px;
+  cursor: pointer;
   transition:
+    background-color 0.2s ease,
     color 0.2s ease,
     transform 0.2s ease;
 
   &:hover {
     color: var(--color-primary);
-    transform: scale(1.08);
+    background-color: var(--color-primary-soft);
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 }
 </style>
