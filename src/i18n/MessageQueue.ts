@@ -111,4 +111,12 @@ The variables can be referenced as follows:
     zh: '创建队列',
     en: 'Create Queue',
   },
+  limiter: {
+    zh: '消息限制',
+    en: 'Limiter',
+  },
+  limitsDisabledTip: {
+    zh: '常规队列消息限制无法在无限制和有限之间切换',
+    en: 'Regular queues cannot be updated from limited to unlimited and vice versa',
+  },
 }
