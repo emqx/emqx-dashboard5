@@ -2101,6 +2101,18 @@
   },
   {
     "method": "post",
+    "path": "/alarms/force_deactivate",
+    "operation_label": {
+      "en": "Alarms",
+      "zh": "告警"
+    },
+    "operation_name_label": {
+      "en": "Force deactivate an alarm. This operation will forcefully deactivate an active alarm.",
+      "zh": "强制关闭指定的告警"
+    }
+  },
+  {
+    "method": "post",
     "path": "/load_rebalance/:node/stop",
     "operation_label": {
       "en": "Load Rebalance",
