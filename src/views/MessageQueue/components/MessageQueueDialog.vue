@@ -69,7 +69,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-divider> {{ t('Gateway.showLimiter') }} </el-divider>
+          <el-divider> {{ tl('limiter') }} </el-divider>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="limits.max_shard_message_count">
@@ -80,11 +80,14 @@
                 desc-marked
               />
             </template>
-            <Oneof
-              class="in-one-row"
-              v-model="form.limits.max_shard_message_count"
-              :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-            />
+            <el-tooltip :disabled="!disableLimitsCount" :content="tl('limitsDisabledTip')">
+              <Oneof
+                class="in-one-row"
+                v-model="form.limits.max_shard_message_count"
+                :disabled="disableLimitsCount"
+                :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+              />
+            </el-tooltip>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -96,11 +99,14 @@
                 desc-marked
               />
             </template>
-            <Oneof
-              class="in-one-row"
-              v-model="form.limits.max_shard_message_bytes"
-              :items="[{ type: 'byteSize' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-            />
+            <el-tooltip :disabled="!disableLimitsBytes" :content="tl('limitsDisabledTip')">
+              <Oneof
+                class="in-one-row"
+                v-model="form.limits.max_shard_message_bytes"
+                :disabled="disableLimitsBytes"
+                :items="[{ type: 'byteSize' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+              />
+            </el-tooltip>
           </el-form-item>
         </el-col>
       </el-row>
@@ -166,12 +172,48 @@ const form = ref<MessageQueue>(createEmptyForm())
 const formRef = ref<FormInstance>()
 const submitting = ref(false)
 
+const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
+
+const isConfiguredInfinityCount = ref(true)
+const disableLimitsCount = computed(() => isEditingRegular.value && isConfiguredInfinityCount.value)
+
+const isConfiguredInfinityBytes = ref(true)
+const disableLimitsBytes = computed(() => isEditingRegular.value && isConfiguredInfinityBytes.value)
+
 const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules: FormRules = {
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
-  'limits.max_shard_message_count': createRequiredRule(tl('maxShardMessageCount')),
-  'limits.max_shard_message_bytes': createRequiredRule(tl('maxShardMessageBytes')),
+  'limits.max_shard_message_count': [
+    ...createRequiredRule(tl('maxShardMessageCount')),
+    {
+      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
+        if (
+          isEditingRegular.value &&
+          !isConfiguredInfinityCount.value &&
+          value === INFINITY_VALUE
+        ) {
+          callback(new Error(tl('limitsDisabledTip')))
+        }
+        callback()
+      },
+    },
+  ],
+  'limits.max_shard_message_bytes': [
+    ...createRequiredRule(tl('maxShardMessageBytes')),
+    {
+      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
+        if (
+          isEditingRegular.value &&
+          !isConfiguredInfinityBytes.value &&
+          value === INFINITY_VALUE
+        ) {
+          callback(new Error(tl('limitsDisabledTip')))
+        }
+        callback()
+      },
+    },
+  ],
 }
 
 const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
@@ -231,6 +273,8 @@ const handleOpen = () => {
         false,
       )
     }
+    isConfiguredInfinityCount.value = form.value.limits.max_shard_message_count === INFINITY_VALUE
+    isConfiguredInfinityBytes.value = form.value.limits.max_shard_message_bytes === INFINITY_VALUE
   }
 }
 
