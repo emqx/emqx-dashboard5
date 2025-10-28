@@ -186,6 +186,8 @@ export const GatewaySslServerOptsPartialChain = {
   true: true,
 } as const
 
+export type GatewaySslServerOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+
 export type GatewaySslServerOptsLogLevel =
   (typeof GatewaySslServerOptsLogLevel)[keyof typeof GatewaySslServerOptsLogLevel]
 
@@ -219,6 +221,7 @@ export interface GatewaySslServerOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: GatewaySslServerOptsLogLevel
+  managed_certs?: GatewaySslServerOptsManagedCerts
   partial_chain?: GatewaySslServerOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -301,6 +304,8 @@ export const GatewayDtlsOptsPartialChain = {
   true: true,
 } as const
 
+export type GatewayDtlsOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+
 export type GatewayDtlsOptsLogLevel =
   (typeof GatewayDtlsOptsLogLevel)[keyof typeof GatewayDtlsOptsLogLevel]
 
@@ -317,34 +322,6 @@ export const GatewayDtlsOptsLogLevel = {
   notice: 'notice',
   warning: 'warning',
 } as const
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
-}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -448,6 +425,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -465,6 +443,46 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
   refresh_interval?: string
   responder_url?: string
+}
+
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  managed_certs?: GatewayDtlsOptsManagedCerts
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
+export interface EmqxManagedCertsServer {
+  bundle_name: string
+  namespace?: string
+  sni?: string
+}
+
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
 }
 
 export type EmqxListenerWssOptsVerify =
@@ -486,6 +504,8 @@ export const EmqxListenerWssOptsPartialChain = {
   false: false,
   true: true,
 } as const
+
+export type EmqxListenerWssOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
 
 export type EmqxListenerWssOptsLogLevel =
   (typeof EmqxListenerWssOptsLogLevel)[keyof typeof EmqxListenerWssOptsLogLevel]
@@ -520,6 +540,7 @@ export interface EmqxListenerWssOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: EmqxListenerWssOptsLogLevel
+  managed_certs?: EmqxListenerWssOptsManagedCerts
   partial_chain?: EmqxListenerWssOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -548,6 +569,8 @@ export const EmqxListenerSslOptsPartialChain = {
   false: false,
   true: true,
 } as const
+
+export type EmqxListenerSslOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
 
 export type EmqxListenerSslOptsLogLevel =
   (typeof EmqxListenerSslOptsLogLevel)[keyof typeof EmqxListenerSslOptsLogLevel]
@@ -584,6 +607,7 @@ export interface EmqxListenerSslOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: EmqxListenerSslOptsLogLevel
+  managed_certs?: EmqxListenerSslOptsManagedCerts
   ocsp?: EmqxOcsp
   partial_chain?: EmqxListenerSslOptsPartialChain
   password?: string
@@ -941,6 +965,8 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -980,8 +1006,6 @@ export interface EmqxGatewayApiSslListener {
   tcp_options?: EmqxTcpOpts
   type?: EmqxGatewayApiSslListenerType
 }
-
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
 
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]

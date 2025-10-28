@@ -195,6 +195,8 @@ export type PostSsoLoginBackend200 = {
   version?: string
 }
 
+export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
+
 export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -206,8 +208,6 @@ export type PutSsoBackend404 = {
   code?: PutSsoBackend404Code
   message?: string
 }
-
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
@@ -295,14 +295,29 @@ export interface SsoLogin {
   backend: SsoLoginBackend
 }
 
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
-
 export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoLdapBackend = {
   ldap: 'ldap',
 } as const
+
+export interface SsoLdap {
+  backend: SsoLdapBackend
+  base_dn: string
+  enable?: boolean
+  filter?: string
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  query_timeout?: string
+  request_timeout?: string
+  server: string
+  ssl?: LdapSsl
+  username: string
+}
+
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -353,6 +368,11 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
@@ -365,6 +385,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
@@ -374,21 +395,6 @@ export interface LdapSsl {
   verify?: LdapSslVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
-}
-
-export interface SsoLdap {
-  backend: SsoLdapBackend
-  base_dn: string
-  enable?: boolean
-  filter?: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
 }
 
 export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]

@@ -605,6 +605,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
@@ -676,6 +677,8 @@ export const GatewayDtlsOptsPartialChain = {
   true: true,
 } as const
 
+export type GatewayDtlsOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+
 export type GatewayDtlsOptsLogLevel =
   (typeof GatewayDtlsOptsLogLevel)[keyof typeof GatewayDtlsOptsLogLevel]
 
@@ -711,6 +714,7 @@ export interface GatewayDtlsOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: GatewayDtlsOptsLogLevel
+  managed_certs?: GatewayDtlsOptsManagedCerts
   ocsp?: EmqxOcsp
   partial_chain?: GatewayDtlsOptsPartialChain
   password?: string
@@ -789,6 +793,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -806,6 +811,17 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
   refresh_interval?: string
   responder_url?: string
+}
+
+export interface EmqxManagedCertsServer {
+  bundle_name: string
+  namespace?: string
+  sni?: string
+}
+
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
 }
 
 export type EmqxListenerWssOptsVerify =
@@ -827,6 +843,8 @@ export const EmqxListenerWssOptsPartialChain = {
   false: false,
   true: true,
 } as const
+
+export type EmqxListenerWssOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
 
 export type EmqxListenerWssOptsLogLevel =
   (typeof EmqxListenerWssOptsLogLevel)[keyof typeof EmqxListenerWssOptsLogLevel]
@@ -861,6 +879,7 @@ export interface EmqxListenerWssOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: EmqxListenerWssOptsLogLevel
+  managed_certs?: EmqxListenerWssOptsManagedCerts
   partial_chain?: EmqxListenerWssOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -889,6 +908,8 @@ export const EmqxListenerSslOptsPartialChain = {
   false: false,
   true: true,
 } as const
+
+export type EmqxListenerSslOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
 
 export type EmqxListenerSslOptsLogLevel =
   (typeof EmqxListenerSslOptsLogLevel)[keyof typeof EmqxListenerSslOptsLogLevel]
@@ -925,6 +946,7 @@ export interface EmqxListenerSslOpts {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: EmqxListenerSslOptsLogLevel
+  managed_certs?: EmqxListenerSslOptsManagedCerts
   ocsp?: EmqxOcsp
   partial_chain?: EmqxListenerSslOptsPartialChain
   password?: string

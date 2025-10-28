@@ -106,6 +106,12 @@ import type {
 } from './schemas/messageQueue.schemas'
 import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
+import {
+  EmqxMgmtApiCertsBundleOut,
+  EmqxMgmtApiCertsFilesIn,
+  GetCertsGlobalNameName200,
+  GetCertsNsNamespaceNameName200,
+} from './schemas/tlsManagement.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -261,3 +267,9 @@ export type MessageQueueConfig = MqApiConfigPut & {
 /* LOG TRACE */
 export type GetTraceContentParams = GetTraceNameLogParams
 export type GetTraceContentResponse = GetTraceNameLog200
+
+/* TLS MANAGEMENT */
+export type CertBundleOut = EmqxMgmtApiCertsBundleOut
+export type CertFileIn = EmqxMgmtApiCertsFilesIn
+export type CertName = GetCertsGlobalNameName200
+export type CertNsName = GetCertsNsNamespaceNameName200

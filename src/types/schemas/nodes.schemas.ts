@@ -146,6 +146,8 @@ export interface EmqxMgmtApiNodesNodeInfo {
 
 export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
+  'actions.executed'?: number
+  /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
   'authentication.success'?: number
@@ -330,6 +332,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'packets.unsubscribe.error'?: number
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
+  /** @minimum 0 */
+  'rules.matched'?: number
   /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */

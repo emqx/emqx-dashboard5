@@ -189,6 +189,7 @@ export interface ExhookSslConf {
   hibernate_after?: string
   keyfile?: string
   log_level?: ExhookSslConfLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: ExhookSslConfPartialChain
   password?: string
@@ -310,4 +311,9 @@ export interface ExhookDetailServerInfo {
   socket_options?: ExhookSocketOptions
   ssl?: ExhookSslConf
   url: string
+}
+
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
 }

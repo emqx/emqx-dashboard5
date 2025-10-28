@@ -471,6 +471,7 @@ export const GetConfigsKey = {
   sysmon: 'sysmon',
   telemetry: 'telemetry',
   topic_metrics: 'topic_metrics',
+  trace: 'trace',
 } as const
 
 export type GetConfigsParams = {
@@ -635,6 +636,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
@@ -644,10 +646,6 @@ export interface LdapSsl {
   verify?: LdapSslVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
-}
-
-export interface FileTransferStorageBackend {
-  local?: FileTransferLocalStorage
 }
 
 export type FileTransferS3ExporterAcl =
@@ -713,6 +711,10 @@ export interface FileTransferLocalStorage {
   enable?: boolean
   exporter?: FileTransferLocalStorageExporterBackend
   segments?: FileTransferLocalStorageSegments
+}
+
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
 }
 
 export type EmqxSysmonVmLongSchedule = 'disabled' | string
@@ -813,6 +815,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -961,6 +964,17 @@ export interface EmqxMqtt {
   upgrade_qos?: boolean
   use_username_as_clientid?: boolean
   wildcard_subscription?: boolean
+}
+
+export interface EmqxManagedCertsServer {
+  bundle_name: string
+  namespace?: string
+  sni?: string
+}
+
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
 }
 
 export interface EmqxLogThrottling {
@@ -1245,6 +1259,8 @@ export const DashboardSslOptionsPartialChain = {
   true: true,
 } as const
 
+export type DashboardSslOptionsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+
 export type DashboardSslOptionsLogLevel =
   (typeof DashboardSslOptionsLogLevel)[keyof typeof DashboardSslOptionsLogLevel]
 
@@ -1278,6 +1294,7 @@ export interface DashboardSslOptions {
   honor_cipher_order?: boolean
   keyfile?: string
   log_level?: DashboardSslOptionsLogLevel
+  managed_certs?: DashboardSslOptionsManagedCerts
   partial_chain?: DashboardSslOptionsPartialChain
   password?: string
   reuse_sessions?: boolean

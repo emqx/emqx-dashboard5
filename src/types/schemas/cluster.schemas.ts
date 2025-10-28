@@ -50,6 +50,22 @@ export type PutClusterLinksLinkName400 = {
   message?: string
 }
 
+export type PutClusterLinksLinkNameBody = {
+  clientid?: string
+  enable?: boolean
+  /** @minimum 0 */
+  max_inflight?: number
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: ClusterCreationOpts
+  retry_interval?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  topics: string[]
+  username?: string
+}
+
 export type GetClusterLinksLinkName404Code =
   (typeof GetClusterLinksLinkName404Code)[keyof typeof GetClusterLinksLinkName404Code]
 
@@ -194,6 +210,11 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
+}
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -206,6 +227,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
   middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
@@ -215,22 +237,6 @@ export interface EmqxSslClientOpts {
   verify?: EmqxSslClientOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
-}
-
-export type PutClusterLinksLinkNameBody = {
-  clientid?: string
-  enable?: boolean
-  /** @minimum 0 */
-  max_inflight?: number
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: ClusterCreationOpts
-  retry_interval?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  topics: string[]
-  username?: string
 }
 
 export interface ClusterTimeout {

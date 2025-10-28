@@ -214,6 +214,7 @@ export type RuleEngineRuleTestContext =
   | RuleEngineCtxDisconnected
   | RuleEngineCtxDropped
   | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxPing
   | RuleEngineCtxPub
   | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxSub
@@ -269,6 +270,7 @@ export const RuleEngineRuleEventsEvent = {
   '$events/client/connack': '$events/client/connack',
   '$events/client/connected': '$events/client/connected',
   '$events/client/disconnected': '$events/client/disconnected',
+  '$events/client/ping': '$events/client/ping',
   '$events/delivery_dropped': '$events/delivery_dropped',
   '$events/message_acked': '$events/message_acked',
   '$events/message_delivered': '$events/message_delivered',
@@ -320,6 +322,31 @@ export interface RuleEngineRuleCreation {
   metadata?: RuleEngineRuleCreationMetadata
   name?: string
   sql: string
+}
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxAcked
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxBridgeMqtt
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxConnack
+  | RuleEngineCtxConnected
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxDropped
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxPing
+  | RuleEngineCtxPub
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxSub
+  | RuleEngineCtxUnsub
+
+export interface RuleEngineRuleApplyTest {
+  context?: RuleEngineRuleApplyTestContext
+  stop_action_after_template_rendering?: boolean
 }
 
 export interface RuleEngineRepublishMqttProperties {
@@ -494,6 +521,28 @@ export interface RuleEngineCtxPub {
    */
   qos?: number
   topic?: string
+  username?: string
+}
+
+export type RuleEngineCtxPingEventType =
+  (typeof RuleEngineCtxPingEventType)[keyof typeof RuleEngineCtxPingEventType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RuleEngineCtxPingEventType = {
+  client_ping: 'client_ping',
+} as const
+
+export interface RuleEngineCtxPing {
+  clean_start?: boolean
+  clientid?: string
+  connected_at?: number
+  event_type: RuleEngineCtxPingEventType
+  expiry_interval?: number
+  keepalive?: number
+  peername?: string
+  proto_name?: string
+  proto_ver?: string
+  sockname?: string
   username?: string
 }
 
@@ -786,30 +835,6 @@ export interface RuleEngineCtxAcked {
   qos?: number
   topic?: string
   username?: string
-}
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
-
-export interface RuleEngineRuleApplyTest {
-  context?: RuleEngineRuleApplyTestContext
-  stop_action_after_template_rendering?: boolean
 }
 
 export type RuleEngineBuiltinActionRepublishFunction =
