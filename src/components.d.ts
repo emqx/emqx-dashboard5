@@ -48,6 +48,7 @@ declare module 'vue' {
     MiniPagination: typeof import('./components/MiniPagination.vue')['default']
     Monaco: typeof import('./components/Monaco.vue')['default']
     MQTTIds: typeof import('./components/Connector/MQTTIds.vue')['default']
+    MQTTNode: typeof import('./components/Connector/MQTTNode.vue')['default']
     ObjectArrayEditor: typeof import('./components/ObjectArrayEditor.vue')['default']
     Oneof: typeof import('./components/Oneof.vue')['default']
     OneofRefs: typeof import('./components/OneofRefs.vue')['default']
