@@ -768,4 +768,20 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '您没有权限访问此资源，请联系管理员',
     en: "You don't have permission to access this resource, please contact the administrator",
   },
+  configurationMethod: {
+    zh: '配置方式',
+    en: 'Configuration Method',
+  },
+  acmeKey: {
+    zh: 'ACME 账户密钥',
+    en: 'ACME Account Key',
+  },
+  certAndKey: {
+    zh: 'Cert & Key',
+    en: 'Cert & Key',
+  },
+  keyPassword: {
+    zh: '私钥密码',
+    en: 'Key Password',
+  },
 }

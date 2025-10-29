@@ -4,7 +4,7 @@
     v-model="isDrawerShow"
     destroy-on-close
     :close-on-click-modal="false"
-    :before-close="handleClose"
+    @close="handleClose"
   >
     <template #default>
       <CertBundleCreateForm ref="formRef" v-model="formData" />
@@ -47,9 +47,8 @@ const formData = ref<CertBundleForm>(createEmptyCertBundleForm())
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
-const handleClose = async (done: () => void) => {
+const handleClose = async () => {
   //  TODO: check before-close logic
-  done()
   await waitAMoment(500)
   formData.value = createEmptyCertBundleForm()
 }
