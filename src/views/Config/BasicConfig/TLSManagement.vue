@@ -3,17 +3,31 @@
     <el-form class="search-wrapper without-padding-top">
       <el-row :gutter="28">
         <el-col :span="8">
-          <el-select v-model="selectedNamespace" :placeholder="t('Topics.topic')" clearable>
-            <el-option v-for="item in namespaceOptions" :key="item" :label="item" :value="item" />
+          <el-select
+            v-model="selectedNamespace"
+            clearable
+            :placeholder="t('BasicConfig.namespace')"
+            @change="getCertBundleList"
+          >
+            <el-option v-for="i in namespaceOptions" :key="i" :label="i" :value="i" />
           </el-select>
         </el-col>
       </el-row>
     </el-form>
     <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <div>
+          <CreateButton @click="openCreateCertBundleDrawer" />
+        </div>
+      </div>
       <el-table :data="certBundleList" v-loading.lock="isLoading">
         <el-table-column prop="name" :label="t('Base.name')" />
-        <el-table-column :label="t('Base.operation')">
+        <el-table-column :label="t('Base.operation')" width="180">
           <template #default="{ row }">
+            <TableButton :disabled="!$hasPermission('delete')" @click="viewCertBundle(row.name)">
+              {{ t('Base.view') }}
+            </TableButton>
             <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
               {{ t('Base.delete') }}
             </TableButton>
@@ -22,17 +36,25 @@
       </el-table>
     </div>
   </div>
+  <CreateCertBundleDrawer v-model="isDrawerShow" @submit="handleSubmit" />
+  <CertBundleInfoDialog
+    v-model="isInfoDialogVisible"
+    :name="currentBundleName"
+    :namespace="selectedNamespace"
+  />
 </template>
 
 <script setup lang="ts">
 import { getManagedNamespaceList } from '@/api/config'
+import CreateCertBundleDrawer from '@/components/TLSConfig/CreateCertBundleDrawer.vue'
+import CertBundleInfoDialog from '@/components/TLSConfig/CertBundleInfoDialog.vue'
 import { CertBundleOut } from '@/types/typeAlias'
 
 const { t } = useI18n()
 
 const isLoading = ref(false)
 
-const selectedNamespace = ref<string>(GLOBAL_NAMESPACE)
+const selectedNamespace = ref<string>('')
 const namespaceOptions = ref<string[]>([])
 const getNamespaceOptions = async () => {
   try {
@@ -43,18 +65,35 @@ const getNamespaceOptions = async () => {
   }
 }
 
-const certBundleList = ref<CertBundleOut[]>([])
+const isDrawerShow = ref(false)
+const openCreateCertBundleDrawer = () => {
+  isDrawerShow.value = true
+}
 
+const isInfoDialogVisible = ref(false)
+const currentBundleName = ref<string>('')
+const viewCertBundle = (name: string) => {
+  currentBundleName.value = name
+  isInfoDialogVisible.value = true
+}
+
+const certBundleList = ref<CertBundleOut[]>([])
 const { getCertBundleList: requestCertBundleList, deleteCertBundle } = useCertBundle()
 const getCertBundleList = async () => {
   try {
     isLoading.value = true
-    certBundleList.value = await requestCertBundleList()
+    const namespace = selectedNamespace.value ? selectedNamespace.value : undefined
+    certBundleList.value = await requestCertBundleList(namespace)
   } catch (error) {
     //
   } finally {
     isLoading.value = false
   }
+}
+
+const handleSubmit = async (namespace?: string) => {
+  selectedNamespace.value = namespace ?? ''
+  getCertBundleList()
 }
 
 const { confirmDel } = useOperationConfirm()

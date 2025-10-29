@@ -17,6 +17,8 @@ declare module 'vue' {
     BooleanSelect: typeof import('./components/BooleanSelect.vue')['default']
     CancelButton: typeof import('./components/Buttons/CancelButton.vue')['default']
     CertBundleCreateForm: typeof import('./components/TLSConfig/CertBundleCreateForm.vue')['default']
+    CertBundleInfo: typeof import('./components/TLSConfig/CertBundleInfo.vue')['default']
+    CertBundleInfoDialog: typeof import('./components/TLSConfig/CertBundleInfoDialog.vue')['default']
     CertFileInput: typeof import('./components/TLSConfig/CertFileInput.vue')['default']
     CheckIcon: typeof import('./components/CheckIcon.vue')['default']
     CodeView: typeof import('./components/CodeView.vue')['default']

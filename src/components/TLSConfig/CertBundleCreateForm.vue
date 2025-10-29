@@ -1,13 +1,20 @@
 <template>
-  <el-form ref="formRef" :model="record" :rules="rules" v-loading="isLoading">
+  <el-form
+    ref="formRef"
+    :model="record"
+    :rules="rules"
+    v-loading="isLoading"
+    label-position="top"
+    class="cert-bundle-create-form"
+  >
     <el-form-item :label="t('Base.name')" prop="name">
       <!-- TODO: rule for name -->
-      <el-input v-model="record.name" />
+      <el-input v-model.trim="record.name" />
     </el-form-item>
     <el-form-item :label="t('BasicConfig.namespace')" prop="namespace">
-      <div class="vertical-align-center">
+      <div class="flex flex-1 items-center gap-2">
         <el-switch v-model="isNamespaceEnabled" />
-        <el-select v-if="isNamespaceEnabled" v-model="record.namespace">
+        <el-select v-if="isNamespaceEnabled" v-model="record.namespace" class="flex-1">
           <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
         </el-select>
       </div>
@@ -76,9 +83,9 @@ const { t } = useI18n()
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
-const { createRequiredRule } = useFormRules()
+const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = {
-  name: createRequiredRule(t('Base.name')),
+  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   namespace: {
     validator(_: any, value: string, callback: (error?: Error) => void) {
       if (value !== undefined && !value) {
@@ -89,12 +96,13 @@ const rules = {
         callback()
       }
     },
+    trigger: 'blur',
   },
 }
 
 const isNamespaceEnabled = computed({
   get() {
-    return record.value.namespace === undefined
+    return record.value.namespace !== undefined
   },
   set(val) {
     if (val && record.value.namespace === undefined) {
@@ -124,3 +132,11 @@ const validate = () => formRef.value?.validate()
 
 defineExpose({ validate })
 </script>
+
+<style lang="scss">
+.cert-bundle-create-form {
+  .TLS-input {
+    width: 100%;
+  }
+}
+</style>
