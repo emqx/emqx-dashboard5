@@ -1987,7 +1987,7 @@
       "zh": "日志追踪"
     },
     "operation_name_label": {
-      "en": "Update Tracing configuration.",
+      "en": "Update Tracing configuration",
       "zh": "更新日志追踪配置"
     }
   },
@@ -2829,6 +2829,54 @@
     "operation_name_label": {
       "en": "Update message queue",
       "zh": "更新消息队列"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/certs/ns/:namespace/name/:name",
+    "operation_label": {
+      "en": "TLS Management",
+      "zh": "TLS 管理"
+    },
+    "operation_name_label": {
+      "en": "Delete a managed namespace bundle",
+      "zh": "删除命名空间证书包"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/certs/ns/:namespace/name/:name",
+    "operation_label": {
+      "en": "TLS Management",
+      "zh": "TLS 管理"
+    },
+    "operation_name_label": {
+      "en": "Upload a file to a managed namespace bundle",
+      "zh": "上传命名空间证书包文件"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/certs/global/name/:name",
+    "operation_label": {
+      "en": "TLS Management",
+      "zh": "TLS 管理"
+    },
+    "operation_name_label": {
+      "en": "Delete a global namespace bundle",
+      "zh": "删除全局证书包"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/certs/global/name/:name",
+    "operation_label": {
+      "en": "TLS Management",
+      "zh": "TLS 管理"
+    },
+    "operation_name_label": {
+      "en": "Upload a file to a global namespace bundle",
+      "zh": "上传全局证书包文件"
     }
   }
 ]
