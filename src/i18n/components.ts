@@ -23,6 +23,10 @@ export default {
     zh: '集群连接',
     en: 'Cluster Linking',
   },
+  'tls-management': {
+    zh: 'TLS 管理',
+    en: 'TLS Management',
+  },
   management: {
     zh: '管理',
     en: 'Management',

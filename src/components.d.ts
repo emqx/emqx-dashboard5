@@ -26,6 +26,7 @@ declare module 'vue' {
     CommonTLSConfig: typeof import('./components/TLSConfig/CommonTLSConfig.vue')['default']
     ConfigItemDataLook: typeof import('./components/TLSConfig/ConfigItemDataLook.vue')['default']
     CreateButton: typeof import('./components/Buttons/CreateButton.vue')['default']
+    CreateCertBundleDrawer: typeof import('./components/TLSConfig/CreateCertBundleDrawer.vue')['default']
     CustomConfigs: typeof import('./components/ListenerDrawer/CustomConfigs.vue')['default']
     CustomFormItem: typeof import('./components/CustomFormItem.vue')['default']
     CustomInputNumber: typeof import('./components/CustomInputNumber.vue')['default']

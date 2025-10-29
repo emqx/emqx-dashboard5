@@ -53,21 +53,28 @@
 </template>
 
 <script setup lang="ts">
-import { CertBundleIn } from '@/types/typeAlias'
-import type { FormInstance } from 'element-plus'
 import { getManagedNamespaceList } from '@/api/config'
+import { CertBundleForm } from '@/hooks/useCertBundle'
+import type { FormInstance } from 'element-plus'
 
-interface CertBundleForm extends CertBundleIn {
-  name: string
-  namespace?: string
-}
+const props = defineProps<{
+  modelValue: CertBundleForm
+}>()
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: CertBundleForm): void
+}>()
 
+const record = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  },
+})
 const { t } = useI18n()
 
 const formRef = useTemplateRef<FormInstance>('formRef')
-
-const { createEmptyCertBundle } = useCertBundle()
-const record = ref<CertBundleForm>({ name: '', ...createEmptyCertBundle() })
 
 const { createRequiredRule } = useFormRules()
 const rules = {
@@ -112,4 +119,8 @@ const queryNamespaceList = async () => {
   }
 }
 queryNamespaceList()
+
+const validate = () => formRef.value?.validate()
+
+defineExpose({ validate })
 </script>
