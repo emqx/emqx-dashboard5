@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="isDialogVisible" width="500">
+  <el-dialog v-model="isDialogVisible" width="500" destroy-on-close>
     <CertBundleInfo v-if="name" :name="name" :namespace="namespace" />
     <template #footer>
       <div class="dialog-footer">

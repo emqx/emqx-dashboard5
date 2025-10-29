@@ -1,8 +1,8 @@
 <template>
-  <div class="topics">
-    <el-form class="search-wrapper without-padding-top">
-      <el-row :gutter="28">
-        <el-col :span="8">
+  <div class="tls-management">
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div>
           <el-select
             v-model="selectedNamespace"
             clearable
@@ -11,12 +11,7 @@
           >
             <el-option v-for="i in namespaceOptions" :key="i" :label="i" :value="i" />
           </el-select>
-        </el-col>
-      </el-row>
-    </el-form>
-    <div class="app-wrapper">
-      <div class="section-header">
-        <div></div>
+        </div>
         <div>
           <CreateButton @click="openCreateCertBundleDrawer" />
         </div>
@@ -116,3 +111,14 @@ const handleDelete = async (row: CertBundleOut) => {
   }
 })()
 </script>
+
+<style lang="scss">
+.tls-management {
+  .section-header {
+    .el-select {
+      width: 33.3%;
+      font-weight: normal;
+    }
+  }
+}
+</style>
