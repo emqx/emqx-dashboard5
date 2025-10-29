@@ -322,6 +322,7 @@ declare global {
   const useBuiltInDataUpdateTip: typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']
   const useCInfoConfigForm: typeof import('./hooks/Auth/useCInfoConfigForm')['default']
   const useCSSVariables: typeof import('./hooks/useCSSVariables')['default']
+  const useCertBundle: typeof import('./hooks/useCertBundle')['default']
   const useChartDataUtils: typeof import('./hooks/useMetrics')['useChartDataUtils']
   const useCheckBeforeSaveAsCopy: typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy')['default']
   const useCheckDataChanged: typeof import('./hooks/useDataNotSaveConfirm')['useCheckDataChanged']
@@ -901,6 +902,7 @@ declare module 'vue' {
     readonly useBuiltInDataUpdateTip: UnwrapRef<typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']>
     readonly useCInfoConfigForm: UnwrapRef<typeof import('./hooks/Auth/useCInfoConfigForm')['default']>
     readonly useCSSVariables: UnwrapRef<typeof import('./hooks/useCSSVariables')['default']>
+    readonly useCertBundle: UnwrapRef<typeof import('./hooks/useCertBundle')['default']>
     readonly useChartDataUtils: UnwrapRef<typeof import('./hooks/useMetrics')['useChartDataUtils']>
     readonly useCheckBeforeSaveAsCopy: UnwrapRef<typeof import('./hooks/Rule/bridge/useCheckBeforeSaveAsCopy')['default']>
     readonly useCheckDataChanged: UnwrapRef<typeof import('./hooks/useDataNotSaveConfirm')['useCheckDataChanged']>
