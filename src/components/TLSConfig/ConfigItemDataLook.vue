@@ -12,7 +12,7 @@
           <DocumentCopy />
         </el-icon>
       </el-tooltip>
-      <el-button @click="reset">{{ $t('Base.resetConfig') }}</el-button>
+      <el-button v-if="allowReset" @click="reset">{{ t('Base.resetConfig') }}</el-button>
     </div>
   </div>
 </template>
@@ -29,6 +29,10 @@ import { DocumentCopy } from '@element-plus/icons-vue'
 const props = defineProps({
   value: {
     type: String,
+  },
+  allowReset: {
+    type: Boolean,
+    default: true,
   },
 })
 
