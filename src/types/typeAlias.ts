@@ -270,6 +270,6 @@ export type GetTraceContentResponse = GetTraceNameLog200
 
 /* TLS MANAGEMENT */
 export type CertBundleOut = EmqxMgmtApiCertsBundleOut
-export type CertFileIn = EmqxMgmtApiCertsFilesIn
-export type CertName = GetCertsGlobalNameName200
-export type CertNsName = GetCertsNsNamespaceNameName200
+export type CertBundleIn = EmqxMgmtApiCertsFilesIn
+export type CertBundleInfo = GetCertsGlobalNameName200
+export type NamespaceCertBundleInfo = GetCertsNsNamespaceNameName200

@@ -16,6 +16,7 @@ declare module 'vue' {
     BatchSettings: typeof import('./components/BatchSettings.vue')['default']
     BooleanSelect: typeof import('./components/BooleanSelect.vue')['default']
     CancelButton: typeof import('./components/Buttons/CancelButton.vue')['default']
+    CertBundleCreateForm: typeof import('./components/TLSConfig/CertBundleCreateForm.vue')['default']
     CertFileInput: typeof import('./components/TLSConfig/CertFileInput.vue')['default']
     CheckIcon: typeof import('./components/CheckIcon.vue')['default']
     CodeView: typeof import('./components/CodeView.vue')['default']
