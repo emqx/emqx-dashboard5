@@ -837,6 +837,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/tls-management',
+    component: Layout,
+    meta: {
+      hideKey: 'tls-management',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'tls-management',
+        component: () => import('@/views/Config/BasicConfig/TLSManagement.vue'),
+      },
+    ],
+  },
   // Schema Validation
   {
     path: '/schema-validation',
