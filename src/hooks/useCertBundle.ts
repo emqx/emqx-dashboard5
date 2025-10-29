@@ -1,7 +1,9 @@
 import {
   deleteGlobalCertBundle,
   deleteNamespaceCertBundle,
+  getGlobalCertBundleInfo,
   getGlobalCertBundleList,
+  getNamespaceCertBundleInfo,
   getNamespaceCertBundleList,
   postGlobalCertBundle,
   postNamespaceCertBundle,
@@ -35,10 +37,11 @@ const useCertBundle = () => {
   const submitNewCertBundle = async (form: CertBundleForm) => {
     try {
       const { name, namespace, ...data } = form
+      const dataToSubmit = checkNOmitFromObj(cloneDeep(data))
       if (namespace) {
-        await postNamespaceCertBundle(namespace, name, data)
+        await postNamespaceCertBundle(namespace, name, dataToSubmit)
       } else {
-        await postGlobalCertBundle(name, data)
+        await postGlobalCertBundle(name, dataToSubmit)
       }
       return Promise.resolve()
     } catch (error) {
@@ -60,12 +63,20 @@ const useCertBundle = () => {
     return deleteGlobalCertBundle(name)
   }
 
+  const getCertBundleInfo = async (name: string, namespace?: string) => {
+    if (namespace) {
+      return getNamespaceCertBundleInfo(namespace, name)
+    }
+    return getGlobalCertBundleInfo(name)
+  }
+
   return {
     createEmptyCertBundle,
     createEmptyCertBundleForm,
     submitNewCertBundle,
     getCertBundleList,
     deleteCertBundle,
+    getCertBundleInfo,
   }
 }
 
