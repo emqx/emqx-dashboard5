@@ -12,8 +12,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-components':
-        specifier: ~0.0.11
-        version: 0.0.11(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
+        specifier: ~0.0.13
+        version: 0.0.13(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants':
         specifier: ~0.0.5
         version: 0.0.5
@@ -389,8 +389,8 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emqx/shared-ui-components@0.0.11':
-    resolution: {integrity: sha512-pVTUANS3LK+t4fFWI/VuRzVv+Nfj2EYHOfWitizjlhYVyqIncXEk00OpzisrhLVY8I5TXnunKH0Q+aBrDQ7IGw==}
+  '@emqx/shared-ui-components@0.0.13':
+    resolution: {integrity: sha512-orNy8b2JzysC0yBtI0XN0Utw8TWKkn1hid6GYrFtwtkX+HwTbuAdXWgflXirLv4XrB+W6mMHJMdeQzWaMkU16A==}
     peerDependencies:
       '@element-plus/icons-vue': ^2.3.1
       '@emqx/shared-ui-utils': link:../utils
@@ -3197,8 +3197,8 @@ packages:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
 
-  resolve@1.22.10:
-    resolution: {integrity: sha512-NPRy+/ncIMeDlTAsuqwKIiferiawhefFJtkNSW0qZJEqMEb+qBt/77B/jGeeek+F0uOeN05CDa6HXbbIgtVX4w==}
+  resolve@1.22.11:
+    resolution: {integrity: sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==}
     engines: {node: '>= 0.4'}
     hasBin: true
 
@@ -4061,7 +4061,7 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-components@0.0.11(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-components@0.0.13(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
     dependencies:
       '@element-plus/icons-vue': 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants': link:../constants
@@ -6999,7 +6999,7 @@ snapshots:
       postcss: 8.5.6
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
-      resolve: 1.22.10
+      resolve: 1.22.11
 
   postcss-js@4.1.0(postcss@8.5.6):
     dependencies:
@@ -7139,7 +7139,7 @@ snapshots:
 
   resolve-from@4.0.0: {}
 
-  resolve@1.22.10:
+  resolve@1.22.11:
     dependencies:
       is-core-module: 2.16.1
       path-parse: 1.0.7
@@ -7466,7 +7466,7 @@ snapshots:
       postcss-load-config: 4.0.2(postcss@8.5.6)
       postcss-nested: 6.2.0(postcss@8.5.6)
       postcss-selector-parser: 6.1.2
-      resolve: 1.22.10
+      resolve: 1.22.11
       sucrase: 3.35.0
     transitivePeerDependencies:
       - ts-node
