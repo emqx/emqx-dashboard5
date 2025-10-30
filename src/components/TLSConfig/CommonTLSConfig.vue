@@ -9,6 +9,7 @@
           v-bind="$attrs"
           :readonly="readonly"
           :disabledVerify="disabledVerify"
+          :requireNamespace="requireNamespace"
         />
       </template>
     </el-collapse-transition>
@@ -49,6 +50,9 @@ const props = defineProps({
   disabledVerify: {
     type: Boolean,
     default: false,
+  },
+  requireNamespace: {
+    type: Boolean,
   },
 })
 

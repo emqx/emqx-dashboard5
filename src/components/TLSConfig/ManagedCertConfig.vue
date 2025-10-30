@@ -46,6 +46,7 @@ import CreateCertBundleDrawer from './CreateCertBundleDrawer.vue'
 const props = withDefaults(
   defineProps<{
     modelValue?: ManagedCerts
+    requireNamespace?: boolean
     columns?: number
   }>(),
   {
@@ -69,7 +70,7 @@ const record = computed<ManagedCerts>({
 
 const namespace = computed({
   get() {
-    if (!record.value.namespace) {
+    if (!record.value.namespace && !props.requireNamespace) {
       return GLOBAL_NAMESPACE
     }
     return record.value.namespace
@@ -91,7 +92,10 @@ const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
 const getNamespaceOptions = async () => {
   const res = await requestNamespaceOptions()
-  namespaceOptions.value = [globalNamespaceOption, ...res.map((i) => ({ label: i, value: i }))]
+  namespaceOptions.value = [
+    ...(props.requireNamespace ? [] : [globalNamespaceOption]),
+    ...res.map((i) => ({ label: i, value: i })),
+  ]
 }
 getNamespaceOptions()
 
