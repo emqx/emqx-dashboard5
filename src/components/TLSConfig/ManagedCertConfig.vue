@@ -24,11 +24,12 @@
         </el-button>
       </div>
     </div>
-    <CertBundleInfo
-      v-if="record.bundle_name"
-      :name="record.bundle_name"
-      :namespace="selectedNamespace"
-    />
+    <div v-if="record.bundle_name">
+      <p class="mb-1">{{ t('Base.certsInfo') }}</p>
+      <div class="info-card">
+        <CertBundleInfo :name="record.bundle_name" :namespace="selectedNamespace" />
+      </div>
+    </div>
     <CreateCertBundleDrawer
       v-model="isCreateDrawerVisible"
       :namespace="selectedNamespace"
@@ -86,10 +87,11 @@ const namespace = computed({
 const selectedNamespace = computed(() =>
   namespace.value === GLOBAL_NAMESPACE ? undefined : namespace.value,
 )
-const namespaceOptions = ref<OptionList<string>>([])
 
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
+const namespaceOptions = ref<OptionList<string>>([globalNamespaceOption])
+
 const getNamespaceOptions = async () => {
   const res = await requestNamespaceOptions()
   namespaceOptions.value = [
@@ -139,3 +141,17 @@ const gridColsClass = computed(() => {
   return classMap[props.columns] || 'grid-cols-2'
 })
 </script>
+
+<style lang="scss">
+.managed-cert-config {
+  .info-card {
+    padding: 12px 24px 8px;
+    border-radius: var(--border-radius-card);
+    background-color: var(--color-bg-split);
+    .el-card__body {
+      padding-top: 12px;
+      padding-bottom: 8px;
+    }
+  }
+}
+</style>

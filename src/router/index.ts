@@ -838,17 +838,17 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/tls-management',
+    path: '/certs-management',
     component: Layout,
     meta: {
-      hideKey: 'tls-management',
+      hideKey: 'certs-management',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'tls-management',
-        component: () => import('@/views/Config/BasicConfig/TLSManagement.vue'),
+        name: 'certs-management',
+        component: () => import('@/views/Config/BasicConfig/CertsManagement.vue'),
       },
     ],
   },
