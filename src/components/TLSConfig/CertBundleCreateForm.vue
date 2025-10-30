@@ -8,7 +8,6 @@
     class="cert-bundle-create-form"
   >
     <el-form-item :label="t('Base.name')" prop="name">
-      <!-- TODO: rule for name -->
       <el-input v-model.trim="record.name" autocomplete="one-time-code" />
     </el-form-item>
     <el-form-item :label="t('BasicConfig.namespace')" prop="namespace">
@@ -62,11 +61,7 @@
       </el-form-item>
     </template>
 
-    <el-form-item v-else prop="acc_key">
-      <template #label>
-        <span>ACC Key</span>
-        <InfoTooltip :content="t('Base.accKeyDesc')" />
-      </template>
+    <el-form-item v-else prop="acc_key" :label="t('Base.acmeKey')">
       <TextareaWithUploader
         class="TLS-input"
         v-model="record.acc_key"
@@ -135,6 +130,7 @@ const rules = {
     },
     trigger: 'blur',
   },
+  acc_key: createRequiredRule(t('Base.acmeKey')),
 }
 
 const isNamespaceEnabled = computed({
@@ -178,7 +174,24 @@ const queryNamespaceList = async () => {
 }
 queryNamespaceList()
 
-const validate = () => formRef.value?.validate()
+const validateCerts = () => {
+  const { chain, key, ca } = record.value
+  if (confMethod.value === CertType.Regular && !chain && !key && !ca) {
+    ElMessage.error(t('Base.certRequired'))
+    return Promise.reject(new Error(t('Base.certsRequired')))
+  }
+  return Promise.resolve()
+}
+
+const validate = async () => {
+  try {
+    await formRef.value?.validate()
+    await validateCerts()
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 
 defineExpose({ validate })
 </script>

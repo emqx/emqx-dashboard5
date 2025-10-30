@@ -796,4 +796,8 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '返回传统证书上传',
     en: 'Back to Legacy Cert Upload',
   },
+  certRequired: {
+    zh: '请至少上传一个证书',
+    en: 'Please upload at least one certificate',
+  },
 }
