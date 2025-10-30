@@ -1,6 +1,6 @@
 <template>
   <div class="managed-cert-config">
-    <div class="grid gap-5 mb-4" :class="`grid-cols-${columns}`">
+    <div class="grid gap-5 mb-4" :class="gridColsClass">
       <div>
         <el-select
           v-model="namespace"
@@ -128,4 +128,14 @@ const handleSubmit = ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
   record.value.bundle_name = name
   getBundleOptions()
 }
+
+const gridColsClass = computed(() => {
+  const classMap: Record<number, string> = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-2',
+    3: 'grid-cols-3',
+    4: 'grid-cols-4',
+  }
+  return classMap[props.columns] || 'grid-cols-2'
+})
 </script>
