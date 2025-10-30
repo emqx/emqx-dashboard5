@@ -1,20 +1,21 @@
 <template>
   <div class="managed-cert-config">
-    <div class="flex items-center gap-5">
-      <el-select
-        v-model="namespace"
-        class="flex-1"
-        :placeholder="t('BasicConfig.namespace')"
-        @change="handleNamespaceChanged"
-      >
-        <el-option
-          v-for="{ value, label } in namespaceOptions"
-          :key="label"
-          :label="label"
-          :value="value"
-        />
-      </el-select>
-      <div class="flex items-center gap-2 flex-1">
+    <div class="grid gap-5 mb-4" :class="`grid-cols-${columns}`">
+      <div>
+        <el-select
+          v-model="namespace"
+          :placeholder="t('BasicConfig.namespace')"
+          @change="handleNamespaceChanged"
+        >
+          <el-option
+            v-for="{ value, label } in namespaceOptions"
+            :key="label"
+            :label="label"
+            :value="value"
+          />
+        </el-select>
+      </div>
+      <div class="flex items-center gap-2">
         <el-select v-model="record.bundle_name">
           <el-option v-for="item in bundleOptions" :key="item" :label="item" :value="item" />
         </el-select>
