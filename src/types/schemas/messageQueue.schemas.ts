@@ -173,6 +173,15 @@ export type GetMessageQueuesQueues400 = {
   message?: string
 }
 
+export type GetMessageQueuesQueues200Item =
+  | MqMessageQueueLastvalueApiGet
+  | MqMessageQueueRegularApiGet
+
+export type GetMessageQueuesQueuesParams = {
+  cursor?: PublicCursorParameter
+  limit?: PublicLimitParameter
+}
+
 export type PutMessageQueuesConfig400Code =
   (typeof PutMessageQueuesConfig400Code)[keyof typeof PutMessageQueuesConfig400Code]
 
@@ -190,9 +199,13 @@ export type PublicLimitParameter = number
 
 export type PublicCursorParameter = string
 
-export type GetMessageQueuesQueuesParams = {
-  cursor?: PublicCursorParameter
-  limit?: PublicLimitParameter
+export type MqMqIndividualLimitsMaxShardMessageCount = 'infinity' | number
+
+export type MqMqIndividualLimitsMaxShardMessageBytes = 'infinity' | string
+
+export interface MqMqIndividualLimits {
+  max_shard_message_bytes: MqMqIndividualLimitsMaxShardMessageBytes
+  max_shard_message_count: MqMqIndividualLimitsMaxShardMessageCount
 }
 
 export type MqMessageQueueRegularApiPostIsLastvalue =
@@ -217,6 +230,7 @@ export interface MqMessageQueueRegularApiPost {
   data_retention_period?: string
   dispatch_strategy?: MqMessageQueueRegularApiPostDispatchStrategy
   is_lastvalue: MqMessageQueueRegularApiPostIsLastvalue
+  limits: MqMqIndividualLimits
   topic_filter: string
 }
 
@@ -242,6 +256,7 @@ export interface MqMessageQueueRegularApiGet {
   data_retention_period?: string
   dispatch_strategy?: MqMessageQueueRegularApiGetDispatchStrategy
   is_lastvalue: MqMessageQueueRegularApiGetIsLastvalue
+  limits: MqMqIndividualLimits
   topic_filter: string
 }
 
@@ -268,6 +283,7 @@ export interface MqMessageQueueLastvalueApiPost {
   dispatch_strategy?: MqMessageQueueLastvalueApiPostDispatchStrategy
   is_lastvalue: MqMessageQueueLastvalueApiPostIsLastvalue
   key_expression: string
+  limits: MqMqIndividualLimits
   topic_filter: string
 }
 
@@ -294,12 +310,9 @@ export interface MqMessageQueueLastvalueApiGet {
   dispatch_strategy?: MqMessageQueueLastvalueApiGetDispatchStrategy
   is_lastvalue: MqMessageQueueLastvalueApiGetIsLastvalue
   key_expression: string
+  limits: MqMqIndividualLimits
   topic_filter: string
 }
-
-export type GetMessageQueuesQueues200Item =
-  | MqMessageQueueLastvalueApiGet
-  | MqMessageQueueRegularApiGet
 
 export type MqMessageQueueApiRegularPutIsLastvalue =
   (typeof MqMessageQueueApiRegularPutIsLastvalue)[keyof typeof MqMessageQueueApiRegularPutIsLastvalue]
@@ -323,6 +336,7 @@ export interface MqMessageQueueApiRegularPut {
   data_retention_period?: string
   dispatch_strategy?: MqMessageQueueApiRegularPutDispatchStrategy
   is_lastvalue: MqMessageQueueApiRegularPutIsLastvalue
+  limits: MqMqIndividualLimits
 }
 
 export type MqMessageQueueApiLastvaluePutIsLastvalue =
@@ -348,6 +362,7 @@ export interface MqMessageQueueApiLastvaluePut {
   dispatch_strategy?: MqMessageQueueApiLastvaluePutDispatchStrategy
   is_lastvalue: MqMessageQueueApiLastvaluePutIsLastvalue
   key_expression: string
+  limits: MqMqIndividualLimits
 }
 
 export type MqAutoCreateRegularDispatchStrategy =
@@ -363,6 +378,7 @@ export const MqAutoCreateRegularDispatchStrategy = {
 export interface MqAutoCreateRegular {
   data_retention_period?: string
   dispatch_strategy?: MqAutoCreateRegularDispatchStrategy
+  limits: MqMqIndividualLimits
 }
 
 export type MqAutoCreateLastvalueDispatchStrategy =
@@ -379,6 +395,7 @@ export interface MqAutoCreateLastvalue {
   data_retention_period?: string
   dispatch_strategy?: MqAutoCreateLastvalueDispatchStrategy
   key_expression: string
+  limits: MqMqIndividualLimits
 }
 
 export type MqAutoCreateRegularProperty = MqAutoCreateRegular | false

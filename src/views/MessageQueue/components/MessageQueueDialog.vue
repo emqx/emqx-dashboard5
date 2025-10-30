@@ -68,6 +68,47 @@
             <el-input v-model="form.key_expression" />
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-divider> {{ tl('limiter') }} </el-divider>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="limits.max_shard_message_count">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxShardMessageCount')"
+                :desc="tl('maxShardMessageCountDesc')"
+                desc-marked
+              />
+            </template>
+            <el-tooltip :disabled="!disableLimitsCount" :content="tl('limitsDisabledTip')">
+              <Oneof
+                class="in-one-row"
+                v-model="form.limits.max_shard_message_count"
+                :disabled="disableLimitsCount"
+                :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+              />
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="limits.max_shard_message_bytes">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxShardMessageBytes')"
+                :desc="tl('maxShardMessageBytesDesc')"
+                desc-marked
+              />
+            </template>
+            <el-tooltip :disabled="!disableLimitsBytes" :content="tl('limitsDisabledTip')">
+              <Oneof
+                class="in-one-row"
+                v-model="form.limits.max_shard_message_bytes"
+                :disabled="disableLimitsBytes"
+                :items="[{ type: 'byteSize' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+              />
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -112,12 +153,16 @@ const dialogVisible = computed({
 const isEdit = computed(() => !!props.queue)
 const title = computed(() => (isEdit.value ? tl('editMessageQueue') : tl('createMessageQueue')))
 
-const createEmptyForm = () => ({
+const createEmptyForm = (): MessageQueue => ({
   topic_filter: '',
   dispatch_strategy: MessageQueueDispatchStrategyValue.random,
   data_retention_period: '7d',
   is_lastvalue: true,
   key_expression: 'message.from',
+  limits: {
+    max_shard_message_count: 'infinity',
+    max_shard_message_bytes: 'infinity',
+  },
 })
 
 const form = ref<MessageQueue>(createEmptyForm())
@@ -125,10 +170,48 @@ const form = ref<MessageQueue>(createEmptyForm())
 const formRef = ref<FormInstance>()
 const submitting = ref(false)
 
+const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
+
+const isConfiguredInfinityCount = ref(true)
+const disableLimitsCount = computed(() => isEditingRegular.value && isConfiguredInfinityCount.value)
+
+const isConfiguredInfinityBytes = ref(true)
+const disableLimitsBytes = computed(() => isEditingRegular.value && isConfiguredInfinityBytes.value)
+
 const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules: FormRules = {
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
+  'limits.max_shard_message_count': [
+    ...createRequiredRule(tl('maxShardMessageCount')),
+    {
+      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
+        if (
+          isEditingRegular.value &&
+          !isConfiguredInfinityCount.value &&
+          value === INFINITY_VALUE
+        ) {
+          callback(new Error(tl('limitsDisabledTip')))
+        }
+        callback()
+      },
+    },
+  ],
+  'limits.max_shard_message_bytes': [
+    ...createRequiredRule(tl('maxShardMessageBytes')),
+    {
+      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
+        if (
+          isEditingRegular.value &&
+          !isConfiguredInfinityBytes.value &&
+          value === INFINITY_VALUE
+        ) {
+          callback(new Error(tl('limitsDisabledTip')))
+        }
+        callback()
+      },
+    },
+  ],
 }
 
 const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
@@ -178,6 +261,18 @@ const handleOpen = () => {
     if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
       form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)
     }
+    if (
+      form.value.limits.max_shard_message_bytes &&
+      typeof form.value.limits.max_shard_message_bytes === 'number'
+    ) {
+      form.value.limits.max_shard_message_bytes = transMemorySizeNumToStr(
+        form.value.limits.max_shard_message_bytes,
+        undefined,
+        false,
+      )
+    }
+    isConfiguredInfinityCount.value = form.value.limits.max_shard_message_count === INFINITY_VALUE
+    isConfiguredInfinityBytes.value = form.value.limits.max_shard_message_bytes === INFINITY_VALUE
   }
 }
 

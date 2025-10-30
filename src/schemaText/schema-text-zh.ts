@@ -354,6 +354,10 @@ export default {
   ssl_opts_verify: {
     label: '验证服务器证书',
   },
+  ssl_opts_middlebox_comp_mode: {
+    label: '中间件兼容模式',
+    desc: '是否开启 TLS-1.3 连接的中间件兼容模式。<br /> 许多中间件在 TLS-1.3 连接协商时行为异常，启用后可以通过适应 TLS-1.3 握手，使其更类似于 TLS-1.2 握手，从而增加通过这些中间件建立连接的机会。',
+  },
   ssl_opts_keyfile: {
     desc: 'PEM 格式的私钥文件。',
     label: 'Keyfile',

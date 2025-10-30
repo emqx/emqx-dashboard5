@@ -1,3 +1,4 @@
+<!-- Component for mqtt connector `static_clientids` `ids` -->
 <template>
   <div class="object-array-editor">
     <ul class="obj-list" v-if="inputValue && inputValue.length">
