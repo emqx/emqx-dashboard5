@@ -20,7 +20,7 @@ import {
   GetAuditFrom,
   GetAuditOperationResult,
 } from './schemas/audit.schemas'
-import { EmqxLog } from './schemas/configs.schemas'
+import { EmqxLog, EmqxManagedCerts } from './schemas/configs.schemas'
 import type {
   SchemaValidationValidation,
   SchemaValidationHttpApiReorder,
@@ -268,3 +268,4 @@ export type CertBundleOut = EmqxMgmtApiCertsBundleOut
 export type CertBundleIn = EmqxMgmtApiCertsFilesIn
 export type CertBundleInfo = Partial<Record<keyof CertBundleIn, { path: string }>>
 export type NamespaceCertBundleInfo = CertBundleInfo
+export type ManagedCerts = EmqxManagedCerts

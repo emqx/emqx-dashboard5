@@ -409,6 +409,7 @@ declare global {
   const useLogOut: typeof import('./hooks/useLogOut')['default']
   const useMFAMethods: typeof import('./hooks/useMFA')['useMFAMethods']
   const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
+  const useManagedNamespaceOptions: typeof import('./hooks/Config/useNamespace')['useManagedNamespaceOptions']
   const useMenus: typeof import('./hooks/useMenus')['default']
   const useMessageDroppedDetails: typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']
   const useMessageQueue: typeof import('./hooks/MessageQueue/useMessageQueue')['default']
@@ -567,6 +568,9 @@ declare global {
   // @ts-ignore
   export type { SchemaRules } from './hooks/Schema/useSchemaFormRules'
   import('./hooks/Schema/useSchemaFormRules')
+  // @ts-ignore
+  export type { CertBundleForm } from './hooks/useCertBundle'
+  import('./hooks/useCertBundle')
   // @ts-ignore
   export type { MetricKey } from './hooks/useDroppedDetail'
   import('./hooks/useDroppedDetail')
@@ -989,6 +993,7 @@ declare module 'vue' {
     readonly useLogOut: UnwrapRef<typeof import('./hooks/useLogOut')['default']>
     readonly useMFAMethods: UnwrapRef<typeof import('./hooks/useMFA')['useMFAMethods']>
     readonly useMQTTVersion5NewConfig: UnwrapRef<typeof import('./hooks/useMQTTVersion5NewConfig')['default']>
+    readonly useManagedNamespaceOptions: UnwrapRef<typeof import('./hooks/Config/useNamespace')['useManagedNamespaceOptions']>
     readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
     readonly useMessageDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']>
     readonly useMessageQueue: UnwrapRef<typeof import('./hooks/MessageQueue/useMessageQueue')['default']>
