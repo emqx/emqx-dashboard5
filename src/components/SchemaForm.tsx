@@ -604,8 +604,9 @@ const SchemaForm = defineComponent({
         }
         case 'ssl': {
           const ConfComponent = getSSLComponent(property)
+          const requireNamespace = props.type === 'connector'
           // do not show component is record is loading
-          // otherwise will influent the component to judge which component should be displaed
+          // otherwise will influent the component to judge which component should be displayed
           if (props.recordLoading) {
             return stringInput
           }
@@ -615,6 +616,7 @@ const SchemaForm = defineComponent({
               isEdit={!!props.form}
               {...handleUpdateModelValue}
               {...customProps}
+              requireNamespace={requireNamespace}
             />
           )
         }

@@ -120,7 +120,7 @@
       <el-button class="mb-4" @click="toggleCertBundle">
         {{ t('Base.backToLegacyCertUpload') }}
       </el-button>
-      <ManagedCertConfig v-model="record.managed_certs" />
+      <ManagedCertConfig v-model="record.managed_certs" :requireNamespace="requireNamespace" />
     </template>
   </div>
 </template>
@@ -185,6 +185,12 @@ const props = defineProps({
   hideVerify: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * for `managed_certs` in connector
+   */
+  requireNamespace: {
+    type: Boolean,
   },
 })
 
