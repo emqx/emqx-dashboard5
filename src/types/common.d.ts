@@ -1,5 +1,6 @@
 import { NodeStatusClass } from './enum'
 import { FormItemRule } from 'element-plus'
+import { ManagedCerts } from './typeAlias'
 
 export interface UserInfo {
   role: 'viewer' | 'administrator'
@@ -61,6 +62,7 @@ export interface SSL {
   keyfile?: string
   cacertfile?: string
   middlebox_comp_mode?: boolean
+  managed_certs?: ManagedCerts
 }
 
 export interface BackendI18n {

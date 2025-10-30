@@ -94,3 +94,18 @@ export default () => {
     updateNamespaceConfig,
   }
 }
+
+export const useManagedNamespaceOptions = () => {
+  const { t } = useI18n()
+  const globalNamespaceOption = {
+    label: t('BasicConfig.global'),
+    value: 'global',
+  }
+  const getNamespaceOptions = () => {
+    return getManagedNamespaceList({ limit: 10000 })
+  }
+  return {
+    globalNamespaceOption,
+    getNamespaceOptions,
+  }
+}

@@ -51,6 +51,7 @@ declare module 'vue' {
     LicensePromotion: typeof import('./components/LicensePromotion.vue')['default']
     LinkButton: typeof import('./components/Buttons/LinkButton.vue')['default']
     ListenerDrawer: typeof import('./components/ListenerDrawer/ListenerDrawer.vue')['default']
+    ManagedCertConfig: typeof import('./components/TLSConfig/ManagedCertConfig.vue')['default']
     MarkdownContent: typeof import('./components/MarkdownContent.vue')['default']
     MiniPagination: typeof import('./components/MiniPagination.vue')['default']
     Monaco: typeof import('./components/Monaco.vue')['default']

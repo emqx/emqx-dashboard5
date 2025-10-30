@@ -4,12 +4,17 @@
       <div class="section-header">
         <div>
           <el-select
-            v-model="selectedNamespace"
+            v-model="namespace"
             clearable
             :placeholder="t('BasicConfig.namespace')"
             @change="getCertBundleList"
           >
-            <el-option v-for="i in namespaceOptions" :key="i" :label="i" :value="i" />
+            <el-option
+              v-for="{ label, value } in namespaceOptions"
+              :key="value"
+              :label="label"
+              :value="value"
+            />
           </el-select>
         </div>
         <div>
@@ -31,7 +36,11 @@
       </el-table>
     </div>
   </div>
-  <CreateCertBundleDrawer v-model="isDrawerShow" @submit="handleSubmit" />
+  <CreateCertBundleDrawer
+    v-model="isDrawerShow"
+    :namespace="selectedNamespace"
+    @submit="handleSubmit"
+  />
   <CertBundleInfoDialog
     v-model="isInfoDialogVisible"
     :name="currentBundleName"
@@ -40,21 +49,26 @@
 </template>
 
 <script setup lang="ts">
-import { getManagedNamespaceList } from '@/api/config'
 import CreateCertBundleDrawer from '@/components/TLSConfig/CreateCertBundleDrawer.vue'
 import CertBundleInfoDialog from '@/components/TLSConfig/CertBundleInfoDialog.vue'
-import { CertBundleOut } from '@/types/typeAlias'
+import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
+import { OptionList } from '@/types/common'
 
 const { t } = useI18n()
 
 const isLoading = ref(false)
 
-const selectedNamespace = ref<string>('')
-const namespaceOptions = ref<string[]>([])
+const namespace = ref<string>(GLOBAL_NAMESPACE)
+const selectedNamespace = computed(() =>
+  namespace.value === GLOBAL_NAMESPACE ? undefined : namespace.value,
+)
+const namespaceOptions = ref<OptionList<string>>([])
+const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
+  useManagedNamespaceOptions()
 const getNamespaceOptions = async () => {
   try {
-    const res = await getManagedNamespaceList({ limit: 10000 })
-    namespaceOptions.value = res
+    const res = await requestNamespaceOptions()
+    namespaceOptions.value = [globalNamespaceOption, ...res.map((i) => ({ label: i, value: i }))]
   } catch (error) {
     //
   }
@@ -77,8 +91,7 @@ const { getCertBundleList: requestCertBundleList, deleteCertBundle } = useCertBu
 const getCertBundleList = async () => {
   try {
     isLoading.value = true
-    const namespace = selectedNamespace.value ? selectedNamespace.value : undefined
-    certBundleList.value = await requestCertBundleList(namespace)
+    certBundleList.value = await requestCertBundleList(selectedNamespace.value)
   } catch (error) {
     //
   } finally {
@@ -86,8 +99,8 @@ const getCertBundleList = async () => {
   }
 }
 
-const handleSubmit = async (namespace?: string) => {
-  selectedNamespace.value = namespace ?? ''
+const handleSubmit = async ({ namespace: ns }: ManagedCerts) => {
+  namespace.value = ns ?? GLOBAL_NAMESPACE
   getCertBundleList()
 }
 
@@ -97,7 +110,8 @@ const handleDelete = async (row: CertBundleOut) => {
   if (!name) {
     return
   }
-  return confirmDel(() => deleteCertBundle(name, selectedNamespace.value))
+  await confirmDel(() => deleteCertBundle(name, selectedNamespace.value))
+  getCertBundleList()
 }
 
 ;(async () => {

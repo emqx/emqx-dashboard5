@@ -30,87 +30,98 @@
         <FormItemLabel
           v-else
           label="SNI"
-          :desc="$attrs.content as string"
+          :desc="($attrs as any).content"
           v-bind="$attrs"
           desc-marked
         />
       </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </CustomFormItem>
-    <el-form-item :prop="getFormItemProp(`certfile`)">
-      <template #label>
-        <span>TLS Cert</span>
-        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
-      </template>
-      <!-- TODO: use CertFileInput.vue -->
-      <template v-if="!readonly">
-        <TextareaWithUploader
-          v-if="!isEdit || !record.certfile || openResetMap.certfile"
-          class="TLS-input"
-          v-model="record.certfile"
-          :accept="CER_FILE_ACCEPTS"
-          :placeholder="t('Base.certPlaceholder')"
-          @vue:mounted="editConfigItem('certfile')"
-        />
-        <ConfigItemDataLook
-          v-else
-          class="TLS-input"
-          :value="record.certfile"
-          @reset="editConfigItem('certfile')"
-        />
-      </template>
-      <p class="value" v-else>{{ record.certfile }}</p>
-    </el-form-item>
-    <el-form-item :prop="getFormItemProp(`keyfile`)">
-      <template #label>
-        <span>TLS Key</span>
-        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
-      </template>
-      <template v-if="!readonly">
-        <TextareaWithUploader
-          v-if="!isEdit || !record.keyfile || openResetMap.keyfile"
-          class="TLS-input"
-          v-model="record.keyfile"
-          :accept="CER_FILE_ACCEPTS"
-          :placeholder="t('Base.keyFilePlaceholder')"
-          @vue:mounted="editConfigItem('keyfile')"
-        />
-        <ConfigItemDataLook
-          v-else
-          class="TLS-input"
-          :value="record.keyfile"
-          @reset="editConfigItem('keyfile')"
-        />
-      </template>
-      <p class="value" v-else>{{ record.keyfile }}</p>
-    </el-form-item>
-    <!-- Displayed when verify is undefined(for confluent connector) or true -->
-    <el-form-item
-      :prop="getFormItemProp(`cacertfile`)"
-      v-if="record.verify !== SSL_VERIFY_VALUE_MAP.get(false)"
-    >
-      <template #label>
-        <span>CA Cert</span>
-        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
-      </template>
-      <template v-if="!readonly">
-        <TextareaWithUploader
-          v-if="!isEdit || !record.cacertfile || openResetMap.cacertfile"
-          class="TLS-input"
-          v-model="record.cacertfile"
-          :accept="CER_FILE_ACCEPTS"
-          :placeholder="t('Base.certPlaceholder')"
-          @vue:mounted="editConfigItem('cacertfile')"
-        />
-        <ConfigItemDataLook
-          v-else
-          class="TLS-input"
-          :value="record.cacertfile"
-          @reset="editConfigItem('cacertfile')"
-        />
-      </template>
-      <p class="value" v-else>{{ record.cacertfile }}</p>
-    </el-form-item>
+    <template v-if="!isUsingCertBundle">
+      <el-button class="mb-4" @click="toggleCertBundle">
+        {{ t('Base.useManagedCerts') }}
+      </el-button>
+      <el-form-item :prop="getFormItemProp(`certfile`)">
+        <template #label>
+          <span>TLS Cert</span>
+          <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
+        </template>
+        <!-- TODO: use CertFileInput.vue -->
+        <template v-if="!readonly">
+          <TextareaWithUploader
+            v-if="!isEdit || !record.certfile || openResetMap.certfile"
+            class="TLS-input"
+            v-model="record.certfile"
+            :accept="CER_FILE_ACCEPTS"
+            :placeholder="t('Base.certPlaceholder')"
+            @vue:mounted="editConfigItem('certfile')"
+          />
+          <ConfigItemDataLook
+            v-else
+            class="TLS-input"
+            :value="record.certfile"
+            @reset="editConfigItem('certfile')"
+          />
+        </template>
+        <p class="value" v-else>{{ record.certfile }}</p>
+      </el-form-item>
+      <el-form-item :prop="getFormItemProp(`keyfile`)">
+        <template #label>
+          <span>TLS Key</span>
+          <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
+        </template>
+        <template v-if="!readonly">
+          <TextareaWithUploader
+            v-if="!isEdit || !record.keyfile || openResetMap.keyfile"
+            class="TLS-input"
+            v-model="record.keyfile"
+            :accept="CER_FILE_ACCEPTS"
+            :placeholder="t('Base.keyFilePlaceholder')"
+            @vue:mounted="editConfigItem('keyfile')"
+          />
+          <ConfigItemDataLook
+            v-else
+            class="TLS-input"
+            :value="record.keyfile"
+            @reset="editConfigItem('keyfile')"
+          />
+        </template>
+        <p class="value" v-else>{{ record.keyfile }}</p>
+      </el-form-item>
+      <!-- Displayed when verify is undefined(for confluent connector) or true -->
+      <el-form-item
+        :prop="getFormItemProp(`cacertfile`)"
+        v-if="record.verify !== SSL_VERIFY_VALUE_MAP.get(false)"
+      >
+        <template #label>
+          <span>CA Cert</span>
+          <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
+        </template>
+        <template v-if="!readonly">
+          <TextareaWithUploader
+            v-if="!isEdit || !record.cacertfile || openResetMap.cacertfile"
+            class="TLS-input"
+            v-model="record.cacertfile"
+            :accept="CER_FILE_ACCEPTS"
+            :placeholder="t('Base.certPlaceholder')"
+            @vue:mounted="editConfigItem('cacertfile')"
+          />
+          <ConfigItemDataLook
+            v-else
+            class="TLS-input"
+            :value="record.cacertfile"
+            @reset="editConfigItem('cacertfile')"
+          />
+        </template>
+        <p class="value" v-else>{{ record.cacertfile }}</p>
+      </el-form-item>
+    </template>
+    <template v-else>
+      <el-button class="mb-4" @click="toggleCertBundle">
+        {{ t('Base.backToLegacyCertUpload') }}
+      </el-button>
+      <ManagedCertConfig v-model="record.managed_certs" />
+    </template>
   </div>
 </template>
 
@@ -126,6 +137,7 @@ import CustomFormItem from '../CustomFormItem.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 import FormItemLabel from '../FormItemLabel.vue'
+import ManagedCertConfig from './ManagedCertConfig.vue'
 
 type ConfigItemKey = 'certfile' | 'keyfile' | 'cacertfile'
 
@@ -188,6 +200,23 @@ const record = computed<SSL>({
     emit('update:modelValue', val)
   },
 })
+
+const isUsingCertBundle = ref(false)
+const toggleCertBundle = () => {
+  isUsingCertBundle.value = !isUsingCertBundle.value
+  if (isUsingCertBundle.value && !record.value.managed_certs) {
+    record.value.managed_certs = { bundle_name: '' }
+  } else if (!isUsingCertBundle.value && record.value.managed_certs) {
+    record.value.managed_certs = undefined
+  }
+}
+const initIsUsingCertBundle = () => {
+  if (!props.isEdit || !props.modelValue.managed_certs) {
+    return
+  }
+  isUsingCertBundle.value = !!props.modelValue.managed_certs.bundle_name
+}
+initIsUsingCertBundle()
 
 const openResetMap = ref<Record<ConfigItemKey, boolean>>({
   certfile: false,

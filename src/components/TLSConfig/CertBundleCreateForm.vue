@@ -91,7 +91,6 @@
 </template>
 
 <script setup lang="ts">
-import { getManagedNamespaceList } from '@/api/config'
 import { CertBundleForm } from '@/hooks/useCertBundle'
 import type { FormInstance } from 'element-plus'
 
@@ -165,10 +164,11 @@ const handleConfMethodChange = () => {
 
 const isLoading = ref(false)
 const namespaceOptions = ref<Array<string>>([])
+const { getNamespaceOptions: requestNamespaceOptions } = useManagedNamespaceOptions()
 const queryNamespaceList = async () => {
   try {
     isLoading.value = true
-    const res = await getManagedNamespaceList({ limit: 10000 })
+    const res = await requestNamespaceOptions()
     namespaceOptions.value = res
   } catch (error) {
     //
