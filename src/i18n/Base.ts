@@ -792,6 +792,10 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '创建托管证书',
     en: 'Create Managed Certs',
   },
+  certsInfo: {
+    zh: '证书信息',
+    en: 'Certs Info',
+  },
   backToLegacyCertUpload: {
     zh: '返回传统证书上传',
     en: 'Back to Legacy Cert Upload',

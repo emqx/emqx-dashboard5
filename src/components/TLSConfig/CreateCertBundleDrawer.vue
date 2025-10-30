@@ -4,6 +4,7 @@
     v-model="isDrawerShow"
     destroy-on-close
     :close-on-click-modal="false"
+    :title="t('Base.createManagedCerts')"
     @open="handleOpen"
     @close="handleClose"
   >

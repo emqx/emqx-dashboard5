@@ -209,12 +209,13 @@ const record = computed<SSL>({
 
 const isUsingCertBundle = ref(false)
 const toggleCertBundle = () => {
-  isUsingCertBundle.value = !isUsingCertBundle.value
-  if (isUsingCertBundle.value && !record.value.managed_certs) {
+  const newValue = !isUsingCertBundle.value
+  if (newValue && !record.value.managed_certs) {
     record.value.managed_certs = { bundle_name: '' }
-  } else if (!isUsingCertBundle.value && record.value.managed_certs) {
+  } else if (!newValue && record.value.managed_certs) {
     record.value.managed_certs = undefined
   }
+  isUsingCertBundle.value = newValue
 }
 const initIsUsingCertBundle = () => {
   if (!props.isEdit || !props.modelValue.managed_certs) {
