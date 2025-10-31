@@ -832,4 +832,8 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '切换证书来源为手动输入后，当前托管证书选中项将被清空，是否确认切换？',
     en: 'Switching the certificate source to manual input will clear the selected managed certificate. Confirm to switch?',
   },
+  managedCertBundleName: {
+    zh: '托管证书包名称',
+    en: 'Managed Cert Bundle Name',
+  },
 }

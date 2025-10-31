@@ -124,7 +124,13 @@
         <p class="value" v-else>{{ record.cacertfile }}</p>
       </el-form-item>
     </template>
-    <ManagedCertConfig v-else v-model="record.managed_certs" :requireNamespace="requireNamespace" />
+    <template v-else>
+      <ManagedCertConfig
+        v-model="record.managed_certs"
+        :sni="managedCertsArr"
+        :require-namespace="requireNamespace"
+      />
+    </template>
   </div>
 </template>
 
@@ -198,6 +204,13 @@ const props = defineProps({
    * for `managed_certs` in connector
    */
   requireNamespace: {
+    type: Boolean,
+  },
+  /**
+   * Setting this to true will enable the SNI configuration
+   * at ssl listener, wss listener, dtls listener in gateway, exproto gateway
+   */
+  managedCertsArr: {
     type: Boolean,
   },
 })
