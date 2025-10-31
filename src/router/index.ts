@@ -838,16 +838,16 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/certs-management',
+    path: '/certificates',
     component: Layout,
     meta: {
-      hideKey: 'certs-management',
+      hideKey: 'certificates',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'certs-management',
+        name: 'certificates',
         component: () => import('@/views/Config/BasicConfig/CertsManagement.vue'),
       },
     ],
