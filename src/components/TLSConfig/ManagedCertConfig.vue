@@ -1,5 +1,5 @@
 <template>
-  <div class="managed-cert-config">
+  <div class="managed-cert-config flex-1">
     <div class="grid gap-5" :class="gridColsClass">
       <el-form-item :label="t('BasicConfig.namespace')">
         <el-select v-model="namespace" @change="handleNamespaceChanged">

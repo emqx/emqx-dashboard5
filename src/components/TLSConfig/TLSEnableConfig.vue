@@ -126,10 +126,24 @@
     </template>
     <template v-else>
       <ManagedCertConfig
+        v-if="!managedCertsArr && !Array.isArray(record.managed_certs)"
         v-model="record.managed_certs"
-        :sni="managedCertsArr"
         :require-namespace="requireNamespace"
       />
+      <ListEditor
+        v-else-if="Array.isArray(record.managed_certs)"
+        :list="record.managed_certs"
+        @add="addManagedCert"
+        @delete="deleteManagedCert"
+      >
+        <template #default="{ index }">
+          <ManagedCertConfig
+            v-model="record.managed_certs[index]"
+            sni
+            :require-namespace="requireNamespace"
+          />
+        </template>
+      </ListEditor>
     </template>
   </div>
 </template>
@@ -234,13 +248,21 @@ const { operationWarning } = useOperationConfirm()
 const handleCertificateSourceChange = async (val: any) => {
   try {
     const newVal = val as CertificateSource
-    if (newVal === CertificateSource.Manual && record.value.managed_certs?.bundle_name) {
+    const { managed_certs: mC } = record.value
+    if (
+      newVal === CertificateSource.Manual &&
+      ((!Array.isArray(mC) && mC?.bundle_name) || (Array.isArray(mC) && mC.length > 0))
+    ) {
       await operationWarning(t('Base.certificateSourceChangeWarning'))
     }
     certificateSource.value = newVal
     const newValue = isUsingCertBundle.value
     if (newValue && !record.value.managed_certs) {
-      record.value.managed_certs = { bundle_name: '' }
+      if (props.managedCertsArr) {
+        record.value.managed_certs = []
+      } else {
+        record.value.managed_certs = { bundle_name: '' }
+      }
     } else if (!newValue && record.value.managed_certs) {
       record.value.managed_certs = undefined
     }
@@ -248,13 +270,25 @@ const handleCertificateSourceChange = async (val: any) => {
     //
   }
 }
+const addManagedCert = () => {
+  if (!Array.isArray(record.value.managed_certs)) {
+    return
+  }
+  record.value.managed_certs.push({ bundle_name: '' })
+}
+const deleteManagedCert = (index: number) => {
+  if (!Array.isArray(record.value.managed_certs)) {
+    return
+  }
+  record.value.managed_certs.splice(index, 1)
+}
 const initIsUsingCertBundle = () => {
   if (!props.isEdit || !props.modelValue.managed_certs) {
     return
   }
-  certificateSource.value = props.modelValue.managed_certs.bundle_name
-    ? CertificateSource.ManagedCerts
-    : CertificateSource.Manual
+  const { managed_certs: mC } = props.modelValue
+  const withValue = (!Array.isArray(mC) && mC?.bundle_name) || (Array.isArray(mC) && mC.length > 0)
+  certificateSource.value = withValue ? CertificateSource.ManagedCerts : CertificateSource.Manual
 }
 initIsUsingCertBundle()
 
