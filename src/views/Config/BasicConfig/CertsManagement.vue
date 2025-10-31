@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import CreateCertBundleDrawer from '@/components/TLSConfig/CreateCertBundleDrawer.vue'
+import CreateCertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import CertBundleInfoDialog from '@/components/TLSConfig/CertBundleInfoDialog.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
 import { OptionList } from '@/types/common'
