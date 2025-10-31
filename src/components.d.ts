@@ -49,6 +49,7 @@ declare module 'vue' {
     KeyAndValueEditor: typeof import('./components/KeyAndValueEditor.vue')['default']
     LicensePromotion: typeof import('./components/LicensePromotion.vue')['default']
     LinkButton: typeof import('./components/Buttons/LinkButton.vue')['default']
+    ListEditor: typeof import('./components/ListEditor.vue')['default']
     ListenerDrawer: typeof import('./components/ListenerDrawer/ListenerDrawer.vue')['default']
     ManagedCertConfig: typeof import('./components/TLSConfig/ManagedCertConfig.vue')['default']
     MarkdownContent: typeof import('./components/MarkdownContent.vue')['default']

@@ -62,7 +62,7 @@ export interface SSL {
   keyfile?: string
   cacertfile?: string
   middlebox_comp_mode?: boolean
-  managed_certs?: ManagedCerts
+  managed_certs?: ManagedCerts | ManagedCerts[]
 }
 
 export interface BackendI18n {
