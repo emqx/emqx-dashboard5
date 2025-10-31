@@ -8,12 +8,17 @@
     class="cert-bundle-create-form"
   >
     <el-form-item :label="t('Base.name')" prop="name">
-      <el-input v-model.trim="record.name" autocomplete="one-time-code" />
+      <el-input v-model.trim="record.name" autocomplete="one-time-code" :disabled="isEditing" />
     </el-form-item>
-    <el-form-item :label="t('BasicConfig.namespace')" prop="namespace">
+    <el-form-item prop="namespace" :label="t('BasicConfig.namespace')">
       <div class="flex flex-1 items-center gap-2">
-        <el-switch v-model="isNamespaceEnabled" />
-        <el-select v-if="isNamespaceEnabled" v-model="record.namespace" class="flex-1">
+        <el-switch v-model="isNamespaceEnabled" :disabled="isEditing" />
+        <el-select
+          v-if="isNamespaceEnabled"
+          v-model="record.namespace"
+          class="flex-1"
+          :disabled="isEditing"
+        >
           <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
         </el-select>
       </div>
@@ -32,9 +37,10 @@
           <span>TLS Cert</span>
           <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
         </template>
-        <TextareaWithUploader
+        <CertFileInput
           class="TLS-input"
           v-model="record.chain"
+          :is-edit="isEditing"
           :accept="CER_FILE_ACCEPTS"
           :placeholder="t('Base.certPlaceholder')"
         />
@@ -44,9 +50,10 @@
           <span>TLS Key</span>
           <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
         </template>
-        <TextareaWithUploader
+        <CertFileInput
           class="TLS-input"
           v-model="record.key"
+          :is-edit="isEditing"
           :accept="CER_FILE_ACCEPTS"
           :placeholder="t('Base.keyFilePlaceholder')"
         />
@@ -62,9 +69,10 @@
     </template>
 
     <el-form-item v-else prop="acc_key" :label="t('Base.acmeKey')">
-      <TextareaWithUploader
+      <CertFileInput
         class="TLS-input"
         v-model="record.acc_key"
+        :is-edit="isEditing"
         :accept="`${CER_FILE_ACCEPTS},.json`"
       />
     </el-form-item>
@@ -75,9 +83,10 @@
         <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
       </template>
 
-      <TextareaWithUploader
+      <CertFileInput
         class="TLS-input"
         v-model="record.ca"
+        :is-edit="isEditing"
         :accept="CER_FILE_ACCEPTS"
         :placeholder="t('Base.certPlaceholder')"
       />
@@ -97,6 +106,7 @@ const enum CertType {
 
 const props = defineProps<{
   modelValue: CertBundleForm
+  isEditing?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
