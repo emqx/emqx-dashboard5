@@ -3,21 +3,16 @@
   <el-drawer
     v-model="isDrawerShow"
     destroy-on-close
-    :close-on-click-modal="false"
     :title="title"
+    :before-close="checkBeforeClose"
+    :close-on-click-modal="false"
     @open="handleOpen"
     @close="handleClose"
   >
     <template #default>
       <!-- For correct init CertFileInput component-->
       <div class="placeholder h-96" v-if="isLoading" :loading="isLoading"></div>
-      <CertBundleCreateForm
-        v-else
-        ref="formRef"
-        v-model="formData"
-        :is-editing="isEditing"
-        :cert-bundle-type="certBundleType"
-      />
+      <CertBundleCreateForm v-else ref="formRef" v-model="formData" :is-editing="isEditing" />
     </template>
     <template #footer>
       <CancelButton @click="isDrawerShow = false" :disabled="isSubmitting" />
@@ -29,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CertBundleForm, CertBundleType } from '@/hooks/useCertBundle'
+import { CertBundleForm } from '@/hooks/useCertBundle'
 import { CertBundleIn, ManagedCerts } from '@/types/typeAlias'
 import type { FormInstance } from 'element-plus'
 import CertBundleCreateForm from './CertBundleForm.vue'
@@ -63,7 +58,6 @@ const isEditing = computed(() => !!props.bundleName)
 
 const { createEmptyCertBundleForm, getCertBundleInfo: queryBundleInfo } = useCertBundle()
 const formData = ref<CertBundleForm>(createEmptyCertBundleForm())
-const certBundleType = ref(CertBundleType.Regular)
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
@@ -87,7 +81,6 @@ const getBundleInfo = async () => {
       namespace: props.namespace,
       ...bundleInfo,
     }
-    certBundleType.value = info.acc_key ? CertBundleType.ACME : CertBundleType.Regular
   } catch (error) {
     //
   } finally {
@@ -95,12 +88,25 @@ const getBundleInfo = async () => {
   }
 }
 
-const handleOpen = () => {
+const handleOpen = async () => {
   if (props.bundleName) {
-    getBundleInfo()
+    await getBundleInfo()
   } else if (props.namespace) {
     formData.value.namespace = props.namespace
   }
+  rawFormData = cloneDeep(formData.value)
+}
+
+let rawFormData: CertBundleForm = { name: '' }
+const checkBeforeClose = async (done: () => void) => {
+  if (!isEqual(rawFormData, formData.value)) {
+    await ElMessageBox.confirm(t('Base.unloadTip'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+  }
+  done()
 }
 
 const handleClose = async () => {

@@ -101,11 +101,9 @@ import type { FormInstance } from 'element-plus'
 const props = defineProps<{
   modelValue: CertBundleForm
   isEditing?: boolean
-  certBundleType?: CertBundleType
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
-  (e: 'update:certBundleType', value: CertBundleType): void
 }>()
 
 const { t } = useI18n()
@@ -152,14 +150,13 @@ const isNamespaceEnabled = computed({
   },
 })
 
-const confMethod = computed({
-  get() {
-    return props.certBundleType ?? CertBundleType.Regular
-  },
-  set(val) {
-    emit('update:certBundleType', val)
-  },
-})
+const confMethod = ref(CertBundleType.Regular)
+const initConfMethod = () => {
+  if (props.isEditing) {
+    confMethod.value = record.value.acc_key ? CertBundleType.ACME : CertBundleType.Regular
+  }
+}
+initConfMethod()
 
 const { operationWarning } = useOperationConfirm()
 const handleConfMethodChange = async (val: any) => {
