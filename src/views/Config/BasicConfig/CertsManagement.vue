@@ -18,15 +18,21 @@
           </el-select>
         </div>
         <div>
-          <CreateButton @click="openCreateCertBundleDrawer" />
+          <CreateButton @click="createBundle" />
         </div>
       </div>
       <el-table :data="certBundleList" v-loading.lock="isLoading">
-        <el-table-column prop="name" :label="t('Base.name')" />
+        <el-table-column prop="name" :label="t('Base.name')">
+          <template #default="{ row }">
+            <el-button link type="primary" @click="editBundle(row.name)">
+              {{ row.name }}
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column :label="t('Base.operation')" width="180">
           <template #default="{ row }">
-            <TableButton :disabled="!$hasPermission('delete')" @click="viewCertBundle(row.name)">
-              {{ t('Base.view') }}
+            <TableButton :disabled="!$hasPermission('delete')" @click="editBundle(row.name)">
+              {{ t('Base.edit') }}
             </TableButton>
             <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
               {{ t('Base.delete') }}
@@ -36,21 +42,16 @@
       </el-table>
     </div>
   </div>
-  <CreateCertBundleDrawer
+  <CertBundleDrawer
     v-model="isDrawerShow"
+    :bundle-name="currentBundleName"
     :namespace="selectedNamespace"
     @submit="handleSubmit"
-  />
-  <CertBundleInfoDialog
-    v-model="isInfoDialogVisible"
-    :name="currentBundleName"
-    :namespace="selectedNamespace"
   />
 </template>
 
 <script setup lang="ts">
-import CreateCertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
-import CertBundleInfoDialog from '@/components/TLSConfig/CertBundleInfoDialog.vue'
+import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
 import { OptionList } from '@/types/common'
 
@@ -73,17 +74,17 @@ const getNamespaceOptions = async () => {
     //
   }
 }
-
 const isDrawerShow = ref(false)
-const openCreateCertBundleDrawer = () => {
+const currentBundleName = ref<string>('')
+
+const createBundle = () => {
+  currentBundleName.value = ''
   isDrawerShow.value = true
 }
 
-const isInfoDialogVisible = ref(false)
-const currentBundleName = ref<string>('')
-const viewCertBundle = (name: string) => {
+const editBundle = (name: string) => {
   currentBundleName.value = name
-  isInfoDialogVisible.value = true
+  isDrawerShow.value = true
 }
 
 const certBundleList = ref<CertBundleOut[]>([])

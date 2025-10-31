@@ -788,6 +788,10 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '使用托管证书',
     en: 'Use Managed Certs',
   },
+  editManagedCerts: {
+    zh: '编辑托管证书',
+    en: 'Edit Managed Certs',
+  },
   createManagedCerts: {
     zh: '创建托管证书',
     en: 'Create Managed Certs',
