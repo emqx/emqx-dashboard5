@@ -26,7 +26,7 @@
 import { CertBundleForm } from '@/hooks/useCertBundle'
 import { CertBundleIn, ManagedCerts } from '@/types/typeAlias'
 import type { FormInstance } from 'element-plus'
-import CertBundleCreateForm from './CertBundleCreateForm.vue'
+import CertBundleCreateForm from './CertBundleForm.vue'
 
 const props = defineProps<{
   modelValue: boolean
