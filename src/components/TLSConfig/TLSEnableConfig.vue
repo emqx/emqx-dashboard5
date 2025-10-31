@@ -37,8 +37,8 @@
       </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </CustomFormItem>
-    <el-form-item :label="t('Base.certificateSource')" @change="handleCertificateSourceChange">
-      <el-radio-group v-model="certificateSource">
+    <el-form-item :label="t('Base.certificateSource')">
+      <el-radio-group :model-value="certificateSource" @change="handleCertificateSourceChange">
         <el-radio :value="CertificateSource.Manual">
           {{ t('Base.enterManually') }}
         </el-radio>
@@ -217,12 +217,22 @@ const record = computed<SSL>({
 
 const certificateSource = ref(CertificateSource.Manual)
 const isUsingCertBundle = computed(() => certificateSource.value === CertificateSource.ManagedCerts)
-const handleCertificateSourceChange = () => {
-  const newValue = isUsingCertBundle.value
-  if (newValue && !record.value.managed_certs) {
-    record.value.managed_certs = { bundle_name: '' }
-  } else if (!newValue && record.value.managed_certs) {
-    record.value.managed_certs = undefined
+const { operationWarning } = useOperationConfirm()
+const handleCertificateSourceChange = async (val: any) => {
+  try {
+    const newVal = val as CertificateSource
+    if (newVal === CertificateSource.Manual && record.value.managed_certs?.bundle_name) {
+      await operationWarning(t('Base.certificateSourceChangeWarning'))
+    }
+    certificateSource.value = newVal
+    const newValue = isUsingCertBundle.value
+    if (newValue && !record.value.managed_certs) {
+      record.value.managed_certs = { bundle_name: '' }
+    } else if (!newValue && record.value.managed_certs) {
+      record.value.managed_certs = undefined
+    }
+  } catch (error) {
+    //
   }
 }
 const initIsUsingCertBundle = () => {
