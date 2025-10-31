@@ -42,7 +42,7 @@
 import CertBundleInfo from '@/components/TLSConfig/CertBundleInfo.vue'
 import { OptionList } from '@/types/common'
 import { ManagedCerts } from '@/types/typeAlias'
-import CreateCertBundleDrawer from './CreateCertBundleDrawer.vue'
+import CreateCertBundleDrawer from './CertBundleDrawer.vue'
 
 const props = withDefaults(
   defineProps<{
