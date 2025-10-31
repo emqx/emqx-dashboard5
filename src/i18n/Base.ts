@@ -784,10 +784,6 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '私钥密码',
     en: 'Key Password',
   },
-  useManagedCerts: {
-    zh: '使用托管证书',
-    en: 'Use Managed Certs',
-  },
   editManagedCerts: {
     zh: '编辑托管证书',
     en: 'Edit Managed Certs',
@@ -800,10 +796,6 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '证书信息',
     en: 'Certs Info',
   },
-  backToLegacyCertUpload: {
-    zh: '返回传统证书上传',
-    en: 'Back to Legacy Cert Upload',
-  },
   certRequired: {
     zh: '请至少上传一个证书',
     en: 'Please upload at least one certificate',
@@ -815,5 +807,17 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   isDuplicated: {
     zh: '已存在同名管理证书包',
     en: 'Duplicated managed certs bundle name',
+  },
+  certificateSource: {
+    zh: '证书来源',
+    en: 'Certificate Source',
+  },
+  enterManually: {
+    zh: '手动输入',
+    en: 'Enter Manually',
+  },
+  selectFromManagedCerts: {
+    zh: '从托管证书中选择',
+    en: 'Select from Managed Certs',
   },
 }
