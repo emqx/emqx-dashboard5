@@ -37,10 +37,18 @@
       </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </CustomFormItem>
+    <el-form-item :label="t('Base.certificateSource')" @change="handleCertificateSourceChange">
+      <el-radio-group v-model="certificateSource">
+        <el-radio :value="CertificateSource.Manual">
+          {{ t('Base.enterManually') }}
+        </el-radio>
+        <el-radio :value="CertificateSource.ManagedCerts">
+          {{ t('Base.selectFromManagedCerts') }}
+        </el-radio>
+      </el-radio-group>
+    </el-form-item>
+
     <template v-if="!isUsingCertBundle">
-      <el-button class="mb-4" @click="toggleCertBundle">
-        {{ t('Base.useManagedCerts') }}
-      </el-button>
       <el-form-item :prop="getFormItemProp(`certfile`)">
         <template #label>
           <span>TLS Cert</span>
@@ -116,12 +124,7 @@
         <p class="value" v-else>{{ record.cacertfile }}</p>
       </el-form-item>
     </template>
-    <template v-else>
-      <el-button class="mb-4" @click="toggleCertBundle">
-        {{ t('Base.backToLegacyCertUpload') }}
-      </el-button>
-      <ManagedCertConfig v-model="record.managed_certs" :requireNamespace="requireNamespace" />
-    </template>
+    <ManagedCertConfig v-else v-model="record.managed_certs" :requireNamespace="requireNamespace" />
   </div>
 </template>
 
@@ -134,10 +137,15 @@ export default defineComponent({
 <script setup lang="ts">
 import { SSL } from '@/types/common'
 import CustomFormItem from '../CustomFormItem.vue'
+import FormItemLabel from '../FormItemLabel.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
-import FormItemLabel from '../FormItemLabel.vue'
 import ManagedCertConfig from './ManagedCertConfig.vue'
+
+const enum CertificateSource {
+  Manual,
+  ManagedCerts,
+}
 
 type ConfigItemKey = 'certfile' | 'keyfile' | 'cacertfile'
 
@@ -207,21 +215,23 @@ const record = computed<SSL>({
   },
 })
 
-const isUsingCertBundle = ref(false)
-const toggleCertBundle = () => {
-  const newValue = !isUsingCertBundle.value
+const certificateSource = ref(CertificateSource.Manual)
+const isUsingCertBundle = computed(() => certificateSource.value === CertificateSource.ManagedCerts)
+const handleCertificateSourceChange = () => {
+  const newValue = isUsingCertBundle.value
   if (newValue && !record.value.managed_certs) {
     record.value.managed_certs = { bundle_name: '' }
   } else if (!newValue && record.value.managed_certs) {
     record.value.managed_certs = undefined
   }
-  isUsingCertBundle.value = newValue
 }
 const initIsUsingCertBundle = () => {
   if (!props.isEdit || !props.modelValue.managed_certs) {
     return
   }
-  isUsingCertBundle.value = !!props.modelValue.managed_certs.bundle_name
+  certificateSource.value = props.modelValue.managed_certs.bundle_name
+    ? CertificateSource.ManagedCerts
+    : CertificateSource.Manual
 }
 initIsUsingCertBundle()
 
