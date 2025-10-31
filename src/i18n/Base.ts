@@ -804,4 +804,12 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '请至少上传一个证书',
     en: 'Please upload at least one certificate',
   },
+  duplicatedCheckFailed: {
+    zh: '检查失败，请稍后重试',
+    en: 'Check failed, please try again later',
+  },
+  isDuplicated: {
+    zh: '已存在同名管理证书包',
+    en: 'Duplicated managed certs bundle name',
+  },
 }
