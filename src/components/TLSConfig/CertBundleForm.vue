@@ -25,13 +25,13 @@
     </el-form-item>
 
     <el-form-item :label="t('Base.configurationMethod')">
-      <el-radio-group v-model="confMethod" @change="handleConfMethodChange">
-        <el-radio :value="CertType.Regular">{{ t('Base.certAndKey') }}</el-radio>
-        <el-radio :value="CertType.ACME">{{ t('Base.acmeKey') }}</el-radio>
+      <el-radio-group :model-value="confMethod" @change="handleConfMethodChange">
+        <el-radio :value="CertBundleType.Regular">{{ t('Base.certAndKey') }}</el-radio>
+        <el-radio :value="CertBundleType.ACME">{{ t('Base.acmeKey') }}</el-radio>
       </el-radio-group>
     </el-form-item>
 
-    <template v-if="confMethod === CertType.Regular">
+    <template v-if="confMethod === CertBundleType.Regular">
       <el-form-item prop="chain">
         <template #label>
           <span>TLS Cert</span>
@@ -95,21 +95,17 @@
 </template>
 
 <script setup lang="ts">
-import { CertBundleForm } from '@/hooks/useCertBundle'
+import { CertBundleForm, CertBundleType } from '@/hooks/useCertBundle'
 import type { FormInstance } from 'element-plus'
-
-const enum CertType {
-  /* cert + key + [key_password] */
-  Regular,
-  ACME,
-}
 
 const props = defineProps<{
   modelValue: CertBundleForm
   isEditing?: boolean
+  certBundleType?: CertBundleType
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
+  (e: 'update:certBundleType', value: CertBundleType): void
 }>()
 
 const { t } = useI18n()
@@ -156,15 +152,35 @@ const isNamespaceEnabled = computed({
   },
 })
 
-const confMethod = ref<CertType>(CertType.Regular)
+const confMethod = computed({
+  get() {
+    return props.certBundleType ?? CertBundleType.Regular
+  },
+  set(val) {
+    emit('update:certBundleType', val)
+  },
+})
 
-const handleConfMethodChange = () => {
-  if (confMethod.value === CertType.Regular) {
-    record.value.acc_key = ''
-  } else {
-    record.value.chain = ''
-    record.value.key = ''
-    record.value.key_password = ''
+const { operationWarning } = useOperationConfirm()
+const handleConfMethodChange = async (val: any) => {
+  try {
+    const nV = val as CertBundleType
+    const { acc_key, chain, key, key_password } = record.value
+    if (nV === CertBundleType.ACME && (key_password || chain || key)) {
+      await operationWarning(t('Base.switchConfigurationMethodToACMEWarning'))
+    } else if (nV === CertBundleType.Regular && acc_key) {
+      await operationWarning(t('Base.switchConfigurationMethodToRegularWarning'))
+    }
+    confMethod.value = nV
+    if (confMethod.value === CertBundleType.Regular) {
+      record.value.acc_key = ''
+    } else {
+      record.value.chain = ''
+      record.value.key = ''
+      record.value.key_password = ''
+    }
+  } catch (error) {
+    //
   }
 }
 
@@ -186,7 +202,7 @@ queryNamespaceList()
 
 const validateCerts = () => {
   const { chain, key, ca } = record.value
-  if (confMethod.value === CertType.Regular && !chain && !key && !ca) {
+  if (confMethod.value === CertBundleType.Regular && !chain && !key && !ca) {
     ElMessage.error(t('Base.certRequired'))
     return Promise.reject(new Error(t('Base.certsRequired')))
   }

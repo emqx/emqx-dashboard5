@@ -11,7 +11,13 @@
     <template #default>
       <!-- For correct init CertFileInput component-->
       <div class="placeholder h-96" v-if="isLoading" :loading="isLoading"></div>
-      <CertBundleCreateForm v-else ref="formRef" v-model="formData" :is-editing="isEditing" />
+      <CertBundleCreateForm
+        v-else
+        ref="formRef"
+        v-model="formData"
+        :is-editing="isEditing"
+        :cert-bundle-type="certBundleType"
+      />
     </template>
     <template #footer>
       <CancelButton @click="isDrawerShow = false" :disabled="isSubmitting" />
@@ -23,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CertBundleForm } from '@/hooks/useCertBundle'
+import { CertBundleForm, CertBundleType } from '@/hooks/useCertBundle'
 import { CertBundleIn, ManagedCerts } from '@/types/typeAlias'
 import type { FormInstance } from 'element-plus'
 import CertBundleCreateForm from './CertBundleForm.vue'
@@ -57,6 +63,7 @@ const isEditing = computed(() => !!props.bundleName)
 
 const { createEmptyCertBundleForm, getCertBundleInfo: queryBundleInfo } = useCertBundle()
 const formData = ref<CertBundleForm>(createEmptyCertBundleForm())
+const certBundleType = ref(CertBundleType.Regular)
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
@@ -80,6 +87,7 @@ const getBundleInfo = async () => {
       namespace: props.namespace,
       ...bundleInfo,
     }
+    certBundleType.value = info.acc_key ? CertBundleType.ACME : CertBundleType.Regular
   } catch (error) {
     //
   } finally {

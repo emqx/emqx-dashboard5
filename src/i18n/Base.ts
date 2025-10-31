@@ -772,6 +772,14 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '配置方式',
     en: 'Configuration Method',
   },
+  switchConfigurationMethodToACMEWarning: {
+    zh: '切换配置方式为 ACME 后，当前已配置的 Cert，Key 和私钥密码将被清空，是否确认切换？',
+    en: 'Switching the configuration method to ACME will clear the current configured Cert, Key and key password. Confirm to switch?',
+  },
+  switchConfigurationMethodToRegularWarning: {
+    zh: '切换配置方式为 Cert & Key 后，当前已配置的 ACME 账户密钥将被清空，是否确认切换？',
+    en: 'Switching the configuration method to Cert & Key will clear the current configured ACME account key. Confirm to switch?',
+  },
   acmeKey: {
     zh: 'ACME 账户密钥',
     en: 'ACME Account Key',

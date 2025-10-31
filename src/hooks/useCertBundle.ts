@@ -15,6 +15,17 @@ export interface CertBundleForm extends CertBundleIn {
   namespace?: string
 }
 
+export enum CertBundleType {
+  /**
+   * cert + key + [key_password]
+   */
+  Regular = 'regular',
+  /**
+   * acc_key
+   */
+  ACME = 'acme',
+}
+
 const useCertBundle = () => {
   const createEmptyCertBundle = (): CertBundleIn => {
     return {
