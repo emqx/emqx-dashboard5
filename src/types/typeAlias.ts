@@ -3,7 +3,10 @@ import {
   EmqxAuthzApiMnesiaRuleItemAction,
   EmqxAuthzApiMnesiaRuleItemPermission,
 } from './schemas/authorization.schemas'
-import { PostGatewaysNameListenersBody } from './schemas/gatewayListeners.schemas'
+import {
+  EmqxManagedCertsServer,
+  PostGatewaysNameListenersBody,
+} from './schemas/gatewayListeners.schemas'
 import {
   EmqxGatewayApiUpdateCoap,
   EmqxGatewayApiUpdateExproto,
@@ -269,3 +272,4 @@ export type CertBundleIn = EmqxMgmtApiCertsFilesIn
 export type CertBundleInfo = Partial<Record<keyof CertBundleIn, { path: string }>>
 export type NamespaceCertBundleInfo = CertBundleInfo
 export type ManagedCerts = EmqxManagedCerts
+export type ManagedCertsServer = EmqxManagedCertsServer

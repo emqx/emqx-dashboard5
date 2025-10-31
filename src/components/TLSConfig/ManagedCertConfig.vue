@@ -1,12 +1,8 @@
 <template>
   <div class="managed-cert-config">
-    <div class="grid gap-5 mb-4" :class="gridColsClass">
-      <div>
-        <el-select
-          v-model="namespace"
-          :placeholder="t('BasicConfig.namespace')"
-          @change="handleNamespaceChanged"
-        >
+    <div class="grid gap-5" :class="gridColsClass">
+      <el-form-item :label="t('BasicConfig.namespace')">
+        <el-select v-model="namespace" @change="handleNamespaceChanged">
           <el-option
             v-for="{ value, label } in namespaceOptions"
             :key="label"
@@ -14,21 +10,28 @@
             :value="value"
           />
         </el-select>
-      </div>
-      <div class="flex items-center gap-2">
-        <el-select v-model="record.bundle_name">
-          <el-option v-for="item in bundleOptions" :key="item" :label="item" :value="item" />
-        </el-select>
-        <el-button @click="createNewCertBundle">
-          {{ t('Base.createManagedCerts') }}
-        </el-button>
-      </div>
+      </el-form-item>
+      <el-form-item :label="t('Base.managedCertBundleName')">
+        <div class="flex items-center gap-2 flex-1">
+          <el-select v-model="record.bundle_name">
+            <el-option v-for="item in bundleOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+          <el-button @click="createNewCertBundle">
+            {{ t('Base.createManagedCerts') }}
+          </el-button>
+        </div>
+      </el-form-item>
     </div>
-    <div v-if="record.bundle_name">
-      <p class="mb-1">{{ t('Base.certsInfo') }}</p>
+    <div class="mb-4" v-if="record.bundle_name">
+      <p class="mb-2">{{ t('Base.certsInfo') }}</p>
       <div class="info-card">
         <CertBundleInfo :name="record.bundle_name" :namespace="selectedNamespace" />
       </div>
+    </div>
+    <div class="grid gap-5" :class="gridColsClass" v-if="sni">
+      <el-form-item label="SNI">
+        <el-input class="TLS-input" v-model="(record as ManagedCertsServer).sni" />
+      </el-form-item>
     </div>
     <CreateCertBundleDrawer
       v-model="isCreateDrawerVisible"
@@ -41,14 +44,15 @@
 <script setup lang="ts">
 import CertBundleInfo from '@/components/TLSConfig/CertBundleInfo.vue'
 import { OptionList } from '@/types/common'
-import { ManagedCerts } from '@/types/typeAlias'
+import { ManagedCerts, ManagedCertsServer } from '@/types/typeAlias'
 import CreateCertBundleDrawer from './CertBundleDrawer.vue'
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: ManagedCerts
+    modelValue?: ManagedCerts | ManagedCertsServer
     requireNamespace?: boolean
     columns?: number
+    sni?: boolean
   }>(),
   {
     columns: 2,
