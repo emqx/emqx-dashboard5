@@ -132,16 +132,19 @@
       />
       <ListEditor
         v-else-if="Array.isArray(record.managed_certs)"
+        class="managed-cert-list"
         :list="record.managed_certs"
         @add="addManagedCert"
         @delete="deleteManagedCert"
       >
         <template #default="{ index }">
-          <ManagedCertConfig
-            v-model="record.managed_certs[index]"
-            sni
-            :require-namespace="requireNamespace"
-          />
+          <el-card class="flex-1">
+            <ManagedCertConfig
+              v-model="record.managed_certs[index]"
+              sni
+              :require-namespace="requireNamespace"
+            />
+          </el-card>
         </template>
       </ListEditor>
     </template>
@@ -245,6 +248,7 @@ const record = computed<SSL>({
 const certificateSource = ref(CertificateSource.Manual)
 const isUsingCertBundle = computed(() => certificateSource.value === CertificateSource.ManagedCerts)
 const { operationWarning } = useOperationConfirm()
+const { createEmptyManagedCertConf } = useManagedCertConf()
 const handleCertificateSourceChange = async (val: any) => {
   try {
     const newVal = val as CertificateSource
@@ -259,9 +263,9 @@ const handleCertificateSourceChange = async (val: any) => {
     const newValue = isUsingCertBundle.value
     if (newValue && !record.value.managed_certs) {
       if (props.managedCertsArr) {
-        record.value.managed_certs = []
+        record.value.managed_certs = [createEmptyManagedCertConf()]
       } else {
-        record.value.managed_certs = { bundle_name: '' }
+        record.value.managed_certs = createEmptyManagedCertConf()
       }
     } else if (!newValue && record.value.managed_certs) {
       record.value.managed_certs = undefined
@@ -274,7 +278,7 @@ const addManagedCert = () => {
   if (!Array.isArray(record.value.managed_certs)) {
     return
   }
-  record.value.managed_certs.push({ bundle_name: '' })
+  record.value.managed_certs.push(createEmptyManagedCertConf())
 }
 const deleteManagedCert = (index: number) => {
   if (!Array.isArray(record.value.managed_certs)) {

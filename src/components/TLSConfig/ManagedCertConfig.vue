@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="grid gap-5" :class="gridColsClass" v-if="sni">
-      <el-form-item label="SNI">
+      <el-form-item label="SNI" class="sni-form-item">
         <el-input class="TLS-input" v-model="(record as ManagedCertsServer).sni" />
       </el-form-item>
     </div>
@@ -63,10 +63,10 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-
+const { createEmptyManagedCertConf } = useManagedCertConf()
 const record = computed<ManagedCerts>({
   get() {
-    return props.modelValue ?? { bundle_name: '' }
+    return props.modelValue ?? createEmptyManagedCertConf()
   },
   set(val) {
     emit('update:modelValue', val)
@@ -155,6 +155,11 @@ const gridColsClass = computed(() => {
     .el-card__body {
       padding-top: 12px;
       padding-bottom: 8px;
+    }
+  }
+  .el-form-item {
+    &:not(.sni-form-item) {
+      margin-bottom: 18px;
     }
   }
 }
