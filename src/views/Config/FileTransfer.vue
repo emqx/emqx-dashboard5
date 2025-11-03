@@ -111,6 +111,7 @@ const isSchemaLoading = ref(false)
 const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
 
 const labelWidth = computed(() => (state.lang === 'zh' ? 210 : 230))
+const certInfoPaddingLeft = computed(() => `${labelWidth.value}px`)
 
 const propsOrderMap = {
   basic: createOrderObj([], 0),
@@ -149,17 +150,31 @@ const propsOrderMap = {
 const recordInS3Form: Ref<FileTransferConf> = ref({})
 const sslConfPath = 'storage.local.exporter.s3.transport_options.ssl'
 const getSSLConfPath = (key: string) => `${sslConfPath}.${key}`
+const keysInCommonConfComponent = [
+  'enable',
+  'verify',
+  'middlebox_comp_mode',
+  'verify',
+  'keyfile',
+  'certfile',
+  'cacertfile',
+  'server_name_indication',
+  'managed_certs.namespace',
+  'managed_certs.bundle_name',
+]
+const staticClass = {
+  [sslConfPath]: 'col-ssl',
+}
 const customColClass = computed(() => {
   const isSSLEnabled = get(recordInS3Form.value, getSSLConfPath('enable'))
   if (isSSLEnabled) {
-    return {}
+    return keysInCommonConfComponent.reduce((obj: Record<string, string>, key) => {
+      return { ...obj, [getSSLConfPath(key)]: 'is-hidden' }
+    }, staticClass)
   }
   return SSL_FIELDS.reduce((obj: Record<string, string>, key) => {
-    if (key === 'enable') {
-      return obj
-    }
     return { ...obj, [getSSLConfPath(key)]: 'is-hidden' }
-  }, {})
+  }, staticClass)
 })
 const getRecordInS3Form = () => {
   recordInS3Form.value = S3StorageFormCom.value.configForm
@@ -272,6 +287,11 @@ const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
   }
 
   if (type === 's3') {
+    const sslSchema = get(components, getFieldSchemaPath(sslConfPath))
+    if (sslSchema) {
+      sslSchema.componentProps = { managedCertConfColumns: 1 }
+    }
+
     const fieldVerifySchema = get(components, getFieldSchemaPath(getSSLConfPath('verify')))
     fieldVerifySchema && handleFieldVerifySchema(fieldVerifySchema)
 
@@ -418,6 +438,25 @@ loadData()
   }
   .el-col-24 {
     padding: 8px;
+  }
+  .col-ssl {
+    padding: 0;
+    > .el-form-item:nth-child(1) {
+      > .el-form-item__label {
+        display: none;
+      }
+    }
+    > .el-form-item {
+      margin-top: 0;
+      margin-bottom: 0;
+      .el-form-item {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+    }
+  }
+  .info-container {
+    padding-left: v-bind(certInfoPaddingLeft);
   }
 }
 </style>

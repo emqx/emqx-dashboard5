@@ -97,6 +97,7 @@ export default (
             if (prop.properties.verify) {
               prop.properties.verify.default = DEFAULT_SSL_VERIFY_VALUE
             }
+            prop.componentProps = { ...(prop.componentProps ?? { requireNamespace: true }) }
           } else {
             walk(prop.properties)
           }
