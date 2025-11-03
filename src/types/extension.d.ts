@@ -25,6 +25,7 @@ export interface Retainer {
     storage_type: string
     max_retained_messages: number
   }
+  dispatch_retry_ttl: string
 }
 
 export interface RetainerMessage {
