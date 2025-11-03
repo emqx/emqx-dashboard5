@@ -604,7 +604,6 @@ const SchemaForm = defineComponent({
         }
         case 'ssl': {
           const ConfComponent = getSSLComponent(property)
-          const requireNamespace = props.type === 'connector'
           // do not show component is record is loading
           // otherwise will influent the component to judge which component should be displayed
           if (props.recordLoading) {
@@ -616,7 +615,6 @@ const SchemaForm = defineComponent({
               isEdit={!!props.form}
               {...handleUpdateModelValue}
               {...customProps}
-              requireNamespace={requireNamespace}
             />
           )
         }
@@ -969,8 +967,9 @@ const SchemaForm = defineComponent({
       }, {})
     }
 
+    const isSSLProp = (keyOrPath: string) => SSL_PATH_REG.test(keyOrPath)
     const isSSLPropAndNeedConcise = (keyOrPath: string) =>
-      SSL_PATH_REG.test(keyOrPath) && typesNeedConciseSSL.includes(props.type)
+      isSSLProp(keyOrPath) && typesNeedConciseSSL.includes(props.type)
     const handlePropertyWhenUseConciseSSL = (property: Property) => {
       property.type = 'ssl'
       return property
@@ -1032,7 +1031,8 @@ const SchemaForm = defineComponent({
           const propPath = property.path as string
           // for concise SSL
           const isSSLAndNeedConcise = isSSLPropAndNeedConcise(propKey)
-          if (isSSLAndNeedConcise) {
+          const isSSLAndInFileTransfer = isSSLProp(propKey) && props.type === 'file_trans'
+          if (isSSLAndNeedConcise || isSSLAndInFileTransfer) {
             handlePropertyWhenUseConciseSSL(property)
           }
           if (props.type === 'mqtt') {
@@ -1047,7 +1047,12 @@ const SchemaForm = defineComponent({
           }
 
           const isComplexOneofProp = isComplexOneof(property)
-          if (property.properties && !isSSLAndNeedConcise && !isComplexOneofProp) {
+          if (
+            property.properties &&
+            !isSSLAndNeedConcise &&
+            !isComplexOneofProp &&
+            !isSSLAndInFileTransfer
+          ) {
             const { label, properties } = property
             levelName = label
             setComponents(properties)
@@ -1071,6 +1076,12 @@ const SchemaForm = defineComponent({
             }
             if (isComplexOneofProp && property.selectedOneof) {
               setComponents(property.selectedOneof)
+            }
+            // just for file transfer...
+            if (isSSLAndInFileTransfer && property.properties) {
+              const { label, properties } = property
+              levelName = label
+              setComponents(properties)
             }
           }
         })

@@ -129,6 +129,7 @@
         v-if="!managedCertsArr && !Array.isArray(record.managed_certs)"
         v-model="record.managed_certs"
         :require-namespace="requireNamespace"
+        :columns="managedCertConfColumns"
       />
       <ListEditor
         v-else-if="Array.isArray(record.managed_certs)"
@@ -143,6 +144,7 @@
               v-model="record.managed_certs[index]"
               sni
               :require-namespace="requireNamespace"
+              :columns="managedCertConfColumns"
             />
           </el-card>
         </template>
@@ -229,6 +231,9 @@ const props = defineProps({
    */
   managedCertsArr: {
     type: Boolean,
+  },
+  managedCertConfColumns: {
+    type: Number,
   },
 })
 

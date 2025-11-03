@@ -1,6 +1,6 @@
 <template>
   <div class="managed-cert-config flex-1">
-    <div class="grid gap-5" :class="gridColsClass">
+    <div class="grid" :class="gridColsClass">
       <el-form-item :label="t('BasicConfig.namespace')">
         <el-select v-model="namespace" @change="handleNamespaceChanged">
           <el-option
@@ -22,13 +22,13 @@
         </div>
       </el-form-item>
     </div>
-    <div class="mb-4" v-if="record.bundle_name">
+    <div class="mb-4 info-container" v-if="record.bundle_name">
       <p class="mb-2">{{ t('Base.certsInfo') }}</p>
       <div class="info-card">
         <CertBundleInfo :name="record.bundle_name" :namespace="selectedNamespace" />
       </div>
     </div>
-    <div class="grid gap-5" :class="gridColsClass" v-if="sni">
+    <div class="grid" :class="gridColsClass" v-if="sni">
       <el-form-item label="SNI" class="sni-form-item">
         <el-input v-model="(record as ManagedCertsServer).sni" />
       </el-form-item>
@@ -142,7 +142,9 @@ const gridColsClass = computed(() => {
     3: 'grid-cols-3',
     4: 'grid-cols-4',
   }
-  return classMap[props.columns] || 'grid-cols-2'
+  const gridClass = classMap[props.columns] || 'grid-cols-2'
+  const gapClass = props.columns > 1 ? 'gap-5' : ''
+  return `${gridClass} ${gapClass}`
 })
 </script>
 
@@ -158,11 +160,13 @@ const gridColsClass = computed(() => {
     }
   }
   .el-form-item {
-    &:not(.sni-form-item) {
-      margin-bottom: 18px;
-    }
     .el-input {
       width: 100%;
+    }
+  }
+  .grid-cols-2 {
+    .el-form-item:nth-child(n + 3) {
+      margin-top: 18px;
     }
   }
 }

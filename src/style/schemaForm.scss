@@ -132,7 +132,8 @@
         width: $base-number-input-width;
       }
       > .el-input,
-      > .el-textarea {
+      > .el-textarea,
+      > .el-autocomplete {
         width: $base-input-width;
       }
       > .textarea-with-uploader,
@@ -145,6 +146,11 @@
     }
     .el-table {
       width: 70%;
+    }
+    .col-ssl {
+      .el-select {
+        width: $base-number-input-width;
+      }
     }
   }
 }

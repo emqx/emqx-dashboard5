@@ -331,6 +331,8 @@ export const SSL_FIELDS = [
   'verify_peer_ext_key_usage',
   'middlebox_comp_mode',
   'managed_certs',
+  'managed_certs.namespace',
+  'managed_certs.bundle_name',
 ]
 
 export const EMQX_VERSION = __EMQX_VERSION__

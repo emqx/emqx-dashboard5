@@ -10,6 +10,7 @@
           :readonly="readonly"
           :disabledVerify="disabledVerify"
           :requireNamespace="requireNamespace"
+          :managedCertConfColumns="managedCertConfColumns"
         />
       </template>
     </el-collapse-transition>
@@ -53,6 +54,9 @@ const props = defineProps({
   },
   requireNamespace: {
     type: Boolean,
+  },
+  managedCertConfColumns: {
+    type: Number,
   },
 })
 
