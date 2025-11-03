@@ -8,7 +8,7 @@ import {
   postGlobalCertBundle,
   postNamespaceCertBundle,
 } from '@/api/tlsManagement'
-import { CertBundleIn } from '@/types/typeAlias'
+import { CertBundleIn, ManagedCerts, ManagedCertsServer } from '@/types/typeAlias'
 
 export interface CertBundleForm extends CertBundleIn {
   name: string
@@ -105,6 +105,15 @@ const useCertBundle = () => {
     deleteCertBundle,
     getCertBundleInfo,
     isBundleNameDuplicated,
+  }
+}
+
+export const useManagedCertConf = () => {
+  const createEmptyManagedCertConf = (): ManagedCerts | ManagedCertsServer => {
+    return { bundle_name: '', namespace: undefined }
+  }
+  return {
+    createEmptyManagedCertConf,
   }
 }
 

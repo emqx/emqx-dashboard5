@@ -30,6 +30,7 @@ declare global {
   const CONNECTOR_TYPES_WITH_SOURCE: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']
   const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
   const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
+  const CertBundleType: typeof import('./hooks/useCertBundle')['CertBundleType']
   const DEFAULT_CLIENT_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']
   const DEFAULT_FROM: typeof import('./common/constants')['DEFAULT_FROM']
   const DEFAULT_PAGE_SIZE_OPT: typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']
@@ -409,6 +410,7 @@ declare global {
   const useLogOut: typeof import('./hooks/useLogOut')['default']
   const useMFAMethods: typeof import('./hooks/useMFA')['useMFAMethods']
   const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
+  const useManagedCertConf: typeof import('./hooks/useCertBundle')['useManagedCertConf']
   const useManagedNamespaceOptions: typeof import('./hooks/Config/useNamespace')['useManagedNamespaceOptions']
   const useMenus: typeof import('./hooks/useMenus')['default']
   const useMessageDroppedDetails: typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']
@@ -569,7 +571,7 @@ declare global {
   export type { SchemaRules } from './hooks/Schema/useSchemaFormRules'
   import('./hooks/Schema/useSchemaFormRules')
   // @ts-ignore
-  export type { CertBundleForm } from './hooks/useCertBundle'
+  export type { CertBundleType, CertBundleForm } from './hooks/useCertBundle'
   import('./hooks/useCertBundle')
   // @ts-ignore
   export type { MetricKey } from './hooks/useDroppedDetail'
@@ -614,6 +616,7 @@ declare module 'vue' {
     readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']>
     readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
     readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
+    readonly CertBundleType: UnwrapRef<typeof import('./hooks/useCertBundle')['CertBundleType']>
     readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']>
     readonly DEFAULT_FROM: UnwrapRef<typeof import('./common/constants')['DEFAULT_FROM']>
     readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']>
@@ -993,6 +996,7 @@ declare module 'vue' {
     readonly useLogOut: UnwrapRef<typeof import('./hooks/useLogOut')['default']>
     readonly useMFAMethods: UnwrapRef<typeof import('./hooks/useMFA')['useMFAMethods']>
     readonly useMQTTVersion5NewConfig: UnwrapRef<typeof import('./hooks/useMQTTVersion5NewConfig')['default']>
+    readonly useManagedCertConf: UnwrapRef<typeof import('./hooks/useCertBundle')['useManagedCertConf']>
     readonly useManagedNamespaceOptions: UnwrapRef<typeof import('./hooks/Config/useNamespace')['useManagedNamespaceOptions']>
     readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
     readonly useMessageDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']>
