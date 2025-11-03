@@ -39,6 +39,7 @@
       <div class="tls-config-form">
         <TLSEnableConfig
           v-model="eValue.server.ssl_options"
+          managed-certs-arr
           :is-edit="isEdit"
           :show-sni="false"
           :show-middlebox-comp-mode="false"

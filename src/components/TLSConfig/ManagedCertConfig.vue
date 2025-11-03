@@ -30,7 +30,7 @@
     </div>
     <div class="grid gap-5" :class="gridColsClass" v-if="sni">
       <el-form-item label="SNI" class="sni-form-item">
-        <el-input class="TLS-input" v-model="(record as ManagedCertsServer).sni" />
+        <el-input v-model="(record as ManagedCertsServer).sni" />
       </el-form-item>
     </div>
     <CreateCertBundleDrawer
@@ -160,6 +160,9 @@ const gridColsClass = computed(() => {
   .el-form-item {
     &:not(.sni-form-item) {
       margin-bottom: 18px;
+    }
+    .el-input {
+      width: 100%;
     }
   }
 }
