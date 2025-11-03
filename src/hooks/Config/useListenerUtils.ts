@@ -249,6 +249,15 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     gatewayTypesWhichHasSSLConfig.includes(type)
   const hasWSConfig = (type: ListenerType) => gatewayTypesWhichHasWSConfig.includes(type)
 
+  const removeEmptyFileKeys = (record: Listener['ssl_options'] | Listener['dtls_options']) => {
+    ;['certfile', 'keyfile', 'cacertfile'].forEach((v) => {
+      if (record[v] === '') {
+        delete record[v]
+      }
+    })
+    return record
+  }
+
   /**
    * Normalizes the structure of a listener record.
    *
@@ -287,9 +296,10 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
           }
           break
         case 'ssl_options':
-          if (record[v].cacertfile === '') {
-            delete record[v].cacertfile
-          }
+          removeEmptyFileKeys(record[v])
+          break
+        case 'dtls_options':
+          removeEmptyFileKeys(record[v])
           break
         case 'health_check':
           result[v] = record[v]
