@@ -50,19 +50,6 @@ export type PostAuthenticationNodeCacheReset500 = {
   message?: string
 }
 
-export type DeleteAuthenticationIdUsersUserId404Code =
-  (typeof DeleteAuthenticationIdUsersUserId404Code)[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthenticationIdUsersUserId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteAuthenticationIdUsersUserId404 = {
-  code?: DeleteAuthenticationIdUsersUserId404Code
-  message?: string
-}
-
 export type PutAuthenticationIdUsersUserId404Code =
   (typeof PutAuthenticationIdUsersUserId404Code)[keyof typeof PutAuthenticationIdUsersUserId404Code]
 
@@ -99,6 +86,19 @@ export const GetAuthenticationIdUsersUserId404Code = {
 
 export type GetAuthenticationIdUsersUserId404 = {
   code?: GetAuthenticationIdUsersUserId404Code
+  message?: string
+}
+
+export type DeleteAuthenticationIdUsersUserId404Code =
+  (typeof DeleteAuthenticationIdUsersUserId404Code)[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthenticationIdUsersUserId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAuthenticationIdUsersUserId404 = {
+  code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
 }
 
@@ -234,11 +234,11 @@ export type PostAuthenticationIdImportUsers200 = {
   total?: number
 }
 
-export type PostAuthenticationIdImportUsersBodyTwo = { [key: string]: unknown }
-
-export type PostAuthenticationIdImportUsersBodyOne = {
+export type PostAuthenticationIdImportUsersBodyTwo = {
   filename?: Blob
 }
+
+export type PostAuthenticationIdImportUsersBodyOne = { [key: string]: unknown }
 
 export type PostAuthenticationIdImportUsersType =
   (typeof PostAuthenticationIdImportUsersType)[keyof typeof PostAuthenticationIdImportUsersType]
@@ -456,6 +456,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -517,6 +518,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -1348,6 +1350,9 @@ export const AuthnLdapBackend = {
 } as const
 
 export interface AuthnLdap {
+  acl_rule_attribute?: string
+  acl_ttl_attribute?: string
+  all_attribute?: string
   backend: AuthnLdapBackend
   base_dn: string
   enable?: boolean
@@ -1358,10 +1363,12 @@ export interface AuthnLdap {
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
+  publish_attribute?: string
   query_timeout?: string
   request_timeout?: string
   server: string
   ssl?: LdapSsl
+  subscribe_attribute?: string
   username: string
 }
 
@@ -1783,6 +1790,7 @@ export const AuthnBindMethodType = {
 
 export interface AuthnBindMethod {
   bind_password?: string
+  is_superuser_attribute?: string
   type?: AuthnBindMethodType
 }
 

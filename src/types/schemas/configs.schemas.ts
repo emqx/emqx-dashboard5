@@ -417,7 +417,7 @@ export type GetConfigs400 = {
   message?: string
 }
 
-export type GetConfigs200Two = { [key: string]: unknown }
+export type GetConfigs200One = { [key: string]: unknown }
 
 export type GetConfigsKey = (typeof GetConfigsKey)[keyof typeof GetConfigsKey]
 
@@ -636,6 +636,7 @@ export interface LdapSsl {
   hibernate_after?: string
   keyfile?: string
   log_level?: LdapSslLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: LdapSslPartialChain
   password?: string
   reuse_sessions?: boolean
@@ -813,6 +814,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean

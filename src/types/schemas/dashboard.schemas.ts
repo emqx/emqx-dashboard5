@@ -68,48 +68,6 @@ export type PostUsersUsernameChangePwdBody = {
   old_pwd?: string
 }
 
-export type DeleteUsersUsername404Code =
-  (typeof DeleteUsersUsername404Code)[keyof typeof DeleteUsersUsername404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteUsersUsername404Code = {
-  USER_NOT_FOUND: 'USER_NOT_FOUND',
-} as const
-
-export type DeleteUsersUsername404 = {
-  code?: DeleteUsersUsername404Code
-  message?: string
-}
-
-export type DeleteUsersUsername400Code =
-  (typeof DeleteUsersUsername400Code)[keyof typeof DeleteUsersUsername400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteUsersUsername400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-  NOT_ALLOWED: 'NOT_ALLOWED',
-} as const
-
-export type DeleteUsersUsername400 = {
-  code?: DeleteUsersUsername400Code
-  message?: string
-}
-
-export type DeleteUsersUsernameBackend =
-  (typeof DeleteUsersUsernameBackend)[keyof typeof DeleteUsersUsernameBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteUsersUsernameBackend = {
-  ldap: 'ldap',
-  local: 'local',
-  oidc: 'oidc',
-  saml: 'saml',
-} as const
-
-export type DeleteUsersUsernameParams = {
-  backend?: DeleteUsersUsernameBackend
-}
-
 export type PutUsersUsername404Code =
   (typeof PutUsersUsername404Code)[keyof typeof PutUsersUsername404Code]
 
@@ -160,6 +118,48 @@ export const PutUsersUsernameBackend = {
 
 export type PutUsersUsernameParams = {
   backend?: PutUsersUsernameBackend
+}
+
+export type DeleteUsersUsername404Code =
+  (typeof DeleteUsersUsername404Code)[keyof typeof DeleteUsersUsername404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsername404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type DeleteUsersUsername404 = {
+  code?: DeleteUsersUsername404Code
+  message?: string
+}
+
+export type DeleteUsersUsername400Code =
+  (typeof DeleteUsersUsername400Code)[keyof typeof DeleteUsersUsername400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsername400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type DeleteUsersUsername400 = {
+  code?: DeleteUsersUsername400Code
+  message?: string
+}
+
+export type DeleteUsersUsernameBackend =
+  (typeof DeleteUsersUsernameBackend)[keyof typeof DeleteUsersUsernameBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsernameBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type DeleteUsersUsernameParams = {
+  backend?: DeleteUsersUsernameBackend
 }
 
 export type PostUsers200 = {
