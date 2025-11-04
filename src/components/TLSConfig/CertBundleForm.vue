@@ -12,7 +12,7 @@
     </el-form-item>
     <el-form-item prop="namespace" :label="t('BasicConfig.namespace')">
       <div class="flex flex-1 items-center gap-2">
-        <el-switch v-model="isNamespaceEnabled" :disabled="isEditing" />
+        <el-switch v-model="isNamespaceEnabled" :disabled="isEditing || requireNamespace" />
         <el-select
           v-if="isNamespaceEnabled"
           v-model="record.namespace"
@@ -101,6 +101,7 @@ import type { FormInstance } from 'element-plus'
 const props = defineProps<{
   modelValue: CertBundleForm
   isEditing?: boolean
+  requireNamespace?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
