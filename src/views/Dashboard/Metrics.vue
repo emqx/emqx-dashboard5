@@ -34,6 +34,21 @@
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
+        <el-card class="top-border table-card bytes">
+          <el-table
+            stripe
+            :data="filterMetrics(currentMetrics, 'rules')"
+            v-loading.lock="isDataLoading"
+          >
+            <el-table-column prop="m" min-width="160" :label="t('components.rules')">
+              <template #default="{ row }">
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
       </el-col>
       <el-col :span="8">
         <el-card class="top-border table-card session">
@@ -44,6 +59,21 @@
             class="stripe-reverse"
           >
             <el-table-column prop="m" min-width="160" :label="tl('session')">
+              <template #default="{ row }">
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
+        <el-card class="top-border table-card client">
+          <el-table
+            stripe
+            :data="filterMetrics(currentMetrics, 'actions')"
+            v-loading.lock="isDataLoading"
+          >
+            <el-table-column prop="m" min-width="160" :label="t('components.actions')">
               <template #default="{ row }">
                 <p class="raw-key">{{ row.rawKey }}</p>
                 <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
@@ -167,7 +197,7 @@ const isDataLoading: Ref<boolean> = ref(true)
 
 const currentMetrics = ref<NodeStatisticalData>({} as NodeStatisticalData)
 
-const { tl } = useI18nTl('Dashboard')
+const { t, tl } = useI18nTl('Dashboard')
 
 const loadMetricsData = async () => {
   try {
