@@ -15,6 +15,10 @@ export default {
     en: 'Message Routing Drop',
     zh: '消息转发丢弃',
   },
+  eventsClientPing: {
+    en: 'Client Ping',
+    zh: '连接确认',
+  },
   eventsClientConnected: {
     en: 'Client Connected',
     zh: '连接建立',

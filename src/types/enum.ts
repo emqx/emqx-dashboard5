@@ -92,6 +92,7 @@ export enum EventForRule {
   MessageDropped = '$events/message/dropped',
   MessageDeliveryDropped = '$events/message/delivery_dropped',
   ClientConnected = '$events/client/connected',
+  ClientPing = '$events/client/ping',
   ClientDisconnected = '$events/client/disconnected',
   ClientConnack = '$events/client/connack',
   ClientCheckAuthnComplete = '$events/auth/check_authn_complete',

@@ -705,6 +705,10 @@ export default {
     zh: '当终端连接成功时触发规则',
     en: `Trigger the rule when the terminal is connected successfully`,
   },
+  clientPingDesc: {
+    zh: '当客户端发送 MQTT PINGREQ（心跳请求）包到服务端时触发。',
+    en: 'Trigger the rule when the client sends a MQTT PINGREQ (heartbeat request) packet to the server.',
+  },
   clientDisconnectedDesc: {
     zh: '当终端连接断开时触发规则',
     en: `Trigger rule when terminal connection is lost`,
