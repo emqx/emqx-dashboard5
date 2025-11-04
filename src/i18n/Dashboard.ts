@@ -1015,6 +1015,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '消息体超出限制或最大报文大小配置过小。',
     en: 'Message body exceeds the limit or the maximum message size is set too low.',
   },
+  rules_matched: {
+    zh: '规则命中总数',
+    en: 'Number of rule matched',
+  },
+  actions_executed: {
+    zh: '动作执行总数',
+    en: 'Number of actions executed',
+  },
   category: {
     zh: '类别',
     en: 'Category',
