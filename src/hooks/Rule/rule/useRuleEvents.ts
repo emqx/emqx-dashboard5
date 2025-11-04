@@ -4,9 +4,10 @@ import { RuleEvent } from '@/types/rule'
 
 export const EVENT_SORT: Array<string> = [
   EventForRule.ClientCheckAuthnComplete,
-  EventForRule.ClientConnected,
-  EventForRule.ClientDisconnected,
   EventForRule.ClientConnack,
+  EventForRule.ClientConnected,
+  EventForRule.ClientPing,
+  EventForRule.ClientDisconnected,
   EventForRule.ClientCheckAuthzComplete,
   EventForRule.SessionSubscribed,
   EventForRule.SessionUnsubscribed,
