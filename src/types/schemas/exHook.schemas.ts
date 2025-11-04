@@ -37,32 +37,6 @@ export type GetExhooksNameHooks400 = {
   message?: string
 }
 
-export type DeleteExhooksName500Code =
-  (typeof DeleteExhooksName500Code)[keyof typeof DeleteExhooksName500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteExhooksName500Code = {
-  BAD_RPC: 'BAD_RPC',
-} as const
-
-export type DeleteExhooksName500 = {
-  code?: DeleteExhooksName500Code
-  message?: string
-}
-
-export type DeleteExhooksName404Code =
-  (typeof DeleteExhooksName404Code)[keyof typeof DeleteExhooksName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteExhooksName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteExhooksName404 = {
-  code?: DeleteExhooksName404Code
-  message?: string
-}
-
 export type PutExhooksName500Code =
   (typeof PutExhooksName500Code)[keyof typeof PutExhooksName500Code]
 
@@ -112,6 +86,32 @@ export const GetExhooksName404Code = {
 
 export type GetExhooksName404 = {
   code?: GetExhooksName404Code
+  message?: string
+}
+
+export type DeleteExhooksName500Code =
+  (typeof DeleteExhooksName500Code)[keyof typeof DeleteExhooksName500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteExhooksName500Code = {
+  BAD_RPC: 'BAD_RPC',
+} as const
+
+export type DeleteExhooksName500 = {
+  code?: DeleteExhooksName500Code
+  message?: string
+}
+
+export type DeleteExhooksName404Code =
+  (typeof DeleteExhooksName404Code)[keyof typeof DeleteExhooksName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteExhooksName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteExhooksName404 = {
+  code?: DeleteExhooksName404Code
   message?: string
 }
 
@@ -189,6 +189,7 @@ export interface ExhookSslConf {
   hibernate_after?: string
   keyfile?: string
   log_level?: ExhookSslConfLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: ExhookSslConfPartialChain
   password?: string
   reuse_sessions?: boolean

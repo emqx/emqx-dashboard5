@@ -22,32 +22,6 @@ export type GetMqttRetainerMessagesParams = {
   limit?: number
 }
 
-export type DeleteMqttRetainerMessageTopic404Code =
-  (typeof DeleteMqttRetainerMessageTopic404Code)[keyof typeof DeleteMqttRetainerMessageTopic404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttRetainerMessageTopic404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMqttRetainerMessageTopic404 = {
-  code?: DeleteMqttRetainerMessageTopic404Code
-  message?: string
-}
-
-export type DeleteMqttRetainerMessageTopic400Code =
-  (typeof DeleteMqttRetainerMessageTopic400Code)[keyof typeof DeleteMqttRetainerMessageTopic400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMqttRetainerMessageTopic400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteMqttRetainerMessageTopic400 = {
-  code?: DeleteMqttRetainerMessageTopic400Code
-  message?: string
-}
-
 export type GetMqttRetainerMessageTopic404Code =
   (typeof GetMqttRetainerMessageTopic404Code)[keyof typeof GetMqttRetainerMessageTopic404Code]
 
@@ -71,6 +45,32 @@ export const GetMqttRetainerMessageTopic400Code = {
 
 export type GetMqttRetainerMessageTopic400 = {
   code?: GetMqttRetainerMessageTopic400Code
+  message?: string
+}
+
+export type DeleteMqttRetainerMessageTopic404Code =
+  (typeof DeleteMqttRetainerMessageTopic404Code)[keyof typeof DeleteMqttRetainerMessageTopic404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttRetainerMessageTopic404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteMqttRetainerMessageTopic404 = {
+  code?: DeleteMqttRetainerMessageTopic404Code
+  message?: string
+}
+
+export type DeleteMqttRetainerMessageTopic400Code =
+  (typeof DeleteMqttRetainerMessageTopic400Code)[keyof typeof DeleteMqttRetainerMessageTopic400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttRetainerMessageTopic400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteMqttRetainerMessageTopic400 = {
+  code?: DeleteMqttRetainerMessageTopic400Code
   message?: string
 }
 
@@ -132,6 +132,7 @@ export interface RetainerRetainer {
   allow_never_expire?: boolean
   backend?: RetainerMnesiaConfig
   delivery_rate?: string
+  dispatch_retry_ttl?: string
   /** @deprecated */
   enable?: boolean
   max_payload_size?: string

@@ -1,24 +1,24 @@
-export type GetPrometheusStats200Two = { [key: string]: unknown }
+export type GetPrometheusStats200One = { [key: string]: unknown }
 
-export type GetPrometheusSchemaValidation200Two = { [key: string]: unknown }
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
 export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusMessageTransformation200Two = { [key: string]: unknown }
+export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
 
 export type GetPrometheusMessageTransformationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusDataIntegration200Two = { [key: string]: unknown }
+export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
 
-export type GetPrometheusDataIntegrationParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type GetPrometheusAuth200Two = { [key: string]: unknown }
+export type GetPrometheusAuth200One = { [key: string]: unknown }
 
 export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
@@ -49,7 +49,7 @@ export const EmqxPrometheusApiModeParameter = {
   all_nodes_unaggregated: 'all_nodes_unaggregated',
 } as const
 
-export type GetPrometheusStatsParams = {
+export type GetPrometheusDataIntegrationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
@@ -263,8 +263,11 @@ export interface OpentelemetryOtelLogs {
   scheduled_delay?: string
 }
 
+export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
+
 export interface OpentelemetryOtelExporter {
   endpoint?: string
+  headers?: OpentelemetryOtelExporterHeaders
   ssl_options?: EmqxSslClientOpts
 }
 
@@ -345,6 +348,7 @@ export interface EmqxSslClientOpts {
   hibernate_after?: string
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
   partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
   reuse_sessions?: boolean

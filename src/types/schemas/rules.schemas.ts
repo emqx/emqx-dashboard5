@@ -63,18 +63,6 @@ export type GetRulesIdMetrics404 = {
   message?: string
 }
 
-export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteRulesId404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteRulesId404 = {
-  code?: DeleteRulesId404Code
-  message?: string
-}
-
 export type PutRulesId400Code = (typeof PutRulesId400Code)[keyof typeof PutRulesId400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -96,6 +84,18 @@ export const GetRulesId404Code = {
 
 export type GetRulesId404 = {
   code?: GetRulesId404Code
+  message?: string
+}
+
+export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteRulesId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteRulesId404 = {
+  code?: DeleteRulesId404Code
   message?: string
 }
 

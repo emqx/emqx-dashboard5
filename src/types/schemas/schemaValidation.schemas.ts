@@ -50,19 +50,6 @@ export type PostSchemaValidationsValidationNameEnableEnable400 = {
   message?: string
 }
 
-export type DeleteSchemaValidationsValidationName404Code =
-  (typeof DeleteSchemaValidationsValidationName404Code)[keyof typeof DeleteSchemaValidationsValidationName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaValidationsValidationName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaValidationsValidationName404 = {
-  code?: DeleteSchemaValidationsValidationName404Code
-  message?: string
-}
-
 export type GetSchemaValidationsValidationName404Code =
   (typeof GetSchemaValidationsValidationName404Code)[keyof typeof GetSchemaValidationsValidationName404Code]
 
@@ -73,6 +60,19 @@ export const GetSchemaValidationsValidationName404Code = {
 
 export type GetSchemaValidationsValidationName404 = {
   code?: GetSchemaValidationsValidationName404Code
+  message?: string
+}
+
+export type DeleteSchemaValidationsValidationName404Code =
+  (typeof DeleteSchemaValidationsValidationName404Code)[keyof typeof DeleteSchemaValidationsValidationName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSchemaValidationsValidationName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteSchemaValidationsValidationName404 = {
+  code?: DeleteSchemaValidationsValidationName404Code
   message?: string
 }
 
@@ -90,19 +90,6 @@ export type PostSchemaValidationsReorder400 = {
   message?: string
   not_found?: string[]
   not_reordered?: string[]
-}
-
-export type PostSchemaValidations400Code =
-  (typeof PostSchemaValidations400Code)[keyof typeof PostSchemaValidations400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSchemaValidations400Code = {
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-} as const
-
-export type PostSchemaValidations400 = {
-  code?: PostSchemaValidations400Code
-  message?: string
 }
 
 export type PutSchemaValidations404Code =
@@ -128,6 +115,19 @@ export const PutSchemaValidations400Code = {
 
 export type PutSchemaValidations400 = {
   code?: PutSchemaValidations400Code
+  message?: string
+}
+
+export type PostSchemaValidations400Code =
+  (typeof PostSchemaValidations400Code)[keyof typeof PostSchemaValidations400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSchemaValidations400Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostSchemaValidations400 = {
+  code?: PostSchemaValidations400Code
   message?: string
 }
 
