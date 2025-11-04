@@ -36,6 +36,7 @@
     <CreateCertBundleDrawer
       v-model="isCreateDrawerVisible"
       :namespace="selectedNamespace"
+      :require-namespace="requireNamespace"
       @submit="handleSubmit"
     />
   </div>

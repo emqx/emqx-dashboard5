@@ -12,7 +12,13 @@
     <template #default>
       <!-- For correct init CertFileInput component-->
       <div class="placeholder h-96" v-if="isLoading" :loading="isLoading"></div>
-      <CertBundleCreateForm v-else ref="formRef" v-model="formData" :is-editing="isEditing" />
+      <CertBundleCreateForm
+        v-else
+        ref="formRef"
+        v-model="formData"
+        :is-editing="isEditing"
+        :require-namespace="requireNamespace"
+      />
     </template>
     <template #footer>
       <CancelButton @click="isDrawerShow = false" :disabled="isSubmitting" />
@@ -33,6 +39,7 @@ const props = defineProps<{
   modelValue: boolean
   bundleName?: string
   namespace?: string
+  requireNamespace?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -93,6 +100,8 @@ const handleOpen = async () => {
     await getBundleInfo()
   } else if (props.namespace) {
     formData.value.namespace = props.namespace
+  } else if (props.requireNamespace) {
+    formData.value.namespace = ''
   }
   rawFormData = cloneDeep(formData.value)
 }
