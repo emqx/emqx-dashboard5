@@ -32,6 +32,7 @@
       class="tls-config-form"
       v-model="formData.ssl"
       :is-edit="isEdit"
+      :managed-cert-conf-columns="1"
     />
   </el-form>
 </template>
@@ -79,6 +80,9 @@ defineExpose({ validate })
 .ldap-form {
   .TLS-enable-config .TLS-input {
     width: 100%;
+  }
+  .info-container {
+    padding-left: 150px;
   }
 }
 </style>

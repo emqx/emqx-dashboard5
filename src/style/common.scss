@@ -1032,3 +1032,14 @@ label.custom-required::after {
 .flex-1 {
   flex: 1;
 }
+
+.el-form--label-right {
+  .TLS-enable-config {
+    margin-bottom: 0;
+  }
+  .managed-cert-config {
+    .info-container {
+      margin-top: -20px;
+    }
+  }
+}

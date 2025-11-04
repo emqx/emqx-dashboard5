@@ -67,7 +67,9 @@
         <CommonTLSConfig
           class="tls-config-form"
           v-model="formData.connector.ssl"
+          require-namespace
           :is-edit="isEdit"
+          :managed-cert-conf-columns="1"
         />
         <el-form-item :label="getCommonText('connect_timeout.label')">
           <TimeInputWithUnitSelect
@@ -223,6 +225,9 @@ defineExpose({ validate })
       justify-content: flex-start;
       padding: 0 12px;
     }
+  }
+  .info-container {
+    padding-left: 160px;
   }
 }
 </style>
