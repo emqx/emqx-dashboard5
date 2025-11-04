@@ -347,6 +347,9 @@ If subscriber fails to reply in time, it's kicked from the group and all its wor
     desc: 'Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.',
     label: 'Ignore High Frequency Request',
   },
+  ssl: {
+    label: 'TLS Config',
+  },
   ssl_opts_user_lookup_fun: {
     desc: 'EMQX-internal callback that is used to lookup pre-shared key (PSK) identity.',
     label: 'SSL PSK user lookup fun',
@@ -421,6 +424,12 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   ssl_opts_verify_peer_ext_key_usage: {
     desc: 'Verify extended key usage in peer\'s certificate<br/>For additional peer certificate validation, the value defined here must present in the \'Extended Key Usage\' of peer certificate defined in [rfc5280](https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.12).<br/>Allowed values are<br/>- `clientAuth`<br/>- `serverAuth`<br/>- `codeSigning`<br/>- `emailProtection`<br/>- `timeStamping`<br/>- `ocspSigning`<br/>- raw OID, for example: "OID:1.3.6.1.5.5.7.3.2" means `id-pk 2` which is equivalent to `clientAuth`<br/>Comma-separated string is also supported for validating more than one key usages.<br/>For example, `"serverAuth,OID:1.3.6.1.5.5.7.3.2"`',
     label: 'Verify Extended Key Usage',
+  },
+  ssl_opts_namespace: {
+    label: 'Namespace',
+  },
+  ssl_opts_bundle_name: {
+    label: 'Managed Cert Bundle Name',
   },
   file_trans_enable: {
     label: 'Enable',

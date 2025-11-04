@@ -344,6 +344,9 @@ export default {
     desc: '忽略高频请求以避免淹没审计日志，例如被忽略的发布/订阅踢出 http api 请求。',
     label: '忽略高频请求',
   },
+  ssl: {
+    label: 'TLS 配置',
+  },
   ssl_opts_user_lookup_fun: {
     desc: '用于查找预共享密钥（PSK）标识的 EMQX 内部回调。',
     label: 'SSL PSK 用户回调',
@@ -416,6 +419,12 @@ export default {
   ssl_opts_verify_peer_ext_key_usage: {
     desc: '验证对等证书中的扩展密钥用法<br/>为了进行额外的对等证书验证，这里定义的值必须使用 [rfc5280](https://www.rfc-editor.org/rfc/rfc5280#section-4.2.1.12) 中定义的对等证书的"扩展密钥用法"。<br/>允许的值有<br/>- `clientAuth`<br/>- `serverAuth`<br/>- `codeSigning`<br/>- `emailProtection`<br/>- `timeStamping`<br/>- `ocspSigning`<br/>- 原始 OID，例如："OID:1.3.6.1.5.5.7.3.2" 意味着 `id-pk 2`，相当于 `clientAuth`<br/>也支持逗号分隔的字符串来验证多个密钥用法。<br/>例如，`"serverAuth,OID:1.3.6.1.5.5.7.3.2"`',
     label: '验证扩展密钥用法',
+  },
+  ssl_opts_namespace: {
+    label: '命名空间',
+  },
+  ssl_opts_bundle_name: {
+    label: '托管证书包名称',
   },
   file_trans_enable: {
     label: '是否启用文件传输',
