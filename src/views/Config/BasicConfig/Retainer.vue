@@ -163,17 +163,6 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="dispatch_retry_ttl">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('dispatchRetryTtl')"
-                    :desc="tl('dispatchRetryTtlDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect v-model="retainerConfig.dispatch_retry_ttl" />
-              </el-form-item>
-            </el-col>
           </el-row>
           <el-row>
             <el-col :span="24" class="btn-col">
@@ -231,7 +220,6 @@ let retainerConfig = ref<Retainer>({
     type: 'built_in_database',
     max_retained_messages: 0,
   },
-  dispatch_retry_ttl: '10m',
 })
 
 const configLoading = ref(true)

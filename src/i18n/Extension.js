@@ -59,14 +59,6 @@ export default {
     zh: '派发保留消息的最大速率',
     en: 'The maximum rate of delivering retained messages',
   },
-  dispatchRetryTtl: {
-    zh: '派发重试 TTL',
-    en: 'Dispatch retry TTL',
-  },
-  dispatchRetryTtlDesc: {
-    zh: '指定 EMQX 向单个订阅投递保留消息的最大时间。一旦达到时间限制，即使有额外的保留消息匹配订阅，投递过程也将停止。',
-    en: 'This option specifies the maximum amount of time EMQX will spend delivering retained messages to a single subscription. Once the time limit is reached, the dispatch process is stopped — even if additional retained messages match the subscription.',
-  },
   maxPublishRate: {
     zh: '最大发布速率',
     en: 'Max Publish Rate',
