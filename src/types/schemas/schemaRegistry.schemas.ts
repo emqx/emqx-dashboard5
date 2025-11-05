@@ -12,16 +12,16 @@ export type PutSchemaRegistryName404 = {
 }
 
 export type PutSchemaRegistryName200 =
+  | SchemaRegistryPutAvro
   | SchemaRegistryPutExternalHttp
   | SchemaRegistryPutJson
   | SchemaRegistryPutProtobuf
-  | SchemaRegistryPutAvro
 
 export type PutSchemaRegistryNameBody =
+  | SchemaRegistryPutAvro
   | SchemaRegistryPutExternalHttp
   | SchemaRegistryPutJson
   | SchemaRegistryPutProtobuf
-  | SchemaRegistryPutAvro
 
 export type GetSchemaRegistryName404Code =
   (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
@@ -37,10 +37,10 @@ export type GetSchemaRegistryName404 = {
 }
 
 export type GetSchemaRegistryName200 =
+  | SchemaRegistryGetAvro
   | SchemaRegistryGetExternalHttp
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
 
 export type DeleteSchemaRegistryName404Code =
   (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
@@ -170,16 +170,16 @@ export type PostSchemaRegistry400 = {
 }
 
 export type PostSchemaRegistry201 =
+  | SchemaRegistryPostAvro
   | SchemaRegistryPostExternalHttp
   | SchemaRegistryPostJson
   | SchemaRegistryPostProtobuf
-  | SchemaRegistryPostAvro
 
 export type PostSchemaRegistryBody =
+  | SchemaRegistryPostAvro
   | SchemaRegistryPostExternalHttp
   | SchemaRegistryPostJson
   | SchemaRegistryPostProtobuf
-  | SchemaRegistryPostAvro
 
 export type GetSchemaRegistry200Item =
   | SchemaRegistryGetExternalHttp

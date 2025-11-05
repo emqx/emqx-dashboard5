@@ -168,8 +168,8 @@ export type PutAiCompletionProfilesName400 = {
 }
 
 export type PutAiCompletionProfilesNameBody =
-  | AiOpenaiCompletionProfileApiPut
   | AiAnthropicCompletionProfileApiPut
+  | AiOpenaiCompletionProfileApiPut
 
 export type GetAiCompletionProfilesName404Code =
   (typeof GetAiCompletionProfilesName404Code)[keyof typeof GetAiCompletionProfilesName404Code]
@@ -185,8 +185,8 @@ export type GetAiCompletionProfilesName404 = {
 }
 
 export type GetAiCompletionProfilesName200 =
-  | AiOpenaiCompletionProfileApiGet
   | AiAnthropicCompletionProfileApiGet
+  | AiOpenaiCompletionProfileApiGet
 
 export type DeleteAiCompletionProfilesName503Code =
   (typeof DeleteAiCompletionProfilesName503Code)[keyof typeof DeleteAiCompletionProfilesName503Code]
@@ -253,7 +253,7 @@ export type PostAiCompletionProfiles400 = {
   message?: string
 }
 
-export type PostAiCompletionProfilesBody = AiOpenaiCompletionProfile | AiAnthropicCompletionProfile
+export type PostAiCompletionProfilesBody = AiAnthropicCompletionProfile | AiOpenaiCompletionProfile
 
 export type GetAiCompletionProfiles503Code =
   (typeof GetAiCompletionProfiles503Code)[keyof typeof GetAiCompletionProfiles503Code]

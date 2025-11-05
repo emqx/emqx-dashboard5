@@ -68,18 +68,18 @@ export type PutListenersId400 = {
 }
 
 export type PutListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
 
 export type PutListenersIdBody =
-  | ListenersWssNotRequiredBind
-  | ListenersWsNotRequiredBind
-  | ListenersTcpNotRequiredBind
-  | ListenersSslNotRequiredBind
   | ListenersQuicNotRequiredBind
+  | ListenersSslNotRequiredBind
+  | ListenersTcpNotRequiredBind
+  | ListenersWsNotRequiredBind
+  | ListenersWssNotRequiredBind
 
 export type PostListenersId400Code =
   (typeof PostListenersId400Code)[keyof typeof PostListenersId400Code]
@@ -110,11 +110,11 @@ export type GetListenersId404 = {
 }
 
 export type GetListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
 
 export type DeleteListenersId404Code =
   (typeof DeleteListenersId404Code)[keyof typeof DeleteListenersId404Code]
@@ -143,18 +143,18 @@ export type PostListeners400 = {
 }
 
 export type PostListeners200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
 
 export type PostListenersBody =
   | ListenersWithNameQuicRequiredBind
-  | ListenersWithNameWssRequiredBind
-  | ListenersWithNameWsRequiredBind
   | ListenersWithNameSslRequiredBind
   | ListenersWithNameTcpRequiredBind
+  | ListenersWithNameWsRequiredBind
+  | ListenersWithNameWssRequiredBind
 
 export type GetListenersType = (typeof GetListenersType)[keyof typeof GetListenersType]
 
@@ -315,18 +315,18 @@ export interface ListenersWsRequiredBind {
 }
 
 export type PostListenersId200 =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
 
 export type PostListenersIdBody =
-  | ListenersWssRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersSslRequiredBind
   | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
 
 export type ListenersWsNotRequiredBindType =
   (typeof ListenersWsNotRequiredBindType)[keyof typeof ListenersWsNotRequiredBindType]

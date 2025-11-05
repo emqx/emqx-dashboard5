@@ -255,7 +255,45 @@ const sortObj = (rawObj) => {
   return sortedObj
 }
 
-const sortResult = sortObj
+const sortOneofRefs = (oneofRefs) => {
+  const sortedRefs = oneofRefs.sort((a, b) => {
+    const aValue = a.$ref || (a.enum && a.enum[0])
+    const bValue = b.$ref || (b.enum && b.enum[0])
+    if (aValue && bValue) {
+      return aValue.localeCompare(bValue)
+    }
+    return 0
+  })
+  return sortedRefs
+}
+
+const sortDataContent = (data) => {
+  if (data.content) {
+    Object.values(data.content).forEach((content) => {
+      if (content.schema && content.schema.oneOf) {
+        content.schema.oneOf = sortOneofRefs(content.schema.oneOf)
+      }
+    })
+  }
+}
+
+const sortResult = (swaggerJSON) => {
+  const ret = sortObj(swaggerJSON)
+  const { paths, components } = ret
+  Object.values(paths).forEach((path) => {
+    Object.values(path).forEach((method) => {
+      if (method.responses) {
+        Object.values(method.responses).forEach((response) => {
+          sortDataContent(response)
+        })
+      }
+      if (method.requestBody) {
+        sortDataContent(method.requestBody)
+      }
+    })
+  })
+  return ret
+}
 
 const filterTargetSchema = (swaggerJSON, tag) => {
   const filteredUselessPathsJSON = filterUselessRequest(swaggerJSON, tag)

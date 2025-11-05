@@ -293,27 +293,27 @@ export type PutAuthenticationId400 = {
 }
 
 export type PutAuthenticationIdBody =
+  | AuthnBuiltinDbApi
   | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDbApi
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type GetAuthenticationId404Code =
   (typeof GetAuthenticationId404Code)[keyof typeof GetAuthenticationId404Code]
@@ -329,27 +329,27 @@ export type GetAuthenticationId404 = {
 }
 
 export type GetAuthenticationId200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type PostAuthentication409Code =
   (typeof PostAuthentication409Code)[keyof typeof PostAuthentication409Code]
@@ -1024,50 +1024,50 @@ export interface AuthnMysql {
 }
 
 export type PostAuthentication200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type PostAuthenticationBody =
+  | AuthnBuiltinDbApi
   | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDbApi
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type AuthnMongoSingleWMode =
   (typeof AuthnMongoSingleWMode)[keyof typeof AuthnMongoSingleWMode]

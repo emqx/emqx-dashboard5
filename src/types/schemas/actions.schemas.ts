@@ -196,84 +196,84 @@ export type PutActionsId400 = {
 }
 
 export type PutActionsId200 =
-  | ActionDiskLogGetBridgeV2
-  | BridgeOpentsGetBridgeV2
-  | BridgeAzureEventHubGetBridgeV2
-  | BridgeMatrixGetBridgeV2
-  | ActionDorisGetBridgeV2
-  | ConfluentGetBridgeV2
-  | BridgeMysqlGetBridgeV2
-  | BridgeKafkaGetBridgeV2
-  | BridgePgsqlGetBridgeV2
-  | BridgeKinesisGetBridgeV2
-  | PulsarGetBridgeV2
-  | BridgeDatalayersGetBridgeV2
-  | BridgeTablestoreGetBridgeV2
-  | BridgeMongodbGetBridgeV2
-  | GcpPubsubProducerGetBridgeV2
-  | ActionSnowflakeGetBridgeV2
-  | BridgeHttpGetBridgeV2
-  | SyskeeperGetBridgeV2
-  | BridgeCassaGetBridgeV2
-  | BridgeRabbitmqGetBridgeV2
   | ActionAzureBlobStorageGetBridgeV2
-  | RedisGetBridgeV2
-  | BridgeInfluxdbGetBridgeV2
-  | BridgeClickhouseGetBridgeV2
-  | ActionS3tablesGetBridgeV2
-  | BridgeS3GetBridgeV2
-  | BridgeGreptimedbGetBridgeV2
-  | BridgeMqttPublisherGetBridgeV2
   | ActionCouchbaseGetBridgeV2
-  | BridgeTimescaleGetBridgeV2
+  | ActionDiskLogGetBridgeV2
+  | ActionDorisGetBridgeV2
+  | ActionS3tablesGetBridgeV2
+  | ActionSnowflakeGetBridgeV2
+  | BridgeAzureEventHubGetBridgeV2
+  | BridgeCassaGetBridgeV2
+  | BridgeClickhouseGetBridgeV2
+  | BridgeDatalayersGetBridgeV2
   | BridgeDynamoGetBridgeV2
-  | BridgeIotdbGetBridgeV2
-  | RocketmqGetBridgeV2
-  | BridgeTdengineGetBridgeV2
-  | BridgeHstreamdbGetBridgeV2
-  | BridgeSqlserverGetBridgeV2
-  | BridgeOracleGetBridgeV2
   | BridgeElasticsearchGetBridgeV2
+  | BridgeGreptimedbGetBridgeV2
+  | BridgeHstreamdbGetBridgeV2
+  | BridgeHttpGetBridgeV2
+  | BridgeInfluxdbGetBridgeV2
+  | BridgeIotdbGetBridgeV2
+  | BridgeKafkaGetBridgeV2
+  | BridgeKinesisGetBridgeV2
+  | BridgeMatrixGetBridgeV2
+  | BridgeMongodbGetBridgeV2
+  | BridgeMqttPublisherGetBridgeV2
+  | BridgeMysqlGetBridgeV2
+  | BridgeOpentsGetBridgeV2
+  | BridgeOracleGetBridgeV2
+  | BridgePgsqlGetBridgeV2
+  | BridgeRabbitmqGetBridgeV2
+  | BridgeS3GetBridgeV2
+  | BridgeSqlserverGetBridgeV2
+  | BridgeTablestoreGetBridgeV2
+  | BridgeTdengineGetBridgeV2
+  | BridgeTimescaleGetBridgeV2
+  | ConfluentGetBridgeV2
+  | GcpPubsubProducerGetBridgeV2
+  | PulsarGetBridgeV2
+  | RedisGetBridgeV2
+  | RocketmqGetBridgeV2
+  | SyskeeperGetBridgeV2
 
 export type PutActionsIdBody =
-  | ActionDiskLogPutBridgeV2
-  | BridgeOpentsPutBridgeV2
-  | BridgeAzureEventHubPutBridgeV2
-  | BridgeMatrixPutBridgeV2
-  | ActionDorisPutBridgeV2
-  | ConfluentPutBridgeV2
-  | BridgeMysqlPutBridgeV2
-  | BridgeKafkaPutBridgeV2
-  | BridgePgsqlPutBridgeV2
-  | BridgeKinesisPutBridgeV2
-  | PulsarPutBridgeV2
-  | BridgeDatalayersPutBridgeV2
-  | BridgeTablestorePutBridgeV2
-  | BridgeMongodbPutBridgeV2
-  | GcpPubsubProducerPutBridgeV2
-  | ActionSnowflakePutBridgeV2
-  | BridgeHttpPutBridgeV2
-  | SyskeeperPutBridgeV2
-  | BridgeCassaPutBridgeV2
-  | BridgeRabbitmqPutBridgeV2
   | ActionAzureBlobStoragePutBridgeV2
-  | RedisPutBridgeV2
-  | BridgeInfluxdbPutBridgeV2
-  | BridgeClickhousePutBridgeV2
-  | ActionS3tablesPutBridgeV2
-  | BridgeS3PutBridgeV2
-  | BridgeGreptimedbPutBridgeV2
-  | BridgeMqttPublisherPutBridgeV2
   | ActionCouchbasePutBridgeV2
-  | BridgeTimescalePutBridgeV2
+  | ActionDiskLogPutBridgeV2
+  | ActionDorisPutBridgeV2
+  | ActionS3tablesPutBridgeV2
+  | ActionSnowflakePutBridgeV2
+  | BridgeAzureEventHubPutBridgeV2
+  | BridgeCassaPutBridgeV2
+  | BridgeClickhousePutBridgeV2
+  | BridgeDatalayersPutBridgeV2
   | BridgeDynamoPutBridgeV2
-  | BridgeIotdbPutBridgeV2
-  | RocketmqPutBridgeV2
-  | BridgeTdenginePutBridgeV2
-  | BridgeHstreamdbPutBridgeV2
-  | BridgeSqlserverPutBridgeV2
-  | BridgeOraclePutBridgeV2
   | BridgeElasticsearchPutBridgeV2
+  | BridgeGreptimedbPutBridgeV2
+  | BridgeHstreamdbPutBridgeV2
+  | BridgeHttpPutBridgeV2
+  | BridgeInfluxdbPutBridgeV2
+  | BridgeIotdbPutBridgeV2
+  | BridgeKafkaPutBridgeV2
+  | BridgeKinesisPutBridgeV2
+  | BridgeMatrixPutBridgeV2
+  | BridgeMongodbPutBridgeV2
+  | BridgeMqttPublisherPutBridgeV2
+  | BridgeMysqlPutBridgeV2
+  | BridgeOpentsPutBridgeV2
+  | BridgeOraclePutBridgeV2
+  | BridgePgsqlPutBridgeV2
+  | BridgeRabbitmqPutBridgeV2
+  | BridgeS3PutBridgeV2
+  | BridgeSqlserverPutBridgeV2
+  | BridgeTablestorePutBridgeV2
+  | BridgeTdenginePutBridgeV2
+  | BridgeTimescalePutBridgeV2
+  | ConfluentPutBridgeV2
+  | GcpPubsubProducerPutBridgeV2
+  | PulsarPutBridgeV2
+  | RedisPutBridgeV2
+  | RocketmqPutBridgeV2
+  | SyskeeperPutBridgeV2
 
 export type GetActionsId404Code = (typeof GetActionsId404Code)[keyof typeof GetActionsId404Code]
 
@@ -288,44 +288,44 @@ export type GetActionsId404 = {
 }
 
 export type GetActionsId200 =
-  | ActionDiskLogGetBridgeV2
-  | BridgeOpentsGetBridgeV2
-  | BridgeAzureEventHubGetBridgeV2
-  | BridgeMatrixGetBridgeV2
-  | ActionDorisGetBridgeV2
-  | ConfluentGetBridgeV2
-  | BridgeMysqlGetBridgeV2
-  | BridgeKafkaGetBridgeV2
-  | BridgePgsqlGetBridgeV2
-  | BridgeKinesisGetBridgeV2
-  | PulsarGetBridgeV2
-  | BridgeDatalayersGetBridgeV2
-  | BridgeTablestoreGetBridgeV2
-  | BridgeMongodbGetBridgeV2
-  | GcpPubsubProducerGetBridgeV2
-  | ActionSnowflakeGetBridgeV2
-  | BridgeHttpGetBridgeV2
-  | SyskeeperGetBridgeV2
-  | BridgeCassaGetBridgeV2
-  | BridgeRabbitmqGetBridgeV2
   | ActionAzureBlobStorageGetBridgeV2
-  | RedisGetBridgeV2
-  | BridgeInfluxdbGetBridgeV2
-  | BridgeClickhouseGetBridgeV2
-  | ActionS3tablesGetBridgeV2
-  | BridgeS3GetBridgeV2
-  | BridgeGreptimedbGetBridgeV2
-  | BridgeMqttPublisherGetBridgeV2
   | ActionCouchbaseGetBridgeV2
-  | BridgeTimescaleGetBridgeV2
+  | ActionDiskLogGetBridgeV2
+  | ActionDorisGetBridgeV2
+  | ActionS3tablesGetBridgeV2
+  | ActionSnowflakeGetBridgeV2
+  | BridgeAzureEventHubGetBridgeV2
+  | BridgeCassaGetBridgeV2
+  | BridgeClickhouseGetBridgeV2
+  | BridgeDatalayersGetBridgeV2
   | BridgeDynamoGetBridgeV2
-  | BridgeIotdbGetBridgeV2
-  | RocketmqGetBridgeV2
-  | BridgeTdengineGetBridgeV2
-  | BridgeHstreamdbGetBridgeV2
-  | BridgeSqlserverGetBridgeV2
-  | BridgeOracleGetBridgeV2
   | BridgeElasticsearchGetBridgeV2
+  | BridgeGreptimedbGetBridgeV2
+  | BridgeHstreamdbGetBridgeV2
+  | BridgeHttpGetBridgeV2
+  | BridgeInfluxdbGetBridgeV2
+  | BridgeIotdbGetBridgeV2
+  | BridgeKafkaGetBridgeV2
+  | BridgeKinesisGetBridgeV2
+  | BridgeMatrixGetBridgeV2
+  | BridgeMongodbGetBridgeV2
+  | BridgeMqttPublisherGetBridgeV2
+  | BridgeMysqlGetBridgeV2
+  | BridgeOpentsGetBridgeV2
+  | BridgeOracleGetBridgeV2
+  | BridgePgsqlGetBridgeV2
+  | BridgeRabbitmqGetBridgeV2
+  | BridgeS3GetBridgeV2
+  | BridgeSqlserverGetBridgeV2
+  | BridgeTablestoreGetBridgeV2
+  | BridgeTdengineGetBridgeV2
+  | BridgeTimescaleGetBridgeV2
+  | ConfluentGetBridgeV2
+  | GcpPubsubProducerGetBridgeV2
+  | PulsarGetBridgeV2
+  | RedisGetBridgeV2
+  | RocketmqGetBridgeV2
+  | SyskeeperGetBridgeV2
 
 export type DeleteActionsId503Code =
   (typeof DeleteActionsId503Code)[keyof typeof DeleteActionsId503Code]
@@ -385,44 +385,44 @@ export type PostActionsProbe400 = {
 }
 
 export type PostActionsProbeBody =
-  | ActionDiskLogPostBridgeV2
-  | BridgeOpentsPostBridgeV2
-  | BridgeAzureEventHubPostBridgeV2
-  | BridgeMatrixPostBridgeV2
-  | ActionDorisPostBridgeV2
-  | ConfluentPostBridgeV2
-  | BridgeMysqlPostBridgeV2
-  | BridgeKafkaPostBridgeV2
-  | BridgePgsqlPostBridgeV2
-  | BridgeKinesisPostBridgeV2
-  | PulsarPostBridgeV2
-  | BridgeDatalayersPostBridgeV2
-  | BridgeTablestorePostBridgeV2
-  | BridgeMongodbPostBridgeV2
-  | GcpPubsubProducerPostBridgeV2
-  | ActionSnowflakePostBridgeV2
-  | BridgeHttpPostBridgeV2
-  | SyskeeperPostBridgeV2
-  | BridgeCassaPostBridgeV2
-  | BridgeRabbitmqPostBridgeV2
   | ActionAzureBlobStoragePostBridgeV2
-  | RedisPostBridgeV2
-  | BridgeInfluxdbPostBridgeV2
-  | BridgeClickhousePostBridgeV2
-  | ActionS3tablesPostBridgeV2
-  | BridgeS3PostBridgeV2
-  | BridgeGreptimedbPostBridgeV2
-  | BridgeMqttPublisherPostBridgeV2
   | ActionCouchbasePostBridgeV2
-  | BridgeTimescalePostBridgeV2
+  | ActionDiskLogPostBridgeV2
+  | ActionDorisPostBridgeV2
+  | ActionS3tablesPostBridgeV2
+  | ActionSnowflakePostBridgeV2
+  | BridgeAzureEventHubPostBridgeV2
+  | BridgeCassaPostBridgeV2
+  | BridgeClickhousePostBridgeV2
+  | BridgeDatalayersPostBridgeV2
   | BridgeDynamoPostBridgeV2
-  | BridgeIotdbPostBridgeV2
-  | RocketmqPostBridgeV2
-  | BridgeTdenginePostBridgeV2
-  | BridgeHstreamdbPostBridgeV2
-  | BridgeSqlserverPostBridgeV2
-  | BridgeOraclePostBridgeV2
   | BridgeElasticsearchPostBridgeV2
+  | BridgeGreptimedbPostBridgeV2
+  | BridgeHstreamdbPostBridgeV2
+  | BridgeHttpPostBridgeV2
+  | BridgeInfluxdbPostBridgeV2
+  | BridgeIotdbPostBridgeV2
+  | BridgeKafkaPostBridgeV2
+  | BridgeKinesisPostBridgeV2
+  | BridgeMatrixPostBridgeV2
+  | BridgeMongodbPostBridgeV2
+  | BridgeMqttPublisherPostBridgeV2
+  | BridgeMysqlPostBridgeV2
+  | BridgeOpentsPostBridgeV2
+  | BridgeOraclePostBridgeV2
+  | BridgePgsqlPostBridgeV2
+  | BridgeRabbitmqPostBridgeV2
+  | BridgeS3PostBridgeV2
+  | BridgeSqlserverPostBridgeV2
+  | BridgeTablestorePostBridgeV2
+  | BridgeTdenginePostBridgeV2
+  | BridgeTimescalePostBridgeV2
+  | ConfluentPostBridgeV2
+  | GcpPubsubProducerPostBridgeV2
+  | PulsarPostBridgeV2
+  | RedisPostBridgeV2
+  | RocketmqPostBridgeV2
+  | SyskeeperPostBridgeV2
 
 export type PostActions400Code = (typeof PostActions400Code)[keyof typeof PostActions400Code]
 
@@ -437,84 +437,84 @@ export type PostActions400 = {
 }
 
 export type PostActions201 =
-  | ActionDiskLogGetBridgeV2
-  | BridgeOpentsGetBridgeV2
-  | BridgeAzureEventHubGetBridgeV2
-  | BridgeMatrixGetBridgeV2
-  | ActionDorisGetBridgeV2
-  | ConfluentGetBridgeV2
-  | BridgeMysqlGetBridgeV2
-  | BridgeKafkaGetBridgeV2
-  | BridgePgsqlGetBridgeV2
-  | BridgeKinesisGetBridgeV2
-  | PulsarGetBridgeV2
-  | BridgeDatalayersGetBridgeV2
-  | BridgeTablestoreGetBridgeV2
-  | BridgeMongodbGetBridgeV2
-  | GcpPubsubProducerGetBridgeV2
-  | ActionSnowflakeGetBridgeV2
-  | BridgeHttpGetBridgeV2
-  | SyskeeperGetBridgeV2
-  | BridgeCassaGetBridgeV2
-  | BridgeRabbitmqGetBridgeV2
   | ActionAzureBlobStorageGetBridgeV2
-  | RedisGetBridgeV2
-  | BridgeInfluxdbGetBridgeV2
-  | BridgeClickhouseGetBridgeV2
-  | ActionS3tablesGetBridgeV2
-  | BridgeS3GetBridgeV2
-  | BridgeGreptimedbGetBridgeV2
-  | BridgeMqttPublisherGetBridgeV2
   | ActionCouchbaseGetBridgeV2
-  | BridgeTimescaleGetBridgeV2
+  | ActionDiskLogGetBridgeV2
+  | ActionDorisGetBridgeV2
+  | ActionS3tablesGetBridgeV2
+  | ActionSnowflakeGetBridgeV2
+  | BridgeAzureEventHubGetBridgeV2
+  | BridgeCassaGetBridgeV2
+  | BridgeClickhouseGetBridgeV2
+  | BridgeDatalayersGetBridgeV2
   | BridgeDynamoGetBridgeV2
-  | BridgeIotdbGetBridgeV2
-  | RocketmqGetBridgeV2
-  | BridgeTdengineGetBridgeV2
-  | BridgeHstreamdbGetBridgeV2
-  | BridgeSqlserverGetBridgeV2
-  | BridgeOracleGetBridgeV2
   | BridgeElasticsearchGetBridgeV2
+  | BridgeGreptimedbGetBridgeV2
+  | BridgeHstreamdbGetBridgeV2
+  | BridgeHttpGetBridgeV2
+  | BridgeInfluxdbGetBridgeV2
+  | BridgeIotdbGetBridgeV2
+  | BridgeKafkaGetBridgeV2
+  | BridgeKinesisGetBridgeV2
+  | BridgeMatrixGetBridgeV2
+  | BridgeMongodbGetBridgeV2
+  | BridgeMqttPublisherGetBridgeV2
+  | BridgeMysqlGetBridgeV2
+  | BridgeOpentsGetBridgeV2
+  | BridgeOracleGetBridgeV2
+  | BridgePgsqlGetBridgeV2
+  | BridgeRabbitmqGetBridgeV2
+  | BridgeS3GetBridgeV2
+  | BridgeSqlserverGetBridgeV2
+  | BridgeTablestoreGetBridgeV2
+  | BridgeTdengineGetBridgeV2
+  | BridgeTimescaleGetBridgeV2
+  | ConfluentGetBridgeV2
+  | GcpPubsubProducerGetBridgeV2
+  | PulsarGetBridgeV2
+  | RedisGetBridgeV2
+  | RocketmqGetBridgeV2
+  | SyskeeperGetBridgeV2
 
 export type PostActionsBody =
-  | ActionDiskLogPostBridgeV2
-  | BridgeOpentsPostBridgeV2
-  | BridgeAzureEventHubPostBridgeV2
-  | BridgeMatrixPostBridgeV2
-  | ActionDorisPostBridgeV2
-  | ConfluentPostBridgeV2
-  | BridgeMysqlPostBridgeV2
-  | BridgeKafkaPostBridgeV2
-  | BridgePgsqlPostBridgeV2
-  | BridgeKinesisPostBridgeV2
-  | PulsarPostBridgeV2
-  | BridgeDatalayersPostBridgeV2
-  | BridgeTablestorePostBridgeV2
-  | BridgeMongodbPostBridgeV2
-  | GcpPubsubProducerPostBridgeV2
-  | ActionSnowflakePostBridgeV2
-  | BridgeHttpPostBridgeV2
-  | SyskeeperPostBridgeV2
-  | BridgeCassaPostBridgeV2
-  | BridgeRabbitmqPostBridgeV2
   | ActionAzureBlobStoragePostBridgeV2
-  | RedisPostBridgeV2
-  | BridgeInfluxdbPostBridgeV2
-  | BridgeClickhousePostBridgeV2
-  | ActionS3tablesPostBridgeV2
-  | BridgeS3PostBridgeV2
-  | BridgeGreptimedbPostBridgeV2
-  | BridgeMqttPublisherPostBridgeV2
   | ActionCouchbasePostBridgeV2
-  | BridgeTimescalePostBridgeV2
+  | ActionDiskLogPostBridgeV2
+  | ActionDorisPostBridgeV2
+  | ActionS3tablesPostBridgeV2
+  | ActionSnowflakePostBridgeV2
+  | BridgeAzureEventHubPostBridgeV2
+  | BridgeCassaPostBridgeV2
+  | BridgeClickhousePostBridgeV2
+  | BridgeDatalayersPostBridgeV2
   | BridgeDynamoPostBridgeV2
-  | BridgeIotdbPostBridgeV2
-  | RocketmqPostBridgeV2
-  | BridgeTdenginePostBridgeV2
-  | BridgeHstreamdbPostBridgeV2
-  | BridgeSqlserverPostBridgeV2
-  | BridgeOraclePostBridgeV2
   | BridgeElasticsearchPostBridgeV2
+  | BridgeGreptimedbPostBridgeV2
+  | BridgeHstreamdbPostBridgeV2
+  | BridgeHttpPostBridgeV2
+  | BridgeInfluxdbPostBridgeV2
+  | BridgeIotdbPostBridgeV2
+  | BridgeKafkaPostBridgeV2
+  | BridgeKinesisPostBridgeV2
+  | BridgeMatrixPostBridgeV2
+  | BridgeMongodbPostBridgeV2
+  | BridgeMqttPublisherPostBridgeV2
+  | BridgeMysqlPostBridgeV2
+  | BridgeOpentsPostBridgeV2
+  | BridgeOraclePostBridgeV2
+  | BridgePgsqlPostBridgeV2
+  | BridgeRabbitmqPostBridgeV2
+  | BridgeS3PostBridgeV2
+  | BridgeSqlserverPostBridgeV2
+  | BridgeTablestorePostBridgeV2
+  | BridgeTdenginePostBridgeV2
+  | BridgeTimescalePostBridgeV2
+  | ConfluentPostBridgeV2
+  | GcpPubsubProducerPostBridgeV2
+  | PulsarPostBridgeV2
+  | RedisPostBridgeV2
+  | RocketmqPostBridgeV2
+  | SyskeeperPostBridgeV2
 
 export type GetActions200Item =
   | ActionDiskLogGetBridgeV2
@@ -4293,44 +4293,44 @@ export type BridgeAzureEventHubGetBridgeV2FallbackActionsItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ActionsAndSourcesFallbackActionReferenceType = {
+  oracle: 'oracle',
   s3tables: 's3tables',
+  rabbitmq: 'rabbitmq',
   mysql: 'mysql',
   doris: 'doris',
   disk_log: 'disk_log',
-  kinesis: 'kinesis',
   confluent_producer: 'confluent_producer',
   elasticsearch: 'elasticsearch',
-  sqlserver: 'sqlserver',
-  opents: 'opents',
   hstreamdb: 'hstreamdb',
   redis: 'redis',
   mongodb: 'mongodb',
-  oracle: 'oracle',
+  timescale: 'timescale',
+  kafka_producer: 'kafka_producer',
   dynamo: 'dynamo',
+  s3: 's3',
   pulsar: 'pulsar',
   clickhouse: 'clickhouse',
+  kinesis: 'kinesis',
   snowflake: 'snowflake',
-  azure_blob_storage: 'azure_blob_storage',
-  azure_event_hub_producer: 'azure_event_hub_producer',
-  timescale: 'timescale',
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
   cassandra: 'cassandra',
+  syskeeper_forwarder: 'syskeeper_forwarder',
+  azure_blob_storage: 'azure_blob_storage',
+  matrix: 'matrix',
+  azure_event_hub_producer: 'azure_event_hub_producer',
   datalayers: 'datalayers',
   http: 'http',
+  sqlserver: 'sqlserver',
   greptimedb: 'greptimedb',
   influxdb: 'influxdb',
   tablestore: 'tablestore',
   couchbase: 'couchbase',
-  syskeeper_forwarder: 'syskeeper_forwarder',
-  kafka_producer: 'kafka_producer',
-  matrix: 'matrix',
-  s3: 's3',
-  rabbitmq: 'rabbitmq',
   rocketmq: 'rocketmq',
   pgsql: 'pgsql',
+  opents: 'opents',
   tdengine: 'tdengine',
   mqtt: 'mqtt',
   iotdb: 'iotdb',
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
 } as const
 
 export type ActionsAndSourcesFallbackActionReferenceKind =

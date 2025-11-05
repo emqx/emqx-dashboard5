@@ -207,9 +207,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
-export type PutSsoBackendBody = DashboardSaml | SsoOidc | SsoLdap
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
@@ -282,7 +282,7 @@ export interface SsoOidc {
   session_expiry?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
