@@ -166,44 +166,44 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type PostGatewaysNameListenersIdAuthentication404Code =
   (typeof PostGatewaysNameListenersIdAuthentication404Code)[keyof typeof PostGatewaysNameListenersIdAuthentication404Code]
@@ -233,44 +233,44 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type GetGatewaysNameListenersIdAuthentication404Code =
   (typeof GetGatewaysNameListenersIdAuthentication404Code)[keyof typeof GetGatewaysNameListenersIdAuthentication404Code]
@@ -300,24 +300,24 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type DeleteGatewaysNameListenersIdAuthentication404Code =
   (typeof DeleteGatewaysNameListenersIdAuthentication404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication404Code]
@@ -374,20 +374,20 @@ export type PutGatewaysNameListenersId400 = {
 }
 
 export type PutGatewaysNameListenersId200 =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type PutGatewaysNameListenersIdBody =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type GetGatewaysNameListenersId404Code =
   (typeof GetGatewaysNameListenersId404Code)[keyof typeof GetGatewaysNameListenersId404Code]
@@ -417,12 +417,12 @@ export type GetGatewaysNameListenersId400 = {
 }
 
 export type GetGatewaysNameListenersId200 =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type DeleteGatewaysNameListenersId404Code =
   (typeof DeleteGatewaysNameListenersId404Code)[keyof typeof DeleteGatewaysNameListenersId404Code]
@@ -479,20 +479,20 @@ export type PostGatewaysNameListeners400 = {
 }
 
 export type PostGatewaysNameListeners201 =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type PostGatewaysNameListenersBody =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
 
 export type GetGatewaysNameListeners404Code =
   (typeof GetGatewaysNameListeners404Code)[keyof typeof GetGatewaysNameListeners404Code]

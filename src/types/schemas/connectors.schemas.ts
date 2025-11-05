@@ -157,92 +157,92 @@ export type PutConnectorsId400 = {
 export type PutConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type PutConnectorsId200 =
-  | KafkaConsumerGetConnector
-  | ConnectorDiskLogGetConnector
-  | OpentsConnectorGet
   | BridgeAzureEventHubGetConnector
-  | BridgeMatrixGetConnector
-  | ConnectorDorisGetConnector
-  | ConfluentGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeKafkaGetConnector
-  | ConnectorPostgresGetConnector
-  | BridgeKinesisGetConnector
-  | PulsarGet
-  | BridgeDatalayersGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeMongodbGetConnector
-  | GcpPubsubProducerGetConnector
-  | ConnectorSnowflakeGetConnector
-  | BridgeHttpGetConnector
-  | ConnectorSyskeeperProxyGet
-  | SyskeeperForwarderGet
   | BridgeCassaGetConnector
-  | RabbitmqGet
-  | GcpPubsubConsumerGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | RedisGetConnector
-  | BridgeInfluxdbGetConnector
   | BridgeClickhouseGetConnector
-  | ConnectorS3tablesGetConnector
-  | BridgeS3GetConnector
-  | BridgeGreptimedbGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorCouchbaseGetConnector
-  | BridgeTimescaleGetConnector
+  | BridgeDatalayersGetConnector
   | BridgeDynamoGetConnector
-  | PutConnectorsId200OneOf
-  | RocketmqGetConnector
-  | TdengineConnectorGet
+  | BridgeGreptimedbGetConnector
   | BridgeHstreamdbGetConnector
-  | BridgeSqlserverGetConnector
+  | BridgeHttpGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeKafkaGetConnector
+  | BridgeKinesisGetConnector
+  | BridgeMatrixGetConnector
+  | BridgeMongodbGetConnector
+  | BridgeMysqlGetConnector
   | BridgeOracleGetConnector
+  | BridgeS3GetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeTimescaleGetConnector
+  | ConfluentGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | ConnectorCouchbaseGetConnector
+  | ConnectorDiskLogGetConnector
+  | ConnectorDorisGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
+  | ConnectorSnowflakeGetConnector
+  | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
+  | GcpPubsubConsumerGetConnector
+  | GcpPubsubProducerGetConnector
+  | KafkaConsumerGetConnector
+  | OpentsConnectorGet
+  | PulsarGet
+  | RabbitmqGet
+  | RedisGetConnector
+  | RocketmqGetConnector
+  | SyskeeperForwarderGet
+  | PutConnectorsId200OneOf
+  | TdengineConnectorGet
 
 export type PutConnectorsIdBodyOneOf = IotdbPutThrift | IotdbPutRestapi
 
 export type PutConnectorsIdBody =
-  | KafkaConsumerPutConnector
-  | ConnectorDiskLogPutConnector
-  | OpentsConnectorPut
   | BridgeAzureEventHubPutConnector
-  | BridgeMatrixPutConnector
-  | ConnectorDorisPutConnector
-  | ConfluentPutConnector
-  | BridgeMysqlPutConnector
-  | BridgeKafkaPutConnector
-  | ConnectorPostgresPutConnector
-  | BridgeKinesisPutConnector
-  | PulsarPut
-  | BridgeDatalayersPutConnector
-  | BridgeTablestorePutConnector
-  | BridgeMongodbPutConnector
-  | GcpPubsubProducerPutConnector
-  | ConnectorSnowflakePutConnector
-  | BridgeHttpPutConnector
-  | ConnectorSyskeeperProxyPut
-  | SyskeeperForwarderPut
   | BridgeCassaPutConnector
-  | RabbitmqPut
-  | GcpPubsubConsumerPutConnector
-  | ConnectorAzureBlobStoragePutConnector
-  | RedisPutConnector
-  | BridgeInfluxdbPutConnector
   | BridgeClickhousePutConnector
-  | ConnectorS3tablesPutConnector
-  | BridgeS3PutConnector
-  | BridgeGreptimedbPutConnector
-  | ConnectorMqttPutConnector
-  | ConnectorCouchbasePutConnector
-  | BridgeTimescalePutConnector
+  | BridgeDatalayersPutConnector
   | BridgeDynamoPutConnector
-  | PutConnectorsIdBodyOneOf
-  | RocketmqPutConnector
-  | TdengineConnectorPut
+  | BridgeGreptimedbPutConnector
   | BridgeHstreamdbPutConnector
-  | BridgeSqlserverPutConnector
+  | BridgeHttpPutConnector
+  | BridgeInfluxdbPutConnector
+  | BridgeKafkaPutConnector
+  | BridgeKinesisPutConnector
+  | BridgeMatrixPutConnector
+  | BridgeMongodbPutConnector
+  | BridgeMysqlPutConnector
   | BridgeOraclePutConnector
+  | BridgeS3PutConnector
+  | BridgeSqlserverPutConnector
+  | BridgeTablestorePutConnector
+  | BridgeTimescalePutConnector
+  | ConfluentPutConnector
+  | ConnectorAzureBlobStoragePutConnector
+  | ConnectorCouchbasePutConnector
+  | ConnectorDiskLogPutConnector
+  | ConnectorDorisPutConnector
+  | ConnectorMqttPutConnector
+  | ConnectorPostgresPutConnector
+  | ConnectorS3tablesPutConnector
+  | ConnectorSnowflakePutConnector
+  | ConnectorSyskeeperProxyPut
   | ElasticsearchPut
+  | GcpPubsubConsumerPutConnector
+  | GcpPubsubProducerPutConnector
+  | KafkaConsumerPutConnector
+  | OpentsConnectorPut
+  | PulsarPut
+  | RabbitmqPut
+  | RedisPutConnector
+  | RocketmqPutConnector
+  | SyskeeperForwarderPut
+  | PutConnectorsIdBodyOneOf
+  | TdengineConnectorPut
 
 export type GetConnectorsId404Code =
   (typeof GetConnectorsId404Code)[keyof typeof GetConnectorsId404Code]
@@ -260,47 +260,47 @@ export type GetConnectorsId404 = {
 export type GetConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type GetConnectorsId200 =
-  | KafkaConsumerGetConnector
-  | ConnectorDiskLogGetConnector
-  | OpentsConnectorGet
   | BridgeAzureEventHubGetConnector
-  | BridgeMatrixGetConnector
-  | ConnectorDorisGetConnector
-  | ConfluentGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeKafkaGetConnector
-  | ConnectorPostgresGetConnector
-  | BridgeKinesisGetConnector
-  | PulsarGet
-  | BridgeDatalayersGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeMongodbGetConnector
-  | GcpPubsubProducerGetConnector
-  | ConnectorSnowflakeGetConnector
-  | BridgeHttpGetConnector
-  | ConnectorSyskeeperProxyGet
-  | SyskeeperForwarderGet
   | BridgeCassaGetConnector
-  | RabbitmqGet
-  | GcpPubsubConsumerGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | RedisGetConnector
-  | BridgeInfluxdbGetConnector
   | BridgeClickhouseGetConnector
-  | ConnectorS3tablesGetConnector
-  | BridgeS3GetConnector
-  | BridgeGreptimedbGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorCouchbaseGetConnector
-  | BridgeTimescaleGetConnector
+  | BridgeDatalayersGetConnector
   | BridgeDynamoGetConnector
-  | GetConnectorsId200OneOf
-  | RocketmqGetConnector
-  | TdengineConnectorGet
+  | BridgeGreptimedbGetConnector
   | BridgeHstreamdbGetConnector
-  | BridgeSqlserverGetConnector
+  | BridgeHttpGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeKafkaGetConnector
+  | BridgeKinesisGetConnector
+  | BridgeMatrixGetConnector
+  | BridgeMongodbGetConnector
+  | BridgeMysqlGetConnector
   | BridgeOracleGetConnector
+  | BridgeS3GetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeTimescaleGetConnector
+  | ConfluentGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | ConnectorCouchbaseGetConnector
+  | ConnectorDiskLogGetConnector
+  | ConnectorDorisGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
+  | ConnectorSnowflakeGetConnector
+  | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
+  | GcpPubsubConsumerGetConnector
+  | GcpPubsubProducerGetConnector
+  | KafkaConsumerGetConnector
+  | OpentsConnectorGet
+  | PulsarGet
+  | RabbitmqGet
+  | RedisGetConnector
+  | RocketmqGetConnector
+  | SyskeeperForwarderGet
+  | GetConnectorsId200OneOf
+  | TdengineConnectorGet
 
 export type DeleteConnectorsId503Code =
   (typeof DeleteConnectorsId503Code)[keyof typeof DeleteConnectorsId503Code]
@@ -357,47 +357,47 @@ export type PostConnectorsProbe400 = {
 export type PostConnectorsProbeBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
 export type PostConnectorsProbeBody =
-  | KafkaConsumerPostConnector
-  | ConnectorDiskLogPostConnector
-  | OpentsConnectorPost
   | BridgeAzureEventHubPostConnector
-  | BridgeMatrixPostConnector
-  | ConnectorDorisPostConnector
-  | ConfluentPostConnector
-  | BridgeMysqlPostConnector
-  | BridgeKafkaPostConnector
-  | ConnectorPostgresPostConnector
-  | BridgeKinesisPostConnector
-  | PulsarPost
-  | BridgeDatalayersPostConnector
-  | BridgeTablestorePostConnector
-  | BridgeMongodbPostConnector
-  | GcpPubsubProducerPostConnector
-  | ConnectorSnowflakePostConnector
-  | BridgeHttpPostConnector
-  | ConnectorSyskeeperProxyPost
-  | SyskeeperForwarderPost
   | BridgeCassaPostConnector
-  | RabbitmqPost
-  | GcpPubsubConsumerPostConnector
-  | ConnectorAzureBlobStoragePostConnector
-  | RedisPostConnector
-  | BridgeInfluxdbPostConnector
   | BridgeClickhousePostConnector
-  | ConnectorS3tablesPostConnector
-  | BridgeS3PostConnector
-  | BridgeGreptimedbPostConnector
-  | ConnectorMqttPostConnector
-  | ConnectorCouchbasePostConnector
-  | BridgeTimescalePostConnector
+  | BridgeDatalayersPostConnector
   | BridgeDynamoPostConnector
-  | PostConnectorsProbeBodyOneOf
-  | RocketmqPostConnector
-  | TdengineConnectorPost
+  | BridgeGreptimedbPostConnector
   | BridgeHstreamdbPostConnector
-  | BridgeSqlserverPostConnector
+  | BridgeHttpPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeKafkaPostConnector
+  | BridgeKinesisPostConnector
+  | BridgeMatrixPostConnector
+  | BridgeMongodbPostConnector
+  | BridgeMysqlPostConnector
   | BridgeOraclePostConnector
+  | BridgeS3PostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeTablestorePostConnector
+  | BridgeTimescalePostConnector
+  | ConfluentPostConnector
+  | ConnectorAzureBlobStoragePostConnector
+  | ConnectorCouchbasePostConnector
+  | ConnectorDiskLogPostConnector
+  | ConnectorDorisPostConnector
+  | ConnectorMqttPostConnector
+  | ConnectorPostgresPostConnector
+  | ConnectorS3tablesPostConnector
+  | ConnectorSnowflakePostConnector
+  | ConnectorSyskeeperProxyPost
   | ElasticsearchPost
+  | GcpPubsubConsumerPostConnector
+  | GcpPubsubProducerPostConnector
+  | KafkaConsumerPostConnector
+  | OpentsConnectorPost
+  | PulsarPost
+  | RabbitmqPost
+  | RedisPostConnector
+  | RocketmqPostConnector
+  | SyskeeperForwarderPost
+  | PostConnectorsProbeBodyOneOf
+  | TdengineConnectorPost
 
 export type PostConnectors400Code =
   (typeof PostConnectors400Code)[keyof typeof PostConnectors400Code]
@@ -415,92 +415,92 @@ export type PostConnectors400 = {
 export type PostConnectors201OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type PostConnectors201 =
-  | KafkaConsumerGetConnector
-  | ConnectorDiskLogGetConnector
-  | OpentsConnectorGet
   | BridgeAzureEventHubGetConnector
-  | BridgeMatrixGetConnector
-  | ConnectorDorisGetConnector
-  | ConfluentGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeKafkaGetConnector
-  | ConnectorPostgresGetConnector
-  | BridgeKinesisGetConnector
-  | PulsarGet
-  | BridgeDatalayersGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeMongodbGetConnector
-  | GcpPubsubProducerGetConnector
-  | ConnectorSnowflakeGetConnector
-  | BridgeHttpGetConnector
-  | ConnectorSyskeeperProxyGet
-  | SyskeeperForwarderGet
   | BridgeCassaGetConnector
-  | RabbitmqGet
-  | GcpPubsubConsumerGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | RedisGetConnector
-  | BridgeInfluxdbGetConnector
   | BridgeClickhouseGetConnector
-  | ConnectorS3tablesGetConnector
-  | BridgeS3GetConnector
-  | BridgeGreptimedbGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorCouchbaseGetConnector
-  | BridgeTimescaleGetConnector
+  | BridgeDatalayersGetConnector
   | BridgeDynamoGetConnector
-  | PostConnectors201OneOf
-  | RocketmqGetConnector
-  | TdengineConnectorGet
+  | BridgeGreptimedbGetConnector
   | BridgeHstreamdbGetConnector
-  | BridgeSqlserverGetConnector
+  | BridgeHttpGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeKafkaGetConnector
+  | BridgeKinesisGetConnector
+  | BridgeMatrixGetConnector
+  | BridgeMongodbGetConnector
+  | BridgeMysqlGetConnector
   | BridgeOracleGetConnector
+  | BridgeS3GetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeTimescaleGetConnector
+  | ConfluentGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | ConnectorCouchbaseGetConnector
+  | ConnectorDiskLogGetConnector
+  | ConnectorDorisGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorPostgresGetConnector
+  | ConnectorS3tablesGetConnector
+  | ConnectorSnowflakeGetConnector
+  | ConnectorSyskeeperProxyGet
   | ElasticsearchGet
+  | GcpPubsubConsumerGetConnector
+  | GcpPubsubProducerGetConnector
+  | KafkaConsumerGetConnector
+  | OpentsConnectorGet
+  | PulsarGet
+  | RabbitmqGet
+  | RedisGetConnector
+  | RocketmqGetConnector
+  | SyskeeperForwarderGet
+  | PostConnectors201OneOf
+  | TdengineConnectorGet
 
 export type PostConnectorsBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
 export type PostConnectorsBody =
-  | KafkaConsumerPostConnector
-  | ConnectorDiskLogPostConnector
-  | OpentsConnectorPost
   | BridgeAzureEventHubPostConnector
-  | BridgeMatrixPostConnector
-  | ConnectorDorisPostConnector
-  | ConfluentPostConnector
-  | BridgeMysqlPostConnector
-  | BridgeKafkaPostConnector
-  | ConnectorPostgresPostConnector
-  | BridgeKinesisPostConnector
-  | PulsarPost
-  | BridgeDatalayersPostConnector
-  | BridgeTablestorePostConnector
-  | BridgeMongodbPostConnector
-  | GcpPubsubProducerPostConnector
-  | ConnectorSnowflakePostConnector
-  | BridgeHttpPostConnector
-  | ConnectorSyskeeperProxyPost
-  | SyskeeperForwarderPost
   | BridgeCassaPostConnector
-  | RabbitmqPost
-  | GcpPubsubConsumerPostConnector
-  | ConnectorAzureBlobStoragePostConnector
-  | RedisPostConnector
-  | BridgeInfluxdbPostConnector
   | BridgeClickhousePostConnector
-  | ConnectorS3tablesPostConnector
-  | BridgeS3PostConnector
-  | BridgeGreptimedbPostConnector
-  | ConnectorMqttPostConnector
-  | ConnectorCouchbasePostConnector
-  | BridgeTimescalePostConnector
+  | BridgeDatalayersPostConnector
   | BridgeDynamoPostConnector
-  | PostConnectorsBodyOneOf
-  | RocketmqPostConnector
-  | TdengineConnectorPost
+  | BridgeGreptimedbPostConnector
   | BridgeHstreamdbPostConnector
-  | BridgeSqlserverPostConnector
+  | BridgeHttpPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeKafkaPostConnector
+  | BridgeKinesisPostConnector
+  | BridgeMatrixPostConnector
+  | BridgeMongodbPostConnector
+  | BridgeMysqlPostConnector
   | BridgeOraclePostConnector
+  | BridgeS3PostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeTablestorePostConnector
+  | BridgeTimescalePostConnector
+  | ConfluentPostConnector
+  | ConnectorAzureBlobStoragePostConnector
+  | ConnectorCouchbasePostConnector
+  | ConnectorDiskLogPostConnector
+  | ConnectorDorisPostConnector
+  | ConnectorMqttPostConnector
+  | ConnectorPostgresPostConnector
+  | ConnectorS3tablesPostConnector
+  | ConnectorSnowflakePostConnector
+  | ConnectorSyskeeperProxyPost
   | ElasticsearchPost
+  | GcpPubsubConsumerPostConnector
+  | GcpPubsubProducerPostConnector
+  | KafkaConsumerPostConnector
+  | OpentsConnectorPost
+  | PulsarPost
+  | RabbitmqPost
+  | RedisPostConnector
+  | RocketmqPostConnector
+  | SyskeeperForwarderPost
+  | PostConnectorsBodyOneOf
+  | TdengineConnectorPost
 
 export type GetConnectors200ItemOneOf = IotdbGetThrift | IotdbGetRestapi
 

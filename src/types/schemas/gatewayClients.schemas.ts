@@ -107,9 +107,9 @@ export type GetGatewaysNameClientsClientid400 = {
 }
 
 export type GetGatewaysNameClientsClientid200 =
+  | EmqxGatewayApiClientsCoapClient
   | EmqxGatewayApiClientsExprotoClient
   | EmqxGatewayApiClientsLwm2mClient
-  | EmqxGatewayApiClientsCoapClient
   | EmqxGatewayApiClientsMqttsnClient
   | EmqxGatewayApiClientsStompClient
 

@@ -246,44 +246,44 @@ export type PutGatewaysNameAuthentication400 = {
 }
 
 export type PutGatewaysNameAuthentication200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type PutGatewaysNameAuthenticationBody =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type PostGatewaysNameAuthentication404Code =
   (typeof PostGatewaysNameAuthentication404Code)[keyof typeof PostGatewaysNameAuthentication404Code]
@@ -313,24 +313,24 @@ export type PostGatewaysNameAuthentication400 = {
 }
 
 export type PostGatewaysNameAuthenticationBody =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type GetGatewaysNameAuthentication404Code =
   (typeof GetGatewaysNameAuthentication404Code)[keyof typeof GetGatewaysNameAuthentication404Code]
@@ -360,24 +360,24 @@ export type GetGatewaysNameAuthentication400 = {
 }
 
 export type GetGatewaysNameAuthentication200 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type DeleteGatewaysNameAuthentication404Code =
   (typeof DeleteGatewaysNameAuthentication404Code)[keyof typeof DeleteGatewaysNameAuthentication404Code]
@@ -766,24 +766,24 @@ export interface AuthnPostgresql {
 }
 
 export type PostGatewaysNameAuthentication201 =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnLdap
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
 
 export type AuthnPostgresqlBackend =
   (typeof AuthnPostgresqlBackend)[keyof typeof AuthnPostgresqlBackend]

@@ -197,74 +197,74 @@ export type PutBridgesId400 = {
 }
 
 export type PutBridgesId200 =
-  | BridgeKafkaGetConsumer
-  | BridgeGcpPubsubGetProducer
-  | BridgeOpentsGet
-  | BridgeHttpGet
   | BridgeAzureEventHubGetProducer
-  | BridgeMatrixGet
-  | BridgePulsarGetProducer
-  | BridgeMysqlGet
-  | BridgePgsqlGet
-  | BridgeMongodbGetSingle
-  | BridgeKinesisGetProducer
-  | BridgeInfluxdbGetApiV1
-  | BridgeMongodbGetSharded
-  | BridgeRedisGetCluster
   | BridgeCassaGet
-  | BridgeRabbitmqGet
-  | BridgeGcpPubsubGetConsumer
-  | BridgeRedisGetSentinel
   | BridgeClickhouseGet
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeMongodbGetRs
-  | BridgeMqttGet
-  | BridgeTimescaleGet
   | BridgeDynamoGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeGcpPubsubGetProducer
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeHstreamdbGet
+  | BridgeHttpGet
+  | BridgeInfluxdbGetApiV1
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | RocketmqGet
-  | BridgeTdengineGet
-  | BridgeHstreamdbGet
+  | BridgeKafkaGetConsumer
+  | BridgeKafkaGetProducer
+  | BridgeKinesisGetProducer
+  | BridgeMatrixGet
+  | BridgeMongodbGetRs
+  | BridgeMongodbGetSharded
+  | BridgeMongodbGetSingle
+  | BridgeMqttGet
+  | BridgeMysqlGet
+  | BridgeOpentsGet
+  | BridgeOracleGet
+  | BridgePgsqlGet
+  | BridgePulsarGetProducer
+  | BridgeRabbitmqGet
+  | BridgeRedisGetCluster
+  | BridgeRedisGetSentinel
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeOracleGet
-  | BridgeKafkaGetProducer
+  | BridgeTdengineGet
+  | BridgeTimescaleGet
+  | RocketmqGet
 
 export type PutBridgesIdBody =
-  | BridgeKafkaPutConsumer
-  | BridgeGcpPubsubPutProducer
-  | BridgeOpentsPut
-  | BridgeHttpPut
   | BridgeAzureEventHubPutProducer
-  | BridgeMatrixPut
-  | BridgePulsarPutProducer
-  | BridgeMysqlPut
-  | BridgePgsqlPut
-  | BridgeMongodbPutSingle
-  | BridgeKinesisPutProducer
-  | BridgeInfluxdbPutApiV1
-  | BridgeMongodbPutSharded
-  | BridgeRedisPutCluster
   | BridgeCassaPut
-  | BridgeRabbitmqPut
-  | BridgeGcpPubsubPutConsumer
-  | BridgeRedisPutSentinel
   | BridgeClickhousePut
-  | BridgeGreptimedbPutGrpcV1
-  | BridgeMongodbPutRs
-  | BridgeMqttPut
-  | BridgeTimescalePut
   | BridgeDynamoPut
+  | BridgeGcpPubsubPutConsumer
+  | BridgeGcpPubsubPutProducer
+  | BridgeGreptimedbPutGrpcV1
+  | BridgeHstreamdbPut
+  | BridgeHttpPut
+  | BridgeInfluxdbPutApiV1
   | BridgeInfluxdbPutApiV2
   | BridgeIotdbPut
-  | RocketmqPut
-  | BridgeTdenginePut
-  | BridgeHstreamdbPut
+  | BridgeKafkaPutConsumer
+  | BridgeKafkaPutProducer
+  | BridgeKinesisPutProducer
+  | BridgeMatrixPut
+  | BridgeMongodbPutRs
+  | BridgeMongodbPutSharded
+  | BridgeMongodbPutSingle
+  | BridgeMqttPut
+  | BridgeMysqlPut
+  | BridgeOpentsPut
+  | BridgeOraclePut
+  | BridgePgsqlPut
+  | BridgePulsarPutProducer
+  | BridgeRabbitmqPut
+  | BridgeRedisPutCluster
+  | BridgeRedisPutSentinel
   | BridgeRedisPutSingle
   | BridgeSqlserverPut
-  | BridgeOraclePut
-  | BridgeKafkaPutProducer
+  | BridgeTdenginePut
+  | BridgeTimescalePut
+  | RocketmqPut
 
 export type GetBridgesId404Code = (typeof GetBridgesId404Code)[keyof typeof GetBridgesId404Code]
 
@@ -279,39 +279,39 @@ export type GetBridgesId404 = {
 }
 
 export type GetBridgesId200 =
-  | BridgeKafkaGetConsumer
-  | BridgeGcpPubsubGetProducer
-  | BridgeOpentsGet
-  | BridgeHttpGet
   | BridgeAzureEventHubGetProducer
-  | BridgeMatrixGet
-  | BridgePulsarGetProducer
-  | BridgeMysqlGet
-  | BridgePgsqlGet
-  | BridgeMongodbGetSingle
-  | BridgeKinesisGetProducer
-  | BridgeInfluxdbGetApiV1
-  | BridgeMongodbGetSharded
-  | BridgeRedisGetCluster
   | BridgeCassaGet
-  | BridgeRabbitmqGet
-  | BridgeGcpPubsubGetConsumer
-  | BridgeRedisGetSentinel
   | BridgeClickhouseGet
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeMongodbGetRs
-  | BridgeMqttGet
-  | BridgeTimescaleGet
   | BridgeDynamoGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeGcpPubsubGetProducer
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeHstreamdbGet
+  | BridgeHttpGet
+  | BridgeInfluxdbGetApiV1
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | RocketmqGet
-  | BridgeTdengineGet
-  | BridgeHstreamdbGet
+  | BridgeKafkaGetConsumer
+  | BridgeKafkaGetProducer
+  | BridgeKinesisGetProducer
+  | BridgeMatrixGet
+  | BridgeMongodbGetRs
+  | BridgeMongodbGetSharded
+  | BridgeMongodbGetSingle
+  | BridgeMqttGet
+  | BridgeMysqlGet
+  | BridgeOpentsGet
+  | BridgeOracleGet
+  | BridgePgsqlGet
+  | BridgePulsarGetProducer
+  | BridgeRabbitmqGet
+  | BridgeRedisGetCluster
+  | BridgeRedisGetSentinel
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeOracleGet
-  | BridgeKafkaGetProducer
+  | BridgeTdengineGet
+  | BridgeTimescaleGet
+  | RocketmqGet
 
 export type DeleteBridgesId503Code =
   (typeof DeleteBridgesId503Code)[keyof typeof DeleteBridgesId503Code]
@@ -367,39 +367,39 @@ export type PostBridgesProbe400 = {
 }
 
 export type PostBridgesProbeBody =
-  | BridgeKafkaPostConsumer
-  | BridgeGcpPubsubPostProducer
-  | BridgeOpentsPost
-  | BridgeHttpPost
   | BridgeAzureEventHubPostProducer
-  | BridgeMatrixPost
-  | BridgePulsarPostProducer
-  | BridgeMysqlPost
-  | BridgePgsqlPost
-  | BridgeMongodbPostSingle
-  | BridgeKinesisPostProducer
-  | BridgeInfluxdbPostApiV1
-  | BridgeMongodbPostSharded
-  | BridgeRedisPostCluster
   | BridgeCassaPost
-  | BridgeRabbitmqPost
-  | BridgeGcpPubsubPostConsumer
-  | BridgeRedisPostSentinel
   | BridgeClickhousePost
-  | BridgeGreptimedbPostGrpcV1
-  | BridgeMongodbPostRs
-  | BridgeMqttPost
-  | BridgeTimescalePost
   | BridgeDynamoPost
+  | BridgeGcpPubsubPostConsumer
+  | BridgeGcpPubsubPostProducer
+  | BridgeGreptimedbPostGrpcV1
+  | BridgeHstreamdbPost
+  | BridgeHttpPost
+  | BridgeInfluxdbPostApiV1
   | BridgeInfluxdbPostApiV2
   | BridgeIotdbPost
-  | RocketmqPost
-  | BridgeTdenginePost
-  | BridgeHstreamdbPost
+  | BridgeKafkaPostConsumer
+  | BridgeKafkaPostProducer
+  | BridgeKinesisPostProducer
+  | BridgeMatrixPost
+  | BridgeMongodbPostRs
+  | BridgeMongodbPostSharded
+  | BridgeMongodbPostSingle
+  | BridgeMqttPost
+  | BridgeMysqlPost
+  | BridgeOpentsPost
+  | BridgeOraclePost
+  | BridgePgsqlPost
+  | BridgePulsarPostProducer
+  | BridgeRabbitmqPost
+  | BridgeRedisPostCluster
+  | BridgeRedisPostSentinel
   | BridgeRedisPostSingle
   | BridgeSqlserverPost
-  | BridgeOraclePost
-  | BridgeKafkaPostProducer
+  | BridgeTdenginePost
+  | BridgeTimescalePost
+  | RocketmqPost
 
 export type PostBridges400Code = (typeof PostBridges400Code)[keyof typeof PostBridges400Code]
 
@@ -414,74 +414,74 @@ export type PostBridges400 = {
 }
 
 export type PostBridges201 =
-  | BridgeKafkaGetConsumer
-  | BridgeGcpPubsubGetProducer
-  | BridgeOpentsGet
-  | BridgeHttpGet
   | BridgeAzureEventHubGetProducer
-  | BridgeMatrixGet
-  | BridgePulsarGetProducer
-  | BridgeMysqlGet
-  | BridgePgsqlGet
-  | BridgeMongodbGetSingle
-  | BridgeKinesisGetProducer
-  | BridgeInfluxdbGetApiV1
-  | BridgeMongodbGetSharded
-  | BridgeRedisGetCluster
   | BridgeCassaGet
-  | BridgeRabbitmqGet
-  | BridgeGcpPubsubGetConsumer
-  | BridgeRedisGetSentinel
   | BridgeClickhouseGet
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeMongodbGetRs
-  | BridgeMqttGet
-  | BridgeTimescaleGet
   | BridgeDynamoGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeGcpPubsubGetProducer
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeHstreamdbGet
+  | BridgeHttpGet
+  | BridgeInfluxdbGetApiV1
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | RocketmqGet
-  | BridgeTdengineGet
-  | BridgeHstreamdbGet
+  | BridgeKafkaGetConsumer
+  | BridgeKafkaGetProducer
+  | BridgeKinesisGetProducer
+  | BridgeMatrixGet
+  | BridgeMongodbGetRs
+  | BridgeMongodbGetSharded
+  | BridgeMongodbGetSingle
+  | BridgeMqttGet
+  | BridgeMysqlGet
+  | BridgeOpentsGet
+  | BridgeOracleGet
+  | BridgePgsqlGet
+  | BridgePulsarGetProducer
+  | BridgeRabbitmqGet
+  | BridgeRedisGetCluster
+  | BridgeRedisGetSentinel
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeOracleGet
-  | BridgeKafkaGetProducer
+  | BridgeTdengineGet
+  | BridgeTimescaleGet
+  | RocketmqGet
 
 export type PostBridgesBody =
-  | BridgeKafkaPostConsumer
-  | BridgeGcpPubsubPostProducer
-  | BridgeOpentsPost
-  | BridgeHttpPost
   | BridgeAzureEventHubPostProducer
-  | BridgeMatrixPost
-  | BridgePulsarPostProducer
-  | BridgeMysqlPost
-  | BridgePgsqlPost
-  | BridgeMongodbPostSingle
-  | BridgeKinesisPostProducer
-  | BridgeInfluxdbPostApiV1
-  | BridgeMongodbPostSharded
-  | BridgeRedisPostCluster
   | BridgeCassaPost
-  | BridgeRabbitmqPost
-  | BridgeGcpPubsubPostConsumer
-  | BridgeRedisPostSentinel
   | BridgeClickhousePost
-  | BridgeGreptimedbPostGrpcV1
-  | BridgeMongodbPostRs
-  | BridgeMqttPost
-  | BridgeTimescalePost
   | BridgeDynamoPost
+  | BridgeGcpPubsubPostConsumer
+  | BridgeGcpPubsubPostProducer
+  | BridgeGreptimedbPostGrpcV1
+  | BridgeHstreamdbPost
+  | BridgeHttpPost
+  | BridgeInfluxdbPostApiV1
   | BridgeInfluxdbPostApiV2
   | BridgeIotdbPost
-  | RocketmqPost
-  | BridgeTdenginePost
-  | BridgeHstreamdbPost
+  | BridgeKafkaPostConsumer
+  | BridgeKafkaPostProducer
+  | BridgeKinesisPostProducer
+  | BridgeMatrixPost
+  | BridgeMongodbPostRs
+  | BridgeMongodbPostSharded
+  | BridgeMongodbPostSingle
+  | BridgeMqttPost
+  | BridgeMysqlPost
+  | BridgeOpentsPost
+  | BridgeOraclePost
+  | BridgePgsqlPost
+  | BridgePulsarPostProducer
+  | BridgeRabbitmqPost
+  | BridgeRedisPostCluster
+  | BridgeRedisPostSentinel
   | BridgeRedisPostSingle
   | BridgeSqlserverPost
-  | BridgeOraclePost
-  | BridgeKafkaPostProducer
+  | BridgeTdenginePost
+  | BridgeTimescalePost
+  | RocketmqPost
 
 export type GetBridges200Item =
   | BridgeKafkaGetConsumer

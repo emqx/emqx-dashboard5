@@ -258,19 +258,19 @@ export type PutAuthorizationSourcesType400 = {
 }
 
 export type PutAuthorizationSourcesTypeBody =
+  | AuthzApiFile
+  | AuthzBuiltinDb
+  | AuthzHttpGet
+  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoSharded
   | AuthzMongoRs
+  | AuthzMongoSharded
   | AuthzMongoSingle
-  | AuthzPostgresql
   | AuthzMysql
+  | AuthzPostgresql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
-  | AuthzHttpPost
-  | AuthzHttpGet
-  | AuthzBuiltinDb
-  | AuthzApiFile
 
 export type GetAuthorizationSourcesType404Code =
   (typeof GetAuthorizationSourcesType404Code)[keyof typeof GetAuthorizationSourcesType404Code]
@@ -286,19 +286,19 @@ export type GetAuthorizationSourcesType404 = {
 }
 
 export type GetAuthorizationSourcesType200 =
+  | AuthzApiFile
+  | AuthzBuiltinDb
+  | AuthzHttpGet
+  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoSharded
   | AuthzMongoRs
+  | AuthzMongoSharded
   | AuthzMongoSingle
-  | AuthzPostgresql
   | AuthzMysql
+  | AuthzPostgresql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
-  | AuthzHttpPost
-  | AuthzHttpGet
-  | AuthzBuiltinDb
-  | AuthzApiFile
 
 export type DeleteAuthorizationSourcesType400Code =
   (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
@@ -327,19 +327,19 @@ export type PostAuthorizationSources400 = {
 }
 
 export type PostAuthorizationSourcesBody =
+  | AuthzApiFile
+  | AuthzBuiltinDb
+  | AuthzHttpGet
+  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoSharded
   | AuthzMongoRs
+  | AuthzMongoSharded
   | AuthzMongoSingle
-  | AuthzPostgresql
   | AuthzMysql
+  | AuthzPostgresql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
-  | AuthzHttpPost
-  | AuthzHttpGet
-  | AuthzBuiltinDb
-  | AuthzApiFile
 
 export type PutAuthorizationSettings400Code =
   (typeof PutAuthorizationSettings400Code)[keyof typeof PutAuthorizationSettings400Code]

@@ -144,16 +144,16 @@ export type PutSourcesId400 = {
 }
 
 export type PutSourcesId200 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type PutSourcesIdBody =
-  | BridgeRabbitmqPutSource
   | BridgeMqttPublisherPutSource
-  | KafkaConsumerPutSource
+  | BridgeRabbitmqPutSource
   | GcpPubsubConsumerPutSource
+  | KafkaConsumerPutSource
 
 export type GetSourcesId404Code = (typeof GetSourcesId404Code)[keyof typeof GetSourcesId404Code]
 
@@ -168,10 +168,10 @@ export type GetSourcesId404 = {
 }
 
 export type GetSourcesId200 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type DeleteSourcesId503Code =
   (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
@@ -231,10 +231,10 @@ export type PostSourcesProbe400 = {
 }
 
 export type PostSourcesProbeBody =
-  | BridgeRabbitmqPostSource
   | BridgeMqttPublisherPostSource
-  | KafkaConsumerPostSource
+  | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
+  | KafkaConsumerPostSource
 
 export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
@@ -249,16 +249,16 @@ export type PostSources400 = {
 }
 
 export type PostSources201 =
-  | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
+  | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type PostSourcesBody =
-  | BridgeRabbitmqPostSource
   | BridgeMqttPublisherPostSource
-  | KafkaConsumerPostSource
+  | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
+  | KafkaConsumerPostSource
 
 export type GetSources200Item =
   | BridgeRabbitmqGetSource
