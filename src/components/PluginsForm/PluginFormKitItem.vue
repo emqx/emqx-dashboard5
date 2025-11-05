@@ -68,6 +68,9 @@
       v-model="bindValue[key]"
     />
   </template>
+  <el-col v-if="formConfigs.divider" :span="24">
+    <el-divider>{{ formConfigs.dividerLabel }}</el-divider>
+  </el-col>
 </template>
 
 <script lang="ts">
