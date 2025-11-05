@@ -78,9 +78,9 @@ export type AuditHttpRequestMethod =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuditHttpRequestMethod = {
+  delete: 'delete',
   post: 'post',
   put: 'put',
-  delete: 'delete',
 } as const
 
 export type AuditHttpRequestHeaders = { [key: string]: unknown }
@@ -106,27 +106,27 @@ export type AuditAuditOperationResult =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuditAuditOperationResult = {
-  success: 'success',
   failure: 'failure',
+  success: 'success',
 } as const
 
 export type AuditAuditHttpMethod = (typeof AuditAuditHttpMethod)[keyof typeof AuditAuditHttpMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuditAuditHttpMethod = {
+  delete: 'delete',
   post: 'post',
   put: 'put',
-  delete: 'delete',
 } as const
 
 export type AuditAuditFrom = (typeof AuditAuditFrom)[keyof typeof AuditAuditFrom]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuditAuditFrom = {
-  dashboard: 'dashboard',
-  rest_api: 'rest_api',
   cli: 'cli',
+  dashboard: 'dashboard',
   erlang_console: 'erlang_console',
+  rest_api: 'rest_api',
 } as const
 
 export type AuditAuditCreatedAt = number | string

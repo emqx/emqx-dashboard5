@@ -7,8 +7,8 @@ export type EmqxMgmtApiPublishPublishMessagePayloadEncoding =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiPublishPublishMessagePayloadEncoding = {
-  plain: 'plain',
   base64: 'base64',
+  plain: 'plain',
 } as const
 
 export interface EmqxMgmtApiPublishPublishMessage {

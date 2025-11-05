@@ -138,8 +138,8 @@ export type SchemaValidationValidationStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationValidationStrategy = {
-  any_pass: 'any_pass',
   all_pass: 'all_pass',
+  any_pass: 'any_pass',
 } as const
 
 export type SchemaValidationValidationFailureAction =
@@ -147,8 +147,8 @@ export type SchemaValidationValidationFailureAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationValidationFailureAction = {
-  drop: 'drop',
   disconnect: 'disconnect',
+  drop: 'drop',
   ignore: 'ignore',
 } as const
 
@@ -164,12 +164,12 @@ export type SchemaValidationLogFailureLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaValidationLogFailureLevel = {
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
   debug: 'debug',
+  error: 'error',
+  info: 'info',
   none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface SchemaValidationLogFailure {

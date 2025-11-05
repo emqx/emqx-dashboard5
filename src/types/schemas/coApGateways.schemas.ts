@@ -36,10 +36,10 @@ export type PostGatewaysCoapClientsClientidRequestBodyMethod =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGatewaysCoapClientsClientidRequestBodyMethod = {
-  get: 'get',
-  put: 'put',
-  post: 'post',
   delete: 'delete',
+  get: 'get',
+  post: 'post',
+  put: 'put',
 } as const
 
 export type PostGatewaysCoapClientsClientidRequestBodyContentType =
@@ -47,9 +47,9 @@ export type PostGatewaysCoapClientsClientidRequestBodyContentType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostGatewaysCoapClientsClientidRequestBodyContentType = {
-  'text/plain': 'text/plain',
   'application/json': 'application/json',
   'application/octet-stream': 'application/octet-stream',
+  'text/plain': 'text/plain',
 } as const
 
 export type PostGatewaysCoapClientsClientidRequestBody = {

@@ -12,16 +12,16 @@ export type PutSchemaRegistryName404 = {
 }
 
 export type PutSchemaRegistryName200 =
-  | SchemaRegistryPutAvro
   | SchemaRegistryPutExternalHttp
   | SchemaRegistryPutJson
   | SchemaRegistryPutProtobuf
+  | SchemaRegistryPutAvro
 
 export type PutSchemaRegistryNameBody =
-  | SchemaRegistryPutAvro
   | SchemaRegistryPutExternalHttp
   | SchemaRegistryPutJson
   | SchemaRegistryPutProtobuf
+  | SchemaRegistryPutAvro
 
 export type GetSchemaRegistryName404Code =
   (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
@@ -37,10 +37,10 @@ export type GetSchemaRegistryName404 = {
 }
 
 export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetAvro
   | SchemaRegistryGetExternalHttp
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
+  | SchemaRegistryGetAvro
 
 export type DeleteSchemaRegistryName404Code =
   (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
@@ -170,16 +170,16 @@ export type PostSchemaRegistry400 = {
 }
 
 export type PostSchemaRegistry201 =
-  | SchemaRegistryPostAvro
   | SchemaRegistryPostExternalHttp
   | SchemaRegistryPostJson
   | SchemaRegistryPostProtobuf
+  | SchemaRegistryPostAvro
 
 export type PostSchemaRegistryBody =
-  | SchemaRegistryPostAvro
   | SchemaRegistryPostExternalHttp
   | SchemaRegistryPostJson
   | SchemaRegistryPostProtobuf
+  | SchemaRegistryPostAvro
 
 export type GetSchemaRegistry200Item =
   | SchemaRegistryGetExternalHttp
@@ -394,8 +394,8 @@ export type SchemaRegistryExternalHttpParamsPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SchemaRegistryExternalHttpParamsPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type SchemaRegistryExternalHttpParamsHeaders = { [key: string]: unknown }
@@ -460,8 +460,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -471,10 +471,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -482,16 +482,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {

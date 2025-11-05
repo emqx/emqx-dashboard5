@@ -97,8 +97,8 @@ export type PostClusterLinks400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostClusterLinks400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
   ALREADY_EXISTS: 'ALREADY_EXISTS',
+  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostClusterLinks400 = {
@@ -156,8 +156,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -167,10 +167,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -178,16 +178,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -319,8 +319,8 @@ export type ClusterLinkLinkConfigResponseStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ClusterLinkLinkConfigResponseStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 

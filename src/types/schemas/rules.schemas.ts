@@ -189,23 +189,23 @@ export interface RuleEngineUserProvidedFunction {
 }
 
 export type RuleEngineRuleTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleTest {
   context?: RuleEngineRuleTestContext
@@ -247,34 +247,34 @@ export type RuleEngineRuleEventsEvent =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RuleEngineRuleEventsEvent = {
-  '$events/sys/alarm_activated': '$events/sys/alarm_activated',
-  '$events/sys/alarm_deactivated': '$events/sys/alarm_deactivated',
-  '$events/client/connected': '$events/client/connected',
-  '$events/client/disconnected': '$events/client/disconnected',
-  '$events/client/connack': '$events/client/connack',
   '$events/auth/check_authn_complete': '$events/auth/check_authn_complete',
   '$events/auth/check_authz_complete': '$events/auth/check_authz_complete',
-  '$events/session/subscribed': '$events/session/subscribed',
-  '$events/session/unsubscribed': '$events/session/unsubscribed',
-  '$events/message/delivered': '$events/message/delivered',
-  '$events/message/acked': '$events/message/acked',
-  '$events/message/dropped': '$events/message/dropped',
-  '$events/message/delivery_dropped': '$events/message/delivery_dropped',
-  '$events/message_transformation/failed': '$events/message_transformation/failed',
-  '$events/schema_validation/failed': '$events/schema_validation/failed',
-  '$events/client_connected': '$events/client_connected',
-  '$events/client_disconnected': '$events/client_disconnected',
-  '$events/client_connack': '$events/client_connack',
   '$events/client_check_authn_complete': '$events/client_check_authn_complete',
   '$events/client_check_authz_complete': '$events/client_check_authz_complete',
+  '$events/client_connack': '$events/client_connack',
+  '$events/client_connected': '$events/client_connected',
+  '$events/client_disconnected': '$events/client_disconnected',
+  '$events/client/connack': '$events/client/connack',
+  '$events/client/connected': '$events/client/connected',
+  '$events/client/disconnected': '$events/client/disconnected',
+  '$events/delivery_dropped': '$events/delivery_dropped',
+  '$events/message_acked': '$events/message_acked',
+  '$events/message_delivered': '$events/message_delivered',
+  '$events/message_dropped': '$events/message_dropped',
+  '$events/message_transformation_failed': '$events/message_transformation_failed',
+  '$events/message_transformation/failed': '$events/message_transformation/failed',
+  '$events/message/acked': '$events/message/acked',
+  '$events/message/delivered': '$events/message/delivered',
+  '$events/message/delivery_dropped': '$events/message/delivery_dropped',
+  '$events/message/dropped': '$events/message/dropped',
+  '$events/schema_validation_failed': '$events/schema_validation_failed',
+  '$events/schema_validation/failed': '$events/schema_validation/failed',
   '$events/session_subscribed': '$events/session_subscribed',
   '$events/session_unsubscribed': '$events/session_unsubscribed',
-  '$events/message_delivered': '$events/message_delivered',
-  '$events/message_acked': '$events/message_acked',
-  '$events/message_dropped': '$events/message_dropped',
-  '$events/delivery_dropped': '$events/delivery_dropped',
-  '$events/message_transformation_failed': '$events/message_transformation_failed',
-  '$events/schema_validation_failed': '$events/schema_validation_failed',
+  '$events/session/subscribed': '$events/session/subscribed',
+  '$events/session/unsubscribed': '$events/session/unsubscribed',
+  '$events/sys/alarm_activated': '$events/sys/alarm_activated',
+  '$events/sys/alarm_deactivated': '$events/sys/alarm_deactivated',
 } as const
 
 export type RuleEngineRuleEventsColumns = { [key: string]: unknown }
@@ -311,23 +311,23 @@ export interface RuleEngineRuleCreation {
 }
 
 export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext

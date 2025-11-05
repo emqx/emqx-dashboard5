@@ -16,8 +16,8 @@ export type GetSsoSamlMetadata200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoSamlMetadata200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type GetSsoSamlMetadata200License = {
@@ -122,8 +122,8 @@ export type GetSsoOidcCallback200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSsoOidcCallback200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type GetSsoOidcCallback200License = {
@@ -180,8 +180,8 @@ export type PostSsoLoginBackend200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSsoLoginBackend200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type PostSsoLoginBackend200License = {
@@ -207,9 +207,9 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type PutSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
 
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
+export type PutSsoBackendBody = DashboardSaml | SsoOidc | SsoLdap
 
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
@@ -240,8 +240,8 @@ export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvi
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcProvider = {
-  okta: 'okta',
   generic: 'generic',
+  okta: 'okta',
 } as const
 
 export type SsoOidcPreferredAuthMethodsItem =
@@ -249,11 +249,11 @@ export type SsoOidcPreferredAuthMethodsItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcPreferredAuthMethodsItem = {
-  private_key_jwt: 'private_key_jwt',
+  client_secret_basic: 'client_secret_basic',
   client_secret_jwt: 'client_secret_jwt',
   client_secret_post: 'client_secret_post',
-  client_secret_basic: 'client_secret_basic',
   none: 'none',
+  private_key_jwt: 'private_key_jwt',
 } as const
 
 export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
@@ -282,7 +282,7 @@ export interface SsoOidc {
   session_expiry?: string
 }
 
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type GetSsoBackend200 = DashboardSaml | SsoOidc | SsoLdap
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
@@ -321,8 +321,8 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type LdapSslServerNameIndication = string | 'disable'
@@ -331,26 +331,26 @@ export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof Ldap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {

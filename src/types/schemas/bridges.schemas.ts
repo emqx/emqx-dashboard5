@@ -197,74 +197,74 @@ export type PutBridgesId400 = {
 }
 
 export type PutBridgesId200 =
-  | BridgeAzureEventHubGetProducer
-  | BridgeCassaGet
-  | BridgeClickhouseGet
-  | BridgeDynamoGet
-  | BridgeGcpPubsubGetConsumer
+  | BridgeKafkaGetConsumer
   | BridgeGcpPubsubGetProducer
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeHstreamdbGet
+  | BridgeOpentsGet
   | BridgeHttpGet
+  | BridgeAzureEventHubGetProducer
+  | BridgeMatrixGet
+  | BridgePulsarGetProducer
+  | BridgeMysqlGet
+  | BridgePgsqlGet
+  | BridgeMongodbGetSingle
+  | BridgeKinesisGetProducer
   | BridgeInfluxdbGetApiV1
+  | BridgeMongodbGetSharded
+  | BridgeRedisGetCluster
+  | BridgeCassaGet
+  | BridgeRabbitmqGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeRedisGetSentinel
+  | BridgeClickhouseGet
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeMongodbGetRs
+  | BridgeMqttGet
+  | BridgeTimescaleGet
+  | BridgeDynamoGet
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | BridgeKafkaGetConsumer
-  | BridgeKafkaGetProducer
-  | BridgeKinesisGetProducer
-  | BridgeMatrixGet
-  | BridgeMongodbGetRs
-  | BridgeMongodbGetSharded
-  | BridgeMongodbGetSingle
-  | BridgeMqttGet
-  | BridgeMysqlGet
-  | BridgeOpentsGet
-  | BridgeOracleGet
-  | BridgePgsqlGet
-  | BridgePulsarGetProducer
-  | BridgeRabbitmqGet
-  | BridgeRedisGetCluster
-  | BridgeRedisGetSentinel
+  | RocketmqGet
+  | BridgeTdengineGet
+  | BridgeHstreamdbGet
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeTdengineGet
-  | BridgeTimescaleGet
-  | RocketmqGet
+  | BridgeOracleGet
+  | BridgeKafkaGetProducer
 
 export type PutBridgesIdBody =
-  | BridgeAzureEventHubPutProducer
-  | BridgeCassaPut
-  | BridgeClickhousePut
-  | BridgeDynamoPut
-  | BridgeGcpPubsubPutConsumer
+  | BridgeKafkaPutConsumer
   | BridgeGcpPubsubPutProducer
-  | BridgeGreptimedbPutGrpcV1
-  | BridgeHstreamdbPut
+  | BridgeOpentsPut
   | BridgeHttpPut
+  | BridgeAzureEventHubPutProducer
+  | BridgeMatrixPut
+  | BridgePulsarPutProducer
+  | BridgeMysqlPut
+  | BridgePgsqlPut
+  | BridgeMongodbPutSingle
+  | BridgeKinesisPutProducer
   | BridgeInfluxdbPutApiV1
+  | BridgeMongodbPutSharded
+  | BridgeRedisPutCluster
+  | BridgeCassaPut
+  | BridgeRabbitmqPut
+  | BridgeGcpPubsubPutConsumer
+  | BridgeRedisPutSentinel
+  | BridgeClickhousePut
+  | BridgeGreptimedbPutGrpcV1
+  | BridgeMongodbPutRs
+  | BridgeMqttPut
+  | BridgeTimescalePut
+  | BridgeDynamoPut
   | BridgeInfluxdbPutApiV2
   | BridgeIotdbPut
-  | BridgeKafkaPutConsumer
-  | BridgeKafkaPutProducer
-  | BridgeKinesisPutProducer
-  | BridgeMatrixPut
-  | BridgeMongodbPutRs
-  | BridgeMongodbPutSharded
-  | BridgeMongodbPutSingle
-  | BridgeMqttPut
-  | BridgeMysqlPut
-  | BridgeOpentsPut
-  | BridgeOraclePut
-  | BridgePgsqlPut
-  | BridgePulsarPutProducer
-  | BridgeRabbitmqPut
-  | BridgeRedisPutCluster
-  | BridgeRedisPutSentinel
+  | RocketmqPut
+  | BridgeTdenginePut
+  | BridgeHstreamdbPut
   | BridgeRedisPutSingle
   | BridgeSqlserverPut
-  | BridgeTdenginePut
-  | BridgeTimescalePut
-  | RocketmqPut
+  | BridgeOraclePut
+  | BridgeKafkaPutProducer
 
 export type GetBridgesId404Code = (typeof GetBridgesId404Code)[keyof typeof GetBridgesId404Code]
 
@@ -279,39 +279,39 @@ export type GetBridgesId404 = {
 }
 
 export type GetBridgesId200 =
-  | BridgeAzureEventHubGetProducer
-  | BridgeCassaGet
-  | BridgeClickhouseGet
-  | BridgeDynamoGet
-  | BridgeGcpPubsubGetConsumer
+  | BridgeKafkaGetConsumer
   | BridgeGcpPubsubGetProducer
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeHstreamdbGet
+  | BridgeOpentsGet
   | BridgeHttpGet
+  | BridgeAzureEventHubGetProducer
+  | BridgeMatrixGet
+  | BridgePulsarGetProducer
+  | BridgeMysqlGet
+  | BridgePgsqlGet
+  | BridgeMongodbGetSingle
+  | BridgeKinesisGetProducer
   | BridgeInfluxdbGetApiV1
+  | BridgeMongodbGetSharded
+  | BridgeRedisGetCluster
+  | BridgeCassaGet
+  | BridgeRabbitmqGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeRedisGetSentinel
+  | BridgeClickhouseGet
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeMongodbGetRs
+  | BridgeMqttGet
+  | BridgeTimescaleGet
+  | BridgeDynamoGet
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | BridgeKafkaGetConsumer
-  | BridgeKafkaGetProducer
-  | BridgeKinesisGetProducer
-  | BridgeMatrixGet
-  | BridgeMongodbGetRs
-  | BridgeMongodbGetSharded
-  | BridgeMongodbGetSingle
-  | BridgeMqttGet
-  | BridgeMysqlGet
-  | BridgeOpentsGet
-  | BridgeOracleGet
-  | BridgePgsqlGet
-  | BridgePulsarGetProducer
-  | BridgeRabbitmqGet
-  | BridgeRedisGetCluster
-  | BridgeRedisGetSentinel
+  | RocketmqGet
+  | BridgeTdengineGet
+  | BridgeHstreamdbGet
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeTdengineGet
-  | BridgeTimescaleGet
-  | RocketmqGet
+  | BridgeOracleGet
+  | BridgeKafkaGetProducer
 
 export type DeleteBridgesId503Code =
   (typeof DeleteBridgesId503Code)[keyof typeof DeleteBridgesId503Code]
@@ -367,39 +367,39 @@ export type PostBridgesProbe400 = {
 }
 
 export type PostBridgesProbeBody =
-  | BridgeAzureEventHubPostProducer
-  | BridgeCassaPost
-  | BridgeClickhousePost
-  | BridgeDynamoPost
-  | BridgeGcpPubsubPostConsumer
+  | BridgeKafkaPostConsumer
   | BridgeGcpPubsubPostProducer
-  | BridgeGreptimedbPostGrpcV1
-  | BridgeHstreamdbPost
+  | BridgeOpentsPost
   | BridgeHttpPost
+  | BridgeAzureEventHubPostProducer
+  | BridgeMatrixPost
+  | BridgePulsarPostProducer
+  | BridgeMysqlPost
+  | BridgePgsqlPost
+  | BridgeMongodbPostSingle
+  | BridgeKinesisPostProducer
   | BridgeInfluxdbPostApiV1
+  | BridgeMongodbPostSharded
+  | BridgeRedisPostCluster
+  | BridgeCassaPost
+  | BridgeRabbitmqPost
+  | BridgeGcpPubsubPostConsumer
+  | BridgeRedisPostSentinel
+  | BridgeClickhousePost
+  | BridgeGreptimedbPostGrpcV1
+  | BridgeMongodbPostRs
+  | BridgeMqttPost
+  | BridgeTimescalePost
+  | BridgeDynamoPost
   | BridgeInfluxdbPostApiV2
   | BridgeIotdbPost
-  | BridgeKafkaPostConsumer
-  | BridgeKafkaPostProducer
-  | BridgeKinesisPostProducer
-  | BridgeMatrixPost
-  | BridgeMongodbPostRs
-  | BridgeMongodbPostSharded
-  | BridgeMongodbPostSingle
-  | BridgeMqttPost
-  | BridgeMysqlPost
-  | BridgeOpentsPost
-  | BridgeOraclePost
-  | BridgePgsqlPost
-  | BridgePulsarPostProducer
-  | BridgeRabbitmqPost
-  | BridgeRedisPostCluster
-  | BridgeRedisPostSentinel
+  | RocketmqPost
+  | BridgeTdenginePost
+  | BridgeHstreamdbPost
   | BridgeRedisPostSingle
   | BridgeSqlserverPost
-  | BridgeTdenginePost
-  | BridgeTimescalePost
-  | RocketmqPost
+  | BridgeOraclePost
+  | BridgeKafkaPostProducer
 
 export type PostBridges400Code = (typeof PostBridges400Code)[keyof typeof PostBridges400Code]
 
@@ -414,74 +414,74 @@ export type PostBridges400 = {
 }
 
 export type PostBridges201 =
-  | BridgeAzureEventHubGetProducer
-  | BridgeCassaGet
-  | BridgeClickhouseGet
-  | BridgeDynamoGet
-  | BridgeGcpPubsubGetConsumer
+  | BridgeKafkaGetConsumer
   | BridgeGcpPubsubGetProducer
-  | BridgeGreptimedbGetGrpcV1
-  | BridgeHstreamdbGet
+  | BridgeOpentsGet
   | BridgeHttpGet
+  | BridgeAzureEventHubGetProducer
+  | BridgeMatrixGet
+  | BridgePulsarGetProducer
+  | BridgeMysqlGet
+  | BridgePgsqlGet
+  | BridgeMongodbGetSingle
+  | BridgeKinesisGetProducer
   | BridgeInfluxdbGetApiV1
+  | BridgeMongodbGetSharded
+  | BridgeRedisGetCluster
+  | BridgeCassaGet
+  | BridgeRabbitmqGet
+  | BridgeGcpPubsubGetConsumer
+  | BridgeRedisGetSentinel
+  | BridgeClickhouseGet
+  | BridgeGreptimedbGetGrpcV1
+  | BridgeMongodbGetRs
+  | BridgeMqttGet
+  | BridgeTimescaleGet
+  | BridgeDynamoGet
   | BridgeInfluxdbGetApiV2
   | BridgeIotdbGet
-  | BridgeKafkaGetConsumer
-  | BridgeKafkaGetProducer
-  | BridgeKinesisGetProducer
-  | BridgeMatrixGet
-  | BridgeMongodbGetRs
-  | BridgeMongodbGetSharded
-  | BridgeMongodbGetSingle
-  | BridgeMqttGet
-  | BridgeMysqlGet
-  | BridgeOpentsGet
-  | BridgeOracleGet
-  | BridgePgsqlGet
-  | BridgePulsarGetProducer
-  | BridgeRabbitmqGet
-  | BridgeRedisGetCluster
-  | BridgeRedisGetSentinel
+  | RocketmqGet
+  | BridgeTdengineGet
+  | BridgeHstreamdbGet
   | BridgeRedisGetSingle
   | BridgeSqlserverGet
-  | BridgeTdengineGet
-  | BridgeTimescaleGet
-  | RocketmqGet
+  | BridgeOracleGet
+  | BridgeKafkaGetProducer
 
 export type PostBridgesBody =
-  | BridgeAzureEventHubPostProducer
-  | BridgeCassaPost
-  | BridgeClickhousePost
-  | BridgeDynamoPost
-  | BridgeGcpPubsubPostConsumer
+  | BridgeKafkaPostConsumer
   | BridgeGcpPubsubPostProducer
-  | BridgeGreptimedbPostGrpcV1
-  | BridgeHstreamdbPost
+  | BridgeOpentsPost
   | BridgeHttpPost
+  | BridgeAzureEventHubPostProducer
+  | BridgeMatrixPost
+  | BridgePulsarPostProducer
+  | BridgeMysqlPost
+  | BridgePgsqlPost
+  | BridgeMongodbPostSingle
+  | BridgeKinesisPostProducer
   | BridgeInfluxdbPostApiV1
+  | BridgeMongodbPostSharded
+  | BridgeRedisPostCluster
+  | BridgeCassaPost
+  | BridgeRabbitmqPost
+  | BridgeGcpPubsubPostConsumer
+  | BridgeRedisPostSentinel
+  | BridgeClickhousePost
+  | BridgeGreptimedbPostGrpcV1
+  | BridgeMongodbPostRs
+  | BridgeMqttPost
+  | BridgeTimescalePost
+  | BridgeDynamoPost
   | BridgeInfluxdbPostApiV2
   | BridgeIotdbPost
-  | BridgeKafkaPostConsumer
-  | BridgeKafkaPostProducer
-  | BridgeKinesisPostProducer
-  | BridgeMatrixPost
-  | BridgeMongodbPostRs
-  | BridgeMongodbPostSharded
-  | BridgeMongodbPostSingle
-  | BridgeMqttPost
-  | BridgeMysqlPost
-  | BridgeOpentsPost
-  | BridgeOraclePost
-  | BridgePgsqlPost
-  | BridgePulsarPostProducer
-  | BridgeRabbitmqPost
-  | BridgeRedisPostCluster
-  | BridgeRedisPostSentinel
+  | RocketmqPost
+  | BridgeTdenginePost
+  | BridgeHstreamdbPost
   | BridgeRedisPostSingle
   | BridgeSqlserverPost
-  | BridgeTdenginePost
-  | BridgeTimescalePost
-  | RocketmqPost
+  | BridgeOraclePost
+  | BridgeKafkaPostProducer
 
 export type GetBridges200Item =
   | BridgeKafkaGetConsumer
@@ -589,8 +589,8 @@ export type RocketmqGetStatus = (typeof RocketmqGetStatus)[keyof typeof Rocketmq
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RocketmqGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -601,8 +601,8 @@ export type ResourceSchemaCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ResourceSchemaCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type ResourceSchemaCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -661,8 +661,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -672,10 +672,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -683,16 +683,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -813,8 +813,8 @@ export type BridgeNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -903,8 +903,8 @@ export type BridgeTimescaleGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescaleGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -985,8 +985,8 @@ export type BridgeTdengineGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTdengineGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1069,8 +1069,8 @@ export type BridgeSqlserverGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeSqlserverGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1103,8 +1103,8 @@ export type BridgeSqlserverCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeSqlserverCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeSqlserverCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -1349,8 +1349,8 @@ export type BridgeRedisGetSingleStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisGetSingleStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1401,8 +1401,8 @@ export type BridgeRedisGetSentinelStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisGetSentinelStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1454,8 +1454,8 @@ export type BridgeRedisGetClusterStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisGetClusterStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1497,8 +1497,8 @@ export type BridgeRedisCreationOptsRedisSingleQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisCreationOptsRedisSingleQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeRedisCreationOptsRedisSingleHealthCheckTimeout = 'infinity' | string
@@ -1540,8 +1540,8 @@ export type BridgeRedisCreationOptsRedisSentinelQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisCreationOptsRedisSentinelQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeRedisCreationOptsRedisSentinelHealthCheckTimeout = 'infinity' | string
@@ -1583,8 +1583,8 @@ export type BridgeRedisCreationOptsRedisClusterQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRedisCreationOptsRedisClusterQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeRedisCreationOptsRedisClusterHealthCheckTimeout = 'infinity' | string
@@ -1710,8 +1710,8 @@ export type BridgeRabbitmqGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1762,8 +1762,8 @@ export type BridgeRabbitmqCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeRabbitmqCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -1803,9 +1803,9 @@ export type BridgePulsarPutProducerStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePulsarPutProducerStrategy = {
+  key_dispatch: 'key_dispatch',
   random: 'random',
   roundrobin: 'roundrobin',
-  key_dispatch: 'key_dispatch',
 } as const
 
 export type BridgePulsarPutProducerRetentionPeriod = string | 'infinity'
@@ -1821,8 +1821,8 @@ export const BridgePulsarPutProducerCompression = {
 } as const
 
 export type BridgePulsarPutProducerAuthentication =
-  | BridgePulsarAuthBasic
   | BridgePulsarAuthToken
+  | BridgePulsarAuthBasic
   | 'none'
 
 export interface BridgePulsarProducerResourceOpts {
@@ -1836,9 +1836,9 @@ export type BridgePulsarProducerBufferMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePulsarProducerBufferMode = {
-  memory: 'memory',
   disk: 'disk',
   hybrid: 'hybrid',
+  memory: 'memory',
 } as const
 
 export interface BridgePulsarProducerBuffer {
@@ -1884,9 +1884,9 @@ export type BridgePulsarPostProducerStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePulsarPostProducerStrategy = {
+  key_dispatch: 'key_dispatch',
   random: 'random',
   roundrobin: 'roundrobin',
-  key_dispatch: 'key_dispatch',
 } as const
 
 export type BridgePulsarPostProducerRetentionPeriod = string | 'infinity'
@@ -1902,8 +1902,8 @@ export const BridgePulsarPostProducerCompression = {
 } as const
 
 export type BridgePulsarPostProducerAuthentication =
-  | BridgePulsarAuthBasic
   | BridgePulsarAuthToken
+  | BridgePulsarAuthBasic
   | 'none'
 
 export interface BridgePulsarPostProducer {
@@ -1944,9 +1944,9 @@ export type BridgePulsarGetProducerStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePulsarGetProducerStrategy = {
+  key_dispatch: 'key_dispatch',
   random: 'random',
   roundrobin: 'roundrobin',
-  key_dispatch: 'key_dispatch',
 } as const
 
 export type BridgePulsarGetProducerStatus =
@@ -1955,8 +1955,8 @@ export type BridgePulsarGetProducerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePulsarGetProducerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2010,8 +2010,8 @@ export interface BridgePulsarAuthBasic {
 }
 
 export type BridgePulsarGetProducerAuthentication =
-  | BridgePulsarAuthBasic
   | BridgePulsarAuthToken
+  | BridgePulsarAuthBasic
   | 'none'
 
 export interface BridgePgsqlPut {
@@ -2067,8 +2067,8 @@ export type BridgePgsqlGetStatus = (typeof BridgePgsqlGetStatus)[keyof typeof Br
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgePgsqlGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2165,8 +2165,8 @@ export type BridgeOracleGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOracleGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2246,8 +2246,8 @@ export type BridgeOpentsGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOpentsGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2321,8 +2321,8 @@ export type BridgeMysqlGetStatus = (typeof BridgeMysqlGetStatus)[keyof typeof Br
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMysqlGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2428,8 +2428,8 @@ export type BridgeMqttGetStatus = (typeof BridgeMqttGetStatus)[keyof typeof Brid
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2490,8 +2490,8 @@ export type BridgeMqttCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeMqttCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -2555,8 +2555,8 @@ export type BridgeMongodbPutSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPutSingleUseLegacyProtocol =
@@ -2565,8 +2565,8 @@ export type BridgeMongodbPutSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPutSingleMongoType =
@@ -2602,8 +2602,8 @@ export type BridgeMongodbPutShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPutShardedUseLegacyProtocol =
@@ -2612,8 +2612,8 @@ export type BridgeMongodbPutShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPutShardedMongoType =
@@ -2649,8 +2649,8 @@ export type BridgeMongodbPutRsWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPutRsUseLegacyProtocol =
@@ -2659,8 +2659,8 @@ export type BridgeMongodbPutRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPutRsRMode =
@@ -2707,8 +2707,8 @@ export type BridgeMongodbPostSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPostSingleUseLegacyProtocol =
@@ -2717,8 +2717,8 @@ export type BridgeMongodbPostSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPostSingleType =
@@ -2764,8 +2764,8 @@ export type BridgeMongodbPostShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPostShardedUseLegacyProtocol =
@@ -2774,8 +2774,8 @@ export type BridgeMongodbPostShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPostShardedType =
@@ -2821,8 +2821,8 @@ export type BridgeMongodbPostRsWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbPostRsUseLegacyProtocol =
@@ -2831,8 +2831,8 @@ export type BridgeMongodbPostRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPostRsType =
@@ -2889,8 +2889,8 @@ export type BridgeMongodbGetSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbGetSingleUseLegacyProtocol =
@@ -2899,8 +2899,8 @@ export type BridgeMongodbGetSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbGetSingleType =
@@ -2917,8 +2917,8 @@ export type BridgeMongodbGetSingleStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetSingleStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2960,8 +2960,8 @@ export type BridgeMongodbGetShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbGetShardedUseLegacyProtocol =
@@ -2970,8 +2970,8 @@ export type BridgeMongodbGetShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbGetShardedType =
@@ -2988,8 +2988,8 @@ export type BridgeMongodbGetShardedStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetShardedStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3031,8 +3031,8 @@ export type BridgeMongodbGetRsWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type BridgeMongodbGetRsUseLegacyProtocol =
@@ -3041,8 +3041,8 @@ export type BridgeMongodbGetRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbGetRsType =
@@ -3059,8 +3059,8 @@ export type BridgeMongodbGetRsStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetRsStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3115,8 +3115,8 @@ export type BridgeMongodbCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeMongodbCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -3202,8 +3202,8 @@ export type BridgeMatrixGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3250,8 +3250,8 @@ export type BridgeKinesisGetProducerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisGetProducerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3285,8 +3285,8 @@ export type BridgeKinesisCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeKinesisCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -3388,8 +3388,8 @@ export type BridgeKafkaV1ProducerKafkaOptsPartitionStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaV1ProducerKafkaOptsPartitionStrategy = {
-  random: 'random',
   key_dispatch: 'key_dispatch',
+  random: 'random',
 } as const
 
 export type BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode =
@@ -3397,8 +3397,8 @@ export type BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaV1ProducerKafkaOptsKafkaHeaderValueEncodeMode = {
-  none: 'none',
   json: 'json',
+  none: 'none',
 } as const
 
 export type BridgeKafkaV1ProducerKafkaOptsCompression =
@@ -3406,9 +3406,9 @@ export type BridgeKafkaV1ProducerKafkaOptsCompression =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaV1ProducerKafkaOptsCompression = {
+  gzip: 'gzip',
   no_compression: 'no_compression',
   snappy: 'snappy',
-  gzip: 'gzip',
 } as const
 
 export interface BridgeKafkaV1ProducerKafkaOpts {
@@ -3435,21 +3435,21 @@ export type BridgeKafkaSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeKafkaSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeKafkaSslClientOptsPartialChain =
   (typeof BridgeKafkaSslClientOptsPartialChain)[keyof typeof BridgeKafkaSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type BridgeKafkaSslClientOptsLogLevel =
@@ -3457,16 +3457,16 @@ export type BridgeKafkaSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface BridgeKafkaSslClientOpts {
@@ -3510,8 +3510,8 @@ export type BridgeKafkaPutConsumerValueEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPutConsumerValueEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type BridgeKafkaPutConsumerKeyEncodingMode =
@@ -3519,8 +3519,8 @@ export type BridgeKafkaPutConsumerKeyEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPutConsumerKeyEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type BridgeKafkaPutConsumerAuthentication =
@@ -3559,9 +3559,9 @@ export type BridgeKafkaProducerBufferMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaProducerBufferMode = {
-  memory: 'memory',
   disk: 'disk',
   hybrid: 'hybrid',
+  memory: 'memory',
 } as const
 
 export interface BridgeKafkaProducerBuffer {
@@ -3577,8 +3577,8 @@ export type BridgeKafkaPostProducerType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostProducerType = {
   kafka: 'kafka',
-  kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
+  kafka_producer: 'kafka_producer',
 } as const
 
 export interface BridgeKafkaPostProducer {
@@ -3606,8 +3606,8 @@ export type BridgeKafkaPostConsumerValueEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostConsumerValueEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type BridgeKafkaPostConsumerType =
@@ -3616,8 +3616,8 @@ export type BridgeKafkaPostConsumerType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostConsumerType = {
   kafka: 'kafka',
-  kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
+  kafka_producer: 'kafka_producer',
 } as const
 
 export type BridgeKafkaPostConsumerKeyEncodingMode =
@@ -3625,8 +3625,8 @@ export type BridgeKafkaPostConsumerKeyEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaPostConsumerKeyEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type BridgeKafkaPostConsumerAuthentication =
@@ -3669,8 +3669,8 @@ export type BridgeKafkaGetProducerType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetProducerType = {
   kafka: 'kafka',
-  kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
+  kafka_producer: 'kafka_producer',
 } as const
 
 export type BridgeKafkaGetProducerStatus =
@@ -3679,8 +3679,8 @@ export type BridgeKafkaGetProducerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetProducerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3718,8 +3718,8 @@ export type BridgeKafkaGetConsumerValueEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConsumerValueEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type BridgeKafkaGetConsumerType =
@@ -3728,8 +3728,8 @@ export type BridgeKafkaGetConsumerType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConsumerType = {
   kafka: 'kafka',
-  kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
+  kafka_producer: 'kafka_producer',
 } as const
 
 export type BridgeKafkaGetConsumerStatus =
@@ -3738,8 +3738,8 @@ export type BridgeKafkaGetConsumerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConsumerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3748,8 +3748,8 @@ export type BridgeKafkaGetConsumerKeyEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConsumerKeyEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export interface BridgeKafkaConsumerTopicMapping {
@@ -3768,8 +3768,8 @@ export type BridgeKafkaConsumerKafkaOptsOffsetResetPolicy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaConsumerKafkaOptsOffsetResetPolicy = {
-  latest: 'latest',
   earliest: 'earliest',
+  latest: 'latest',
 } as const
 
 export interface BridgeKafkaConsumerKafkaOpts {
@@ -3868,8 +3868,8 @@ export type BridgeIotdbPutPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPutPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeIotdbPutIotdbVersion =
@@ -3877,10 +3877,10 @@ export type BridgeIotdbPutIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPutIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export interface BridgeIotdbPut {
@@ -3917,8 +3917,8 @@ export type BridgeIotdbPostPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPostPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeIotdbPostIotdbVersion =
@@ -3926,10 +3926,10 @@ export type BridgeIotdbPostIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbPostIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export interface BridgeIotdbPost {
@@ -3968,8 +3968,8 @@ export type BridgeIotdbGetStatus = (typeof BridgeIotdbGetStatus)[keyof typeof Br
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3978,8 +3978,8 @@ export type BridgeIotdbGetPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbGetPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeIotdbGetIotdbVersion =
@@ -3987,10 +3987,10 @@ export type BridgeIotdbGetIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbGetIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export interface BridgeIotdbGet {
@@ -4027,8 +4027,8 @@ export type BridgeIotdbCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeIotdbCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeIotdbCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -4073,10 +4073,10 @@ export type BridgeInfluxdbPutApiV2Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbPutApiV2Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbPutApiV2 {
@@ -4100,10 +4100,10 @@ export type BridgeInfluxdbPutApiV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbPutApiV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbPutApiV1 {
@@ -4135,10 +4135,10 @@ export type BridgeInfluxdbPostApiV2Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbPostApiV2Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbPostApiV2 {
@@ -4172,10 +4172,10 @@ export type BridgeInfluxdbPostApiV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbPostApiV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbPostApiV1 {
@@ -4210,8 +4210,8 @@ export type BridgeInfluxdbGetApiV2Status =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetApiV2Status = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4220,10 +4220,10 @@ export type BridgeInfluxdbGetApiV2Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetApiV2Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbGetApiV2 {
@@ -4261,8 +4261,8 @@ export type BridgeInfluxdbGetApiV1Status =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetApiV1Status = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4271,10 +4271,10 @@ export type BridgeInfluxdbGetApiV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetApiV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeInfluxdbGetApiV1 {
@@ -4305,8 +4305,8 @@ export type BridgeHttpV1ResourceOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpV1ResourceOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeHttpV1ResourceOptsHealthCheckTimeout = 'infinity' | string
@@ -4348,18 +4348,18 @@ export type BridgeHttpPutPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPutPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPutMethod = (typeof BridgeHttpPutMethod)[keyof typeof BridgeHttpPutMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPutMethod = {
+  delete: 'delete',
+  get: 'get',
   post: 'post',
   put: 'put',
-  get: 'get',
-  delete: 'delete',
 } as const
 
 export type BridgeHttpPutHeaders = { [key: string]: unknown }
@@ -4409,8 +4409,8 @@ export type BridgeHttpPostType = (typeof BridgeHttpPostType)[keyof typeof Bridge
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostType = {
-  webhook: 'webhook',
   http: 'http',
+  webhook: 'webhook',
 } as const
 
 /**
@@ -4423,18 +4423,18 @@ export type BridgeHttpPostPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPostMethod = (typeof BridgeHttpPostMethod)[keyof typeof BridgeHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostMethod = {
+  delete: 'delete',
+  get: 'get',
   post: 'post',
   put: 'put',
-  get: 'get',
-  delete: 'delete',
 } as const
 
 export type BridgeHttpPostHeaders = { [key: string]: unknown }
@@ -4486,8 +4486,8 @@ export type BridgeHttpGetType = (typeof BridgeHttpGetType)[keyof typeof BridgeHt
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetType = {
-  webhook: 'webhook',
   http: 'http',
+  webhook: 'webhook',
 } as const
 
 export type BridgeHttpGetStatus = (typeof BridgeHttpGetStatus)[keyof typeof BridgeHttpGetStatus]
@@ -4495,8 +4495,8 @@ export type BridgeHttpGetStatus = (typeof BridgeHttpGetStatus)[keyof typeof Brid
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4510,18 +4510,18 @@ export type BridgeHttpGetPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpGetMethod = (typeof BridgeHttpGetMethod)[keyof typeof BridgeHttpGetMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetMethod = {
+  delete: 'delete',
+  get: 'get',
   post: 'post',
   put: 'put',
-  get: 'get',
-  delete: 'delete',
 } as const
 
 export type BridgeHttpGetHeaders = { [key: string]: unknown }
@@ -4646,8 +4646,8 @@ export type BridgeHstreamdbGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4686,10 +4686,10 @@ export type BridgeGreptimedbPutGrpcV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbPutGrpcV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeGreptimedbPutGrpcV1 {
@@ -4720,10 +4720,10 @@ export type BridgeGreptimedbPostGrpcV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbPostGrpcV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeGreptimedbPostGrpcV1 {
@@ -4757,8 +4757,8 @@ export type BridgeGreptimedbGetGrpcV1Status =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetGrpcV1Status = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4767,10 +4767,10 @@ export type BridgeGreptimedbGetGrpcV1Precision =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetGrpcV1Precision = {
-  ns: 'ns',
-  us: 'us',
   ms: 'ms',
+  ns: 'ns',
   s: 's',
+  us: 'us',
 } as const
 
 export interface BridgeGreptimedbGetGrpcV1 {
@@ -4916,8 +4916,8 @@ export type BridgeGcpPubsubGetProducerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGcpPubsubGetProducerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4963,8 +4963,8 @@ export type BridgeGcpPubsubGetConsumerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGcpPubsubGetConsumerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5076,8 +5076,8 @@ export type BridgeDynamoGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5112,8 +5112,8 @@ export type BridgeDynamoCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeDynamoCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -5189,8 +5189,8 @@ export type BridgeClickhouseGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhouseGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5223,8 +5223,8 @@ export type BridgeClickhouseCreationOptsQueryMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhouseCreationOptsQueryMode = {
-  sync: 'sync',
   async: 'async',
+  sync: 'sync',
 } as const
 
 export type BridgeClickhouseCreationOptsHealthCheckTimeout = 'infinity' | string
@@ -5329,8 +5329,8 @@ export type BridgeCassaGetStatus = (typeof BridgeCassaGetStatus)[keyof typeof Br
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5360,21 +5360,21 @@ export type BridgeAzureEventHubSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeAzureEventHubSslClientOptsPartialChain =
   (typeof BridgeAzureEventHubSslClientOptsPartialChain)[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type BridgeAzureEventHubSslClientOptsLogLevel =
@@ -5382,16 +5382,16 @@ export type BridgeAzureEventHubSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export type BridgeAzureEventHubSslClientOptsEnable =
@@ -5474,8 +5474,8 @@ export type BridgeAzureEventHubProducerKafkaOptsPartitionStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubProducerKafkaOptsPartitionStrategy = {
-  random: 'random',
   key_dispatch: 'key_dispatch',
+  random: 'random',
 } as const
 
 export type BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode =
@@ -5483,8 +5483,8 @@ export type BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode = {
-  none: 'none',
   json: 'json',
+  none: 'none',
 } as const
 
 export interface BridgeAzureEventHubProducerKafkaOpts {
@@ -5546,8 +5546,8 @@ export type BridgeAzureEventHubGetProducerType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetProducerType = {
   kafka: 'kafka',
-  kafka_producer: 'kafka_producer',
   kafka_consumer: 'kafka_consumer',
+  kafka_producer: 'kafka_producer',
 } as const
 
 export type BridgeAzureEventHubGetProducerStatus =
@@ -5556,8 +5556,8 @@ export type BridgeAzureEventHubGetProducerStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetProducerStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 

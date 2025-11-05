@@ -86,11 +86,11 @@ export type EmqxMgmtApiBannedBanAs =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiBannedBanAs = {
   clientid: 'clientid',
-  username: 'username',
-  peerhost: 'peerhost',
   clientid_re: 'clientid_re',
-  username_re: 'username_re',
+  peerhost: 'peerhost',
   peerhost_net: 'peerhost_net',
+  username: 'username',
+  username_re: 'username_re',
 } as const
 
 export interface EmqxMgmtApiBannedBan {

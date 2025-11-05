@@ -148,20 +148,20 @@ export type MessageTransformationTransformationTopics = string[] | string
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationPayloadEncoder = {
-  payload_serde_avro: 'payload_serde_avro',
   payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+  payload_serde_avro: 'payload_serde_avro',
   payload_serde_json: 'payload_serde_json',
   payload_serde_none: 'payload_serde_none',
-  payload_serde_protobuf: 'payload_serde_protobuf',
 } as const
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationPayloadDecoder = {
-  payload_serde_avro: 'payload_serde_avro',
   payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+  payload_serde_avro: 'payload_serde_avro',
   payload_serde_json: 'payload_serde_json',
   payload_serde_none: 'payload_serde_none',
-  payload_serde_protobuf: 'payload_serde_protobuf',
 } as const
 
 export type MessageTransformationTransformationFailureAction =
@@ -169,8 +169,8 @@ export type MessageTransformationTransformationFailureAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationFailureAction = {
-  drop: 'drop',
   disconnect: 'disconnect',
+  drop: 'drop',
   ignore: 'ignore',
 } as const
 
@@ -184,12 +184,12 @@ export type MessageTransformationLogFailureLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationLogFailureLevel = {
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
   debug: 'debug',
+  error: 'error',
+  info: 'info',
   none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface MessageTransformationLogFailure {

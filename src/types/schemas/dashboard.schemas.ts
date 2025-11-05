@@ -86,8 +86,8 @@ export type PutUsersUsername200Mfa =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutUsersUsername200Mfa = {
-  none: 'none',
   disabled: 'disabled',
+  none: 'none',
   totp: 'totp',
 } as const
 
@@ -214,8 +214,8 @@ export type PostLogin401Code = (typeof PostLogin401Code)[keyof typeof PostLogin4
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin401Code = {
-  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
   BAD_MFA_TOKEN: 'BAD_MFA_TOKEN',
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
   LOGIN_LOCKED: 'LOGIN_LOCKED',
 } as const
 
@@ -229,8 +229,8 @@ export type PostLogin200LicenseEdition =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostLogin200LicenseEdition = {
-  opensource: 'opensource',
   enterprise: 'enterprise',
+  opensource: 'opensource',
 } as const
 
 export type PostLogin200License = {
@@ -258,8 +258,8 @@ export type DashboardUserMfa = (typeof DashboardUserMfa)[keyof typeof DashboardU
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardUserMfa = {
-  none: 'none',
   disabled: 'disabled',
+  none: 'none',
   totp: 'totp',
 } as const
 

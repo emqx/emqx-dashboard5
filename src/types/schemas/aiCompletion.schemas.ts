@@ -168,8 +168,8 @@ export type PutAiCompletionProfilesName400 = {
 }
 
 export type PutAiCompletionProfilesNameBody =
-  | AiAnthropicCompletionProfileApiPut
   | AiOpenaiCompletionProfileApiPut
+  | AiAnthropicCompletionProfileApiPut
 
 export type GetAiCompletionProfilesName404Code =
   (typeof GetAiCompletionProfilesName404Code)[keyof typeof GetAiCompletionProfilesName404Code]
@@ -185,8 +185,8 @@ export type GetAiCompletionProfilesName404 = {
 }
 
 export type GetAiCompletionProfilesName200 =
-  | AiAnthropicCompletionProfileApiGet
   | AiOpenaiCompletionProfileApiGet
+  | AiAnthropicCompletionProfileApiGet
 
 export type DeleteAiCompletionProfilesName503Code =
   (typeof DeleteAiCompletionProfilesName503Code)[keyof typeof DeleteAiCompletionProfilesName503Code]
@@ -253,7 +253,7 @@ export type PostAiCompletionProfiles400 = {
   message?: string
 }
 
-export type PostAiCompletionProfilesBody = AiAnthropicCompletionProfile | AiOpenaiCompletionProfile
+export type PostAiCompletionProfilesBody = AiOpenaiCompletionProfile | AiAnthropicCompletionProfile
 
 export type GetAiCompletionProfiles503Code =
   (typeof GetAiCompletionProfiles503Code)[keyof typeof GetAiCompletionProfiles503Code]
@@ -276,8 +276,8 @@ export type AiProviderApiPutType = (typeof AiProviderApiPutType)[keyof typeof Ai
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderApiPutType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProviderApiPut {
@@ -290,8 +290,8 @@ export type AiProviderApiGetType = (typeof AiProviderApiGetType)[keyof typeof Ai
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderApiGetType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProviderApiGet {
@@ -305,8 +305,8 @@ export type AiProviderType = (typeof AiProviderType)[keyof typeof AiProviderType
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiProviderType = {
-  openai: 'openai',
   anthropic: 'anthropic',
+  openai: 'openai',
 } as const
 
 export interface AiProvider {

@@ -258,19 +258,19 @@ export type PutAuthorizationSourcesType400 = {
 }
 
 export type PutAuthorizationSourcesTypeBody =
-  | AuthzApiFile
-  | AuthzBuiltinDb
-  | AuthzHttpGet
-  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoRs
   | AuthzMongoSharded
+  | AuthzMongoRs
   | AuthzMongoSingle
-  | AuthzMysql
   | AuthzPostgresql
+  | AuthzMysql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
+  | AuthzHttpPost
+  | AuthzHttpGet
+  | AuthzBuiltinDb
+  | AuthzApiFile
 
 export type GetAuthorizationSourcesType404Code =
   (typeof GetAuthorizationSourcesType404Code)[keyof typeof GetAuthorizationSourcesType404Code]
@@ -286,19 +286,19 @@ export type GetAuthorizationSourcesType404 = {
 }
 
 export type GetAuthorizationSourcesType200 =
-  | AuthzApiFile
-  | AuthzBuiltinDb
-  | AuthzHttpGet
-  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoRs
   | AuthzMongoSharded
+  | AuthzMongoRs
   | AuthzMongoSingle
-  | AuthzMysql
   | AuthzPostgresql
+  | AuthzMysql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
+  | AuthzHttpPost
+  | AuthzHttpGet
+  | AuthzBuiltinDb
+  | AuthzApiFile
 
 export type DeleteAuthorizationSourcesType400Code =
   (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
@@ -327,19 +327,19 @@ export type PostAuthorizationSources400 = {
 }
 
 export type PostAuthorizationSourcesBody =
-  | AuthzApiFile
-  | AuthzBuiltinDb
-  | AuthzHttpGet
-  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoRs
   | AuthzMongoSharded
+  | AuthzMongoRs
   | AuthzMongoSingle
-  | AuthzMysql
   | AuthzPostgresql
+  | AuthzMysql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
+  | AuthzHttpPost
+  | AuthzHttpGet
+  | AuthzBuiltinDb
+  | AuthzApiFile
 
 export type PutAuthorizationSettings400Code =
   (typeof PutAuthorizationSettings400Code)[keyof typeof PutAuthorizationSettings400Code]
@@ -368,8 +368,8 @@ export type PutAuthorizationSettings200DenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutAuthorizationSettings200DenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type PutAuthorizationSettings200 = {
@@ -392,8 +392,8 @@ export type PutAuthorizationSettingsBodyDenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutAuthorizationSettingsBodyDenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type PutAuthorizationSettingsBody = {
@@ -416,8 +416,8 @@ export type GetAuthorizationSettings200DenyAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetAuthorizationSettings200DenyAction = {
-  ignore: 'ignore',
   disconnect: 'disconnect',
+  ignore: 'ignore',
 } as const
 
 export type GetAuthorizationSettings200 = {
@@ -513,8 +513,8 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type LdapSslServerNameIndication = string | 'disable'
@@ -523,26 +523,26 @@ export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof Ldap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {
@@ -573,8 +573,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -584,10 +584,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -595,16 +595,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -656,8 +656,8 @@ export type EmqxAuthzSchemaNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzSchemaNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
 } as const
 
 export interface EmqxAuthzSchemaNodeStatus {
@@ -681,8 +681,8 @@ export type EmqxAuthzSchemaMetricsStatusFieldsStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -736,14 +736,14 @@ export type EmqxAuthzApiSourcesRequestSourcesOrderType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzApiSourcesRequestSourcesOrderType = {
-  file: 'file',
   built_in_database: 'built_in_database',
+  file: 'file',
   http: 'http',
-  redis: 'redis',
+  ldap: 'ldap',
+  mongodb: 'mongodb',
   mysql: 'mysql',
   postgresql: 'postgresql',
-  mongodb: 'mongodb',
-  ldap: 'ldap',
+  redis: 'redis',
 } as const
 
 export interface EmqxAuthzApiSourcesRequestSourcesOrder {
@@ -775,9 +775,9 @@ export type EmqxAuthzApiMnesiaRuleItemAction =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxAuthzApiMnesiaRuleItemAction = {
+  all: 'all',
   publish: 'publish',
   subscribe: 'subscribe',
-  all: 'all',
 } as const
 
 export interface EmqxAuthzApiMnesiaRuleItem {
@@ -990,8 +990,8 @@ export type AuthzMongoSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoSingleUseLegacyProtocol =
@@ -1000,8 +1000,8 @@ export type AuthzMongoSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoSingleType = (typeof AuthzMongoSingleType)[keyof typeof AuthzMongoSingleType]
@@ -1050,8 +1050,8 @@ export type AuthzMongoShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoShardedUseLegacyProtocol =
@@ -1060,8 +1060,8 @@ export type AuthzMongoShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoShardedType =
@@ -1110,8 +1110,8 @@ export type AuthzMongoRsWMode = (typeof AuthzMongoRsWMode)[keyof typeof AuthzMon
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthzMongoRsUseLegacyProtocol =
@@ -1120,8 +1120,8 @@ export type AuthzMongoRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthzMongoRsType = (typeof AuthzMongoRsType)[keyof typeof AuthzMongoRsType]

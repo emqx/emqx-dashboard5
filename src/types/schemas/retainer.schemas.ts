@@ -115,8 +115,8 @@ export type RetainerMnesiaConfigStorageType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RetainerMnesiaConfigStorageType = {
-  ram: 'ram',
   disc: 'disc',
+  ram: 'ram',
 } as const
 
 export interface RetainerMnesiaConfig {

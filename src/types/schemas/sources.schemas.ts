@@ -144,16 +144,16 @@ export type PutSourcesId400 = {
 }
 
 export type PutSourcesId200 =
-  | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
-  | GcpPubsubConsumerGetSource
+  | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
 
 export type PutSourcesIdBody =
-  | BridgeMqttPublisherPutSource
   | BridgeRabbitmqPutSource
-  | GcpPubsubConsumerPutSource
+  | BridgeMqttPublisherPutSource
   | KafkaConsumerPutSource
+  | GcpPubsubConsumerPutSource
 
 export type GetSourcesId404Code = (typeof GetSourcesId404Code)[keyof typeof GetSourcesId404Code]
 
@@ -168,10 +168,10 @@ export type GetSourcesId404 = {
 }
 
 export type GetSourcesId200 =
-  | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
-  | GcpPubsubConsumerGetSource
+  | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
 
 export type DeleteSourcesId503Code =
   (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
@@ -231,10 +231,10 @@ export type PostSourcesProbe400 = {
 }
 
 export type PostSourcesProbeBody =
-  | BridgeMqttPublisherPostSource
   | BridgeRabbitmqPostSource
-  | GcpPubsubConsumerPostSource
+  | BridgeMqttPublisherPostSource
   | KafkaConsumerPostSource
+  | GcpPubsubConsumerPostSource
 
 export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
@@ -249,16 +249,16 @@ export type PostSources400 = {
 }
 
 export type PostSources201 =
-  | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
-  | GcpPubsubConsumerGetSource
+  | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
 
 export type PostSourcesBody =
-  | BridgeMqttPublisherPostSource
   | BridgeRabbitmqPostSource
-  | GcpPubsubConsumerPostSource
+  | BridgeMqttPublisherPostSource
   | KafkaConsumerPostSource
+  | GcpPubsubConsumerPostSource
 
 export type GetSources200Item =
   | BridgeRabbitmqGetSource
@@ -334,8 +334,8 @@ export type KafkaConsumerSourceParametersValueEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersValueEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export type KafkaConsumerSourceParametersOffsetResetPolicy =
@@ -343,8 +343,8 @@ export type KafkaConsumerSourceParametersOffsetResetPolicy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersOffsetResetPolicy = {
-  latest: 'latest',
   earliest: 'earliest',
+  latest: 'latest',
 } as const
 
 export type KafkaConsumerSourceParametersKeyEncodingMode =
@@ -352,8 +352,8 @@ export type KafkaConsumerSourceParametersKeyEncodingMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerSourceParametersKeyEncodingMode = {
-  none: 'none',
   base64: 'base64',
+  none: 'none',
 } as const
 
 export interface KafkaConsumerSourceParameters {
@@ -409,8 +409,8 @@ export type KafkaConsumerGetSourceStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetSourceStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -487,8 +487,8 @@ export type GcpPubsubConsumerGetSourceStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetSourceStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -498,8 +498,8 @@ export type BridgeNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -594,8 +594,8 @@ export type BridgeRabbitmqGetSourceStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeRabbitmqGetSourceStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -673,8 +673,8 @@ export type BridgeMqttPublisherGetSourceStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMqttPublisherGetSourceStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 

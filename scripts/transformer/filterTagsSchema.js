@@ -1,4 +1,4 @@
-const { isObject, get, set } = require('lodash')
+const { isObject, get, set, isArray, isPlainObject } = require('lodash')
 
 const paramRefReg = /^#\/components\/parameters\//
 const schemaRefReg = /^#\/components\/schemas\//
@@ -214,7 +214,40 @@ const specialHandlers = new Map([
 ])
 
 const sortObj = (rawObj) => {
-  const sortedKeys = Object.keys(rawObj).sort((a, b) => a.localeCompare(b))
+  if (Array.isArray(rawObj)) {
+    rawObj.forEach((item, index) => {
+      if (isPlainObject(item) || isArray(item)) {
+        rawObj[index] = sortObj(item)
+      } else {
+        rawObj[index] = item
+      }
+    })
+    return rawObj.sort((a, b) => {
+      if (isPlainObject(a)) {
+        return 2
+      }
+      if (isPlainObject(b)) {
+        return -2
+      }
+      if (isArray(a)) {
+        return 1
+      }
+      if (isArray(b)) {
+        return -1
+      }
+      return a.toString().localeCompare(b.toString())
+    })
+  }
+  Object.entries(rawObj).forEach(([key, value]) => {
+    if (isPlainObject(value) || isArray(value)) {
+      rawObj[key] = sortObj(value)
+    } else {
+      rawObj[key] = value
+    }
+  })
+  const sortedKeys = Object.keys(rawObj).sort((pK, nK) => {
+    return pK.localeCompare(nK.toString())
+  })
   const sortedObj = sortedKeys.reduce((obj, key) => {
     obj[key] = rawObj[key]
     return obj
@@ -222,72 +255,7 @@ const sortObj = (rawObj) => {
   return sortedObj
 }
 
-const sortArr = (arr) => {
-  return arr.sort((a, b) => a.localeCompare(b))
-}
-
-const sortOneofRefs = (oneofRefs) => {
-  const sortedRefs = oneofRefs.sort((a, b) => {
-    const aValue = a.$ref || (a.enum && a.enum[0])
-    const bValue = b.$ref || (b.enum && b.enum[0])
-    if (aValue && bValue) {
-      return aValue.localeCompare(bValue)
-    }
-    return 0
-  })
-  return sortedRefs
-}
-
-const sortDataContent = (data) => {
-  if (data.content) {
-    Object.values(data.content).forEach((content) => {
-      if (content.schema && content.schema.oneOf) {
-        content.schema.oneOf = sortOneofRefs(content.schema.oneOf)
-      }
-    })
-  }
-}
-
-const sortResult = (swaggerObj) => {
-  const { paths, components } = swaggerObj
-  swaggerObj.paths = sortObj(paths)
-  Object.values(paths).forEach((path) => {
-    Object.values(path).forEach((method) => {
-      if (method.responses) {
-        Object.values(method.responses).forEach((response) => {
-          sortDataContent(response)
-        })
-      }
-      if (method.requestBody) {
-        sortDataContent(method.requestBody)
-      }
-      if (method.parameters && Array.isArray(method.parameters)) {
-        method.parameters.forEach((parameter) => {
-          if (parameter.schema && parameter.schema.enum && Array.isArray(parameter.schema.enum)) {
-            parameter.schema.enum = sortArr(parameter.schema.enum)
-          }
-        })
-      }
-    })
-  })
-
-  const { parameters, schemas } = components
-  components.parameters = sortObj(parameters)
-
-  components.schemas = sortObj(schemas)
-  Object.values(components.schemas).forEach((schema) => {
-    if (schema.properties) {
-      schema.properties = sortObj(schema.properties)
-      Object.values(schema.properties).forEach((property) => {
-        if (property.oneOf) {
-          property.oneOf = sortOneofRefs(property.oneOf)
-        }
-      })
-    }
-  })
-
-  return swaggerObj
-}
+const sortResult = sortObj
 
 const filterTargetSchema = (swaggerJSON, tag) => {
   const filteredUselessPathsJSON = filterUselessRequest(swaggerJSON, tag)
