@@ -157,92 +157,92 @@ export type PutConnectorsId400 = {
 export type PutConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type PutConnectorsId200 =
-  | BridgeAzureEventHubGetConnector
-  | BridgeCassaGetConnector
-  | BridgeClickhouseGetConnector
-  | BridgeDatalayersGetConnector
-  | BridgeDynamoGetConnector
-  | BridgeGreptimedbGetConnector
-  | BridgeHstreamdbGetConnector
-  | BridgeHttpGetConnector
-  | BridgeInfluxdbGetConnector
-  | BridgeKafkaGetConnector
-  | BridgeKinesisGetConnector
-  | BridgeMatrixGetConnector
-  | BridgeMongodbGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeOracleGetConnector
-  | BridgeS3GetConnector
-  | BridgeSqlserverGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeTimescaleGetConnector
-  | ConfluentGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | ConnectorCouchbaseGetConnector
-  | ConnectorDiskLogGetConnector
-  | ConnectorDorisGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorPostgresGetConnector
-  | ConnectorS3tablesGetConnector
-  | ConnectorSnowflakeGetConnector
-  | ConnectorSyskeeperProxyGet
-  | ElasticsearchGet
-  | GcpPubsubConsumerGetConnector
-  | GcpPubsubProducerGetConnector
   | KafkaConsumerGetConnector
+  | ConnectorDiskLogGetConnector
   | OpentsConnectorGet
+  | BridgeAzureEventHubGetConnector
+  | BridgeMatrixGetConnector
+  | ConnectorDorisGetConnector
+  | ConfluentGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeKafkaGetConnector
+  | ConnectorPostgresGetConnector
+  | BridgeKinesisGetConnector
   | PulsarGet
-  | RabbitmqGet
-  | RedisGetConnector
-  | RocketmqGetConnector
+  | BridgeDatalayersGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeMongodbGetConnector
+  | GcpPubsubProducerGetConnector
+  | ConnectorSnowflakeGetConnector
+  | BridgeHttpGetConnector
+  | ConnectorSyskeeperProxyGet
   | SyskeeperForwarderGet
+  | BridgeCassaGetConnector
+  | RabbitmqGet
+  | GcpPubsubConsumerGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | RedisGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeClickhouseGetConnector
+  | ConnectorS3tablesGetConnector
+  | BridgeS3GetConnector
+  | BridgeGreptimedbGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorCouchbaseGetConnector
+  | BridgeTimescaleGetConnector
+  | BridgeDynamoGetConnector
   | PutConnectorsId200OneOf
+  | RocketmqGetConnector
   | TdengineConnectorGet
+  | BridgeHstreamdbGetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeOracleGetConnector
+  | ElasticsearchGet
 
 export type PutConnectorsIdBodyOneOf = IotdbPutThrift | IotdbPutRestapi
 
 export type PutConnectorsIdBody =
-  | BridgeAzureEventHubPutConnector
-  | BridgeCassaPutConnector
-  | BridgeClickhousePutConnector
-  | BridgeDatalayersPutConnector
-  | BridgeDynamoPutConnector
-  | BridgeGreptimedbPutConnector
-  | BridgeHstreamdbPutConnector
-  | BridgeHttpPutConnector
-  | BridgeInfluxdbPutConnector
-  | BridgeKafkaPutConnector
-  | BridgeKinesisPutConnector
-  | BridgeMatrixPutConnector
-  | BridgeMongodbPutConnector
-  | BridgeMysqlPutConnector
-  | BridgeOraclePutConnector
-  | BridgeS3PutConnector
-  | BridgeSqlserverPutConnector
-  | BridgeTablestorePutConnector
-  | BridgeTimescalePutConnector
-  | ConfluentPutConnector
-  | ConnectorAzureBlobStoragePutConnector
-  | ConnectorCouchbasePutConnector
-  | ConnectorDiskLogPutConnector
-  | ConnectorDorisPutConnector
-  | ConnectorMqttPutConnector
-  | ConnectorPostgresPutConnector
-  | ConnectorS3tablesPutConnector
-  | ConnectorSnowflakePutConnector
-  | ConnectorSyskeeperProxyPut
-  | ElasticsearchPut
-  | GcpPubsubConsumerPutConnector
-  | GcpPubsubProducerPutConnector
   | KafkaConsumerPutConnector
+  | ConnectorDiskLogPutConnector
   | OpentsConnectorPut
+  | BridgeAzureEventHubPutConnector
+  | BridgeMatrixPutConnector
+  | ConnectorDorisPutConnector
+  | ConfluentPutConnector
+  | BridgeMysqlPutConnector
+  | BridgeKafkaPutConnector
+  | ConnectorPostgresPutConnector
+  | BridgeKinesisPutConnector
   | PulsarPut
-  | RabbitmqPut
-  | RedisPutConnector
-  | RocketmqPutConnector
+  | BridgeDatalayersPutConnector
+  | BridgeTablestorePutConnector
+  | BridgeMongodbPutConnector
+  | GcpPubsubProducerPutConnector
+  | ConnectorSnowflakePutConnector
+  | BridgeHttpPutConnector
+  | ConnectorSyskeeperProxyPut
   | SyskeeperForwarderPut
+  | BridgeCassaPutConnector
+  | RabbitmqPut
+  | GcpPubsubConsumerPutConnector
+  | ConnectorAzureBlobStoragePutConnector
+  | RedisPutConnector
+  | BridgeInfluxdbPutConnector
+  | BridgeClickhousePutConnector
+  | ConnectorS3tablesPutConnector
+  | BridgeS3PutConnector
+  | BridgeGreptimedbPutConnector
+  | ConnectorMqttPutConnector
+  | ConnectorCouchbasePutConnector
+  | BridgeTimescalePutConnector
+  | BridgeDynamoPutConnector
   | PutConnectorsIdBodyOneOf
+  | RocketmqPutConnector
   | TdengineConnectorPut
+  | BridgeHstreamdbPutConnector
+  | BridgeSqlserverPutConnector
+  | BridgeOraclePutConnector
+  | ElasticsearchPut
 
 export type GetConnectorsId404Code =
   (typeof GetConnectorsId404Code)[keyof typeof GetConnectorsId404Code]
@@ -260,47 +260,47 @@ export type GetConnectorsId404 = {
 export type GetConnectorsId200OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type GetConnectorsId200 =
-  | BridgeAzureEventHubGetConnector
-  | BridgeCassaGetConnector
-  | BridgeClickhouseGetConnector
-  | BridgeDatalayersGetConnector
-  | BridgeDynamoGetConnector
-  | BridgeGreptimedbGetConnector
-  | BridgeHstreamdbGetConnector
-  | BridgeHttpGetConnector
-  | BridgeInfluxdbGetConnector
-  | BridgeKafkaGetConnector
-  | BridgeKinesisGetConnector
-  | BridgeMatrixGetConnector
-  | BridgeMongodbGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeOracleGetConnector
-  | BridgeS3GetConnector
-  | BridgeSqlserverGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeTimescaleGetConnector
-  | ConfluentGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | ConnectorCouchbaseGetConnector
-  | ConnectorDiskLogGetConnector
-  | ConnectorDorisGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorPostgresGetConnector
-  | ConnectorS3tablesGetConnector
-  | ConnectorSnowflakeGetConnector
-  | ConnectorSyskeeperProxyGet
-  | ElasticsearchGet
-  | GcpPubsubConsumerGetConnector
-  | GcpPubsubProducerGetConnector
   | KafkaConsumerGetConnector
+  | ConnectorDiskLogGetConnector
   | OpentsConnectorGet
+  | BridgeAzureEventHubGetConnector
+  | BridgeMatrixGetConnector
+  | ConnectorDorisGetConnector
+  | ConfluentGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeKafkaGetConnector
+  | ConnectorPostgresGetConnector
+  | BridgeKinesisGetConnector
   | PulsarGet
-  | RabbitmqGet
-  | RedisGetConnector
-  | RocketmqGetConnector
+  | BridgeDatalayersGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeMongodbGetConnector
+  | GcpPubsubProducerGetConnector
+  | ConnectorSnowflakeGetConnector
+  | BridgeHttpGetConnector
+  | ConnectorSyskeeperProxyGet
   | SyskeeperForwarderGet
+  | BridgeCassaGetConnector
+  | RabbitmqGet
+  | GcpPubsubConsumerGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | RedisGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeClickhouseGetConnector
+  | ConnectorS3tablesGetConnector
+  | BridgeS3GetConnector
+  | BridgeGreptimedbGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorCouchbaseGetConnector
+  | BridgeTimescaleGetConnector
+  | BridgeDynamoGetConnector
   | GetConnectorsId200OneOf
+  | RocketmqGetConnector
   | TdengineConnectorGet
+  | BridgeHstreamdbGetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeOracleGetConnector
+  | ElasticsearchGet
 
 export type DeleteConnectorsId503Code =
   (typeof DeleteConnectorsId503Code)[keyof typeof DeleteConnectorsId503Code]
@@ -357,47 +357,47 @@ export type PostConnectorsProbe400 = {
 export type PostConnectorsProbeBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
 export type PostConnectorsProbeBody =
-  | BridgeAzureEventHubPostConnector
-  | BridgeCassaPostConnector
-  | BridgeClickhousePostConnector
-  | BridgeDatalayersPostConnector
-  | BridgeDynamoPostConnector
-  | BridgeGreptimedbPostConnector
-  | BridgeHstreamdbPostConnector
-  | BridgeHttpPostConnector
-  | BridgeInfluxdbPostConnector
-  | BridgeKafkaPostConnector
-  | BridgeKinesisPostConnector
-  | BridgeMatrixPostConnector
-  | BridgeMongodbPostConnector
-  | BridgeMysqlPostConnector
-  | BridgeOraclePostConnector
-  | BridgeS3PostConnector
-  | BridgeSqlserverPostConnector
-  | BridgeTablestorePostConnector
-  | BridgeTimescalePostConnector
-  | ConfluentPostConnector
-  | ConnectorAzureBlobStoragePostConnector
-  | ConnectorCouchbasePostConnector
-  | ConnectorDiskLogPostConnector
-  | ConnectorDorisPostConnector
-  | ConnectorMqttPostConnector
-  | ConnectorPostgresPostConnector
-  | ConnectorS3tablesPostConnector
-  | ConnectorSnowflakePostConnector
-  | ConnectorSyskeeperProxyPost
-  | ElasticsearchPost
-  | GcpPubsubConsumerPostConnector
-  | GcpPubsubProducerPostConnector
   | KafkaConsumerPostConnector
+  | ConnectorDiskLogPostConnector
   | OpentsConnectorPost
+  | BridgeAzureEventHubPostConnector
+  | BridgeMatrixPostConnector
+  | ConnectorDorisPostConnector
+  | ConfluentPostConnector
+  | BridgeMysqlPostConnector
+  | BridgeKafkaPostConnector
+  | ConnectorPostgresPostConnector
+  | BridgeKinesisPostConnector
   | PulsarPost
-  | RabbitmqPost
-  | RedisPostConnector
-  | RocketmqPostConnector
+  | BridgeDatalayersPostConnector
+  | BridgeTablestorePostConnector
+  | BridgeMongodbPostConnector
+  | GcpPubsubProducerPostConnector
+  | ConnectorSnowflakePostConnector
+  | BridgeHttpPostConnector
+  | ConnectorSyskeeperProxyPost
   | SyskeeperForwarderPost
+  | BridgeCassaPostConnector
+  | RabbitmqPost
+  | GcpPubsubConsumerPostConnector
+  | ConnectorAzureBlobStoragePostConnector
+  | RedisPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeClickhousePostConnector
+  | ConnectorS3tablesPostConnector
+  | BridgeS3PostConnector
+  | BridgeGreptimedbPostConnector
+  | ConnectorMqttPostConnector
+  | ConnectorCouchbasePostConnector
+  | BridgeTimescalePostConnector
+  | BridgeDynamoPostConnector
   | PostConnectorsProbeBodyOneOf
+  | RocketmqPostConnector
   | TdengineConnectorPost
+  | BridgeHstreamdbPostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeOraclePostConnector
+  | ElasticsearchPost
 
 export type PostConnectors400Code =
   (typeof PostConnectors400Code)[keyof typeof PostConnectors400Code]
@@ -415,92 +415,92 @@ export type PostConnectors400 = {
 export type PostConnectors201OneOf = IotdbGetThrift | IotdbGetRestapi
 
 export type PostConnectors201 =
-  | BridgeAzureEventHubGetConnector
-  | BridgeCassaGetConnector
-  | BridgeClickhouseGetConnector
-  | BridgeDatalayersGetConnector
-  | BridgeDynamoGetConnector
-  | BridgeGreptimedbGetConnector
-  | BridgeHstreamdbGetConnector
-  | BridgeHttpGetConnector
-  | BridgeInfluxdbGetConnector
-  | BridgeKafkaGetConnector
-  | BridgeKinesisGetConnector
-  | BridgeMatrixGetConnector
-  | BridgeMongodbGetConnector
-  | BridgeMysqlGetConnector
-  | BridgeOracleGetConnector
-  | BridgeS3GetConnector
-  | BridgeSqlserverGetConnector
-  | BridgeTablestoreGetConnector
-  | BridgeTimescaleGetConnector
-  | ConfluentGetConnector
-  | ConnectorAzureBlobStorageGetConnector
-  | ConnectorCouchbaseGetConnector
-  | ConnectorDiskLogGetConnector
-  | ConnectorDorisGetConnector
-  | ConnectorMqttGetConnector
-  | ConnectorPostgresGetConnector
-  | ConnectorS3tablesGetConnector
-  | ConnectorSnowflakeGetConnector
-  | ConnectorSyskeeperProxyGet
-  | ElasticsearchGet
-  | GcpPubsubConsumerGetConnector
-  | GcpPubsubProducerGetConnector
   | KafkaConsumerGetConnector
+  | ConnectorDiskLogGetConnector
   | OpentsConnectorGet
+  | BridgeAzureEventHubGetConnector
+  | BridgeMatrixGetConnector
+  | ConnectorDorisGetConnector
+  | ConfluentGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeKafkaGetConnector
+  | ConnectorPostgresGetConnector
+  | BridgeKinesisGetConnector
   | PulsarGet
-  | RabbitmqGet
-  | RedisGetConnector
-  | RocketmqGetConnector
+  | BridgeDatalayersGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeMongodbGetConnector
+  | GcpPubsubProducerGetConnector
+  | ConnectorSnowflakeGetConnector
+  | BridgeHttpGetConnector
+  | ConnectorSyskeeperProxyGet
   | SyskeeperForwarderGet
+  | BridgeCassaGetConnector
+  | RabbitmqGet
+  | GcpPubsubConsumerGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | RedisGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeClickhouseGetConnector
+  | ConnectorS3tablesGetConnector
+  | BridgeS3GetConnector
+  | BridgeGreptimedbGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorCouchbaseGetConnector
+  | BridgeTimescaleGetConnector
+  | BridgeDynamoGetConnector
   | PostConnectors201OneOf
+  | RocketmqGetConnector
   | TdengineConnectorGet
+  | BridgeHstreamdbGetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeOracleGetConnector
+  | ElasticsearchGet
 
 export type PostConnectorsBodyOneOf = IotdbPostThrift | IotdbPostRestapi
 
 export type PostConnectorsBody =
-  | BridgeAzureEventHubPostConnector
-  | BridgeCassaPostConnector
-  | BridgeClickhousePostConnector
-  | BridgeDatalayersPostConnector
-  | BridgeDynamoPostConnector
-  | BridgeGreptimedbPostConnector
-  | BridgeHstreamdbPostConnector
-  | BridgeHttpPostConnector
-  | BridgeInfluxdbPostConnector
-  | BridgeKafkaPostConnector
-  | BridgeKinesisPostConnector
-  | BridgeMatrixPostConnector
-  | BridgeMongodbPostConnector
-  | BridgeMysqlPostConnector
-  | BridgeOraclePostConnector
-  | BridgeS3PostConnector
-  | BridgeSqlserverPostConnector
-  | BridgeTablestorePostConnector
-  | BridgeTimescalePostConnector
-  | ConfluentPostConnector
-  | ConnectorAzureBlobStoragePostConnector
-  | ConnectorCouchbasePostConnector
-  | ConnectorDiskLogPostConnector
-  | ConnectorDorisPostConnector
-  | ConnectorMqttPostConnector
-  | ConnectorPostgresPostConnector
-  | ConnectorS3tablesPostConnector
-  | ConnectorSnowflakePostConnector
-  | ConnectorSyskeeperProxyPost
-  | ElasticsearchPost
-  | GcpPubsubConsumerPostConnector
-  | GcpPubsubProducerPostConnector
   | KafkaConsumerPostConnector
+  | ConnectorDiskLogPostConnector
   | OpentsConnectorPost
+  | BridgeAzureEventHubPostConnector
+  | BridgeMatrixPostConnector
+  | ConnectorDorisPostConnector
+  | ConfluentPostConnector
+  | BridgeMysqlPostConnector
+  | BridgeKafkaPostConnector
+  | ConnectorPostgresPostConnector
+  | BridgeKinesisPostConnector
   | PulsarPost
-  | RabbitmqPost
-  | RedisPostConnector
-  | RocketmqPostConnector
+  | BridgeDatalayersPostConnector
+  | BridgeTablestorePostConnector
+  | BridgeMongodbPostConnector
+  | GcpPubsubProducerPostConnector
+  | ConnectorSnowflakePostConnector
+  | BridgeHttpPostConnector
+  | ConnectorSyskeeperProxyPost
   | SyskeeperForwarderPost
+  | BridgeCassaPostConnector
+  | RabbitmqPost
+  | GcpPubsubConsumerPostConnector
+  | ConnectorAzureBlobStoragePostConnector
+  | RedisPostConnector
+  | BridgeInfluxdbPostConnector
+  | BridgeClickhousePostConnector
+  | ConnectorS3tablesPostConnector
+  | BridgeS3PostConnector
+  | BridgeGreptimedbPostConnector
+  | ConnectorMqttPostConnector
+  | ConnectorCouchbasePostConnector
+  | BridgeTimescalePostConnector
+  | BridgeDynamoPostConnector
   | PostConnectorsBodyOneOf
+  | RocketmqPostConnector
   | TdengineConnectorPost
+  | BridgeHstreamdbPostConnector
+  | BridgeSqlserverPostConnector
+  | BridgeOraclePostConnector
+  | ElasticsearchPost
 
 export type GetConnectors200ItemOneOf = IotdbGetThrift | IotdbGetRestapi
 
@@ -569,8 +569,8 @@ export type TdengineConnectorGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TdengineConnectorGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -687,8 +687,8 @@ export type SyskeeperForwarderGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SyskeeperForwarderGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -815,8 +815,8 @@ export type RocketmqGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RocketmqGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -964,8 +964,8 @@ export type RedisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RedisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1009,8 +1009,8 @@ export type RabbitmqGetStatus = (typeof RabbitmqGetStatus)[keyof typeof Rabbitmq
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RabbitmqGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1091,7 +1091,7 @@ export interface RabbitmqGet {
   virtual_host?: string
 }
 
-export type PulsarPutAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
+export type PulsarPutAuthentication = BridgePulsarAuthToken | BridgePulsarAuthBasic | 'none'
 
 export interface PulsarPut {
   authentication?: PulsarPutAuthentication
@@ -1111,7 +1111,7 @@ export const PulsarPostType = {
   pulsar: 'pulsar',
 } as const
 
-export type PulsarPostAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
+export type PulsarPostAuthentication = BridgePulsarAuthToken | BridgePulsarAuthBasic | 'none'
 
 export interface PulsarPost {
   authentication?: PulsarPostAuthentication
@@ -1131,12 +1131,12 @@ export type PulsarGetStatus = (typeof PulsarGetStatus)[keyof typeof PulsarGetSta
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PulsarGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
-export type PulsarGetAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
+export type PulsarGetAuthentication = BridgePulsarAuthToken | BridgePulsarAuthBasic | 'none'
 
 export type PulsarConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
 
@@ -1183,8 +1183,8 @@ export type OpentsConnectorGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OpentsConnectorGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1259,8 +1259,8 @@ export type MongoConnectorSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorSingleMongoType =
@@ -1282,8 +1282,8 @@ export type MongoConnectorShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorShardedMongoType =
@@ -1305,8 +1305,8 @@ export type MongoConnectorRsWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MongoConnectorRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type MongoConnectorRsRMode =
@@ -1400,8 +1400,8 @@ export type KafkaConsumerGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const KafkaConsumerGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1472,8 +1472,8 @@ export type IotdbPutRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbPutRestapiIotdbVersion =
@@ -1481,10 +1481,10 @@ export type IotdbPutRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPutRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbPutRestapiDriver =
@@ -1571,8 +1571,8 @@ export type IotdbPostRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbPostRestapiIotdbVersion =
@@ -1580,10 +1580,10 @@ export type IotdbPostRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbPostRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbPostRestapiDriver =
@@ -1627,8 +1627,8 @@ export type IotdbGetThriftStatus = (typeof IotdbGetThriftStatus)[keyof typeof Io
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetThriftStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1685,8 +1685,8 @@ export type IotdbGetRestapiStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1695,8 +1695,8 @@ export type IotdbGetRestapiPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type IotdbGetRestapiIotdbVersion =
@@ -1704,10 +1704,10 @@ export type IotdbGetRestapiIotdbVersion =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const IotdbGetRestapiIotdbVersion = {
-  v13x: 'v1.3.x',
-  v11x: 'v1.1.x',
-  v10x: 'v1.0.x',
   v013x: 'v0.13.x',
+  v10x: 'v1.0.x',
+  v11x: 'v1.1.x',
+  v13x: 'v1.3.x',
 } as const
 
 export type IotdbGetRestapiDriver =
@@ -1816,8 +1816,8 @@ export type GcpPubsubProducerGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubProducerGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1914,8 +1914,8 @@ export type GcpPubsubConsumerGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GcpPubsubConsumerGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -1957,8 +1957,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -1968,10 +1968,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -1979,16 +1979,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -2019,8 +2019,8 @@ export type ElasticsearchPutPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPutPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type ElasticsearchPostType =
@@ -2036,8 +2036,8 @@ export type ElasticsearchPostPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchPostPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export interface ElasticsearchPost {
@@ -2072,8 +2072,8 @@ export type ElasticsearchGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2082,8 +2082,8 @@ export type ElasticsearchGetPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ElasticsearchGetPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export interface ElasticsearchAuthBasic {
@@ -2145,8 +2145,8 @@ export type ConnectorNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2178,8 +2178,8 @@ export type ConnectorSyskeeperProxyGetStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSyskeeperProxyGetStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2310,8 +2310,8 @@ export type ConnectorSnowflakeGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorSnowflakeGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2405,8 +2405,8 @@ export type ConnectorS3tablesGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorS3tablesGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2495,8 +2495,8 @@ export type ConnectorPostgresGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorPostgresGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2665,8 +2665,8 @@ export type ConnectorMqttGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorMqttGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2759,8 +2759,8 @@ export type ConnectorDorisSslVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDorisSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type ConnectorDorisSslServerNameIndication = string | 'disable'
@@ -2770,10 +2770,10 @@ export type ConnectorDorisSslPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDorisSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type ConnectorDorisSslLogLevel =
@@ -2781,16 +2781,16 @@ export type ConnectorDorisSslLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDorisSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface ConnectorDorisSsl {
@@ -2872,8 +2872,8 @@ export type ConnectorDorisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDorisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -2945,8 +2945,8 @@ export type ConnectorDiskLogGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorDiskLogGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3040,8 +3040,8 @@ export type ConnectorCouchbaseGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorCouchbaseGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3119,8 +3119,8 @@ export type ConnectorAzureBlobStorageGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConnectorAzureBlobStorageGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3139,17 +3139,17 @@ export interface ConnectorAzureBlobStorageGetConnector {
   type: ConnectorAzureBlobStorageGetConnectorType
 }
 
-export type ConfluentSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type ConfluentSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type ConfluentSslClientOptsPartialChain =
   (typeof ConfluentSslClientOptsPartialChain)[keyof typeof ConfluentSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type ConfluentSslClientOptsLogLevel =
@@ -3157,16 +3157,16 @@ export type ConfluentSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface ConfluentSslClientOpts {
@@ -3212,8 +3212,8 @@ export type ConfluentGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ConfluentGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3284,8 +3284,8 @@ export type BridgeNodeStatusStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeNodeStatusStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3353,8 +3353,8 @@ export type BridgeTimescaleGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTimescaleGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3441,8 +3441,8 @@ export type BridgeTablestoreGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeTablestoreGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3531,8 +3531,8 @@ export type BridgeSqlserverGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeSqlserverGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3662,8 +3662,8 @@ export type BridgeS3GetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeS3GetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3781,8 +3781,8 @@ export type BridgeOracleGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeOracleGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3849,8 +3849,8 @@ export type BridgeMysqlGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMysqlGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -3925,8 +3925,8 @@ export type BridgeMongodbPutConnectorUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPutConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPutConnectorParameters =
@@ -3958,8 +3958,8 @@ export type BridgeMongodbPostConnectorUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbPostConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbPostConnectorType =
@@ -4001,8 +4001,8 @@ export type BridgeMongodbGetConnectorUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type BridgeMongodbGetConnectorType =
@@ -4019,8 +4019,8 @@ export type BridgeMongodbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMongodbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4120,8 +4120,8 @@ export type BridgeMatrixGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeMatrixGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4200,8 +4200,8 @@ export type BridgeKinesisGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKinesisGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4239,21 +4239,21 @@ export type BridgeKafkaSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeKafkaSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeKafkaSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeKafkaSslClientOptsPartialChain =
   (typeof BridgeKafkaSslClientOptsPartialChain)[keyof typeof BridgeKafkaSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type BridgeKafkaSslClientOptsLogLevel =
@@ -4261,16 +4261,16 @@ export type BridgeKafkaSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface BridgeKafkaSslClientOpts {
@@ -4365,8 +4365,8 @@ export type BridgeKafkaGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeKafkaGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4435,8 +4435,8 @@ export type BridgeKafkaGetConnectorAuthentication =
   | 'none'
 
 export type BridgeInfluxdbPutConnectorParameters =
-  | ConnectorInfluxdbConnectorInfluxdbApiV1
   | ConnectorInfluxdbConnectorInfluxdbApiV2
+  | ConnectorInfluxdbConnectorInfluxdbApiV1
 
 export interface BridgeInfluxdbPutConnector {
   description?: string
@@ -4459,8 +4459,8 @@ export const BridgeInfluxdbPostConnectorType = {
 } as const
 
 export type BridgeInfluxdbPostConnectorParameters =
-  | ConnectorInfluxdbConnectorInfluxdbApiV1
   | ConnectorInfluxdbConnectorInfluxdbApiV2
+  | ConnectorInfluxdbConnectorInfluxdbApiV1
 
 export interface BridgeInfluxdbPostConnector {
   description?: string
@@ -4490,14 +4490,14 @@ export type BridgeInfluxdbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeInfluxdbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
 export type BridgeInfluxdbGetConnectorParameters =
-  | ConnectorInfluxdbConnectorInfluxdbApiV1
   | ConnectorInfluxdbConnectorInfluxdbApiV2
+  | ConnectorInfluxdbConnectorInfluxdbApiV1
 
 export type BridgeInfluxdbConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
 
@@ -4536,8 +4536,8 @@ export type BridgeHttpPutConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPutConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPutConnectorHeaders = { [key: string]: unknown }
@@ -4581,8 +4581,8 @@ export type BridgeHttpPostConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpPostConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpPostConnectorHeaders = { [key: string]: unknown }
@@ -4624,8 +4624,8 @@ export type BridgeHttpGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4639,8 +4639,8 @@ export type BridgeHttpGetConnectorPoolType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHttpGetConnectorPoolType = {
-  random: 'random',
   hash: 'hash',
+  random: 'random',
 } as const
 
 export type BridgeHttpGetConnectorHeaders = { [key: string]: unknown }
@@ -4724,8 +4724,8 @@ export type BridgeHstreamdbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeHstreamdbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4806,8 +4806,8 @@ export type BridgeGreptimedbGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeGreptimedbGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4862,8 +4862,8 @@ export type BridgeDynamoGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDynamoGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -4977,8 +4977,8 @@ export type BridgeDatalayersGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeDatalayersGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5065,8 +5065,8 @@ export type BridgeClickhouseGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeClickhouseGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5157,8 +5157,8 @@ export type BridgeCassaGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeCassaGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 
@@ -5198,21 +5198,21 @@ export type BridgeAzureEventHubSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
-export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'auto' | 'disable'
+export type BridgeAzureEventHubSslClientOptsServerNameIndication = string | 'disable' | 'auto'
 
 export type BridgeAzureEventHubSslClientOptsPartialChain =
   (typeof BridgeAzureEventHubSslClientOptsPartialChain)[keyof typeof BridgeAzureEventHubSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type BridgeAzureEventHubSslClientOptsLogLevel =
@@ -5220,16 +5220,16 @@ export type BridgeAzureEventHubSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export type BridgeAzureEventHubSslClientOptsEnable =
@@ -5319,8 +5319,8 @@ export type BridgeAzureEventHubGetConnectorStatus =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const BridgeAzureEventHubGetConnectorStatus = {
   connected: 'connected',
-  disconnected: 'disconnected',
   connecting: 'connecting',
+  disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
 

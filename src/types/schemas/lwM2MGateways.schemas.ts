@@ -97,13 +97,13 @@ export type Lwm2mResourceDataType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Lwm2mResourceDataType = {
-  Integer: 'Integer',
-  Float: 'Float',
-  Time: 'Time',
-  String: 'String',
   Boolean: 'Boolean',
-  Opaque: 'Opaque',
+  Float: 'Float',
+  Integer: 'Integer',
   Objlnk: 'Objlnk',
+  Opaque: 'Opaque',
+  String: 'String',
+  Time: 'Time',
 } as const
 
 export interface Lwm2mResource {

@@ -98,8 +98,8 @@ export type GetClientsClientidMqueueMessages404Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetClientsClientidMqueueMessages404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
   CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
 export type GetClientsClientidMqueueMessages404 = {
@@ -155,8 +155,8 @@ export type GetClientsClientidInflightMessages404Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetClientsClientidInflightMessages404Code = {
-  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
   CLIENT_SHUTDOWN: 'CLIENT_SHUTDOWN',
+  CLIENTID_NOT_FOUND: 'CLIENTID_NOT_FOUND',
 } as const
 
 export type GetClientsClientidInflightMessages404 = {
@@ -297,15 +297,16 @@ export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
-  client_attrs: 'client_attrs',
   awaiting_rel_cnt: 'awaiting_rel_cnt',
   awaiting_rel_max: 'awaiting_rel_max',
   clean_start: 'clean_start',
+  client_attrs: 'client_attrs',
   clientid: 'clientid',
   connected: 'connected',
   connected_at: 'connected_at',
   created_at: 'created_at',
   disconnected_at: 'disconnected_at',
+  durable: 'durable',
   expiry_interval: 'expiry_interval',
   heap_size: 'heap_size',
   inflight_cnt: 'inflight_cnt',
@@ -315,9 +316,11 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   is_expired: 'is_expired',
   keepalive: 'keepalive',
   mailbox_len: 'mailbox_len',
+  mountpoint: 'mountpoint',
   mqueue_dropped: 'mqueue_dropped',
   mqueue_len: 'mqueue_len',
   mqueue_max: 'mqueue_max',
+  n_streams: 'n_streams',
   node: 'node',
   port: 'port',
   proto_name: 'proto_name',
@@ -343,19 +346,16 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   send_msgqos2: 'send_msg.qos2',
   send_oct: 'send_oct',
   send_pkt: 'send_pkt',
-  subscriptions_cnt: 'subscriptions_cnt',
-  subscriptions_max: 'subscriptions_max',
-  username: 'username',
-  mountpoint: 'mountpoint',
-  durable: 'durable',
-  n_streams: 'n_streams',
   seqno_q1_comm: 'seqno_q1_comm',
   seqno_q1_dup: 'seqno_q1_dup',
   seqno_q1_next: 'seqno_q1_next',
   seqno_q2_comm: 'seqno_q2_comm',
   seqno_q2_dup: 'seqno_q2_dup',
-  seqno_q2_rec: 'seqno_q2_rec',
   seqno_q2_next: 'seqno_q2_next',
+  seqno_q2_rec: 'seqno_q2_rec',
+  subscriptions_cnt: 'subscriptions_cnt',
+  subscriptions_max: 'subscriptions_max',
+  username: 'username',
 } as const
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameter =

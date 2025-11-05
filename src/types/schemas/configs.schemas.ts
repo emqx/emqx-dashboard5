@@ -16,8 +16,8 @@ export type PutConfigsSysmon400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsSysmon400 = {
@@ -56,8 +56,8 @@ export type PutConfigsSysTopics400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsSysTopics400 = {
@@ -94,8 +94,8 @@ export type PutConfigsLog400Code = (typeof PutConfigsLog400Code)[keyof typeof Pu
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsLog400 = {
@@ -183,8 +183,8 @@ export type PutConfigsFileTransfer400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsFileTransfer400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsFileTransfer400 = {
@@ -223,8 +223,8 @@ export type PutConfigsDashboard400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsDashboard400 = {
@@ -263,8 +263,8 @@ export type PutConfigsBroker400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsBroker400 = {
@@ -303,8 +303,8 @@ export type PutConfigsAlarm400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm400Code = {
-  UPDATE_FAILED: 'UPDATE_FAILED',
   INVALID_CONFIG: 'INVALID_CONFIG',
+  UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
 export type PutConfigsAlarm400 = {
@@ -483,8 +483,8 @@ export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvi
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcProvider = {
-  okta: 'okta',
   generic: 'generic',
+  okta: 'okta',
 } as const
 
 export type SsoOidcPreferredAuthMethodsItem =
@@ -492,11 +492,11 @@ export type SsoOidcPreferredAuthMethodsItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoOidcPreferredAuthMethodsItem = {
-  private_key_jwt: 'private_key_jwt',
+  client_secret_basic: 'client_secret_basic',
   client_secret_jwt: 'client_secret_jwt',
   client_secret_post: 'client_secret_post',
-  client_secret_basic: 'client_secret_basic',
   none: 'none',
+  private_key_jwt: 'private_key_jwt',
 } as const
 
 export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
@@ -592,8 +592,8 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type LdapSslServerNameIndication = string | 'disable'
@@ -602,26 +602,26 @@ export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof Ldap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {
@@ -656,12 +656,12 @@ export type FileTransferS3ExporterAcl =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FileTransferS3ExporterAcl = {
+  authenticated_read: 'authenticated_read',
+  bucket_owner_full_control: 'bucket_owner_full_control',
+  bucket_owner_read: 'bucket_owner_read',
   private: 'private',
   public_read: 'public_read',
   public_read_write: 'public_read_write',
-  authenticated_read: 'authenticated_read',
-  bucket_owner_read: 'bucket_owner_read',
-  bucket_owner_full_control: 'bucket_owner_full_control',
 } as const
 
 export type FileTransferS3ExporterAccessMethod =
@@ -768,8 +768,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -779,10 +779,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -790,16 +790,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -830,13 +830,13 @@ export type EmqxMqttSharedSubscriptionStrategy =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionStrategy = {
+  hash_clientid: 'hash_clientid',
+  hash_topic: 'hash_topic',
+  local: 'local',
   random: 'random',
   round_robin: 'round_robin',
   round_robin_per_group: 'round_robin_per_group',
   sticky: 'sticky',
-  local: 'local',
-  hash_topic: 'hash_topic',
-  hash_clientid: 'hash_clientid',
 } as const
 
 export type EmqxMqttSharedSubscriptionInitialStickyPick =
@@ -844,10 +844,10 @@ export type EmqxMqttSharedSubscriptionInitialStickyPick =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttSharedSubscriptionInitialStickyPick = {
-  random: 'random',
-  local: 'local',
-  hash_topic: 'hash_topic',
   hash_clientid: 'hash_clientid',
+  hash_topic: 'hash_topic',
+  local: 'local',
+  random: 'random',
 } as const
 
 export type EmqxMqttServerKeepalive = 'disabled' | number
@@ -859,12 +859,12 @@ export type EmqxMqttPeerCertAsUsername =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsUsername = {
-  disabled: 'disabled',
   cn: 'cn',
-  dn: 'dn',
   crt: 'crt',
-  pem: 'pem',
+  disabled: 'disabled',
+  dn: 'dn',
   md5: 'md5',
+  pem: 'pem',
 } as const
 
 export type EmqxMqttPeerCertAsClientid =
@@ -872,12 +872,12 @@ export type EmqxMqttPeerCertAsClientid =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMqttPeerCertAsClientid = {
-  disabled: 'disabled',
   cn: 'cn',
-  dn: 'dn',
   crt: 'crt',
-  pem: 'pem',
+  disabled: 'disabled',
+  dn: 'dn',
   md5: 'md5',
+  pem: 'pem',
 } as const
 
 export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: unknown }
@@ -986,8 +986,8 @@ export type EmqxLogFileHandlerPayloadEncode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerPayloadEncode = {
   hex: 'hex',
-  text: 'text',
   hidden: 'hidden',
+  text: 'text',
 } as const
 
 export type EmqxLogFileHandlerLevel =
@@ -995,15 +995,15 @@ export type EmqxLogFileHandlerLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
   debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
   info: 'info',
   notice: 'notice',
   warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
 } as const
 
 export type EmqxLogFileHandlerFormatter =
@@ -1011,8 +1011,8 @@ export type EmqxLogFileHandlerFormatter =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogFileHandlerFormatter = {
-  text: 'text',
   json: 'json',
+  text: 'text',
 } as const
 
 export interface EmqxLogFileHandler {
@@ -1049,8 +1049,8 @@ export type EmqxLogAuditHandlerPayloadEncode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxLogAuditHandlerPayloadEncode = {
   hex: 'hex',
-  text: 'text',
   hidden: 'hidden',
+  text: 'text',
 } as const
 
 export interface EmqxLogAuditHandler {
@@ -1151,8 +1151,8 @@ export type EmqxConsoleHandlerPayloadEncode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerPayloadEncode = {
   hex: 'hex',
-  text: 'text',
   hidden: 'hidden',
+  text: 'text',
 } as const
 
 export type EmqxConsoleHandlerLevel =
@@ -1160,15 +1160,15 @@ export type EmqxConsoleHandlerLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
   debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
   info: 'info',
   notice: 'notice',
   warning: 'warning',
-  error: 'error',
-  critical: 'critical',
-  alert: 'alert',
-  emergency: 'emergency',
-  all: 'all',
 } as const
 
 export type EmqxConsoleHandlerFormatter =
@@ -1176,8 +1176,8 @@ export type EmqxConsoleHandlerFormatter =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxConsoleHandlerFormatter = {
-  text: 'text',
   json: 'json',
+  text: 'text',
 } as const
 
 export interface EmqxConsoleHandler {
@@ -1228,8 +1228,8 @@ export type DashboardSslOptionsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type DashboardSslOptionsPartialChain =
@@ -1237,10 +1237,10 @@ export type DashboardSslOptionsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type DashboardSslOptionsLogLevel =
@@ -1248,16 +1248,16 @@ export type DashboardSslOptionsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface DashboardSslOptions {

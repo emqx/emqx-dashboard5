@@ -42,7 +42,7 @@ export type PostLicense200 = { [key: string]: unknown }
 
 export type GetLicense200 = { [key: string]: unknown }
 
-export type LicenseHttpApiKeyLicenseKey = string | 'default' | 'evaluation'
+export type LicenseHttpApiKeyLicenseKey = string | 'evaluation' | 'default'
 
 export interface LicenseHttpApiKeyLicense {
   key: LicenseHttpApiKeyLicenseKey

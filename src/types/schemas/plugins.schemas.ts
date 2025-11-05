@@ -3,11 +3,11 @@ export type PostPluginsInstall400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostPluginsInstall400Code = {
-  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
   ALREADY_INSTALLED: 'ALREADY_INSTALLED',
-  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
   BAD_FORM_DATA: 'BAD_FORM_DATA',
+  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
   FORBIDDEN: 'FORBIDDEN',
+  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
 } as const
 
 export type PostPluginsInstall400 = {
@@ -50,8 +50,8 @@ export type GetPluginsNameSchema404Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetPluginsNameSchema404Code = {
-  NOT_FOUND: 'NOT_FOUND',
   FILE_NOT_EXISTED: 'FILE_NOT_EXISTED',
+  NOT_FOUND: 'NOT_FOUND',
 } as const
 
 export type GetPluginsNameSchema404 = {
@@ -280,7 +280,7 @@ export interface PluginsRunningStatus {
   status?: PluginsRunningStatusStatus
 }
 
-export type PluginsPositionPosition = string | 'front' | 'rear'
+export type PluginsPositionPosition = string | 'rear' | 'front'
 
 export interface PluginsPosition {
   position?: PluginsPositionPosition
@@ -293,8 +293,8 @@ export type PluginsHealthStatusStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PluginsHealthStatusStatus = {
-  ok: 'ok',
   error: 'error',
+  ok: 'ok',
 } as const
 
 export interface PluginsHealthStatus {

@@ -24,9 +24,9 @@ export type SlowSubsSlowSubsStatsType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SlowSubsSlowSubsStatsType = {
-  whole: 'whole',
   internal: 'internal',
   response: 'response',
+  whole: 'whole',
 } as const
 
 export interface SlowSubsSlowSubs {

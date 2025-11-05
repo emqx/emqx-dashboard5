@@ -166,44 +166,44 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type PostGatewaysNameListenersIdAuthentication404Code =
   (typeof PostGatewaysNameListenersIdAuthentication404Code)[keyof typeof PostGatewaysNameListenersIdAuthentication404Code]
@@ -233,44 +233,44 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type GetGatewaysNameListenersIdAuthentication404Code =
   (typeof GetGatewaysNameListenersIdAuthentication404Code)[keyof typeof GetGatewaysNameListenersIdAuthentication404Code]
@@ -300,24 +300,24 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type DeleteGatewaysNameListenersIdAuthentication404Code =
   (typeof DeleteGatewaysNameListenersIdAuthentication404Code)[keyof typeof DeleteGatewaysNameListenersIdAuthentication404Code]
@@ -374,20 +374,20 @@ export type PutGatewaysNameListenersId400 = {
 }
 
 export type PutGatewaysNameListenersId200 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export type PutGatewaysNameListenersIdBody =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export type GetGatewaysNameListenersId404Code =
   (typeof GetGatewaysNameListenersId404Code)[keyof typeof GetGatewaysNameListenersId404Code]
@@ -417,12 +417,12 @@ export type GetGatewaysNameListenersId400 = {
 }
 
 export type GetGatewaysNameListenersId200 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export type DeleteGatewaysNameListenersId404Code =
   (typeof DeleteGatewaysNameListenersId404Code)[keyof typeof DeleteGatewaysNameListenersId404Code]
@@ -479,20 +479,20 @@ export type PostGatewaysNameListeners400 = {
 }
 
 export type PostGatewaysNameListeners201 =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export type PostGatewaysNameListenersBody =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export type GetGatewaysNameListeners404Code =
   (typeof GetGatewaysNameListeners404Code)[keyof typeof GetGatewaysNameListeners404Code]
@@ -561,8 +561,8 @@ export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type LdapSslServerNameIndication = string | 'disable'
@@ -571,26 +571,26 @@ export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof Ldap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface LdapSsl {
@@ -621,8 +621,8 @@ export type GatewayWebsocketPiggyback =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayWebsocketPiggyback = {
-  single: 'single',
   multiple: 'multiple',
+  single: 'single',
 } as const
 
 export type GatewayWebsocketMaxFrameSize = number | 'infinity'
@@ -661,8 +661,8 @@ export type GatewayDtlsOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type GatewayDtlsOptsPartialChain =
@@ -670,10 +670,10 @@ export type GatewayDtlsOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type GatewayDtlsOptsLogLevel =
@@ -681,16 +681,16 @@ export type GatewayDtlsOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface GatewayDtlsOpts {
@@ -743,8 +743,8 @@ export type EmqxSslClientOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxSslClientOptsServerNameIndication = string | 'disable'
@@ -754,10 +754,10 @@ export type EmqxSslClientOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -765,16 +765,16 @@ export type EmqxSslClientOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxSslClientOpts {
@@ -813,8 +813,8 @@ export type EmqxListenerWssOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerWssOptsPartialChain =
@@ -822,10 +822,10 @@ export type EmqxListenerWssOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -833,16 +833,16 @@ export type EmqxListenerWssOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerWssOpts {
@@ -875,8 +875,8 @@ export type EmqxListenerSslOptsVerify =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -884,10 +884,10 @@ export type EmqxListenerSslOptsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerSslOptsLogLevel =
@@ -895,16 +895,16 @@ export type EmqxListenerSslOptsLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface EmqxListenerSslOpts {
@@ -951,18 +951,18 @@ export type EmqxDeflateOptsServerContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsServerContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export type EmqxDeflateOptsLevel = (typeof EmqxDeflateOptsLevel)[keyof typeof EmqxDeflateOptsLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsLevel = {
-  none: 'none',
-  default: 'default',
   best_compression: 'best_compression',
   best_speed: 'best_speed',
+  default: 'default',
+  none: 'none',
 } as const
 
 export type EmqxDeflateOptsClientContextTakeover =
@@ -970,8 +970,8 @@ export type EmqxDeflateOptsClientContextTakeover =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxDeflateOptsClientContextTakeover = {
-  takeover: 'takeover',
   no_takeover: 'no_takeover',
+  takeover: 'takeover',
 } as const
 
 export interface EmqxDeflateOpts {
@@ -1322,9 +1322,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -1371,9 +1371,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -1421,9 +1421,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -1460,9 +1460,9 @@ export interface AuthnRedisCluster {
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -1499,7 +1499,7 @@ export interface AuthnPostgresql {
   username: string
 }
 
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
 
@@ -1539,8 +1539,8 @@ export type AuthnMongoSingleWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoSingleUseLegacyProtocol =
@@ -1549,14 +1549,14 @@ export type AuthnMongoSingleUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -1615,8 +1615,8 @@ export type AuthnMongoShardedWMode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoShardedUseLegacyProtocol =
@@ -1625,14 +1625,14 @@ export type AuthnMongoShardedUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1690,8 +1690,8 @@ export type AuthnMongoRsWMode = (typeof AuthnMongoRsWMode)[keyof typeof AuthnMon
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsWMode = {
-  unsafe: 'unsafe',
   safe: 'safe',
+  unsafe: 'unsafe',
 } as const
 
 export type AuthnMongoRsUseLegacyProtocol =
@@ -1700,8 +1700,8 @@ export type AuthnMongoRsUseLegacyProtocol =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsUseLegacyProtocol = {
   auto: 'auto',
-  true: true,
   false: false,
+  true: true,
 } as const
 
 export type AuthnMongoRsRMode = (typeof AuthnMongoRsRMode)[keyof typeof AuthnMongoRsRMode]
@@ -1712,7 +1712,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1844,8 +1844,8 @@ export type AuthnJwtPublicKeyFrom =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtPublicKeyFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export type AuthnJwtPublicKeyAlgorithm =
@@ -1891,8 +1891,8 @@ export type AuthnJwtJwksFrom = (typeof AuthnJwtJwksFrom)[keyof typeof AuthnJwtJw
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtJwksFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export interface AuthnJwtJwks {
@@ -1926,8 +1926,8 @@ export type AuthnJwtHmacFrom = (typeof AuthnJwtHmacFrom)[keyof typeof AuthnJwtHm
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtHmacFrom = {
-  username: 'username',
   password: 'password',
+  username: 'username',
 } as const
 
 export type AuthnJwtHmacAlgorithm =
@@ -2187,8 +2187,8 @@ export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof Auth
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnHashSimpleName = {
-  plain: 'plain',
   md5: 'md5',
+  plain: 'plain',
   sha: 'sha',
   sha256: 'sha256',
   sha512: 'sha512',
@@ -2200,9 +2200,9 @@ export interface AuthnHashSimple {
 }
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashBcryptRw
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
 

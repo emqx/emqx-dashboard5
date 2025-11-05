@@ -138,8 +138,8 @@ export type GetMqttDelayedMessagesNodeMsgid400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMqttDelayedMessagesNodeMsgid400Code = {
-  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
   INVALID_NODE: 'INVALID_NODE',
+  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
 } as const
 
 export type GetMqttDelayedMessagesNodeMsgid400 = {
@@ -165,8 +165,8 @@ export type DeleteMqttDelayedMessagesNodeMsgid400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteMqttDelayedMessagesNodeMsgid400Code = {
-  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
   INVALID_NODE: 'INVALID_NODE',
+  MESSAGE_ID_SCHEMA_ERROR: 'MESSAGE_ID_SCHEMA_ERROR',
 } as const
 
 export type DeleteMqttDelayedMessagesNodeMsgid400 = {
@@ -214,9 +214,9 @@ export type ModulesRewriteAction = (typeof ModulesRewriteAction)[keyof typeof Mo
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ModulesRewriteAction = {
-  subscribe: 'subscribe',
-  publish: 'publish',
   all: 'all',
+  publish: 'publish',
+  subscribe: 'subscribe',
 } as const
 
 export interface ModulesRewrite {

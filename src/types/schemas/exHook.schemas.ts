@@ -143,8 +143,8 @@ export type ExhookSslConfVerify = (typeof ExhookSslConfVerify)[keyof typeof Exho
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfVerify = {
-  verify_peer: 'verify_peer',
   verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
 } as const
 
 export type ExhookSslConfServerNameIndication = string | 'disable'
@@ -154,10 +154,10 @@ export type ExhookSslConfPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfPartialChain = {
-  true: true,
-  false: false,
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type ExhookSslConfLogLevel =
@@ -165,16 +165,16 @@ export type ExhookSslConfLogLevel =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfLogLevel = {
-  emergency: 'emergency',
   alert: 'alert',
-  critical: 'critical',
-  error: 'error',
-  warning: 'warning',
-  notice: 'notice',
-  info: 'info',
-  debug: 'debug',
-  none: 'none',
   all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
 } as const
 
 export interface ExhookSslConf {
@@ -238,8 +238,8 @@ export type ExhookNodeStatusStatus =
 export const ExhookNodeStatusStatus = {
   connected: 'connected',
   connecting: 'connecting',
-  disconnected: 'disconnected',
   disabled: 'disabled',
+  disconnected: 'disconnected',
   error: 'error',
 } as const
 
