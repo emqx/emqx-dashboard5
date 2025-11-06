@@ -271,8 +271,8 @@ export interface GatewayExprotoGrpcServer {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayExprotoGrpcHandlerServiceName = {
-  ConnectionHandler: 'ConnectionHandler',
   ConnectionUnaryHandler: 'ConnectionUnaryHandler',
+  ConnectionHandler: 'ConnectionHandler',
 } as const
 
 export interface GatewayExprotoGrpcHandler {
@@ -725,10 +725,10 @@ export interface EmqxGatewayApiUpdateStomp {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateOcppMessageFormatChecking = {
-  all: 'all',
   disable: 'disable',
   dnstream_only: 'dnstream_only',
   upstream_only: 'upstream_only',
+  all: 'all',
 } as const
 
 export interface EmqxGatewayApiUpdateOcpp {
@@ -993,10 +993,10 @@ export const EmqxGatewayApiOcppName = {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiOcppMessageFormatChecking = {
-  all: 'all',
   disable: 'disable',
   dnstream_only: 'dnstream_only',
   upstream_only: 'upstream_only',
+  all: 'all',
 } as const
 
 export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWsListener | EmqxGatewayApiWssListener

@@ -326,6 +326,45 @@ export type DeleteAiCompletionProfilesName400 = {
   message?: string
 }
 
+export type DeleteAiCompletionProfilesName503Code =
+  (typeof DeleteAiCompletionProfilesName503Code)[keyof typeof DeleteAiCompletionProfilesName503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteAiCompletionProfilesName503 = {
+  code?: DeleteAiCompletionProfilesName503Code
+  message?: string
+}
+
+export type DeleteAiCompletionProfilesName404Code =
+  (typeof DeleteAiCompletionProfilesName404Code)[keyof typeof DeleteAiCompletionProfilesName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteAiCompletionProfilesName404 = {
+  code?: DeleteAiCompletionProfilesName404Code
+  message?: string
+}
+
+export type DeleteAiCompletionProfilesName400Code =
+  (typeof DeleteAiCompletionProfilesName400Code)[keyof typeof DeleteAiCompletionProfilesName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAiCompletionProfilesName400Code = {
+  INVALID_COMPLETION_PROFILE: 'INVALID_COMPLETION_PROFILE',
+} as const
+
+export type DeleteAiCompletionProfilesName400 = {
+  code?: DeleteAiCompletionProfilesName400Code
+  message?: string
+}
+
 export type PostAiCompletionProfiles503Code =
   (typeof PostAiCompletionProfiles503Code)[keyof typeof PostAiCompletionProfiles503Code]
 

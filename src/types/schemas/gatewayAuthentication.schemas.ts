@@ -596,9 +596,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -645,9 +645,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -695,9 +695,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -734,9 +734,9 @@ export interface AuthnRedisCluster {
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -848,9 +848,9 @@ export const AuthnMongoSingleUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -925,9 +925,9 @@ export const AuthnMongoShardedUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1008,7 +1008,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1499,9 +1499,9 @@ export interface AuthnHashSimple {
 }
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashBcryptRw
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
 

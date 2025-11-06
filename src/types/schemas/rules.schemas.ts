@@ -201,23 +201,23 @@ export interface RuleEngineUserProvidedFunction {
 }
 
 export type RuleEngineRuleTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleTest {
   context?: RuleEngineRuleTestContext

@@ -2060,7 +2060,7 @@
     },
     "operation_name_label": {
       "en": "Force deactivate an alarm",
-      "zh": "强制关闭一个告警"
+      "zh": "强制关闭指定告警"
     }
   },
   {
