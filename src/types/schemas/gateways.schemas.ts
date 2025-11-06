@@ -118,7 +118,7 @@ export const GatewayWebsocketPiggyback = {
   single: 'single',
 } as const
 
-export type GatewayWebsocketMaxFrameSize = 'infinity' | number
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
 
 export interface GatewayWebsocket {
   allow_origin_absence?: boolean
@@ -181,9 +181,9 @@ export type GatewaySslServerOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type GatewaySslServerOptsLogLevel =
@@ -296,9 +296,9 @@ export type GatewayDtlsOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type GatewayDtlsOptsLogLevel =
@@ -406,7 +406,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -414,9 +414,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -482,9 +482,9 @@ export type EmqxListenerWssOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -544,9 +544,9 @@ export type EmqxListenerSslOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerSslOptsLogLevel =
@@ -999,7 +999,7 @@ export const EmqxGatewayApiOcppMessageFormatChecking = {
   all: 'all',
 } as const
 
-export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWsListener | EmqxGatewayApiWssListener
+export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWssListener | EmqxGatewayApiWsListener
 
 export interface EmqxGatewayApiOcpp {
   clientinfo_override?: GatewayClientinfoOverride
@@ -1027,10 +1027,10 @@ export const EmqxGatewayApiNatsName = {
 } as const
 
 export type EmqxGatewayApiNatsListenersItem =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export interface EmqxGatewayApiNats {
   clientinfo_override?: GatewayClientinfoOverride
@@ -1284,9 +1284,9 @@ export interface EmqxGatewayApiDtlsListener {
 
 export type EmqxGatewayApiExprotoListenersItem =
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiCoapSubscribeQos =
   (typeof EmqxGatewayApiCoapSubscribeQos)[keyof typeof EmqxGatewayApiCoapSubscribeQos]

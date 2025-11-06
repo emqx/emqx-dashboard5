@@ -16,7 +16,6 @@ export type PutConfigsSysmon400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysmon400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -56,7 +55,6 @@ export type PutConfigsSysTopics400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsSysTopics400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -94,7 +92,6 @@ export type PutConfigsLog400Code = (typeof PutConfigsLog400Code)[keyof typeof Pu
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsLog400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -183,7 +180,6 @@ export type PutConfigsFileTransfer400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsFileTransfer400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -223,7 +219,6 @@ export type PutConfigsDashboard400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsDashboard400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -263,7 +258,6 @@ export type PutConfigsBroker400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsBroker400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -303,7 +297,6 @@ export type PutConfigsAlarm400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutConfigsAlarm400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -377,8 +370,8 @@ export const PutConfigsMode = {
 } as const
 
 export type PutConfigsParams = {
-  ignore_readonly?: boolean
   mode?: PutConfigsMode
+  ignore_readonly?: boolean
 }
 
 export type GetConfigs500Code = (typeof GetConfigs500Code)[keyof typeof GetConfigs500Code]
@@ -427,8 +420,8 @@ export const GetConfigsKey = {
   ai: 'ai',
   alarm: 'alarm',
   api_key: 'api_key',
-  authentication_settings: 'authentication_settings',
   authentication: 'authentication',
+  authentication_settings: 'authentication_settings',
   authorization: 'authorization',
   auto_subscribe: 'auto_subscribe',
   banned: 'banned',
@@ -522,6 +515,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  ssl?: EmqxSslClientOpts
 }
 
 export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
@@ -595,16 +589,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -659,8 +653,8 @@ export const FileTransferS3ExporterAcl = {
   bucket_owner_full_control: 'bucket_owner_full_control',
   bucket_owner_read: 'bucket_owner_read',
   private: 'private',
-  public_read_write: 'public_read_write',
   public_read: 'public_read',
+  public_read_write: 'public_read_write',
 } as const
 
 export type FileTransferS3ExporterAccessMethod =
@@ -715,11 +709,11 @@ export interface FileTransferLocalStorage {
   segments?: FileTransferLocalStorageSegments
 }
 
-export type EmqxSysmonVmLongSchedule = 'disabled' | string
+export type EmqxSysmonVmLongSchedule = string | 'disabled'
 
-export type EmqxSysmonVmLongGc = 'disabled' | string
+export type EmqxSysmonVmLongGc = string | 'disabled'
 
-export type EmqxSysmonVmLargeHeap = 'disabled' | string
+export type EmqxSysmonVmLargeHeap = string | 'disabled'
 
 export interface EmqxSysmonVm {
   busy_dist_port?: boolean
@@ -732,7 +726,7 @@ export interface EmqxSysmonVm {
   process_low_watermark?: string
 }
 
-export type EmqxSysmonOsMemCheckInterval = 'disabled' | string
+export type EmqxSysmonOsMemCheckInterval = string | 'disabled'
 
 export interface EmqxSysmonOs {
   cpu_check_interval?: string
@@ -752,9 +746,9 @@ export interface EmqxSysmon {
   vm?: EmqxSysmonVm
 }
 
-export type EmqxSysTopicsSysMsgInterval = 'disabled' | string
+export type EmqxSysTopicsSysMsgInterval = string | 'disabled'
 
-export type EmqxSysTopicsSysHeartbeatInterval = 'disabled' | string
+export type EmqxSysTopicsSysHeartbeatInterval = string | 'disabled'
 
 export interface EmqxSysTopics {
   sys_event_messages?: EmqxEventNames
@@ -771,7 +765,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -779,9 +773,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -833,8 +827,8 @@ export const EmqxMqttSharedSubscriptionStrategy = {
   hash_topic: 'hash_topic',
   local: 'local',
   random: 'random',
-  round_robin_per_group: 'round_robin_per_group',
   round_robin: 'round_robin',
+  round_robin_per_group: 'round_robin_per_group',
   sticky: 'sticky',
 } as const
 
@@ -851,7 +845,7 @@ export const EmqxMqttSharedSubscriptionInitialStickyPick = {
 
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
-export type EmqxMqttRetryInterval = 'infinity' | string
+export type EmqxMqttRetryInterval = string | 'infinity'
 
 export type EmqxMqttPeerCertAsUsername =
   (typeof EmqxMqttPeerCertAsUsername)[keyof typeof EmqxMqttPeerCertAsUsername]
@@ -881,7 +875,7 @@ export const EmqxMqttPeerCertAsClientid = {
 
 export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: unknown }
 
-export type EmqxMqttMqueuePriorities = 'disabled' | EmqxMqttMqueuePrioritiesOneOf
+export type EmqxMqttMqueuePriorities = EmqxMqttMqueuePrioritiesOneOf | 'disabled'
 
 export type EmqxMqttMqueueDefaultPriority =
   (typeof EmqxMqttMqueueDefaultPriority)[keyof typeof EmqxMqttMqueueDefaultPriority]
@@ -900,9 +894,9 @@ export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
 export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
-export type EmqxMqttIdleTimeout = 'infinity' | string
+export type EmqxMqttIdleTimeout = string | 'infinity'
 
-export type EmqxMqttClientidOverride = 'disabled' | string
+export type EmqxMqttClientidOverride = string | 'disabled'
 
 export interface EmqxMqtt {
   await_rel_timeout?: string
@@ -977,7 +971,7 @@ export const EmqxLogFileHandlerTimestampFormat = {
   rfc3339: 'rfc3339',
 } as const
 
-export type EmqxLogFileHandlerRotationSize = 'infinity' | string
+export type EmqxLogFileHandlerRotationSize = string | 'infinity'
 
 export type EmqxLogFileHandlerPayloadEncode =
   (typeof EmqxLogFileHandlerPayloadEncode)[keyof typeof EmqxLogFileHandlerPayloadEncode]
@@ -1040,7 +1034,7 @@ export const EmqxLogAuditHandlerTimestampFormat = {
   rfc3339: 'rfc3339',
 } as const
 
-export type EmqxLogAuditHandlerRotationSize = 'infinity' | string
+export type EmqxLogAuditHandlerRotationSize = string | 'infinity'
 
 export type EmqxLogAuditHandlerPayloadEncode =
   (typeof EmqxLogAuditHandlerPayloadEncode)[keyof typeof EmqxLogAuditHandlerPayloadEncode]
@@ -1076,7 +1070,7 @@ export type EmqxLogFileOneOf = {
   $handler_name?: EmqxLogFileHandler
 }
 
-export type EmqxLogFile = EmqxLogFileHandler | EmqxLogFileOneOf
+export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
 
 export interface EmqxLog {
   audit?: EmqxLogAuditHandler
@@ -1240,9 +1234,9 @@ export type DashboardSslOptionsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type DashboardSslOptionsLogLevel =

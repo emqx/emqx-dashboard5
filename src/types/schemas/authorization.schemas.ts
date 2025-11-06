@@ -90,8 +90,8 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers400 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   like_username?: string
 }
 
@@ -161,8 +161,8 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   like_clientid?: string
 }
 
@@ -517,16 +517,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -577,7 +577,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -585,9 +585,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -713,19 +713,19 @@ export interface EmqxAuthzSchemaMetricsStatusFields {
 }
 
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
-  | AuthzBuiltinDb
-  | AuthzFile
-  | AuthzHttpGet
-  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoRs
   | AuthzMongoSharded
+  | AuthzMongoRs
   | AuthzMongoSingle
-  | AuthzMysql
   | AuthzPostgresql
+  | AuthzMysql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
+  | AuthzHttpPost
+  | AuthzHttpGet
+  | AuthzBuiltinDb
+  | AuthzFile
 
 export interface EmqxAuthzApiSourcesSources {
   sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
@@ -759,7 +759,7 @@ export interface EmqxAuthzApiMnesiaUsernameResponseData {
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiMnesiaRuleItemRetain = 'all' | boolean
+export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
 
 export type EmqxAuthzApiMnesiaRuleItemPermission =
   (typeof EmqxAuthzApiMnesiaRuleItemPermission)[keyof typeof EmqxAuthzApiMnesiaRuleItemPermission]
@@ -814,9 +814,9 @@ export interface EmqxAuthzApiMnesiaClientidResponseData {
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = 'unlimited' | string
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = string | 'unlimited'
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = 'unlimited' | number
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = number | 'unlimited'
 
 export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
   cache_ttl?: string

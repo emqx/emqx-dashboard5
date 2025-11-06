@@ -212,7 +212,7 @@ export type DeleteMtBulkDeleteNs500 = {
   message?: string
 }
 
-export type MtSessionConfigInMaxSessions = 'infinity' | number
+export type MtSessionConfigInMaxSessions = number | 'infinity'
 
 export interface MtSessionConfigIn {
   max_sessions?: MtSessionConfigInMaxSessions
