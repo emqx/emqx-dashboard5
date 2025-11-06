@@ -195,6 +195,8 @@ export type PostSsoLoginBackend200 = {
   version?: string
 }
 
+export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
+
 export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -222,6 +224,8 @@ export type GetSsoBackend404 = {
   code?: GetSsoBackend404Code
   message?: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type DeleteSsoBackend404Code =
   (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
@@ -280,9 +284,8 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  ssl?: EmqxSslClientOpts
 }
-
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
@@ -295,14 +298,27 @@ export interface SsoLogin {
   backend: SsoLoginBackend
 }
 
-export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
-
 export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SsoLdapBackend = {
   ldap: 'ldap',
 } as const
+
+export interface SsoLdap {
+  backend: SsoLdapBackend
+  base_dn: string
+  enable?: boolean
+  filter?: string
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  query_timeout?: string
+  request_timeout?: string
+  server: string
+  ssl?: LdapSsl
+  username: string
+}
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -325,16 +341,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -376,19 +392,66 @@ export interface LdapSsl {
   versions?: string[]
 }
 
-export interface SsoLdap {
-  backend: SsoLdapBackend
-  base_dn: string
+export type EmqxSslClientOptsVerify =
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
+} as const
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsPartialChain =
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+} as const
+
+export type EmqxSslClientOptsLogLevel =
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
+} as const
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
   enable?: boolean
-  filter?: string
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: EmqxSslClientOptsLogLevel
+  middlebox_comp_mode?: boolean
+  partial_chain?: EmqxSslClientOptsPartialChain
   password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+  verify?: EmqxSslClientOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]

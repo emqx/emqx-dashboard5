@@ -29,15 +29,15 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetSubscriptionsParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   node?: string
   clientid?: string
-  durable?: boolean
-  match_topic?: string
   qos?: number
-  share_group?: string
   topic?: string
+  match_topic?: string
+  share_group?: string
+  durable?: boolean
 }
 
 export interface EmqxMgmtApiSubscriptionsSubscription {

@@ -3,8 +3,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetSlowSubscriptionsParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
 }
 
 export interface SlowSubscribersStatisticsRecord {

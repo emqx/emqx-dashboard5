@@ -81,7 +81,6 @@ export type PutFileTransfer400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutFileTransfer400Code = {
-  INVALID_CONFIG: 'INVALID_CONFIG',
   UPDATE_FAILED: 'UPDATE_FAILED',
 } as const
 
@@ -136,8 +135,8 @@ export const FileTransferS3ExporterAcl = {
   bucket_owner_full_control: 'bucket_owner_full_control',
   bucket_owner_read: 'bucket_owner_read',
   private: 'private',
-  public_read_write: 'public_read_write',
   public_read: 'public_read',
+  public_read_write: 'public_read_write',
 } as const
 
 export type FileTransferS3ExporterAccessMethod =
@@ -213,7 +212,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -221,9 +220,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =

@@ -523,9 +523,9 @@ export type GetGatewaysNameListeners400 = {
 
 export type GetGatewaysNameListeners200Item =
   | EmqxGatewayApiListenersDtlsListener
+  | EmqxGatewayApiListenersUdpListener
   | EmqxGatewayApiListenersSslListener
   | EmqxGatewayApiListenersTcpListener
-  | EmqxGatewayApiListenersUdpListener
 
 export interface MongoTopology {
   connect_timeout_ms?: string
@@ -541,9 +541,9 @@ export interface MongoTopology {
   wait_queue_timeout_ms?: string
 }
 
-export type ListenersStatusRunning = 'inconsistent' | boolean
+export type ListenersStatusRunning = boolean | 'inconsistent'
 
-export type ListenersStatusMaxConnections = 'infinity' | number
+export type ListenersStatusMaxConnections = number | 'infinity'
 
 export interface ListenersStatus {
   /** @minimum 0 */
@@ -565,16 +565,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -625,7 +625,7 @@ export const GatewayWebsocketPiggyback = {
   single: 'single',
 } as const
 
-export type GatewayWebsocketMaxFrameSize = 'infinity' | number
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
 
 export interface GatewayWebsocket {
   allow_origin_absence?: boolean
@@ -671,9 +671,9 @@ export type GatewayDtlsOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type GatewayDtlsOptsLogLevel =
@@ -747,7 +747,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -755,9 +755,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -823,9 +823,9 @@ export type EmqxListenerWssOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerWssOptsLogLevel =
@@ -885,9 +885,9 @@ export type EmqxListenerSslOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxListenerSslOptsLogLevel =

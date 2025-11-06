@@ -181,16 +181,16 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetRulesParams = {
-  limit?: PublicLimitParameter
-  page?: PublicPageParameter
-  action?: string[]
   enable?: boolean
   from?: string
-  like_description?: string
-  like_from?: string
   like_id?: string
+  like_from?: string
+  like_description?: string
   match_from?: string
+  action?: string[]
   source?: string[]
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
 }
 
 export type RuleEngineUserProvidedFunctionArgs = { [key: string]: unknown }
@@ -233,9 +233,9 @@ export interface RuleEngineRuleMetrics {
 export type RuleEngineRuleInfoMetadata = { [key: string]: unknown }
 
 export type RuleEngineRuleInfoActionsItem =
+  | RuleEngineUserProvidedFunction
   | RuleEngineBuiltinActionConsole
   | RuleEngineBuiltinActionRepublish
-  | RuleEngineUserProvidedFunction
   | string
 
 export interface RuleEngineRuleInfo {
@@ -308,9 +308,9 @@ export interface RuleEngineRuleEngine {
 export type RuleEngineRuleCreationMetadata = { [key: string]: unknown }
 
 export type RuleEngineRuleCreationActionsItem =
+  | RuleEngineUserProvidedFunction
   | RuleEngineBuiltinActionConsole
   | RuleEngineBuiltinActionRepublish
-  | RuleEngineUserProvidedFunction
   | string
 
 export interface RuleEngineRuleCreation {
@@ -330,11 +330,11 @@ export interface RuleEngineRepublishMqttProperties {
   'Response-Topic'?: string
 }
 
-export type RuleEngineRepublishArgsRetain = boolean | string
+export type RuleEngineRepublishArgsRetain = string | boolean
 
-export type RuleEngineRepublishArgsQos = number | string
+export type RuleEngineRepublishArgsQos = string | number
 
-export type RuleEngineRepublishArgsDirectDispatch = boolean | string
+export type RuleEngineRepublishArgsDirectDispatch = string | boolean
 
 export interface RuleEngineRepublishArgs {
   direct_dispatch?: RuleEngineRepublishArgsDirectDispatch
@@ -789,23 +789,23 @@ export interface RuleEngineCtxAcked {
 }
 
 export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxAcked
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxBridgeMqtt
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxConnack
-  | RuleEngineCtxConnected
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxDropped
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
   | RuleEngineCtxMessageTransformationFailed
   | RuleEngineCtxPub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxSub
-  | RuleEngineCtxUnsub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext

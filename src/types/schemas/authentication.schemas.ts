@@ -142,10 +142,10 @@ export type GetAuthenticationIdUsers404 = {
 }
 
 export type GetAuthenticationIdUsersParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
-  is_superuser?: boolean
+  limit?: PublicLimitParameter
   like_user_id?: string
+  is_superuser?: boolean
 }
 
 export type GetAuthenticationIdStatus500Code =
@@ -311,9 +311,9 @@ export type PutAuthenticationIdBody =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type GetAuthenticationId404Code =
   (typeof GetAuthenticationId404Code)[keyof typeof GetAuthenticationId404Code]
@@ -347,9 +347,9 @@ export type GetAuthenticationId200 =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type PostAuthentication409Code =
   (typeof PostAuthentication409Code)[keyof typeof PostAuthentication409Code]
@@ -416,16 +416,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -476,7 +476,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -484,9 +484,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -642,27 +642,27 @@ export interface AuthnScramRestapiPost {
 }
 
 export type GetAuthentication200Item =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
+  | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-  | AuthnScram
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type AuthnScramRestapiGetMethod =
   (typeof AuthnScramRestapiGetMethod)[keyof typeof AuthnScramRestapiGetMethod]
@@ -1042,9 +1042,9 @@ export type PostAuthentication200 =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
@@ -1065,9 +1065,9 @@ export type PostAuthenticationBody =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type AuthnMongoSingleWMode =
   (typeof AuthnMongoSingleWMode)[keyof typeof AuthnMongoSingleWMode]
@@ -1930,9 +1930,9 @@ export interface AuthCacheStatus {
   node_metrics?: AuthCacheNodeMetrics[]
 }
 
-export type AuthCacheConfigMaxMemory = 'unlimited' | string
+export type AuthCacheConfigMaxMemory = string | 'unlimited'
 
-export type AuthCacheConfigMaxCount = 'unlimited' | number
+export type AuthCacheConfigMaxCount = number | 'unlimited'
 
 export interface AuthCacheConfig {
   cache_ttl?: string

@@ -78,7 +78,7 @@ export type GetTraceNameLog400 = {
   message?: string
 }
 
-export type GetTraceNameLog200MetaPosition = number | string
+export type GetTraceNameLog200MetaPosition = string | number
 
 export type GetTraceNameLog200MetaHint =
   (typeof GetTraceNameLog200MetaHint)[keyof typeof GetTraceNameLog200MetaHint]
@@ -106,8 +106,8 @@ export type GetTraceNameLog200 = {
 
 export type GetTraceNameLogParams = {
   bytes?: TraceBytesParameter
-  node?: TraceNodeParameter
   position?: TracePositionParameter
+  node?: TraceNodeParameter
 }
 
 export type GetTraceNameDownload404Code =
@@ -168,7 +168,7 @@ export type PostTrace400 = {
   message?: string
 }
 
-export type TracePositionParameter = number | string
+export type TracePositionParameter = string | number
 
 export type TraceNodeParameter = string
 
@@ -184,7 +184,7 @@ export const TraceTraceParamsType = {
   topic: 'topic',
 } as const
 
-export type TraceTraceParamsStartAt = string | number
+export type TraceTraceParamsStartAt = number | string
 
 export type TraceTraceParamsPayloadEncode =
   (typeof TraceTraceParamsPayloadEncode)[keyof typeof TraceTraceParamsPayloadEncode]
@@ -199,7 +199,7 @@ export const TraceTraceParamsPayloadEncode = {
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TraceTraceParamsFormatter = { json: 'json', text: 'text' } as const
 
-export type TraceTraceParamsEndAt = string | number
+export type TraceTraceParamsEndAt = number | string
 
 export interface TraceTraceParams {
   clientid?: string
@@ -234,7 +234,7 @@ export const TraceTraceStatus = {
   waiting: 'waiting',
 } as const
 
-export type TraceTraceStartAt = string | number
+export type TraceTraceStartAt = number | string
 
 export type TraceTracePayloadEncode =
   (typeof TraceTracePayloadEncode)[keyof typeof TraceTracePayloadEncode]
@@ -251,7 +251,7 @@ export type TraceTraceLogSizeItem = { [key: string]: unknown }
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TraceTraceFormatter = { json: 'json', text: 'text' } as const
 
-export type TraceTraceEndAt = string | number
+export type TraceTraceEndAt = number | string
 
 export interface TraceTrace {
   clientid?: string
