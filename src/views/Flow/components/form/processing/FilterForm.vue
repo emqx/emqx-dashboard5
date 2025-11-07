@@ -312,7 +312,7 @@ const saveConfig = () => {
 
 const { getFilterExpressionFromFormData } = useHandleFlowDataUtils()
 const transformToSqlFormForm = () => {
-  sqlRecord.value.sql = getFilterExpressionFromFormData(record.value) || ''
+  sqlRecord.value = { sql: getFilterExpressionFromFormData(record.value) || '' }
 }
 
 const { generateFilterForm, discardHighLevelCondition } = useParseWhere()
@@ -330,6 +330,7 @@ watch(
   () => props.modelValue?.editedWay,
   async (val) => {
     if (val === EditedWay.SQL) {
+      debugger
       transformToSqlFormForm()
     } else {
       transformToFormFromSql()
