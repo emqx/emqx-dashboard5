@@ -12,8 +12,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-components':
-        specifier: ~0.0.13
-        version: 0.0.13(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
+        specifier: ~0.0.14
+        version: 0.0.14(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants':
         specifier: ~0.0.5
         version: 0.0.5
@@ -389,8 +389,8 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emqx/shared-ui-components@0.0.13':
-    resolution: {integrity: sha512-orNy8b2JzysC0yBtI0XN0Utw8TWKkn1hid6GYrFtwtkX+HwTbuAdXWgflXirLv4XrB+W6mMHJMdeQzWaMkU16A==}
+  '@emqx/shared-ui-components@0.0.14':
+    resolution: {integrity: sha512-UeRoXtt52R87KOUfWo9jSWPmkFWNilraTLmEjUnmkyc1T51SLMZ+kprffNY1wwpUg9ubyMYtxTLkyQicuYBKjg==}
     peerDependencies:
       '@element-plus/icons-vue': ^2.3.1
       '@emqx/shared-ui-utils': link:../utils
@@ -4061,7 +4061,7 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-components@0.0.13(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-components@0.0.14(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-utils@0.0.22(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
     dependencies:
       '@element-plus/icons-vue': 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants': link:../constants
