@@ -1,4 +1,7 @@
 {
+  "common": {
+    "max_linger_time": "Maximum duration for a per-partition producer to wait for messages in order to collect a batch to buffer.<br/>The default value <code>0</code> means no wait. For non-memory buffer mode, it's advised to configure at least <code>5ms</code> for less IOPS. <br/>There is no linger time when writing to memory buffer."
+  },
   "mqtt": {
     "source_topic": "Message subscription topics support the use of + and # wildcards. When EMQX is running in cluster mode or the connector is configured with a connection pool, shared subscriptions must be used to avoid message duplication."
   },
