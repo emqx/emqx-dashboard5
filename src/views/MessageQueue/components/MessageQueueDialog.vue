@@ -80,11 +80,15 @@
                 desc-marked
               />
             </template>
-            <el-tooltip :disabled="!disableLimitsCount" :content="tl('limitsDisabledTip')">
+            <el-tooltip
+              placement="top"
+              :disabled="!isEditingRegular"
+              :content="tl('limitsDisabledTip')"
+            >
               <Oneof
                 class="in-one-row"
                 v-model="form.limits.max_shard_message_count"
-                :disabled="disableLimitsCount"
+                :switch-disabled="isEditingRegular"
                 :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
               />
             </el-tooltip>
@@ -99,11 +103,15 @@
                 desc-marked
               />
             </template>
-            <el-tooltip :disabled="!disableLimitsBytes" :content="tl('limitsDisabledTip')">
+            <el-tooltip
+              placement="top"
+              :disabled="!isEditingRegular"
+              :content="tl('limitsDisabledTip')"
+            >
               <Oneof
                 class="in-one-row"
                 v-model="form.limits.max_shard_message_bytes"
-                :disabled="disableLimitsBytes"
+                :switch-disabled="isEditingRegular"
                 :items="[{ type: 'byteSize' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
               />
             </el-tooltip>
@@ -174,46 +182,12 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const isConfiguredInfinityCount = ref(true)
-const disableLimitsCount = computed(() => isEditingRegular.value && isConfiguredInfinityCount.value)
-
-const isConfiguredInfinityBytes = ref(true)
-const disableLimitsBytes = computed(() => isEditingRegular.value && isConfiguredInfinityBytes.value)
-
 const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
 const rules: FormRules = {
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
-  'limits.max_shard_message_count': [
-    ...createRequiredRule(tl('maxShardMessageCount')),
-    {
-      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
-        if (
-          isEditingRegular.value &&
-          !isConfiguredInfinityCount.value &&
-          value === INFINITY_VALUE
-        ) {
-          callback(new Error(tl('limitsDisabledTip')))
-        }
-        callback()
-      },
-    },
-  ],
-  'limits.max_shard_message_bytes': [
-    ...createRequiredRule(tl('maxShardMessageBytes')),
-    {
-      validator: (_rule: any, value: string, callback: (error?: Error) => void) => {
-        if (
-          isEditingRegular.value &&
-          !isConfiguredInfinityBytes.value &&
-          value === INFINITY_VALUE
-        ) {
-          callback(new Error(tl('limitsDisabledTip')))
-        }
-        callback()
-      },
-    },
-  ],
+  'limits.max_shard_message_count': createRequiredRule(tl('maxShardMessageCount')),
+  'limits.max_shard_message_bytes': createRequiredRule(tl('maxShardMessageBytes')),
 }
 
 const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
@@ -273,8 +247,6 @@ const handleOpen = () => {
         false,
       )
     }
-    isConfiguredInfinityCount.value = form.value.limits.max_shard_message_count === INFINITY_VALUE
-    isConfiguredInfinityBytes.value = form.value.limits.max_shard_message_bytes === INFINITY_VALUE
   }
 }
 

@@ -15,8 +15,8 @@
     <div class="switch-container">
       <el-switch
         v-model="switchProxy"
-        :inactive-value="oneOfInfo.valueDisabled as string"
-        :disabled="disabled"
+        :inactive-value="(oneOfInfo as any).valueDisabled"
+        :disabled="disabled || switchDisabled"
       />
       <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">
         {{ disabledLabel || valueProxy }}
@@ -105,6 +105,10 @@ const props = defineProps({
     default: () => [],
   },
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  switchDisabled: {
     type: Boolean,
     default: false,
   },
