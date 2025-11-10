@@ -234,6 +234,7 @@ const getFormItemRules = (key: string | number) => {
 
 const handleUploadedData = (val: Array<Record<string, any>>) => {
   arr.value = val
+  emit('add-item')
 }
 
 const handleSizeChange = (val: number) => {
