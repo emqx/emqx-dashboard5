@@ -37,17 +37,17 @@
                 {{ stringifyObjSafely(row.params) }}
               </template>
             </el-table-column>
-            <el-table-column :label="t('Base.success')">
+            <el-table-column :label="t('Base.success')" prop="metrics.succeed" sortable>
               <template #default="{ row }">
                 {{ row.metrics?.succeed }}
               </template>
             </el-table-column>
-            <el-table-column :label="t('Base.failed')">
+            <el-table-column :label="t('Base.failed')" prop="metrics.failed" sortable>
               <template #default="{ row }">
                 {{ row.metrics?.failed }}
               </template>
             </el-table-column>
-            <el-table-column :label="`${tl('rate')}(${tl('second')})`">
+            <el-table-column :label="`${tl('rate')}(${tl('second')})`" prop="metrics.rate" sortable>
               <template #default="{ row }">
                 {{ row.metrics?.rate / 1000 }}
               </template>
