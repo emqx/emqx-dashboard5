@@ -15,12 +15,12 @@
         </template>
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" />
-      <el-table-column :label="tl('lAddress')" prop="bind">
+      <el-table-column :label="tl('lAddress')" prop="bind" sortable>
         <template #default="{ row }">
           {{ transPort(row.bind) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('lMaxConn')" prop="max_connections">
+      <el-table-column :label="tl('lMaxConn')" prop="max_connections" sortable>
         <template #default="{ row }">
           {{
             typeof row.max_connections === 'string'
@@ -29,7 +29,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
+      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors" sortable>
         <template #default="{ row }">
           <span>
             {{ row.acceptors === '' || row.acceptors === undefined ? '-' : row.acceptors }}

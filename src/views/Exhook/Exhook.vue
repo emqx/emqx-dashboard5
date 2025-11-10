@@ -20,13 +20,19 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('numberOfHooks')" :min-width="144" prop="hooks.length" />
-      <el-table-column :label="t('Base.success')" :min-width="100" prop="metrics.succeed" />
-      <el-table-column :label="t('Base.failed')" :min-width="100" prop="metrics.failed" />
+      <el-table-column :label="tl('numberOfHooks')" :min-width="144" prop="hooks.length" sortable />
+      <el-table-column
+        :label="t('Base.success')"
+        :min-width="100"
+        prop="metrics.succeed"
+        sortable
+      />
+      <el-table-column :label="t('Base.failed')" :min-width="100" prop="metrics.failed" sortable />
       <el-table-column
         :label="`${tl('rate')}(${tl('second')})`"
         :min-width="136"
         prop="metrics.rate"
+        sortable
       />
 
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">

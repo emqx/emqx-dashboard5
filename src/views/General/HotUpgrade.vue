@@ -21,8 +21,9 @@
         prop="live_connections"
         :label="t('Dashboard.currentConnection')"
         :min-width="160"
+        sortable
       />
-      <el-table-column prop="current_vsn" :label="tl('currentVersion')" :min-width="160" />
+      <el-table-column prop="current_vsn" :label="tl('currentVersion')" :min-width="160" sortable />
       <el-table-column :label="t('Base.operation')" :min-width="240">
         <template #default="{ row }">
           <TableButton

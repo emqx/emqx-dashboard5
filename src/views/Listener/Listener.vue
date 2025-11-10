@@ -15,7 +15,7 @@
         </template>
       </el-table-column>
       <el-table-column :label="tl('lType')" prop="type" />
-      <el-table-column :label="tl('lAddress')" prop="bind">
+      <el-table-column :label="tl('lAddress')" prop="bind" sortable>
         <template #default="{ row }">
           {{ transPort(row.bind) }}
         </template>
@@ -29,7 +29,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column :label="tl('connection')">
+      <el-table-column :label="tl('connection')" prop="status.current_connections" sortable>
         <template #default="{ row }">
           <template v-if="row.status?.max_connections === INFINITY_VALUE">
             {{ connectionCount(row.status) }}
@@ -52,7 +52,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors">
+      <el-table-column :label="$t('BasicConfig.acceptors')" prop="acceptors" sortable>
         <template #default="{ row }">
           <span>{{ row.acceptors === '' ? '-' : row.acceptors }}</span>
         </template>

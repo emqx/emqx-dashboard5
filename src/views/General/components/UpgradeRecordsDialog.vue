@@ -7,18 +7,18 @@
     destroy-on-close
   >
     <el-table :data="list">
-      <el-table-column :label="tl('startedAt')">
+      <el-table-column :label="tl('startedAt')" sortable>
         <template #default="{ row }">
           {{ dayjs(row.started_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('finishedAt')">
+      <el-table-column :label="tl('finishedAt')" sortable>
         <template #default="{ row }">
           {{ dayjs(row.finished_at).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column prop="from_vsn" :label="tl('fromVsn')" />
-      <el-table-column prop="target_vsn" :label="tl('targetVsn')" />
+      <el-table-column prop="from_vsn" :label="tl('fromVsn')" sortable />
+      <el-table-column prop="target_vsn" :label="tl('targetVsn')" sortable />
       <el-table-column :label="t('Base.status')">
         <template #default="{ row }">
           {{ getNodeStatusLabel(row.status) }}
