@@ -223,7 +223,8 @@ const addItem = () => {
 }
 
 const deleteItem = (index: number) => {
-  arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+  const trueIndex = shouldPaginate.value ? index + (currentPage.value - 1) * pageSize.value : index
+  arr.value = [...arr.value.slice(0, trueIndex), ...arr.value.slice(trueIndex + 1)]
   emit('delete-item')
 }
 
