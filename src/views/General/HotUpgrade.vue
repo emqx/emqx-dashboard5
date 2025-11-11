@@ -16,7 +16,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="role" :label="t('Dashboard.role')" :min-width="140" />
+      <el-table-column prop="role" :label="t('Dashboard.role')" :min-width="140" sortable />
       <el-table-column
         prop="live_connections"
         :label="t('Dashboard.currentConnection')"

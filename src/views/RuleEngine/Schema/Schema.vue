@@ -6,7 +6,7 @@
     </div>
     <el-table :data="schemaList" v-loading="isLoading">
       <el-table-column prop="name" :label="t('Base.name')" />
-      <el-table-column prop="type" :label="tl('type')">
+      <el-table-column prop="type" sortable :label="tl('type')">
         <template #default="{ row }">
           {{ getLabelByValue(row.type) }}
         </template>

@@ -8,17 +8,23 @@
     <el-table :data="tableData" v-loading.lock="lockTable">
       <el-table-column prop="username" :label="tl('username')" :min-width="160" />
       <el-table-column prop="description" :label="t('Base.note')" :min-width="150" />
-      <el-table-column :label="t('Dashboard.role')" :min-width="128">
+      <el-table-column :label="t('Dashboard.role')" :min-width="128" sortable>
         <template #default="{ row }">
           {{ getLabelFromValueInOptionList(row.role, userRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="hasSSOEnabled" :label="tl('source')" :min-width="120">
+      <el-table-column
+        v-if="hasSSOEnabled"
+        prop="backend"
+        :label="tl('source')"
+        :min-width="120"
+        sortable
+      >
         <template #default="{ row }">
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('mfa')" :min-width="280">
+      <el-table-column prop="mfa" :label="tl('mfa')" :min-width="280" sortable>
         <template #default="{ row }">
           <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
             {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
@@ -28,7 +34,12 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="t('BasicConfig.namespace')" :min-width="120">
+      <el-table-column
+        prop="namespace"
+        :label="t('BasicConfig.namespace')"
+        :min-width="120"
+        sortable
+      >
         <template #default="{ row }">
           {{ row.namespace }}
         </template>
