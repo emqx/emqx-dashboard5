@@ -25,8 +25,8 @@
                 :format="value.format"
                 :symbols="value.symbols"
                 :placeholder="value.placeholder"
-                :custom-props="value.componentProps"
                 :property="value"
+                v-bind="value.componentProps"
               />
             </CustomFormItem>
           </template>
@@ -79,8 +79,8 @@
               :format="value.format"
               :symbols="value.symbols"
               :placeholder="value.placeholder"
-              :custom-props="value.componentProps"
               :property="value"
+              v-bind="value.componentProps"
             />
           </CustomFormItem>
         </div>
@@ -218,7 +218,8 @@ const addItem = () => {
 }
 
 const deleteItem = (index: number) => {
-  arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+  const trueIndex = shouldPaginate.value ? index + (currentPage.value - 1) * pageSize.value : index
+  arr.value = [...arr.value.slice(0, trueIndex), ...arr.value.slice(trueIndex + 1)]
   emit('delete-item')
 }
 
@@ -233,6 +234,7 @@ const getFormItemRules = (key: string | number) => {
 
 const handleUploadedData = (val: Array<Record<string, any>>) => {
   arr.value = val
+  emit('add-item')
 }
 
 const handleSizeChange = (val: number) => {

@@ -1,4 +1,5 @@
 import MQTTIds from '@/components/Connector/MQTTIds.vue'
+import MQTTNode from '@/components/Connector/MQTTNode.vue'
 import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
@@ -141,13 +142,18 @@ export default (
     // Add labels and descriptions for ids and node
     const i18nPrefix = getI18nPrefix(BridgeType.MQTT)
     if (comRet?.static_clientids?.items?.properties) {
-      const props = comRet.static_clientids.items.properties
-      if (props.ids) {
-        setLabelAndDesc(props.ids, `${i18nPrefix}ids`)
-        props.ids.customComponent = markRaw(MQTTIds)
+      const _props = comRet.static_clientids.items.properties
+      if (_props.ids) {
+        setLabelAndDesc(_props.ids, `${i18nPrefix}ids`)
+        _props.ids.customComponent = markRaw(MQTTIds)
       }
-      if (props.node) {
-        setLabelAndDesc(props.node, `${i18nPrefix}node`)
+      if (_props.node) {
+        setLabelAndDesc(_props.node, `${i18nPrefix}node`)
+        _props.node.customComponent = markRaw(MQTTNode)
+        _props.node.componentProps = {
+          ...(_props.node.componentProps || {}),
+          edit: props.edit,
+        }
       }
       addRules(
         {
