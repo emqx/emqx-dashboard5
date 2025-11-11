@@ -23,6 +23,7 @@ declare module 'vue' {
     CheckIcon: typeof import('./components/CheckIcon.vue')['default']
     CodeView: typeof import('./components/CodeView.vue')['default']
     CommonItemStatus: typeof import('./components/CommonItemStatus.vue')['default']
+    CommonMiniPagination: typeof import('./components/CommonMiniPagination.vue')['default']
     CommonOverflowTooltip: typeof import('./components/CommonOverflowTooltip.vue')['default']
     CommonPagination: typeof import('./components/commonPagination.vue')['default']
     CommonTLSConfig: typeof import('./components/TLSConfig/CommonTLSConfig.vue')['default']
