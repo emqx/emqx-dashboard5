@@ -42,7 +42,7 @@
       </el-table-column>
     </el-table>
     <div class="emq-table-footer">
-      <MiniPagination
+      <CommonMiniPagination
         :total="total"
         :current-page="page"
         :hasnext="hasNext"
