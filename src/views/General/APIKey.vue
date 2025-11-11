@@ -18,12 +18,12 @@
           {{ expiredAt(row.expired_at) }}
         </template>
       </el-table-column>
-      <el-table-column prop="role" :label="t('Dashboard.role')">
+      <el-table-column prop="role" :label="t('Dashboard.role')" sortable>
         <template #default="{ row }">
           {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('BasicConfig.namespace')">
+      <el-table-column :label="t('BasicConfig.namespace')" sortable>
         <template #default="{ row }">
           {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
         </template>

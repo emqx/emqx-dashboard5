@@ -14,7 +14,7 @@
           </p>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('lType')" prop="type" />
+      <el-table-column :label="tl('lType')" prop="type" sortable />
       <el-table-column :label="tl('lAddress')" prop="bind" sortable>
         <template #default="{ row }">
           {{ transPort(row.bind) }}
