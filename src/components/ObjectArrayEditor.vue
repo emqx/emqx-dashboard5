@@ -205,7 +205,17 @@ const getColumnProps = (property: Property) => {
   return type === 'object' ? { width: 300 } : {}
 }
 
-const addItem = () => {
+const jumpToLastPage = () => {
+  if (shouldPaginate.value && currentPage.value < Math.ceil(arr.value.length / pageSize.value)) {
+    currentPage.value = Math.ceil(arr.value.length / pageSize.value)
+    const lastTr = TableCom.value.$el?.querySelector('tbody tr:last-child')
+    if (lastTr) {
+      lastTr.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
+
+const addItem = async () => {
   let objData
   if (props.inPlugins) {
     objData = initRecordByPluginForm(props.properties)
@@ -215,6 +225,8 @@ const addItem = () => {
   const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
   emit('add-item')
+  await nextTick()
+  jumpToLastPage()
 }
 
 const deleteItem = (index: number) => {
