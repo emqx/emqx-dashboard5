@@ -77,14 +77,17 @@
             :rules="getFormItemRules(key)"
             label-width="118px"
           >
-            <SchemaFormItem
+            <component
+              :is="value.customComponent ? value.customComponent : SchemaFormItem"
               v-model="item[key]"
               :type="value.type"
               :format="value.format"
               :symbols="value.symbols"
               :placeholder="value.placeholder"
               :property="value"
-              v-bind="value.componentProps"
+              v-bind="
+                value.customComponent ? value.componentProps : { customProps: value.componentProps }
+              "
             />
           </CustomFormItem>
         </div>
