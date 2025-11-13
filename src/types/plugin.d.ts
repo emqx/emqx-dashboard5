@@ -122,6 +122,8 @@ interface ConfigField {
   rules?: Rule[]
   options?: ConfigOption[]
   type?: AvroType
+  divider?: boolean
+  dividerLabel?: string
   items?: {
     [key: string]: {
       label: string

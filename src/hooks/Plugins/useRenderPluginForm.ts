@@ -127,7 +127,10 @@ function replaceI18nInConfigs(
   for (const key in configs) {
     if (typeof configs[key] === 'object') {
       replaceI18nInConfigs(configs[key], i18nConfigs, lang)
-    } else if (['label', 'description', 'message'].includes(key) && configs[key].startsWith('$')) {
+    } else if (
+      ['label', 'description', 'message', 'dividerLabel'].includes(key) &&
+      configs[key].startsWith('$')
+    ) {
       const i18nKey = configs[key]
       if (i18nConfigs[i18nKey]) {
         configs[key] = i18nConfigs[i18nKey][lang]

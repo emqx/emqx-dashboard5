@@ -62,6 +62,7 @@ export default (
 
   const azureAdvancedProps = [
     'health_check_topic',
+    'allow_auto_topic_creation',
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
     'socket_opts.sndbuf',
@@ -91,11 +92,21 @@ export default (
 
   const azureOrderMap = {
     ...createOrderObj(
-      ['bootstrap_hosts', 'authentication', 'authentication.password', 'ssl', 'health_check_topic'],
+      [
+        'bootstrap_hosts',
+        'authentication',
+        'authentication.password',
+        'ssl',
+        'health_check_topic',
+        'allow_auto_topic_creation',
+      ],
       fieldStartIndex,
     ),
     // put health_check_topic at the start
-    ...omit(createOrderObj(azureAdvancedProps, 150), 'health_check_topic'),
+    ...omit(createOrderObj(azureAdvancedProps, 150), [
+      'health_check_topic',
+      'allow_auto_topic_creation',
+    ]),
   }
   const pgSqlOrderMap = createOrderObj(
     ['server', 'database', 'username', 'password', 'ssl', 'disable_prepared_statements'],
@@ -225,7 +236,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GreptimeDB]: createOrderObj(
-      ['server', 'dbname', 'username', 'password', 'ssl', 'ttl'],
+      ['server', 'dbname', 'username', 'password', 'ssl', 'ttl', 'ts_column'],
       fieldStartIndex,
     ),
     [BridgeType.TDengine]: createOrderObj(
@@ -349,6 +360,7 @@ export default (
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.BigQuery]: GCPColClass,
+    [BridgeType.KafkaConsumer]: { allow_auto_topic_creation: 'col-hidden' },
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
@@ -375,7 +387,7 @@ export default (
     [BridgeType.PgSQL]: pgSqlAdvancedFields,
     [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,
-    [BridgeType.GreptimeDB]: ['ttl'],
+    [BridgeType.GreptimeDB]: ['ttl', 'ts_column'],
     [BridgeType.AlloyDB]: pgSqlAdvancedFields,
     [BridgeType.CockroachDB]: pgSqlAdvancedFields,
     [BridgeType.Redshift]: pgSqlAdvancedFields,
