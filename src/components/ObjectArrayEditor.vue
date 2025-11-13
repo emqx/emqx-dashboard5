@@ -26,7 +26,11 @@
                 :symbols="value.symbols"
                 :placeholder="value.placeholder"
                 :property="value"
-                v-bind="value.componentProps"
+                v-bind="
+                  value.customComponent
+                    ? value.componentProps
+                    : { customProps: value.componentProps }
+                "
               />
             </CustomFormItem>
           </template>
