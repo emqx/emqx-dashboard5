@@ -48,12 +48,13 @@ export default () => {
   const handleFormDataForCreate = (
     formData: SchemaRegistry | SchemaRegistryDetail,
   ): SchemaRegistry => {
+    const { name, type, description, source } = formData as any
     if (formData.type === SchemaRegistryType.ExternalHTTP) {
       return checkNOmitFromObj(
         pick(formData, ['name', 'type', 'description', 'parameters']),
       ) as SchemaRegistryExternalHttp
     }
-    return omit({ ...formData }, ['parameters']) as NormalSchemaRegistry
+    return { name, type, description, source }
   }
 
   const handleFormDataForUpdate = (
