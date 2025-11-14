@@ -50,6 +50,7 @@ export default (): {
     provider: OIDCProvider.generic,
     fallback_methods: ['RS256'],
     client_jwks: 'none',
+    ssl: createSSLForm(),
   })
 
   const formCreatorMap: Map<string, () => any> = new Map([
