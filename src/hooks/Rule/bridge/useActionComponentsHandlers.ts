@@ -456,11 +456,25 @@ export default (
       /parquet/i.test($ref || ''),
     )
     const aggContainerParquetSchema = aggContainerParquetItem?.properties?.schema
+    const aggContainerParquetSchemaAvroRef = aggContainerParquetSchema?.oneOf?.find(({ $ref }) =>
+      /avro_ref/i.test($ref || ''),
+    )
+    const aggContainerParquetSchemaAvroLineDef = aggContainerParquetSchema?.oneOf?.find(
+      ({ $ref }) => /avro_inline/i.test($ref || ''),
+    )?.properties?.def
     if (aggContainer) {
       aggContainer.useNewCom = true
     }
     if (aggContainerParquetSchema) {
+      aggContainerParquetSchema.default = aggContainerParquetSchemaAvroRef?.default ?? {}
       aggContainerParquetSchema.useNewCom = true
+    }
+    if (
+      aggContainerParquetSchemaAvroLineDef &&
+      aggContainerParquetSchemaAvroLineDef.type === 'string'
+    ) {
+      aggContainerParquetSchemaAvroLineDef.format = 'sql'
+      aggContainerParquetSchemaAvroLineDef.componentProps = { lang: 'json' }
     }
   }
 
