@@ -438,6 +438,32 @@ export default (
     return { components, rules }
   }
 
+  const commonHandlerForS3Direct = (parameters: Property, directItem: Property) => {
+    parameters.default = cloneDeep(directItem.default)
+    parameters.useNewCom = true
+    setComponentProps(parameters, { type: 'radio' })
+
+    if (directItem?.properties?.content?.type === 'string') {
+      directItem.properties.content.format = 'sql'
+    }
+  }
+
+  const commonHandlerForAggContainer = (aggContainer: Property | undefined) => {
+    if (!aggContainer) {
+      return
+    }
+    const aggContainerParquetItem = aggContainer?.oneOf?.find(({ $ref }) =>
+      /parquet/i.test($ref || ''),
+    )
+    const aggContainerParquetSchema = aggContainerParquetItem?.properties?.schema
+    if (aggContainer) {
+      aggContainer.useNewCom = true
+    }
+    if (aggContainerParquetSchema) {
+      aggContainerParquetSchema.useNewCom = true
+    }
+  }
+
   const enum S3AggKeyPlaceholder {
     Action = '${action}',
     Node = '${node}',
@@ -484,13 +510,7 @@ export default (
     const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
 
     if (parameters && directItem) {
-      parameters.default = cloneDeep(directItem.default)
-      parameters.useNewCom = true
-      setComponentProps(parameters, { type: 'radio' })
-
-      if (directItem?.properties?.content?.type === 'string') {
-        directItem.properties.content.format = 'sql'
-      }
+      commonHandlerForS3Direct(parameters, directItem)
     }
 
     const aggItem = parameters?.oneOf?.find((item) => /aggregated/i.test(item.$ref || ''))
@@ -515,6 +535,9 @@ export default (
       addRules({ 'parameters.key': [S3SpecialPlaceholderRule] }, aggItem.rules)
     }
 
+    const aggContainer = aggItem?.properties?.container
+    commonHandlerForAggContainer(aggContainer)
+
     return { components, rules }
   }
 
@@ -524,13 +547,7 @@ export default (
     const directItem = parameters?.oneOf?.find((item) => /direct/i.test(item.$ref || ''))
 
     if (parameters && directItem) {
-      parameters.default = cloneDeep(directItem.default)
-      parameters.useNewCom = true
-      setComponentProps(parameters, { type: 'radio' })
-
-      if (directItem?.properties?.content?.type === 'string') {
-        directItem.properties.content.format = 'sql'
-      }
+      commonHandlerForS3Direct(parameters, directItem)
     }
 
     const aggItem = parameters?.oneOf?.find((item) => /aggre/i.test(item.$ref || ''))
@@ -556,6 +573,8 @@ export default (
       addRules({ 'parameters.blob': [S3SpecialPlaceholderRule] }, aggItem.rules)
     }
 
+    const aggContainer = aggItem?.properties?.aggregation?.properties?.container
+    commonHandlerForAggContainer(aggContainer)
     return { components, rules }
   }
 

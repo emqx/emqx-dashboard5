@@ -394,6 +394,7 @@ export default (
   const s3FixedColClassMap = {
     'parameters.mode': 'col-hidden',
     'parameters.container.type': 'col-hidden',
+    'parameters.container.schema.type': 'col-hidden',
   }
   const getS3ExternalColClassMap = (formData: Record<string, any>): Record<string, string> => {
     if (/direct/i.test(formData?.parameters?.mode)) {
@@ -408,6 +409,7 @@ export default (
   const azureBlobFixedColClassMap = {
     'parameters.mode': 'col-hidden',
     'parameters.aggregation.container.type': 'col-hidden',
+    'parameters.aggregation.container.schema.type': 'col-hidden',
   }
   const azureBlobStorageColClassMap = (formData: Record<string, any>): Record<string, string> => {
     const externalColClassMap = getS3ExternalColClassMap(formData)
