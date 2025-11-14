@@ -280,6 +280,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  ssl?: LdapSsl
 }
 
 export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
