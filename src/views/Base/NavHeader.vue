@@ -7,7 +7,7 @@
     <div class="pull-right">
       <LicensePromotion v-if="!isNamespaceUser" />
       <el-tooltip
-        v-if="clusterDesc !== undefined"
+        v-if="clusterDescTrimmed"
         class="cluster-desc-tooltip"
         effect="dark"
         placement="bottom"
