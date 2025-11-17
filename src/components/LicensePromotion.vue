@@ -10,14 +10,17 @@
       {{ t('Base.promoOrTry') }}
       <a :href="cloudServiceUrl" target="_blank" class="chip-link" rel="noopener noreferrer">
         {{ t('Base.promoManagedServiceText') }}
-      </a> </span
-    ><button class="chip-close" type="button" @click="dismiss" aria-label="Dismiss promotion">
-      <Icon icon="lucide:x" class="chip-close-icon" aria-hidden="true" />
+      </a>
+    </span>
+    <button class="chip-close" type="button" @click="dismiss" aria-label="Dismiss promotion">
+      <X class="chip-close-icon" aria-hidden="true" />
     </button>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { X } from 'lucide-vue-next'
+
 const { t } = useI18n()
 const store = useStore()
 const { docMap } = useDocLink()

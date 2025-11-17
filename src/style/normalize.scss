@@ -477,6 +477,10 @@
   & + .el-dropdown {
     margin-left: 10px;
   }
+  .lucide {
+    width: 1em;
+    height: 1em;
+  }
 }
 .el-button.is-link:hover {
   --el-button-hover-link-text-color: var(--color-primary);
