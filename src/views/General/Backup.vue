@@ -13,7 +13,7 @@
         :http-request="customUploadRequest"
       >
         <el-button plain :disabled="!$hasPermission('post')" :loading="uploading">
-          <Icon icon="lucide:upload" class="mr-2" />
+          <Upload class="mr-2" />
           {{ tl('upload') }}
         </el-button>
       </el-upload>
@@ -64,6 +64,7 @@ import {
 import { PageData } from '@/types/common'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
+import dayjs from 'dayjs'
 import {
   ElMessage,
   ElMessageBox,
@@ -71,7 +72,7 @@ import {
   UploadRequestHandler,
   UploadRequestOptions,
 } from 'element-plus'
-import dayjs from 'dayjs'
+import { Upload } from 'lucide-vue-next'
 
 interface BackupItem extends EmqxMgmtApiDataBackupBackupFileInfo {
   size: number

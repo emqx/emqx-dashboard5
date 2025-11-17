@@ -14,11 +14,11 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-if="!hideDuplicate" :disabled="!$hasPermission('post')" command="copy">
-          <Icon icon="lucide:copy" class="w-4 h-4 mr-2" />
+          <Copy class="w-4 h-4 mr-2" />
           <span>{{ tl('duplicate') }}</span>
         </el-dropdown-item>
         <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
-          <Icon icon="lucide:trash-2" class="w-4 h-4 mr-2" />
+          <Trash2 class="w-4 h-4 mr-2" />
           <span>{{ t('Base.delete') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -35,6 +35,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { SchemaRegistry } from '@/types/rule'
 import { CaretBottom } from '@element-plus/icons-vue'
+import { Copy, Trash2 } from 'lucide-vue-next'
 
 defineProps({
   rowData: {
