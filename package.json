@@ -47,6 +47,7 @@
     "js-base64": "^3.7.2",
     "json-to-avro": "^1.1.1",
     "lodash": "^4.17.21",
+    "lucide-vue-next": "^0.553.0",
     "marked": "^4.0.9",
     "monaco-editor": "^0.30.0",
     "mqtt": "^4.2.8",

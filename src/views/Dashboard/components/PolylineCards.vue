@@ -11,7 +11,7 @@
       </el-select>
       <el-tooltip :content="tl('resetMonitorData')" placement="top">
         <el-button class="icon-button" @click="resetMetrics">
-          <Icon icon="lucide:rotate-ccw" />
+          <RotateCcw />
         </el-button>
       </el-tooltip>
     </div>
@@ -23,13 +23,12 @@
               <div class="card-title">
                 <span>{{ item.text }}</span>
                 <div class="icons-container">
-                  <Icon
+                  <ChartNoAxesCombined
                     v-if="item.value === ChartType.Dropped"
-                    icon="lucide:chart-no-axes-combined"
                     @click="openDropDetailDialog"
                     class="icon-btn"
                   />
-                  <Icon icon="lucide:maximize-2" @click="showChartDetails(item)" class="icon-btn" />
+                  <Maximize2 @click="showChartDetails(item)" class="icon-btn" />
                 </div>
               </div>
               <polyline-chart
@@ -52,7 +51,7 @@
               <div class="card-title">
                 <span>{{ item.text }}</span>
                 <div class="icons-container">
-                  <Icon icon="lucide:maximize-2" @click="showChartDetails(item)" class="icon-btn" />
+                  <Maximize2 @click="showChartDetails(item)" class="icon-btn" />
                 </div>
               </div>
               <polyline-chart
@@ -136,6 +135,7 @@ import { loadChartData, loadMetrics as loadDroppedDetail, resetMonitorData } fro
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
 import DroppedDetailDialog from './DroppedDetailDialog.vue'
+import { RotateCcw, ChartNoAxesCombined, Maximize2 } from 'lucide-vue-next'
 
 const POLLING_INTERVAL = 60000
 

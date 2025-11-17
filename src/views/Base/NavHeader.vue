@@ -27,13 +27,13 @@
             <span v-else class="cluster-desc-placeholder">-</span>
           </div>
           <LinkButton class="is-link cluster-desc-edit" :to="{ name: 'cluster' }">
-            <Icon icon="lucide:square-pen" class="w-4 h-4" />
+            <SquarePen class="w-4 h-4" />
           </LinkButton>
         </div>
       </el-tooltip>
       <div class="quick-panel-enter" @click="openQuickPanel">
         <div class="flex items-center gap-2">
-          <Icon icon="lucide:search" :width="16" :height="16" class="text-gray-400" />
+          <Search :size="16" class="text-gray-400" />
           <span class="text-sm">{{ t('Base.quickFind') }}</span>
         </div>
         <div class="flex items-center gap-1">
@@ -44,13 +44,13 @@
       </div>
 
       <el-button class="go-link" v-if="isEvaluationLicense" @click="routeToContactUs">
-        {{ $t('Base.contactUs') }}<Icon icon="lucide:arrow-right" class="arrow-icon" />
+        {{ $t('Base.contactUs') }}<ArrowRight class="arrow-icon" />
       </el-button>
       <el-tooltip effect="dark" :content="alertText" placement="bottom" :show-arrow="false">
         <div class="func-item">
           <el-badge :is-dot="!!alertCount">
             <router-link class="link-alarm" to="/alarm">
-              <Icon icon="lucide:bell" class="bell" />
+              <Bell class="bell" />
             </router-link>
           </el-badge>
         </div>
@@ -64,7 +64,7 @@
       >
         <div class="func-item">
           <a href="javascript:;" @click="handleShowHelp" class="link-help">
-            <Icon icon="lucide:help-circle" class="icon-question" />
+            <HelpCircle class="icon-question" />
           </a>
         </div>
       </el-tooltip>
@@ -77,7 +77,7 @@
       >
         <el-dropdown trigger="click" :hide-on-click="false">
           <div class="func-item settings-trigger">
-            <Icon icon="lucide:settings" class="settings" />
+            <SettingsIcon class="settings" />
           </div>
           <template #dropdown>
             <el-dropdown-menu class="settings-dropdown-menu">
@@ -90,7 +90,7 @@
       <el-dropdown placement="bottom" @command="handleDropdownCommand" popper-class="user-dropdown">
         <div class="func-item user-menu-trigger">
           <span class="user-avatar">{{ user.username?.substr(0, 1).toUpperCase() }}</span>
-          <Icon icon="lucide:chevron-down" class="w-4 h-4" />
+          <ChevronDown class="w-4 h-4" />
         </div>
 
         <template #dropdown>
@@ -104,11 +104,11 @@
               </div>
             </el-dropdown-item>
             <el-dropdown-item divided command="users">
-              <Icon icon="lucide:users" class="w-4 h-4 mr-2" />
+              <Users class="w-4 h-4 mr-2" />
               {{ $t('components.usersManagement') }}
             </el-dropdown-item>
             <el-dropdown-item command="logout">
-              <Icon icon="lucide:log-out" class="w-4 h-4 mr-2" />
+              <LogOut class="w-4 h-4 mr-2" />
               {{ $t('components.logOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -122,6 +122,17 @@
 <script lang="ts" setup>
 import { getClusterNodes, loadAlarm } from '@/api/common'
 import Settings from '../Settings/Settings.vue'
+import {
+  SquarePen,
+  Search,
+  ArrowRight,
+  Bell,
+  HelpCircle,
+  Settings as SettingsIcon,
+  ChevronDown,
+  Users,
+  LogOut,
+} from 'lucide-vue-next'
 import Help from '../Settings/Help.vue'
 import LicensePromotion from '@/components/LicensePromotion.vue'
 import Breadcrumb from './Breadcrumb.vue'

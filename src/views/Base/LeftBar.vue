@@ -15,7 +15,7 @@
             :popper-class="needFixedHeight(menu) ? 'sub-menu-popper' : ''"
           >
             <template #title>
-              <Icon :icon="menu.icon" class="menu-icon" />
+              <component v-if="menu.icon" :is="menu.icon" class="menu-icon" />
               <p class="menu-item-title first-level">
                 {{ $t(`components.${menu.title}`) }}
               </p>
@@ -49,7 +49,7 @@
             </el-scrollbar>
           </el-sub-menu>
           <el-menu-item v-else :key="menu.title" :index="menu.path">
-            <Icon :icon="menu.icon" class="menu-icon" />
+            <component v-if="menu.icon" :is="menu.icon" class="menu-icon" />
             <p class="menu-item-title first-level">
               {{ $t(`components.${menu.title}`) }}
             </p>

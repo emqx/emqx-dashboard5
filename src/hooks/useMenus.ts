@@ -1,3 +1,14 @@
+import {
+  Database,
+  Gauge,
+  MessagesSquare,
+  Server,
+  Settings,
+  ShieldCheck,
+  Stethoscope,
+  Workflow,
+} from 'lucide-vue-next'
+
 export interface Menu {
   title: string
   path?: string
@@ -92,42 +103,42 @@ const useMenus = (): {
   const totalMenuList = [
     {
       title: 'monitoring',
-      icon: 'lucide:gauge',
+      icon: Gauge,
       children: monitoring,
     },
     {
       title: 'auth',
-      icon: 'lucide:shield-check',
+      icon: ShieldCheck,
       children: accessControl,
     },
     {
       title: 'ruleengine',
-      icon: 'lucide:workflow',
+      icon: Workflow,
       children: integration,
     },
     {
       title: 'smart-data-hub',
-      icon: 'lucide:database',
+      icon: Database,
       children: smartDataHub,
     },
     {
       title: 'message-queue',
-      icon: 'lucide:messages-square',
+      icon: MessagesSquare,
       path: '/message-queue',
     },
     {
       title: 'management',
-      icon: 'lucide:settings',
+      icon: Settings,
       children: management,
     },
     {
       title: 'diagnose',
-      icon: 'lucide:stethoscope',
+      icon: Stethoscope,
       children: diagnose,
     },
     {
       title: 'system',
-      icon: 'lucide:server',
+      icon: Server,
       children: system,
     },
   ]

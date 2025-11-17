@@ -7,7 +7,7 @@
             <!-- Rate Cards -->
             <div class="stat-card rate-card-in">
               <div class="stat-header">
-                <Icon icon="lucide:arrow-down" class="stat-icon" />
+                <ArrowDown class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.currentMessageInRate') }}</span>
               </div>
               <div class="stat-value">
@@ -27,7 +27,7 @@
 
             <div class="stat-card rate-card-out">
               <div class="stat-header">
-                <Icon icon="lucide:arrow-up" class="stat-icon" />
+                <ArrowUp class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.currentMessageOutRate') }}</span>
               </div>
               <div class="stat-value">
@@ -43,7 +43,7 @@
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'clients' }">
                 <div class="stat-header">
-                  <Icon icon="lucide:link" class="stat-icon" />
+                  <Link class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.allConnections') }}</span>
                 </div>
                 <div class="stat-value">
@@ -58,7 +58,7 @@
                 :to="{ name: 'clients', query: { conn_state: 'connected' } }"
               >
                 <div class="stat-header">
-                  <Icon icon="lucide:activity" class="stat-icon" />
+                  <Activity class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.liveConnections') }}</span>
                 </div>
                 <div class="stat-value">
@@ -73,7 +73,7 @@
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'subscription' }">
                 <div class="stat-header">
-                  <Icon icon="lucide:bell" class="stat-icon" />
+                  <Bell class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.subscriptionNumber') }}</span>
                 </div>
                 <div class="stat-value">
@@ -85,7 +85,7 @@
 
               <div class="stat-item">
                 <div class="stat-header">
-                  <Icon icon="lucide:share-2" class="stat-icon" />
+                  <Share2 class="stat-icon" />
                   <span class="stat-label">{{ $t('Dashboard.shareSubscription') }}</span>
                 </div>
                 <div class="stat-value">
@@ -99,7 +99,7 @@
             <!-- Topics -->
             <router-link class="stat-card" :to="{ name: 'topics' }">
               <div class="stat-header">
-                <Icon icon="lucide:hash" class="stat-icon" />
+                <Hash class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.topics') }}</span>
               </div>
               <div class="stat-value">
@@ -110,7 +110,7 @@
             <!-- Retained -->
             <router-link class="stat-card" :to="{ name: 'retained' }">
               <div class="stat-header">
-                <Icon icon="lucide:archive" class="stat-icon" />
+                <Archive class="stat-icon" />
                 <span class="stat-label">{{ $t('Dashboard.retained') }}</span>
               </div>
               <div class="stat-value">
@@ -141,6 +141,7 @@ import RateChart from './components/RateChart.vue'
 import PolylineCards from './components/PolylineCards.vue'
 import NodesGraphCard from './components/NodesGraphCard.vue'
 import dayjs from 'dayjs'
+import { ArrowDown, ArrowUp, Link, Activity, Bell, Share2, Hash, Archive } from 'lucide-vue-next'
 import { loadCurrentMetrics } from '@/api/common'
 
 interface MetricData {
