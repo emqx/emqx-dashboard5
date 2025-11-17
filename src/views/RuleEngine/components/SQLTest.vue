@@ -75,7 +75,7 @@
                   {{ tl('testsql') }}
                 </el-button>
                 <el-button plain @click="resetContext">
-                  <Icon icon="lucide:rotate-ccw" class="mr-2" />
+                  <RotateCcw class="mr-2" />
                   {{ t('Base.reset') }}
                 </el-button>
               </div>
@@ -108,6 +108,7 @@ import FromSelect from '../components/FromSelect.vue'
 import RuleTest from './RuleTest.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 import { jsonBigIntParse, jsonBigIntStringify } from '@emqx/shared-ui-utils'
+import { RotateCcw } from 'lucide-vue-next'
 
 const { tl, t } = useI18nTl('RuleEngine')
 

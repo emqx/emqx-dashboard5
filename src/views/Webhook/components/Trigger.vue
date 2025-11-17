@@ -23,19 +23,19 @@
                       />
                     </el-form-item>
                     <el-button class="btn-del" link @click="delTopic($index)">
-                      <el-icon :size="16"><Icon icon="lucide:trash-2" /></el-icon>
+                      <el-icon :size="16"><Trash2 /></el-icon>
                     </el-button>
                   </li>
                 </ul>
                 <el-button link type="primary" @click="addTopic">
-                  <Icon icon="lucide:plus" class="mr-2" />
+                  <Plus class="mr-2" />
                   {{ tl('addTopic') }}
                 </el-button>
               </div>
             </div>
           </div>
           <el-button v-else plain type="primary" @click="addTopic">
-            <Icon icon="lucide:plus" class="mr-2" />
+            <Plus class="mr-2" />
             {{ tl('addTopic') }}
           </el-button>
         </div>
@@ -62,6 +62,7 @@ import {
 } from '@/common/constants'
 import { EventForRule } from '@/types/enum'
 import { RuleEvent } from '@/types/rule'
+import { Plus, Trash2 } from 'lucide-vue-next'
 
 const enum TriggerType {
   Messages,

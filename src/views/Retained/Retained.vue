@@ -20,7 +20,7 @@
       <div class="section-header">
         <div></div>
         <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-retainer' }">
-          <Icon icon="lucide:settings" class="mr-2" />
+          <Settings class="mr-2" />
           {{ t('Base.setting') }}
         </LinkButton>
         <DangerButton
@@ -89,6 +89,7 @@ import {
 import { RetainerMessage } from '@/types/extension'
 import { Remove } from '@element-plus/icons-vue'
 import { ElMessageBox as MB } from 'element-plus'
+import { Settings } from 'lucide-vue-next'
 
 const { tl, t } = useI18nTl('Extension')
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
