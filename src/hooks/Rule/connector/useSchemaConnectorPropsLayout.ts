@@ -229,6 +229,17 @@ export default (
       ['server', 'parameters', 'token', 'org', 'bucket', 'database', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
+    [BridgeType.AWSTimestream]: createOrderObj(
+      [
+        'server',
+        'parameters.influxdb_type',
+        'parameters.token',
+        'parameters.org',
+        'parameters.bucket',
+        'parameters.ssl',
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.IoTDB]: IoTDBOrderMap,
     [BridgeType.Elasticsearch]: IoTDBOrderMap,
     [BridgeType.AmazonKinesis]: createOrderObj(

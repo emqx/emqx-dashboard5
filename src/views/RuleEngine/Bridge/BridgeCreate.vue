@@ -98,7 +98,7 @@
     <!-- In the Create/Settings Rule page -->
     <div v-else>
       <bridge-influxdb-config
-        v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(chosenBridgeType)"
+        v-if="BRIDGE_TYPES_LIKE_INFLUXDB.includes(chosenBridgeType)"
         v-model="bridgeData"
         ref="formCom"
         :type="chosenBridgeType"

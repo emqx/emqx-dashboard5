@@ -451,6 +451,7 @@ export default (
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],
+    [BridgeType.AWSTimestream, influxDbHandler],
     [BridgeType.AmazonKinesis, amazonKinesisHandler],
     [BridgeType.GreptimeDB, greptimeDBHandler],
     [BridgeType.Pulsar, pulsarHandler],

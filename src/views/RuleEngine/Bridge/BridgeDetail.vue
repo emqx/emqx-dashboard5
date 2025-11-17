@@ -95,7 +95,7 @@
             </el-alert>
             <div class="setting-area" :style="{ width: inDrawer ? '100%' : '75%' }">
               <bridge-influxdb-config
-                v-if="[BridgeType.InfluxDB, BridgeType.Datalayers].includes(bridgeType)"
+                v-if="BRIDGE_TYPES_LIKE_INFLUXDB.includes(bridgeType)"
                 ref="formCom"
                 v-model="bridgeInfo"
                 edit
@@ -153,7 +153,7 @@
 </template>
 
 <script lang="ts" setup>
-import { BridgeType, DetailTab } from '@/types/enum'
+import { DetailTab } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import { Share } from '@element-plus/icons-vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'

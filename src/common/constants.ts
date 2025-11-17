@@ -281,7 +281,12 @@ export const ADMIN_USERNAMES = ['admin', 'root', 'administrator']
 const { VITE_APP_VERSION } = import.meta.env
 export const IS_ENTERPRISE = VITE_APP_VERSION === 'enterprise'
 
-export const BRIDGE_TYPES_NOT_USE_SCHEMA = [BridgeType.InfluxDB, BridgeType.Datalayers]
+export const BRIDGE_TYPES_LIKE_INFLUXDB = [
+  BridgeType.InfluxDB,
+  BridgeType.Datalayers,
+  BridgeType.AWSTimestream,
+]
+export const BRIDGE_TYPES_NOT_USE_SCHEMA = [...BRIDGE_TYPES_LIKE_INFLUXDB]
 
 export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT, BridgeType.RabbitMQ]
 
