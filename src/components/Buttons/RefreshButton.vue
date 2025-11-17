@@ -1,14 +1,12 @@
 <template>
   <el-button v-if="noText" @click="handleClick">
-    <Icon
-      icon="lucide:refresh-cw"
+    <RefreshCw
       :class="isSpinning ? 'animate-spin' : ''"
       class="transition-transform duration-600"
     />
   </el-button>
   <el-button v-else @click="handleClick">
-    <Icon
-      icon="lucide:refresh-cw"
+    <RefreshCw
       :class="isSpinning ? 'animate-spin' : ''"
       class="mr-2 transition-transform duration-600"
     />
@@ -20,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import { RefreshCw } from 'lucide-vue-next'
+
 defineProps<{
   noText?: boolean
 }>()

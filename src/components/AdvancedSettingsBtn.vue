@@ -8,11 +8,13 @@
     @click="toggle"
   >
     {{ buttonText ?? tl('advancedSettings') }}
-    <Icon icon="lucide:chevron-right" :class="{ 'is-rotate': modelValue }" class="icon-arrow" />
+    <ChevronRight :class="{ 'is-rotate': modelValue }" class="icon-arrow" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ChevronRight } from 'lucide-vue-next'
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
