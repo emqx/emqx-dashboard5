@@ -26,7 +26,11 @@
                 :symbols="value.symbols"
                 :placeholder="value.placeholder"
                 :property="value"
-                v-bind="value.componentProps"
+                v-bind="
+                  value.customComponent
+                    ? value.componentProps
+                    : { customProps: value.componentProps }
+                "
               />
             </CustomFormItem>
           </template>
@@ -73,14 +77,17 @@
             :rules="getFormItemRules(key)"
             label-width="118px"
           >
-            <SchemaFormItem
+            <component
+              :is="value.customComponent ? value.customComponent : SchemaFormItem"
               v-model="item[key]"
               :type="value.type"
               :format="value.format"
               :symbols="value.symbols"
               :placeholder="value.placeholder"
               :property="value"
-              v-bind="value.componentProps"
+              v-bind="
+                value.customComponent ? value.componentProps : { customProps: value.componentProps }
+              "
             />
           </CustomFormItem>
         </div>
@@ -205,7 +212,17 @@ const getColumnProps = (property: Property) => {
   return type === 'object' ? { width: 300 } : {}
 }
 
-const addItem = () => {
+const jumpToLastPage = () => {
+  if (shouldPaginate.value && currentPage.value < Math.ceil(arr.value.length / pageSize.value)) {
+    currentPage.value = Math.ceil(arr.value.length / pageSize.value)
+    const lastTr = TableCom.value.$el?.querySelector('tbody tr:last-child')
+    if (lastTr) {
+      lastTr.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
+
+const addItem = async () => {
   let objData
   if (props.inPlugins) {
     objData = initRecordByPluginForm(props.properties)
@@ -215,10 +232,13 @@ const addItem = () => {
   const defaultValue = cloneDeep(objData)
   arr.value = [...arr.value, defaultValue]
   emit('add-item')
+  await nextTick()
+  jumpToLastPage()
 }
 
 const deleteItem = (index: number) => {
-  arr.value = [...arr.value.slice(0, index), ...arr.value.slice(index + 1)]
+  const trueIndex = shouldPaginate.value ? index + (currentPage.value - 1) * pageSize.value : index
+  arr.value = [...arr.value.slice(0, trueIndex), ...arr.value.slice(trueIndex + 1)]
   emit('delete-item')
 }
 
@@ -233,6 +253,7 @@ const getFormItemRules = (key: string | number) => {
 
 const handleUploadedData = (val: Array<Record<string, any>>) => {
   arr.value = val
+  emit('add-item')
 }
 
 const handleSizeChange = (val: number) => {
