@@ -6,7 +6,7 @@
         <div class="section-header">
           <div></div>
           <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-message-queue' }">
-            <Icon icon="lucide:settings" class="mr-2" />
+            <Settings class="mr-2" />
             {{ t('Base.setting') }}
           </LinkButton>
           <CreateButton @click="handleCreate" />
@@ -79,6 +79,7 @@ import { deleteMessageQueue, getMessageQueues } from '@/api/messageQueue'
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import useMessageQueue from '@/hooks/MessageQueue/useMessageQueue'
 import { MessageQueue } from '@/types/typeAlias'
+import { Settings } from 'lucide-vue-next'
 import MessageQueueDialog from './components/MessageQueueDialog.vue'
 import MQGuidance from './components/MQGuidance.vue'
 

@@ -36,7 +36,7 @@
     </div>
     <template #footer>
       <el-button v-if="isFormModified" plain @click="resetContext">
-        <Icon icon="lucide:rotate-ccw" class="mr-2" />
+        <RotateCcw class="mr-2" />
         {{ t('Base.reset') }}
       </el-button>
       <CancelButton @click="showDrawer = false" :disabled="isSubmitting" />
@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { BridgeItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
+import { RotateCcw } from 'lucide-vue-next'
 import FromSelect from '../components/FromSelect.vue'
 import TestSQLContextForm from './TestSQLContextForm.vue'
 

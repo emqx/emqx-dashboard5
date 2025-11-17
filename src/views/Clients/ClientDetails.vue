@@ -33,7 +33,7 @@
           :hide-after="0"
         >
           <el-button class="icon-button delete-button" plain @click="handleDisconnect">
-            <Icon icon="lucide:user-x" />
+            <UserX />
           </el-button>
         </el-tooltip>
       </div>
@@ -202,7 +202,7 @@
       />
     </template>
     <div class="client-does-not-exist" v-else>
-      <Icon icon="lucide:triangle-alert" class="warning-icon" />
+      <TriangleAlert class="warning-icon" />
       <span>{{ tl('clientDoesNotExist') }}</span>
     </div>
   </div>
@@ -228,9 +228,10 @@ import { Client } from '@/types/client'
 import { GatewayName } from '@/types/enum'
 import { Subscription } from '@/types/subscription'
 import ClientInfoItem from '@/views/Clients/components/ClientInfoItem.vue'
+import { TriangleAlert, UserX } from 'lucide-vue-next'
+import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
 import CreateSubscribe from './components/CreateSubscribe.vue'
 import MessageListDialog from './components/MessageListDialog.vue'
-import ClientAttrsDialog from './components/ClientAttrsDialog.vue'
 
 const props = defineProps({
   gateway: {

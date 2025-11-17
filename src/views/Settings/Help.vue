@@ -11,7 +11,7 @@
         <a :href="link" target="_blank">
           <el-card class="card-link" shadow="never">
             <div class="card-icon">
-              <Icon :icon="icon" class="icon-platform" />
+              <component :is="icon" class="icon-platform" />
             </div>
             <p class="text-title">{{ title }}</p>
           </el-card>
@@ -89,6 +89,7 @@ export default defineComponent({
 import cloudIcon from '@/assets/img/cloud.png'
 import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
 import { Right } from '@element-plus/icons-vue'
+import { BookOpen, MessageCircle, Newspaper } from 'lucide-vue-next'
 import DocListCard from './components/DocListCard.vue'
 
 const props = defineProps({
@@ -112,17 +113,17 @@ const { docMap } = useDocLink()
 const platformList = [
   {
     link: docMap.documentation,
-    icon: 'lucide:book-open',
+    icon: BookOpen,
     title: tl('documentation'),
   },
   {
     link: docMap.forum,
-    icon: 'lucide:message-circle',
+    icon: MessageCircle,
     title: tl('forum'),
   },
   {
     link: docMap.blog,
-    icon: 'lucide:newspaper',
+    icon: Newspaper,
     title: tl('blog'),
   },
 ]

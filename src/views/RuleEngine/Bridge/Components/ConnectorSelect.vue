@@ -11,7 +11,7 @@
     </el-select>
     <el-tooltip :content="tl('createConnector')" placement="top">
       <el-button class="btn-add" :disabled="!$hasPermission('post')" @click="addConnector">
-        <Icon icon="lucide:plus" class="w-4 h-4" />
+        <Plus class="w-4 h-4" />
       </el-button>
     </el-tooltip>
     <ConnectorCreateDrawer
@@ -26,6 +26,7 @@
 import { getConnectors } from '@/api/connector'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
+import { Plus } from 'lucide-vue-next'
 import ConnectorCreateDrawer from '../../Connector/components/ConnectorCreateDrawer.vue'
 
 const props = withDefaults(

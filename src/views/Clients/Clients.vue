@@ -83,7 +83,7 @@
         <div></div>
         <ClientFieldSelect :selected="tableColumnFields" @change="handleSelectedColumnChanged" />
         <el-button class="export-btn" @click="handleExport">
-          <Icon icon="lucide:download" class="mr-2" />
+          <Download class="mr-2" />
           {{ tl('export') }}
         </el-button>
         <DangerButton
@@ -92,7 +92,7 @@
           :disabled="selectedClients.length === 0 || !$hasPermission('delete')"
           @click="cleanBatchClients"
         >
-          <Icon icon="lucide:user-x" class="mr-2" />
+          <UserX class="mr-2" />
           {{ tl('kickOut') }}
         </DangerButton>
         <RefreshButton @click="loadNodeClients" />
@@ -195,9 +195,10 @@ import {
 import { Client } from '@/types/client'
 import { CheckStatus, ClientsExportFormat } from '@/types/enum'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
+import dayjs from 'dayjs'
+import { Download, UserX } from 'lucide-vue-next'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
-import dayjs from 'dayjs'
 
 enum Comparator {
   After = 'gte',

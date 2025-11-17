@@ -120,7 +120,7 @@
                       :disabled="!$hasPermission('delete')"
                       @click="deleteValidationItem($index)"
                     >
-                      <Icon icon="lucide:trash-2" class="w-4 h-4" />
+                      <Trash2 class="w-4 h-4" />
                     </el-button>
                     <template
                       v-if="
@@ -134,7 +134,7 @@
                           :disabled="!$hasPermission('post')"
                           @click="addSchema($index)"
                         >
-                          <Icon icon="lucide:plus" class="w-4 h-4" />
+                          <Plus class="w-4 h-4" />
                         </el-button>
                       </el-tooltip>
                     </template>
@@ -209,6 +209,7 @@ import { SchemaRegistryType } from '@/types/enum'
 import { SchemaRegistry } from '@/types/rule'
 import type { SchemaValidation, SchemaValidationCheckItem } from '@/types/typeAlias'
 import { SchemaValidationLogLevel } from '@/types/typeAlias'
+import { Plus, Trash2 } from 'lucide-vue-next'
 import {
   PropType,
   WritableComputedRef,
