@@ -4,6 +4,7 @@ import { OtherBridge } from '@/types/rule'
 export default (): {
   createRawInfluxDBForm: () => OtherBridge
   createRawDataLayersForm: () => OtherBridge
+  createRawAWSTimestreamForm: () => OtherBridge
 } => {
   const { createDefaultResourceOptsForm } = useResourceOpt()
 
@@ -29,8 +30,14 @@ export default (): {
     type: BridgeType.Datalayers,
   })
 
+  const createRawAWSTimestreamForm = () => ({
+    ...createRawInfluxDBForm(),
+    type: BridgeType.AWSTimestream,
+  })
+
   return {
     createRawInfluxDBForm,
     createRawDataLayersForm,
+    createRawAWSTimestreamForm,
   }
 }

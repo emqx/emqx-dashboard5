@@ -165,12 +165,9 @@ const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
 })
 const { getPropItem } = useGetInfoFromComponents(components)
 
-const { createRawInfluxDBForm, createRawDataLayersForm } = useBridgeFormCreator()
+const { createRawInfluxDBForm } = useBridgeFormCreator()
 const createDefaultValue = () => {
-  if (props.type === BridgeType.Datalayers) {
-    return createRawDataLayersForm()
-  }
-  return createRawInfluxDBForm()
+  return { ...createRawInfluxDBForm(), type: props.type ?? BridgeType.InfluxDB }
 }
 
 const formData: Ref<OtherBridge> = ref(createDefaultValue())

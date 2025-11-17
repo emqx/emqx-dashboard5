@@ -24,6 +24,7 @@ declare global {
   const BACKGROUND_CIRCLE_RADIUS: typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_RADIUS']
   const BANNED_NEVER_EXPIRE_VALUE: typeof import('./common/constants')['BANNED_NEVER_EXPIRE_VALUE']
   const BATCH_UPLOAD_CSV_MAX_ROWS: typeof import('./common/constants')['BATCH_UPLOAD_CSV_MAX_ROWS']
+  const BRIDGE_TYPES_LIKE_INFLUXDB: typeof import('./common/constants')['BRIDGE_TYPES_LIKE_INFLUXDB']
   const BRIDGE_TYPES_NOT_USE_SCHEMA: typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']
   const CER_FILE_ACCEPTS: typeof import('./common/constants')['CER_FILE_ACCEPTS']
   const COMMON_ID_REG: typeof import('./common/constants')['COMMON_ID_REG']
@@ -610,6 +611,7 @@ declare module 'vue' {
     readonly BACKGROUND_CIRCLE_RADIUS: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['BACKGROUND_CIRCLE_RADIUS']>
     readonly BANNED_NEVER_EXPIRE_VALUE: UnwrapRef<typeof import('./common/constants')['BANNED_NEVER_EXPIRE_VALUE']>
     readonly BATCH_UPLOAD_CSV_MAX_ROWS: UnwrapRef<typeof import('./common/constants')['BATCH_UPLOAD_CSV_MAX_ROWS']>
+    readonly BRIDGE_TYPES_LIKE_INFLUXDB: UnwrapRef<typeof import('./common/constants')['BRIDGE_TYPES_LIKE_INFLUXDB']>
     readonly BRIDGE_TYPES_NOT_USE_SCHEMA: UnwrapRef<typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']>
     readonly CER_FILE_ACCEPTS: UnwrapRef<typeof import('./common/constants')['CER_FILE_ACCEPTS']>
     readonly COMMON_ID_REG: UnwrapRef<typeof import('./common/constants')['COMMON_ID_REG']>
