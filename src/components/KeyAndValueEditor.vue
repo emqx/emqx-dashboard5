@@ -76,12 +76,12 @@
           @input="atInputChange"
         />
         <el-button class="btn-del" link @click="deleteItem(item)">
-          <el-icon :size="16"><Icon icon="lucide:trash-2" /></el-icon>
+          <el-icon :size="16"><Trash2 /></el-icon>
         </el-button>
       </li>
     </ul>
     <el-button link type="primary" @click="addColumn">
-      <Icon icon="lucide:plus" class="mr-2" />
+      <Plus class="mr-2" />
       {{ t('Base.add') }}
     </el-button>
   </div>
@@ -102,6 +102,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Plus, Trash2 } from 'lucide-vue-next'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 
 enum State {

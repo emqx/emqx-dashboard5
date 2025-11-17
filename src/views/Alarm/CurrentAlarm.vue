@@ -11,7 +11,7 @@
         </LinkButton>
       </el-tooltip>
       <LinkButton :to="{ name: 'alarm-settings' }" :disabled="!$hasPermission('put')">
-        <Icon icon="lucide:settings" class="mr-2" />
+        <Settings class="mr-2" />
         {{ $t('Base.setting') }}
       </LinkButton>
       <RefreshButton :disabled="!$hasPermission('get')" @click="loadData({ page: 1 })" />
@@ -73,6 +73,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { deactivateAlarm, loadAlarm } from '@/api/common'
+import { Settings } from 'lucide-vue-next'
 import commonPagination from '../../components/commonPagination.vue'
 
 const { tl } = useI18nTl('Alarm')

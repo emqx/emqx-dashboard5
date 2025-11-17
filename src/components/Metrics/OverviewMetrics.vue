@@ -21,7 +21,7 @@
               :disabled="!$hasPermission('put')"
               @click="resetStatistics"
             >
-              <Icon icon="lucide:x" class="w-4 h-4" />
+              <X class="w-4 h-4" />
             </el-button>
           </el-tooltip>
         </div>
@@ -181,6 +181,7 @@ import {
   useRateChart,
 } from '@/hooks/useMetrics'
 import { Metrics, MetricsDataWithExtraData, SetItem } from '@/types/common'
+import { X } from 'lucide-vue-next'
 import TypeMetrics from './TypeMetrics.vue'
 
 type MetricsData = MetricsDataWithExtraData<unknown>

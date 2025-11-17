@@ -67,7 +67,7 @@
                       :disabled="disabledEditTopic($index) || !$hasPermission('delete')"
                       @click="delTopic($index)"
                     >
-                      <Icon icon="lucide:trash-2" class="w-4 h-4" />
+                      <Trash2 class="w-4 h-4" />
                     </el-button>
                   </el-tooltip>
                   <el-button
@@ -76,7 +76,7 @@
                     :disabled="!$hasPermission('post')"
                     @click="addTopic"
                   >
-                    <Icon icon="lucide:plus" class="w-4 h-4" />
+                    <Plus class="w-4 h-4" />
                   </el-button>
                 </div>
               </el-form-item>
@@ -88,7 +88,7 @@
             :disabled="!$hasPermission('post')"
             @click="addTopic"
           >
-            <Icon icon="lucide:plus" class="w-4 h-4" />
+            <Plus class="w-4 h-4" />
           </el-button>
         </el-form-item>
       </el-col>
@@ -166,6 +166,7 @@
 
 <script setup lang="ts">
 import { ClusterLinkingForm } from '@/types/typeAlias'
+import { Plus, Trash2 } from 'lucide-vue-next'
 
 const props = defineProps<{
   modelValue: ClusterLinkingForm
