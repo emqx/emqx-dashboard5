@@ -267,6 +267,25 @@ const onBlurChanged = () => {
   }
 }
 
+const { createRawExternalHttpForm } = useSchemaRegistryForm()
+const handleTypeChanged = () => {
+  if (!props.isEdit) {
+    return
+  }
+  if (
+    schemaForm.value.type === SchemaRegistryType.ExternalHTTP &&
+    !(schemaForm.value as SchemaRegistryExternalHttp).parameters
+  ) {
+    ;(schemaForm.value as SchemaRegistryExternalHttp).parameters =
+      createRawExternalHttpForm().parameters
+  } else if (
+    schemaForm.value.type !== SchemaRegistryType.ExternalHTTP &&
+    'parameters' in schemaForm.value
+  ) {
+    delete (schemaForm.value as any).parameters
+  }
+}
+
 const selectedJSON = computed(() => schemaForm.value.type === SchemaRegistryType.JSON)
 
 const isJSONFormat = computed(
