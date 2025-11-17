@@ -30,7 +30,7 @@
             :disabled="!$hasPermission('post')"
             @click="addSubOperation(row)"
           >
-            <Icon icon="lucide:plus" class="w-4 h-4" />
+            <Plus class="w-4 h-4" />
           </el-button>
         </div>
         <!-- CHILD -->
@@ -44,7 +44,7 @@
         <div class="target-value-header">
           <label :class="required ? 'mock-required-label' : ''">{{ tl('targetValue') }}</label>
           <el-button type="primary" :disabled="!$hasPermission('post')" @click="addOperation">
-            <Icon icon="lucide:plus" class="w-4 h-4" />
+            <Plus class="w-4 h-4" />
           </el-button>
         </div>
       </template>
@@ -57,7 +57,7 @@
             :disabled="!$hasPermission('delete')"
             @click="deleteOperation(data.$index)"
           >
-            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+            <Trash2 class="w-4 h-4" />
           </el-button>
         </template>
         <!-- CHILD -->
@@ -68,7 +68,7 @@
             :disabled="!$hasPermission('delete')"
             @click="deleteSubOperation(data.$index)"
           >
-            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+            <Trash2 class="w-4 h-4" />
           </el-button>
         </template>
       </template>
@@ -84,6 +84,7 @@ import {
 } from '@/hooks/Rule/transform/useMessageTransform'
 import { MessageTransform, MessageTransformOperation } from '@/types/typeAlias'
 import TargetValue from './TargetValue.vue'
+import { Plus, Trash2 } from 'lucide-vue-next'
 
 interface SubOperation {
   propValue: string

@@ -14,29 +14,29 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="up" :disabled="rowIndex === 0 || !$hasPermission('put')">
-          <Icon icon="lucide:chevron-up" class="w-4 h-4 mr-2" />
+          <ChevronUp class="w-4 h-4 mr-2" />
           {{ $t('Base.up') }}
         </el-dropdown-item>
         <el-dropdown-item
           command="down"
           :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
-          <Icon icon="lucide:chevron-down" class="w-4 h-4 mr-2" />
+          <ChevronDown class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.down') }}</span>
         </el-dropdown-item>
         <el-dropdown-item command="top" :disabled="rowIndex === 0 || !$hasPermission('put')">
-          <Icon icon="lucide:chevrons-up" class="w-4 h-4 mr-2" />
+          <ChevronsUp class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToTop') }}</span>
         </el-dropdown-item>
         <el-dropdown-item
           command="bottom"
           :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
-          <Icon icon="lucide:chevrons-down" class="w-4 h-4 mr-2" />
+          <ChevronsDown class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
         <el-dropdown-item :disabled="!$hasPermission('delete')" command="delete">
-          <Icon icon="lucide:trash-2" class="w-4 h-4 mr-2" />
+          <Trash2 class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.delete') }}</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -53,6 +53,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { Exhook } from '@/types/systemModule'
 import { CaretBottom } from '@element-plus/icons-vue'
+import { ChevronDown, ChevronsDown, ChevronsUp, ChevronUp, Trash2 } from 'lucide-vue-next'
 
 defineProps({
   rowData: {
