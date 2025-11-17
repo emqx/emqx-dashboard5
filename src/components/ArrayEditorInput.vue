@@ -16,13 +16,21 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+const arrProxy = ref<string[]>([])
+const filterEmpty = (arr: string[]): string[] => arr.filter(Boolean)
+
 const inputData = computed({
   get() {
+    if (isEqual(props.modelValue, filterEmpty(arrProxy.value))) {
+      return arrProxy.value.join(SEPARATOR)
+    }
     return (props.modelValue || []).join(SEPARATOR)
   },
   set(val) {
     const arr = val.split(SEPARATOR).map((item) => item.trim())
-    emit('update:modelValue', arr)
+    const filteredArr = filterEmpty(arr)
+    arrProxy.value = arr
+    emit('update:modelValue', filteredArr)
   },
 })
 </script>
