@@ -5,7 +5,7 @@
     @visible-change="dropdownVisibleChanged"
   >
     <el-button>
-      <Icon icon="lucide:columns-3" class="mr-2" />
+      <Columns3 class="mr-2" />
       {{ t('Base.selectColumn') }}
     </el-button>
     <template #dropdown>
@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+import { Columns3 } from 'lucide-vue-next'
+
 const { t, tl } = useI18nTl('Clients')
 
 const props = defineProps<{

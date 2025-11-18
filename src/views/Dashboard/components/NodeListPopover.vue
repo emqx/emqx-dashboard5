@@ -3,7 +3,7 @@
     <div class="popover-hd">
       <el-input v-model="filter">
         <template #prefix>
-          <Icon icon="lucide:search" class="w-4 h-4" />
+          <Search class="w-4 h-4" />
         </template>
       </el-input>
     </div>
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { NodeInfo } from '@/types/dashboard'
+import { Search } from 'lucide-vue-next'
 
 interface NodeList {
   core: Array<NodeInfo>

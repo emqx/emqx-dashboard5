@@ -104,7 +104,7 @@
             :disabled="!$hasPermission('put')"
             @click="$router.push({ name: 'log', query: { tab: 'audit' } })"
           >
-            <Icon icon="lucide:settings" class="mr-2" />
+            <Settings class="mr-2" />
             {{ t('Base.setting') }}
           </el-button>
         </div>
@@ -182,6 +182,7 @@ import {
   GetAuditParams,
 } from '@/types/typeAlias'
 import dayjs from 'dayjs'
+import { Settings } from 'lucide-vue-next'
 import resourceDictArr from './resource_dict.json'
 
 interface LabelItem {

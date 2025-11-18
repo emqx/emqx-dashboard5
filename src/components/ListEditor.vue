@@ -11,7 +11,7 @@
                 :disabled="!$hasPermission('delete')"
                 @click="deleteItem($index)"
               >
-                <Icon icon="lucide:trash-2" class="w-4 h-4" />
+                <Trash2 class="w-4 h-4" />
               </el-button>
             </div>
           </div>
@@ -19,12 +19,14 @@
       </li>
     </ul>
     <el-button class="btn-add mb-4" :disabled="!$hasPermission('post')" @click="addItem">
-      <Icon icon="lucide:plus" class="w-4 h-4" />
+      <Plus class="w-4 h-4" />
     </el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Plus, Trash2 } from 'lucide-vue-next'
+
 defineProps<{
   list: any[]
   itemClass?: string

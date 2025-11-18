@@ -4,7 +4,7 @@
       <div class="search-bar">
         <el-input placeholder="Search" clearable v-model="searchText">
           <template #suffix>
-            <Icon icon="lucide:search" class="w-4 h-4" />
+            <Search class="w-4 h-4" />
           </template>
         </el-input>
       </div>
@@ -137,6 +137,7 @@ import {
   VueFlow,
   useVueFlow,
 } from '@vue-flow/core'
+import { Search } from 'lucide-vue-next'
 import {
   computed,
   defineEmits,
