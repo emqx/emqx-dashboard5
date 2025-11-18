@@ -233,15 +233,21 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/authentication',
     component: Layout,
+    redirect: { name: 'authentication-default' },
     meta: {
       hideKey: 'authentication',
       authRequired: true,
     },
     children: [
       {
-        path: '',
-        name: 'authentication',
-        component: () => import('@/views/Auth/Authn.vue'),
+        path: 'default',
+        name: 'authentication-default',
+        component: () => import('@/views/Auth/AuthnDefault.vue'),
+      },
+      {
+        path: 'extended',
+        name: 'authentication-extended',
+        component: () => import('@/views/Auth/AuthnExtended.vue'),
       },
       {
         path: 'create',

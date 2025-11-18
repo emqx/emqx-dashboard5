@@ -898,4 +898,8 @@ Find more information about Variform expressions in EMQX doc.`,
     zh: '存在重复的权限配置',
     en: 'Duplicated permission configuration',
   },
+  extended: {
+    zh: '扩展',
+    en: 'Extended',
+  },
 }

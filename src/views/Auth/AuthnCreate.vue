@@ -1,7 +1,7 @@
 <template>
   <div class="auth authn-create app-wrapper">
     <detail-header
-      :item="{ name: $t('Auth.createAuth'), path: '/authentication' }"
+      :item="{ name: $t('Auth.createAuth'), routeName: 'authentication-extended' }"
       v-if="!gateway"
     />
     <el-card
@@ -258,7 +258,7 @@ const { authnMechanismTypeList } = useAuthnMechanismType()
 
 const supportBackendMap: BackendMap = {
   password_based: {
-    built_in_database: tl('builtInDatabase'),
+    // built_in_database: tl('builtInDatabase'),
     mysql: 'MySQL',
     mongodb: 'MongoDB',
     postgresql: 'PostgreSQL',
@@ -433,7 +433,7 @@ const cancelCreate = async function () {
   if (props.gateway) {
     props.cancelFunc()
   } else {
-    router.push('/authentication')
+    router.push({ name: 'authentication-extended' })
   }
 }
 
