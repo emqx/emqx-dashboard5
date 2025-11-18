@@ -1,7 +1,7 @@
 import { listAuthn, queryAuthnItemMetrics } from '@/api/auth'
-import { AuthnItem, Metrics } from '@/types/auth'
-import { SortableEvent } from 'sortablejs'
 import jwtIcon from '@/assets/img/jwt.png'
+import { AuthnItem, Metrics } from '@/types/auth'
+import { AuthnMechanismType } from '@/types/enum'
 
 export type AuthnItemInTable = AuthnItem & {
   metrics?: Metrics
@@ -10,14 +10,9 @@ export type AuthnItemInTable = AuthnItem & {
 export default (): {
   isListLoading: Ref<boolean>
   authnList: Ref<AuthnItemInTable[]>
-  tableCom: Ref<Component>
   getAuthnItemBackendForShow: (item: AuthnItemInTable) => string
   getAuthnList: (isInit?: boolean) => Promise<void>
   updateAuthnItemMetrics: (authn: AuthnItem) => Promise<void>
-  moveAuthnUp: (index: number) => Promise<void>
-  moveAuthnDown: (index: number) => Promise<void>
-  moveAuthnToTop: (authn: AuthnItem) => any
-  moveAuthnToBottom: (authn: AuthnItem) => any
 } => {
   const isListLoading = ref(false)
   const authnList: Ref<Array<AuthnItemInTable>> = ref([])
@@ -45,13 +40,13 @@ export default (): {
       const res: AuthnItem[] = await listAuthn()
       authnList.value = res.map((item) => {
         const ret: AuthnItemInTable = item
-        if (ret.mechanism !== 'jwt' && ret.mechanism !== 'cinfo') {
+        if (ret.mechanism !== 'jwt' && ret.mechanism !== AuthnMechanismType.CINFO) {
           try {
             ret.img = getImg(`img/${ret.backend}.png`)
           } catch {
             ret.img = ''
           }
-        } else if (ret.mechanism === 'cinfo') {
+        } else if (ret.mechanism === AuthnMechanismType.CINFO) {
           ret.img = getImg(`img/cinfo.png`)
         } else {
           ret.img = jwtIcon
@@ -60,8 +55,6 @@ export default (): {
         return item
       })
       setAddedAuthn()
-      await nextTick()
-      initSortable()
     } catch (error) {
       console.error(error)
     } finally {
@@ -108,67 +101,13 @@ export default (): {
     }
   }
 
-  const {
-    moveAuthnBeforeAnotherAuthn,
-    moveAuthnAfterAnotherAuthn,
-    moveAuthnToTop: requestMoveAuthnToTop,
-    moveAuthnToBottom: requestMoveAuthnToBottom,
-  } = useHandleAuthnItem()
-  const moveAuthnUp = async (index: number) => handleDragEvent(index - 1, index, authnList.value)
-  const moveAuthnDown = async (index: number) => handleDragEvent(index + 1, index, authnList.value)
-  const moveAuthnToTop = async (row: AuthnItem) => {
-    try {
-      await requestMoveAuthnToTop(row)
-    } catch (error) {
-      // empty the array first when an error occurs, otherwise the view will not be updated
-      authnList.value = []
-    } finally {
-      getAuthnList()
-    }
-  }
-  const moveAuthnToBottom = async (row: AuthnItem) => {
-    try {
-      await requestMoveAuthnToBottom(row)
-    } catch (error) {
-      // empty the array first when an error occurs, otherwise the view will not be updated
-      authnList.value = []
-    } finally {
-      getAuthnList()
-    }
-  }
-  const { handleDragEvent } = useMove(
-    {
-      moveToBottom: moveAuthnToBottom,
-      moveToTop: moveAuthnToTop,
-      moveBeforeAnotherTarget: moveAuthnBeforeAnotherAuthn,
-      moveAfterAnotherTarget: moveAuthnAfterAnotherAuthn,
-    },
-    undefined,
-    getAuthnList,
-  )
-
-  const handleOrderChanged = async (evt: SortableEvent) => {
-    const { newIndex, oldIndex } = evt
-    if (newIndex === undefined || oldIndex === undefined) {
-      return
-    }
-    handleDragEvent(newIndex, oldIndex, authnList.value)
-  }
-
-  const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
-
   initTableData()
 
   return {
     isListLoading,
     authnList,
-    tableCom,
     getAuthnItemBackendForShow,
     getAuthnList,
     updateAuthnItemMetrics,
-    moveAuthnUp,
-    moveAuthnDown,
-    moveAuthnToTop,
-    moveAuthnToBottom,
   }
 }

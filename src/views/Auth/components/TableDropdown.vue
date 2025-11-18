@@ -18,31 +18,6 @@
       </TableButton>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="moveUp" :disabled="position === 0 || !$hasPermission('put')">
-            <ChevronUp class="w-4 h-4 mr-2" />
-            {{ $t('Base.up') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            command="moveDown"
-            :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
-          >
-            <ChevronDown class="w-4 h-4 mr-2" />
-            {{ $t('Base.down') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            command="moveToTop"
-            :disabled="position === 0 || !$hasPermission('put')"
-          >
-            <ChevronsUp class="w-4 h-4 mr-2" />
-            {{ $t('Base.moveToTop') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            command="moveToBottom"
-            :disabled="position === tableDataLen - 1 || !$hasPermission('put')"
-          >
-            <ChevronsDown class="w-4 h-4 mr-2" />
-            {{ $t('Base.moveToBottom') }}
-          </el-dropdown-item>
           <el-dropdown-item
             :disabled="!$hasPermission('delete')"
             command="delete"
@@ -60,11 +35,11 @@
 <script lang="ts">
 import { AuthnItem } from '@/types/auth'
 import { CaretBottom } from '@element-plus/icons-vue'
-import { ChevronDown, ChevronsDown, ChevronsUp, ChevronUp, Trash2 } from 'lucide-vue-next'
+import { Trash2 } from 'lucide-vue-next'
 
 export default defineComponent({
   name: 'TableDropdown',
-  components: { CaretBottom, ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, Trash2 },
+  components: { CaretBottom, Trash2 },
   props: {
     tableDataLen: {
       required: true,

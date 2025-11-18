@@ -7,13 +7,7 @@
         <NodeCache type="authn" />
         <CreateButton @click="$router.push({ name: 'authentication-create' })" />
       </div>
-      <el-table
-        ref="tableCom"
-        class="auth-table table-with-draggable"
-        :data="authnList"
-        v-loading.lock="isListLoading"
-        row-key="id"
-      >
+      <el-table class="auth-table" :data="authnList" v-loading.lock="isListLoading" row-key="id">
         <el-table-column prop="backend" :label="$t('Auth.mechanismAndBackend')" min-width="80">
           <template #default="{ row }">
             <router-link
@@ -43,7 +37,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="oper" :label="$t('Base.operation')">
-          <template #default="{ row, $index }">
+          <template #default="{ row }">
             <TableButton
               :style="{ marginRight: '10px' }"
               v-if="row.backend === 'built_in_database'"
@@ -57,10 +51,6 @@
               :position="findIndex(row)"
               @delete="handleDelete"
               @setting="routeToDetail"
-              @move-up="moveAuthnUp($index)"
-              @move-down="moveAuthnDown($index)"
-              @move-to-top="moveAuthnToTop(row)"
-              @move-to-bottom="moveAuthnToBottom(row)"
             />
           </template>
         </el-table-column>
@@ -82,14 +72,9 @@ const { t } = useI18n()
 const {
   isListLoading,
   authnList,
-  tableCom,
   getAuthnItemBackendForShow,
   getAuthnList,
   updateAuthnItemMetrics,
-  moveAuthnUp,
-  moveAuthnDown,
-  moveAuthnToTop,
-  moveAuthnToBottom,
 } = useAuthn()
 const { getLabelByValue } = useAuthnMechanismType()
 const { toggleAuthStatus } = useToggleAuthStatus()
