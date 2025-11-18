@@ -2,7 +2,7 @@
   <div class="rule-metrics">
     <el-tooltip :content="t('Base.refresh')" placement="top">
       <el-button class="icon-button" type="primary" @click="handleRefresh">
-        <Icon icon="lucide:rotate-ccw" class="w-4 h-4" />
+        <RotateCcw class="w-4 h-4" />
       </el-button>
     </el-tooltip>
   </div>
@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+import { RotateCcw } from 'lucide-vue-next'
+
 const { t } = useI18nTl('RuleEngine')
 
 const handleRefresh = () => {

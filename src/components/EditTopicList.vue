@@ -9,7 +9,7 @@
             :disabled="(!allowEmpty && topics.length <= 1) || !$hasPermission('delete')"
             @click="delTopic($index)"
           >
-            <Icon icon="lucide:trash-2" class="w-4 h-4" />
+            <Trash2 class="w-4 h-4" />
           </el-button>
           <el-button
             v-if="$index === topics.length - 1"
@@ -17,7 +17,7 @@
             :disabled="!$hasPermission('post')"
             @click="addTopic"
           >
-            <Icon icon="lucide:plus" class="w-4 h-4" />
+            <Plus class="w-4 h-4" />
           </el-button>
         </div>
       </el-form-item>
@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import type { FormItemRule } from 'element-plus'
+import { Plus, Trash2 } from 'lucide-vue-next'
 
 const props = defineProps<{
   modelValue: string[]

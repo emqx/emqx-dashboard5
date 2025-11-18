@@ -85,7 +85,7 @@
           </el-tooltip>
           <el-tooltip :content="tl('resetNodeCacheStatus')" placement="top">
             <el-button class="icon-button" @click="resetCacheMetrics">
-              <Icon icon="lucide:x" class="w-4 h-4" />
+              <X class="w-4 h-4" />
             </el-button>
           </el-tooltip>
         </div>
@@ -205,6 +205,7 @@ import {
   updateAuthzSettings,
 } from '@/api/auth'
 import { useSizeMetric } from '@/hooks/useMetrics'
+import { X } from 'lucide-vue-next'
 
 type NodeCacheConfig = {
   enable?: boolean

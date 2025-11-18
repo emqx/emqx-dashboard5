@@ -6,7 +6,7 @@
       :disabled="!$hasPermission('post')"
       @click="dialogVisible = true"
     >
-      <Icon icon="lucide:upload" class="mr-2" />
+      <Upload class="mr-2" />
       {{ t('Auth.importUsers') }}
     </el-button>
 
@@ -74,6 +74,7 @@
 import { ImportResult } from '@/types/auth'
 import { ElUpload } from 'element-plus'
 import { uploadUsers } from '@/api/auth'
+import { Upload } from 'lucide-vue-next'
 
 type PasswordType = 'plain' | 'hash'
 

@@ -5,12 +5,15 @@
     :hide-after="0"
   >
     <el-button class="icon-button" plain @click="showMoreQuery = !showMoreQuery">
-      <Icon :icon="showMoreQuery ? 'lucide:chevron-up' : 'lucide:chevron-down'" />
+      <ChevronUp v-if="showMoreQuery" />
+      <ChevronDown v-else />
     </el-button>
   </el-tooltip>
 </template>
 
 <script setup lang="ts">
+import { ChevronUp, ChevronDown } from 'lucide-vue-next'
+
 const { t } = useI18n()
 
 const props = defineProps<{

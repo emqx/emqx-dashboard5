@@ -3,7 +3,7 @@
     <div class="section-header">
       <div></div>
       <el-button :disabled="!$hasPermission('put')" @click="goSetting">
-        <Icon icon="lucide:settings" class="mr-2" />
+        <Settings class="mr-2" />
         {{ $t('Base.setting') }}
       </el-button>
     </div>
@@ -48,6 +48,7 @@
 import { delDelayedInfo, getDelayedInfo, getDelayedList } from '@/api/extension'
 import { DelayedMessage } from '@/types/extension'
 import { ElMessageBox as MB } from 'element-plus'
+import { Settings } from 'lucide-vue-next'
 
 const { tl, t } = useI18nTl('Extension')
 const router = useRouter()

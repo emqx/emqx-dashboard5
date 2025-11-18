@@ -6,7 +6,7 @@
           @click="$router.push({ name: 'slow-sub-config' })"
           :disabled="!$hasPermission('put')"
         >
-          <Icon icon="lucide:settings" class="mr-2" />
+          <Settings class="mr-2" />
           {{ $t('Base.setting') }}
         </el-button>
         <DangerButton :disabled="!$hasPermission('delete')" @click="clearData">
@@ -55,6 +55,7 @@ export default defineComponent({
 import { clearSlowSubData, querySlowSubStatistics } from '@/api/diagnose'
 import { SlowSubStatistic } from '@/types/diagnose'
 import dayjs from 'dayjs'
+import { Settings } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

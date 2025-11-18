@@ -20,7 +20,7 @@
                     <div class="space-between">
                       <span>{{ totpSecret }}</span>
                       <el-button type="primary" link @click="copyText(totpSecret)">
-                        <Icon icon="lucide:copy" class="w-4 h-4" />
+                        <Copy class="w-4 h-4" />
                       </el-button>
                     </div>
                     <template #reference>
@@ -208,7 +208,7 @@
         <div v-else-if="currentLoginBackend === 'ldap'" class="login-wrapper ldap-login">
           <el-page-header @back="currentLoginBackend = 'local'">
             <template #icon>
-              <Icon icon="lucide:arrow-left" class="w-5 h-5" />
+              <ArrowLeft class="w-5 h-5" />
             </template>
           </el-page-header>
           <div class="form-hd">
@@ -329,6 +329,7 @@ import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
 import { LoginResponse } from '@/types/typeAlias'
+import { ArrowLeft, Copy } from 'lucide-vue-next'
 import type { RouteLocationRaw } from 'vue-router'
 
 interface MFAError {
