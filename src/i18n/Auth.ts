@@ -407,6 +407,14 @@ export default {
     zh: '拒绝时执行',
     en: 'Deny Action',
   },
+  includeMountpoint: {
+    zh: '授权检查时包含挂载点',
+    en: 'Mount Prefix for Authorization',
+  },
+  includeMountpointDesc: {
+    zh: '启用后，在进行授权检查前，目标主题和主题过滤器会被加上监听器配置的挂载点前缀。',
+    en: "When enabled, the target topics and topic filters are prefixed by the listener's configured mountpoint before being checked by authorization backends.",
+  },
   disableAuthnTip: {
     zh: '停用该认证器后，将影响客户端的安全连接，是否继续？',
     en: 'Disabling this authenticator will affect the security connection of the client, continue?',
