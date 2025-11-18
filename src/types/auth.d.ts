@@ -5,6 +5,7 @@ import { AuthzRuleAction, AuthzRulePermission } from './typeAlias'
 export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
   no_match: 'allow' | 'deny'
+  include_mountpoint: boolean
   cache: {
     enable: boolean
     excludes: string[]

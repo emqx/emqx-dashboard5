@@ -43,6 +43,15 @@
                   <el-option value="disconnect" />
                 </el-select>
               </el-form-item>
+              <el-form-item :label="t('Auth.includeMountpoint')">
+                <template #label>
+                  <FormItemLabel
+                    :label="t('Auth.includeMountpoint')"
+                    :desc="t('Auth.includeMountpointDesc')"
+                  />
+                </template>
+                <el-switch v-model="record.include_mountpoint" />
+              </el-form-item>
             </section>
           </el-form>
           <CancelButton @click="showDrawer = false" />
