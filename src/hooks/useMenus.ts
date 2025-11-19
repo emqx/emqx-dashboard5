@@ -1,7 +1,7 @@
 import {
   Database,
   Gauge,
-  MessagesSquare,
+  List,
   Server,
   Settings,
   ShieldCheck,
@@ -123,7 +123,7 @@ const useMenus = (): {
     },
     {
       title: 'message-queue',
-      icon: MessagesSquare,
+      icon: List,
       path: '/message-queue',
     },
     {
