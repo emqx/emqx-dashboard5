@@ -63,10 +63,6 @@ export default {
     zh: '数据库',
     en: 'Database',
   },
-  noBackendDataSourceDesc: {
-    zh: '{ mechanism } 认证无需选择数据源，请继续下一步配置',
-    en: '{ mechanism } authentication does not require a backend, continue to the next step',
-  },
   reconnect: {
     zh: '自动重连',
     en: 'Reconnect',
