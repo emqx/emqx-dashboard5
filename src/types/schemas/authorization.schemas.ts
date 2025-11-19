@@ -11,6 +11,19 @@ export type PutAuthorizationSourcesOrder400 = {
   message?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code]
 
@@ -22,6 +35,10 @@ export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code = {
 export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
   code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400Code
   message?: string
+}
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsernameParams = {
+  ns?: string
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
@@ -37,6 +54,23 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
   message?: string
 }
 
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code =
+  (typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersUsernameParams = {
+  ns?: string
+}
+
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code =
   (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code]
 
@@ -47,6 +81,19 @@ export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code 
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404 = {
   code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername404Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code
   message?: string
 }
 
@@ -63,6 +110,10 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsername400 = {
   message?: string
 }
 
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesUsersUsernameParams = {
+  ns?: string
+}
+
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code =
   (typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code]
 
@@ -73,6 +124,19 @@ export const PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code = {
 
 export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers409 = {
   code?: PostAuthorizationSourcesBuiltInDatabaseRulesUsers409Code
+  message?: string
+}
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers403Code =
+  (typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers403Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesUsers403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesBuiltInDatabaseRulesUsers403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers403 = {
+  code?: PostAuthorizationSourcesBuiltInDatabaseRulesUsers403Code
   message?: string
 }
 
@@ -89,10 +153,41 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesUsers400 = {
   message?: string
 }
 
+export type PostAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
+  ns?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsers403Code =
+  (typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsers403Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesUsers403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesUsers403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesUsers403 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesUsers403Code
+  message?: string
+}
+
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   like_username?: string
+  ns?: string
+}
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code
+  message?: string
 }
 
 export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400Code =
@@ -108,6 +203,10 @@ export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
   message?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientidParams = {
+  ns?: string
+}
+
 export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
   (typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
 
@@ -121,6 +220,23 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
   message?: string
 }
 
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code =
+  (typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsClientidParams = {
+  ns?: string
+}
+
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code =
   (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code]
 
@@ -131,6 +247,19 @@ export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Cod
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404 = {
   code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid404Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code
   message?: string
 }
 
@@ -147,6 +276,23 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
   message?: string
 }
 
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientidParams = {
+  ns?: string
+}
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code =
+  (typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients403 = {
+  code?: PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code
+  message?: string
+}
+
 export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code =
   (typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients400Code]
 
@@ -160,10 +306,41 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesClients400 = {
   message?: string
 }
 
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
+  ns?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClients403Code =
+  (typeof GetAuthorizationSourcesBuiltInDatabaseRulesClients403Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesClients403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesClients403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesClients403 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesClients403Code
+  message?: string
+}
+
 export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   like_clientid?: string
+  ns?: string
+}
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesAll403Code =
+  (typeof PostAuthorizationSourcesBuiltInDatabaseRulesAll403Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesAll403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesBuiltInDatabaseRulesAll403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesAll403 = {
+  code?: PostAuthorizationSourcesBuiltInDatabaseRulesAll403Code
+  message?: string
 }
 
 export type PostAuthorizationSourcesBuiltInDatabaseRulesAll400Code =
@@ -179,6 +356,57 @@ export type PostAuthorizationSourcesBuiltInDatabaseRulesAll400 = {
   message?: string
 }
 
+export type PostAuthorizationSourcesBuiltInDatabaseRulesAllParams = {
+  ns?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesAll403Code =
+  (typeof GetAuthorizationSourcesBuiltInDatabaseRulesAll403Code)[keyof typeof GetAuthorizationSourcesBuiltInDatabaseRulesAll403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesBuiltInDatabaseRulesAll403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesAll403 = {
+  code?: GetAuthorizationSourcesBuiltInDatabaseRulesAll403Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesBuiltInDatabaseRulesAllParams = {
+  ns?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRulesAll403Code
+  message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesAllParams = {
+  ns?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRules403Code =
+  (typeof DeleteAuthorizationSourcesBuiltInDatabaseRules403Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRules403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesBuiltInDatabaseRules403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRules403 = {
+  code?: DeleteAuthorizationSourcesBuiltInDatabaseRules403Code
+  message?: string
+}
+
 export type DeleteAuthorizationSourcesBuiltInDatabaseRules400Code =
   (typeof DeleteAuthorizationSourcesBuiltInDatabaseRules400Code)[keyof typeof DeleteAuthorizationSourcesBuiltInDatabaseRules400Code]
 
@@ -190,6 +418,10 @@ export const DeleteAuthorizationSourcesBuiltInDatabaseRules400Code = {
 export type DeleteAuthorizationSourcesBuiltInDatabaseRules400 = {
   code?: DeleteAuthorizationSourcesBuiltInDatabaseRules400Code
   message?: string
+}
+
+export type DeleteAuthorizationSourcesBuiltInDatabaseRulesParams = {
+  ns?: string
 }
 
 export type GetAuthorizationSourcesTypeStatus404Code =
@@ -375,6 +607,7 @@ export const PutAuthorizationSettings200DenyAction = {
 export type PutAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettings200DenyAction
+  include_mountpoint?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
 
@@ -399,6 +632,7 @@ export const PutAuthorizationSettingsBodyDenyAction = {
 export type PutAuthorizationSettingsBody = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettingsBodyDenyAction
+  include_mountpoint?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
 
@@ -423,6 +657,7 @@ export const GetAuthorizationSettings200DenyAction = {
 export type GetAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: GetAuthorizationSettings200DenyAction
+  include_mountpoint?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }
 
@@ -517,16 +752,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -578,7 +813,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -586,9 +821,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -677,6 +912,11 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   node?: string
 }
 
+export interface EmqxAuthzSchemaNodeMetrics {
+  metrics?: EmqxAuthzSchemaMetrics
+  node?: string
+}
+
 export interface EmqxAuthzSchemaNodeError {
   error?: string
   node?: string
@@ -704,11 +944,6 @@ export interface EmqxAuthzSchemaMetrics {
   total?: number
 }
 
-export interface EmqxAuthzSchemaNodeMetrics {
-  metrics?: EmqxAuthzSchemaMetrics
-  node?: string
-}
-
 export interface EmqxAuthzSchemaMetricsStatusFields {
   metrics?: EmqxAuthzSchemaMetrics
   node_error?: EmqxAuthzSchemaNodeError[]
@@ -720,19 +955,19 @@ export interface EmqxAuthzSchemaMetricsStatusFields {
 }
 
 export type EmqxAuthzApiSourcesSourcesSourcesItem =
-  | AuthzBuiltinDb
-  | AuthzFile
-  | AuthzHttpGet
-  | AuthzHttpPost
   | AuthzLdap
-  | AuthzMongoRs
   | AuthzMongoSharded
+  | AuthzMongoRs
   | AuthzMongoSingle
-  | AuthzMysql
   | AuthzPostgresql
+  | AuthzMysql
   | AuthzRedisCluster
   | AuthzRedisSentinel
   | AuthzRedisSingle
+  | AuthzHttpPost
+  | AuthzHttpGet
+  | AuthzBuiltinDb
+  | AuthzFile
 
 export interface EmqxAuthzApiSourcesSources {
   sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
@@ -761,12 +996,17 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
+export interface EmqxAuthzApiMnesiaRulesForUsername {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  username: string
+}
+
 export interface EmqxAuthzApiMnesiaUsernameResponseData {
   data?: EmqxAuthzApiMnesiaRulesForUsername[]
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiMnesiaRuleItemRetain = 'all' | boolean
+export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
 
 export type EmqxAuthzApiMnesiaRuleItemPermission =
   (typeof EmqxAuthzApiMnesiaRuleItemPermission)[keyof typeof EmqxAuthzApiMnesiaRuleItemPermission]
@@ -802,11 +1042,6 @@ export interface EmqxAuthzApiMnesiaRuleItem {
   zone_re?: string
 }
 
-export interface EmqxAuthzApiMnesiaRulesForUsername {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  username: string
-}
-
 export interface EmqxAuthzApiMnesiaRulesForClientid {
   clientid: string
   rules?: EmqxAuthzApiMnesiaRuleItem[]
@@ -821,9 +1056,9 @@ export interface EmqxAuthzApiMnesiaClientidResponseData {
   meta?: PublicMeta
 }
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = 'unlimited' | string
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = string | 'unlimited'
 
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = 'unlimited' | number
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = number | 'unlimited'
 
 export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
   cache_ttl?: string

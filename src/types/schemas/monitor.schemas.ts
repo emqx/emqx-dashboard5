@@ -6,8 +6,11 @@ export type GetPrometheusStatsParams = {
 
 export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
-export type GetPrometheusSchemaValidationParams = {
+export type GetPrometheusNamespacedStats200One = { [key: string]: unknown }
+
+export type GetPrometheusNamespacedStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
+  ns?: EmqxPrometheusApiNsParameter
 }
 
 export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
@@ -17,6 +20,10 @@ export type GetPrometheusMessageTransformationParams = {
 }
 
 export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
+
+export type GetPrometheusDataIntegrationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
 
 export type GetPrometheusAuth200One = { [key: string]: unknown }
 
@@ -39,6 +46,8 @@ export type PutOpentelemetry400 = {
   message?: string
 }
 
+export type EmqxPrometheusApiNsParameter = string
+
 export type EmqxPrometheusApiModeParameter =
   (typeof EmqxPrometheusApiModeParameter)[keyof typeof EmqxPrometheusApiModeParameter]
 
@@ -49,7 +58,7 @@ export const EmqxPrometheusApiModeParameter = {
   node: 'node',
 } as const
 
-export type GetPrometheusDataIntegrationParams = {
+export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
@@ -306,7 +315,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -314,9 +323,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =

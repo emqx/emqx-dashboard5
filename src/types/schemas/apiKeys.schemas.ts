@@ -10,11 +10,11 @@ export type PutApiKeyName404 = {
   message?: string
 }
 
-export type PutApiKeyName200ExpiredAtOneOf = string | number
+export type PutApiKeyName200ExpiredAtOneOf = number | string
 
-export type PutApiKeyName200ExpiredAt = 'infinity' | PutApiKeyName200ExpiredAtOneOf
+export type PutApiKeyName200ExpiredAt = PutApiKeyName200ExpiredAtOneOf | 'infinity'
 
-export type PutApiKeyName200CreatedAt = string | number
+export type PutApiKeyName200CreatedAt = number | string
 
 export type PutApiKeyName200 = {
   api_key?: string
@@ -27,9 +27,9 @@ export type PutApiKeyName200 = {
   role?: string
 }
 
-export type PutApiKeyNameBodyExpiredAtOneOf = string | number
+export type PutApiKeyNameBodyExpiredAtOneOf = number | string
 
-export type PutApiKeyNameBodyExpiredAt = 'infinity' | PutApiKeyNameBodyExpiredAtOneOf
+export type PutApiKeyNameBodyExpiredAt = PutApiKeyNameBodyExpiredAtOneOf | 'infinity'
 
 export type PutApiKeyNameBody = {
   desc?: string
@@ -51,11 +51,11 @@ export type GetApiKeyName404 = {
   message?: string
 }
 
-export type GetApiKeyName200ExpiredAtOneOf = string | number
+export type GetApiKeyName200ExpiredAtOneOf = number | string
 
-export type GetApiKeyName200ExpiredAt = 'infinity' | GetApiKeyName200ExpiredAtOneOf
+export type GetApiKeyName200ExpiredAt = GetApiKeyName200ExpiredAtOneOf | 'infinity'
 
-export type GetApiKeyName200CreatedAt = string | number
+export type GetApiKeyName200CreatedAt = number | string
 
 export type GetApiKeyName200 = {
   api_key?: string
@@ -93,9 +93,9 @@ export type PostApiKey400 = {
   message?: string
 }
 
-export type PostApiKeyBodyExpiredAtOneOf = string | number
+export type PostApiKeyBodyExpiredAtOneOf = number | string
 
-export type PostApiKeyBodyExpiredAt = 'infinity' | PostApiKeyBodyExpiredAtOneOf
+export type PostApiKeyBodyExpiredAt = PostApiKeyBodyExpiredAtOneOf | 'infinity'
 
 export type PostApiKeyBody = {
   desc?: string
@@ -106,11 +106,11 @@ export type PostApiKeyBody = {
   role?: string
 }
 
-export type GetApiKey200ExpiredAtOneOf = string | number
+export type GetApiKey200ExpiredAtOneOf = number | string
 
-export type GetApiKey200ExpiredAt = 'infinity' | GetApiKey200ExpiredAtOneOf
+export type GetApiKey200ExpiredAt = GetApiKey200ExpiredAtOneOf | 'infinity'
 
-export type GetApiKey200CreatedAt = string | number
+export type GetApiKey200CreatedAt = number | string
 
 export type GetApiKey200 = {
   api_key?: string
@@ -123,11 +123,11 @@ export type GetApiKey200 = {
   role?: string
 }
 
-export type ApiKeyAppExpiredAtOneOf = string | number
+export type ApiKeyAppExpiredAtOneOf = number | string
 
-export type ApiKeyAppExpiredAt = 'infinity' | ApiKeyAppExpiredAtOneOf
+export type ApiKeyAppExpiredAt = ApiKeyAppExpiredAtOneOf | 'infinity'
 
-export type ApiKeyAppCreatedAt = string | number
+export type ApiKeyAppCreatedAt = number | string
 
 export interface ApiKeyApp {
   api_key?: string

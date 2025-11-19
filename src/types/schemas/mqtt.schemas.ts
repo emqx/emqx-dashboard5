@@ -206,8 +206,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetMqttDelayedMessagesParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
 }
 
 export type ModulesRewriteAction = (typeof ModulesRewriteAction)[keyof typeof ModulesRewriteAction]
@@ -231,9 +231,9 @@ export interface ModulesDelayed {
   max_delayed_messages?: number
 }
 
-export type EmqxTopicMetricsApiTopicMetricsResetTime = string | number
+export type EmqxTopicMetricsApiTopicMetricsResetTime = number | string
 
-export type EmqxTopicMetricsApiTopicMetricsCreateTime = string | number
+export type EmqxTopicMetricsApiTopicMetricsCreateTime = number | string
 
 export interface EmqxTopicMetricsApiReset {
   action: string

@@ -261,10 +261,10 @@ export type PostSourcesBody =
   | KafkaConsumerPostSource
 
 export type GetSources200Item =
-  | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
-  | GcpPubsubConsumerGetSource
+  | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
+  | GcpPubsubConsumerGetSource
 
 export type GetSourceTypes200Item =
   (typeof GetSourceTypes200Item)[keyof typeof GetSourceTypes200Item]

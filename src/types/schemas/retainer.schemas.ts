@@ -17,9 +17,9 @@ export type GetMqttRetainerMessages200 = {
 }
 
 export type GetMqttRetainerMessagesParams = {
+  topic?: string
   page?: number
   limit?: number
-  topic?: string
 }
 
 export type GetMqttRetainerMessageTopic404Code =
@@ -100,7 +100,7 @@ export type GetMqttRetainer404 = {
   message?: string
 }
 
-export type RetainerRetainerMsgExpiryIntervalOverride = 'disabled' | string
+export type RetainerRetainerMsgExpiryIntervalOverride = string | 'disabled'
 
 export type RetainerMnesiaConfigType =
   (typeof RetainerMnesiaConfigType)[keyof typeof RetainerMnesiaConfigType]
@@ -132,7 +132,6 @@ export interface RetainerRetainer {
   allow_never_expire?: boolean
   backend?: RetainerMnesiaConfig
   delivery_rate?: string
-  dispatch_retry_ttl?: string
   /** @deprecated */
   enable?: boolean
   max_payload_size?: string

@@ -131,10 +131,10 @@ export const GetClientsClientidMqueueMessagesPayload = {
 } as const
 
 export type GetClientsClientidMqueueMessagesParams = {
-  limit?: PublicLimitParameter
-  position?: PublicPositionParameter
-  max_payload_bytes?: string
   payload?: GetClientsClientidMqueueMessagesPayload
+  max_payload_bytes?: string
+  position?: PublicPositionParameter
+  limit?: PublicLimitParameter
 }
 
 export type GetClientsClientidInflightMessages501Code =
@@ -188,10 +188,10 @@ export const GetClientsClientidInflightMessagesPayload = {
 } as const
 
 export type GetClientsClientidInflightMessagesParams = {
-  limit?: PublicLimitParameter
-  position?: PublicPositionParameter
-  max_payload_bytes?: string
   payload?: GetClientsClientidInflightMessagesPayload
+  max_payload_bytes?: string
+  position?: PublicPositionParameter
+  limit?: PublicLimitParameter
 }
 
 export type GetClientsClientidAuthorizationCache404Code =
@@ -267,29 +267,29 @@ export const GetClientsConnState = {
   idle: 'idle',
 } as const
 
-export type PublicPositionParameter = 'end_of_data' | 'none' | string
+export type PublicPositionParameter = string | 'end_of_data' | 'none'
 
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
 
 export type GetClientsParams = {
-  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
-  ip_address?: string
   node?: string
-  clean_start?: boolean
-  clientid?: string[]
+  limit?: PublicLimitParameter
+  username?: string[]
+  ip_address?: string
   conn_state?: GetClientsConnState
-  gte_connected_at?: string | number
-  gte_created_at?: string | number
+  clean_start?: boolean
+  proto_ver?: string
   like_clientid?: string
   like_username?: string
-  lte_connected_at?: string | number
-  lte_created_at?: string | number
-  proto_ver?: string
-  username?: string[]
+  gte_created_at?: number | string
+  lte_created_at?: number | string
+  gte_connected_at?: number | string
+  lte_connected_at?: number | string
+  clientid?: string[]
+  fields?: EmqxMgmtApiClientsRequestedClientFieldsParameter
 }
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem =
@@ -302,8 +302,8 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   clean_start: 'clean_start',
   client_attrs: 'client_attrs',
   clientid: 'clientid',
-  connected_at: 'connected_at',
   connected: 'connected',
+  connected_at: 'connected_at',
   created_at: 'created_at',
   disconnected_at: 'disconnected_at',
   durable: 'durable',
@@ -326,24 +326,24 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   proto_name: 'proto_name',
   proto_ver: 'proto_ver',
   recv_cnt: 'recv_cnt',
-  recv_msgdroppedawait_pubrel_timeout: 'recv_msg.dropped.await_pubrel_timeout',
+  recv_msg: 'recv_msg',
   recv_msgdropped: 'recv_msg.dropped',
+  recv_msgdroppedawait_pubrel_timeout: 'recv_msg.dropped.await_pubrel_timeout',
   recv_msgqos0: 'recv_msg.qos0',
   recv_msgqos1: 'recv_msg.qos1',
   recv_msgqos2: 'recv_msg.qos2',
-  recv_msg: 'recv_msg',
   recv_oct: 'recv_oct',
   recv_pkt: 'recv_pkt',
   reductions: 'reductions',
   send_cnt: 'send_cnt',
+  send_msg: 'send_msg',
+  send_msgdropped: 'send_msg.dropped',
   send_msgdroppedexpired: 'send_msg.dropped.expired',
   send_msgdroppedqueue_full: 'send_msg.dropped.queue_full',
   send_msgdroppedtoo_large: 'send_msg.dropped.too_large',
-  send_msgdropped: 'send_msg.dropped',
   send_msgqos0: 'send_msg.qos0',
   send_msgqos1: 'send_msg.qos1',
   send_msgqos2: 'send_msg.qos2',
-  send_msg: 'send_msg',
   send_oct: 'send_oct',
   send_pkt: 'send_pkt',
   seqno_q1_comm: 'seqno_q1_comm',
@@ -359,8 +359,8 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
 } as const
 
 export type EmqxMgmtApiClientsRequestedClientFieldsParameter =
-  | 'all'
   | EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem[]
+  | 'all'
 
 export interface PublicMeta {
   /** @minimum 0 */
@@ -375,9 +375,9 @@ export interface PublicMeta {
   page?: number
 }
 
-export type PublicContinuationMetaStart = 'none' | string
+export type PublicContinuationMetaStart = string | 'none'
 
-export type PublicContinuationMetaPosition = 'end_of_data' | 'none' | string
+export type PublicContinuationMetaPosition = string | 'end_of_data' | 'none'
 
 export interface PublicContinuationMeta {
   position?: PublicContinuationMetaPosition
@@ -458,11 +458,11 @@ export interface EmqxMgmtApiClientsInflightMessages {
   meta?: PublicContinuationMeta
 }
 
-export type EmqxMgmtApiClientsClientDisconnectedAt = string | number
+export type EmqxMgmtApiClientsClientDisconnectedAt = number | string
 
-export type EmqxMgmtApiClientsClientCreatedAt = string | number
+export type EmqxMgmtApiClientsClientCreatedAt = number | string
 
-export type EmqxMgmtApiClientsClientConnectedAt = string | number
+export type EmqxMgmtApiClientsClientConnectedAt = number | string
 
 export interface EmqxMgmtApiClientsClient {
   awaiting_rel_cnt?: number

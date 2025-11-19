@@ -209,7 +209,7 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
@@ -222,6 +222,8 @@ export type GetSsoBackend404 = {
   code?: GetSsoBackend404Code
   message?: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type DeleteSsoBackend404Code =
   (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
@@ -256,8 +258,6 @@ export const SsoOidcPreferredAuthMethodsItem = {
   private_key_jwt: 'private_key_jwt',
 } as const
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
-
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -280,10 +280,8 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
-  ssl?: LdapSsl
+  ssl?: EmqxSslClientOpts
 }
-
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoLoginBackend = (typeof SsoLoginBackend)[keyof typeof SsoLoginBackend]
 
@@ -318,7 +316,7 @@ export interface SsoLdap {
   username: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -333,6 +331,8 @@ export interface SsoClientFileJwks {
   type: SsoClientFileJwksType
 }
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
 export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -341,22 +341,61 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslLogLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
+} as const
+
+export type EmqxSslClientOptsVerify =
+  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsVerify = {
+  verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
+} as const
+
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+
+export type EmqxSslClientOptsPartialChain =
+  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsPartialChain = {
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+} as const
+
+export type EmqxSslClientOptsLogLevel =
+  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsLogLevel = {
   alert: 'alert',
   all: 'all',
   critical: 'critical',
@@ -394,6 +433,30 @@ export interface LdapSsl {
   secure_renegotiate?: boolean
   server_name_indication?: LdapSslServerNameIndication
   verify?: LdapSslVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
+export interface EmqxSslClientOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: EmqxSslClientOptsLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: EmqxSslClientOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: EmqxSslClientOptsServerNameIndication
+  verify?: EmqxSslClientOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
 }

@@ -148,20 +148,20 @@ export type MessageTransformationTransformationTopics = string[] | string
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationPayloadEncoder = {
-  payload_serde_avro: 'payload_serde_avro',
   payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+  payload_serde_avro: 'payload_serde_avro',
   payload_serde_json: 'payload_serde_json',
   payload_serde_none: 'payload_serde_none',
-  payload_serde_protobuf: 'payload_serde_protobuf',
 } as const
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MessageTransformationTransformationPayloadDecoder = {
-  payload_serde_avro: 'payload_serde_avro',
   payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+  payload_serde_avro: 'payload_serde_avro',
   payload_serde_json: 'payload_serde_json',
   payload_serde_none: 'payload_serde_none',
-  payload_serde_protobuf: 'payload_serde_protobuf',
 } as const
 
 export type MessageTransformationTransformationFailureAction =
