@@ -3,8 +3,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetAlarmsParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
   activated?: boolean
 }
 

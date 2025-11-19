@@ -180,9 +180,9 @@ export type GetAiProviders503 = {
 }
 
 export type GetAiProviders200Item =
-  | AiAnthropicProviderApiGet
-  | AiOpenaiProviderApiGet
   | AiOpenaiResponseProviderApiGet
+  | AiOpenaiProviderApiGet
+  | AiAnthropicProviderApiGet
 
 export type PostAiModels503Code = (typeof PostAiModels503Code)[keyof typeof PostAiModels503Code]
 
@@ -384,8 +384,8 @@ export type AiOpenaiResponseProviderApiPutType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiResponseProviderApiPutType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiResponseProviderApiPut {
@@ -401,8 +401,8 @@ export type AiOpenaiResponseProviderApiGetType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiResponseProviderApiGetType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiResponseProviderApiGet {
@@ -419,8 +419,8 @@ export type AiOpenaiResponseProviderType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiResponseProviderType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiResponseProvider {
@@ -463,9 +463,9 @@ export interface AiOpenaiResponseCompletionProfileApiGet {
 }
 
 export type GetAiCompletionProfiles200Item =
-  | AiAnthropicCompletionProfileApiGet
-  | AiOpenaiCompletionProfileApiGet
   | AiOpenaiResponseCompletionProfileApiGet
+  | AiOpenaiCompletionProfileApiGet
+  | AiAnthropicCompletionProfileApiGet
 
 export type AiOpenaiResponseCompletionProfileType =
   (typeof AiOpenaiResponseCompletionProfileType)[keyof typeof AiOpenaiResponseCompletionProfileType]
@@ -489,8 +489,8 @@ export type AiOpenaiProviderApiPutType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiProviderApiPutType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiProviderApiPut {
@@ -506,8 +506,8 @@ export type AiOpenaiProviderApiGetType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiProviderApiGetType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiProviderApiGet {
@@ -523,8 +523,8 @@ export type AiOpenaiProviderType = (typeof AiOpenaiProviderType)[keyof typeof Ai
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiOpenaiProviderType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export interface AiOpenaiProvider {
@@ -588,8 +588,8 @@ export type AiAnthropicProviderApiPutType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiAnthropicProviderApiPutType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export type AiAnthropicProviderApiPutAnthropicVersion =
@@ -614,8 +614,8 @@ export type AiAnthropicProviderApiGetType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiAnthropicProviderApiGetType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export type AiAnthropicProviderApiGetAnthropicVersion =
@@ -641,8 +641,8 @@ export type AiAnthropicProviderType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AiAnthropicProviderType = {
   anthropic: 'anthropic',
-  openai_response: 'openai_response',
   openai: 'openai',
+  openai_response: 'openai_response',
 } as const
 
 export type AiAnthropicProviderAnthropicVersion =

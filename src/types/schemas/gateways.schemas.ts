@@ -118,7 +118,7 @@ export const GatewayWebsocketPiggyback = {
   single: 'single',
 } as const
 
-export type GatewayWebsocketMaxFrameSize = 'infinity' | number
+export type GatewayWebsocketMaxFrameSize = number | 'infinity'
 
 export interface GatewayWebsocket {
   allow_origin_absence?: boolean
@@ -181,12 +181,12 @@ export type GatewaySslServerOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewaySslServerOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
-export type GatewaySslServerOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+export type GatewaySslServerOptsManagedCerts = EmqxManagedCertsServer[] | EmqxManagedCertsServer
 
 export type GatewaySslServerOptsLogLevel =
   (typeof GatewaySslServerOptsLogLevel)[keyof typeof GatewaySslServerOptsLogLevel]
@@ -274,8 +274,8 @@ export interface GatewayExprotoGrpcServer {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayExprotoGrpcHandlerServiceName = {
-  ConnectionHandler: 'ConnectionHandler',
   ConnectionUnaryHandler: 'ConnectionUnaryHandler',
+  ConnectionHandler: 'ConnectionHandler',
 } as const
 
 export interface GatewayExprotoGrpcHandler {
@@ -299,12 +299,12 @@ export type GatewayDtlsOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GatewayDtlsOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
-export type GatewayDtlsOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+export type GatewayDtlsOptsManagedCerts = EmqxManagedCertsServer[] | EmqxManagedCertsServer
 
 export type GatewayDtlsOptsLogLevel =
   (typeof GatewayDtlsOptsLogLevel)[keyof typeof GatewayDtlsOptsLogLevel]
@@ -383,7 +383,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -391,9 +391,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -500,12 +500,12 @@ export type EmqxListenerWssOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerWssOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
-export type EmqxListenerWssOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+export type EmqxListenerWssOptsManagedCerts = EmqxManagedCertsServer[] | EmqxManagedCertsServer
 
 export type EmqxListenerWssOptsLogLevel =
   (typeof EmqxListenerWssOptsLogLevel)[keyof typeof EmqxListenerWssOptsLogLevel]
@@ -565,12 +565,12 @@ export type EmqxListenerSslOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxListenerSslOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
-export type EmqxListenerSslOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
+export type EmqxListenerSslOptsManagedCerts = EmqxManagedCertsServer[] | EmqxManagedCertsServer
 
 export type EmqxListenerSslOptsLogLevel =
   (typeof EmqxListenerSslOptsLogLevel)[keyof typeof EmqxListenerSslOptsLogLevel]
@@ -749,10 +749,10 @@ export interface EmqxGatewayApiUpdateStomp {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiUpdateOcppMessageFormatChecking = {
-  all: 'all',
   disable: 'disable',
   dnstream_only: 'dnstream_only',
   upstream_only: 'upstream_only',
+  all: 'all',
 } as const
 
 export interface EmqxGatewayApiUpdateOcpp {
@@ -1017,13 +1017,13 @@ export const EmqxGatewayApiOcppName = {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiOcppMessageFormatChecking = {
-  all: 'all',
   disable: 'disable',
   dnstream_only: 'dnstream_only',
   upstream_only: 'upstream_only',
+  all: 'all',
 } as const
 
-export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWsListener | EmqxGatewayApiWssListener
+export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWssListener | EmqxGatewayApiWsListener
 
 export interface EmqxGatewayApiOcpp {
   clientinfo_override?: GatewayClientinfoOverride
@@ -1051,10 +1051,10 @@ export const EmqxGatewayApiNatsName = {
 } as const
 
 export type EmqxGatewayApiNatsListenersItem =
+  | EmqxGatewayApiWssListener
+  | EmqxGatewayApiWsListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
 
 export interface EmqxGatewayApiNats {
   clientinfo_override?: GatewayClientinfoOverride
@@ -1308,9 +1308,9 @@ export interface EmqxGatewayApiDtlsListener {
 
 export type EmqxGatewayApiExprotoListenersItem =
   | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiUdpListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiCoapSubscribeQos =
   (typeof EmqxGatewayApiCoapSubscribeQos)[keyof typeof EmqxGatewayApiCoapSubscribeQos]

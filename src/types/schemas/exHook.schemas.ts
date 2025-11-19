@@ -147,7 +147,7 @@ export const ExhookSslConfVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type ExhookSslConfServerNameIndication = 'disable' | string
+export type ExhookSslConfServerNameIndication = string | 'disable'
 
 export type ExhookSslConfPartialChain =
   (typeof ExhookSslConfPartialChain)[keyof typeof ExhookSslConfPartialChain]
@@ -155,9 +155,9 @@ export type ExhookSslConfPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ExhookSslConfPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type ExhookSslConfLogLevel =
@@ -217,7 +217,7 @@ export const ExhookServerConfigFailedAction = {
   ignore: 'ignore',
 } as const
 
-export type ExhookServerConfigAutoReconnect = false | string
+export type ExhookServerConfigAutoReconnect = string | false
 
 export interface ExhookServerConfig {
   auto_reconnect?: ExhookServerConfigAutoReconnect
@@ -294,7 +294,7 @@ export const ExhookDetailServerInfoFailedAction = {
   ignore: 'ignore',
 } as const
 
-export type ExhookDetailServerInfoAutoReconnect = false | string
+export type ExhookDetailServerInfoAutoReconnect = string | false
 
 export interface ExhookDetailServerInfo {
   auto_reconnect?: ExhookDetailServerInfoAutoReconnect

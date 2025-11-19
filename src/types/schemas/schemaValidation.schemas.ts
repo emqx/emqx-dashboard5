@@ -153,10 +153,10 @@ export const SchemaValidationValidationFailureAction = {
 } as const
 
 export type SchemaValidationValidationChecksItem =
-  | SchemaValidationCheckAvro
   | SchemaValidationCheckExternalHttp
-  | SchemaValidationCheckJson
   | SchemaValidationCheckProtobuf
+  | SchemaValidationCheckAvro
+  | SchemaValidationCheckJson
   | SchemaValidationCheckSql
 
 export type SchemaValidationLogFailureLevel =

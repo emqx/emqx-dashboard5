@@ -280,7 +280,7 @@ export interface PluginsRunningStatus {
   status?: PluginsRunningStatusStatus
 }
 
-export type PluginsPositionPosition = 'front' | 'rear' | string
+export type PluginsPositionPosition = string | 'rear' | 'front'
 
 export interface PluginsPosition {
   position?: PluginsPositionPosition

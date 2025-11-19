@@ -126,8 +126,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetDataFilesParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
+  limit?: PublicLimitParameter
 }
 
 export interface PublicMeta {

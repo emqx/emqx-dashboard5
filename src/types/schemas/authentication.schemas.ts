@@ -142,10 +142,10 @@ export type GetAuthenticationIdUsers404 = {
 }
 
 export type GetAuthenticationIdUsersParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
-  is_superuser?: boolean
+  limit?: PublicLimitParameter
   like_user_id?: string
+  is_superuser?: boolean
 }
 
 export type GetAuthenticationIdStatus500Code =
@@ -311,9 +311,9 @@ export type PutAuthenticationIdBody =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type GetAuthenticationId404Code =
   (typeof GetAuthenticationId404Code)[keyof typeof GetAuthenticationId404Code]
@@ -347,9 +347,9 @@ export type GetAuthenticationId200 =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type PostAuthentication409Code =
   (typeof PostAuthentication409Code)[keyof typeof PostAuthentication409Code]
@@ -416,16 +416,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -477,7 +477,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -485,9 +485,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -765,9 +765,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -814,9 +814,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -864,9 +864,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -940,9 +940,9 @@ export type PostAuthentication200 =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
@@ -963,14 +963,14 @@ export type PostAuthenticationBody =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
+  | AuthnScram
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
-  | AuthnScram
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -1018,7 +1018,7 @@ export interface AuthnNodeError {
   node?: string
 }
 
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
 
@@ -1073,9 +1073,9 @@ export const AuthnMongoSingleUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -1150,9 +1150,9 @@ export const AuthnMongoShardedUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1233,7 +1233,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1679,9 +1679,9 @@ export const AuthnBuiltinDbApiUserIdType = {
 } as const
 
 export type AuthnBuiltinDbApiPasswordHashAlgorithm =
-  | AuthnHashBcryptRwApi
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRwApi
 
 export type AuthnBuiltinDbApiMechanism =
   (typeof AuthnBuiltinDbApiMechanism)[keyof typeof AuthnBuiltinDbApiMechanism]
@@ -1729,9 +1729,9 @@ export const AuthnBuiltinDbUserIdType = {
 } as const
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashBcryptRw
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnBuiltinDbMechanism =
   (typeof AuthnBuiltinDbMechanism)[keyof typeof AuthnBuiltinDbMechanism]
@@ -1770,27 +1770,27 @@ export interface AuthnBuiltinDb {
 }
 
 export type GetAuthentication200Item =
-  | AuthnBuiltinDb
   | AuthnCinfo
+  | AuthnKerberos
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
+  | AuthnLdap
+  | AuthnScram
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
   | AuthnRedisSentinel
+  | AuthnRedisCluster
   | AuthnRedisSingle
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-  | AuthnScram
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
 
 export type AuthnBindMethodType = (typeof AuthnBindMethodType)[keyof typeof AuthnBindMethodType]
 
@@ -1937,9 +1937,9 @@ export interface AuthCacheStatus {
   node_metrics?: AuthCacheNodeMetrics[]
 }
 
-export type AuthCacheConfigMaxMemory = 'unlimited' | string
+export type AuthCacheConfigMaxMemory = string | 'unlimited'
 
-export type AuthCacheConfigMaxCount = 'unlimited' | number
+export type AuthCacheConfigMaxCount = number | 'unlimited'
 
 export interface AuthCacheConfig {
   cache_ttl?: string

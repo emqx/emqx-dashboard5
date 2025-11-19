@@ -173,9 +173,9 @@ export type GetGatewaysNameAuthenticationUsers400 = {
 }
 
 export type GetGatewaysNameAuthenticationUsersParams = {
-  like_user_id?: string
   page?: number
   limit?: number
+  like_user_id?: string
   is_superuser?: boolean
 }
 
@@ -421,16 +421,16 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = 'disable' | string
+export type LdapSslServerNameIndication = string | 'disable'
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type LdapSslLogLevel = (typeof LdapSslLogLevel)[keyof typeof LdapSslLogLevel]
@@ -458,7 +458,7 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
+export type EmqxSslClientOptsServerNameIndication = string | 'disable'
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
@@ -466,9 +466,9 @@ export type EmqxSslClientOptsPartialChain =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
   cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
   false: false,
   true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
 export type EmqxSslClientOptsLogLevel =
@@ -583,9 +583,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -632,9 +632,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -682,9 +682,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -721,9 +721,9 @@ export interface AuthnRedisCluster {
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -800,7 +800,7 @@ export const AuthnPostgresqlBackend = {
   postgresql: 'postgresql',
 } as const
 
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
 
@@ -855,9 +855,9 @@ export const AuthnMongoSingleUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -932,9 +932,9 @@ export const AuthnMongoShardedUseLegacyProtocol = {
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashBcrypt
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcrypt
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1015,7 +1015,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1506,9 +1506,9 @@ export interface AuthnHashSimple {
 }
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashBcryptRw
-  | AuthnHashPbkdf2
   | AuthnHashSimple
+  | AuthnHashPbkdf2
+  | AuthnHashBcryptRw
 
 export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
 

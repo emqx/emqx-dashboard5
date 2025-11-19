@@ -50,15 +50,15 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetBannedParams = {
-  limit?: PublicLimitParameter
   page?: PublicPageParameter
-  like_peerhost?: string
-  peerhost?: string
-  like_peerhost_net?: string
+  limit?: PublicLimitParameter
   clientid?: string
+  username?: string
+  peerhost?: string
   like_clientid?: string
   like_username?: string
-  username?: string
+  like_peerhost?: string
+  like_peerhost_net?: string
 }
 
 export interface PublicMeta {
@@ -74,23 +74,23 @@ export interface PublicMeta {
   page?: number
 }
 
-export type EmqxMgmtApiBannedBanUntilOneOf = string | number
+export type EmqxMgmtApiBannedBanUntilOneOf = number | string
 
-export type EmqxMgmtApiBannedBanUntil = 'infinity' | EmqxMgmtApiBannedBanUntilOneOf
+export type EmqxMgmtApiBannedBanUntil = EmqxMgmtApiBannedBanUntilOneOf | 'infinity'
 
-export type EmqxMgmtApiBannedBanAt = string | number
+export type EmqxMgmtApiBannedBanAt = number | string
 
 export type EmqxMgmtApiBannedBanAs =
   (typeof EmqxMgmtApiBannedBanAs)[keyof typeof EmqxMgmtApiBannedBanAs]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxMgmtApiBannedBanAs = {
-  clientid_re: 'clientid_re',
   clientid: 'clientid',
-  peerhost_net: 'peerhost_net',
+  clientid_re: 'clientid_re',
   peerhost: 'peerhost',
-  username_re: 'username_re',
+  peerhost_net: 'peerhost_net',
   username: 'username',
+  username_re: 'username_re',
 } as const
 
 export interface EmqxMgmtApiBannedBan {
