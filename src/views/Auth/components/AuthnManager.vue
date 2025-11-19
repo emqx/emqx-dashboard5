@@ -30,100 +30,37 @@
         <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
       </div>
     </div>
-
-    <el-table :data="tableData" v-loading.lock="lockTable">
-      <el-table-column prop="user_id" :label="getFiledLabel(field)">
-        <template #default="{ row }">
-          {{ replaceSpaceForHTML(row.user_id) }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="is_superuser" :label="$t('Auth.isSuperuser')">
-        <template #default="{ row }">
-          {{ row.is_superuser ? $t('Base.yes') : $t('Base.no') }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')">
-        <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
-            {{ $t('Base.edit') }}
-          </TableButton>
-          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
-            {{ $t('Base.delete') }}
-          </TableButton>
-        </template>
-      </el-table-column>
-    </el-table>
+    <AuthnUserTable
+      :data="tableData"
+      :field="field"
+      v-loading.lock="lockTable"
+      @edit="handleEdit"
+      @delete="handleDelete"
+    />
     <div class="emq-table-footer">
       <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
     </div>
 
-    <el-dialog
-      :title="isEdit ? $t('Base.edit') : $t('Base.add')"
-      width="480px"
+    <AuthnUserDialog
       v-model="dialogVisible"
-      destroy-on-close
-    >
-      <el-form
-        ref="recordForm"
-        :model="record"
-        :rules="getRules()"
-        label-position="top"
-        require-asterisk-position="right"
-      >
-        <el-form-item prop="user_id" :label="getFiledLabel(field)">
-          <el-input v-model="record.user_id" :disabled="isEdit" />
-        </el-form-item>
-        <el-form-item prop="password" :label="$t('General.password')">
-          <el-input
-            v-model="record.password"
-            type="password"
-            show-password
-            autocomplete="one-time-code"
-          />
-        </el-form-item>
-        <el-form-item>
-          <div class="border-checkbox">
-            <el-checkbox v-model="record.is_superuser" :label="$t('Auth.isSuperuser')" />
-            <p class="checkbox-note">
-              {{ $t('Auth.isSuperuserDesc') }}
-            </p>
-          </div>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-align-footer">
-          <CancelButton @click="dialogVisible = false" />
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('post')"
-            :loading="saveLoading"
-            @click="save"
-          >
-            {{ isEdit ? $t('Base.update') : $t('Base.save') }}
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+      :authn-id="id"
+      :field="field"
+      :user="currentItem"
+      :gateway="gateway"
+      @save="loadData"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { createAuthnUsers, deleteAuthnUser, loadAuthnUsers, updateAuthnUser } from '@/api/auth'
-import {
-  addGatewayUserManagement,
-  deleteGatewayUser,
-  getGatewayUserManagement,
-  updateGatewayUser,
-} from '@/api/gateway'
+import { deleteAuthnUser, loadAuthnUsers } from '@/api/auth'
+import { deleteGatewayUser, getGatewayUserManagement } from '@/api/gateway'
 import { DataManagerItem } from '@/types/auth'
-import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
+import { ElMessageBox as MB } from 'element-plus'
+import AuthnUserDialog from './AuthnUserDialog.vue'
 import AuthnUsersImport from './AuthnUsersImport.vue'
-
-const createRawUserForm = () => ({
-  user_id: '',
-  password: '',
-  is_superuser: false,
-})
+import AuthnUserTable from './AuthnUserTable.vue'
+import useBuiltInDatabaseAuthn from '@/hooks/Auth/useBuiltInDatabaseAuthn'
 
 const prop = defineProps({
   field: {
@@ -139,14 +76,12 @@ const prop = defineProps({
 })
 
 const { t } = useI18n()
-const record = ref<DataManagerItem>(createRawUserForm())
+const currentItem = ref<DataManagerItem | undefined>(undefined)
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
 const route = useRoute()
-const recordForm = ref()
 const isEdit = ref(false)
-const saveLoading = ref(false)
 const searchVal = reactive({
   user_id: '',
   is_superuser: undefined,
@@ -193,31 +128,16 @@ const loadData = async () => {
 
 onMounted(loadData)
 
-const getRules = function () {
-  let message = t('Auth.pleaseEnterUsername')
-  if (prop.field === 'clientid') {
-    message = t('Auth.pleaseEnterClientID')
-  }
-  const rules = {
-    user_id: [{ required: true, message, trigger: 'blur' }],
-    password: [{ required: true, message: t('General.pleaseEnterPassword') }],
-  }
-  if (isEdit.value) {
-    Reflect.deleteProperty(rules, 'user_id')
-  }
-  return rules
-}
-
 const addCommand = () => {
   isEdit.value = false
-  record.value = createRawUserForm()
+  currentItem.value = undefined
   dialogVisible.value = true
 }
 
 const handleEdit = (row: DataManagerItem) => {
   dialogVisible.value = true
   isEdit.value = true
-  record.value = {
+  currentItem.value = {
     user_id: row.user_id,
     is_superuser: row.is_superuser,
     password: '',
@@ -244,71 +164,7 @@ const handleDelete = (row: DataManagerItem) => {
     })
 }
 
-const save = async () => {
-  const validation = await recordForm.value.validate()
-  if (!validation) {
-    return
-  }
-  saveLoading.value = true
-  if (isEdit.value) {
-    handleUpdate()
-  } else {
-    handleAdd()
-  }
-}
-
-const handleAdd = async function () {
-  let res
-  try {
-    if (prop.gateway) {
-      res = await addGatewayUserManagement(prop.gateway, record.value)
-    } else {
-      res = await createAuthnUsers(id.value, record.value)
-    }
-    if (res) {
-      dialogVisible.value = false
-      M.success(t('Base.createSuccess'))
-      record.value = {
-        user_id: '',
-        password: '',
-        is_superuser: false,
-      }
-    }
-    loadData()
-  } catch (error) {
-    //
-  } finally {
-    saveLoading.value = false
-  }
-}
-
-const handleUpdate = async function () {
-  const { password, is_superuser, user_id } = record.value
-  const data = {
-    password: password,
-    is_superuser: is_superuser,
-  }
-  let res
-  if (prop.gateway) {
-    res = await updateGatewayUser(prop.gateway, user_id, data)
-  } else {
-    res = await updateAuthnUser(id.value, user_id, data)
-  }
-  if (res) {
-    dialogVisible.value = false
-    saveLoading.value = false
-    M.success(t('Base.updateSuccess'))
-    loadData()
-  }
-}
-
-const getFiledLabel = (field: 'clientid' | 'username') => {
-  const fieldMap = {
-    clientid: t('Base.clientid'),
-    username: t('Base.username'),
-  }
-  return fieldMap[field]
-}
+const { getFiledLabel } = useBuiltInDatabaseAuthn()
 
 const resetPageAndLoadData = () => {
   pageMeta.value.page = 1
@@ -331,9 +187,6 @@ const resetIsSuperuser = () => {
       width: 200px;
       font-weight: normal;
     }
-  }
-  .border-checkbox {
-    margin-top: 16px;
   }
 
   .add-funcs-container {

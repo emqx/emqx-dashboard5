@@ -126,4 +126,6 @@ const findIndex = (row: AuthnItem) => {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@use './style/authTable.scss';
+</style>

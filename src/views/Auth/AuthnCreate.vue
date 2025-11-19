@@ -251,7 +251,7 @@ const { authnMechanismTypeList } = useAuthnMechanismType()
 
 const supportBackendMap: BackendMap = {
   password_based: {
-    // built_in_database: tl('builtInDatabase'),
+    ...(props.gateway ? { built_in_database: tl('builtInDatabase') } : {}),
     mysql: 'MySQL',
     mongodb: 'MongoDB',
     postgresql: 'PostgreSQL',
