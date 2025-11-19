@@ -2,7 +2,7 @@ import type { Component } from 'vue'
 import {
   Database,
   Gauge,
-  List,
+  Layers,
   Server,
   Settings,
   ShieldCheck,
@@ -124,7 +124,7 @@ const useMenus = (): {
     },
     {
       title: 'message-queue',
-      icon: List,
+      icon: Layers,
       path: '/message-queue',
     },
     {
