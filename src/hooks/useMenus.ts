@@ -1,3 +1,4 @@
+import type { Component } from 'vue'
 import {
   Database,
   Gauge,
@@ -12,7 +13,7 @@ import {
 export interface Menu {
   title: string
   path?: string
-  icon?: string
+  icon?: Component
   children?: Menu[]
 }
 
