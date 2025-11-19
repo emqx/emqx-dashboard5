@@ -55,6 +55,14 @@ export default {
     zh: '客户端认证',
     en: 'Authentication',
   },
+  'authentication-default': {
+    zh: '默认认证',
+    en: 'Default Authentication',
+  },
+  'authentication-extended': {
+    zh: '扩展认证',
+    en: 'Extended Authentication',
+  },
   authorization: {
     zh: '客户端授权',
     en: 'Authorization',

@@ -8,8 +8,8 @@
   .item-description {
     color: var(--color-text-secondary);
     font-size: 14px;
-    margin-top: 24px;
-    margin-bottom: 32px;
+    margin-top: 12px;
+    margin-bottom: 0;
   }
   .create-form {
     width: 75%;
@@ -19,11 +19,18 @@
         width: 220px;
       }
       &.backend {
-        width: 160px;
+        width: 100%;
       }
     }
     .select-database {
+      display: block;
       margin-bottom: 32px;
+      .el-badge {
+        width: 100%;
+      }
+      .el-radio {
+        margin-right: 0;
+      }
     }
   }
   .step-btn {
