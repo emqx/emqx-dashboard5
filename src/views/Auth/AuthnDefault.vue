@@ -1,31 +1,41 @@
 <template>
   <div class="authn-default">
     <AuthnMenuTab />
+    <el-form class="search-wrapper without-padding-top" @keyup.enter="resetPageAndLoadData">
+      <el-row :gutter="20">
+        <el-col v-bind="colProps">
+          <el-input
+            v-model="searchVal.user_id"
+            clearable
+            :placeholder="getFiledLabel(field)"
+            @keyup.enter="resetPageAndLoadData"
+            @clear="resetPageAndLoadData"
+          />
+        </el-col>
+        <el-col v-bind="colProps">
+          <el-select
+            v-model="searchVal.is_superuser"
+            clearable
+            :placeholder="$t('Auth.isSuperuser')"
+            @clear="resetIsSuperuser(), resetPageAndLoadData()"
+          >
+            <el-option :value="true" :label="$t('Base.yes')" />
+            <el-option :value="false" :label="$t('Base.no')" />
+          </el-select>
+        </el-col>
+        <el-col v-bind="colProps" />
+
+        <el-col class="col-oper" v-bind="colProps">
+          <SearchButton @click="resetPageAndLoadData" />
+          <ResetButton @click="resetSearch" />
+        </el-col>
+      </el-row>
+    </el-form>
     <div class="app-wrapper">
       <div class="section-header">
-        <div class="searchbar">
-          <el-space wrap :size="20">
-            <el-input
-              v-model="searchVal.user_id"
-              clearable
-              :placeholder="getFiledLabel(field)"
-              @keyup.enter="resetPageAndLoadData"
-              @clear="resetPageAndLoadData"
-            />
-            <el-select
-              v-model="searchVal.is_superuser"
-              clearable
-              :placeholder="$t('Auth.isSuperuser')"
-              @clear="resetIsSuperuser(), resetPageAndLoadData()"
-            >
-              <el-option :value="true" :label="$t('Base.yes')" />
-              <el-option :value="false" :label="$t('Base.no')" />
-            </el-select>
-            <SearchButton @click="resetPageAndLoadData" />
-            <RefreshButton @click="loadData" />
-          </el-space>
-        </div>
+        <div></div>
         <div class="add-funcs-container">
+          <RefreshButton @click="loadData" />
           <AuthnUsersImport @uploadedData="loadData" />
           <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
         </div>
@@ -60,6 +70,7 @@ import AuthnMenuTab from './components/AuthnMenuTab.vue'
 import AuthnUserDialog from './components/AuthnUserDialog.vue'
 import AuthnUsersImport from './components/AuthnUsersImport.vue'
 import AuthnUserTable from './components/AuthnUserTable.vue'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 
 const prop = defineProps({
   // TODO:
@@ -110,6 +121,12 @@ const loadData = async () => {
   lockTable.value = false
 }
 
+const resetSearch = () => {
+  searchVal.user_id = ''
+  searchVal.is_superuser = undefined
+  resetPageAndLoadData()
+}
+
 onMounted(loadData)
 
 const addCommand = () => {
@@ -156,22 +173,14 @@ const resetIsSuperuser = () => {
 
 <style lang="scss" scoped>
 .authn-default {
-  .searchbar {
-    height: 36px;
-    .el-input {
-      width: 260px;
-    }
-    .el-select {
-      width: 200px;
-      font-weight: normal;
-    }
+  .search-wrapper {
+    margin-top: -12px;
   }
-
   .add-funcs-container {
     display: flex;
     > .el-button,
-    > .file-upload {
-      margin-left: 16px;
+    > .authn-users-import {
+      margin-left: 12px;
     }
   }
 
