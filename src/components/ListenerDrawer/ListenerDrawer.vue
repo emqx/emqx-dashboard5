@@ -110,6 +110,7 @@
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
               :verify-label="t('Base.tlsVerifyClient')"
+              :managed-certs-bundle-empty-value="isEdit ? null : undefined"
               @verify-change="handleTLSVerifyChange"
             />
           </el-col>

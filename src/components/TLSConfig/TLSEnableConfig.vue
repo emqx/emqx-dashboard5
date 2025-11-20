@@ -235,6 +235,13 @@ const props = defineProps({
   managedCertConfColumns: {
     type: Number,
   },
+  /**
+   * prop for updating listener
+   */
+  managedCertsBundleEmptyValue: {
+    type: null as unknown as PropType<null>,
+    default: undefined,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'verifyChange'])
@@ -265,15 +272,15 @@ const handleCertificateSourceChange = async (val: any) => {
       await operationWarning(t('Base.certificateSourceChangeWarning'))
     }
     certificateSource.value = newVal
-    const newValue = isUsingCertBundle.value
-    if (newValue && !record.value.managed_certs) {
+    const isCertBundle = isUsingCertBundle.value
+    if (isCertBundle && !record.value.managed_certs) {
       if (props.managedCertsArr) {
         record.value.managed_certs = [createEmptyManagedCertConf()]
       } else {
         record.value.managed_certs = createEmptyManagedCertConf()
       }
-    } else if (!newValue && record.value.managed_certs) {
-      record.value.managed_certs = undefined
+    } else if (!isCertBundle && record.value.managed_certs) {
+      record.value.managed_certs = props.managedCertsBundleEmptyValue
     }
   } catch (error) {
     //
