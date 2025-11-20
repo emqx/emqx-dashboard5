@@ -24,12 +24,12 @@
       </div>
     </el-form-item>
 
-    <el-form-item :label="t('Base.configurationMethod')">
+    <!-- <el-form-item :label="t('Base.configurationMethod')">
       <el-radio-group :model-value="confMethod" @change="handleConfMethodChange">
         <el-radio :value="CertBundleType.Regular">{{ t('Base.certAndKey') }}</el-radio>
         <el-radio :value="CertBundleType.ACME">{{ t('Base.acmeKey') }}</el-radio>
       </el-radio-group>
-    </el-form-item>
+    </el-form-item> -->
 
     <template v-if="confMethod === CertBundleType.Regular">
       <el-form-item prop="chain">
