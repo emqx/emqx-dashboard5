@@ -1,25 +1,36 @@
 <template>
   <div class="authz-manager">
-    <el-radio-group v-model="type">
+    <el-radio-group v-model="type" class="mr-5">
       <el-radio-button v-for="item in typeList" :key="item.value" :value="item.value" border>
         {{ item.label }}
       </el-radio-button>
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
-      <div class="searchbar-content">
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <NamespaceSelect v-model="namespace" class="flex-0" @change="resetPageAndLoadData" />
+        </el-col>
         <template v-if="!isTypeAll">
-          <el-input
-            v-model="searchVal"
-            clearable
-            :placeholder="getCurrSearchValTip(type)"
-            @clear="resetPageAndLoadData"
-            @keyup.enter="resetPageAndLoadData"
-          />
-          <SearchButton @click="resetPageAndLoadData" />
-          <RefreshButton @click="loadData" />
+          <el-col :span="6">
+            <el-input
+              v-model="searchVal"
+              clearable
+              :placeholder="getCurrSearchValTip(type)"
+              @clear="resetPageAndLoadData"
+              @keyup.enter="resetPageAndLoadData"
+            />
+          </el-col>
+          <el-col :span="6">
+            <SearchButton @click="resetPageAndLoadData" />
+            <RefreshButton @click="loadData" />
+          </el-col>
         </template>
-      </div>
-      <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
+        <el-col :span="!isTypeAll ? 6 : 18">
+          <div class="flex justify-end">
+            <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <el-table
       v-if="isTypeAll"
@@ -132,15 +143,24 @@
       v-model="dialogVisible"
       destroy-on-close
     >
-      <AuthzRuleForm
-        v-if="isTypeAll"
-        ref="recordForm"
-        v-model="record"
-        is-edit
-        :column="2"
-        :rules="formRules"
-        :type="BuiltInDBType.All"
-      />
+      <template v-if="isTypeAll">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="t('BasicConfig.namespace')" label-position="top">
+              <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <AuthzRuleForm
+          ref="recordForm"
+          v-model="record"
+          is-edit
+          :column="2"
+          :rules="formRules"
+          :type="BuiltInDBType.All"
+        />
+      </template>
+
       <el-form
         v-else
         ref="recordForm"
@@ -149,20 +169,29 @@
         label-position="top"
         require-asterisk-position="right"
       >
-        <el-form-item
-          v-if="type === BuiltInDBType.Client"
-          prop="clientid"
-          :label="$t('Base.clientid')"
-        >
-          <el-input v-model="record.clientid" :disabled="isEdit" />
-        </el-form-item>
-        <el-form-item
-          v-else-if="type === BuiltInDBType.User"
-          prop="username"
-          :label="$t('Base.username')"
-        >
-          <el-input v-model="record.username" :disabled="isEdit" />
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item
+              v-if="type === BuiltInDBType.Client"
+              prop="clientid"
+              :label="$t('Base.clientid')"
+            >
+              <el-input v-model="record.clientid" :disabled="isEdit" />
+            </el-form-item>
+            <el-form-item
+              v-else-if="type === BuiltInDBType.User"
+              prop="username"
+              :label="$t('Base.username')"
+            >
+              <el-input v-model="record.username" :disabled="isEdit" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="t('BasicConfig.namespace')">
+              <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item>
           <AuthzRuleList
             ref="authzRuleListRef"
@@ -222,6 +251,7 @@ import {
   updateAllBuiltInDatabaseData,
   updateBuiltInDatabaseData,
 } from '@/api/auth'
+import useAuthzDataHandler from '@/hooks/Auth/useAuthzDataHandler'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType, QoSLevel } from '@/types/enum'
 import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
@@ -229,7 +259,6 @@ import { SortableEvent } from 'sortablejs'
 import AuthzRuleForm from './AuthzRuleForm.vue'
 import AuthzRuleList from './AuthzRuleList.vue'
 import TableDropdown from './TableDropdown.vue'
-import useAuthzDataHandler from '@/hooks/Auth/useAuthzDataHandler'
 
 interface AllTableDataItem {
   action: string
@@ -237,7 +266,7 @@ interface AllTableDataItem {
   topic: string
 }
 
-interface Record extends BuiltInDBRule {
+interface RecordData extends BuiltInDBRule {
   clientid: string
   username: string
   rules: BuiltInDBRule[]
@@ -246,6 +275,7 @@ interface Record extends BuiltInDBRule {
 const { t, tl } = useI18nTl('Auth')
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)
+const namespace = ref<string | undefined>(undefined)
 const lockTable = ref(false)
 const typeList = [
   {
@@ -279,13 +309,14 @@ const createRawRuleItem = (): BuiltInDBRule => ({
   listener: '',
   listener_re: '',
 })
-const createRawRecord = (): Record => ({
+const createRawRecord = (): RecordData => ({
   clientid: '',
   username: '',
   rules: [],
   ...createRawRuleItem(),
 })
 const record = ref(createRawRecord())
+const recordNamespace = ref<string | undefined>(undefined)
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 const editIndex = ref(0)
@@ -319,19 +350,21 @@ const getKeyByCurrentType = () => {
 }
 const loadData = async (params = {}) => {
   lockTable.value = true
-
-  const sendParams: Record<string, string | number> = {
+  const nsParams = { ns: namespace.value }
+  const sendParams: Record<string, string | number | undefined> = {
     ...pageParams.value,
     ...params,
+    ...nsParams,
   }
   if (searchVal.value) {
     sendParams[`like_${getKeyByCurrentType()}`] = searchVal.value
   }
-  const res = await loadBuiltInDatabaseData(type.value, isTypeAll.value ? {} : sendParams).catch(
-    () => {
-      lockTable.value = false
-    },
-  )
+  const res = await loadBuiltInDatabaseData(
+    type.value,
+    isTypeAll.value ? nsParams : sendParams,
+  ).catch(() => {
+    lockTable.value = false
+  })
   if (isTypeAll.value) {
     allTableData.value = res.rules
     await nextTick()
@@ -347,6 +380,7 @@ const handleAdd = function () {
   dialogVisible.value = true
   isEdit.value = false
   addColumn()
+  recordNamespace.value = namespace.value
   if (recordForm.value) {
     setTimeout(recordForm.value.clearValidate, 10)
   }
@@ -373,15 +407,16 @@ const handleSubmit = async () => {
     const data: {
       [key: string]: any
     } = {}
+    const params = { ns: recordNamespace.value }
     if (type.value !== BuiltInDBType.All) {
       const key = getKeyByCurrentType()
       data[key] = record.value[key]
       data.rules = handleRulesBeforeSubmit(record.value.rules)
       if (!isEdit.value) {
-        await createBuiltInDatabaseData(type.value, [data])
+        await createBuiltInDatabaseData(type.value, [data], params)
         ElMessage.success(t('Base.createSuccess'))
       } else {
-        await updateBuiltInDatabaseData(type.value, data[key], data)
+        await updateBuiltInDatabaseData(type.value, data[key], data, params)
         ElMessage.success(t('Base.updateSuccess'))
       }
     } else {
@@ -392,11 +427,10 @@ const handleSubmit = async () => {
       } else {
         rules.splice(editIndex.value, 1, data as BuiltInDBRule)
       }
-      await updateAllBuiltInDatabaseData({
-        rules: handleRulesBeforeSubmit(rules),
-      })
+      await updateAllBuiltInDatabaseData({ rules: handleRulesBeforeSubmit(rules) }, params)
     }
     dialogVisible.value = false
+    namespace.value = recordNamespace.value
     loadData()
   } catch (error) {
     //
@@ -406,13 +440,14 @@ const handleSubmit = async () => {
 const { confirmDel } = useOperationConfirm()
 const submitDel = async (row: BuiltInDBItem, index: number) => {
   try {
+    const params = { ns: namespace.value }
     if (!isTypeAll.value) {
       const key = getKeyByCurrentType()
-      await deleteBuiltInDatabaseData(type.value, row[key])
+      await deleteBuiltInDatabaseData(type.value, row[key], params)
     } else {
       const rules = cloneDeep(allTableData.value)
       rules.splice(index, 1)
-      await updateAllBuiltInDatabaseData({ rules })
+      await updateAllBuiltInDatabaseData({ rules }, params)
     }
     return Promise.resolve()
   } catch (error) {
@@ -431,6 +466,7 @@ const handleEdit = function (row: BuiltInDBItem | BuiltInDBRule, index: number) 
   dialogVisible.value = true
   isEdit.value = true
   editIndex.value = 0
+  recordNamespace.value = namespace.value
   if (!isTypeAll.value) {
     const _row = row as BuiltInDBItem
     const key = getKeyByCurrentType()
@@ -520,18 +556,8 @@ const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
 .authz-manager {
   padding-bottom: 32px;
   .section-searchbar {
-    display: flex;
     margin-bottom: 20px;
     margin-top: 32px;
-    width: 100%;
-    justify-content: space-between;
-    .searchbar-content {
-      display: flex;
-      width: 460px;
-      .el-input {
-        margin-right: 12px;
-      }
-    }
   }
   .el-radio.is-bordered {
     margin-top: 0px;

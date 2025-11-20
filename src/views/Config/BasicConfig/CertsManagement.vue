@@ -5,7 +5,6 @@
         <div>
           <el-select
             v-model="namespace"
-            clearable
             :placeholder="t('BasicConfig.namespace')"
             @change="getCertBundleList"
           >
