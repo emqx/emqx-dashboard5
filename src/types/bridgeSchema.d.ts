@@ -56,10 +56,7 @@ export interface PropByteSize extends PropBase {
   default: string
 }
 
-type OneOfItem =
-  | { $ref: string }
-  | { type: string }
-  | { symbols: Array<number>; type: PropType.Enum }
+export type OneOfItem = { $ref: string } | { type: string } | PropEnum
 export interface PropOneOf extends PropBase {
   oneOf: Array<OneOfItem>
   example?: string

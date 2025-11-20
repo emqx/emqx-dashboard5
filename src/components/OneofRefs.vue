@@ -26,7 +26,7 @@
     <template v-if="oneOfItem.$ref && typeIndex === $index">
       <el-col
         v-for="(item, $key) in oneOfItem.properties"
-        :span="item.format === 'sql' ? 24 : colSpan"
+        :span="getColSpan(item)"
         :key="$key"
         v-bind="$attrs"
         :class="getColClass(item)"
@@ -189,6 +189,16 @@ const getColClass = ({ path }: Property) => {
     return ''
   }
   return props.customColClass[path]
+}
+
+/**
+ * if property with special col span, return it, else return undefined
+ */
+const getColSpan = ({ format, type, items }: Property): number | undefined => {
+  if (format === 'sql' || (type === 'array' && items.type !== 'string') || type === 'object') {
+    return 24
+  }
+  return 12
 }
 
 const getPropRules = (prop: string) => {
