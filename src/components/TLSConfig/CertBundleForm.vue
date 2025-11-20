@@ -211,7 +211,9 @@ const { isBundleNameDuplicated } = useCertBundle()
 const validate = async () => {
   try {
     await formRef.value?.validate()
-    await isBundleNameDuplicated(record.value.name, record.value.namespace)
+    if (!props.isEditing) {
+      await isBundleNameDuplicated(record.value.name, record.value.namespace)
+    }
     await validateCerts()
     return Promise.resolve()
   } catch (error) {

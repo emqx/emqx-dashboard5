@@ -45,7 +45,7 @@ const useCertBundle = () => {
     }
   }
 
-  const submitNewCertBundle = async (form: CertBundleForm) => {
+  const submitCertBundle = async (form: CertBundleForm) => {
     try {
       const { name, namespace, ...data } = form
       const dataToSubmit = checkNOmitFromObj(cloneDeep(data))
@@ -100,7 +100,7 @@ const useCertBundle = () => {
   return {
     createEmptyCertBundle,
     createEmptyCertBundleForm,
-    submitNewCertBundle,
+    submitCertBundle,
     getCertBundleList,
     deleteCertBundle,
     getCertBundleInfo,

@@ -126,13 +126,14 @@ const handleClose = async () => {
 }
 
 const isSubmitting = ref(false)
-const { submitNewCertBundle } = useCertBundle()
+const { submitCertBundle } = useCertBundle()
 const submit = async () => {
   try {
     await formRef.value?.validate()
     isSubmitting.value = true
-    await submitNewCertBundle(formData.value)
-    ElMessage.success(t('Base.createSuccess'))
+    await submitCertBundle(formData.value)
+    const message = isEditing.value ? t('Base.updateSuccess') : t('Base.createSuccess')
+    ElMessage.success(message)
     emit('submit', { namespace: formData.value.namespace, bundle_name: formData.value.name })
     isDrawerShow.value = false
   } catch (error) {
