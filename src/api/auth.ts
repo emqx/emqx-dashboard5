@@ -118,25 +118,36 @@ export function loadBuiltInDatabaseData(type: string, params = {}) {
   })
 }
 
-export function createBuiltInDatabaseData(type: string, body: { [key: string]: any }) {
-  return http.post(`/authorization/sources/built_in_database/rules/${type}`, body)
+export function createBuiltInDatabaseData(
+  type: string,
+  body: { [key: string]: any },
+  params?: { ns?: string },
+) {
+  return http.post(`/authorization/sources/built_in_database/rules/${type}`, body, { params })
 }
 
-export function deleteBuiltInDatabaseData(type: string, key: string) {
+export function deleteBuiltInDatabaseData(type: string, key: string, params?: { ns?: string }) {
   return http.delete(
     `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
+    { params },
   )
 }
 
-export function updateBuiltInDatabaseData(type: string, key: string, body: { [key: string]: any }) {
+export function updateBuiltInDatabaseData(
+  type: string,
+  key: string,
+  body: { [key: string]: any },
+  params?: { ns?: string },
+) {
   return http.put(
     `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
     body,
+    { params },
   )
 }
 
-export function updateAllBuiltInDatabaseData(body = {}) {
-  return http.post('/authorization/sources/built_in_database/rules/all', body)
+export function updateAllBuiltInDatabaseData(body = {}, params?: { ns?: string }) {
+  return http.post('/authorization/sources/built_in_database/rules/all', body, { params })
 }
 
 export function loadAuthnSettings() {
