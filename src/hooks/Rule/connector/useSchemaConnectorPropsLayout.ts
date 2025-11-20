@@ -108,6 +108,34 @@ export default (
       'allow_auto_topic_creation',
     ]),
   }
+  const kafkaProducerOrderMap = {
+    ...createOrderObj(
+      [
+        'bootstrap_hosts',
+        'authentication',
+        'authentication.password',
+        // these two just for confluent
+        'logical_cluster',
+        'identity_pool_id',
+        'mechanism',
+        'grant_type',
+        'endpoint_uri',
+        'client_id',
+        'client_secret',
+        'scope',
+        'extensions',
+        'ssl',
+        'health_check_topic',
+        'allow_auto_topic_creation',
+      ],
+      fieldStartIndex,
+    ),
+    // put health_check_topic at the start
+    ...omit(createOrderObj(azureAdvancedProps, 150), [
+      'health_check_topic',
+      'allow_auto_topic_creation',
+    ]),
+  }
   const pgSqlOrderMap = createOrderObj(
     ['server', 'database', 'username', 'password', 'ssl', 'disable_prepared_statements'],
     fieldStartIndex,
@@ -166,8 +194,9 @@ export default (
       ...createOrderObj(httpAdvancedProps, 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
-    [BridgeType.KafkaProducer]: azureOrderMap,
+    [BridgeType.KafkaProducer]: kafkaProducerOrderMap,
     [BridgeType.KafkaConsumer]: azureOrderMap,
+    [BridgeType.Confluent]: kafkaProducerOrderMap,
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
@@ -364,6 +393,12 @@ export default (
     }
     return { 'parameters.enable_prepared': 'col-hidden' }
   }
+  const getKafkaProducerColClass = (formData: Record<string, any>): Record<string, string> => {
+    if (/oauth/i.test(formData?.authentication?.mechanism)) {
+      return { 'authentication.mechanism': 'col-hidden' }
+    }
+    return {}
+  }
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -378,6 +413,8 @@ export default (
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
     [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
     [BridgeType.Datalayers]: getDatalayersColClass,
+    [BridgeType.KafkaProducer]: getKafkaProducerColClass,
+    [BridgeType.Confluent]: getKafkaProducerColClass,
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']

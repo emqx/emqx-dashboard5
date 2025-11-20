@@ -230,7 +230,15 @@ export default (
 
   const confluentHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
+    const authProp = components.authentication
+    const basicAuthItem = authProp?.oneOf?.find((item) => item.$ref && /password/i.test(item.$ref))
 
+    if (authProp) {
+      authProp.useNewCom = true
+      if (basicAuthItem) {
+        authProp.default = basicAuthItem.default
+      }
+    }
     if (components?.ssl) {
       components.ssl.properties = pick(components.ssl.properties, neededSSLConfig) as Properties
       components.ssl.componentProps = { hideVerify: true }

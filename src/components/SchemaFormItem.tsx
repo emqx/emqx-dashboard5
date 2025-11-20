@@ -101,6 +101,8 @@ export default defineComponent({
       },
     })
 
+    const { getOptLabel } = useItemLabelAndDesc(props)
+
     const getFormItem = () => {
       const format = props.format
       const isDisabled = props.disabled
@@ -199,7 +201,9 @@ export default defineComponent({
               clearable
               {...customProps}
             >
-              {(props.symbols as any)?.map((opt: any) => <el-option value={opt} label={opt} />)}
+              {(props.symbols as any)?.map((opt: any) => (
+                <el-option value={opt} label={getOptLabel(opt.toString())} />
+              ))}
             </el-select>
           )
         case 'boolean':
