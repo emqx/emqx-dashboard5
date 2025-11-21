@@ -23,10 +23,14 @@
       </el-form-item>
     </div>
     <div class="mb-4 info-container" v-if="record.bundle_name">
-      <p class="mb-2">{{ t('Base.certsInfo') }}</p>
-      <div class="info-card">
-        <CertBundleInfo :name="record.bundle_name" :namespace="selectedNamespace" />
-      </div>
+      <el-form-item>
+        <p class="mb-2">{{ t('Base.certsInfo') }}</p>
+      </el-form-item>
+      <el-form-item>
+        <div class="info-card">
+          <CertBundleInfo :name="record.bundle_name" :namespace="selectedNamespace" />
+        </div>
+      </el-form-item>
     </div>
     <div class="grid" :class="gridColsClass" v-if="sni">
       <el-form-item label="SNI" class="sni-form-item">
@@ -162,7 +166,7 @@ const gridColsClass = computed(() => {
 <style lang="scss">
 .managed-cert-config {
   .info-card {
-    padding: 12px 24px 8px;
+    padding: 12px 24px 16px;
     border-radius: var(--border-radius-card);
     background-color: var(--color-bg-split);
     .el-card__body {
@@ -170,15 +174,25 @@ const gridColsClass = computed(() => {
       padding-bottom: 8px;
     }
   }
+  .info-container {
+    .el-form-item {
+      padding: 0;
+      margin: 0;
+    }
+    .info-card {
+      flex-grow: 1;
+    }
+    .el-form-item__content {
+      line-height: 1.5;
+    }
+  }
   .el-form-item {
     .el-input {
       width: 100%;
     }
   }
-  .grid-cols-2 {
-    .el-form-item:nth-child(n + 3) {
-      margin-top: 18px;
-    }
+  .grid-cols-2 + .grid-cols-2 {
+    margin-top: 18px;
   }
 }
 </style>

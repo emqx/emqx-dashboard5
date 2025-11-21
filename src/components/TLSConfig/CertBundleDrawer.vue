@@ -2,6 +2,7 @@
   <!-- TODO: check before-close logic -->
   <el-drawer
     v-model="isDrawerShow"
+    append-to-body
     destroy-on-close
     :title="title"
     :before-close="checkBeforeClose"

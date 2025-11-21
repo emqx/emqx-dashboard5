@@ -12,7 +12,7 @@
           :label-width="store.state.lang === 'zh' ? 176 : 232"
         >
           <el-row>
-            <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
+            <el-col class="ps-1.5" :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
               <el-form-item class="radio-form-item">
                 <template #label>
                   <FormItemLabel
@@ -170,13 +170,14 @@
                   </el-form-item>
                 </el-col>
                 <!-- Exporter SSL Options -->
-                <el-col :span="21" class="custom-col">
+                <el-col :span="21" class="custom-col col-ssl">
                   <!-- Setting the key is to refresh the certificate content to the certificate path after updating the configuration. -->
                   <CommonTLSConfig
                     :key="isDataLoading.toString()"
                     v-model="opentelemetryFormData.exporter.ssl_options"
-                    :show-sni="false"
                     is-edit
+                    :show-sni="false"
+                    :managed-cert-conf-columns="1"
                   />
                 </el-col>
               </template>
