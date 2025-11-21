@@ -85,6 +85,7 @@ export default (
     })
   }
 
+  const store = useStore()
   const { createSSLForm } = useSSL()
   const SSLKeys = Object.keys(createSSLForm())
   const SSL_KEY = 'ssl'
@@ -97,7 +98,12 @@ export default (
             if (prop.properties.verify) {
               prop.properties.verify.default = DEFAULT_SSL_VERIFY_VALUE
             }
-            prop.componentProps = { ...(prop.componentProps ?? { requireNamespace: true }) }
+            prop.componentProps = {
+              ...(prop.componentProps ?? {
+                globalOnly: false,
+                userNamespace: store.getters.userNamespace,
+              }),
+            }
           } else {
             walk(prop.properties)
           }

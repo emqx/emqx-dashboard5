@@ -12,12 +12,15 @@
     </el-form-item>
     <el-form-item prop="namespace" :label="t('BasicConfig.namespace')">
       <div class="flex flex-1 items-center gap-2">
-        <el-switch v-model="isNamespaceEnabled" :disabled="isEditing || requireNamespace" />
+        <el-switch
+          v-model="isNamespaceEnabled"
+          :disabled="isEditing || globalOnly || userNamespace"
+        />
         <el-select
           v-if="isNamespaceEnabled"
           v-model="record.namespace"
           class="flex-1"
-          :disabled="isEditing"
+          :disabled="isEditing || userNamespace"
         >
           <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
         </el-select>
@@ -101,7 +104,10 @@ import type { FormInstance } from 'element-plus'
 const props = defineProps<{
   modelValue: CertBundleForm
   isEditing?: boolean
-  requireNamespace?: boolean
+  /**
+   * not data integration
+   */
+  globalOnly?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
@@ -117,6 +123,9 @@ const record = computed({
     emit('update:modelValue', value)
   },
 })
+
+const store = useStore()
+const userNamespace = computed<string | undefined>(() => store.getters.userNamespace)
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
@@ -159,37 +168,44 @@ const initConfMethod = () => {
 }
 initConfMethod()
 
-const { operationWarning } = useOperationConfirm()
-const handleConfMethodChange = async (val: any) => {
-  try {
-    const nV = val as CertBundleType
-    const { acc_key, chain, key, key_password } = record.value
-    if (nV === CertBundleType.ACME && (key_password || chain || key)) {
-      await operationWarning(t('Base.switchConfigurationMethodToACMEWarning'))
-    } else if (nV === CertBundleType.Regular && acc_key) {
-      await operationWarning(t('Base.switchConfigurationMethodToRegularWarning'))
-    }
-    confMethod.value = nV
-    if (confMethod.value === CertBundleType.Regular) {
-      record.value.acc_key = ''
-    } else {
-      record.value.chain = ''
-      record.value.key = ''
-      record.value.key_password = ''
-    }
-  } catch (error) {
-    //
-  }
-}
+// const { operationWarning } = useOperationConfirm()
+// const handleConfMethodChange = async (val: any) => {
+//   try {
+//     const nV = val as CertBundleType
+//     const { acc_key, chain, key, key_password } = record.value
+//     if (nV === CertBundleType.ACME && (key_password || chain || key)) {
+//       await operationWarning(t('Base.switchConfigurationMethodToACMEWarning'))
+//     } else if (nV === CertBundleType.Regular && acc_key) {
+//       await operationWarning(t('Base.switchConfigurationMethodToRegularWarning'))
+//     }
+//     confMethod.value = nV
+//     if (confMethod.value === CertBundleType.Regular) {
+//       record.value.acc_key = ''
+//     } else {
+//       record.value.chain = ''
+//       record.value.key = ''
+//       record.value.key_password = ''
+//     }
+//   } catch (error) {
+//     //
+//   }
+// }
 
 const isLoading = ref(false)
 const namespaceOptions = ref<Array<string>>([])
 const { getNamespaceOptions: requestNamespaceOptions } = useManagedNamespaceOptions()
 const queryNamespaceList = async () => {
   try {
+    if (props.globalOnly) {
+      return
+    }
     isLoading.value = true
     const res = await requestNamespaceOptions()
-    namespaceOptions.value = res
+    if (userNamespace.value && res.includes(userNamespace.value)) {
+      namespaceOptions.value.push(userNamespace.value)
+    } else {
+      namespaceOptions.value.push(...res)
+    }
   } catch (error) {
     //
   } finally {

@@ -8,9 +8,10 @@
           :is-edit="isEdit"
           v-bind="$attrs"
           :readonly="readonly"
-          :disabledVerify="disabledVerify"
-          :requireNamespace="requireNamespace"
-          :managedCertConfColumns="managedCertConfColumns"
+          :global-only="globalOnly"
+          :user-namespace="userNamespace"
+          :disabled-verify="disabledVerify"
+          :managed-cert-conf-columns="managedCertConfColumns"
         />
       </template>
     </el-collapse-transition>
@@ -52,8 +53,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  requireNamespace: {
+  userNamespace: {
+    type: String,
+  },
+  globalOnly: {
     type: Boolean,
+    default: true,
   },
   managedCertConfColumns: {
     type: Number,
