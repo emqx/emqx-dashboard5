@@ -46,7 +46,12 @@
         </el-tooltip>
       </div>
     </div>
-    <CommonTLSConfig v-if="formData.ssl" v-model="(formData as any).ssl" :is-edit="isEdit" />
+    <CommonTLSConfig
+      v-if="formData.ssl"
+      v-model="(formData as any).ssl"
+      :is-edit="isEdit"
+      :managed-cert-conf-columns="1"
+    />
     <AdvancedSettingContainer>
       <el-form-item prop="scopes" :label="tl('scopes')">
         <ArrayEditor v-model="formData.scopes" />

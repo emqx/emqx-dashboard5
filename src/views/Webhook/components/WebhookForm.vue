@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="172px"
+    label-width="232px"
     class="webhook-form"
     hide-required-asterisk
     :rules="rules"
@@ -189,7 +189,7 @@ defineExpose({ validate })
 <style lang="scss">
 .webhook-form {
   .el-form-item {
-    width: 500px;
+    width: 600px;
     &.item-trigger {
       width: 100%;
       .el-form-item {
@@ -225,9 +225,6 @@ defineExpose({ validate })
       justify-content: flex-start;
       padding: 0 12px;
     }
-  }
-  .info-container {
-    padding-left: 160px;
   }
 }
 </style>

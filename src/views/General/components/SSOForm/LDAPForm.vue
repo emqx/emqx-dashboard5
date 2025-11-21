@@ -1,5 +1,5 @@
 <template>
-  <el-form class="ldap-form" ref="FormCom" :model="formData" :rules="rules" :label-width="150">
+  <el-form class="ldap-form" ref="FormCom" :model="formData" :rules="rules" :label-width="228">
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'LDAP' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
@@ -80,9 +80,6 @@ defineExpose({ validate })
 .ldap-form {
   .TLS-enable-config .TLS-input {
     width: 100%;
-  }
-  .info-container {
-    padding-left: 150px;
   }
 }
 </style>

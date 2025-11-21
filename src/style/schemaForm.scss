@@ -61,6 +61,14 @@
     .el-form-item {
       padding: 8px;
     }
+    .info-container {
+      margin-left: 8px;
+    }
+    .managed-cert-config {
+      .info-container {
+        margin-top: -16px;
+      }
+    }
   }
   .is-hidden {
     display: none;
