@@ -128,7 +128,8 @@
       <ManagedCertConfig
         v-if="!managedCertsArr && !Array.isArray(record.managed_certs)"
         v-model="record.managed_certs"
-        :require-namespace="requireNamespace"
+        :global-only="globalOnly"
+        :user-namespace="userNamespace"
         :columns="managedCertConfColumns"
       />
       <ListEditor
@@ -143,7 +144,8 @@
             <ManagedCertConfig
               v-model="record.managed_certs[index]"
               sni
-              :require-namespace="requireNamespace"
+              :global-only="globalOnly"
+              :user-namespace="userNamespace"
               :columns="managedCertConfColumns"
             />
           </el-card>
@@ -219,11 +221,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  /**
-   * for `managed_certs` in connector
-   */
-  requireNamespace: {
+  globalOnly: {
     type: Boolean,
+    default: true,
+  },
+  userNamespace: {
+    type: String,
   },
   /**
    * Setting this to true will enable the SNI configuration

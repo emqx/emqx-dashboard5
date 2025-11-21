@@ -1,7 +1,7 @@
 <template>
   <el-form
     ref="FormCom"
-    label-width="160px"
+    label-width="172px"
     class="webhook-form"
     hide-required-asterisk
     :rules="rules"

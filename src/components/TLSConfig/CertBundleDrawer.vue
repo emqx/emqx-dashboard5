@@ -17,7 +17,7 @@
         ref="formRef"
         v-model="formData"
         :is-editing="isEditing"
-        :require-namespace="requireNamespace"
+        :global-only="globalOnly"
       />
     </template>
     <template #footer>
@@ -39,7 +39,10 @@ const props = defineProps<{
   modelValue: boolean
   bundleName?: string
   namespace?: string
-  requireNamespace?: boolean
+  /**
+   * not data integration
+   */
+  globalOnly?: boolean
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
@@ -95,13 +98,15 @@ const getBundleInfo = async () => {
   }
 }
 
+const store = useStore()
+const userNamespace = computed<string | undefined>(() => store.getters.userNamespace)
 const handleOpen = async () => {
   if (props.bundleName) {
     await getBundleInfo()
   } else if (props.namespace) {
     formData.value.namespace = props.namespace
-  } else if (props.requireNamespace) {
-    formData.value.namespace = ''
+  } else if (userNamespace.value) {
+    formData.value.namespace = userNamespace.value
   }
   rawFormData = cloneDeep(formData.value)
 }
