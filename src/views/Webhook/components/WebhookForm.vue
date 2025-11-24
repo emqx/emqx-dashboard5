@@ -69,6 +69,8 @@
           v-model="formData.connector.ssl"
           require-namespace
           :is-edit="isEdit"
+          :global-only="false"
+          :user-namespace="userNamespace"
           :managed-cert-conf-columns="1"
         />
         <el-form-item :label="getCommonText('connect_timeout.label')">
@@ -117,6 +119,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
+const store = useStore()
+const userNamespace = computed(() => store.getters.userNamespace)
 const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
 const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)

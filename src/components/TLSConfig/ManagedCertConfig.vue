@@ -144,8 +144,12 @@ const isCreateDrawerVisible = ref(false)
 const createNewCertBundle = () => {
   isCreateDrawerVisible.value = true
 }
-const handleSubmit = ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
-  namespace.value = ns ?? GLOBAL_NAMESPACE
+const handleSubmit = async ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
+  const newNs = ns ?? GLOBAL_NAMESPACE
+  if (newNs !== namespace.value) {
+    namespace.value = newNs
+    await nextTick()
+  }
   record.value.bundle_name = name
   getBundleOptions()
 }
