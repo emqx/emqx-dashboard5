@@ -100,7 +100,7 @@ const namespace = computed({
   },
   set(val) {
     if (val === GLOBAL_NAMESPACE) {
-      record.value = { bundle_name: record.value.bundle_name }
+      delete record.value.namespace
     } else {
       record.value.namespace = val
     }
@@ -149,11 +149,10 @@ const isCreateDrawerVisible = ref(false)
 const createNewCertBundle = () => {
   isCreateDrawerVisible.value = true
 }
-const handleSubmit = async ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
+const handleSubmit = ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
   const newNs = ns ?? GLOBAL_NAMESPACE
   if (newNs !== namespace.value) {
     namespace.value = newNs
-    await nextTick()
   }
   record.value.bundle_name = name
   getBundleOptions()
