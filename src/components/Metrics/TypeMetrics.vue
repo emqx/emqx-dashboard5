@@ -32,12 +32,17 @@
 <script setup lang="ts">
 import TypeMetricsItem from './TypeMetricsItem.vue'
 
-const props = defineProps<{
-  data: Array<TypeMetricDataItem>
-  isFlowNode: boolean
-  selectedNode: string
-  span?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    data: Array<TypeMetricDataItem>
+    isFlowNode: boolean
+    selectedNode: string
+    span?: number
+  }>(),
+  {
+    span: 16,
+  },
+)
 
 const getTypeColSpan = (typeStats: TypeMetricDataItem[]) => {
   if (!typeStats || !isArray(typeStats) || typeStats.length === 0) {
