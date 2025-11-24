@@ -16,8 +16,8 @@ export default {
     zh: '消息转发丢弃',
   },
   eventsClientPing: {
-    en: 'Client Ping',
-    zh: '连接确认',
+    en: 'Client Ping (PINGREQ) Message',
+    zh: '客户端心跳（PINGREQ）消息',
   },
   eventsClientConnected: {
     en: 'Client Connected',

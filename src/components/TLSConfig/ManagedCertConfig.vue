@@ -2,7 +2,12 @@
   <div class="managed-cert-config flex-1">
     <div class="grid" :class="gridColsClass">
       <el-form-item :label="t('BasicConfig.namespace')">
-        <el-select v-model="namespace" :disabled="!userNamespace" @change="handleNamespaceChanged">
+        <el-select
+          v-model="namespace"
+          filterable
+          :disabled="!userNamespace"
+          @change="handleNamespaceChanged"
+        >
           <el-option
             v-for="{ value, label } in namespaceOptions"
             :key="label"
@@ -13,7 +18,7 @@
       </el-form-item>
       <el-form-item :label="t('Base.managedCertBundleName')">
         <div class="flex items-center gap-2 flex-1">
-          <el-select v-model="record.bundle_name">
+          <el-select v-model="record.bundle_name" filterable>
             <el-option v-for="item in bundleOptions" :key="item" :label="item" :value="item" />
           </el-select>
           <el-button @click="createNewCertBundle">
