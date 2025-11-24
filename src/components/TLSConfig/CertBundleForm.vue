@@ -14,13 +14,13 @@
       <div class="flex flex-1 items-center gap-2">
         <el-switch
           v-model="isNamespaceEnabled"
-          :disabled="isEditing || globalOnly || userNamespace"
+          :disabled="!!(isEditing || globalOnly || userNamespace)"
         />
         <el-select
           v-if="isNamespaceEnabled"
           v-model="record.namespace"
           class="flex-1"
-          :disabled="isEditing || userNamespace"
+          :disabled="!!(isEditing || userNamespace)"
         >
           <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
         </el-select>
@@ -44,7 +44,6 @@
           class="TLS-input"
           v-model="record.chain"
           :is-edit="isEditing"
-          :accept="CER_FILE_ACCEPTS"
           :placeholder="t('Base.certPlaceholder')"
         />
       </el-form-item>
@@ -57,17 +56,25 @@
           class="TLS-input"
           v-model="record.key"
           :is-edit="isEditing"
-          :accept="CER_FILE_ACCEPTS"
           :placeholder="t('Base.keyFilePlaceholder')"
         />
       </el-form-item>
       <el-form-item prop="key_password" :label="t('Base.keyPassword')">
-        <el-input
+        <CertFileInput
+          class="TLS-input"
           v-model="record.key_password"
-          type="password"
-          show-password
-          autocomplete="one-time-code"
-        />
+          :is-edit="isEditing"
+          :placeholder="t('Base.keyFilePlaceholder')"
+        >
+          <template #input>
+            <el-input
+              v-model="record.key_password"
+              type="password"
+              show-password
+              autocomplete="one-time-code"
+            />
+          </template>
+        </CertFileInput>
       </el-form-item>
     </template>
 
@@ -85,12 +92,10 @@
         <span>CA Cert</span>
         <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
       </template>
-
       <CertFileInput
         class="TLS-input"
         v-model="record.ca"
         :is-edit="isEditing"
-        :accept="CER_FILE_ACCEPTS"
         :placeholder="t('Base.certPlaceholder')"
       />
     </el-form-item>

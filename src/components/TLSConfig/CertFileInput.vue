@@ -1,11 +1,14 @@
 <template>
-  <TextareaWithUploader
-    v-if="showUploader"
-    class="TLS-input"
-    v-model="inputValue"
-    :accept="CER_FILE_ACCEPTS"
-    :placeholder="isUndefined(placeholder) ? defaultPlaceholder : placeholder"
-  />
+  <template v-if="showUploader">
+    <slot name="input">
+      <TextareaWithUploader
+        class="TLS-input"
+        v-model="inputValue"
+        :accept="CER_FILE_ACCEPTS"
+        :placeholder="isUndefined(placeholder) ? defaultPlaceholder : placeholder"
+      />
+    </slot>
+  </template>
   <ConfigItemDataLook v-else class="TLS-input" :value="inputValue" @reset="editConfigItem" />
 </template>
 
