@@ -2,75 +2,73 @@
   <div class="auth authz-create app-wrapper">
     <detail-header :item="{ name: $t('Auth.createAuthz'), path: '/authorization' }" />
     <el-card class="app-card">
-      <guide-bar
-        :guide-list="getGuideList()"
-        :active-guide-index-list="activeGuidesIndex"
-        :desc-list="guideDescList"
-      ></guide-bar>
-      <div v-if="step === 0" class="create-form">
+      <div class="create-form">
         <p class="item-description">
           {{ tl('dataSourceAuthzDesc') }}
         </p>
-        <el-radio-group v-model="type" size="large">
-          <el-badge
-            v-for="item in typeList"
-            :key="item.value"
-            :value="$t('Base.added')"
-            class="item"
-            :hidden="!addedAuthz.includes(item.value)"
-          >
-            <el-radio
-              :key="item.value"
-              :value="item.value"
-              class="backend"
-              border
-              :disabled="addedAuthz.includes(item.value)"
+        <el-row>
+          <el-col :span="18">
+            <el-radio-group
+              :model-value="type"
+              class="select-database"
+              size="large"
+              @update:model-value="handleBackendChange($event as string)"
             >
-              <img height="32" width="32" :src="item.img" :alt="item.label" />
-              <span>{{ item.label }}</span>
-            </el-radio>
-          </el-badge>
-        </el-radio-group>
+              <el-row :gutter="20">
+                <el-col :span="6" v-for="item in typeList" :key="item.value">
+                  <el-badge
+                    :value="$t('Base.added')"
+                    class="item"
+                    :hidden="!addedAuthz.includes(item.value)"
+                  >
+                    <el-radio
+                      :key="item.value"
+                      :value="item.value"
+                      class="backend"
+                      border
+                      :disabled="addedAuthz.includes(item.value)"
+                    >
+                      <img height="32" width="32" :src="item.img" :alt="item.label" />
+                      <span>{{ item.label }}</span>
+                    </el-radio>
+                  </el-badge>
+                </el-col>
+              </el-row>
+            </el-radio-group>
+          </el-col>
+        </el-row>
+        <!-- Config -->
+        <div v-if="isConfigShow">
+          <file-config v-if="type === 'file'" ref="formCom" v-model="configData" />
+          <http-config
+            v-else-if="type === 'http'"
+            ref="formCom"
+            auth-type="authz"
+            v-model="configData"
+          />
+          <ldap-config
+            auth-type="authz"
+            v-else-if="type === 'ldap'"
+            v-model="configData"
+            ref="formCom"
+          >
+          </ldap-config>
+          <built-in-config
+            v-else-if="type === 'built_in_database'"
+            v-model="configData"
+            auth-type="authz"
+            ref="formCom"
+          />
+          <database-config
+            v-else-if="type && ['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
+            ref="formCom"
+            v-model="configData"
+            :database="type"
+            auth-type="authz"
+          />
+        </div>
         <div class="step-btn">
           <CancelButton @click="$router.push('/authorization')" />
-          <el-button type="primary" @click="handleNext" :disabled="!type">
-            {{ $t('Base.nextStep') }}
-          </el-button>
-        </div>
-      </div>
-      <!-- Config -->
-      <div v-if="step === 1">
-        <file-config v-if="type === 'file'" ref="formCom" v-model="configData" />
-        <http-config
-          v-else-if="type === 'http'"
-          ref="formCom"
-          auth-type="authz"
-          v-model="configData"
-        />
-        <ldap-config
-          auth-type="authz"
-          v-else-if="type === 'ldap'"
-          v-model="configData"
-          ref="formCom"
-        >
-        </ldap-config>
-        <built-in-config
-          v-else-if="type === 'built_in_database'"
-          v-model="configData"
-          auth-type="authz"
-          ref="formCom"
-        />
-        <database-config
-          v-else-if="type && ['mysql', 'postgresql', 'mongodb', 'redis'].includes(type)"
-          ref="formCom"
-          v-model="configData"
-          :database="type"
-          auth-type="authz"
-        />
-        <div class="step-btn">
-          <el-button @click="handleBack">
-            {{ $t('Base.backStep') }}
-          </el-button>
           <el-button
             type="primary"
             :disabled="!$hasPermission('post')"
@@ -90,11 +88,11 @@ import { createAuthz } from '@/api/auth'
 import builtInDatabaseIcon from '@/assets/img/built_in_database.png'
 import fileIcon from '@/assets/img/file.png'
 import httpIcon from '@/assets/img/http.png'
+import ldapIcon from '@/assets/img/ldap.png'
 import mongodbIcon from '@/assets/img/mongodb.png'
 import mysqlIcon from '@/assets/img/mysql.png'
 import postgresqlIcon from '@/assets/img/postgresql.png'
 import redisIcon from '@/assets/img/redis.png'
-import ldapIcon from '@/assets/img/ldap.png'
 import BuiltInConfig from './components/BuiltInConfig.vue'
 import DatabaseConfig from './components/DatabaseConfig.vue'
 import FileConfig from './components/FileConfig.vue'
@@ -106,9 +104,6 @@ type AuthzData = any
 const { t, tl } = useI18nTl('Auth')
 const router = useRouter()
 
-const getGuideList = function () {
-  return [t('Auth.dataSource'), t('Auth.config')]
-}
 const type = ref<string | undefined>('file')
 const configData = ref<AuthzData>({})
 const saveLoading = ref(false)
@@ -127,17 +122,19 @@ const typeList = ref([
   { label: 'LDAP', value: 'ldap', img: ldapIcon },
   { label: tl('HTTPServer'), value: 'http', img: httpIcon },
 ])
-const { titleMap } = useAuth()
-const { step, activeGuidesIndex, handleNext, handleBack, guideDescList } = useGuide(() => {
-  if (step.value === 0) {
-    if (!type.value) {
-      return
-    }
-    const data = factory(type.value)
-    configData.value = data
-    guideDescList.value.push(titleMap[type.value])
+
+const isConfigShow = ref(true)
+const handleBackendChange = async (newBackend: string) => {
+  if (!newBackend) {
+    return
   }
-})
+  isConfigShow.value = false
+  const data = factory(newBackend)
+  configData.value = data
+  type.value = newBackend
+  await nextTick()
+  isConfigShow.value = true
+}
 
 const addedAuthz = computed<Array<string>>(() => {
   const stored = sessionStorage.getItem('addedAuthz')

@@ -3,7 +3,7 @@
     <div class="detail-top">
       <detail-header
         v-if="!gateway"
-        :item="{ name: titleMap[currBackend], path: '/authentication' }"
+        :item="{ name: titleMap[currBackend], routeName: 'authentication-extended' }"
       >
         <template #content>
           <div class="vertical-align-center">
@@ -98,7 +98,10 @@
               ref="formCom"
             />
             <jwt-config ref="formCom" v-else v-model="configData" is-edit />
-            <CancelButton @click="$router.push('/authentication')" v-if="!gateway" />
+            <CancelButton
+              @click="$router.push({ name: 'authentication-extended' })"
+              v-if="!gateway"
+            />
             <el-button
               type="primary"
               :loading="isSubmitting"

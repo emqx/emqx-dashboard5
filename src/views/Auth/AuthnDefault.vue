@@ -1,8 +1,9 @@
 <template>
-  <div class="authn-manager">
-    <div class="section-header">
-      <div class="searchbar">
-        <el-space wrap :size="20">
+  <div class="authn-default">
+    <AuthnMenuTab />
+    <el-form class="search-wrapper without-padding-top" @keyup.enter="resetPageAndLoadData">
+      <el-row :gutter="20">
+        <el-col v-bind="colProps">
           <el-input
             v-model="searchVal.user_id"
             clearable
@@ -10,6 +11,8 @@
             @keyup.enter="resetPageAndLoadData"
             @clear="resetPageAndLoadData"
           />
+        </el-col>
+        <el-col v-bind="colProps">
           <el-select
             v-model="searchVal.is_superuser"
             clearable
@@ -19,34 +22,40 @@
             <el-option :value="true" :label="$t('Base.yes')" />
             <el-option :value="false" :label="$t('Base.no')" />
           </el-select>
-          <SearchButton @click="resetPageAndLoadData" />
-          <RefreshButton @click="loadData" />
-        </el-space>
-      </div>
-      <div class="add-funcs-container">
-        <template v-if="mechanism === 'password_based'">
-          <authn-users-import @uploadedData="loadData" />
-        </template>
-        <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
-      </div>
-    </div>
-    <AuthnUserTable
-      :data="tableData"
-      :field="field"
-      v-loading.lock="lockTable"
-      @edit="handleEdit"
-      @delete="handleDelete"
-    />
-    <div class="emq-table-footer">
-      <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
-    </div>
+        </el-col>
+        <el-col v-bind="colProps" />
 
+        <el-col class="col-oper" v-bind="colProps">
+          <SearchButton @click="resetPageAndLoadData" />
+          <ResetButton @click="resetSearch" />
+        </el-col>
+      </el-row>
+    </el-form>
+    <div class="app-wrapper">
+      <div class="section-header">
+        <div></div>
+        <div class="add-funcs-container">
+          <RefreshButton @click="loadData" />
+          <AuthnUsersImport @uploadedData="loadData" />
+          <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
+        </div>
+      </div>
+      <AuthnUserTable
+        :data="tableData"
+        :field="field"
+        v-loading.lock="lockTable"
+        @edit="handleEdit"
+        @delete="handleDelete"
+      />
+      <div class="emq-table-footer">
+        <common-pagination v-model:metaData="pageMeta" @loadPage="loadData" />
+      </div>
+    </div>
     <AuthnUserDialog
       v-model="dialogVisible"
       :authn-id="id"
       :field="field"
       :user="currentItem"
-      :gateway="gateway"
       @save="loadData"
     />
   </div>
@@ -54,24 +63,21 @@
 
 <script lang="ts" setup>
 import { deleteAuthnUser, loadAuthnUsers } from '@/api/auth'
-import { deleteGatewayUser, getGatewayUserManagement } from '@/api/gateway'
+import useBuiltInDatabaseAuthn from '@/hooks/Auth/useBuiltInDatabaseAuthn'
 import { DataManagerItem } from '@/types/auth'
 import { ElMessageBox as MB } from 'element-plus'
-import AuthnUserDialog from './AuthnUserDialog.vue'
-import AuthnUsersImport from './AuthnUsersImport.vue'
-import AuthnUserTable from './AuthnUserTable.vue'
-import useBuiltInDatabaseAuthn from '@/hooks/Auth/useBuiltInDatabaseAuthn'
+import AuthnMenuTab from './components/AuthnMenuTab.vue'
+import AuthnUserDialog from './components/AuthnUserDialog.vue'
+import AuthnUsersImport from './components/AuthnUsersImport.vue'
+import AuthnUserTable from './components/AuthnUserTable.vue'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 
 const prop = defineProps({
+  // TODO:
   field: {
     type: String as PropType<'username' | 'clientid'>,
     required: true,
     default: 'username',
-  },
-  gateway: {
-    type: String,
-    required: false,
-    default: '',
   },
 })
 
@@ -80,7 +86,6 @@ const currentItem = ref<DataManagerItem | undefined>(undefined)
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
-const route = useRoute()
 const isEdit = ref(false)
 const searchVal = reactive({
   user_id: '',
@@ -88,15 +93,9 @@ const searchVal = reactive({
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
-const id = computed(function (): string {
-  return route.params.id as string
-})
+const { defaultAuthnId, getFiledLabel } = useBuiltInDatabaseAuthn()
 
-const reg = /^(?<mechanism>.+):.+$/
-const mechanism = computed(() => {
-  const matchRes = id.value?.match(reg)
-  return matchRes ? matchRes.groups?.mechanism : ''
-})
+const id = computed(() => defaultAuthnId)
 
 const loadData = async () => {
   const { user_id, is_superuser } = searchVal
@@ -109,11 +108,7 @@ const loadData = async () => {
   lockTable.value = true
   let res
   try {
-    if (prop.gateway) {
-      res = await getGatewayUserManagement(prop.gateway, sendParams)
-    } else {
-      res = await loadAuthnUsers(id.value, sendParams)
-    }
+    res = await loadAuthnUsers(id.value, sendParams)
     if (res) {
       tableData.value = res.data
       setPageMeta(res?.meta)
@@ -124,6 +119,12 @@ const loadData = async () => {
   }
 
   lockTable.value = false
+}
+
+const resetSearch = () => {
+  searchVal.user_id = ''
+  searchVal.is_superuser = undefined
+  resetPageAndLoadData()
 }
 
 onMounted(loadData)
@@ -152,19 +153,13 @@ const handleDelete = (row: DataManagerItem) => {
     type: 'warning',
   })
     .then(async () => {
-      if (prop.gateway) {
-        await deleteGatewayUser(prop.gateway, row.user_id)
-      } else {
-        await deleteAuthnUser(id.value, row.user_id)
-      }
+      await deleteAuthnUser(id.value, row.user_id)
       resetPageAndLoadData()
     })
     .catch(() => {
       // cancel
     })
 }
-
-const { getFiledLabel } = useBuiltInDatabaseAuthn()
 
 const resetPageAndLoadData = () => {
   pageMeta.value.page = 1
@@ -177,23 +172,15 @@ const resetIsSuperuser = () => {
 </script>
 
 <style lang="scss" scoped>
-.authn-manager {
-  .searchbar {
-    height: 36px;
-    .el-input {
-      width: 260px;
-    }
-    .el-select {
-      width: 200px;
-      font-weight: normal;
-    }
+.authn-default {
+  .search-wrapper {
+    margin-top: -12px;
   }
-
   .add-funcs-container {
     display: flex;
     > .el-button,
-    > .file-upload {
-      margin-left: 16px;
+    > .authn-users-import {
+      margin-left: 12px;
     }
   }
 

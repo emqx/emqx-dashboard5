@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { AuthzSetting, ImportResult, Metrics } from '@/types/auth'
+import { AuthnItem, AuthzSetting, ImportResult, Metrics } from '@/types/auth'
 
-export function listAuthn(params = {}) {
+export function listAuthn(params = {}): Promise<AuthnItem[]> {
   return http.get('/authentication', { params })
 }
 

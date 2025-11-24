@@ -63,10 +63,6 @@ export default {
     zh: '数据库',
     en: 'Database',
   },
-  noBackendDataSourceDesc: {
-    zh: '{ mechanism } 认证无需选择数据源，请继续下一步配置',
-    en: '{ mechanism } authentication does not require a backend, continue to the next step',
-  },
   reconnect: {
     zh: '自动重连',
     en: 'Reconnect',
@@ -897,5 +893,9 @@ Find more information about Variform expressions in EMQX doc.`,
   duplicatedPermission: {
     zh: '存在重复的权限配置',
     en: 'Duplicated permission configuration',
+  },
+  extended: {
+    zh: '扩展',
+    en: 'Extended',
   },
 }

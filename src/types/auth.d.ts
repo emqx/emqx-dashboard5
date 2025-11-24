@@ -71,10 +71,13 @@ export interface BuiltInDBItem {
   username: string
 }
 
-export interface DataManagerItem {
+export interface AuthnUser {
   user_id: string
-  password: string
   is_superuser: boolean
+}
+
+export interface DataManagerItem extends AuthnUser {
+  password: string
 }
 
 export type Metrics = MetricsDataWithExtraData<{
