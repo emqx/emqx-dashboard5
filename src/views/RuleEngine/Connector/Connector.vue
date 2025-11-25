@@ -1,108 +1,117 @@
 <template>
   <div class="connectors">
     <div class="app-wrapper">
-      <div class="section-header">
-        <div></div>
-        <CreateButton @click="$router.push({ name: 'connector-create' })" />
+      <template v-if="!isEmpty">
+        <div class="section-header">
+          <div></div>
+          <CreateButton @click="$router.push({ name: 'connector-create' })" />
+        </div>
+        <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
+          <el-table-column :label="tl('name')" :min-width="120">
+            <template #default="{ row }">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                placement="top"
+                :disabled="!row.canNotView"
+                :content="tl('canNotViewConnectorTip')"
+              >
+                <div class="tooltip-content">
+                  <router-link
+                    :to="row.canNotView ? '' : getDetailPageRoute(row)"
+                    class="first-column-with-icon-type link-detail"
+                    :class="{ 'is-disabled': row.canNotView }"
+                  >
+                    <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
+                    <div class="name-type-block">
+                      <span class="name-data">
+                        {{ row.name }}
+                      </span>
+                      <span class="type-data">{{ getTypeStr(row.type) }}</span>
+                    </div>
+                  </router-link>
+                </div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column :label="tl('connectionStatus')">
+            <template #default="{ row }">
+              <TargetItemStatus type="connector" :target="row" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
+            <template #default="{ row }">
+              <OperateWebhookAssociatedPopover
+                :disabled="!judgeIsWebhookConnector(row)"
+                :name="row.name"
+                :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+                :targetLabel="tl('action')"
+              >
+                <el-switch
+                  :model-value="row.enable"
+                  :disabled="judgeIsWebhookConnector(row)"
+                  @update:modelValue="enableOrDisableConnector(row)"
+                />
+              </OperateWebhookAssociatedPopover>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="description"
+            :label="t('BridgeSchema.common.description.label')"
+            :min-width="108"
+          />
+          <el-table-column :label="$t('Base.operation')" :min-width="168">
+            <template #default="{ row }">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                placement="top-start"
+                :disabled="!row.canNotView"
+                :content="tl('canNotViewConnectorTip')"
+              >
+                <div class="tooltip-content">
+                  <TableButton
+                    v-if="isErrorStatus(row)"
+                    :disabled="!$hasPermission('post') || row.canNotView"
+                    :loading="reconnectingMap.get(row.id)"
+                    @click="reconnect(row)"
+                  >
+                    {{ $t('RuleEngine.reconnect') }}
+                  </TableButton>
+                  <TableButton
+                    :disabled="row.canNotView"
+                    @click="$router.push(getDetailPageRoute(row))"
+                  >
+                    {{ $t('Base.setting') }}
+                  </TableButton>
+                  <OperateWebhookAssociatedPopover
+                    :disabled="!judgeIsWebhookConnector(row)"
+                    :name="row.name"
+                    :operation="tl('moreOperation')"
+                    :targetLabel="t('components.connector')"
+                  >
+                    <TableItemDropDown
+                      :can-create-rule="row.type !== BridgeType.SysKeeperProxy"
+                      :row-data="row"
+                      :disabled="row.canNotView || judgeIsWebhookConnector(row)"
+                      @copy="copyConnectorItem(row)"
+                      @create-rule="createRuleWithConnector(row)"
+                      @delete="handleDeleteConnector(row, getList)"
+                    />
+                  </OperateWebhookAssociatedPopover>
+                </div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+      <div v-else class="connector-empty-state">
+        <div class="empty-state-header">
+          <h3 class="empty-state-title">{{ tl('selectConnectorTypeToCreate') }}</h3>
+          <p class="empty-state-desc">{{ tl('connectorEmptyStateDesc') }}</p>
+        </div>
+        <ConnectorTypeCards @select="handleTypeSelect" />
       </div>
-      <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
-        <el-table-column :label="tl('name')" :min-width="120">
-          <template #default="{ row }">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              placement="top"
-              :disabled="!row.canNotView"
-              :content="tl('canNotViewConnectorTip')"
-            >
-              <div class="tooltip-content">
-                <router-link
-                  :to="row.canNotView ? '' : getDetailPageRoute(row)"
-                  class="first-column-with-icon-type link-detail"
-                  :class="{ 'is-disabled': row.canNotView }"
-                >
-                  <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
-                  <div class="name-type-block">
-                    <span class="name-data">
-                      {{ row.name }}
-                    </span>
-                    <span class="type-data">{{ getTypeStr(row.type) }}</span>
-                  </div>
-                </router-link>
-              </div>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column :label="tl('connectionStatus')">
-          <template #default="{ row }">
-            <TargetItemStatus type="connector" :target="row" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
-          <template #default="{ row }">
-            <OperateWebhookAssociatedPopover
-              :disabled="!judgeIsWebhookConnector(row)"
-              :name="row.name"
-              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
-              :targetLabel="tl('action')"
-            >
-              <el-switch
-                :model-value="row.enable"
-                :disabled="judgeIsWebhookConnector(row)"
-                @update:modelValue="enableOrDisableConnector(row)"
-              />
-            </OperateWebhookAssociatedPopover>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="description"
-          :label="t('BridgeSchema.common.description.label')"
-          :min-width="108"
-        />
-        <el-table-column :label="$t('Base.operation')" :min-width="168">
-          <template #default="{ row }">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              placement="top-start"
-              :disabled="!row.canNotView"
-              :content="tl('canNotViewConnectorTip')"
-            >
-              <div class="tooltip-content">
-                <TableButton
-                  v-if="isErrorStatus(row)"
-                  :disabled="!$hasPermission('post') || row.canNotView"
-                  :loading="reconnectingMap.get(row.id)"
-                  @click="reconnect(row)"
-                >
-                  {{ $t('RuleEngine.reconnect') }}
-                </TableButton>
-                <TableButton
-                  :disabled="row.canNotView"
-                  @click="$router.push(getDetailPageRoute(row))"
-                >
-                  {{ $t('Base.setting') }}
-                </TableButton>
-                <OperateWebhookAssociatedPopover
-                  :disabled="!judgeIsWebhookConnector(row)"
-                  :name="row.name"
-                  :operation="tl('moreOperation')"
-                  :targetLabel="t('components.connector')"
-                >
-                  <TableItemDropDown
-                    :can-create-rule="row.type !== BridgeType.SysKeeperProxy"
-                    :row-data="row"
-                    :disabled="row.canNotView || judgeIsWebhookConnector(row)"
-                    @copy="copyConnectorItem(row)"
-                    @create-rule="createRuleWithConnector(row)"
-                    @delete="handleDeleteConnector(row, getList)"
-                  />
-                </OperateWebhookAssociatedPopover>
-              </div>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
     </div>
     <CreateRuleWithConnector v-model="showCreateRuleDialog" :connector="createdConnector" />
   </div>
@@ -123,6 +132,7 @@ import TargetItemStatus from '../components/TargetItemStatus.vue'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
 import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
+import ConnectorTypeCards from './components/ConnectorTypeCards.vue'
 
 const router = useRouter()
 
@@ -130,6 +140,9 @@ const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
+
+// Empty state detection
+const isEmpty = computed(() => !isLoading.value && tableData.value.length === 0)
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -200,6 +213,13 @@ const copyConnectorItem = ({ id }: Connector) => {
   router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
 }
 
+const handleTypeSelect = (type: BridgeType) => {
+  router.push({
+    name: 'connector-create',
+    query: { type, autoAdvance: 'true' },
+  })
+}
+
 const { getBridgeIcon } = useBridgeTypeIcon()
 const { getTypeStr } = useConnectorTypeValue()
 
@@ -216,6 +236,34 @@ getList()
     &.is-disabled {
       .name-data {
         color: var(--color-text-primary);
+      }
+    }
+  }
+
+  .connector-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 24px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    .empty-state-header {
+      text-align: center;
+      margin-bottom: 40px;
+
+      .empty-state-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--el-text-color-primary);
+        margin: 0 0 12px 0;
+      }
+
+      .empty-state-desc {
+        font-size: 14px;
+        color: var(--el-text-color-secondary);
+        margin: 0;
+        max-width: 600px;
       }
     }
   }
