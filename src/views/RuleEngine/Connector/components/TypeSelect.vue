@@ -20,6 +20,10 @@
           <el-radio class="target-type-item" :value="item.value" border>
             <img
               class="target-type-item-img"
+              :class="{
+                'is-svg': isSvgIcon(item.value),
+                'dark-invert': needsDarkModeInvert(item.value),
+              }"
               height="64"
               width="64"
               :src="getBridgeIcon(item.value)"
@@ -58,9 +62,8 @@ const chosenBridgeType = computed({
   },
 })
 
-const { searchQuery, filteredConnectorTypeList, categorizedConnectorTypes, getCategoryLabel } =
-  useConnectorTypeValue()
-const { getBridgeIcon } = useBridgeTypeIcon()
+const { searchQuery, categorizedConnectorTypes, getCategoryLabel } = useConnectorTypeValue()
+const { getBridgeIcon, isSvgIcon, needsDarkModeInvert } = useBridgeTypeIcon()
 </script>
 
 <style lang="scss">
@@ -95,6 +98,12 @@ const { getBridgeIcon } = useBridgeTypeIcon()
 
     &.is-checked {
       border: 2px solid var(--el-color-primary);
+    }
+
+    .is-svg {
+      width: 36px;
+      height: 36px;
+      margin-left: 12px;
     }
   }
 

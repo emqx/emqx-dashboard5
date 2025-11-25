@@ -348,6 +348,8 @@ export const useBridgeTypeOptions = (): {
 export const useBridgeTypeIcon = (): {
   getBridgeIconKey: (value: string) => string
   getBridgeIcon: (type: string) => string
+  isSvgIcon: (type: string) => boolean
+  needsDarkModeInvert: (type: string) => boolean
 } => {
   const specialIconMap = {
     [BridgeType.Webhook]: 'http',
@@ -363,6 +365,12 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.SnowflakeStreaming]: BridgeType.Snowflake,
   }
 
+  // Icons that use SVG format
+  const svgIcons = ['kafka']
+
+  // Icons that need color inversion in dark mode (monochrome icons)
+  const darkModeInvertIcons = ['kafka']
+
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const getBridgeIconKey = (value: string) => {
     const ret = getBridgeGeneralType(value)
@@ -377,15 +385,30 @@ export const useBridgeTypeIcon = (): {
       return ''
     }
     try {
-      return getImg(`img/${getBridgeIconKey(type)}.png`)
+      const iconKey = getBridgeIconKey(type)
+      const ext = svgIcons.includes(iconKey) ? 'svg' : 'png'
+      return getImg(`img/${iconKey}.${ext}`)
     } catch (error) {
       console.error(error)
       return ''
     }
   }
+
+  const isSvgIcon = (type: string): boolean => {
+    const iconKey = getBridgeIconKey(type)
+    return svgIcons.includes(iconKey)
+  }
+
+  const needsDarkModeInvert = (type: string): boolean => {
+    const iconKey = getBridgeIconKey(type)
+    return darkModeInvertIcons.includes(iconKey)
+  }
+
   return {
     getBridgeIconKey,
     getBridgeIcon,
+    isSvgIcon,
+    needsDarkModeInvert,
   }
 }
 
