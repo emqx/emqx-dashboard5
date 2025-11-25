@@ -195,7 +195,7 @@ export default (): {
   ]
   const isTypeUsingNewIcon = (type: string) =>
     typesIconNew.includes(type) || Object.values(ProcessingType).includes(type as ProcessingType)
-  const { getBridgeIcon } = useBridgeTypeIcon()
+  const { getBridgeIcon, needsDarkModeInvert, isSvgIcon } = useBridgeTypeIcon()
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
       if (!type) {
@@ -230,10 +230,20 @@ export default (): {
       return ''
     }
     const adjustedType = adjustTypeForSpecialCases(type)
+    const classes: string[] = []
     if (blackIconList.includes(adjustedType)) {
-      return 'img-black'
+      classes.push('img-black')
     }
-    return isTypeUsingNewIcon(adjustedType) ? '' : 'is-scaled-up'
+    if (needsDarkModeInvert(type)) {
+      classes.push('dark-invert')
+    }
+    if (isSvgIcon(type)) {
+      classes.push('is-svg')
+    }
+    if (!isTypeUsingNewIcon(adjustedType) && !classes.includes('img-black') && !isSvgIcon(type)) {
+      classes.push('is-scaled-up')
+    }
+    return classes.join(' ')
   }
 
   const generateNodeByType = (type: string | ProcessingType): NodeItem => ({

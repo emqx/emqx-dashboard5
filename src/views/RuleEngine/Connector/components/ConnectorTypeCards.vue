@@ -38,7 +38,14 @@
             @click="handleCardClick(item.value)"
           >
             <div class="card-icon">
-              <img :src="getBridgeIcon(item.value)" :alt="item.label" />
+              <img
+                :src="getBridgeIcon(item.value)"
+                :alt="item.label"
+                :class="{
+                  'is-svg': isSvgIcon(item.value),
+                  'dark-invert': needsDarkModeInvert(item.value),
+                }"
+              />
             </div>
             <div class="card-label">{{ item.label }}</div>
           </div>
@@ -52,6 +59,7 @@
 import { Search } from 'lucide-vue-next'
 import { BridgeType } from '@/types/enum'
 import { getCurrentInstance } from 'vue'
+import { ActionType } from '@/plugins/permissionsPlugin'
 
 const emit = defineEmits<{
   (e: 'select', type: BridgeType): void
@@ -61,7 +69,7 @@ const { tl } = useI18nTl('RuleEngine')
 const instance = getCurrentInstance()
 
 // Get permission check function from global properties
-const hasPermission = (permission: string) => {
+const hasPermission = (permission: ActionType) => {
   return instance?.appContext.config.globalProperties.$hasPermission?.(permission) ?? true
 }
 
@@ -69,7 +77,7 @@ const canCreate = computed(() => hasPermission('post'))
 
 const { searchQuery, filteredConnectorTypeList, categorizedConnectorTypes, getCategoryLabel } =
   useConnectorTypeValue()
-const { getBridgeIcon } = useBridgeTypeIcon()
+const { getBridgeIcon, isSvgIcon, needsDarkModeInvert } = useBridgeTypeIcon()
 
 const handleCardClick = (type: BridgeType) => {
   if (canCreate.value) {
@@ -158,6 +166,11 @@ const handleCardClick = (type: BridgeType) => {
           width: 100%;
           height: 100%;
           object-fit: contain;
+
+          &.is-svg {
+            width: 65%;
+            height: 65%;
+          }
         }
       }
 
