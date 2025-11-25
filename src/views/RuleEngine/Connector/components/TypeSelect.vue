@@ -9,22 +9,29 @@
     </el-col>
   </el-row>
   <el-radio-group class="target-type-select is-connector" v-model="chosenBridgeType">
-    <el-row :gutter="28">
-      <el-col v-for="item in filteredConnectorTypeList" :key="item.label" :span="8">
-        <el-radio class="target-type-item" :value="item.value" border>
-          <img
-            class="target-type-item-img"
-            height="64"
-            width="64"
-            :src="getBridgeIcon(item.value)"
-            :alt="item.label"
-          />
-          <div class="target-type-item-bd">
-            <div class="title">{{ item.label }}</div>
-          </div>
-        </el-radio>
-      </el-col>
-    </el-row>
+    <div
+      v-for="categoryGroup in categorizedConnectorTypes"
+      :key="categoryGroup.category"
+      class="category-section"
+    >
+      <h4 class="category-title">{{ getCategoryLabel(categoryGroup.category) }}</h4>
+      <el-row :gutter="28">
+        <el-col v-for="item in categoryGroup.connectors" :key="item.label" :span="8">
+          <el-radio class="target-type-item" :value="item.value" border>
+            <img
+              class="target-type-item-img"
+              height="64"
+              width="64"
+              :src="getBridgeIcon(item.value)"
+              :alt="item.label"
+            />
+            <div class="target-type-item-bd">
+              <div class="title">{{ item.label }}</div>
+            </div>
+          </el-radio>
+        </el-col>
+      </el-row>
+    </div>
   </el-radio-group>
 </template>
 
@@ -51,29 +58,43 @@ const chosenBridgeType = computed({
   },
 })
 
-const { searchQuery, filteredConnectorTypeList } = useConnectorTypeValue()
+const { searchQuery, filteredConnectorTypeList, categorizedConnectorTypes, getCategoryLabel } =
+  useConnectorTypeValue()
 const { getBridgeIcon } = useBridgeTypeIcon()
 </script>
 
 <style lang="scss">
 @use '@/style/rule.scss';
 .type-filter-bar {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 .target-type-select.is-connector {
+  display: block;
+
+  .category-section {
+    margin-bottom: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .category-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+      margin: 0 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border-card);
+      letter-spacing: -0.01em;
+    }
+  }
+
   .target-type-item {
     border: 1px solid var(--color-border-primary);
     border-radius: 8px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      border-color: var(--el-color-primary);
-      box-shadow: var(--el-box-shadow-light);
-      transform: translateY(-2px);
-    }
 
     &.is-checked {
-      border-color: var(--el-color-primary);
+      border: 2px solid var(--el-color-primary);
     }
   }
 

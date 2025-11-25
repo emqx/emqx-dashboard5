@@ -1261,6 +1261,30 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '连接器用于连接到外部数据系统，选择下方的连接器类型以创建您的第一个连接器',
     en: 'Connectors are used to connect to external data systems. Select a connector type below to create your first connector',
   },
+  categoryMessageStreaming: {
+    zh: '消息传递',
+    en: 'Message Streaming',
+  },
+  categoryDataPersistence: {
+    zh: '数据持久化',
+    en: 'Data Persistence',
+  },
+  categoryDataAnalytics: {
+    zh: '数据分析',
+    en: 'Data Analytics',
+  },
+  categoryObjectStorage: {
+    zh: '对象存储',
+    en: 'Object Storage',
+  },
+  categoryHTTPWebhook: {
+    zh: 'HTTP / Webhook',
+    en: 'HTTP / Webhook',
+  },
+  categoryOthers: {
+    zh: '其他',
+    en: 'Others',
+  },
   topicMappingRequired: {
     zh: '请添加至少一个主题映射关系',
     en: 'Please add at least one topic mapping',

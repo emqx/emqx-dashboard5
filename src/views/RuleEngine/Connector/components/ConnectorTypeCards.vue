@@ -22,18 +22,27 @@
       </el-empty>
     </div>
 
-    <div v-else class="connector-cards-grid">
+    <div v-else class="connector-categories">
       <div
-        v-for="item in filteredConnectorTypeList"
-        :key="item.value"
-        class="connector-card"
-        :class="{ 'is-disabled': !canCreate }"
-        @click="handleCardClick(item.value)"
+        v-for="categoryGroup in categorizedConnectorTypes"
+        :key="categoryGroup.category"
+        class="category-section"
       >
-        <div class="card-icon">
-          <img :src="getBridgeIcon(item.value)" :alt="item.label" />
+        <h4 class="category-title">{{ getCategoryLabel(categoryGroup.category) }}</h4>
+        <div class="connector-cards-grid">
+          <div
+            v-for="item in categoryGroup.connectors"
+            :key="item.value"
+            class="connector-card"
+            :class="{ 'is-disabled': !canCreate }"
+            @click="handleCardClick(item.value)"
+          >
+            <div class="card-icon">
+              <img :src="getBridgeIcon(item.value)" :alt="item.label" />
+            </div>
+            <div class="card-label">{{ item.label }}</div>
+          </div>
         </div>
-        <div class="card-label">{{ item.label }}</div>
       </div>
     </div>
   </div>
@@ -58,7 +67,8 @@ const hasPermission = (permission: string) => {
 
 const canCreate = computed(() => hasPermission('post'))
 
-const { searchQuery, filteredConnectorTypeList } = useConnectorTypeValue()
+const { searchQuery, filteredConnectorTypeList, categorizedConnectorTypes, getCategoryLabel } =
+  useConnectorTypeValue()
 const { getBridgeIcon } = useBridgeTypeIcon()
 
 const handleCardClick = (type: BridgeType) => {
@@ -85,6 +95,26 @@ const handleCardClick = (type: BridgeType) => {
   .no-results {
     text-align: center;
     padding: 60px 0;
+  }
+
+  .connector-categories {
+    .category-section {
+      margin-bottom: 48px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .category-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--el-text-color-primary);
+        margin: 0 0 24px 0;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--color-border-card);
+        letter-spacing: -0.01em;
+      }
+    }
   }
 
   .connector-cards-grid {
