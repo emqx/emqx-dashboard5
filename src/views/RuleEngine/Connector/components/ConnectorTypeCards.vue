@@ -9,7 +9,7 @@
         class="search-input"
       >
         <template #prefix>
-          <el-icon><Search /></el-icon>
+          <Search :size="16" />
         </template>
       </el-input>
     </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Search } from 'lucide-vue-next'
 import { BridgeType } from '@/types/enum'
 import { getCurrentInstance } from 'vue'
 
