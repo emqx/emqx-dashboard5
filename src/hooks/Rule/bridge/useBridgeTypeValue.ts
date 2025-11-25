@@ -1,6 +1,77 @@
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 
+// Connector category definitions based on use cases
+export enum ConnectorCategory {
+  MessageStreaming = 'message_streaming',
+  DataPersistence = 'data_persistence',
+  DataAnalytics = 'data_analytics',
+  ObjectStorage = 'object_storage',
+  HTTPWebhook = 'http_webhook',
+  Others = 'others',
+}
+
+// Mapping connectors to categories
+export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
+  // Message Streaming
+  [BridgeType.MQTT]: ConnectorCategory.MessageStreaming,
+  [BridgeType.KafkaProducer]: ConnectorCategory.MessageStreaming,
+  [BridgeType.KafkaConsumer]: ConnectorCategory.MessageStreaming,
+  [BridgeType.Pulsar]: ConnectorCategory.MessageStreaming,
+  [BridgeType.RocketMQ]: ConnectorCategory.MessageStreaming,
+  [BridgeType.RabbitMQ]: ConnectorCategory.MessageStreaming,
+  [BridgeType.GCPProducer]: ConnectorCategory.MessageStreaming,
+  [BridgeType.GCPConsumer]: ConnectorCategory.MessageStreaming,
+  [BridgeType.AzureEventHubs]: ConnectorCategory.MessageStreaming,
+  [BridgeType.AmazonKinesis]: ConnectorCategory.MessageStreaming,
+  [BridgeType.Confluent]: ConnectorCategory.MessageStreaming,
+
+  // Data Persistence
+  [BridgeType.MySQL]: ConnectorCategory.DataPersistence,
+  [BridgeType.PgSQL]: ConnectorCategory.DataPersistence,
+  [BridgeType.MongoDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.Redis]: ConnectorCategory.DataPersistence,
+  [BridgeType.Cassandra]: ConnectorCategory.DataPersistence,
+  [BridgeType.DynamoDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.Couchbase]: ConnectorCategory.DataPersistence,
+  [BridgeType.MicrosoftSQLServer]: ConnectorCategory.DataPersistence,
+  [BridgeType.OracleDatabase]: ConnectorCategory.DataPersistence,
+  [BridgeType.CockroachDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.AlloyDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.InfluxDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.TimescaleDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.TDengine]: ConnectorCategory.DataPersistence,
+  [BridgeType.IoTDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.OpenTSDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.GreptimeDB]: ConnectorCategory.DataPersistence,
+  [BridgeType.AWSTimestream]: ConnectorCategory.DataPersistence,
+  [BridgeType.Datalayers]: ConnectorCategory.DataPersistence,
+
+  // Data Analytics
+  [BridgeType.ClickHouse]: ConnectorCategory.DataAnalytics,
+  [BridgeType.Elasticsearch]: ConnectorCategory.DataAnalytics,
+  [BridgeType.MatrixDB]: ConnectorCategory.DataAnalytics,
+  [BridgeType.Snowflake]: ConnectorCategory.DataAnalytics,
+  [BridgeType.SnowflakeStreaming]: ConnectorCategory.DataAnalytics,
+  [BridgeType.BigQuery]: ConnectorCategory.DataAnalytics,
+  [BridgeType.Redshift]: ConnectorCategory.DataAnalytics,
+  [BridgeType.Doris]: ConnectorCategory.DataAnalytics,
+
+  // Object Storage
+  [BridgeType.S3]: ConnectorCategory.ObjectStorage,
+  [BridgeType.S3Tables]: ConnectorCategory.ObjectStorage,
+  [BridgeType.AzureBlobStorage]: ConnectorCategory.ObjectStorage,
+  [BridgeType.Tablestore]: ConnectorCategory.ObjectStorage,
+
+  // HTTP / Webhook
+  [BridgeType.Webhook]: ConnectorCategory.HTTPWebhook,
+
+  // Others
+  [BridgeType.SysKeeperProxy]: ConnectorCategory.Others,
+  [BridgeType.SysKeeperForwarder]: ConnectorCategory.Others,
+  [BridgeType.DiskLog]: ConnectorCategory.Others,
+}
+
 const bridgesOrder = [
   BridgeType.MQTT,
   BridgeType.Webhook,
@@ -157,6 +228,13 @@ export const useConnectorTypeValue = (): {
   getTypeStr: (type: string) => string
   searchQuery: Ref<string>
   filteredConnectorTypeList: ComputedRef<TypeItem[]>
+  categorizedConnectorTypes: ComputedRef<
+    Array<{
+      category: ConnectorCategory
+      connectors: TypeItem[]
+    }>
+  >
+  getCategoryLabel: (category: ConnectorCategory) => string
 } => {
   const { tl } = useI18nTl('RuleEngine')
 
@@ -185,11 +263,48 @@ export const useConnectorTypeValue = (): {
     return connectorTypeList.filter((option) => reg.test(option.label))
   })
 
+  // Category labels
+  const getCategoryLabel = (category: ConnectorCategory): string => {
+    const categoryLabels: Record<ConnectorCategory, string> = {
+      [ConnectorCategory.MessageStreaming]: tl('categoryMessageStreaming'),
+      [ConnectorCategory.DataPersistence]: tl('categoryDataPersistence'),
+      [ConnectorCategory.DataAnalytics]: tl('categoryDataAnalytics'),
+      [ConnectorCategory.ObjectStorage]: tl('categoryObjectStorage'),
+      [ConnectorCategory.HTTPWebhook]: tl('categoryHTTPWebhook'),
+      [ConnectorCategory.Others]: tl('categoryOthers'),
+    }
+    return categoryLabels[category] || category
+  }
+
+  // Categorize connectors
+  const categorizedConnectorTypes = computed(() => {
+    const filtered = filteredConnectorTypeList.value
+    const categoryOrder = [
+      ConnectorCategory.MessageStreaming,
+      ConnectorCategory.HTTPWebhook,
+      ConnectorCategory.DataPersistence,
+      ConnectorCategory.DataAnalytics,
+      ConnectorCategory.ObjectStorage,
+      ConnectorCategory.Others,
+    ]
+
+    const categorized = categoryOrder
+      .map((category) => ({
+        category,
+        connectors: filtered.filter((item) => connectorCategoryMap[item.value] === category),
+      }))
+      .filter((group) => group.connectors.length > 0) // Only show categories with connectors
+
+    return categorized
+  })
+
   return {
     connectorTypeList,
     getTypeStr,
     searchQuery,
     filteredConnectorTypeList,
+    categorizedConnectorTypes,
+    getCategoryLabel,
   }
 }
 
