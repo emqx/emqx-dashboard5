@@ -140,6 +140,7 @@ declare global {
   const chunkStr: typeof import('./common/tools')['chunkStr']
   const cloneDeep: typeof import('lodash')['cloneDeep']
   const computed: typeof import('vue')['computed']
+  const connectorCategoryMap: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['connectorCategoryMap']
   const connectorResourceOptFields: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']
   const consumerReg: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']
   const correctAliasALevelReg: typeof import('./common/constants')['correctAliasALevelReg']
@@ -727,6 +728,7 @@ declare module 'vue' {
     readonly chunkStr: UnwrapRef<typeof import('./common/tools')['chunkStr']>
     readonly cloneDeep: UnwrapRef<typeof import('lodash')['cloneDeep']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
+    readonly connectorCategoryMap: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['connectorCategoryMap']>
     readonly connectorResourceOptFields: UnwrapRef<typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['connectorResourceOptFields']>
     readonly consumerReg: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['consumerReg']>
     readonly correctAliasALevelReg: UnwrapRef<typeof import('./common/constants')['correctAliasALevelReg']>

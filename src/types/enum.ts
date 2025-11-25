@@ -161,6 +161,15 @@ export enum BridgeType {
   AWSTimestream = 'aws_timestream',
 }
 
+export enum ConnectorCategory {
+  MessageStreaming = 'message_streaming',
+  HTTPWebhook = 'http_webhook',
+  DataPersistence = 'data_persistence',
+  DataAnalytics = 'data_analytics',
+  ObjectStorage = 'object_storage',
+  Others = 'others',
+}
+
 export enum PulsarType {
   Producer = 'pulsar_producer',
 }
