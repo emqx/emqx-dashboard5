@@ -1245,6 +1245,22 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '输入关键词搜索...',
     en: 'Type to search...',
   },
+  noMatchingConnectorTypes: {
+    zh: '未找到匹配的连接器类型',
+    en: 'No matching connector types',
+  },
+  clearSearch: {
+    zh: '清除搜索',
+    en: 'Clear Search',
+  },
+  selectConnectorTypeToCreate: {
+    zh: '选择连接器类型开始创建',
+    en: 'Select a connector type to start creating',
+  },
+  connectorEmptyStateDesc: {
+    zh: '连接器用于连接到外部数据系统，选择下方的连接器类型以创建您的第一个连接器',
+    en: 'Connectors are used to connect to external data systems. Select a connector type below to create your first connector',
+  },
   topicMappingRequired: {
     zh: '请添加至少一个主题映射关系',
     en: 'Please add at least one topic mapping',

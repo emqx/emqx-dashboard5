@@ -215,6 +215,23 @@ const checkProps = () => {
   }
 }
 checkProps()
+
+// Check for auto-advance from empty state
+const checkAutoAdvance = () => {
+  const { type, autoAdvance } = route.query
+  if (!isInSinglePage.value) {
+    return
+  }
+  if (type && autoAdvance === 'true') {
+    // Auto-advance to configuration step
+    setTypeAndGoStepConf(type as BridgeType)
+    guideDescList.value.push(getTypeStr(type as BridgeType) || '')
+  } else if (type && !isCopy.value) {
+    // Just pre-select the type, don't auto-advance
+    selectedType.value = type as BridgeType
+  }
+}
+checkAutoAdvance()
 </script>
 
 <style lang="scss">
