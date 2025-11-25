@@ -1,15 +1,5 @@
-import { BridgeDirection, BridgeType } from '@/types/enum'
+import { BridgeDirection, BridgeType, ConnectorCategory } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
-
-// Connector category definitions based on use cases
-export enum ConnectorCategory {
-  MessageStreaming = 'message_streaming',
-  DataPersistence = 'data_persistence',
-  DataAnalytics = 'data_analytics',
-  ObjectStorage = 'object_storage',
-  HTTPWebhook = 'http_webhook',
-  Others = 'others',
-}
 
 // Mapping connectors to categories
 export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
