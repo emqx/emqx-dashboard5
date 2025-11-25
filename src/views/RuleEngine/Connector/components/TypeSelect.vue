@@ -1,7 +1,11 @@
 <template>
   <el-row class="type-filter-bar">
     <el-col :span="8">
-      <el-input v-model="searchQuery" :placeholder="tl('typeSearch')" clearable></el-input>
+      <el-input v-model="searchQuery" :placeholder="tl('typeSearch')" clearable>
+        <template #prefix>
+          <Search :size="16" />
+        </template>
+      </el-input>
     </el-col>
   </el-row>
   <el-radio-group class="target-type-select is-connector" v-model="chosenBridgeType">
@@ -25,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { Search } from 'lucide-vue-next'
 import { BridgeType } from '@/types/enum'
 
 const props = defineProps<{
@@ -56,6 +61,22 @@ const { getBridgeIcon } = useBridgeTypeIcon()
   margin-bottom: 16px;
 }
 .target-type-select.is-connector {
+  .target-type-item {
+    border: 1px solid var(--color-border-primary);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--el-color-primary);
+      box-shadow: var(--el-box-shadow-light);
+      transform: translateY(-2px);
+    }
+
+    &.is-checked {
+      border-color: var(--el-color-primary);
+    }
+  }
+
   .el-radio__label {
     .title {
       margin-bottom: 0;
