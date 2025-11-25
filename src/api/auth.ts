@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { AuthzSetting, ImportResult, Metrics } from '@/types/auth'
+import { AuthzSetting, BuiltInDBItem, BuiltInDBRule, ImportResult, Metrics } from '@/types/auth'
+import { ListDataWithPagination } from '@/types/common'
+import { BuiltInDBType } from '@/types/enum'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
@@ -112,7 +114,13 @@ export function moveAuthn(id: string, positionStr: string) {
   return http.put(`/authentication/${id}/position/${positionStr}`)
 }
 
-export function loadBuiltInDatabaseData(type: string, params = {}) {
+type ReturnByParam<T> = T extends BuiltInDBType.All
+  ? { rules: BuiltInDBRule[] }
+  : ListDataWithPagination<BuiltInDBItem>
+export function loadBuiltInDatabaseData<T extends BuiltInDBType>(
+  type: T,
+  params = {},
+): Promise<ReturnByParam<T>> {
   return http.get(`/authorization/sources/built_in_database/rules/${type}`, {
     params,
   })

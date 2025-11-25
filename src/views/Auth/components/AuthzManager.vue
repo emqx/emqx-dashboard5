@@ -233,8 +233,13 @@
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <CancelButton @click="dialogVisible = false" />
-          <el-button type="primary" :disabled="!$hasPermission('post')" @click="handleSubmit">
+          <CancelButton :disabled="isSubmitting" @click="dialogVisible = false" />
+          <el-button
+            type="primary"
+            :disabled="!$hasPermission('post')"
+            :loading="isSubmitting"
+            @click="handleSubmit"
+          >
             {{ isEdit ? $t('Base.update') : $t('Base.add') }}
           </el-button>
         </div>
@@ -359,7 +364,7 @@ const loadData = async (params = {}) => {
   if (searchVal.value) {
     sendParams[`like_${getKeyByCurrentType()}`] = searchVal.value
   }
-  const res = await loadBuiltInDatabaseData(
+  const res: any = await loadBuiltInDatabaseData(
     type.value,
     isTypeAll.value ? nsParams : sendParams,
   ).catch(() => {
@@ -398,12 +403,14 @@ const deleteItem = (row: BuiltInDBItem, index: number) => {
 
 const { handleRulesBeforeSubmit } = useAuthzDataHandler()
 
+const isSubmitting = ref(false)
 const handleSubmit = async () => {
   try {
     await Promise.all([
       recordForm.value.validate(),
       !isTypeAll.value ? authzRuleListRef.value.validate() : Promise.resolve(),
     ])
+    isSubmitting.value = true
     const data: {
       [key: string]: any
     } = {}
@@ -420,20 +427,29 @@ const handleSubmit = async () => {
         ElMessage.success(t('Base.updateSuccess'))
       }
     } else {
-      Object.assign(data, pick(record.value, Object.keys(createRawRuleItem())))
-      const rules = cloneDeep(allTableData.value)
-      if (!isEdit.value) {
-        rules.push(data as BuiltInDBRule)
-      } else {
-        rules.splice(editIndex.value, 1, data as BuiltInDBRule)
+      let currentRules = cloneDeep(allTableData.value)
+      if (namespace.value !== recordNamespace.value) {
+        //
+        const allData = await loadBuiltInDatabaseData(BuiltInDBType.All, {
+          ns: recordNamespace.value,
+        })
+        currentRules = allData.rules
       }
-      await updateAllBuiltInDatabaseData({ rules: handleRulesBeforeSubmit(rules) }, params)
+      Object.assign(data, pick(record.value, Object.keys(createRawRuleItem())))
+      if (!isEdit.value) {
+        currentRules.push(data as BuiltInDBRule)
+      } else {
+        currentRules.splice(editIndex.value, 1, data as BuiltInDBRule)
+      }
+      await updateAllBuiltInDatabaseData({ rules: handleRulesBeforeSubmit(currentRules) }, params)
     }
     dialogVisible.value = false
     namespace.value = recordNamespace.value
     loadData()
   } catch (error) {
     //
+  } finally {
+    isSubmitting.value = false
   }
 }
 
