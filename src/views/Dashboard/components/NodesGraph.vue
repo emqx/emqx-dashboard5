@@ -11,9 +11,9 @@
       :zoom-on-double-click="false"
       :zoom-on-pinch="false"
       :pan-on-drag="false"
-      :min-zoom="1.3"
-      :max-zoom="1.3"
-      :default-viewport="{ zoom: 1.3, x: 0, y: 0 }"
+      :min-zoom="FLOW_DEFAULT_ZOOM"
+      :max-zoom="FLOW_DEFAULT_ZOOM"
+      :default-viewport="{ zoom: FLOW_DEFAULT_ZOOM, x: 0, y: 0 }"
       :fit-view-on-init="true"
     >
       <template #node-background>
@@ -65,6 +65,7 @@ import useNodesGraph, {
   BACKGROUND_CIRCLE_INNER_RADIUS,
   BACKGROUND_CIRCLE_OUTER_RADIUS,
   FlowDataItem,
+  FLOW_DEFAULT_ZOOM,
 } from '@/hooks/Overview/useNodesGraph'
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
