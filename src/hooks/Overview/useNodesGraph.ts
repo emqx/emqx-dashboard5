@@ -1,6 +1,8 @@
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
 
+export const FLOW_DEFAULT_ZOOM = 1.3
+
 export interface FlowNodeData {
   type: 'core' | 'replicant' | 'background'
   class?: string
@@ -163,7 +165,7 @@ export default (
     } else {
       coreNodeHeight.value = showBackgroundCircle.value
         ? 10 + numToFixed(BACKGROUND_CIRCLE_RADIUS / (coreNodesNum.value * 2), 3)
-        : 24 + numToFixed(flowEleHeight.value / (coreNodesNum.value * 2), 3)
+        : 12 + numToFixed(flowEleHeight.value / (coreNodesNum.value * 3.2), 3)
     }
     setCoreNodeHeight(coreNodeHeight.value)
   }
@@ -194,10 +196,19 @@ export default (
     if (!showBackgroundCircle.value && nodesNum === 3 && nodeRole === 'core') {
       y0 += (radius / 2) * Math.sin(Math.PI / 6)
     }
-    const xOffset = isCore && nodesNum === 1 ? 0 : radius * Math.cos(angle)
-    const yOffset = isCore && nodesNum === 1 ? 0 : radius * Math.sin(angle)
     const nodeWidth = isCore ? coreNodeSVGWidth.value : regNodeRadius * 2
     const nodeHeight = isCore ? coreNodeSVGHeight.value : regNodeRadius * 2
+    // Keep nodes inside the viewport even with the enforced zoom, leaving a small padding
+    const safeRadiusLimit = Math.max(
+      0,
+      Math.min(
+        flowEleWidth.value / FLOW_DEFAULT_ZOOM / 2 - nodeWidth / 2 - 24,
+        flowEleHeight.value / FLOW_DEFAULT_ZOOM / 2 - nodeHeight / 2 - 24,
+      ),
+    )
+    radius = numToFixed(Math.min(radius, safeRadiusLimit), 3)
+    const xOffset = isCore && nodesNum === 1 ? 0 : radius * Math.cos(angle)
+    const yOffset = isCore && nodesNum === 1 ? 0 : radius * Math.sin(angle)
     return {
       x: numToFixed(x0 + xOffset - nodeWidth / 2, 2),
       y: numToFixed(y0 + yOffset - nodeHeight / 2, 2),
