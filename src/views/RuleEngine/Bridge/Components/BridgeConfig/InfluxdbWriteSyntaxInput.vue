@@ -1,7 +1,7 @@
 <template>
   <div class="influxdb-write-syntax-input">
     <div class="type-select">
-      <el-form-item :label="tl('dataFormat')">
+      <el-form-item class="items-center" :label="tl('dataFormat')">
         <template #label>
           <FormItemLabel
             :label="tl('dataFormat')"
@@ -120,6 +120,9 @@ defineExpose({ validate, clearValidate })
   }
   .type-select {
     margin-bottom: 16px;
+    .el-form-item.el-form-item--label-right {
+      margin-bottom: 8px;
+    }
   }
   .el-card {
     margin-bottom: 0;

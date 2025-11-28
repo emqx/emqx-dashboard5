@@ -242,6 +242,11 @@ const formComponentPropsMap: ComputedRef<Record<string, { [key: string]: any }>>
   [SinkType.RePub]: { isUsingInFlow: true },
   [SinkType.InfluxDB]: { ...bridgeFormProps, labelWidth: '152px', type: BridgeType.InfluxDB },
   [SinkType.Datalayers]: { ...bridgeFormProps, labelWidth: '152px', type: BridgeType.Datalayers },
+  [SinkType.AWSTimestream]: {
+    ...bridgeFormProps,
+    labelWidth: '152px',
+    type: BridgeType.AWSTimestream,
+  },
 }))
 const getFormComponentProps = (type: string) => {
   const ret = formComponentPropsMap.value[type]
