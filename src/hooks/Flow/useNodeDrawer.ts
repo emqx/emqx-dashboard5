@@ -65,6 +65,7 @@ export default (): {
     [SinkType.Console]: ConsoleForm,
     [SinkType.InfluxDB]: BridgeInfluxdbConfig,
     [SinkType.Datalayers]: BridgeInfluxdbConfig,
+    [SinkType.AWSTimestream]: BridgeInfluxdbConfig,
   }
   const getFormComponent = (type: string) => {
     if (!type) {
