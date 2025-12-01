@@ -1,88 +1,96 @@
 import http from '@/common/http'
-import { Action, BridgeMetricsData } from '@/types/rule'
+import { Action, BridgeMetricsData, NsParams, NsWithGlobalParams } from '@/types/rule'
 
-export const reconnectAction = (id: string): Promise<void> => {
-  return http.post(`/actions/${encodeURIComponent(id)}/start`)
+export const reconnectAction = (id: string, params?: NsParams): Promise<void> => {
+  return http.post(`/actions/${encodeURIComponent(id)}/start`, { params })
 }
 
-export const putActionEnable = (id: string, enable: boolean): Promise<void> => {
-  return http.put(`/actions/${encodeURIComponent(id)}/enable/${enable}`)
+export const putActionEnable = (id: string, enable: boolean, params?: NsParams): Promise<void> => {
+  return http.put(`/actions/${encodeURIComponent(id)}/enable/${enable}`, { params })
 }
 
-export const getActions = async (): Promise<Array<Action>> => {
+export const getActions = async (params: NsWithGlobalParams): Promise<Array<Action>> => {
   try {
-    const data = await http.get(`/actions`)
+    const data: Omit<Action, 'id'>[] = await http.get(`/actions`, { params })
     return Promise.resolve(
-      data.map((item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item })),
+      data.map(
+        (item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item }) as Action,
+      ),
     )
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const getSimplifiedActions = async (): Promise<Array<Action>> => {
+export const getSimplifiedActions = async (params: NsWithGlobalParams): Promise<Array<Action>> => {
   try {
-    const data = await http.get(`/actions_summary`)
+    const data: Omit<Action, 'id'>[] = await http.get(`/actions_summary`, { params })
     return Promise.resolve(
-      data.map((item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item })),
+      data.map(
+        (item: Omit<Action, 'id'>) => ({ id: getBridgeKey(item as any), ...item }) as Action,
+      ),
     )
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const postAction = async (data: Action): Promise<Action> => {
+export const postAction = async (data: Action, params: NsParams): Promise<Action> => {
   try {
-    const ret = await http.post(`/actions`, data)
+    const ret: Action = await http.post(`/actions`, data, { params })
     return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const testActionConnectivity = (data: Action): Promise<void> => {
-  return http.post(`/actions_probe`, data)
+export const testActionConnectivity = (data: Action, params: NsParams): Promise<void> => {
+  return http.post(`/actions_probe`, data, { params })
 }
 
 export const getActionTypes = (): Promise<Array<string>> => {
   return http.get(`/action_types`)
 }
 
-export const deleteAction = (id: string, withDependency = false): Promise<void> => {
-  return http.delete(`/actions/${encodeURIComponent(id)}`, {
-    params: withDependency ? { also_delete_dep_actions: withDependency } : undefined,
-    errorsHandleCustom: [400],
-  })
+export const deleteAction = (id: string, withDependency = false, ns?: string): Promise<void> => {
+  const params = { ns, also_delete_dep_actions: withDependency }
+  return http.delete(`/actions/${encodeURIComponent(id)}`, { params, errorsHandleCustom: [400] })
 }
 
-export const getActionDetail = async (id: string, configs = {}): Promise<Action> => {
+export const getActionDetail = async (id: string, params: NsParams): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
-    const data = await http.get(`/actions/${encodeURIComponent(id)}`, configs)
+    const data: any = await http.get(`/actions/${encodeURIComponent(id)}`, {
+      params,
+    })
     return Promise.resolve({ ...data, id: getBridgeKey(data) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const putAction = async (id: string, data: Action): Promise<Action> => {
+export const putAction = async (id: string, data: Action, params: NsParams): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
-    const ret = await http.put(`/actions/${encodeURIComponent(id)}`, data)
+    const ret: any = await http.put(`/actions/${encodeURIComponent(id)}`, data, { params })
     return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const reconnectActionForNode = (node: string, id: string): Promise<void> => {
-  return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`)
+export const reconnectActionForNode = (
+  node: string,
+  id: string,
+  params: NsParams,
+): Promise<void> => {
+  return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`, { params })
 }
 
-export const getActionMetrics = (id: string): Promise<BridgeMetricsData> => {
-  return http.get(`/actions/${id}/metrics`)
+export const getActionMetrics = (id: string, params: NsParams): Promise<BridgeMetricsData> => {
+  return http.get(`/actions/${id}/metrics`, { params })
 }
 
-export const resetActionMetrics = (id: string): Promise<void> => {
-  return http.put(`/actions/${id}/metrics/reset`)
+export const resetActionMetrics = (id: string, params: NsParams): Promise<void> => {
+  return http.put(`/actions/${id}/metrics/reset`, { params })
 }
