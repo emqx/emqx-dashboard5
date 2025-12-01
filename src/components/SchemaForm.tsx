@@ -569,18 +569,13 @@ const SchemaForm = defineComponent({
             ...customProps,
           }
           if (isComplexOneof(property)) {
-            const propToBind = _.cloneDeep(property)
-            if (isComplexOneof(property)) {
-              propToBind.oneOf = sortOneofProperties(propToBind.oneOf)
-              bindProps.items = propToBind.oneOf
-            }
             if (property.useNewCom) {
               return (
                 <OneofRefsSelect
                   {...bindProps}
                   key={property.path}
                   fieldValue={modelValue}
-                  property={propToBind}
+                  property={property}
                   colSpan={getColSpan(property)}
                   getText={getText}
                   customColClass={props.customColClass}
@@ -589,6 +584,12 @@ const SchemaForm = defineComponent({
                   }
                 />
               )
+            }
+            // This code only runs when `!useNewCom`
+            const propToBind = _.cloneDeep(property)
+            if (isComplexOneof(property)) {
+              propToBind.oneOf = sortOneofProperties(propToBind.oneOf)
+              bindProps.items = propToBind.oneOf
             }
             return (
               <OneofRefs
