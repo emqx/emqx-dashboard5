@@ -3,8 +3,22 @@
     <div class="app-wrapper">
       <template v-if="!isEmpty">
         <div class="section-header">
-          <div></div>
-          <CreateButton @click="$router.push({ name: 'connector-create' })" />
+          <el-row :gutter="20" justify="space-between">
+            <el-col v-bind="colProps" v-if="!isNamespaceUser">
+              <NamespaceSelect
+                v-model="namespaceFilter"
+                :placeholder="t('BasicConfig.namespace')"
+                :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+                @clear="getList"
+                @change="getList"
+              />
+            </el-col>
+          </el-row>
+          <el-col v-bind="colProps" class="flex justify-end">
+            <div class="flex justify-end">
+              <CreateButton @click="$router.push({ name: 'connector-create' })" />
+            </div>
+          </el-col>
         </div>
         <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
           <el-table-column :label="tl('name')" :min-width="120">
@@ -55,6 +69,12 @@
               </OperateWebhookAssociatedPopover>
             </template>
           </el-table-column>
+          <el-table-column
+            v-if="!isNamespaceUser"
+            prop="namespace"
+            :label="t('BasicConfig.namespace')"
+            :min-width="108"
+          />
           <el-table-column
             prop="description"
             :label="t('BridgeSchema.common.description.label')"
@@ -118,13 +138,14 @@
   <DelConnectorTip v-model="showDelTip" :connector="currentConnector" />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
-    :connector="currentConnector as Connector"
+    v-bind="{ connector: currentConnector as Connector }"
     @submitted="getList"
   />
 </template>
 
 <script setup lang="ts">
 import { BridgeType, ConnectionStatus } from '@/types/enum'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { BridgeItem, Connector } from '@/types/rule'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
@@ -136,8 +157,13 @@ import ConnectorTypeCards from './components/ConnectorTypeCards.vue'
 
 const router = useRouter()
 
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+
 const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector | BridgeItem>>([])
+
+const namespaceFilter = ref<string | undefined>(undefined)
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 
@@ -147,10 +173,12 @@ const isEmpty = computed(() => !isLoading.value && tableData.value.length === 0)
 const { t, tl } = useI18nTl('RuleEngine')
 
 const { getConnectorList } = useConnectorList()
+const { getListNamespaceParams } = useListNsParams()
 const getList = async () => {
   try {
     isLoading.value = true
-    tableData.value = await getConnectorList()
+    const nsParams = getListNamespaceParams(namespaceFilter.value)
+    tableData.value = await getConnectorList(nsParams)
     initReconnectingMap()
   } catch (error) {
     //

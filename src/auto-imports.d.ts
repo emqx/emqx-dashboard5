@@ -49,6 +49,7 @@ declare global {
   const ElMessage: typeof import('element-plus')['ElMessage']
   const ElMessageBox: typeof import('element-plus')['ElMessageBox']
   const ElNotification: typeof import('element-plus')['ElNotification']
+  const FLOW_DEFAULT_ZOOM: typeof import('./hooks/Overview/useNodesGraph')['FLOW_DEFAULT_ZOOM']
   const FieldValueType: typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']
   const FlowNodeType: typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']
   const GATEWAY_DISABLED_LISTENER_TYPE_MAP: typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
@@ -407,6 +408,7 @@ declare global {
   const useKerberosConfigForm: typeof import('./hooks/Auth/useKerberosConfigForm')['default']
   const useLdapConfigForm: typeof import('./hooks/Auth/useLdapConfigForm')['default']
   const useLimiter: typeof import('./hooks/Config/useLimiter')['default']
+  const useListNsParams: typeof import('./hooks/Rule/useListNsParams')['default']
   const useListenerDrawer: typeof import('./hooks/Config/useListenerDrawer')['default']
   const useListenerUtils: typeof import('./hooks/Config/useListenerUtils')['default']
   const useLogOut: typeof import('./hooks/useLogOut')['default']
@@ -637,6 +639,7 @@ declare module 'vue' {
     readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
     readonly ElMessageBox: UnwrapRef<typeof import('element-plus')['ElMessageBox']>
     readonly ElNotification: UnwrapRef<typeof import('element-plus')['ElNotification']>
+    readonly FLOW_DEFAULT_ZOOM: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['FLOW_DEFAULT_ZOOM']>
     readonly FieldValueType: UnwrapRef<typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']>
     readonly FlowNodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']>
     readonly GATEWAY_DISABLED_LISTENER_TYPE_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']>
@@ -995,6 +998,7 @@ declare module 'vue' {
     readonly useKerberosConfigForm: UnwrapRef<typeof import('./hooks/Auth/useKerberosConfigForm')['default']>
     readonly useLdapConfigForm: UnwrapRef<typeof import('./hooks/Auth/useLdapConfigForm')['default']>
     readonly useLimiter: UnwrapRef<typeof import('./hooks/Config/useLimiter')['default']>
+    readonly useListNsParams: UnwrapRef<typeof import('./hooks/Rule/useListNsParams')['default']>
     readonly useListenerDrawer: UnwrapRef<typeof import('./hooks/Config/useListenerDrawer')['default']>
     readonly useListenerUtils: UnwrapRef<typeof import('./hooks/Config/useListenerUtils')['default']>
     readonly useLogOut: UnwrapRef<typeof import('./hooks/useLogOut')['default']>

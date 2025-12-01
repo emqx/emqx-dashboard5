@@ -48,6 +48,12 @@
         </template>
       </el-table-column>
       <el-table-column
+        v-if="!isNamespaceUser"
+        prop="namespace"
+        :label="t('BasicConfig.namespace')"
+        :min-width="108"
+      />
+      <el-table-column
         prop="description"
         :label="t('BridgeSchema.common.description.label')"
         :min-width="108"
@@ -159,6 +165,9 @@ const props = defineProps<{
 const isSource = computed(() => props.type === 'source')
 
 const { t, tl } = useI18nTl('RuleEngine')
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 let totalData: Array<BridgeItem> = []
 const tableData = ref<Array<BridgeItem>>([])
