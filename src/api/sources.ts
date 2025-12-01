@@ -1,11 +1,11 @@
 import http from '@/common/http'
-import { BridgeMetricsData, Source } from '@/types/rule'
+import { BridgeMetricsData, NsParams, NsWithGlobalParams, Source } from '@/types/rule'
 
-export const getSources = async (): Promise<Array<Source>> => {
+export const getSources = async (params?: NsWithGlobalParams): Promise<Array<Source>> => {
   try {
-    const data = await http.get(`/sources`)
+    const data: any[] = await http.get(`/sources`, { params })
     return Promise.resolve(
-      data.map((item: Omit<Source, 'id'>) => {
+      data.map((item) => {
         const id = getBridgeKey(item as any)
         return {
           id,
@@ -19,11 +19,11 @@ export const getSources = async (): Promise<Array<Source>> => {
   }
 }
 
-export const getSimplifiedSources = async (): Promise<Array<Source>> => {
+export const getSimplifiedSources = async (params?: NsWithGlobalParams): Promise<Array<Source>> => {
   try {
-    const data = await http.get(`/sources_summary`)
+    const data: any[] = await http.get(`/sources_summary`, { params })
     return Promise.resolve(
-      data.map((item: Omit<Source, 'id'>) => {
+      data.map((item) => {
         const id = getBridgeKey(item as any)
         return {
           id,
@@ -37,62 +37,72 @@ export const getSimplifiedSources = async (): Promise<Array<Source>> => {
   }
 }
 
-export const postSource = async (source: Source): Promise<Source> => {
+export const postSource = async (source: Source, params?: NsParams): Promise<Source> => {
   try {
-    const ret = await http.post(`/sources`, source)
+    const ret: any = await http.post(`/sources`, source, { params })
     return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const putSource = async (id: string, source: Source): Promise<Source> => {
+export const putSource = async (id: string, source: Source, params?: NsParams): Promise<Source> => {
   if (!id) return Promise.reject()
   try {
-    const ret = await http.put(`/sources/${encodeURIComponent(id)}`, source)
+    const ret: any = await http.put(`/sources/${encodeURIComponent(id)}`, source, { params })
     return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const deleteSource = (id: string, also_delete_dep_actions = false): Promise<void> => {
+export const deleteSource = (
+  id: string,
+  also_delete_dep_actions = false,
+  ns?: string,
+): Promise<void> => {
   return http.delete(`/sources/${encodeURIComponent(id)}`, {
-    params: { also_delete_dep_actions },
+    params: { also_delete_dep_actions, ns },
     errorsHandleCustom: [400],
   })
 }
 
-export const getSourceDetail = async (id: string): Promise<Source> => {
+export const getSourceDetail = async (id: string, params: NsParams): Promise<Source> => {
   if (!id) return Promise.reject()
   try {
-    const data = await http.get(`/sources/${encodeURIComponent(id)}`)
+    const data: any = await http.get(`/sources/${encodeURIComponent(id)}`, { params })
     return Promise.resolve({ ...data, id: getBridgeKey(data) })
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
-export const getSourceMetrics = (id: string): Promise<BridgeMetricsData> => {
-  return http.get(`/sources/${encodeURIComponent(id)}/metrics`)
+export const getSourceMetrics = (id: string, params: NsParams): Promise<BridgeMetricsData> => {
+  return http.get(`/sources/${encodeURIComponent(id)}/metrics`, { params })
 }
 
-export const resetSourceMetrics = (id: string): Promise<void> => {
-  return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`)
+export const resetSourceMetrics = (id: string, params: NsParams): Promise<void> => {
+  return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`, { params })
 }
 
-export const putSourceEnable = (id: string, enable: boolean): Promise<Source> => {
-  return http.put(`/sources/${encodeURIComponent(id)}/enable/${enable}`)
+export const putSourceEnable = (id: string, enable: boolean, params: NsParams): Promise<Source> => {
+  return http.put(`/sources/${encodeURIComponent(id)}/enable/${enable}`, { params })
 }
 
-export const testSourceConnectivity = (source: Source): Promise<Source> => {
-  return http.post(`/sources_probe`, source)
+export const testSourceConnectivity = (source: Source, params: NsParams): Promise<Source> => {
+  return http.post(`/sources_probe`, source, { params })
 }
 
-export const reconnectSourceForNode = (node: string, id: string): Promise<void> => {
-  return http.post(`/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`)
+export const reconnectSourceForNode = (
+  node: string,
+  id: string,
+  params: NsParams,
+): Promise<void> => {
+  return http.post(`/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`, {
+    params,
+  })
 }
 
-export const reconnectSource = (id: string): Promise<void> => {
-  return http.post(`/sources/${encodeURIComponent(id)}/start`)
+export const reconnectSource = (id: string, params: NsParams): Promise<void> => {
+  return http.post(`/sources/${encodeURIComponent(id)}/start`, { params })
 }

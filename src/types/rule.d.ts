@@ -274,6 +274,8 @@ export interface FilterParamsForQueryRules {
   match_from?: string
   source?: string
   action?: string
+  ns?: string
+  only_global?: string
 }
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams
@@ -371,4 +373,12 @@ export interface GenerateSQLPayload {
 
 export interface GenerateSQLResponse {
   sql: string
+}
+
+export interface NsParams {
+  ns?: string
+}
+
+export interface NsWithGlobalParams extends NsParams {
+  only_global?: boolean
 }
