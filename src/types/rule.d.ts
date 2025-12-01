@@ -199,6 +199,7 @@ export interface Connector extends ConnectorForm {
   status: ConnectionStatus
   status_reason?: string
   enable: boolean
+  namespace?: string | null
 }
 
 export interface Action {

@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { getActionDetail, putAction } from '@/api/action'
-import { getConnectorDetail, putConnector } from '@/api/connector'
+import { getConnectorDetail } from '@/api/connector'
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { HTTPBridge } from '@/types/rule'
@@ -153,6 +153,7 @@ const handleDeleteWebhook = async () => {
   }
 }
 
+const { requestPutConnector } = useHandleConnectorItem()
 const { getRuleDataForUpdate } = useRuleForm()
 const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
 const { handleActionDataBeforeUpdate } = useActionDataHandler()
@@ -169,7 +170,7 @@ const submit = async () => {
       handleActionDataBeforeUpdate(data.action),
     ])
     syncHeaders(data)
-    await putConnector(actionId.value, connectorData)
+    await requestPutConnector(actionId.value, connectorData)
     await putAction(actionId.value, actionData)
     await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))

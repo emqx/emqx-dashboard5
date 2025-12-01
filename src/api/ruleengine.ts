@@ -24,12 +24,12 @@ export function getRules(
   return http.get('/rules', { params })
 }
 
-export function getRuleInfo(id: string, params: NsParams): Promise<any> {
+export function getRuleInfo(id: string, params?: NsParams): Promise<any> {
   if (!id) return Promise.reject()
   return http.get('/rules/' + encodeURIComponent(id), { params })
 }
 
-export function createRules(body: Record<string, unknown>, params: NsParams): Promise<any> {
+export function createRules(body: Record<string, unknown>, params?: NsParams): Promise<any> {
   return http.post('/rules', body, { params })
 }
 
@@ -37,7 +37,7 @@ export function getRuleEvents(): Promise<any> {
   return http.get('/rule_events')
 }
 
-export function updateRules(id: string, body: Partial<RuleItem>, params: NsParams): Promise<any> {
+export function updateRules(id: string, body: Partial<RuleItem>, params?: NsParams): Promise<any> {
   if (!id) return Promise.reject()
   return http.put('/rules/' + encodeURIComponent(id), body, { params })
 }
@@ -47,7 +47,7 @@ export function deleteRules(id: string, params?: NsParams): Promise<any> {
   return http.delete('/rules/' + encodeURIComponent(id), { params })
 }
 
-export function testsql(body: Record<string, unknown>, params: NsParams): Promise<any> {
+export function testsql(body: Record<string, unknown>, params?: NsParams): Promise<any> {
   return http.post('/rule_test', body, {
     params,
     transformResponse: [
@@ -58,18 +58,18 @@ export function testsql(body: Record<string, unknown>, params: NsParams): Promis
   })
 }
 
-export function queryRuleMetrics(ruleId: string, params: NsParams): Promise<RuleMetrics> {
+export function queryRuleMetrics(ruleId: string, params?: NsParams): Promise<RuleMetrics> {
   return http.get(`/rules/${ruleId}/metrics`, { params })
 }
 
-export function resetRuleMetrics(ruleId: string, params: NsParams): Promise<string> {
+export function resetRuleMetrics(ruleId: string, params?: NsParams): Promise<string> {
   return http.put(`/rules/${ruleId}/metrics/reset`, undefined, { params })
 }
 
 export function applyRuleTest(
   ruleId: string,
   context: Record<string, any>,
-  params: NsParams,
+  params?: NsParams,
 ): Promise<Array<string>> {
   return http.post(
     `/rules/${ruleId}/test`,
