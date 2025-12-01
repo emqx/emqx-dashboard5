@@ -43,7 +43,6 @@
 </template>
 
 <script lang="ts" setup>
-import { putConnectorEnable } from '@/api/connector'
 import { Connector } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 
@@ -83,11 +82,12 @@ const getRoute = (name: string, target: 'action' | 'source') => {
 }
 
 const isSubmitting = ref(false)
+const { requestPutConnectorEnable } = useHandleConnectorItem()
 const submit = async () => {
   if (!props.connector) {
     return
   }
-  await putConnectorEnable(props.connector.id, false)
+  await requestPutConnectorEnable(props.connector, false)
   ElMessage.success(t('Base.disabledSuccess'))
   emit('submitted')
   showDialog.value = false

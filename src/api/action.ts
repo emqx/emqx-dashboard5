@@ -35,7 +35,7 @@ export const getSimplifiedActions = async (params: NsWithGlobalParams): Promise<
   }
 }
 
-export const postAction = async (data: Action, params: NsParams): Promise<Action> => {
+export const postAction = async (data: Action, params?: NsParams): Promise<Action> => {
   try {
     const ret: Action = await http.post(`/actions`, data, { params })
     return Promise.resolve({ ...ret, id: getBridgeKey(ret) })
@@ -44,7 +44,7 @@ export const postAction = async (data: Action, params: NsParams): Promise<Action
   }
 }
 
-export const testActionConnectivity = (data: Action, params: NsParams): Promise<void> => {
+export const testActionConnectivity = (data: Action, params?: NsParams): Promise<void> => {
   return http.post(`/actions_probe`, data, { params })
 }
 
@@ -57,7 +57,7 @@ export const deleteAction = (id: string, withDependency = false, ns?: string): P
   return http.delete(`/actions/${encodeURIComponent(id)}`, { params, errorsHandleCustom: [400] })
 }
 
-export const getActionDetail = async (id: string, params: NsParams): Promise<Action> => {
+export const getActionDetail = async (id: string, params?: NsParams): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
     const data: any = await http.get(`/actions/${encodeURIComponent(id)}`, {
@@ -69,7 +69,7 @@ export const getActionDetail = async (id: string, params: NsParams): Promise<Act
   }
 }
 
-export const putAction = async (id: string, data: Action, params: NsParams): Promise<Action> => {
+export const putAction = async (id: string, data: Action, params?: NsParams): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
     const ret: any = await http.put(`/actions/${encodeURIComponent(id)}`, data, { params })
@@ -82,15 +82,15 @@ export const putAction = async (id: string, data: Action, params: NsParams): Pro
 export const reconnectActionForNode = (
   node: string,
   id: string,
-  params: NsParams,
+  params?: NsParams,
 ): Promise<void> => {
   return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`, { params })
 }
 
-export const getActionMetrics = (id: string, params: NsParams): Promise<BridgeMetricsData> => {
+export const getActionMetrics = (id: string, params?: NsParams): Promise<BridgeMetricsData> => {
   return http.get(`/actions/${id}/metrics`, { params })
 }
 
-export const resetActionMetrics = (id: string, params: NsParams): Promise<void> => {
+export const resetActionMetrics = (id: string, params?: NsParams): Promise<void> => {
   return http.put(`/actions/${id}/metrics/reset`, undefined, { params })
 }

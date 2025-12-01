@@ -6,7 +6,7 @@ import {
   deleteConnector as requestDelConnector,
   reconnectConnector as requestReconnectConnector,
 } from '@/api/connector'
-import { BridgeItem, Connector } from '@/types/rule'
+import { BridgeItem, Connector, ConnectorForm } from '@/types/rule'
 
 type NowConnector = Connector | BridgeItem
 
@@ -15,12 +15,13 @@ interface ConnectorHandlerResult {
   handleConnectorDataAfterLoaded: (data: Connector) => Connector
   addConnector: (data: Connector) => Promise<Connector>
   updateConnector: (data: Connector) => Promise<Connector>
-  deleteConnector: (id: string, withDep?: boolean) => Promise<void>
+  requestDeleteConnector: (connector: Connector | ConnectorForm) => Promise<void>
+  requestPutConnector: (id: string, connector: Connector) => Promise<Connector>
   reconnectConnector: (id: string) => Promise<void>
   showDisableConfirm: Ref<boolean>
   currentConnector: Ref<undefined | Connector>
   handleToggleConnectorEnable: (connector: Connector, sucCb?: () => void) => Promise<void>
-  toggleConnectorEnable: (id: string, isEnable: boolean, sucCb?: () => void) => Promise<void>
+  requestPutConnectorEnable: (connector: Connector, newEnable: boolean) => Promise<void>
   handleDataForCopy: (data: Connector) => Connector
   isTesting: Ref<boolean>
   testConnectivity: (data: NowConnector) => Promise<void>
@@ -65,15 +66,21 @@ export default (): ConnectorHandlerResult => {
     return postConnector(dataForSubmit)
   }
 
+  const requestPutConnector = async (id: string, connector: Connector): Promise<Connector> => {
+    const { namespace, ...others } = connector
+    return putConnector(id, others, { ns: namespace ?? undefined })
+  }
+
   const updateConnector = async (data: Connector): Promise<Connector> => {
     const { id } = data as NowConnector
     const dataForSubmit = await handleConnectorDataBeforeUpdate(data as any)
     Reflect.deleteProperty(dataForSubmit, 'id')
-    return putConnector(id, dataForSubmit) as Promise<Connector>
+    return requestPutConnector(id, dataForSubmit) as Promise<Connector>
   }
 
-  const deleteConnector = async (id: string): Promise<void> => {
-    return requestDelConnector(id)
+  const requestDeleteConnector = async (connector: Connector | ConnectorForm): Promise<void> => {
+    const { namespace, id } = connector
+    return requestDelConnector(id, { ns: namespace ?? undefined })
   }
 
   const reconnectConnector = async (id: string): Promise<void> => {
@@ -82,14 +89,26 @@ export default (): ConnectorHandlerResult => {
 
   const { operationWarning, confirmDel } = useOperationConfirm()
 
+  const requestPutConnectorEnable = async (
+    connector: Connector,
+    newEnable: boolean,
+  ): Promise<void> => {
+    const { namespace, id } = connector
+    return putConnectorEnable(id, newEnable, { ns: namespace ?? undefined })
+  }
+
   const { t } = useI18nTl('RuleEngine')
-  const toggleConnectorEnable = async (id: string, isEnable: boolean, sucCb?: () => void) => {
+  const toggleConnectorEnable = async (
+    connector: Connector,
+    isEnable: boolean,
+    sucCb?: () => void,
+  ) => {
     const sucMessage = isEnable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
     try {
       if (!isEnable) {
         await operationWarning(t('Base.confirmDisabled'))
       }
-      await putConnectorEnable(id, isEnable)
+      await requestPutConnectorEnable(connector, isEnable)
       if (isFunction(sucCb)) {
         sucCb()
       }
@@ -104,14 +123,14 @@ export default (): ConnectorHandlerResult => {
   const showDisableConfirm = ref(false)
   const currentConnector = ref<undefined | Connector>(undefined)
   const handleToggleConnectorEnable = async (connector: Connector, sucCb?: () => void) => {
-    const { enable, id, actions, sources } = connector
+    const { enable, actions, sources } = connector
     if ((actions?.length || sources?.length) && enable) {
       currentConnector.value = connector
       showDisableConfirm.value = true
       return
     }
     try {
-      await toggleConnectorEnable(id, !enable, sucCb)
+      await toggleConnectorEnable(connector, !enable, sucCb)
     } catch (error) {
       //
     }
@@ -123,8 +142,8 @@ export default (): ConnectorHandlerResult => {
 
   const showDelTip = ref(false)
 
-  const deleteTrueConnector = async (id: string) => {
-    return confirmDel(() => deleteConnector(id))
+  const deleteTrueConnector = async (connector: Connector) => {
+    return confirmDel(() => requestDeleteConnector(connector))
   }
 
   const { judgeIsWebhookConnector } = useWebhookUtils()
@@ -133,7 +152,7 @@ export default (): ConnectorHandlerResult => {
     connector: Connector,
     callback: () => void | Promise<void>,
   ) => {
-    const { id, actions, sources } = connector
+    const { actions, sources } = connector
     if (judgeIsWebhookConnector(connector)) {
       return
     }
@@ -143,7 +162,7 @@ export default (): ConnectorHandlerResult => {
       return
     }
     try {
-      await deleteTrueConnector(id)
+      await deleteTrueConnector(connector)
       callback()
     } catch (error) {
       //
@@ -155,9 +174,10 @@ export default (): ConnectorHandlerResult => {
     handleConnectorDataAfterLoaded: handleDataAfterLoaded,
     addConnector,
     updateConnector,
-    deleteConnector,
+    requestDeleteConnector,
     reconnectConnector,
-    toggleConnectorEnable,
+    requestPutConnectorEnable,
+    requestPutConnector,
     showDisableConfirm,
     currentConnector,
     handleToggleConnectorEnable,
