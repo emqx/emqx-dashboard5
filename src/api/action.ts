@@ -6,7 +6,7 @@ export const reconnectAction = (id: string, params?: NsParams): Promise<void> =>
 }
 
 export const putActionEnable = (id: string, enable: boolean, params?: NsParams): Promise<void> => {
-  return http.put(`/actions/${encodeURIComponent(id)}/enable/${enable}`, { params })
+  return http.put(`/actions/${encodeURIComponent(id)}/enable/${enable}`, undefined, { params })
 }
 
 export const getActions = async (params: NsWithGlobalParams): Promise<Array<Action>> => {
@@ -92,5 +92,5 @@ export const getActionMetrics = (id: string, params: NsParams): Promise<BridgeMe
 }
 
 export const resetActionMetrics = (id: string, params: NsParams): Promise<void> => {
-  return http.put(`/actions/${id}/metrics/reset`, { params })
+  return http.put(`/actions/${id}/metrics/reset`, undefined, { params })
 }

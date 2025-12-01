@@ -44,7 +44,7 @@ export const putConnectorEnable = (
   enable: boolean,
   params?: NsParams,
 ): Promise<void> => {
-  return http.put(`/connectors/${encodeURIComponent(id)}/enable/${enable}`, { params })
+  return http.put(`/connectors/${encodeURIComponent(id)}/enable/${enable}`, undefined, { params })
 }
 
 export const getConnectors = async (params?: NsWithGlobalParams): Promise<Array<Connector>> => {
