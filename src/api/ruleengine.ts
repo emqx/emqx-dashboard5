@@ -42,7 +42,7 @@ export function updateRules(id: string, body: Partial<RuleItem>, params: NsParam
   return http.put('/rules/' + encodeURIComponent(id), body, { params })
 }
 
-export function deleteRules(id: string, params: NsParams): Promise<any> {
+export function deleteRules(id: string, params?: NsParams): Promise<any> {
   if (!id) return Promise.reject()
   return http.delete('/rules/' + encodeURIComponent(id), { params })
 }
@@ -63,7 +63,7 @@ export function queryRuleMetrics(ruleId: string, params: NsParams): Promise<Rule
 }
 
 export function resetRuleMetrics(ruleId: string, params: NsParams): Promise<string> {
-  return http.put(`/rules/${ruleId}/metrics/reset`, { params })
+  return http.put(`/rules/${ruleId}/metrics/reset`, undefined, { params })
 }
 
 export function applyRuleTest(

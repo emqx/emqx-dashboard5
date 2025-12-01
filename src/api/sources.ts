@@ -82,11 +82,11 @@ export const getSourceMetrics = (id: string, params: NsParams): Promise<BridgeMe
 }
 
 export const resetSourceMetrics = (id: string, params: NsParams): Promise<void> => {
-  return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`, { params })
+  return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`, undefined, { params })
 }
 
 export const putSourceEnable = (id: string, enable: boolean, params: NsParams): Promise<Source> => {
-  return http.put(`/sources/${encodeURIComponent(id)}/enable/${enable}`, { params })
+  return http.put(`/sources/${encodeURIComponent(id)}/enable/${enable}`, undefined, { params })
 }
 
 export const testSourceConnectivity = (source: Source, params: NsParams): Promise<Source> => {
