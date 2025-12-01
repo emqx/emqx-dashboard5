@@ -54,6 +54,16 @@
         </el-form-item>
       </el-col>
       <template v-if="showMoreQuery">
+        <el-col v-if="!isNamespaceUser" v-bind="colProps">
+          <el-form-item>
+            <NamespaceSelect
+              v-model="filterParams.ns"
+              :placeholder="t('BasicConfig.namespace')"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              @clear="searchRule"
+            />
+          </el-form-item>
+        </el-col>
         <el-col v-bind="colProps">
           <el-form-item>
             <el-input
@@ -102,7 +112,7 @@
             </div>
           </el-form-item>
         </el-col>
-        <el-col :sm="12" :md="12" :lg="12" />
+        <el-col v-bind="colProps" />
       </template>
       <el-col v-bind="colProps" class="col-oper">
         <SearchButton @click="searchRule" />
@@ -124,7 +134,11 @@ const props = defineProps({
   },
 })
 
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+
 const createRawFilterParams = () => ({
+  ns: undefined,
   like_id: undefined,
 
   like_from: undefined,
@@ -191,6 +205,7 @@ const handleInitialValue = () => {
 }
 handleInitialValue()
 
+const { getListNamespaceParams } = useListNsParams()
 const getFilterParams = () => {
   const filterParamsData = omit(filterParams.value, [
     'like_from',
@@ -202,7 +217,9 @@ const getFilterParams = () => {
     Object.keys(filterParamsData) as Array<keyof typeof filterParamsData>
   ).reduce((obj, currentKey) => {
     const currentVal = filterParamsData[currentKey]
-    if (currentVal !== undefined && currentVal !== '') {
+    if (currentKey === 'ns') {
+      return { ...obj, ...getListNamespaceParams(currentVal as string | undefined) }
+    } else if (currentVal !== undefined && currentVal !== '') {
       return { ...obj, [currentKey]: currentVal }
     }
     return obj

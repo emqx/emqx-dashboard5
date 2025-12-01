@@ -70,6 +70,12 @@
             </OperateWebhookAssociatedPopover>
           </template>
         </el-table-column>
+        <el-table-column
+          v-if="!isNamespaceUser"
+          prop="namespace"
+          :label="t('BasicConfig.namespace')"
+          :min-width="108"
+        />
         <el-table-column prop="description" :label="tl('note')" :min-width="150"></el-table-column>
         <el-table-column
           :label="tl('actionsCount')"
@@ -145,6 +151,9 @@ const { t } = useI18n()
 const router = useRouter()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const ruleLoading: Ref<boolean> = ref(false)
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const { resetPageNum } = usePagination()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()

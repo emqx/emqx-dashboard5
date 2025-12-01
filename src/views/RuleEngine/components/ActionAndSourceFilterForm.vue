@@ -62,6 +62,17 @@
         </el-form-item>
       </el-col>
       <template v-if="showMoreQuery">
+        <el-col v-if="!isNamespaceUser" v-bind="colProps">
+          <el-form-item>
+            <NamespaceSelect
+              v-model="filterParams.namespace"
+              :placeholder="t('BasicConfig.namespace')"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              @clear="search"
+              @change="search"
+            />
+          </el-form-item>
+        </el-col>
         <el-col v-bind="colProps">
           <el-form-item>
             <el-input
@@ -74,7 +85,7 @@
           </el-form-item>
         </el-col>
       </template>
-      <el-col v-bind="showMoreQuery ? { span: 24 } : colProps" class="col-oper">
+      <el-col v-bind="showMoreQuery ? { span: 18 } : colProps" class="col-oper">
         <SearchButton @click="search" />
         <ResetButton @click="handleReset" />
         <ShowMoreButton v-model="showMoreQuery" />
@@ -93,6 +104,7 @@ interface ActionAndSourceFilterParams {
   status?: ConnectionStatus
   rules?: string
   enable?: boolean
+  namespace?: string
 }
 
 const props = defineProps<{
@@ -102,11 +114,15 @@ const emit = defineEmits<{
   (e: 'search', filterParams: ActionAndSourceFilterParams): void
 }>()
 
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+
 const NOT_SPECIFIC_TYPE = 'not_specific'
 const createRawFilterParams = (): ActionAndSourceFilterParams => ({
   type: NOT_SPECIFIC_TYPE,
   name: undefined,
   status: undefined,
+  namespace: undefined,
   rules: undefined,
   enable: undefined,
 })
@@ -136,6 +152,13 @@ const getFilterParams = () => {
       ) {
         if (currentKey === 'status') {
           return { ...obj, [currentKey]: new RegExp(`^${escapeRegExp(currentVal as string)}$`) }
+        }
+        if (currentKey === 'namespace') {
+          if (currentVal === GLOBAL_NAMESPACE) {
+            return { ...obj, namespace: null }
+          } else if (currentVal) {
+            return { ...obj, namespace: currentVal }
+          }
         }
         return { ...obj, [currentKey]: currentVal }
       }
