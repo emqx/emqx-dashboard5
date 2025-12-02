@@ -85,13 +85,15 @@ export default (): {
     const actionArr = [...httpActionList]
     const ruleArr = [...ruleList]
     return actionArr.reduce((arr: Array<WebhookItem>, actionItem) => {
-      const { id: actionId } = actionItem
+      const { id: actionId, namespace: actionNamespace } = actionItem
       const ruleIndex = ruleArr.findIndex(
-        ({ actions }) => Array.isArray(actions) && actions.includes(actionId),
+        ({ actions, namespace }) =>
+          Array.isArray(actions) && actions.includes(actionId) && namespace === actionNamespace,
       )
       const rule = ruleIndex !== -1 ? ruleArr.splice(ruleIndex, 1)[0] : undefined
       const connectorIndex = httpConnectorList.findIndex(
-        ({ name }) => name === actionItem.connector,
+        ({ name, namespace: connectorNamespace }) =>
+          name === actionItem.connector && connectorNamespace === actionNamespace,
       )
       const connector =
         connectorIndex !== -1 ? httpConnectorList.splice(connectorIndex, 1)[0] : undefined

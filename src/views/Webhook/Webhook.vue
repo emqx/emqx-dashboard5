@@ -8,7 +8,13 @@
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
           <template #default="{ row }">
-            <router-link :to="{ name: 'webhook-detail', params: { name: row.name } }">
+            <router-link
+              :to="{
+                name: 'webhook-detail',
+                params: { name: row.name },
+                query: getNsParams(row.rule.namespace),
+              }"
+            >
               {{ row.name }}
             </router-link>
           </template>
@@ -27,9 +33,15 @@
             />
           </template>
         </el-table-column>
+        <el-table-column
+          v-if="!isNamespaceUser"
+          prop="rule.namespace"
+          :label="t('BasicConfig.namespace')"
+          :min-width="108"
+        />
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row }">
-            <TableButton :disabled="!$hasPermission('put')" @click="goEditWebhook(row.name)">
+            <TableButton :disabled="!$hasPermission('put')" @click="goEditWebhook(row)">
               {{ $t('Base.edit') }}
             </TableButton>
             <TableButton
@@ -72,6 +84,9 @@ const placeholderImg = computed(() =>
 const { webhookList, isLoading, isEmpty, getWebhookList } = useWebhookList()
 const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookItem()
 
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const { getNsParams } = useNsParams()
+
 const addWebhook = () => {
   router.push({ name: 'webhook-create' })
 }
@@ -96,11 +111,11 @@ const handleDeleteWebhook = async (webhook: WebhookItem) => {
   }
 }
 
-const goEditWebhook = (webhookName: string) => {
+const goEditWebhook = (webhook: WebhookItem) => {
   router.push({
     name: 'webhook-detail',
-    params: { name: webhookName },
-    query: { tab: DetailTab.Setting },
+    params: { name: webhook.name },
+    query: { tab: DetailTab.Setting, ...getNsParams((webhook.rule as any).namespace) },
   })
 }
 </script>

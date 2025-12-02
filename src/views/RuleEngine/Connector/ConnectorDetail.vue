@@ -186,10 +186,11 @@ const isWebhookConnector = computed(() => judgeIsWebhookConnector(connectorData.
 const fromComProps = computed(() => {
   return isWebhookConnector.value ? { formProps: { disabled: true } } : {}
 })
+const { getNsParams } = useNsParams()
 const webhookRoute = computed(() => ({
   name: 'webhook-detail',
   params: { name: connectorName.value },
-  query: { tab: DetailTab.Setting },
+  query: { tab: DetailTab.Setting, ...getNsParams(connectorData.value.namespace) },
 }))
 
 const isLoading = ref(false)
