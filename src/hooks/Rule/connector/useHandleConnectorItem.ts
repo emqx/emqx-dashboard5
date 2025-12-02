@@ -17,7 +17,7 @@ interface ConnectorHandlerResult {
   updateConnector: (data: Connector) => Promise<Connector>
   requestDeleteConnector: (connector: Connector | ConnectorForm) => Promise<void>
   requestPutConnector: (id: string, connector: Connector) => Promise<Connector>
-  reconnectConnector: (id: string) => Promise<void>
+  reconnectConnector: (connector: Connector | ConnectorForm) => Promise<void>
   showDisableConfirm: Ref<boolean>
   currentConnector: Ref<undefined | Connector>
   handleToggleConnectorEnable: (connector: Connector, sucCb?: () => void) => Promise<void>
@@ -66,9 +66,10 @@ export default (): ConnectorHandlerResult => {
     return postConnector(dataForSubmit)
   }
 
+  const { getNsParams } = useNsParams()
   const requestPutConnector = async (id: string, connector: Connector): Promise<Connector> => {
     const { namespace, ...others } = connector
-    return putConnector(id, others, { ns: namespace ?? undefined })
+    return putConnector(id, others, getNsParams(namespace))
   }
 
   const updateConnector = async (data: Connector): Promise<Connector> => {
@@ -80,11 +81,12 @@ export default (): ConnectorHandlerResult => {
 
   const requestDeleteConnector = async (connector: Connector | ConnectorForm): Promise<void> => {
     const { namespace, id } = connector
-    return requestDelConnector(id, { ns: namespace ?? undefined })
+    return requestDelConnector(id, getNsParams(namespace))
   }
 
-  const reconnectConnector = async (id: string): Promise<void> => {
-    return requestReconnectConnector(id)
+  const reconnectConnector = async (connector: Connector | ConnectorForm): Promise<void> => {
+    const { namespace, id } = connector
+    return requestReconnectConnector(id, getNsParams(namespace))
   }
 
   const { operationWarning, confirmDel } = useOperationConfirm()
@@ -94,7 +96,7 @@ export default (): ConnectorHandlerResult => {
     newEnable: boolean,
   ): Promise<void> => {
     const { namespace, id } = connector
-    return putConnectorEnable(id, newEnable, { ns: namespace ?? undefined })
+    return putConnectorEnable(id, newEnable, getNsParams(namespace))
   }
 
   const { t } = useI18nTl('RuleEngine')

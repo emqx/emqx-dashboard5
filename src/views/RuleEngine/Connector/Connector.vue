@@ -205,10 +205,11 @@ const {
 } = useHandleConnectorItem()
 const { judgeIsWebhookConnector } = useWebhookUtils()
 
-const reconnect = async ({ id }: Connector) => {
+const reconnect = async (connector: Connector) => {
+  const { id } = connector
   try {
     reconnectingMap.value.set(id, true)
-    await reconnectConnector(id)
+    await reconnectConnector(connector)
     getList()
   } catch (error) {
     //

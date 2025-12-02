@@ -408,7 +408,7 @@ declare global {
   const useKerberosConfigForm: typeof import('./hooks/Auth/useKerberosConfigForm')['default']
   const useLdapConfigForm: typeof import('./hooks/Auth/useLdapConfigForm')['default']
   const useLimiter: typeof import('./hooks/Config/useLimiter')['default']
-  const useListNsParams: typeof import('./hooks/Rule/useListNsParams')['default']
+  const useListNsParams: typeof import('./hooks/Rule/useNsParams')['useListNsParams']
   const useListenerDrawer: typeof import('./hooks/Config/useListenerDrawer')['default']
   const useListenerUtils: typeof import('./hooks/Config/useListenerUtils')['default']
   const useLogOut: typeof import('./hooks/useLogOut')['default']
@@ -432,6 +432,7 @@ declare global {
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
   const useNodesGraph: typeof import('./hooks/Overview/useNodesGraph')['default']
+  const useNsParams: typeof import('./hooks/Rule/useNsParams')['useNsParams']
   const useOperationConfirm: typeof import('./hooks/useOperationConfirm')['default']
   const usePagination: typeof import('./hooks/usePagination')['default']
   const usePaginationRemember: typeof import('./hooks/usePaginationRemember')['default']
@@ -998,7 +999,7 @@ declare module 'vue' {
     readonly useKerberosConfigForm: UnwrapRef<typeof import('./hooks/Auth/useKerberosConfigForm')['default']>
     readonly useLdapConfigForm: UnwrapRef<typeof import('./hooks/Auth/useLdapConfigForm')['default']>
     readonly useLimiter: UnwrapRef<typeof import('./hooks/Config/useLimiter')['default']>
-    readonly useListNsParams: UnwrapRef<typeof import('./hooks/Rule/useListNsParams')['default']>
+    readonly useListNsParams: UnwrapRef<typeof import('./hooks/Rule/useNsParams')['useListNsParams']>
     readonly useListenerDrawer: UnwrapRef<typeof import('./hooks/Config/useListenerDrawer')['default']>
     readonly useListenerUtils: UnwrapRef<typeof import('./hooks/Config/useListenerUtils')['default']>
     readonly useLogOut: UnwrapRef<typeof import('./hooks/useLogOut')['default']>
@@ -1022,6 +1023,7 @@ declare module 'vue' {
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
     readonly useNodesGraph: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['default']>
+    readonly useNsParams: UnwrapRef<typeof import('./hooks/Rule/useNsParams')['useNsParams']>
     readonly useOperationConfirm: UnwrapRef<typeof import('./hooks/useOperationConfirm')['default']>
     readonly usePagination: UnwrapRef<typeof import('./hooks/usePagination')['default']>
     readonly usePaginationRemember: UnwrapRef<typeof import('./hooks/usePaginationRemember')['default']>
