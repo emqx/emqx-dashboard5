@@ -1,5 +1,5 @@
 import {
-  getActionDetail,
+  getActionDetail as requestActionDetail,
   postAction,
   putAction,
   putActionEnable,
@@ -11,7 +11,7 @@ import {
   testActionConnectivity as requestTestActionConnectivity,
 } from '@/api/action'
 import { BridgeType } from '@/types/enum'
-import { Action } from '@/types/rule'
+import { Action, BridgeItem } from '@/types/rule'
 
 type HandleDirectionCallback = (
   direction?: number,
@@ -20,16 +20,16 @@ type HandleDirectionCallback = (
 ) => void
 
 export default (): {
-  getDetail: (id: string, configs?: any) => Promise<Action>
+  getActionDetail: (id: string, namespace?: string, config?: any) => Promise<Action>
   handleActionDataAfterLoaded: (data: any) => Promise<Action>
   addAction: (data: Action) => Promise<Action>
   updateAction: (data: Action) => Promise<Action>
-  deleteAction: (id: string, withDependency?: boolean) => Promise<void>
-  getActionMetrics: (id: string) => Promise<any>
-  resetActionMetrics: (id: string) => Promise<void>
-  toggleActionEnable: (id: string, isEnable: boolean) => Promise<void>
-  reconnectAction: (id: string) => Promise<void>
-  reconnectActionForNode: (node: string, id: string) => Promise<void>
+  deleteAction: (action: Action | BridgeItem, withDependency?: boolean) => Promise<void>
+  getActionMetrics: (action: Action) => Promise<any>
+  resetActionMetrics: (action: Action) => Promise<void>
+  toggleActionEnable: (action: Action, isEnable: boolean) => Promise<void>
+  reconnectAction: (action: Action) => Promise<void>
+  reconnectActionForNode: (node: string, action: Action) => Promise<void>
   isTesting: Ref<boolean>
   testConnectivity: (data: Action) => Promise<void>
   handleConnDirection: (callback: HandleDirectionCallback) => void
@@ -42,13 +42,15 @@ export default (): {
     handleActionDataBeforeUpdate,
   } = useActionDataHandler()
 
+  const { getNsParams } = useNsParams()
+
   const handleDataAfterLoaded = (data: any): Promise<Action> => {
     return handleActionDataAfterLoaded(data)
   }
 
-  const getDetail = async (id: string, configs = {}): Promise<Action> => {
+  const getActionDetail = async (id: string, namespace?: string): Promise<Action> => {
     try {
-      const data = await getActionDetail(id, configs)
+      const data = await requestActionDetail(id, getNsParams(namespace))
       return handleDataAfterLoaded(data) as Promise<Action>
     } catch (error) {
       return Promise.reject(error)
@@ -63,45 +65,50 @@ export default (): {
   const updateAction = async (data: Action): Promise<Action> => {
     try {
       const { id } = data as Action
-      const dataToSubmit = await handleActionDataBeforeUpdate(data)
+      const { namespace, ...dataToSubmit } = await handleActionDataBeforeUpdate(data)
       Reflect.deleteProperty(dataToSubmit as Action, 'id')
-      return putAction(id, dataToSubmit as any) as Promise<Action>
+      return putAction(id, dataToSubmit as any, getNsParams(namespace)) as Promise<Action>
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
     }
   }
 
-  const deleteAction = async (id: string, withDependency = false): Promise<void> => {
-    return requestDelAction(id, withDependency)
+  const deleteAction = async (
+    { id, namespace }: Action | BridgeItem,
+    withDependency = false,
+  ): Promise<void> => {
+    return requestDelAction(id, withDependency, namespace)
   }
 
-  const getActionMetrics = async (id: string): Promise<any> => {
-    return requestGetActionMetrics(id)
+  const getActionMetrics = async ({ id, namespace }: Action): Promise<any> => {
+    return requestGetActionMetrics(id, getNsParams(namespace))
   }
 
-  const resetActionMetrics = async (id: string) => {
-    return requestResetActionMetrics(id)
+  const resetActionMetrics = async ({ id, namespace }: Action) => {
+    return requestResetActionMetrics(id, getNsParams(namespace))
   }
 
-  const toggleActionEnable = (id: string, isEnable: boolean) => {
-    return putActionEnable(id, isEnable)
+  const toggleActionEnable = (action: Action, isEnable: boolean) => {
+    const { id, namespace } = action
+    return putActionEnable(id, isEnable, getNsParams(namespace))
   }
 
-  const reconnectAction = async (id: string): Promise<void> => {
-    return requestReconnectAction(id)
+  const reconnectAction = async ({ id, namespace }: Action): Promise<void> => {
+    return requestReconnectAction(id, getNsParams(namespace))
   }
 
-  const reconnectActionForNode = async (node: string, id: string): Promise<void> => {
-    return requestReconnectActionForNode(node, id)
+  const reconnectActionForNode = async (node: string, { id, namespace }: Action): Promise<void> => {
+    return requestReconnectActionForNode(node, id, getNsParams(namespace))
   }
 
   const isTesting = ref(false)
   const testConnectivity = async (data: Action): Promise<void> => {
     try {
       isTesting.value = true
-      const dataForSubmit = await handleActionDataBeforeSubmit(data)
-      await requestTestActionConnectivity(dataForSubmit)
+      const { namespace, ...others } = data
+      const dataForSubmit = await handleActionDataBeforeSubmit(others)
+      await requestTestActionConnectivity(dataForSubmit, getNsParams(namespace))
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {
@@ -121,7 +128,7 @@ export default (): {
   }
 
   return {
-    getDetail,
+    getActionDetail,
     handleActionDataAfterLoaded: handleDataAfterLoaded,
     addAction,
     updateAction,

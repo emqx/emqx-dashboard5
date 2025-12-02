@@ -118,6 +118,10 @@ const ruleValue: WritableComputedRef<RuleItem | BasicRule> = computed({
   },
 })
 
+const namespace = computed(() =>
+  'namespace' in ruleValue.value ? ruleValue.value.namespace : undefined,
+)
+
 watch(
   () => props.modelValue?.actions?.length,
   () => {
@@ -249,14 +253,16 @@ const getOutputTypeLabel = (item: OutputItem) => {
 }
 
 const actionInfoMap = ref(new Map<string, Action>())
-const { getDetail } = useHandleActionItem()
+const { getActionDetail } = useHandleActionItem()
 const queryActionInfoMap = async () => {
   props.modelValue.actions?.forEach(async (item) => {
     if (
       judgeOutputType(item) === RuleOutput.DataBridge &&
       !actionInfoMap.value.has(item as string)
     ) {
-      const action = await getDetail(item as string, { errorsHandleCustom: [404] })
+      const action = await getActionDetail(item as string, namespace.value, {
+        errorsHandleCustom: [404],
+      })
       actionInfoMap.value.set(item as string, action)
     }
   })

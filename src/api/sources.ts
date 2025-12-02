@@ -67,7 +67,7 @@ export const deleteSource = (
   })
 }
 
-export const getSourceDetail = async (id: string, params: NsParams): Promise<Source> => {
+export const getSourceDetail = async (id: string, params?: NsParams): Promise<Source> => {
   if (!id) return Promise.reject()
   try {
     const data: any = await http.get(`/sources/${encodeURIComponent(id)}`, { params })
@@ -77,32 +77,36 @@ export const getSourceDetail = async (id: string, params: NsParams): Promise<Sou
   }
 }
 
-export const getSourceMetrics = (id: string, params: NsParams): Promise<BridgeMetricsData> => {
+export const getSourceMetrics = (id: string, params?: NsParams): Promise<BridgeMetricsData> => {
   return http.get(`/sources/${encodeURIComponent(id)}/metrics`, { params })
 }
 
-export const resetSourceMetrics = (id: string, params: NsParams): Promise<void> => {
+export const resetSourceMetrics = (id: string, params?: NsParams): Promise<void> => {
   return http.put(`/sources/${encodeURIComponent(id)}/metrics/reset`, undefined, { params })
 }
 
-export const putSourceEnable = (id: string, enable: boolean, params: NsParams): Promise<Source> => {
+export const putSourceEnable = (
+  id: string,
+  enable: boolean,
+  params?: NsParams,
+): Promise<Source> => {
   return http.put(`/sources/${encodeURIComponent(id)}/enable/${enable}`, undefined, { params })
 }
 
-export const testSourceConnectivity = (source: Source, params: NsParams): Promise<Source> => {
+export const testSourceConnectivity = (source: Source, params?: NsParams): Promise<Source> => {
   return http.post(`/sources_probe`, source, { params })
 }
 
 export const reconnectSourceForNode = (
   node: string,
   id: string,
-  params: NsParams,
+  params?: NsParams,
 ): Promise<void> => {
   return http.post(`/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`, {
     params,
   })
 }
 
-export const reconnectSource = (id: string, params: NsParams): Promise<void> => {
+export const reconnectSource = (id: string, params?: NsParams): Promise<void> => {
   return http.post(`/sources/${encodeURIComponent(id)}/start`, { params })
 }

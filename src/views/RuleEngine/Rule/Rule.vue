@@ -33,7 +33,7 @@
         >
           <template #default="{ row }">
             <router-link
-              :to="{ name: 'rule-detail', params: { id: row.id } }"
+              :to="{ name: 'rule-detail', params: { id: row.id }, query: { ns: row.namespace } }"
               class="table-data-without-break"
             >
               {{ row.id }}

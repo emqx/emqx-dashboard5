@@ -37,7 +37,10 @@ import { RuleInputType, RuleOutput } from '@/types/enum'
 import { RuleEvent, RuleItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 
-const props = defineProps<{ modelValue: boolean; rule?: RuleItem }>()
+const props = defineProps<{
+  modelValue: boolean
+  rule?: RuleItem
+}>()
 const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('RuleEngine')
@@ -55,6 +58,8 @@ watch(showDialog, (val) => {
     refreshList()
   }
 })
+
+const namespace = computed(() => props.rule?.namespace)
 
 /**
  * all created action list
@@ -149,7 +154,9 @@ const submit = async () => {
   await deleteRule(props.rule)
   if (withSourceOrAction.value && deleteSourceAndActionSameTime.value) {
     try {
-      await Promise.all(actions.value.map(({ id }) => deleteAction(id)))
+      await Promise.all(
+        actions.value.map(({ id }) => deleteAction({ id, namespace: namespace.value })),
+      )
     } catch (error) {
       ElMessage.error(t('RuleEngine.deleteError', { target: lowerCase(tl('action')) }))
     }

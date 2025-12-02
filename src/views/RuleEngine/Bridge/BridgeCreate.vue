@@ -175,7 +175,7 @@ const goNextStep = () => {
 
 const cancel = () => router.push({ name: 'actions' })
 
-const { getDetail, addAction, isTesting, testConnectivity } = useHandleActionItem()
+const { getActionDetail, addAction, isTesting, testConnectivity } = useHandleActionItem()
 
 const targetLoading = ref(false)
 const checkBridgeClipStatus = async () => {
@@ -189,7 +189,7 @@ const checkBridgeClipStatus = async () => {
     }
     step.value = 1
     targetLoading.value = true
-    const bridgeInfo = await getDetail(route.query.target as string)
+    const bridgeInfo = await getActionDetail(route.query.target as string)
     if (bridgeInfo) {
       bridgeData.value = {
         ...handleBridgeDataForCopy(bridgeInfo),

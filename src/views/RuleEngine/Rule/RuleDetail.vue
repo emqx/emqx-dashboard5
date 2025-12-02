@@ -100,6 +100,9 @@ const infoLoading = ref(false)
 const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
+const namespace = computed(() => route.query.ns as string | undefined)
+provide('ns', namespace.value)
+
 const { isTesting, updateSavedData } = useStatusController(ruleInfo)
 
 const formCom = ref()

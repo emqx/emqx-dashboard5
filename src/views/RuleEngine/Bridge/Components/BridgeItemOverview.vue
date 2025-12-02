@@ -125,7 +125,7 @@
 <script setup lang="ts">
 import { MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
-import { BridgeItem, NodeStatus } from '@/types/rule'
+import { Action, BridgeItem, NodeStatus, Source } from '@/types/rule'
 
 const props = defineProps({
   /**
@@ -160,28 +160,29 @@ const pieColSpan = computed(() => {
 
 const { reconnectActionForNode, getActionMetrics, resetActionMetrics } = useHandleActionItem()
 const { reconnectSourceForNode, getSourceMetrics, resetSourceMetrics } = useHandleSourceItem()
-const selectFunction = (sourceFunc: any, actionFunc: any) => (id: string, node?: string) =>
-  props.isSource ? sourceFunc(id, node) : actionFunc(id, node)
+const selectFunction =
+  (sourceFunc: any, actionFunc: any) => (data?: Action | Source | BridgeItem, node?: string) =>
+    props.isSource ? sourceFunc(data, node) : actionFunc(data, node)
 const reconnectForNode = selectFunction(reconnectSourceForNode, reconnectActionForNode)
 const getMetrics = selectFunction(getSourceMetrics, getActionMetrics)
 const requestResetMetrics = selectFunction(resetSourceMetrics, resetActionMetrics)
 
 const getBridgeMetrics = async () => {
   try {
-    if (!props.bridgeId) {
+    if (!props.bridgeMsg) {
       return
     }
-    return getMetrics(props.bridgeId)
+    return getMetrics(props.bridgeMsg)
   } catch (error) {
     //
   }
 }
 
 const resetMetrics = () => {
-  if (!props.bridgeId) {
+  if (!props.bridgeMsg) {
     return
   }
-  return requestResetMetrics(props.bridgeId)
+  return requestResetMetrics(props.bridgeMsg)
 }
 
 const { getStatusLabel: getLabelByStatusValue, getStatusClass } = useCommonConnectionStatus()
@@ -233,7 +234,7 @@ const setNodeConnectingStatusMap = () => {
 const reconnect = async ({ node }: NodeMetrics) => {
   try {
     nodeConnectingStatusMap.value[node] = true
-    await reconnectForNode(node, props.bridgeMsg.id)
+    await reconnectForNode(props.bridgeMsg, node)
     emit('reconnect')
   } catch (error) {
     //

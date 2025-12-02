@@ -18,15 +18,16 @@ const useHandleSourceItem = (): {
   addSource: (data: Source) => Promise<Source>
   updateSource: (data: Source) => Promise<Source>
   deleteSource: (id: string, withDependency?: boolean) => Promise<void>
-  getSourceMetrics: (id: string) => Promise<any>
-  resetSourceMetrics: (id: string) => Promise<void>
-  toggleSourceEnable: (id: string, isEnable: boolean) => Promise<Source>
-  reconnectSource: (id: string) => Promise<void>
-  reconnectSourceForNode: (node: string, id: string) => Promise<void>
+  getSourceMetrics: (source: Source) => Promise<any>
+  resetSourceMetrics: (source: Source) => Promise<void>
+  toggleSourceEnable: (source: Source, isEnable: boolean) => Promise<Source>
+  reconnectSource: (source: Source) => Promise<void>
+  reconnectSourceForNode: (node: string, source: Source) => Promise<void>
   isTesting: Ref<boolean>
   testConnectivity: (data: Source) => Promise<void>
 } => {
   const { handleActionDataBeforeUpdate, handleActionDataBeforeSubmit } = useActionDataHandler()
+  const { getNsParams } = useNsParams()
 
   const handleDataAfterLoaded = (data: Source): Source => data
 
@@ -59,24 +60,24 @@ const useHandleSourceItem = (): {
     return requestDeleteSource(id, withDependency)
   }
 
-  const getSourceMetrics = async (id: string): Promise<any> => {
-    return requestSourceMetrics(id)
+  const getSourceMetrics = async ({ id, namespace }: Source): Promise<any> => {
+    return requestSourceMetrics(id, getNsParams(namespace))
   }
 
-  const resetSourceMetrics = async (id: string) => {
-    return requestResetSourceMetrics(id)
+  const resetSourceMetrics = async ({ id, namespace }: Source) => {
+    return requestResetSourceMetrics(id, getNsParams(namespace))
   }
 
-  const toggleSourceEnable = (id: string, isEnable: boolean) => {
-    return putSourceEnable(id, isEnable)
+  const toggleSourceEnable = ({ id, namespace }: Source, isEnable: boolean) => {
+    return putSourceEnable(id, isEnable, getNsParams(namespace))
   }
 
-  const reconnectSource = async (id: string): Promise<void> => {
-    return requestReconnectSource(id)
+  const reconnectSource = async ({ id, namespace }: Source): Promise<void> => {
+    return requestReconnectSource(id, getNsParams(namespace))
   }
 
-  const reconnectSourceForNode = async (node: string, id: string): Promise<void> => {
-    return requestReconnectSourceForNode(node, id)
+  const reconnectSourceForNode = async (node: string, { id, namespace }: Source): Promise<void> => {
+    return requestReconnectSourceForNode(node, id, getNsParams(namespace))
   }
 
   const isTesting = ref(false)
@@ -116,7 +117,7 @@ export const useDeleteSource = (
 ): {
   showSecondConfirm: Ref<boolean>
   usingBridgeRules: Ref<string[]>
-  currentDeleteBridgeId: Ref<string>
+  currentDeleteBridgeData: Ref<Source | undefined>
   handleDeleteSuc: () => void
   handleDeleteSource: (item: Source) => Promise<void>
 } => {
@@ -124,7 +125,7 @@ export const useDeleteSource = (
 
   const showSecondConfirm = ref(false)
   const usingBridgeRules: Ref<Array<string>> = ref([])
-  const currentDeleteBridgeId = ref('')
+  const currentDeleteBridgeData = ref<Source | undefined>(undefined)
 
   const handleDeleteSuc = () => {
     ElMessage.success(t('Base.deleteSuccess'))
@@ -141,7 +142,7 @@ export const useDeleteSource = (
   const { deleteSource } = useHandleSourceItem()
   const handleDeleteSource = async (item: Source) => {
     if (item.rules?.length) {
-      currentDeleteBridgeId.value = item.id
+      currentDeleteBridgeData.value = item
       secondConfirmToDelete(item.rules)
       return
     }
@@ -162,7 +163,7 @@ export const useDeleteSource = (
   return {
     showSecondConfirm,
     usingBridgeRules,
-    currentDeleteBridgeId,
+    currentDeleteBridgeData,
     handleDeleteSuc,
     handleDeleteSource,
   }

@@ -60,10 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { getActionDetail, putAction } from '@/api/action'
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
-import { HTTPBridge } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
 import WebhookFormCom from './components/WebhookForm.vue'
@@ -94,6 +92,7 @@ const isSubmitting = ref(false)
 const { getEnableStatus } = useWebhookUtils()
 
 const { getConnectorDetail, requestPutConnector } = useHandleConnectorItem()
+const { getActionDetail } = useHandleActionItem()
 const getWebhookData = async () => {
   if (!fullName.value) {
     return
@@ -102,16 +101,16 @@ const getWebhookData = async () => {
   try {
     const [connectorData, actionData, ruleData] = await Promise.all([
       getConnectorDetail(actionId.value, namespace.value),
-      getActionDetail(actionId.value),
+      getActionDetail(actionId.value, namespace.value),
       getRuleInfo(ruleId.value),
     ])
-    const action = actionData as HTTPBridge
+    const action = actionData
     webhookData.value = {
       name: getWebhookName(fullName.value),
       rule: ruleData,
       action,
       connector: connectorData,
-      enable: getEnableStatus(action, ruleData),
+      enable: getEnableStatus(action as any, ruleData),
     }
   } catch (error) {
     //
@@ -157,6 +156,7 @@ const handleDeleteWebhook = async () => {
 const { getRuleDataForUpdate } = useRuleForm()
 const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
 const { handleActionDataBeforeUpdate } = useActionDataHandler()
+const { updateAction } = useHandleActionItem()
 const submit = async () => {
   if (!webhookData.value) {
     return
@@ -171,7 +171,7 @@ const submit = async () => {
     ])
     syncHeaders(data)
     await requestPutConnector(actionId.value, connectorData)
-    await putAction(actionId.value, actionData)
+    await updateAction(actionData)
     await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))
     router.push({ name: 'webhook' })

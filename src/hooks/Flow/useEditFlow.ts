@@ -50,7 +50,7 @@ export default (): {
   }
 
   const { getSourceDetail } = useHandleSourceItem()
-  const { getDetail: getActionDetail } = useHandleActionItem()
+  const { getActionDetail } = useHandleActionItem()
   const addBridgeFormDataToNodes = async (nodes: Array<Node>) => {
     await Promise.allSettled(
       nodes.map(async (item) => {

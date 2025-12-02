@@ -141,8 +141,8 @@
     </el-tabs>
     <DeleteBridgeSecondConfirm
       v-model="showSecondConfirm"
+      :data="bridgeInfo"
       :rule-list="usingBridgeRules"
-      :id="currentDeleteBridgeId"
       @submitted="handleDeleteSuc"
     />
     <DeleteFallbackActionConfirm
@@ -154,7 +154,7 @@
 
 <script lang="ts" setup>
 import { DetailTab } from '@/types/enum'
-import { BridgeItem } from '@/types/rule'
+import { Action, BridgeItem, NsParams } from '@/types/rule'
 import { Share } from '@element-plus/icons-vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
@@ -175,7 +175,7 @@ const backRoute = computed(() => getBackRoute({ name: 'actions' }))
 
 // for compare when update
 let rawBridgeInfo: undefined | BridgeItem = undefined
-const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
+const bridgeInfo: Ref<Action> = ref({} as Action)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
@@ -203,6 +203,7 @@ const props = defineProps({
     default: false,
   },
 })
+const namespaceFromInject = inject<string | undefined>('ns')
 const formCom = ref()
 
 const queryTab = computed(() => {
@@ -227,6 +228,7 @@ const id = computed(() => {
   }
   return route.params.id as string
 })
+const namespaceFromRoute = computed(() => route.query.ns as string | undefined)
 
 watch(id, (val) => {
   if (val && props.inDrawer) {
@@ -244,7 +246,7 @@ const bridgeType = computed(() => {
 const isSettingCardLoading = computed(
   () => infoLoading.value && BRIDGE_TYPES_NOT_USE_SCHEMA.includes(bridgeType.value),
 )
-const { getDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
+const { getActionDetail, updateAction, toggleActionEnable, isTesting, testConnectivity } =
   useHandleActionItem()
 
 /* Webhook associated */
@@ -260,7 +262,8 @@ const webhookRoute = computed(() => ({
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    bridgeInfo.value = await getDetail(id.value)
+    const nsParams = !props.inDrawer ? namespaceFromRoute.value : namespaceFromInject
+    bridgeInfo.value = await getActionDetail(id.value, nsParams)
     rawBridgeInfo = cloneDeep(bridgeInfo.value)
   } catch (error) {
     console.error(error)
@@ -332,7 +335,7 @@ const enableOrDisableBridge = async () => {
   const { enable } = bridgeInfo.value
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await toggleActionEnable(bridgeInfo.value.id, enable)
+    await toggleActionEnable(bridgeInfo.value, enable)
     ElMessage.success(t(sucMessage))
     loadBridgeInfo()
   } catch (error) {
@@ -360,7 +363,6 @@ const goBack = () => {
 const {
   showSecondConfirm,
   usingBridgeRules,
-  currentDeleteBridgeId,
   showFallbackConfirm,
   usingAsFallbackAction,
   handleDeleteSuc,

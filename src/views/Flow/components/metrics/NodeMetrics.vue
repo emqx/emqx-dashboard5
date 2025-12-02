@@ -27,19 +27,20 @@ const props = defineProps<{
 const id = computed(() => {
   return props?.node?.data?.formData.id
 })
+const namespace = computed(() => props?.node?.data?.formData.namespace)
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 
 const isSource = computed(() => props?.node?.type === FlowNodeType.Input)
 
-const { getDetail: getActionDetail } = useHandleActionItem()
+const { getActionDetail } = useHandleActionItem()
 const { getSourceDetail } = useHandleSourceItem()
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     const request = isSource.value ? getSourceDetail : getActionDetail
-    bridgeInfo.value = await request(id.value)
+    bridgeInfo.value = await request(id.value, namespace.value)
   } catch (error) {
     console.error(error)
   } finally {

@@ -9,7 +9,7 @@ export const putActionEnable = (id: string, enable: boolean, params?: NsParams):
   return http.put(`/actions/${encodeURIComponent(id)}/enable/${enable}`, undefined, { params })
 }
 
-export const getActions = async (params: NsWithGlobalParams): Promise<Array<Action>> => {
+export const getActions = async (params?: NsWithGlobalParams): Promise<Array<Action>> => {
   try {
     const data: Omit<Action, 'id'>[] = await http.get(`/actions`, { params })
     return Promise.resolve(
@@ -22,7 +22,7 @@ export const getActions = async (params: NsWithGlobalParams): Promise<Array<Acti
   }
 }
 
-export const getSimplifiedActions = async (params: NsWithGlobalParams): Promise<Array<Action>> => {
+export const getSimplifiedActions = async (params?: NsWithGlobalParams): Promise<Array<Action>> => {
   try {
     const data: Omit<Action, 'id'>[] = await http.get(`/actions_summary`, { params })
     return Promise.resolve(
@@ -57,11 +57,16 @@ export const deleteAction = (id: string, withDependency = false, ns?: string): P
   return http.delete(`/actions/${encodeURIComponent(id)}`, { params, errorsHandleCustom: [400] })
 }
 
-export const getActionDetail = async (id: string, params?: NsParams): Promise<Action> => {
+export const getActionDetail = async (
+  id: string,
+  params?: NsParams,
+  config?: any,
+): Promise<Action> => {
   if (!id) return Promise.reject()
   try {
     const data: any = await http.get(`/actions/${encodeURIComponent(id)}`, {
       params,
+      ...config,
     })
     return Promise.resolve({ ...data, id: getBridgeKey(data) })
   } catch (error) {
