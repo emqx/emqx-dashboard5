@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column :label="tl('name')" :min-width="172" sortable="custom" prop="id">
         <template #default="{ row }">
-          <router-link :to="getDetailPageRoute(row.id)" class="first-column-with-icon-type">
+          <router-link :to="getDetailPageRoute(row)" class="first-column-with-icon-type">
             <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
             <div class="name-type-block">
               <span class="name-data">
@@ -113,7 +113,7 @@
           >
             {{ $t('RuleEngine.reconnect') }}
           </TableButton>
-          <TableButton @click="$router.push(getDetailPageRoute(row.id, 'settings'))">
+          <TableButton @click="$router.push(getDetailPageRoute(row, 'settings'))">
             {{ $t('Base.setting') }}
           </TableButton>
           <OperateWebhookAssociatedPopover
@@ -145,7 +145,11 @@
     :direction="direction"
     @submitted="handleDeleteSuc"
   />
-  <DeleteFallbackActionConfirm v-model="showFallbackConfirm" :action-list="usingAsFallbackAction" />
+  <DeleteFallbackActionConfirm
+    v-model="showFallbackConfirm"
+    :action="currentDeleteBridgeData"
+    :action-list="usingAsFallbackAction"
+  />
 </template>
 
 <script setup lang="ts">
@@ -271,10 +275,11 @@ const getParamsFromQuery = async () => {
 }
 getParamsFromQuery()
 
-const getDetailPageRoute = (id: string, tab?: string) => ({
+const { getNsParams } = useNsParams()
+const getDetailPageRoute = ({ id, namespace }: Action | Source, tab?: string) => ({
   name: `${props.type}-detail`,
   params: { id },
-  query: { tab },
+  query: { tab, ...getNsParams(namespace) },
 })
 
 const ruleFilterRoute = (id: string) => {

@@ -93,6 +93,7 @@
             :action-key="modelValue?.id"
             :readonly="readonly"
             :is-fallback="isFallback"
+            :namespace="modelValue?.namespace"
           />
         </el-form-item>
       </el-col>

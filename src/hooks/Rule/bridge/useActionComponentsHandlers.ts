@@ -128,9 +128,10 @@ export default (
     if (comRet.fallback_actions) {
       comRet.fallback_actions.customComponent = markRaw(FallbackActionsEditor)
       comRet.fallback_actions.componentProps = {
-        actionKey: currentEditingActionKey,
-        readonly: !!props.readonly,
         isFallback,
+        readonly: !!props.readonly,
+        actionKey: currentEditingActionKey,
+        namespace: props.modelValue?.namespace,
       }
     }
     const paramsProps = components?.parameters

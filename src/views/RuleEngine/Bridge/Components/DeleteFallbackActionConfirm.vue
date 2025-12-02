@@ -39,14 +39,19 @@
 </template>
 
 <script lang="ts" setup>
+import { Action, BridgeItem } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 import { toLower } from 'lodash'
 
 const props = defineProps<{
   modelValue: boolean
+  action?: Action | BridgeItem
   actionList: Array<{ type: string; name: string }>
 }>()
 const emit = defineEmits(['update:modelValue'])
+
+const actionNamespace = computed(() => props.action?.namespace)
+const { getNsParams } = useNsParams()
 
 const { t, tl } = useI18nTl('RuleEngine')
 
@@ -63,7 +68,7 @@ const getRoute = (item: { type: string; name: string }) => {
   return {
     name: `action-detail`,
     params: { id: getBridgeKey(item) },
-    query: { tab: 'settings' },
+    query: { tab: 'settings', ...getNsParams(actionNamespace.value) },
   }
 }
 </script>
