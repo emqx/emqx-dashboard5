@@ -160,6 +160,7 @@ const props = defineProps({
     default: false,
   },
 })
+const namespaceFromInject = inject<string | undefined>('ns')
 const FormComEl = ref()
 
 const queryTab = computed(() => {
@@ -185,6 +186,7 @@ const id = computed(() => {
   }
   return route.params.id as string
 })
+const namespaceFromRoute = computed(() => route.query.ns as string | undefined)
 
 watch(id, (val) => {
   if (val && isFromRule.value) {
@@ -207,7 +209,8 @@ const { getSourceDetail, updateSource, toggleSourceEnable, isTesting, testConnec
 const getSourceInfo = async () => {
   infoLoading.value = true
   try {
-    sourceInfo.value = await getSourceDetail(id.value)
+    const nsParams = !isFromRule.value ? namespaceFromRoute.value : namespaceFromInject
+    sourceInfo.value = await getSourceDetail(id.value, nsParams)
     rawSourceInfo = cloneDeep(sourceInfo.value)
   } catch (error) {
     console.error(error)
