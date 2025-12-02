@@ -27,7 +27,7 @@ export const putConnector = (
 }
 
 export const reconnectConnector = (id: string, params?: NsParams): Promise<void> => {
-  return http.post(`/connectors/${encodeURIComponent(id)}/start`, { params })
+  return http.post(`/connectors/${encodeURIComponent(id)}/start`, undefined, { params })
 }
 
 export const putConnectorEnable = (

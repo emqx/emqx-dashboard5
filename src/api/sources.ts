@@ -102,11 +102,13 @@ export const reconnectSourceForNode = (
   id: string,
   params?: NsParams,
 ): Promise<void> => {
-  return http.post(`/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`, {
-    params,
-  })
+  return http.post(
+    `/nodes/${encodeURIComponent(node)}/sources/${encodeURIComponent(id)}/start`,
+    undefined,
+    { params },
+  )
 }
 
 export const reconnectSource = (id: string, params?: NsParams): Promise<void> => {
-  return http.post(`/sources/${encodeURIComponent(id)}/start`, { params })
+  return http.post(`/sources/${encodeURIComponent(id)}/start`, undefined, { params })
 }
