@@ -5,11 +5,14 @@ import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 
 export default (): {
+  namespaceFilter: Ref<string | undefined, string | undefined>
   webhookList: Ref<WebhookItem[]>
   isLoading: Ref<boolean>
   isEmpty: Ref<boolean>
   getWebhookList: () => Promise<void>
 } => {
+  const namespaceFilter = ref<string | undefined>(undefined)
+
   let connectorList: Array<Connector> = []
   let actionList: Array<HTTPBridge> = []
   let ruleList: Array<RuleItem> = []
@@ -24,9 +27,12 @@ export default (): {
     joiningDataToWebhookList,
   } = useWebhookUtils()
 
+  const { getListNamespaceParams } = useListNsParams()
   const getConnectors = async () => {
     try {
-      const data: Array<Connector> = await queryConnectors()
+      const data: Array<Connector> = await queryConnectors(
+        getListNamespaceParams(namespaceFilter.value),
+      )
       connectorList = data.filter((item) => judgeIsWebhookConnector(item))
       return Promise.resolve()
     } catch (error) {
@@ -80,6 +86,7 @@ export default (): {
   getWebhookList()
 
   return {
+    namespaceFilter,
     webhookList,
     isLoading,
     isEmpty,

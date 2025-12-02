@@ -2,8 +2,22 @@
   <div class="webhook app-wrapper">
     <template v-if="!isEmpty">
       <div class="section-header">
-        <div></div>
-        <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
+        <el-row :gutter="20" justify="space-between">
+          <el-col v-bind="colProps" v-if="!isNamespaceUser">
+            <NamespaceSelect
+              v-model="namespaceFilter"
+              :placeholder="t('BasicConfig.namespace')"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              @clear="getWebhookList"
+              @change="getWebhookList"
+            />
+          </el-col>
+        </el-row>
+        <el-col v-bind="colProps">
+          <div class="flex justify-end">
+            <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
+          </div>
+        </el-col>
       </div>
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
@@ -58,9 +72,9 @@
     </template>
     <div v-else class="webhook-placeholder-container">
       <img class="img-placeholder" width="480" :src="placeholderImg" alt="webhook_placeholder" />
-      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addWebhook"
-        >{{ $t('Base.create') }} Webhook</el-button
-      >
+      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addWebhook">
+        {{ $t('Base.create') }} Webhook
+      </el-button>
     </div>
   </div>
 </template>
@@ -68,6 +82,7 @@
 <script lang="ts" setup>
 import placeholderImgDark from '@/assets/img/webhook-placeholder-dark.png'
 import placeholderImgLight from '@/assets/img/webhook-placeholder-light.png'
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 
@@ -81,7 +96,7 @@ const placeholderImg = computed(() =>
   theme.value === 'dark' ? placeholderImgDark : placeholderImgLight,
 )
 
-const { webhookList, isLoading, isEmpty, getWebhookList } = useWebhookList()
+const { namespaceFilter, webhookList, isLoading, isEmpty, getWebhookList } = useWebhookList()
 const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookItem()
 
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
