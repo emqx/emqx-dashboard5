@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getRuleInfo, updateRules } from '@/api/ruleengine'
+import { getRuleInfo } from '@/api/ruleengine'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
@@ -120,10 +120,11 @@ const { getBackRoute } = useReceiveParams('rule')
 const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
 useDataNotSaveConfirm(countIsRuleRecordChanged)
 
+const { getNsParams } = useNsParams()
 const loadRuleDetail = async () => {
   infoLoading.value = true
   try {
-    ruleInfo.value = await getRuleInfo(id)
+    ruleInfo.value = await getRuleInfo(id, getNsParams(namespace.value))
     rawRuleInfo = cloneDeep(ruleInfo.value)
     updateSavedData(rawRuleInfo)
     ++iKey.value
@@ -134,11 +135,12 @@ const loadRuleDetail = async () => {
   }
 }
 
+const { updateRule } = useRuleItem()
 const enableOrDisableRule = async () => {
   infoLoading.value = true
   ruleInfo.value.enable = !ruleInfo.value.enable
   try {
-    await updateRules(id, { enable: !ruleInfo.value.enable })
+    await updateRule(id, { enable: !ruleInfo.value.enable, namespace: namespace.value })
     ElMessage.success(t(ruleInfo.value.enable ? 'Base.disabledSuccess' : 'Base.enableSuccess'))
     ruleInfo.value.enable = !ruleInfo.value.enable
   } catch (error) {
@@ -175,7 +177,7 @@ const submitUpdateRules = async () => {
   await formCom.value.validate()
   submitLoading.value = true
   try {
-    await updateRules(id, getRuleDataForUpdate(ruleInfo.value))
+    await updateRule(id, getRuleDataForUpdate(ruleInfo.value))
     ElMessage.success(t('Base.updateSuccess'))
     rawRuleInfo = ruleInfo.value
     if (!isTesting.value) {

@@ -22,12 +22,14 @@ export default (): {
     enable,
     description,
     actions,
+    namespace,
   }: RuleItem): Partial<RuleItem> => ({
     id,
     sql,
     enable,
     description,
     actions,
+    namespace,
   })
 
   return {

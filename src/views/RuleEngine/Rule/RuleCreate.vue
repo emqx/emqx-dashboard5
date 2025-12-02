@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { createRules, getRuleInfo, updateRules } from '@/api/ruleengine'
+import { createRules, getRuleInfo } from '@/api/ruleengine'
 import { RuleItem } from '@/types/rule'
 import RuleForm from '../components/RuleForm.vue'
 
@@ -58,6 +58,7 @@ const checkRuleClipStatus = async () => {
   }
 }
 
+const { updateRule } = useRuleItem()
 const submitCreateRule = async () => {
   await formCom.value.validate()
 
@@ -65,7 +66,7 @@ const submitCreateRule = async () => {
 
   try {
     await (isRuleCreated
-      ? updateRules(ruleValue.value.id, { ...ruleValue.value })
+      ? updateRule(ruleValue.value.id, { ...ruleValue.value })
       : createRules({ ...ruleValue.value }))
     rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))

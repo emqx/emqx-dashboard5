@@ -1,4 +1,4 @@
-import { deleteRules, updateRules } from '@/api/ruleengine'
+import { RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 
@@ -9,8 +9,9 @@ export default (): {
 } => {
   const { toggleActionEnable, deleteAction } = useHandleActionItem()
 
-  const toggleRuleEnableStatus = async (id: string, enable: boolean) => {
-    return updateRules(id, { enable })
+  const { updateRule } = useRuleItem()
+  const toggleRuleEnableStatus = async ({ id, namespace }: RuleItem, enable: boolean) => {
+    return updateRule(id, { enable, namespace })
   }
 
   const { requestPutConnectorEnable, requestDeleteConnector } = useHandleConnectorItem()
@@ -18,13 +19,14 @@ export default (): {
     const enable = webhook.enable
     return await Promise.all([
       toggleActionEnable(webhook.action, enable),
-      toggleRuleEnableStatus(webhook.rule.id, enable),
+      toggleRuleEnableStatus(webhook.rule as RuleItem, enable),
       requestPutConnectorEnable(webhook.connector.id, enable),
     ])
   }
 
   const { t } = useI18n()
   const deleteLoading = ref(false)
+  const { deleteRule } = useRuleItem()
   const deleteWebhook = async (webhook: WebhookItem) => {
     if (!webhook.action.id || !webhook.rule.id) return
 
@@ -38,7 +40,7 @@ export default (): {
     deleteLoading.value = true
     try {
       // Delete the RuleID
-      await deleteRules(webhook.rule.id)
+      await deleteRule(webhook.rule)
       // Once rule is deleted, delete the Data Bridge
       await deleteAction(webhook.action)
       await requestDeleteConnector(webhook.connector)
