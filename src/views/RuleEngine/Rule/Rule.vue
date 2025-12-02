@@ -138,7 +138,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getRules, updateRules } from '@/api/ruleengine'
+import { getRules } from '@/api/ruleengine'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
@@ -237,9 +237,10 @@ const searchRule = (filterParamsData: FilterParamsForQueryRules) => {
   refreshTotalRuleListAndTable()
 }
 
+const { updateRule } = useRuleItem()
 const startOrStopRule = async (row: RuleItem) => {
   try {
-    await updateRules(row.id, { enable: row.enable })
+    await updateRule(row.id, { enable: row.enable, namespace: row.namespace })
     M.success(t(row.enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'))
   } catch (error) {
     console.error(error)

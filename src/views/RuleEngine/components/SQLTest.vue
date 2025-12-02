@@ -122,6 +122,7 @@ const props = defineProps({
     required: true,
   },
 })
+const namespaceFromInject = inject<string | undefined>('ns')
 
 const { isTesting, testTarget } = useStatusController()
 testTarget.value = TestRuleTarget.SQL
@@ -144,11 +145,15 @@ const {
 
 const { copyText } = useCopy()
 
+const { getNsParams } = useNsParams()
 const submitTestSQL = async () => {
   testLoading.value = true
   let res
   try {
-    res = await testsql({ context: getMockContext(), sql: ruleSql.value })
+    res = await testsql(
+      { context: getMockContext(), sql: ruleSql.value },
+      getNsParams(namespaceFromInject),
+    )
     if (res) {
       resultData.value = jsonBigIntStringify(jsonBigIntParse(res))
       ElMessage.success(tl('testPassed'))

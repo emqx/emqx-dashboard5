@@ -28,6 +28,7 @@ const id = computed(() => {
   return props?.node?.data?.formData.id
 })
 const namespace = computed(() => props?.node?.data?.formData.namespace)
+provide('ns', namespace.value)
 const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 

@@ -1,5 +1,4 @@
 import { deleteAICompletionProfile, deleteAIProvider } from '@/api/ai'
-import { deleteRules } from '@/api/ruleengine'
 import { RuleForm } from '@/types/rule'
 
 export default () => {
@@ -21,10 +20,11 @@ export default () => {
       }),
     )
   }
+  const { deleteRule: requestDeleteRule } = useRuleItem()
   const deleteRule = async (rule: RuleForm) => {
     const AIData = getAIDataNameArrFromSQL(rule.sql)
     await deleteAIData(AIData)
-    await deleteRules(rule.id)
+    await requestDeleteRule(rule)
   }
 
   return {

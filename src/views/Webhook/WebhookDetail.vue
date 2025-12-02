@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { getRuleInfo, updateRules } from '@/api/ruleengine'
+import { getRuleInfo } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
@@ -93,6 +93,7 @@ const { getEnableStatus } = useWebhookUtils()
 
 const { getConnectorDetail, requestPutConnector } = useHandleConnectorItem()
 const { getActionDetail } = useHandleActionItem()
+const { getNsParams } = useNsParams()
 const getWebhookData = async () => {
   if (!fullName.value) {
     return
@@ -102,7 +103,7 @@ const getWebhookData = async () => {
     const [connectorData, actionData, ruleData] = await Promise.all([
       getConnectorDetail(actionId.value, namespace.value),
       getActionDetail(actionId.value, namespace.value),
-      getRuleInfo(ruleId.value),
+      getRuleInfo(ruleId.value, getNsParams(namespace.value)),
     ])
     const action = actionData
     webhookData.value = {
@@ -157,6 +158,7 @@ const { getRuleDataForUpdate } = useRuleForm()
 const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
 const { handleActionDataBeforeUpdate } = useActionDataHandler()
 const { updateAction } = useHandleActionItem()
+const { updateRule } = useRuleItem()
 const submit = async () => {
   if (!webhookData.value) {
     return
@@ -172,7 +174,7 @@ const submit = async () => {
     syncHeaders(data)
     await requestPutConnector(actionId.value, connectorData)
     await updateAction(actionData)
-    await updateRules(ruleId.value, getRuleDataForUpdate(data.rule))
+    await updateRule(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))
     router.push({ name: 'webhook' })
   } catch (error) {

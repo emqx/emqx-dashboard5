@@ -460,6 +460,7 @@ declare global {
   const useRuleFallbackActions: typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']
   const useRuleForm: typeof import('./hooks/Rule/rule/useRuleForm')['default']
   const useRuleInputs: typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']
+  const useRuleItem: typeof import('./hooks/Rule/rule/useRuleItem')['default']
   const useRuleMetrics: typeof import('./hooks/useMetrics')['useRuleMetrics']
   const useRuleOutputs: typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']
   const useRuleSourceEvents: typeof import('./hooks/Rule/rule/useRuleSourceEvents')['default']
@@ -1051,6 +1052,7 @@ declare module 'vue' {
     readonly useRuleFallbackActions: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleFallbackActions']>
     readonly useRuleForm: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleForm')['default']>
     readonly useRuleInputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleInputs']>
+    readonly useRuleItem: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleItem')['default']>
     readonly useRuleMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useRuleMetrics']>
     readonly useRuleOutputs: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['useRuleOutputs']>
     readonly useRuleSourceEvents: UnwrapRef<typeof import('./hooks/Rule/rule/useRuleSourceEvents')['default']>
