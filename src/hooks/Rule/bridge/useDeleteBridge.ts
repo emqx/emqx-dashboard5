@@ -55,13 +55,13 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
       return
     }
     usingAsFallbackAction.value = await isUsedAsFallbackAction(item)
+    currentDeleteBridgeData.value = item
     if (usingAsFallbackAction.value?.length) {
       showFallbackConfirm.value = true
       return
     }
 
     if (item.rules?.length) {
-      currentDeleteBridgeData.value = item
       secondConfirmToDelete(item.rules)
       return
     }

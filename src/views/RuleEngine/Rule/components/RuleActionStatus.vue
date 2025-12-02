@@ -60,7 +60,9 @@ type NotActionOutputItem = {
 const props = defineProps<{
   rule: RuleItem
 }>()
-const { tl, t } = useI18nTl('RuleEngine')
+const { tl } = useI18nTl('RuleEngine')
+
+const ruleNamespace = computed(() => props.rule?.namespace)
 
 const { getStatusClass, getTheWorstStatus } = useCommonConnectionStatus()
 const { getActionStatusLabel } = useActionAndSourceStatus()
@@ -115,6 +117,7 @@ const getRuleActionStatusData = ({ action_details }: RuleItem) => {
 const statusData = computed(() => getRuleActionStatusData(props.rule))
 const notActionOutputArr = computed(() => getNotActionOutputArr(props.rule))
 
+const { getNsParams } = useNsParams()
 const getRoute = (type?: string, name?: string) => {
   if (!type || !name) {
     return {}
@@ -122,7 +125,7 @@ const getRoute = (type?: string, name?: string) => {
   return {
     name: `action-detail`,
     params: { id: getBridgeKey({ type, name }) },
-    query: { tab: 'settings' },
+    query: { tab: 'settings', ...getNsParams(ruleNamespace.value) },
   }
 }
 </script>

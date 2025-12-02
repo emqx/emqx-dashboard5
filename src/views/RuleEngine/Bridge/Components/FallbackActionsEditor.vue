@@ -38,7 +38,11 @@
           :is="isReference(action) ? 'router-link' : 'div'"
           :to="
             isReference(action)
-              ? { name: 'action-detail', params: { id: getBridgeKey(action) } }
+              ? {
+                  name: 'action-detail',
+                  params: { id: getBridgeKey(action) },
+                  query: getNsParams(namespace),
+                }
               : undefined
           "
           target="_blank"
@@ -105,6 +109,7 @@ const props = defineProps<{
    * current action is in fallback action drawer
    */
   isFallback?: boolean
+  namespace?: string
 }>()
 
 const emit = defineEmits<{
@@ -144,6 +149,8 @@ const getActionTypeLabel = (action: FallbackAction) => {
   }
   return getGeneralTypeLabel(action.type)
 }
+
+const { getNsParams } = useNsParams()
 
 const isDrawerOpen = ref(false)
 const currentEditIndex = ref<number>(-1)

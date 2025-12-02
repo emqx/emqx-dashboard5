@@ -10,7 +10,7 @@
             <component
               :is="isOutputAction(item) ? 'router-link' : 'div'"
               class="io-item-main"
-              :to="{ name: 'action-detail', params: { id: item } }"
+              :to="{ name: 'action-detail', params: { id: item }, query: getNsParams(namespace) }"
               target="_blank"
             >
               <img :src="getOutputImage(item)" />
@@ -49,6 +49,7 @@
                   :model-value="getActionFallback(item)"
                   :action-key="item"
                   :readonly="disabled"
+                  :namespace="namespace"
                   in-rule-outputs
                   @update:model-value="handleFallbackActionsChange(item, $event)"
                 />
@@ -121,6 +122,7 @@ const ruleValue: WritableComputedRef<RuleItem | BasicRule> = computed({
 const namespace = computed(() =>
   'namespace' in ruleValue.value ? ruleValue.value.namespace : undefined,
 )
+const { getNsParams } = useNsParams()
 
 watch(
   () => props.modelValue?.actions?.length,
