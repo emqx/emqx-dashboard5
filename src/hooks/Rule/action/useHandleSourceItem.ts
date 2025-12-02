@@ -10,14 +10,14 @@ import {
   getSourceMetrics as requestSourceMetrics,
   testSourceConnectivity,
 } from '@/api/sources'
-import { Source } from '@/types/rule'
+import { BridgeItem, Source } from '@/types/rule'
 
 const useHandleSourceItem = (): {
-  getSourceDetail: (id: string) => Promise<Source>
+  getSourceDetail: (id: string, namespace?: string) => Promise<Source>
   handleDataAfterLoaded: (data: Source) => Source
   addSource: (data: Source) => Promise<Source>
   updateSource: (data: Source) => Promise<Source>
-  deleteSource: (id: string, withDependency?: boolean) => Promise<void>
+  deleteSource: (source: Source | BridgeItem, withDependency?: boolean) => Promise<void>
   getSourceMetrics: (source: Source) => Promise<any>
   resetSourceMetrics: (source: Source) => Promise<void>
   toggleSourceEnable: (source: Source, isEnable: boolean) => Promise<Source>
@@ -31,9 +31,9 @@ const useHandleSourceItem = (): {
 
   const handleDataAfterLoaded = (data: Source): Source => data
 
-  const getSourceDetail = async (id: string): Promise<Source> => {
+  const getSourceDetail = async (id: string, namespace?: string): Promise<Source> => {
     try {
-      const data = await requestSourceDetail(id)
+      const data = await requestSourceDetail(id, getNsParams(namespace))
       return handleDataAfterLoaded(data) as Source
     } catch (error) {
       return Promise.reject(error)
@@ -47,17 +47,20 @@ const useHandleSourceItem = (): {
   const updateSource = async (data: Source): Promise<Source> => {
     try {
       const { id } = data as Source
-      const dataToSubmit = await handleActionDataBeforeUpdate(data)
+      const { namespace, ...dataToSubmit } = await handleActionDataBeforeUpdate(data)
       Reflect.deleteProperty(dataToSubmit as Source, 'id')
-      return putSource(id, dataToSubmit as any) as Promise<Source>
+      return putSource(id, dataToSubmit as any, getNsParams(namespace)) as Promise<Source>
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
     }
   }
 
-  const deleteSource = async (id: string, withDependency = false): Promise<void> => {
-    return requestDeleteSource(id, withDependency)
+  const deleteSource = async (
+    { id, namespace }: Source | BridgeItem,
+    withDependency = false,
+  ): Promise<void> => {
+    return requestDeleteSource(id, withDependency, namespace)
   }
 
   const getSourceMetrics = async ({ id, namespace }: Source): Promise<any> => {
@@ -84,8 +87,8 @@ const useHandleSourceItem = (): {
   const testConnectivity = async (data: Source): Promise<void> => {
     try {
       isTesting.value = true
-      const dataForSubmit = await handleActionDataBeforeSubmit(data)
-      await testSourceConnectivity(dataForSubmit)
+      const { namespace, ...dataForSubmit } = await handleActionDataBeforeSubmit(data)
+      await testSourceConnectivity(dataForSubmit, getNsParams(namespace))
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {
@@ -153,7 +156,7 @@ export const useDeleteSource = (
       type: 'warning',
     })
     try {
-      await deleteSource(item.id)
+      await deleteSource(item)
       handleDeleteSuc()
     } catch (error: any) {
       //

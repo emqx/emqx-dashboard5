@@ -52,6 +52,7 @@
 
 <script lang="ts" setup>
 import { BridgeDirection } from '@/types/enum'
+import { Action, BridgeItem, Source } from '@/types/rule'
 import { WarningFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
@@ -63,8 +64,8 @@ const props = defineProps({
     type: Number,
     default: BridgeDirection.Egress,
   },
-  id: {
-    type: String,
+  data: {
+    type: Object as PropType<BridgeItem | Action | Source>,
   },
   ruleList: {
     type: Array as PropType<Array<string>>,
@@ -89,12 +90,12 @@ const { deleteSource } = useHandleSourceItem()
 
 const isSubmitting = ref(false)
 const submit = async () => {
-  if (!props.id) {
+  if (!props.data) {
     return
   }
   props.direction === BridgeDirection.Ingress
-    ? await deleteSource(props.id, true)
-    : await deleteAction(props.id, true)
+    ? await deleteSource(props.data, true)
+    : await deleteAction(props.data, true)
 
   emit('submitted')
   showDialog.value = false

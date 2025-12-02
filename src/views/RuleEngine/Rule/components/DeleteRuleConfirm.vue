@@ -161,7 +161,9 @@ const submit = async () => {
       ElMessage.error(t('RuleEngine.deleteError', { target: lowerCase(tl('action')) }))
     }
     try {
-      await Promise.all(sources.value.map(({ id }) => deleteSource(id)))
+      await Promise.all(
+        sources.value.map(({ id }) => deleteSource({ id, namespace: namespace.value })),
+      )
     } catch (error) {
       ElMessage.error(t('RuleEngine.deleteError', { target: 'source' }))
     }
