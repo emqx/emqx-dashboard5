@@ -58,6 +58,7 @@
               <OperateWebhookAssociatedPopover
                 :disabled="!judgeIsWebhookConnector(row)"
                 :name="row.name"
+                :namespace="row.namespace"
                 :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
                 :targetLabel="tl('action')"
               >

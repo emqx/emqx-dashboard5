@@ -169,7 +169,7 @@ const requestResetMetrics = selectFunction(resetSourceMetrics, resetActionMetric
 
 const getBridgeMetrics = async () => {
   try {
-    if (!props.bridgeMsg) {
+    if (!props.bridgeMsg.id) {
       return
     }
     return getMetrics(props.bridgeMsg)
@@ -179,7 +179,7 @@ const getBridgeMetrics = async () => {
 }
 
 const resetMetrics = () => {
-  if (!props.bridgeMsg) {
+  if (!props.bridgeMsg.id) {
     return
   }
   return requestResetMetrics(props.bridgeMsg)

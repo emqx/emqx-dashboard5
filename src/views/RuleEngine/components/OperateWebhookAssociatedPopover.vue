@@ -36,6 +36,7 @@ const props = withDefaults(
     targetLabel?: string
     operation?: string
     teleported?: boolean
+    namespace?: string
     /**
      * webhook name,if not set, route will go to list page, otherwise will go to detail page
      */
@@ -49,6 +50,7 @@ const props = withDefaults(
 
 const { t } = useI18nTl('RuleEngine')
 
+const { getNsParams } = useNsParams()
 const route = computed(() => {
   if (!props.name) {
     return { name: 'webhook' }
@@ -56,7 +58,7 @@ const route = computed(() => {
   return {
     name: 'webhook-detail',
     params: { name: props.name },
-    query: { tab: DetailTab.Setting },
+    query: { tab: DetailTab.Setting, ...getNsParams(props.namespace) },
   }
 })
 </script>

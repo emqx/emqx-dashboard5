@@ -229,6 +229,7 @@ const id = computed(() => {
   return route.params.id as string
 })
 const namespaceFromRoute = computed(() => route.query.ns as string | undefined)
+provide('ns', namespaceFromRoute.value)
 
 watch(id, (val) => {
   if (val && props.inDrawer) {
@@ -253,10 +254,11 @@ const { getActionDetail, updateAction, toggleActionEnable, isTesting, testConnec
 const { judgeIsWebhookAction } = useWebhookUtils()
 const isWebhookAction = computed(() => judgeIsWebhookAction(bridgeInfo.value))
 const formProps = computed(() => (isWebhookAction.value ? { disabled: true } : {}))
+const { getNsParams } = useNsParams()
 const webhookRoute = computed(() => ({
   name: 'webhook-detail',
   params: { name: bridgeInfo.value.name },
-  query: { tab: DetailTab.Setting },
+  query: { tab: DetailTab.Setting, ...getNsParams(bridgeInfo.value.namespace) },
 }))
 
 const loadBridgeInfo = async () => {

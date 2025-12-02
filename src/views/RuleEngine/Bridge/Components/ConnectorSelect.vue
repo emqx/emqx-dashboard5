@@ -47,6 +47,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
   (e: 'change', value?: Connector): void
 }>()
+const namespaceFromInject = inject<string | undefined>('ns')
 
 const selected = computed({
   get() {
@@ -61,10 +62,11 @@ const selected = computed({
   },
 })
 
+const { getNsParams } = useNsParams()
 const totalConnectorList = ref<Array<Connector>>([])
 const getTotalList = async () => {
   try {
-    totalConnectorList.value = await getConnectors()
+    totalConnectorList.value = await getConnectors(getNsParams(namespaceFromInject))
   } catch (error) {
     //
   }
