@@ -9,7 +9,11 @@
           <component
             class="io-item"
             :is="isBridgeType(item.type) ? 'router-link' : 'div'"
-            :to="{ name: 'source-detail', params: { id: getBridgeIdFromInput(item.value) } }"
+            :to="{
+              name: 'source-detail',
+              params: { id: getBridgeIdFromInput(item.value) },
+              query: getNsParams(namespaceFromInject),
+            }"
             target="_blank"
           >
             <div class="io-item-main">
@@ -81,8 +85,9 @@ const emit = defineEmits<{
 }>()
 
 const { t, tl } = useI18nTl('RuleEngine')
-const { state } = useStore()
-const lang = computed<'en' | 'zh'>(() => (state.lang === 'zh' ? 'zh' : 'en'))
+
+const { getNsParams } = useNsParams()
+const namespaceFromInject = inject<string | undefined>('ns')
 
 const keyParts = computed(() => getKeywordsFromSQL(props.modelValue))
 
