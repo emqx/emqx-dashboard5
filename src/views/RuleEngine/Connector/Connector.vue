@@ -14,7 +14,7 @@
               />
             </el-col>
           </el-row>
-          <el-col v-bind="colProps" class="flex justify-end">
+          <el-col v-bind="colProps">
             <div class="flex justify-end">
               <CreateButton @click="$router.push({ name: 'connector-create' })" />
             </div>
