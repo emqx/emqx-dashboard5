@@ -8,11 +8,13 @@ export default (): {
   const isTesting = ref(false)
 
   const { handleConnectorDataBeforeSubmit } = useConnectorDataHandler()
+  const { getNsParams } = useNsParams()
   const testConnectivity = async (connector: Connector) => {
     try {
       isTesting.value = true
-      const data = await handleConnectorDataBeforeSubmit(connector)
-      await testConnectorConnectivity(data)
+      const { namespace, ...others } = connector
+      const data = await handleConnectorDataBeforeSubmit(others)
+      await testConnectorConnectivity(data, getNsParams(namespace))
       isTesting.value = false
       return Promise.resolve()
     } catch (error) {
