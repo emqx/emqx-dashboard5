@@ -23,7 +23,11 @@
         <li v-for="item in ruleList" :key="item" class="data-item">
           <el-tag size="large">
             <router-link
-              :to="{ name: 'rule-detail', params: { id: item }, query: { tab: 'settings' } }"
+              :to="{
+                name: 'rule-detail',
+                params: { id: item },
+                query: { tab: 'settings', ...getNsParams(data?.namespace) },
+              }"
               target="_blank"
             >
               {{ item }}
@@ -87,6 +91,7 @@ const isEgress = computed(() => props.direction === BridgeDirection.Egress)
 
 const { deleteAction } = useHandleActionItem()
 const { deleteSource } = useHandleSourceItem()
+const { getNsParams } = useNsParams()
 
 const isSubmitting = ref(false)
 const submit = async () => {

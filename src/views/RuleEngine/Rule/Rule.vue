@@ -33,7 +33,11 @@
         >
           <template #default="{ row }">
             <router-link
-              :to="{ name: 'rule-detail', params: { id: row.id }, query: { ns: row.namespace } }"
+              :to="{
+                name: 'rule-detail',
+                params: { id: row.id },
+                query: getNsParams(row.namespace),
+              }"
               class="table-data-without-break"
             >
               {{ row.id }}
@@ -107,7 +111,7 @@
                 $router.push({
                   name: 'rule-detail',
                   params: { id: row.id },
-                  query: { tab: 'settings' },
+                  query: { tab: 'settings', ...getNsParams(row.namespace) },
                 })
               "
             >
@@ -154,6 +158,7 @@ const ruleLoading: Ref<boolean> = ref(false)
 
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const { getNsParams } = useNsParams()
 
 const { resetPageNum } = usePagination()
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
