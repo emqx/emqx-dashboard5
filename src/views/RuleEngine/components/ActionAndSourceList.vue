@@ -68,7 +68,7 @@
         <template #default="{ row }">
           <router-link
             v-for="item in row.rules"
-            :to="{ name: 'rule-detail', params: { id: item } }"
+            :to="{ name: 'rule-detail', params: { id: item }, query: getNsParams(row.namespace) }"
             :key="item"
             target="_blank"
             class="rule-detail-link"
