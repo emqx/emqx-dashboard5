@@ -2,7 +2,7 @@ import http from '@/common/http'
 import { Action, BridgeMetricsData, NsParams, NsWithGlobalParams } from '@/types/rule'
 
 export const reconnectAction = (id: string, params?: NsParams): Promise<void> => {
-  return http.post(`/actions/${encodeURIComponent(id)}/start`, { params })
+  return http.post(`/actions/${encodeURIComponent(id)}/start`, undefined, { params })
 }
 
 export const putActionEnable = (id: string, enable: boolean, params?: NsParams): Promise<void> => {
@@ -89,7 +89,7 @@ export const reconnectActionForNode = (
   id: string,
   params?: NsParams,
 ): Promise<void> => {
-  return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`, { params })
+  return http.post(`/nodes/${node}/actions/${encodeURIComponent(id)}/start`, undefined, { params })
 }
 
 export const getActionMetrics = (id: string, params?: NsParams): Promise<BridgeMetricsData> => {
