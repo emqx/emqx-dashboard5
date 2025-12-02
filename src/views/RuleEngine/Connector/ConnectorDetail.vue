@@ -106,7 +106,7 @@
   <DelConnectorTip v-model="showDelTip" :connector="connectorData" />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
-    :connector="currentConnector as Connector"
+    v-bind="{ connector: currentConnector as Connector }"
     @submitted="toggleEnableValue"
   />
 </template>
@@ -143,6 +143,7 @@ const id = computed(() => {
   }
   return route.params.id as string
 })
+const namespace = computed(() => route.query.ns as string | undefined)
 
 const { getBridgeGeneralType } = useBridgeTypeValue()
 const generalType = computed(() => {
@@ -195,7 +196,7 @@ const isLoading = ref(false)
 const getDetail = async () => {
   try {
     isLoading.value = true
-    connectorData.value = await getConnectorDetail(id.value)
+    connectorData.value = await getConnectorDetail(id.value, namespace.value)
   } catch (error) {
     //
   } finally {

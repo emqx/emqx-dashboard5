@@ -218,9 +218,11 @@ const reconnect = async (connector: Connector) => {
   }
 }
 
-const getDetailPageRoute = ({ id }: Connector) => ({
+const { getNsParams } = useNsParams()
+const getDetailPageRoute = ({ id, namespace }: Connector) => ({
   name: 'connector-detail',
   params: { id },
+  query: getNsParams(namespace),
 })
 
 const enableOrDisableConnector = async (connector: Connector) => {

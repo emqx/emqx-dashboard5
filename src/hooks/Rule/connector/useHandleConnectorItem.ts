@@ -11,7 +11,7 @@ import { BridgeItem, Connector, ConnectorForm } from '@/types/rule'
 type NowConnector = Connector | BridgeItem
 
 interface ConnectorHandlerResult {
-  getConnectorDetail: (id: string) => Promise<Connector>
+  getConnectorDetail: (id: string, namespace?: string | undefined | null) => Promise<Connector>
   handleConnectorDataAfterLoaded: (data: Connector) => Connector
   addConnector: (data: Connector) => Promise<Connector>
   updateConnector: (data: Connector) => Promise<Connector>
@@ -41,9 +41,12 @@ export default (): ConnectorHandlerResult => {
     return handleConnectorDataAfterLoaded(data as any)
   }
 
-  const getConnectorDetail = async (id: string): Promise<Connector> => {
+  const getConnectorDetail = async (
+    id: string,
+    namespace: string | undefined | null,
+  ): Promise<Connector> => {
     try {
-      const data = await requestConnectorDetail(id)
+      const data = await requestConnectorDetail(id, getNsParams(namespace))
       return handleDataAfterLoaded(data)
     } catch (error) {
       console.error(error)

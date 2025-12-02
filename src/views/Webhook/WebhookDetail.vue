@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import { getActionDetail, putAction } from '@/api/action'
-import { getConnectorDetail } from '@/api/connector'
 import { getRuleInfo, updateRules } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { HTTPBridge } from '@/types/rule'
@@ -81,6 +80,7 @@ const actionId = computed(() => {
   const actionName = fullName.value
   return getBridgeKey({ type: BridgeType.Webhook, name: actionName })
 })
+const namespace = computed(() => route.query.ns as string | undefined)
 const ruleId = computed(() => fullName.value)
 
 const tab = computed(() => route.query.tab && Number(route.query.tab))
@@ -93,6 +93,7 @@ const isSubmitting = ref(false)
 
 const { getEnableStatus } = useWebhookUtils()
 
+const { getConnectorDetail, requestPutConnector } = useHandleConnectorItem()
 const getWebhookData = async () => {
   if (!fullName.value) {
     return
@@ -100,7 +101,7 @@ const getWebhookData = async () => {
   infoLoading.value = true
   try {
     const [connectorData, actionData, ruleData] = await Promise.all([
-      getConnectorDetail(actionId.value),
+      getConnectorDetail(actionId.value, namespace.value),
       getActionDetail(actionId.value),
       getRuleInfo(ruleId.value),
     ])
@@ -153,7 +154,6 @@ const handleDeleteWebhook = async () => {
   }
 }
 
-const { requestPutConnector } = useHandleConnectorItem()
 const { getRuleDataForUpdate } = useRuleForm()
 const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
 const { handleActionDataBeforeUpdate } = useActionDataHandler()
