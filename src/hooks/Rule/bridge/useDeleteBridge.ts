@@ -1,11 +1,11 @@
-import { BridgeItem } from '@/types/rule'
+import { Action, BridgeItem } from '@/types/rule'
 
 interface DeleteBridgeResult {
   showSecondConfirm: Ref<boolean>
   usingBridgeRules: Ref<string[]>
   showFallbackConfirm: Ref<boolean>
   usingAsFallbackAction: Ref<Array<{ type: string; name: string }>>
-  currentDeleteBridgeId: Ref<string>
+  currentDeleteBridgeData: Ref<BridgeItem | Action | undefined>
   handleDeleteSuc: () => void
   handleDeleteBridge: (data: BridgeItem) => Promise<void>
 }
@@ -15,7 +15,7 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
 
   const showSecondConfirm = ref(false)
   const usingBridgeRules: Ref<Array<string>> = ref([])
-  const currentDeleteBridgeId = ref('')
+  const currentDeleteBridgeData = ref<BridgeItem | Action | undefined>(undefined)
 
   const showFallbackConfirm = ref(false)
   const usingAsFallbackAction: Ref<Array<{ type: string; name: string }>> = ref([])
@@ -61,11 +61,10 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
     }
 
     if (item.rules?.length) {
-      currentDeleteBridgeId.value = item.id
+      currentDeleteBridgeData.value = item
       secondConfirmToDelete(item.rules)
       return
     }
-    const { id } = item
     await ElMessageBox.confirm(t('Base.confirmDelete'), {
       confirmButtonText: t('Base.confirm'),
       cancelButtonText: t('Base.cancel'),
@@ -73,7 +72,7 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
       type: 'warning',
     })
     try {
-      await deleteAction(id)
+      await deleteAction(item)
       handleDeleteSuc()
     } catch (error: any) {
       //
@@ -83,7 +82,7 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
   return {
     showSecondConfirm,
     usingBridgeRules,
-    currentDeleteBridgeId,
+    currentDeleteBridgeData,
     showFallbackConfirm,
     usingAsFallbackAction,
     handleDeleteSuc,

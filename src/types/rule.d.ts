@@ -71,6 +71,7 @@ export interface RuleForm extends BasicRule {
 export interface RuleItem extends RuleForm {
   id: string
   action_details?: Array<RuleActionStatus>
+  namespace?: string
 }
 
 export interface ResourceOpt {
@@ -91,6 +92,7 @@ export interface BridgeBaseData {
    * create by front end {type}:{name}
    */
   id: string
+  namespace?: string
   /**
    * $bridges/${id} fill in from when create/edit rule
    */
@@ -179,7 +181,7 @@ export type MQTTIn = MQTTOut & {
   local_qos: QoSLevel
 }
 
-export type OtherBridge = Record<string, any>
+export type OtherBridge = { id: string; namespace?: string } & Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 

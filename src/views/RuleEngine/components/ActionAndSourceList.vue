@@ -141,7 +141,7 @@
   <DeleteBridgeSecondConfirm
     v-model="showSecondConfirm"
     :rule-list="usingBridgeRules"
-    :id="currentDeleteBridgeId"
+    :data="currentDeleteBridgeData"
     :direction="direction"
     @submitted="handleDeleteSuc"
   />
@@ -290,11 +290,12 @@ const { toggleSourceEnable, reconnectSource } = useHandleSourceItem()
 const { toggleActionEnable, reconnectAction } = useHandleActionItem()
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
-const reconnect = ({ id }: Source | Action) => {
+const reconnect = (data: Source | Action) => {
+  const { id } = data
   try {
     const reconnectFn = isSource.value ? reconnectSource : reconnectAction
     reconnectingMap.value.set(id, true)
-    reconnectFn(id)
+    reconnectFn(data)
   } catch (error) {
     //
   } finally {
@@ -307,7 +308,7 @@ const toggleEnable = async (row: Source | Action) => {
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   const toggleFn = isSource.value ? toggleSourceEnable : toggleActionEnable
   try {
-    await toggleFn(row.id, enable)
+    await toggleFn(row, enable)
     ElMessage.success(t(sucMessage))
     getList()
   } catch (error) {
@@ -332,7 +333,7 @@ const createRuleWithTarget = (id: string) => {
 }
 
 const useDeleteHook = isSource.value ? useDeleteSource : useDeleteBridge
-const { showSecondConfirm, usingBridgeRules, currentDeleteBridgeId, handleDeleteSuc, ...other } =
+const { showSecondConfirm, usingBridgeRules, currentDeleteBridgeData, handleDeleteSuc, ...other } =
   useDeleteHook(getList)
 const { showFallbackConfirm, usingAsFallbackAction } = other as ReturnType<typeof useDeleteBridge>
 

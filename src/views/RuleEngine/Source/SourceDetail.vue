@@ -106,7 +106,7 @@
     <DeleteBridgeSecondConfirm
       v-model="showSecondConfirm"
       :rule-list="usingBridgeRules"
-      :id="currentDeleteBridgeId"
+      :data="currentDeleteBridgeData"
       :direction="BridgeDirection.Ingress"
       @submitted="handleDeleteSuc"
     />
@@ -316,7 +316,7 @@ const goBack = () => {
 const {
   showSecondConfirm,
   usingBridgeRules,
-  currentDeleteBridgeId,
+  currentDeleteBridgeData,
   handleDeleteSuc,
   handleDeleteSource,
 } = useDeleteSource(goBack)
