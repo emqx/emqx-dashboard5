@@ -2,26 +2,41 @@
   <div class="flow" v-loading="isLoading">
     <template v-if="showData">
       <div class="flow-view-hd">
-        <!-- <el-radio-group v-model="showBy">
-          <el-radio-button :label="ShowByOpt.Flow">Flow</el-radio-button>
-          <el-radio-button :label="ShowByOpt.List">{{ tl('list') }}</el-radio-button>
-        </el-radio-group> -->
-        <el-button @click="goCreate" :disabled="!$hasPermission('post')" type="primary">
-          {{ tl('flow-create') }}
-        </el-button>
+        <el-row :gutter="20" class="flex-1" justify="space-between">
+          <el-col v-bind="colProps" v-if="!isNamespaceUser">
+            <NamespaceSelect
+              v-model="selectedNamespace"
+              :clearable="false"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+            />
+          </el-col>
+          <el-col v-bind="colProps">
+            <div class="flex justify-end">
+              <CreateButton @click="goCreate">
+                {{ tl('flow-create') }}
+              </CreateButton>
+            </div>
+          </el-col>
+        </el-row>
       </div>
-      <FlowView v-if="showBy === ShowByOpt.Flow" @loaded="handleLoaded" />
+      <FlowView
+        v-if="showBy === ShowByOpt.Flow"
+        :namespace="selectedNamespace"
+        @load="handleLoad"
+        @loaded="handleLoaded"
+      />
     </template>
     <div v-else class="flow-placeholder-container">
       <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
-      <el-button @click="goCreate" :disabled="!$hasPermission('post')" type="primary">
+      <CreateButton @click="goCreate">
         {{ tl('flow-create') }}
-      </el-button>
+      </CreateButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import FlowView from './components/FlowView.vue'
 
 const router = useRouter()
@@ -49,6 +64,13 @@ const showBy = ref(ShowByOpt.Flow)
 const isLoading = ref(true)
 const showData = ref(true)
 
+const selectedNamespace = ref<string>(GLOBAL_NAMESPACE)
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+
+const handleLoad = () => {
+  isLoading.value = true
+}
+
 const handleLoaded = (dataLength: number) => {
   isLoading.value = false
   showData.value = dataLength > 0
@@ -66,7 +88,6 @@ const goCreate = () => router.push({ name: 'flow-create' })
   $hd-height: 68px;
   .flow-view-hd {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     height: $hd-height;
     padding: 0 24px;

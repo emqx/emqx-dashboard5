@@ -279,7 +279,7 @@ export interface FilterParamsForQueryRules {
   source?: string
   action?: string
   ns?: string
-  only_global?: string
+  only_global?: boolean
 }
 
 export type ParamsForQueryRules = FilterParamsForQueryRules & PageParams

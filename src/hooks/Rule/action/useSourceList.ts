@@ -1,12 +1,12 @@
 import { getSimplifiedSources } from '@/api/sources'
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, NsParams } from '@/types/rule'
 
 export default (): {
-  getSourceList: () => Promise<Array<BridgeItem>>
+  getSourceList: (params?: NsParams) => Promise<Array<BridgeItem>>
 } => {
-  const getSourceList = async () => {
+  const getSourceList = async (params?: NsParams) => {
     try {
-      const sourceList = await getSimplifiedSources()
+      const sourceList = await getSimplifiedSources(params)
       return Promise.resolve(sourceList)
     } catch (error) {
       return Promise.reject(error)
