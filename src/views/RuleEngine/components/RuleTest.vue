@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { BridgeItem } from '@/types/rule'
+import { BridgeItem, RuleItem } from '@/types/rule'
 import { CaretRight } from '@element-plus/icons-vue'
 import LogDataDisplay from './LogDataDisplay.vue'
 import MockDataDrawer from './MockDataDrawer.vue'
@@ -91,7 +91,7 @@ const isTestStarted = ref(false)
 const handleStartTest = async () => {
   isTestStarted.value = true
   try {
-    await startTest(props.ruleData.id)
+    await startTest(props.ruleData as RuleItem)
   } catch (error) {
     //
   }

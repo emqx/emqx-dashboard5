@@ -21,7 +21,7 @@ export default (): {
   handleStopTest: () => void
   getLogItemTitle: (item: Record<string, any>) => string
   submitMockDataForTestRule: (ruleId: string, data: Record<string, any>) => Promise<any>
-  startTest: (ruleId: string) => Promise<void>
+  startTest: (rule: RuleItem) => Promise<void>
 } => {
   let traceName = ''
   let traceStartTime: undefined | number = undefined
@@ -46,7 +46,7 @@ export default (): {
   /**
    * Create trace before get trace log
    */
-  const createTrace = async (ruleId: string) => {
+  const createTrace = async ({ id: ruleId }: RuleItem) => {
     try {
       deleteCurrentTrace()
       const nowTimestamp = new Date().getTime()
@@ -153,9 +153,9 @@ export default (): {
   /**
    * If testing with real data, polling starts when clicking start test
    */
-  const startTest = async (ruleId: string) => {
+  const startTest = async (rule: RuleItem) => {
     try {
-      await createTrace(ruleId)
+      await createTrace(rule)
       if (!needPolling.value) {
         needPolling.value = true
         startPolling()
