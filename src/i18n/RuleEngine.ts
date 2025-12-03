@@ -1945,4 +1945,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '当前 Gemini 通过兼容 OpenAI 的接口来与之通信，请输入兼容 OpenAI 的基础 URL',
     en: 'This Gemini connection uses an OpenAI-compatible API. Please enter a compatible Base URL.',
   },
+  namespaceResourceTip: {
+    zh: '当前{target}仅命名空间{namespace}管理员可进行操作',
+    en: 'Only the administrator of namespace {namespace} can perform operations on the {target}',
+  },
 }
