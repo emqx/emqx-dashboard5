@@ -4,8 +4,9 @@
       <template v-if="!isEmpty">
         <div class="section-header">
           <el-row :gutter="20" justify="space-between">
-            <el-col v-bind="colProps" v-if="!isNamespaceUser">
+            <el-col v-bind="colProps">
               <NamespaceSelect
+                v-if="!isNamespaceUser"
                 v-model="namespaceFilter"
                 :placeholder="t('BasicConfig.namespace')"
                 :global="{ enable: true, value: GLOBAL_NAMESPACE }"
