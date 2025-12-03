@@ -69,23 +69,27 @@
         </div>
       </div>
       <template v-else>
-        <OperateWebhookAssociatedPopover
-          :disabled="!disabledEditBecauseWebhook || !readonly"
+        <OperationDisabledPopover
+          :disabled-by-webhook="!disabledEditBecauseWebhook || !readonly"
           :teleported="false"
           :name="webhookName"
           :namespace="namespace"
           :operation="t('Base.edit')"
           :targetLabel="t('Base.node')"
         >
-          <el-button
-            v-if="!!readonly"
-            type="primary"
-            @click="edit"
-            :disabled="!$hasPermission('put') || disabledEditBecauseWebhook"
-          >
-            {{ tl('edit') }}
-          </el-button>
-        </OperateWebhookAssociatedPopover>
+          <template #default="{ disabledOpByNsResource }">
+            <el-button
+              v-if="!!readonly"
+              type="primary"
+              @click="edit"
+              :disabled="
+                !$hasPermission('put') || disabledEditBecauseWebhook || disabledOpByNsResource
+              "
+            >
+              {{ tl('edit') }}
+            </el-button>
+          </template>
+        </OperationDisabledPopover>
       </template>
     </template>
   </el-drawer>
@@ -103,7 +107,7 @@ import useFlowNode, {
 import { BridgeDirection, BridgeType } from '@/types/enum'
 import { BridgeItem } from '@/types/rule'
 import ActionSelect from '@/views/RuleEngine/Rule/components/ActionSelect.vue'
-import OperateWebhookAssociatedPopover from '@/views/RuleEngine/components/OperateWebhookAssociatedPopover.vue'
+import OperationDisabledPopover from '@/views/RuleEngine/components/OperationDisabledPopover.vue'
 import RemovedDataTip from '@/views/RuleEngine/components/RemovedDataTip.vue'
 import { Node } from '@vue-flow/core'
 import NodeMetrics from './metrics/NodeMetrics.vue'

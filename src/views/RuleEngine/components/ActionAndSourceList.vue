@@ -33,19 +33,23 @@
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="102" sortable>
         <template #default="{ row }">
-          <OperateWebhookAssociatedPopover
-            :disabled="!judgeIsWebhookAction(row)"
+          <OperationDisabledPopover
+            :disabled-by-webhook="!judgeIsWebhookAction(row)"
             :name="row.name"
             :namespace="row.namespace"
             :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
             :targetLabel="tl('action')"
           >
-            <el-switch
-              v-model="row.enable"
-              :disabled="judgeIsWebhookAction(row) || !$hasPermission('put')"
-              @change="toggleEnable(row)"
-            />
-          </OperateWebhookAssociatedPopover>
+            <template #default="{ disabledOpByNsResource }">
+              <el-switch
+                v-model="row.enable"
+                :disabled="
+                  judgeIsWebhookAction(row) || !$hasPermission('put') || disabledOpByNsResource
+                "
+                @change="toggleEnable(row)"
+              />
+            </template>
+          </OperationDisabledPopover>
         </template>
       </el-table-column>
       <el-table-column
@@ -117,21 +121,24 @@
           <TableButton @click="$router.push(getDetailPageRoute(row, 'settings'))">
             {{ $t('Base.setting') }}
           </TableButton>
-          <OperateWebhookAssociatedPopover
-            :disabled="!judgeIsWebhookAction(row)"
+          <OperationDisabledPopover
+            :disabled-by-webhook="!judgeIsWebhookAction(row)"
             :name="row.name"
-            :operation="tl('moreOperation')"
+            :namespace="row.namespace"
             :targetLabel="tl('action')"
+            :operation="tl('moreOperation')"
           >
-            <TableItemDropDown
-              can-create-rule
-              :row-data="row"
-              :can-copy="false"
-              :disabled="judgeIsWebhookAction(row)"
-              @delete="handleDelete(row)"
-              @create-rule="createRuleWithTarget(row.id)"
-            />
-          </OperateWebhookAssociatedPopover>
+            <template #default="{ disabledOpByNsResource }">
+              <TableItemDropDown
+                can-create-rule
+                :row-data="row"
+                :can-copy="false"
+                :disabled="judgeIsWebhookAction(row) || disabledOpByNsResource"
+                @delete="handleDelete(row)"
+                @create-rule="createRuleWithTarget(row.id)"
+              />
+            </template>
+          </OperationDisabledPopover>
         </template>
       </el-table-column>
     </el-table>
@@ -157,11 +164,11 @@
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
+import DeleteFallbackActionConfirm from '../Bridge/Components/DeleteFallbackActionConfirm.vue'
 import ActionAndSourceFilterForm from './ActionAndSourceFilterForm.vue'
-import OperateWebhookAssociatedPopover from './OperateWebhookAssociatedPopover.vue'
+import OperationDisabledPopover from './OperationDisabledPopover.vue'
 import TableItemDropDown from './TableItemDropDown.vue'
 import TargetItemStatus from './TargetItemStatus.vue'
-import DeleteFallbackActionConfirm from '../Bridge/Components/DeleteFallbackActionConfirm.vue'
 
 const props = defineProps<{
   type: 'source' | 'action'

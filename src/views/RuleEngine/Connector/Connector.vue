@@ -55,19 +55,21 @@
           </el-table-column>
           <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
             <template #default="{ row }">
-              <OperateWebhookAssociatedPopover
-                :disabled="!judgeIsWebhookConnector(row)"
+              <OperationDisabledPopover
+                :disabled-by-webhook="!judgeIsWebhookConnector(row)"
                 :name="row.name"
                 :namespace="row.namespace"
-                :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
                 :target-label="t('components.connector')"
+                :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
               >
-                <el-switch
-                  :model-value="row.enable"
-                  :disabled="judgeIsWebhookConnector(row)"
-                  @update:modelValue="enableOrDisableConnector(row)"
-                />
-              </OperateWebhookAssociatedPopover>
+                <template #default="{ disabledOpByNsResource }">
+                  <el-switch
+                    :model-value="row.enable"
+                    :disabled="judgeIsWebhookConnector(row) || disabledOpByNsResource"
+                    @update:modelValue="enableOrDisableConnector(row)"
+                  />
+                </template>
+              </OperationDisabledPopover>
             </template>
           </el-table-column>
           <el-table-column
@@ -105,21 +107,26 @@
                   >
                     {{ $t('Base.setting') }}
                   </TableButton>
-                  <OperateWebhookAssociatedPopover
-                    :disabled="!judgeIsWebhookConnector(row)"
+                  <OperationDisabledPopover
+                    :disabled-by-webhook="!judgeIsWebhookConnector(row)"
                     :name="row.name"
+                    :namespace="row.namespace"
                     :operation="tl('moreOperation')"
                     :target-label="t('components.connector')"
                   >
-                    <TableItemDropDown
-                      :can-create-rule="row.type !== BridgeType.SysKeeperProxy"
-                      :row-data="row"
-                      :disabled="row.canNotView || judgeIsWebhookConnector(row)"
-                      @copy="copyConnectorItem(row)"
-                      @create-rule="createRuleWithConnector(row)"
-                      @delete="handleDeleteConnector(row, getList)"
-                    />
-                  </OperateWebhookAssociatedPopover>
+                    <template #default="{ disabledOpByNsResource }">
+                      <TableItemDropDown
+                        :can-create-rule="row.type !== BridgeType.SysKeeperProxy"
+                        :row-data="row"
+                        :disabled="
+                          row.canNotView || judgeIsWebhookConnector(row) || disabledOpByNsResource
+                        "
+                        @copy="copyConnectorItem(row)"
+                        @create-rule="createRuleWithConnector(row)"
+                        @delete="handleDeleteConnector(row, getList)"
+                      />
+                    </template>
+                  </OperationDisabledPopover>
                 </div>
               </el-tooltip>
             </template>
@@ -148,7 +155,7 @@
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { BridgeItem, Connector } from '@/types/rule'
-import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
+import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import CreateRuleWithConnector from './components/CreateRuleWithConnector.vue'
