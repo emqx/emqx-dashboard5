@@ -84,6 +84,7 @@
             />
           </el-form-item>
         </el-col>
+        <el-col v-bind="colProps" v-if="isNamespaceUser" />
       </template>
       <el-col v-bind="showMoreQuery ? { span: 18 } : colProps" class="col-oper">
         <SearchButton @click="search" />

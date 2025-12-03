@@ -113,6 +113,7 @@
           </el-form-item>
         </el-col>
         <el-col v-bind="colProps" />
+        <el-col v-bind="colProps" v-if="isNamespaceUser" />
       </template>
       <el-col v-bind="colProps" class="col-oper">
         <SearchButton @click="searchRule" />

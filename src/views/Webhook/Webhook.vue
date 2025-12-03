@@ -3,8 +3,9 @@
     <template v-if="!isEmpty">
       <div class="section-header">
         <el-row :gutter="20" justify="space-between">
-          <el-col v-bind="colProps" v-if="!isNamespaceUser">
+          <el-col v-bind="colProps">
             <NamespaceSelect
+              v-if="!isNamespaceUser"
               v-model="namespaceFilter"
               :placeholder="t('BasicConfig.namespace')"
               :global="{ enable: true, value: GLOBAL_NAMESPACE }"
@@ -12,12 +13,12 @@
               @change="getWebhookList"
             />
           </el-col>
+          <el-col v-bind="colProps">
+            <div class="flex justify-end">
+              <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
+            </div>
+          </el-col>
         </el-row>
-        <el-col v-bind="colProps">
-          <div class="flex justify-end">
-            <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
-          </div>
-        </el-col>
       </div>
       <el-table :data="webhookList" v-loading="isLoading">
         <el-table-column prop="name" :label="t('Base.name')">
