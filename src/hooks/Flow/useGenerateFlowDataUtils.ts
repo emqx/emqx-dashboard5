@@ -276,6 +276,12 @@ export default (): {
   const { convertFallbackActionToRuleOutput } = useRuleFallbackActions()
   const { fallbackEdgeStyle } = useFlowEdge()
 
+  const addNamespaceToFallbackNodes = (nodes: Array<Node>, namespace?: string) => {
+    return nodes.map((node) => {
+      node.data.namespace = namespace
+      return node
+    })
+  }
   const generateFlowDataFromActionItem = (
     action: Action,
   ): { nodes: GroupedNode; edges: Edge[] } => {
@@ -294,11 +300,12 @@ export default (): {
     const targetNodes = addFallbackFlagToNodes(
       generateNodesBaseRuleOutputs(convertedFallbackActions),
     )
+    const targetNodesWithNamespace = addNamespaceToFallbackNodes(targetNodes, action.namespace)
     const edges = targetNodes.map((node) =>
       generateEdgeFromTwoNodes(sourceNode, node, fallbackEdgeStyle),
     )
     nodes[NodeType.Sink] = [sourceNode]
-    nodes[NodeType.Fallback] = targetNodes
+    nodes[NodeType.Fallback] = targetNodesWithNamespace
     return { nodes, edges }
   }
 

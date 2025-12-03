@@ -47,8 +47,13 @@ const handleClickNode = ({ node }: NodeMouseEvent) => {
   showDrawer.value = true
 }
 
+const { getNsParams } = useNsParams()
 const goFlowDetail = (flowId: string) =>
-  router.push({ name: 'flow-detail', params: { id: flowId } })
+  router.push({
+    name: 'flow-detail',
+    params: { id: flowId },
+    query: getNsParams(currentNode.value?.data.namespace),
+  })
 
 const { judgeIsWebhookRuleId } = useWebhookUtils()
 const disabledEditIdArr = computed(() => {

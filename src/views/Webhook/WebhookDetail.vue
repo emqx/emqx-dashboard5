@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { getRuleInfo } from '@/api/ruleengine'
 import { BridgeType, DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
@@ -93,7 +92,7 @@ const { getEnableStatus } = useWebhookUtils()
 
 const { getConnectorDetail, requestPutConnector } = useHandleConnectorItem()
 const { getActionDetail } = useHandleActionItem()
-const { getNsParams } = useNsParams()
+const { getRuleDetail } = useRuleItem()
 const getWebhookData = async () => {
   if (!fullName.value) {
     return
@@ -103,7 +102,7 @@ const getWebhookData = async () => {
     const [connectorData, actionData, ruleData] = await Promise.all([
       getConnectorDetail(actionId.value, namespace.value),
       getActionDetail(actionId.value, namespace.value),
-      getRuleInfo(ruleId.value, getNsParams(namespace.value)),
+      getRuleDetail(ruleId.value, namespace.value),
     ])
     const action = actionData
     webhookData.value = {

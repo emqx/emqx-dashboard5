@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { createRules, getRuleInfo } from '@/api/ruleengine'
+import { createRules } from '@/api/ruleengine'
 import { RuleItem } from '@/types/rule'
 import RuleForm from '../components/RuleForm.vue'
 
@@ -47,9 +47,10 @@ const formCom = ref()
 
 useDataNotSaveConfirm(countIsRuleRecordChanged)
 
+const { getRuleDetail } = useRuleItem()
 const checkRuleClipStatus = async () => {
   if (route.query.action === 'copy' && route.query.target) {
-    const ruleData = await getRuleInfo(route.query.target as string)
+    const ruleData = await getRuleDetail(route.query.target as string)
     const rule = pick(ruleData, ['sql', 'actions', 'description', 'actions'])
 
     if (rule) {

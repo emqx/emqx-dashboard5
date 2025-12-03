@@ -73,6 +73,7 @@
           :disabled="!disabledEditBecauseWebhook || !readonly"
           :teleported="false"
           :name="webhookName"
+          :namespace="namespace"
           :operation="t('Base.edit')"
           :targetLabel="t('Base.node')"
         >
@@ -140,6 +141,8 @@ const { t, tl } = useI18nTl('Base')
  */
 const type = computed(() => props.node?.data?.specificType)
 const isEdit = computed(() => !!record.value.id)
+
+const namespace = computed(() => props.node?.data?.namespace)
 
 const FormCom = ref()
 
@@ -384,7 +387,7 @@ const webhookName = computed(() => {
 
 const edit = () => emit('edit')
 
-const { getDetail: getActionDetail } = useHandleActionItem()
+const { getActionDetail } = useHandleActionItem()
 const { getSourceDetail } = useHandleSourceItem()
 const isLoading = ref(false)
 /**
@@ -394,7 +397,7 @@ const getActionAndSourceDetail = async () => {
   try {
     isLoading.value = true
     const func = props.node?.type === FlowNodeType.Input ? getSourceDetail : getActionDetail
-    record.value = await func(record.value.id)
+    record.value = await func(record.value.id, namespace.value)
   } catch (error) {
     //
   } finally {

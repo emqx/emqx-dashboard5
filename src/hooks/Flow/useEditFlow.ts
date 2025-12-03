@@ -1,5 +1,4 @@
 import { getAICompletionProfileDetail, getAIProviderDetail } from '@/api/ai'
-import { getRuleInfo } from '@/api/ruleengine'
 import { RuleItem } from '@/types/rule'
 import { useEditFlow } from '@emqx/shared-ui-components'
 import { Edge, Node } from '@vue-flow/core'
@@ -35,13 +34,14 @@ export default (): {
   const { customHandleAINode } = useGenerateFlowDataUtils()
 
   const flowId = computed(() => route.params.id?.toString())
+  const namespace = computed(() => route.query.ns?.toString())
   const ruleData: Ref<undefined | RuleItem> = ref(undefined)
   // let bridgeInfoMap = {}
   const flowData: Ref<undefined | Array<Node | Edge>> = ref(undefined)
-
+  const { getRuleDetail } = useRuleItem()
   const getRuleData = async () => {
     try {
-      ruleData.value = await getRuleInfo(flowId.value)
+      ruleData.value = await getRuleDetail(flowId.value, namespace.value)
       return Promise.resolve()
     } catch (error) {
       console.error(error)
@@ -56,7 +56,7 @@ export default (): {
       nodes.map(async (item) => {
         if (isBridgerNode(item) && item.data?.formData?.id) {
           const request = item.type === FlowNodeType.Input ? getSourceDetail : getActionDetail
-          const nodeInfo = await request(item.data.formData.id)
+          const nodeInfo = await request(item.data.formData.id, namespace.value)
           item.data.formData = { ...item.data.formData, ...nodeInfo }
           addFlagToBridgeNode(item)
         }
