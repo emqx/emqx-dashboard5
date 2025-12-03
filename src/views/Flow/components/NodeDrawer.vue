@@ -143,6 +143,7 @@ const type = computed(() => props.node?.data?.specificType)
 const isEdit = computed(() => !!record.value.id)
 
 const namespace = computed(() => props.node?.data?.namespace)
+provide('ns', namespace.value)
 
 const FormCom = ref()
 
