@@ -55,6 +55,9 @@ const props = withDefaults(
     webhookActionDisabled: true,
   },
 )
+const namespaceFromInject = inject<string | undefined>('ns')
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -115,7 +118,9 @@ const actionOpts = computed(() => {
     return []
   }
   return totalList.value.filter((item) => {
-    return getBridgeGeneralType(item.type) === props.type
+    const isNamespaceMatch =
+      isNamespaceUser.value || (namespaceFromInject || '') === (item.namespace || '')
+    return isNamespaceMatch && getBridgeGeneralType(item.type) === props.type
   })
 })
 
