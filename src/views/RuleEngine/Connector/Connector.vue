@@ -13,12 +13,12 @@
                 @change="getList"
               />
             </el-col>
+            <el-col v-bind="colProps">
+              <div class="flex justify-end">
+                <CreateButton @click="$router.push({ name: 'connector-create' })" />
+              </div>
+            </el-col>
           </el-row>
-          <el-col v-bind="colProps">
-            <div class="flex justify-end">
-              <CreateButton @click="$router.push({ name: 'connector-create' })" />
-            </div>
-          </el-col>
         </div>
         <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
           <el-table-column :label="tl('name')" :min-width="120">

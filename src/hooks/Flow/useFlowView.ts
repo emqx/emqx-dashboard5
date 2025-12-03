@@ -12,7 +12,7 @@ import { ConnectionStatus } from '@/types/enum'
 export default (): {
   isLoading: Ref<boolean>
   flowData: Ref<FlowData>
-  getFlowData: () => Promise<void>
+  getFlowData: (ns: string) => Promise<void>
 } => {
   let ruleList: Array<RuleItem> = []
   let bridgeData: Map<string, BridgeItem> = new Map()
@@ -36,9 +36,12 @@ export default (): {
   const isLoading = ref(false)
   const flowData: Ref<FlowData> = ref([])
 
-  const getRuleData = async () => {
+  const { getListNamespaceParams } = useListNsParams()
+  const getRuleData = async (namespace: string) => {
     try {
-      ruleList = await getAllListData(getRules)
+      ruleList = await getAllListData((params) => {
+        return getRules({ ...params, ...getListNamespaceParams(namespace) })
+      })
     } catch (error) {
       console.error(error)
       return Promise.reject(error)
@@ -48,10 +51,11 @@ export default (): {
   const { getActionList } = useActionList()
   const { getSourceList } = useSourceList()
   const { getActionDetail, handleActionDataAfterLoaded } = useHandleActionItem()
-  const getBridgeData = async () => {
+  const getBridgeData = async (namespace: string) => {
     try {
-      const sourceList = await getSourceList()
-      const sinkList = await getActionList()
+      const nsParams = getListNamespaceParams(namespace)
+      const sourceList = await getSourceList(nsParams)
+      const sinkList = await getActionList(nsParams)
       await Promise.allSettled(
         sinkList.map(async (item, index) => {
           const actionDetail = await getActionDetail(item.id, item.namespace)
@@ -368,20 +372,20 @@ export default (): {
     }
   }
 
-  const getData = async () => {
+  const getData = async (namespace: string) => {
     return await Promise.all([
-      getRuleData(),
-      getBridgeData(),
+      getRuleData(namespace),
+      getBridgeData(namespace),
       getProviderData(),
       getCompletionData(),
     ])
   }
 
   const { getEventList } = useRuleEvents()
-  const getFlowData = async () => {
+  const getFlowData = async (namespace: string) => {
     try {
       isLoading.value = true
-      await getData()
+      await getData(namespace)
       // For event node info
       await getEventList()
       await generateFlowData()

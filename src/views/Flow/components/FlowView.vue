@@ -29,9 +29,13 @@ import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
 import NodeDrawer from './NodeDrawer.vue'
 
+const props = defineProps<{
+  namespace: string
+}>()
+
 const router = useRouter()
 
-const emit = defineEmits(['loaded'])
+const emit = defineEmits(['loaded', 'load'])
 
 const FlowerInstance = ref()
 
@@ -78,9 +82,10 @@ const editCurrentNode = () => {
   }
 }
 
-onMounted(async () => {
+const displayFlow = async () => {
   try {
-    await getFlowData()
+    emit('load')
+    await getFlowData(props.namespace)
     if (flowData.value.length > 0) {
       await waitAMoment(4)
       FlowerInstance.value?.fitView()
@@ -90,5 +95,9 @@ onMounted(async () => {
   } finally {
     emit('loaded', flowData.value.length)
   }
-})
+}
+
+watch(() => props.namespace, displayFlow)
+
+onMounted(displayFlow)
 </script>
