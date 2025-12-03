@@ -122,7 +122,7 @@ const props = defineProps({
     required: true,
   },
 })
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = inject<string | undefined>('ns', undefined)
 
 const { isTesting, testTarget } = useStatusController()
 testTarget.value = TestRuleTarget.SQL

@@ -167,7 +167,7 @@ const prop = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'save', 'save-as-copy'])
 
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = inject<string | undefined>('ns', undefined)
 const { getNsParams } = useNsParams()
 
 const { t } = useI18n()
