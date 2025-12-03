@@ -1,13 +1,20 @@
 import {
-  deleteAIProvider,
   deleteAICompletionProfile,
+  deleteAIProvider,
   postAICompletionProfile,
   postAIProvider,
-  putAIProvider,
   putAICompletionProfile,
+  putAIProvider,
 } from '@/api/ai'
-import { createRules, updateRules } from '@/api/ruleengine'
-import { BasicRule, BridgeItem, FlowDataItemForSubmit, RuleItem } from '@/types/rule'
+import { createRules } from '@/api/ruleengine'
+import {
+  Action,
+  BasicRule,
+  BridgeItem,
+  FlowDataItemForSubmit,
+  RuleItem,
+  Source,
+} from '@/types/rule'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
 
@@ -39,27 +46,27 @@ export default (): {
   const createItems = async (
     items: Array<any>,
     funcForCreate: (data: any) => Promise<any>,
-    funcForDelete: (id: string) => Promise<any>,
-    keyForId: string = 'id',
+    funcForDelete: (data: any) => Promise<any>,
+    funcForGetTarget: (data: any) => any,
   ) => {
-    const addedIds: string[] = []
+    const addedData: any[] = []
     for (const data of items) {
       try {
         const result = await funcForCreate(data)
-        const id = result[keyForId] ?? data[keyForId]
-        addedIds.push(id)
+        const target = funcForGetTarget(result) ?? funcForGetTarget(data)
+        addedData.push(target)
       } catch (error) {
-        for (const id of addedIds) {
+        for (const item of addedData) {
           try {
-            await funcForDelete(id)
+            await funcForDelete(item)
           } catch (error) {
-            console.error(`error when deleting ${id}`)
+            console.error(`error when deleting ${item}`)
           }
         }
         break
       }
     }
-    return addedIds.length === items.length ? Promise.resolve(addedIds) : Promise.reject()
+    return addedData.length === items.length ? Promise.resolve(addedData) : Promise.reject()
   }
 
   const updateItems = (items: Array<any>, funcForUpdate: (data: any) => Promise<any>) => {
@@ -70,32 +77,34 @@ export default (): {
     )
   }
 
-  const createActions = async (actions: Array<any>) => createItems(actions, addAction, deleteAction)
+  const createActions = async (actions: Array<any>) =>
+    createItems(actions, addAction, deleteAction, (item) => item)
 
   const updateActions = async (actions: Array<any>) => updateItems(actions, updateAction)
 
-  const createSources = async (sources: Array<any>) => createItems(sources, addSource, deleteSource)
+  const createSources = async (sources: Array<any>) =>
+    createItems(sources, addSource, deleteSource, (item) => item)
 
   const updateSources = async (sources: Array<any>) => updateItems(sources, updateSource)
 
   const submitActions = async (actions: GroupedFlowData['actions']) => {
     try {
-      let createdIds: string[] = []
+      let createdData: Action[] = []
       const groupedAction = groupBy(actions, ({ isCreated }) => !!isCreated)
       if (groupedAction['false']) {
-        createdIds = await createActions(groupedAction['false'].map(({ data }) => data))
+        createdData = await createActions(groupedAction['false'].map(({ data }) => data))
       }
       if (groupedAction['true']) {
         await updateActions(groupedAction['true'].map(({ data }) => data))
       }
-      return Promise.resolve(createdIds)
+      return Promise.resolve(createdData)
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
-  const deleteActions = async (actions: Array<string>) =>
-    Promise.all(actions.map((id) => deleteAction(id)))
+  const deleteActions = async (actions: Array<Action>) =>
+    Promise.all(actions.map((item) => deleteAction(item)))
 
   type UpdateAIDataItems = {
     (
@@ -119,13 +128,18 @@ export default (): {
   }
 
   const createAIProviders = async (aiProviders: Array<any>) =>
-    createItems(aiProviders, postAIProvider, deleteAIProvider, 'name')
+    createItems(aiProviders, postAIProvider, deleteAIProvider, ({ name }) => name)
 
   const updateAIProviders = async (aiProviders: Array<any>) =>
     updateAIDataItems(aiProviders, putAIProvider)
 
   const createAICompletionProfiles = async (aiCompletions: Array<any>) =>
-    createItems(aiCompletions, postAICompletionProfile, deleteAICompletionProfile, 'name')
+    createItems(
+      aiCompletions,
+      postAICompletionProfile,
+      deleteAICompletionProfile,
+      ({ name }) => name,
+    )
 
   const updateAICompletionProfiles = async (aiCompletions: Array<any>) =>
     updateAIDataItems(aiCompletions, putAICompletionProfile)
@@ -175,29 +189,30 @@ export default (): {
 
   const submitSources = async (sources: GroupedFlowData['sources']) => {
     try {
-      let createdIds: string[] = []
+      let createdData: Source[] = []
       const groupedSource = groupBy(sources, ({ isCreated }) => !!isCreated)
       if (groupedSource['false']) {
-        createdIds = await createSources(groupedSource['false'].map(({ data }) => data))
+        createdData = await createSources(groupedSource['false'].map(({ data }) => data))
       }
       if (groupedSource['true']) {
         await updateSources(groupedSource['true'].map(({ data }) => data))
       }
-      return Promise.resolve(createdIds)
+      return Promise.resolve(createdData)
     } catch (error) {
       return Promise.reject(error)
     }
   }
 
-  const deleteSources = async (sources: Array<string>) =>
-    Promise.all(sources.map((id) => deleteSource(id)))
+  const deleteSources = async (sources: Array<Source>) =>
+    Promise.all(sources.map((item) => deleteSource(item)))
 
+  const { updateRule } = useRuleItem()
   const submitFlow = async (
     { rule, actions, sources, aiProviders, aiCompletions }: GroupedFlowData,
     operation: 'create' | 'update',
   ) => {
-    let createdActionIds: string[] = []
-    let createdSourceIds: string[] = []
+    let createdActions: Action[] = []
+    let createdSources: Source[] = []
     let createdAIProviderNames: string[] = []
     let createdAICompletionNames: string[] = []
     /**
@@ -206,15 +221,15 @@ export default (): {
     try {
       isSubmitting.value = true
 
-      createdActionIds = await submitActions(actions)
-      createdSourceIds = await submitSources(sources)
+      createdActions = await submitActions(actions)
+      createdSources = await submitSources(sources)
 
       createdAIProviderNames = await submitAIProviders(aiProviders)
       createdAICompletionNames = await submitAICompletionProfiles(aiCompletions)
     } catch (error) {
       console.error(error)
-      deleteActions(createdActionIds)
-      deleteSources(createdSourceIds)
+      deleteActions(createdActions)
+      deleteSources(createdSources)
       await deleteAICompletionProfiles(createdAICompletionNames)
       deleteAIProviders(createdAIProviderNames)
       isSubmitting.value = false
@@ -226,14 +241,14 @@ export default (): {
       if (operation === 'create') {
         ruleRet = await createRules(rule as any)
       } else {
-        ruleRet = await updateRules(rule.id, rule as any)
+        ruleRet = await updateRule(rule.id, rule as any)
       }
 
       isSubmitting.value = false
       return Promise.resolve(ruleRet)
     } catch (error) {
-      deleteActions(createdActionIds)
-      deleteSources(createdSourceIds)
+      deleteActions(createdActions)
+      deleteSources(createdSources)
       await deleteAICompletionProfiles(createdAICompletionNames)
       deleteAIProviders(createdAIProviderNames)
       isSubmitting.value = false
