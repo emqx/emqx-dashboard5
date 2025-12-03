@@ -3,8 +3,9 @@
     <template v-if="showData">
       <div class="flow-view-hd">
         <el-row :gutter="20" class="flex-1" justify="space-between">
-          <el-col v-bind="colProps" v-if="!isNamespaceUser">
+          <el-col v-bind="colProps">
             <NamespaceSelect
+              v-if="!isNamespaceUser"
               v-model="selectedNamespace"
               :clearable="false"
               :global="{ enable: true, value: GLOBAL_NAMESPACE }"
