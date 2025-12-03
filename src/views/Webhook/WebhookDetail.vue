@@ -155,7 +155,6 @@ const handleDeleteWebhook = async () => {
 
 const { getRuleDataForUpdate } = useRuleForm()
 const { handleConnectorDataBeforeUpdate } = useConnectorDataHandler()
-const { handleActionDataBeforeUpdate } = useActionDataHandler()
 const { updateAction } = useHandleActionItem()
 const { updateRule } = useRuleItem()
 const submit = async () => {
@@ -166,18 +165,15 @@ const submit = async () => {
     await FormCom.value.validate()
     const data: any = checkNOmitFromObj(webhookData.value)
     isSubmitting.value = true
-    const [connectorData, actionData] = await Promise.all([
-      handleConnectorDataBeforeUpdate(data.connector),
-      handleActionDataBeforeUpdate(data.action),
-    ])
     syncHeaders(data)
+    const connectorData = await handleConnectorDataBeforeUpdate(data.connector)
     await requestPutConnector(actionId.value, connectorData)
-    await updateAction(actionData)
+    await updateAction(data.action)
     await updateRule(ruleId.value, getRuleDataForUpdate(data.rule))
     ElMessage.success(tl('updateSuccess'))
     router.push({ name: 'webhook' })
   } catch (error) {
-    //
+    console.error(error)
   } finally {
     isSubmitting.value = false
   }
