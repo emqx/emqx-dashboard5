@@ -8,7 +8,11 @@
             <div class="block-title">
               <CommonOverflowTooltip :content="connectorName" />
             </div>
-            <TargetItemStatus type="connector" :target="connectorData" is-tag />
+            <TargetItemStatus
+              type="connector"
+              v-bind="{ target: connectorData as BridgeItem }"
+              is-tag
+            />
             <el-tag type="info" class="section-status">
               {{ getTypeStr(connectorData.type) }}
             </el-tag>
@@ -22,12 +26,12 @@
             <el-switch
               class="enable-btn"
               :model-value="connectorData.enable"
-              :disabled="isWebhookConnector"
+              :disabled="!$hasPermission('put') || isWebhookConnector || isOpNsDisabled"
               @update:modelValue="enableOrDisableConnector"
             />
           </el-tooltip>
           <DeleteButton
-            :disabled="isWebhookConnector"
+            :disabled="!$hasPermission('delete') || isWebhookConnector || isOpNsDisabled"
             @click="
               handleDeleteConnector(connectorData, () => {
                 $router.push({ name: 'connector' })
@@ -43,25 +47,14 @@
           :class="['app-card', isFromRule && 'app-inline-card']"
           :shadow="isFromRule ? 'never' : undefined"
         >
-          <el-alert
-            v-if="isWebhookConnector"
+          <OperationDisabledAlert
+            v-if="isWebhookConnector || isOpNsDisabled"
             class="webhook-tip-alert"
-            show-icon
-            type="info"
-            :closable="false"
-          >
-            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p" scope="global">
-              <template #target>
-                <span>{{ t('components.connector') }}</span>
-              </template>
-              <template #operation>
-                <span>{{ lowerCase(t('Base.edit')) }}</span>
-              </template>
-              <template #page>
-                <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
-              </template>
-            </i18n-t>
-          </el-alert>
+            type="connector"
+            :data="connectorData"
+            :by="isWebhookConnector ? 'webhook' : 'ns'"
+          />
+
           <div class="form-container">
             <component
               ref="FormCom"
@@ -70,13 +63,16 @@
               v-model="connectorData"
               :type="generalType"
               :is-loading="isLoading"
-              :disabled="isWebhookConnector"
+              :disabled="isWebhookConnector || isOpNsDisabled"
               edit
               v-bind="fromComProps"
             />
           </div>
           <div class="btn-area">
-            <el-button @click="saveAsCopy" :disabled="isWebhookConnector">
+            <el-button
+              @click="saveAsCopy"
+              :disabled="!$hasPermission('post') || isWebhookConnector || isOpNsDisabled"
+            >
               {{ tl('saveAsCopy') }}
             </el-button>
             <el-button
@@ -92,7 +88,7 @@
               type="primary"
               v-if="connectorData.type"
               :loading="isSubmitting"
-              :disabled="isWebhookConnector"
+              :disabled="!$hasPermission('put') || isWebhookConnector || isOpNsDisabled"
               @click="submit"
             >
               {{ $t('Base.update') }}
@@ -116,13 +112,14 @@ import useBridgeTypeValue, {
   useBridgeTypeIcon,
   useConnectorTypeValue,
 } from '@/hooks/Rule/bridge/useBridgeTypeValue'
-import { BridgeType, DetailTab } from '@/types/enum'
-import { Connector } from '@/types/rule'
+import { BridgeType } from '@/types/enum'
+import { BridgeItem, Connector } from '@/types/rule'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import OperationDisabledAlert from '../components/OperationDisabledAlert.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import DelConnectorTip from './components/DelConnectorTip.vue'
-import useConnectorFormComponent from './components/useConnectorFormComponent'
 import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
+import useConnectorFormComponent from './components/useConnectorFormComponent'
 
 const props = defineProps<{
   /**
@@ -184,14 +181,10 @@ const {
 const { judgeIsWebhookConnector } = useWebhookUtils()
 const isWebhookConnector = computed(() => judgeIsWebhookConnector(connectorData.value))
 const fromComProps = computed(() => {
-  return isWebhookConnector.value ? { formProps: { disabled: true } } : {}
+  return isWebhookConnector.value || isOpNsDisabled.value ? { formProps: { disabled: true } } : {}
 })
-const { getNsParams } = useNsParams()
-const webhookRoute = computed(() => ({
-  name: 'webhook-detail',
-  params: { name: connectorName.value },
-  query: { tab: DetailTab.Setting, ...getNsParams(connectorData.value.namespace) },
-}))
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = computed<boolean>(() => isOpNsResourceDisabled(connectorData.value))
 
 const isLoading = ref(false)
 const getDetail = async () => {

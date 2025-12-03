@@ -433,6 +433,7 @@ declare global {
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
   const useNodesGraph: typeof import('./hooks/Overview/useNodesGraph')['default']
   const useNsParams: typeof import('./hooks/Rule/useNsParams')['useNsParams']
+  const useNsResource: typeof import('./hooks/Rule/useNsResource')['default']
   const useOperationConfirm: typeof import('./hooks/useOperationConfirm')['default']
   const usePagination: typeof import('./hooks/usePagination')['default']
   const usePaginationRemember: typeof import('./hooks/usePaginationRemember')['default']
@@ -1025,6 +1026,7 @@ declare module 'vue' {
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
     readonly useNodesGraph: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['default']>
     readonly useNsParams: UnwrapRef<typeof import('./hooks/Rule/useNsParams')['useNsParams']>
+    readonly useNsResource: UnwrapRef<typeof import('./hooks/Rule/useNsResource')['default']>
     readonly useOperationConfirm: UnwrapRef<typeof import('./hooks/useOperationConfirm')['default']>
     readonly usePagination: UnwrapRef<typeof import('./hooks/usePagination')['default']>
     readonly usePaginationRemember: UnwrapRef<typeof import('./hooks/usePaginationRemember')['default']>

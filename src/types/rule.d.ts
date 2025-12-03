@@ -182,7 +182,7 @@ export type MQTTIn = MQTTOut & {
   local_qos: QoSLevel
 }
 
-export type OtherBridge = { id: string; namespace?: string } & Record<string, any>
+export type OtherBridge = { id: string; namespace?: string; name: string } & Record<string, any>
 
 export type BridgeItem = HTTPBridge | MQTTBridge | OtherBridge
 
@@ -213,6 +213,7 @@ export interface Action {
    * {type}:{name}
    */
   id: string
+  namespace?: string | null
   status: ConnectionStatus
   status_reason?: string
   rules: Array<string>

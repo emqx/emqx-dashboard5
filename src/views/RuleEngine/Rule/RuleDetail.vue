@@ -15,13 +15,13 @@
           >
             <el-switch
               class="enable-btn"
-              :disabled="!$hasPermission('put') || isWebhookRule"
+              :disabled="!$hasPermission('put') || isWebhookRule || isOpNsDisabled"
               v-model="ruleInfo.enable"
               @change="enableOrDisableRule"
             />
           </el-tooltip>
           <DeleteButton
-            :disabled="!$hasPermission('delete') || isWebhookRule"
+            :disabled="!$hasPermission('delete') || isWebhookRule || isOpNsDisabled"
             @click="deleteRule"
           />
         </template>
@@ -35,32 +35,21 @@
           </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="Tab.Setting" lazy>
-          <el-alert
-            v-if="isWebhookRule"
+          <OperationDisabledAlert
+            v-if="isWebhookRule || isOpNsDisabled"
             class="webhook-tip-alert"
-            show-icon
-            type="info"
-            :closable="false"
-          >
-            <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
-              <template #target>
-                <span>{{ tl('rule') }}</span>
-              </template>
-              <template #operation>
-                <span>{{ lowerCase(t('Base.edit')) }}</span>
-              </template>
-              <template #page>
-                <router-link :to="webhookRoute">Webhook {{ tl('page') }}</router-link>
-              </template>
-            </i18n-t>
-          </el-alert>
+            type="rule"
+            :data="{ name: ruleInfo.id, namespace: ruleInfo.namespace }"
+            :by="isWebhookRule ? 'webhook' : 'ns'"
+          />
+
           <el-card class="detail-card overview-visible app-card" v-loading="infoLoading">
             <rule-form
               ref="formCom"
               v-model="ruleInfo"
               is-edit
               :submit-loading="submitLoading"
-              :disabled="isWebhookRule"
+              :disabled="isWebhookRule || isOpNsDisabled"
               @save="submitUpdateRules"
               @save-as-copy="saveAsCopy"
             />
@@ -74,9 +63,9 @@
 </template>
 
 <script lang="ts" setup>
-import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
+import OperationDisabledAlert from '../components/OperationDisabledAlert.vue'
 import RuleForm from '../components/RuleForm.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
 import RuleItemOverview from './components/RuleItemOverview.vue'
@@ -151,18 +140,15 @@ const enableOrDisableRule = async () => {
 const { judgeIsWebhookRule } = useWebhookUtils()
 
 /* Webhook associated */
-const { getNsParams } = useNsParams()
 const isWebhookRule = computed(() => judgeIsWebhookRule(ruleInfo.value))
-const webhookRoute = computed(() => ({
-  name: 'webhook-detail',
-  params: { name: id },
-  query: { tab: DetailTab.Setting, ...getNsParams(ruleInfo.value.namespace) },
-}))
+
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = computed<boolean>(() => isOpNsResourceDisabled(ruleInfo.value))
 
 const showDeleteConfirm = ref(false)
 const currentRule = ref<undefined | RuleItem>(undefined)
 const deleteRule = async () => {
-  if (isWebhookRule.value) {
+  if (isWebhookRule.value || isOpNsDisabled.value) {
     return
   }
   currentRule.value = ruleInfo.value

@@ -32,7 +32,7 @@
             <el-switch
               class="enable-btn"
               v-model="bridgeInfo.enable"
-              :disabled="isWebhookAction"
+              :disabled="!$hasPermission('put') || isWebhookAction || isOpNsDisabled"
               @change="enableOrDisableBridge"
             />
           </el-tooltip>
@@ -41,13 +41,16 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="isWebhookAction"
+              :disabled="!$hasPermission('post') || isWebhookAction || isOpNsDisabled"
               plain
               @click="createRuleWithBridge"
             >
             </el-button>
           </el-tooltip>
-          <DeleteButton :disabled="isWebhookAction" @click="handleDelete" />
+          <DeleteButton
+            :disabled="!$hasPermission('delete') || isWebhookAction || isOpNsDisabled"
+            @click="handleDelete"
+          />
         </template>
       </detail-header>
     </div>
@@ -74,25 +77,13 @@
             :class="['app-card', inDrawer && 'app-inline-card']"
             :shadow="inDrawer ? 'never' : undefined"
           >
-            <el-alert
-              v-if="isWebhookAction"
+            <OperationDisabledAlert
+              v-if="isWebhookAction || isOpNsDisabled"
               class="webhook-tip-alert"
-              show-icon
-              type="info"
-              :closable="false"
-            >
-              <i18n-t keypath="RuleEngine.handleWebhookAssociatedTip" tag="p">
-                <template #target>
-                  <span>{{ t('RuleEngine.action') }}</span>
-                </template>
-                <template #operation>
-                  <span>{{ lowerCase(t('Base.edit')) }}</span>
-                </template>
-                <template #page>
-                  <router-link :to="webhookRoute">Webhook {{ t('RuleEngine.page') }}</router-link>
-                </template>
-              </i18n-t>
-            </el-alert>
+              type="action"
+              :data="bridgeInfo"
+              :by="isWebhookAction ? 'webhook' : 'ns'"
+            />
             <div class="setting-area" :style="{ width: inDrawer ? '100%' : '75%' }">
               <bridge-influxdb-config
                 v-if="BRIDGE_TYPES_LIKE_INFLUXDB.includes(bridgeType)"
@@ -129,7 +120,7 @@
                 type="primary"
                 v-if="bridgeInfo.type"
                 :loading="updateLoading"
-                :disabled="isWebhookAction"
+                :disabled="!$hasPermission('put') || isWebhookAction || isOpNsDisabled"
                 @click="updateBridgeInfo()"
               >
                 {{ $t('Base.update') }}
@@ -153,15 +144,15 @@
 </template>
 
 <script lang="ts" setup>
-import { DetailTab } from '@/types/enum'
-import { Action, BridgeItem, NsParams } from '@/types/rule'
+import { Action, BridgeItem } from '@/types/rule'
 import { Share } from '@element-plus/icons-vue'
+import OperationDisabledAlert from '../components/OperationDisabledAlert.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
+import BridgeInfluxdbConfig from './Components/BridgeConfig/BridgeInfluxdbConfig.vue'
 import BridgeItemOverview from './Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from './Components/DeleteBridgeSecondConfirm.vue'
-import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 import DeleteFallbackActionConfirm from './Components/DeleteFallbackActionConfirm.vue'
-import BridgeInfluxdbConfig from './Components/BridgeConfig/BridgeInfluxdbConfig.vue'
+import UsingSchemaBridgeConfig from './Components/UsingSchemaBridgeConfig.vue'
 
 enum Tab {
   Overview = 'overview',
@@ -175,7 +166,7 @@ const backRoute = computed(() => getBackRoute({ name: 'actions' }))
 
 // for compare when update
 let rawBridgeInfo: undefined | BridgeItem = undefined
-const bridgeInfo: Ref<Action> = ref({} as Action)
+const bridgeInfo: Ref<BridgeItem> = ref({} as BridgeItem)
 const infoLoading = ref(false)
 const updateLoading = ref(false)
 const activeTab = ref(Tab.Overview)
@@ -253,19 +244,18 @@ const { getActionDetail, updateAction, toggleActionEnable, isTesting, testConnec
 /* Webhook associated */
 const { judgeIsWebhookAction } = useWebhookUtils()
 const isWebhookAction = computed(() => judgeIsWebhookAction(bridgeInfo.value))
-const formProps = computed(() => (isWebhookAction.value ? { disabled: true } : {}))
-const { getNsParams } = useNsParams()
-const webhookRoute = computed(() => ({
-  name: 'webhook-detail',
-  params: { name: bridgeInfo.value.name },
-  query: { tab: DetailTab.Setting, ...getNsParams(bridgeInfo.value.namespace) },
-}))
+const formProps = computed(() =>
+  isWebhookAction.value || isOpNsDisabled.value ? { disabled: true } : {},
+)
+
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = computed<boolean>(() => isOpNsResourceDisabled(bridgeInfo.value))
 
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
     const nsParams = !props.inDrawer ? namespaceFromRoute.value : namespaceFromInject
-    bridgeInfo.value = await getActionDetail(id.value, nsParams)
+    bridgeInfo.value = (await getActionDetail(id.value, nsParams)) as BridgeItem
     rawBridgeInfo = cloneDeep(bridgeInfo.value)
   } catch (error) {
     console.error(error)
@@ -337,7 +327,7 @@ const enableOrDisableBridge = async () => {
   const { enable } = bridgeInfo.value
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await toggleActionEnable(bridgeInfo.value, enable)
+    await toggleActionEnable(bridgeInfo.value as Action, enable)
     ElMessage.success(t(sucMessage))
     loadBridgeInfo()
   } catch (error) {
