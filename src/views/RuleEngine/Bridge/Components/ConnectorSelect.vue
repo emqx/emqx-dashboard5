@@ -47,7 +47,8 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
   (e: 'change', value?: Connector): void
 }>()
-const namespaceFromInject = inject<string | undefined>('ns')
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const selected = computed({
   get() {
@@ -62,11 +63,12 @@ const selected = computed({
   },
 })
 
-const { getNsParams } = useNsParams()
+const { getListNamespaceParams } = useListNsParams()
 const totalConnectorList = ref<Array<Connector>>([])
 const getTotalList = async () => {
   try {
-    totalConnectorList.value = await getConnectors(getNsParams(namespaceFromInject))
+    const selectedNamespace = !isNamespaceUser.value ? GLOBAL_NAMESPACE : undefined
+    totalConnectorList.value = await getConnectors(getListNamespaceParams(selectedNamespace))
   } catch (error) {
     //
   }
