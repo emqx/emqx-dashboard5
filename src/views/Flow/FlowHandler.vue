@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import { GroupedFlowData } from '@/hooks/Flow/useSubmitFlowData'
 import { TestRuleTarget } from '@/types/enum'
-import { BridgeItem, RuleItem } from '@/types/rule'
+import { BasicRule, BridgeItem, RuleItem } from '@/types/rule'
 import { ArrowLeft, EditPen } from '@element-plus/icons-vue'
 import { Edge, Node } from '@vue-flow/core'
 import RuleTest from '../RuleEngine/components/RuleTest.vue'
@@ -106,6 +106,7 @@ const flowBasicInfo = ref({ name: initName, desc: '' })
 
 const {
   flowId,
+  namespace,
   flowData,
   ruleData,
   initialAIData,
@@ -187,6 +188,12 @@ if (flowId.value) {
 
 const { getAllRecordsFromFlow } = useFlowEditorDataHandler()
 const { isSubmitting, submitFlow, removeUselessAIData } = useSubmitFlowData()
+const addNamespaceToRuleRecord = (rule: BasicRule, namespace?: string) => {
+  return {
+    ...rule,
+    namespace,
+  }
+}
 const handleUselessAIData = async (currentAllRecords: GroupedFlowData) => {
   const { uselessProvider, uselessCompletion } = await removeUselessAIData(
     initialAIData.value,
@@ -198,6 +205,7 @@ const submit = async () => {
   try {
     const flowData = FlowEditorCom.value.getFlowData()
     const data = await getAllRecordsFromFlow(flowBasicInfo.value, flowData)
+    data.rule = addNamespaceToRuleRecord(data.rule, namespace.value)
     const isCallCreate = isCreate.value && !isFlowCreated.value
     const operation = isCallCreate ? 'create' : 'update'
     currentRule.value = await submitFlow(data, operation)

@@ -61,6 +61,7 @@ export interface BasicRule {
   actions: Array<OutputItem>
   description: string
   enable: boolean
+  namespace?: string
 }
 
 export interface RuleForm extends BasicRule {
