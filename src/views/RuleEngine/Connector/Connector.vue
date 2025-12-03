@@ -60,7 +60,7 @@
                 :name="row.name"
                 :namespace="row.namespace"
                 :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
-                :targetLabel="tl('action')"
+                :target-label="t('components.connector')"
               >
                 <el-switch
                   :model-value="row.enable"
@@ -109,7 +109,7 @@
                     :disabled="!judgeIsWebhookConnector(row)"
                     :name="row.name"
                     :operation="tl('moreOperation')"
-                    :targetLabel="t('components.connector')"
+                    :target-label="t('components.connector')"
                   >
                     <TableItemDropDown
                       :can-create-rule="row.type !== BridgeType.SysKeeperProxy"

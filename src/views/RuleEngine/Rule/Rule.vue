@@ -60,19 +60,23 @@
         </el-table-column>
         <el-table-column prop="enable" :min-width="140" :label="$t('Base.isEnabled')" sortable>
           <template #default="{ row }">
-            <OperateWebhookAssociatedPopover
-              :disabled="!judgeIsWebhookRule(row)"
+            <OperationDisabledPopover
+              :disabled-by-webhook="!judgeIsWebhookRule(row)"
               :name="row.id"
+              :targetLabel="tl('rule')"
               :namespace="row.namespace"
               :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
-              :targetLabel="tl('rule')"
             >
-              <el-switch
-                v-model="row.enable"
-                :disabled="!$hasPermission('put') || judgeIsWebhookRule(row)"
-                @change="startOrStopRule(row)"
-              />
-            </OperateWebhookAssociatedPopover>
+              <template #default="{ disabledOpByNsResource }">
+                <el-switch
+                  v-model="row.enable"
+                  :disabled="
+                    !$hasPermission('put') || judgeIsWebhookRule(row) || disabledOpByNsResource
+                  "
+                  @change="startOrStopRule(row)"
+                />
+              </template>
+            </OperationDisabledPopover>
           </template>
         </el-table-column>
         <el-table-column
@@ -118,19 +122,22 @@
             >
               {{ $t('Base.setting') }}
             </TableButton>
-            <OperateWebhookAssociatedPopover
-              :disabled="!judgeIsWebhookRule(row)"
+            <OperationDisabledPopover
+              :disabled-by-webhook="!judgeIsWebhookRule(row)"
               :name="row.id"
-              :operation="tl('moreOperation')"
               :targetLabel="tl('rule')"
+              :namespace="row.namespace"
+              :operation="tl('moreOperation')"
             >
-              <TableItemDropDown
-                :row-data="row"
-                :disabled="judgeIsWebhookRule(row)"
-                @copy="copyRuleItem(row)"
-                @delete="deleteRule"
-              />
-            </OperateWebhookAssociatedPopover>
+              <template #default="{ disabledOpByNsResource }">
+                <TableItemDropDown
+                  :row-data="row"
+                  :disabled="judgeIsWebhookRule(row) || disabledOpByNsResource"
+                  @copy="copyRuleItem(row)"
+                  @delete="deleteRule"
+                />
+              </template>
+            </OperationDisabledPopover>
           </template>
         </el-table-column>
       </el-table>
@@ -146,7 +153,7 @@
 import { getRules } from '@/api/ruleengine'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
-import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
+import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import DeleteRuleConfirm from './components/DeleteRuleConfirm.vue'
 import RuleActionStatus from './components/RuleActionStatus.vue'

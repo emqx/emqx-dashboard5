@@ -85,7 +85,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" :label="t('Base.createdAt')" :min-width="162" sortable>
+      <el-table-column prop="created_at" :label="t('Base.createdAt')" :min-width="128" sortable>
         <template #default="{ row }">
           {{ dateFormat(row.created_at, '') }}
         </template>
@@ -93,7 +93,7 @@
       <el-table-column
         prop="last_modified_at"
         :label="t('Base.lastModified')"
-        :min-width="162"
+        :min-width="144"
         sortable
       >
         <template #default="{ row }">
