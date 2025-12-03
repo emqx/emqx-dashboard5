@@ -67,6 +67,22 @@ export type DeleteCertsNsNamespaceNameName500 = {
   message?: string
 }
 
+export type DeleteCertsNsNamespaceNameNameKind =
+  (typeof DeleteCertsNsNamespaceNameNameKind)[keyof typeof DeleteCertsNsNamespaceNameNameKind]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCertsNsNamespaceNameNameKind = {
+  acc_key: 'acc_key',
+  ca: 'ca',
+  chain: 'chain',
+  key: 'key',
+  key_password: 'key_password',
+} as const
+
+export type DeleteCertsNsNamespaceNameNameParams = {
+  kind?: DeleteCertsNsNamespaceNameNameKind
+}
+
 export type GetCertsNsNamespaceList500Code =
   (typeof GetCertsNsNamespaceList500Code)[keyof typeof GetCertsNsNamespaceList500Code]
 
@@ -147,6 +163,22 @@ export const DeleteCertsGlobalNameName500Code = {
 export type DeleteCertsGlobalNameName500 = {
   code?: DeleteCertsGlobalNameName500Code
   message?: string
+}
+
+export type DeleteCertsGlobalNameNameKind =
+  (typeof DeleteCertsGlobalNameNameKind)[keyof typeof DeleteCertsGlobalNameNameKind]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCertsGlobalNameNameKind = {
+  acc_key: 'acc_key',
+  ca: 'ca',
+  chain: 'chain',
+  key: 'key',
+  key_password: 'key_password',
+} as const
+
+export type DeleteCertsGlobalNameNameParams = {
+  kind?: DeleteCertsGlobalNameNameKind
 }
 
 export type GetCertsGlobalList500Code =

@@ -76,6 +76,10 @@ export type PutAuthenticationIdUsersUserId400 = {
   message?: string
 }
 
+export type PutAuthenticationIdUsersUserIdParams = {
+  ns?: string
+}
+
 export type GetAuthenticationIdUsersUserId404Code =
   (typeof GetAuthenticationIdUsersUserId404Code)[keyof typeof GetAuthenticationIdUsersUserId404Code]
 
@@ -89,6 +93,10 @@ export type GetAuthenticationIdUsersUserId404 = {
   message?: string
 }
 
+export type GetAuthenticationIdUsersUserIdParams = {
+  ns?: string
+}
+
 export type DeleteAuthenticationIdUsersUserId404Code =
   (typeof DeleteAuthenticationIdUsersUserId404Code)[keyof typeof DeleteAuthenticationIdUsersUserId404Code]
 
@@ -100,6 +108,10 @@ export const DeleteAuthenticationIdUsersUserId404Code = {
 export type DeleteAuthenticationIdUsersUserId404 = {
   code?: DeleteAuthenticationIdUsersUserId404Code
   message?: string
+}
+
+export type DeleteAuthenticationIdUsersUserIdParams = {
+  ns?: string
 }
 
 export type PostAuthenticationIdUsers404Code =
@@ -128,6 +140,10 @@ export type PostAuthenticationIdUsers400 = {
   message?: string
 }
 
+export type PostAuthenticationIdUsersParams = {
+  ns?: string
+}
+
 export type GetAuthenticationIdUsers404Code =
   (typeof GetAuthenticationIdUsers404Code)[keyof typeof GetAuthenticationIdUsers404Code]
 
@@ -142,6 +158,7 @@ export type GetAuthenticationIdUsers404 = {
 }
 
 export type GetAuthenticationIdUsersParams = {
+  ns?: string
   page?: PublicPageParameter
   limit?: PublicLimitParameter
   like_user_id?: string
@@ -377,6 +394,75 @@ export type PostAuthentication400 = {
   message?: string
 }
 
+export type PostAuthentication200 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+
+export type PostAuthenticationBody =
+  | AuthnBuiltinDbApi
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
+
+export type GetAuthentication200Item =
+  | AuthnCinfo
+  | AuthnKerberos
+  | AuthnScramRestapiPost
+  | AuthnScramRestapiGet
+  | AuthnGcpDevice
+  | AuthnLdap
+  | AuthnScram
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnJwtHmac
+  | AuthnHttpPost
+  | AuthnHttpGet
+  | AuthnRedisSentinel
+  | AuthnRedisCluster
+  | AuthnRedisSingle
+  | AuthnMongoSharded
+  | AuthnMongoRs
+  | AuthnMongoSingle
+  | AuthnPostgresql
+  | AuthnMysql
+  | AuthnBuiltinDb
+
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
@@ -538,6 +624,7 @@ export interface EmqxSslClientOpts {
 
 export interface EmqxAuthnApiResponseUser {
   is_superuser?: boolean
+  namespace?: string
   user_id: string
 }
 
@@ -557,6 +644,7 @@ export interface EmqxAuthnApiRequestUserUpdate {
 
 export interface EmqxAuthnApiRequestUserCreate {
   is_superuser?: boolean
+  namespace?: string
   password: string
   user_id: string
 }
@@ -902,71 +990,6 @@ export interface AuthnRedisCluster {
   username?: string
 }
 
-export interface AuthnPostgresql {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  backend: AuthnPostgresqlBackend
-  database: string
-  disable_prepared_statements?: boolean
-  enable?: boolean
-  mechanism: AuthnPostgresqlMechanism
-  password?: string
-  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
-  /** @minimum 1 */
-  pool_size?: number
-  precondition?: string
-  query: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  username: string
-}
-
-export type PostAuthentication200 =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScram
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-
-export type PostAuthenticationBody =
-  | AuthnBuiltinDbApi
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScram
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-
 export type AuthnPostgresqlPasswordHashAlgorithm =
   | AuthnHashSimple
   | AuthnHashPbkdf2
@@ -987,6 +1010,25 @@ export type AuthnPostgresqlBackend =
 export const AuthnPostgresqlBackend = {
   postgresql: 'postgresql',
 } as const
+
+export interface AuthnPostgresql {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  backend: AuthnPostgresqlBackend
+  database: string
+  disable_prepared_statements?: boolean
+  enable?: boolean
+  mechanism: AuthnPostgresqlMechanism
+  password?: string
+  password_hash_algorithm?: AuthnPostgresqlPasswordHashAlgorithm
+  /** @minimum 1 */
+  pool_size?: number
+  precondition?: string
+  query: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  username: string
+}
 
 export type AuthnNodeStatusStatus =
   (typeof AuthnNodeStatusStatus)[keyof typeof AuthnNodeStatusStatus]
@@ -1768,29 +1810,6 @@ export interface AuthnBuiltinDb {
   precondition?: string
   user_id_type: AuthnBuiltinDbUserIdType
 }
-
-export type GetAuthentication200Item =
-  | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
-  | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
-  | AuthnMongoRs
-  | AuthnMongoSingle
-  | AuthnPostgresql
-  | AuthnMysql
-  | AuthnBuiltinDb
 
 export type AuthnBindMethodType = (typeof AuthnBindMethodType)[keyof typeof AuthnBindMethodType]
 

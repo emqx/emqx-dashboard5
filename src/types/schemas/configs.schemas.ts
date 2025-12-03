@@ -323,7 +323,7 @@ export type PostConfigsResetRootname403Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname403Code = {
-  REST_FAILED: 'REST_FAILED',
+  RESET_FAILED: 'RESET_FAILED',
 } as const
 
 export type PostConfigsResetRootname403 = {
@@ -337,7 +337,7 @@ export type PostConfigsResetRootname400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostConfigsResetRootname400Code = {
   NO_DEFAULT_VALUE: 'NO_DEFAULT_VALUE',
-  REST_FAILED: 'REST_FAILED',
+  RESET_FAILED: 'RESET_FAILED',
 } as const
 
 export type PostConfigsResetRootname400 = {

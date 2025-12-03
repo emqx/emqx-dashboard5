@@ -543,6 +543,7 @@ export interface EmqxSslClientOpts {
 
 export interface EmqxAuthnApiResponseUser {
   is_superuser?: boolean
+  namespace?: string
   user_id: string
 }
 
@@ -558,6 +559,7 @@ export interface EmqxAuthnApiRequestUserUpdate {
 
 export interface EmqxAuthnApiRequestUserCreate {
   is_superuser?: boolean
+  namespace?: string
   password: string
   user_id: string
 }
