@@ -9,6 +9,7 @@ import useGenerateFlowDataUtils, { GroupedNode } from './useGenerateFlowDataUtil
 
 export default (): {
   flowId: ComputedRef<string>
+  namespace: ComputedRef<string | undefined>
   ruleData: Ref<RuleItem | undefined>
   flowData: Ref<(Node<any, any, string> | Edge)[] | undefined>
   initialAIData: Ref<{
@@ -153,6 +154,7 @@ export default (): {
 
   return {
     flowId,
+    namespace,
     ruleData,
     flowData,
     initialAIData,
