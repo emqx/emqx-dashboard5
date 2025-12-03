@@ -82,6 +82,18 @@ export interface PrometheusPushGateway {
   url?: string
 }
 
+export interface PrometheusNamespacedMetricsLimiter {
+  rate?: string
+}
+
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
+  push_gateway?: PrometheusPushGateway
+}
+
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
   (typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
 
@@ -213,13 +225,6 @@ export interface PrometheusCollectors {
   vm_msacc: PrometheusCollectorsVmMsacc
   vm_statistics: PrometheusCollectorsVmStatistics
   vm_system_info: PrometheusCollectorsVmSystemInfo
-}
-
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  push_gateway?: PrometheusPushGateway
 }
 
 export type OpentelemetryTraceFilterTraceMode =

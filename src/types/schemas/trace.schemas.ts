@@ -168,6 +168,10 @@ export type PostTrace400 = {
   message?: string
 }
 
+export type PostTraceParams = {
+  ns?: string
+}
+
 export type TracePositionParameter = string | number
 
 export type TraceNodeParameter = string

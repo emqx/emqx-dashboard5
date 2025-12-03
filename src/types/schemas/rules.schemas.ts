@@ -37,6 +37,10 @@ export type PostRulesIdTest400 = {
   message?: string
 }
 
+export type PostRulesIdTestParams = {
+  ns?: string
+}
+
 export type PutRulesIdMetricsReset404Code =
   (typeof PutRulesIdMetricsReset404Code)[keyof typeof PutRulesIdMetricsReset404Code]
 
@@ -50,6 +54,10 @@ export type PutRulesIdMetricsReset404 = {
   message?: string
 }
 
+export type PutRulesIdMetricsResetParams = {
+  ns?: string
+}
+
 export type GetRulesIdMetrics404Code =
   (typeof GetRulesIdMetrics404Code)[keyof typeof GetRulesIdMetrics404Code]
 
@@ -61,6 +69,10 @@ export const GetRulesIdMetrics404Code = {
 export type GetRulesIdMetrics404 = {
   code?: GetRulesIdMetrics404Code
   message?: string
+}
+
+export type GetRulesIdMetricsParams = {
+  ns?: string
 }
 
 export type PutRulesId404Code = (typeof PutRulesId404Code)[keyof typeof PutRulesId404Code]
@@ -87,6 +99,10 @@ export type PutRulesId400 = {
   message?: string
 }
 
+export type PutRulesIdParams = {
+  ns?: string
+}
+
 export type GetRulesId404Code = (typeof GetRulesId404Code)[keyof typeof GetRulesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -97,6 +113,10 @@ export const GetRulesId404Code = {
 export type GetRulesId404 = {
   code?: GetRulesId404Code
   message?: string
+}
+
+export type GetRulesIdParams = {
+  ns?: string
 }
 
 export type DeleteRulesId404Code = (typeof DeleteRulesId404Code)[keyof typeof DeleteRulesId404Code]
@@ -111,6 +131,10 @@ export type DeleteRulesId404 = {
   message?: string
 }
 
+export type DeleteRulesIdParams = {
+  ns?: string
+}
+
 export type PostRules400Code = (typeof PostRules400Code)[keyof typeof PostRules400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -121,6 +145,10 @@ export const PostRules400Code = {
 export type PostRules400 = {
   code?: PostRules400Code
   message?: string
+}
+
+export type PostRulesParams = {
+  ns?: string
 }
 
 export type GetRules400Code = (typeof GetRules400Code)[keyof typeof GetRules400Code]
@@ -138,6 +166,21 @@ export type GetRules400 = {
 export type GetRules200 = {
   data?: RuleEngineRuleInfo[]
   meta?: PublicMeta
+}
+
+export type GetRulesParams = {
+  ns?: string
+  only_global?: boolean
+  enable?: boolean
+  from?: string
+  like_id?: string
+  like_from?: string
+  like_description?: string
+  match_from?: string
+  action?: string[]
+  source?: string[]
+  page?: PublicPageParameter
+  limit?: PublicLimitParameter
 }
 
 export type PostRuleTest412Code = (typeof PostRuleTest412Code)[keyof typeof PostRuleTest412Code]
@@ -164,6 +207,10 @@ export type PostRuleTest400 = {
   message?: string
 }
 
+export type PostRuleTestParams = {
+  ns?: string
+}
+
 export type PutRuleEngine400Code = (typeof PutRuleEngine400Code)[keyof typeof PutRuleEngine400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -176,22 +223,17 @@ export type PutRuleEngine400 = {
   message?: string
 }
 
+export type PutRuleEngineParams = {
+  ns?: string
+}
+
+export type GetRuleEngineParams = {
+  ns?: string
+}
+
 export type PublicPageParameter = number
 
 export type PublicLimitParameter = number
-
-export type GetRulesParams = {
-  enable?: boolean
-  from?: string
-  like_id?: string
-  like_from?: string
-  like_description?: string
-  match_from?: string
-  action?: string[]
-  source?: string[]
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
-}
 
 export type RuleEngineUserProvidedFunctionArgs = { [key: string]: unknown }
 
@@ -323,26 +365,6 @@ export interface RuleEngineRuleCreation {
   name?: string
   sql: string
 }
-
-export type RuleEngineRuleApplyTestContext =
-  | RuleEngineCtxUnsub
-  | RuleEngineCtxSub
-  | RuleEngineCtxSchemaValidationFailed
-  | RuleEngineCtxMessageTransformationFailed
-  | RuleEngineCtxPub
-  | RuleEngineCtxDropped
-  | RuleEngineCtxDelivered
-  | RuleEngineCtxAcked
-  | RuleEngineCtxDeliveryDropped
-  | RuleEngineCtxPing
-  | RuleEngineCtxDisconnected
-  | RuleEngineCtxConnected
-  | RuleEngineCtxConnack
-  | RuleEngineCtxCheckAuthzComplete
-  | RuleEngineCtxCheckAuthnComplete
-  | RuleEngineCtxAlarmDeactivated
-  | RuleEngineCtxAlarmActivated
-  | RuleEngineCtxBridgeMqtt
 
 export interface RuleEngineRuleApplyTest {
   context?: RuleEngineRuleApplyTestContext
@@ -569,6 +591,26 @@ export interface RuleEngineCtxMessageTransformationFailed {
   transformation?: string
   username?: string
 }
+
+export type RuleEngineRuleApplyTestContext =
+  | RuleEngineCtxUnsub
+  | RuleEngineCtxSub
+  | RuleEngineCtxSchemaValidationFailed
+  | RuleEngineCtxMessageTransformationFailed
+  | RuleEngineCtxPub
+  | RuleEngineCtxDropped
+  | RuleEngineCtxDelivered
+  | RuleEngineCtxAcked
+  | RuleEngineCtxDeliveryDropped
+  | RuleEngineCtxPing
+  | RuleEngineCtxDisconnected
+  | RuleEngineCtxConnected
+  | RuleEngineCtxConnack
+  | RuleEngineCtxCheckAuthzComplete
+  | RuleEngineCtxCheckAuthnComplete
+  | RuleEngineCtxAlarmDeactivated
+  | RuleEngineCtxAlarmActivated
+  | RuleEngineCtxBridgeMqtt
 
 export type RuleEngineCtxDroppedEventType =
   (typeof RuleEngineCtxDroppedEventType)[keyof typeof RuleEngineCtxDroppedEventType]

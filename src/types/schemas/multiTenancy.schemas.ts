@@ -1,3 +1,16 @@
+export type GetMtNsNsMetrics404Code =
+  (typeof GetMtNsNsMetrics404Code)[keyof typeof GetMtNsNsMetrics404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsNsMetrics404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMtNsNsMetrics404 = {
+  code?: GetMtNsNsMetrics404Code
+  message?: string
+}
+
 export type PostMtNsNsKickAllClients409Code =
   (typeof PostMtNsNsKickAllClients409Code)[keyof typeof PostMtNsNsKickAllClients409Code]
 
@@ -221,6 +234,12 @@ export interface MtSessionConfigIn {
 export interface MtNsWithDetailsOut {
   created_at?: number
   name?: string
+}
+
+export type MtMetricsOutMetrics = { [key: string]: unknown }
+
+export interface MtMetricsOut {
+  metrics?: MtMetricsOutMetrics
 }
 
 export interface MtLimiterOptions {

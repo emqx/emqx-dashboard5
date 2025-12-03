@@ -11,6 +11,10 @@ export type PutSourcesIdMetricsReset404 = {
   message?: string
 }
 
+export type PutSourcesIdMetricsResetParams = {
+  ns?: string
+}
+
 export type GetSourcesIdMetrics404Code =
   (typeof GetSourcesIdMetrics404Code)[keyof typeof GetSourcesIdMetrics404Code]
 
@@ -27,6 +31,10 @@ export type GetSourcesIdMetrics404 = {
 export type GetSourcesIdMetrics200 = {
   metrics?: ActionsAndSourcesMetrics
   node_metrics?: ActionsAndSourcesNodeMetrics[]
+}
+
+export type GetSourcesIdMetricsParams = {
+  ns?: string
 }
 
 export type PutSourcesIdEnableEnable503Code =
@@ -53,6 +61,10 @@ export const PutSourcesIdEnableEnable404Code = {
 export type PutSourcesIdEnableEnable404 = {
   code?: PutSourcesIdEnableEnable404Code
   message?: string
+}
+
+export type PutSourcesIdEnableEnableParams = {
+  ns?: string
 }
 
 export type PostSourcesIdOperation503Code =
@@ -107,6 +119,10 @@ export type PostSourcesIdOperation400 = {
   message?: string
 }
 
+export type PostSourcesIdOperationParams = {
+  ns?: string
+}
+
 export type PutSourcesId503Code = (typeof PutSourcesId503Code)[keyof typeof PutSourcesId503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -155,6 +171,10 @@ export type PutSourcesIdBody =
   | GcpPubsubConsumerPutSource
   | KafkaConsumerPutSource
 
+export type PutSourcesIdParams = {
+  ns?: string
+}
+
 export type GetSourcesId404Code = (typeof GetSourcesId404Code)[keyof typeof GetSourcesId404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -172,6 +192,10 @@ export type GetSourcesId200 =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+
+export type GetSourcesIdParams = {
+  ns?: string
+}
 
 export type DeleteSourcesId503Code =
   (typeof DeleteSourcesId503Code)[keyof typeof DeleteSourcesId503Code]
@@ -215,6 +239,12 @@ export type DeleteSourcesId400 = {
 
 export type DeleteSourcesIdParams = {
   also_delete_dep_actions?: boolean
+  ns?: string
+}
+
+export type GetSourcesSummaryParams = {
+  ns?: string
+  only_global?: boolean
 }
 
 export type PostSourcesProbe400Code =
@@ -235,6 +265,10 @@ export type PostSourcesProbeBody =
   | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
   | KafkaConsumerPostSource
+
+export type PostSourcesProbeParams = {
+  ns?: string
+}
 
 export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
@@ -260,11 +294,20 @@ export type PostSourcesBody =
   | GcpPubsubConsumerPostSource
   | KafkaConsumerPostSource
 
+export type PostSourcesParams = {
+  ns?: string
+}
+
 export type GetSources200Item =
   | BridgeRabbitmqGetSource
   | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
+
+export type GetSourcesParams = {
+  ns?: string
+  only_global?: boolean
+}
 
 export type GetSourceTypes200Item =
   (typeof GetSourceTypes200Item)[keyof typeof GetSourceTypes200Item]
@@ -327,6 +370,10 @@ export const PostNodesNodeSourcesIdOperation400Code = {
 export type PostNodesNodeSourcesIdOperation400 = {
   code?: PostNodesNodeSourcesIdOperation400Code
   message?: string
+}
+
+export type PostNodesNodeSourcesIdOperationParams = {
+  ns?: string
 }
 
 export type KafkaConsumerSourceParametersValueEncodingMode =
