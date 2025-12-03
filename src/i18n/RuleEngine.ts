@@ -1946,7 +1946,11 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'This Gemini connection uses an OpenAI-compatible API. Please enter a compatible Base URL.',
   },
   namespaceResourceTip: {
-    zh: '当前{target}仅命名空间{namespace}管理员可进行操作',
+    zh: '当前{target}仅命名空间 {namespace} 管理员可进行操作',
     en: 'Only the administrator of namespace {namespace} can perform operations on the {target}',
+  },
+  connector: {
+    zh: '连接器',
+    en: 'Connector',
   },
 }

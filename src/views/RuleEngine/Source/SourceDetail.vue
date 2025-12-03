@@ -20,7 +20,7 @@
             <el-switch
               class="enable-btn"
               v-model="sourceInfo.enable"
-              :disabled="!$hasPermission('put')"
+              :disabled="!$hasPermission('put') || isOpNsDisabled"
               @change="toggleEnable"
             />
           </el-tooltip>
@@ -29,14 +29,17 @@
               class="icon-button"
               type="primary"
               :icon="Share"
-              :disabled="!$hasPermission('post')"
+              :disabled="!$hasPermission('post') || isOpNsDisabled"
               plain
               @click="createRuleWithSource"
             >
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('Base.delete')" placement="top">
-            <DeleteButton @click="handleDelete" />
+            <DeleteButton
+              :disabled="!$hasPermission('delete') || isOpNsDisabled"
+              @click="handleDelete"
+            />
           </el-tooltip>
         </template>
       </detail-header>
@@ -65,6 +68,13 @@
             :class="['app-card', isFromRule && 'app-inline-card']"
             :shadow="isFromRule ? 'never' : undefined"
           >
+            <OperationDisabledAlert
+              v-if="isOpNsDisabled"
+              by="ns"
+              type="source"
+              class="webhook-tip-alert"
+              :data="sourceInfo"
+            />
             <div class="setting-area" :style="{ width: isFromRule ? '100%' : '75%' }">
               <component
                 ref="FormComEl"
@@ -72,7 +82,7 @@
                 v-model="sourceInfo"
                 edit
                 :type="sourceType"
-                :disabled="disabled"
+                :disabled="disabled || isOpNsDisabled"
                 :hide-name="hideName"
                 v-bind="formComProps"
                 @init="resetRawBridgeInfoAfterComponentInit"
@@ -92,7 +102,7 @@
               <el-button
                 type="primary"
                 v-if="sourceInfo.type"
-                :disabled="!$hasPermission('put')"
+                :disabled="!$hasPermission('put') || isOpNsDisabled"
                 :loading="updateLoading"
                 @click="updateSourceInfo()"
               >
@@ -119,6 +129,7 @@ import { Source } from '@/types/rule'
 import { Share } from '@element-plus/icons-vue'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
+import OperationDisabledAlert from '../components/OperationDisabledAlert.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'
 import useSourceFormComponent from './components/useSourceFormComponent'
 
@@ -162,6 +173,9 @@ const props = defineProps({
 })
 const namespaceFromInject = inject<string | undefined>('ns')
 const FormComEl = ref()
+
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = computed<boolean>(() => isOpNsResourceDisabled(sourceInfo.value))
 
 const queryTab = computed(() => {
   return route.query.tab as Tab
