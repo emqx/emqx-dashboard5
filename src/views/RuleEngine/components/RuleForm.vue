@@ -43,7 +43,11 @@
                     <i18n-t keypath="Flow.aiCompletionTip" tag="div">
                       <template #link>
                         <router-link
-                          :to="{ name: 'flow-detail', params: { id: modelValue.id } }"
+                          :to="{
+                            name: 'flow-detail',
+                            params: { id: modelValue.id },
+                            query: getNsParams(namespaceFromInject),
+                          }"
                           target="_blank"
                         >
                           {{ t('Flow.flowDetail') }}
@@ -162,6 +166,9 @@ const prop = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue', 'save', 'save-as-copy'])
+
+const namespaceFromInject = inject<string | undefined>('ns')
+const { getNsParams } = useNsParams()
 
 const { t } = useI18n()
 const route = useRoute()

@@ -74,7 +74,6 @@
 </template>
 
 <script lang="ts" setup>
-import { getRuleInfo } from '@/api/ruleengine'
 import { DetailTab } from '@/types/enum'
 import { RuleItem } from '@/types/rule'
 import CopySubmitDialog from '../components/CopySubmitDialog.vue'
@@ -120,11 +119,11 @@ const { getBackRoute } = useReceiveParams('rule')
 const countIsRuleRecordChanged = () => !isEqual(rawRuleInfo, ruleInfo.value)
 useDataNotSaveConfirm(countIsRuleRecordChanged)
 
-const { getNsParams } = useNsParams()
+const { getRuleDetail, updateRule } = useRuleItem()
 const loadRuleDetail = async () => {
   infoLoading.value = true
   try {
-    ruleInfo.value = await getRuleInfo(id, getNsParams(namespace.value))
+    ruleInfo.value = await getRuleDetail(id, namespace.value)
     rawRuleInfo = cloneDeep(ruleInfo.value)
     updateSavedData(rawRuleInfo)
     ++iKey.value
@@ -135,7 +134,6 @@ const loadRuleDetail = async () => {
   }
 }
 
-const { updateRule } = useRuleItem()
 const enableOrDisableRule = async () => {
   infoLoading.value = true
   ruleInfo.value.enable = !ruleInfo.value.enable
@@ -153,6 +151,7 @@ const enableOrDisableRule = async () => {
 const { judgeIsWebhookRule } = useWebhookUtils()
 
 /* Webhook associated */
+const { getNsParams } = useNsParams()
 const isWebhookRule = computed(() => judgeIsWebhookRule(ruleInfo.value))
 const webhookRoute = computed(() => ({
   name: 'webhook-detail',

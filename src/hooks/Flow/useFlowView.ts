@@ -47,20 +47,22 @@ export default (): {
 
   const { getActionList } = useActionList()
   const { getSourceList } = useSourceList()
-  const { getDetail, handleActionDataAfterLoaded } = useHandleActionItem()
+  const { getActionDetail, handleActionDataAfterLoaded } = useHandleActionItem()
   const getBridgeData = async () => {
     try {
       const sourceList = await getSourceList()
       const sinkList = await getActionList()
       await Promise.allSettled(
         sinkList.map(async (item, index) => {
-          const actionDetail = await getDetail(item.id)
+          const actionDetail = await getActionDetail(item.id, item.namespace)
           sinkList[index] = { ...sinkList[index], ...actionDetail }
         }),
       )
       actionList = sinkList as Array<Action>
       const list = [...sourceList, ...sinkList]
       bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
+        // FIXME:FIXME:FIXME:FIXME:FIXME:
+        // FIXME:FIXME:FIXME:FIXME:FIXME:
         m.set(item.id, handleActionDataAfterLoaded(item))
         return m
       }, new Map())
@@ -106,8 +108,13 @@ export default (): {
     return node
   }
 
-  const addRuleDataToNodes = (nodes: Array<Node>, ruleId: string) =>
-    nodes.map((node) => addRuleIdToNode(node, ruleId))
+  const addRuleDataToNodes = (nodes: Array<Node>, rule: RuleItem) => {
+    const { id: ruleId } = rule
+    return nodes.map((node) => {
+      node.data.namespace = rule.namespace
+      return addRuleIdToNode(node, ruleId)
+    })
+  }
 
   const addBridgeFormDataToNodes = (node: Array<Node>): Array<Node> => {
     return node.map((item) => {
@@ -193,7 +200,7 @@ export default (): {
       try {
         const { nodes, edges } = generateFlowDataFromRuleItem(rule)
         Object.entries(nodes).forEach(([key, value]) => {
-          addRuleDataToNodes(value, rule.id)
+          addRuleDataToNodes(value, rule)
           if ([NodeType.Source, NodeType.Sink].includes(Number(key))) {
             nodes[key as keyof GroupedNode] = addBridgeFormDataToNodes(value)
           }

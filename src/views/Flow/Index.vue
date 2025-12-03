@@ -11,7 +11,6 @@
         </el-button>
       </div>
       <FlowView v-if="showBy === ShowByOpt.Flow" @loaded="handleLoaded" />
-      <!-- <FlowList v-if="showBy === ShowByOpt.List" /> -->
     </template>
     <div v-else class="flow-placeholder-container">
       <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
