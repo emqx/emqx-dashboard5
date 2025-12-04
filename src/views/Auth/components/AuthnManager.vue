@@ -3,6 +3,12 @@
     <div class="section-header">
       <div class="searchbar">
         <el-space wrap :size="20">
+          <NamespaceSelect
+            v-if="!gateway"
+            v-model="namespace"
+            class="flex-0"
+            @change="resetPageAndLoadData"
+          />
           <el-input
             v-model="searchVal.user_id"
             clearable
@@ -70,6 +76,14 @@
         label-position="top"
         require-asterisk-position="right"
       >
+        <el-form-item
+          v-if="!gateway"
+          prop="namespace"
+          :label="t('BasicConfig.namespace')"
+          label-position="top"
+        >
+          <NamespaceSelectSwitch v-model="record.namespace" :disabled="isEdit" />
+        </el-form-item>
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input v-model="record.user_id" :disabled="isEdit" />
         </el-form-item>
@@ -123,6 +137,7 @@ const createRawUserForm = () => ({
   user_id: '',
   password: '',
   is_superuser: false,
+  namespace: undefined,
 })
 
 const prop = defineProps({
@@ -140,6 +155,7 @@ const prop = defineProps({
 
 const { t } = useI18n()
 const record = ref<DataManagerItem>(createRawUserForm())
+const namespace = ref<string | undefined>(undefined)
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
@@ -167,6 +183,7 @@ const loadData = async () => {
   const { user_id, is_superuser } = searchVal
   const sendParams = {
     ...pageParams.value,
+    ns: namespace.value,
     like_user_id: searchVal.user_id === '' ? null : user_id,
     is_superuser,
   }
@@ -201,6 +218,18 @@ const getRules = function () {
   const rules = {
     user_id: [{ required: true, message, trigger: 'blur' }],
     password: [{ required: true, message: t('General.pleaseEnterPassword') }],
+    namespace: [
+      {
+        validator(_rules: any, value: string | undefined, callback: (error?: Error) => void) {
+          let error = undefined
+          if (!isUndefined(value) && !value) {
+            error = new Error(t('Rule.selectFieldRequiredError', t('BasicConfig.namespace')))
+          }
+          callback(error)
+        },
+        trigger: 'blur',
+      },
+    ],
   }
   if (isEdit.value) {
     Reflect.deleteProperty(rules, 'user_id')
@@ -211,19 +240,22 @@ const getRules = function () {
 const addCommand = () => {
   isEdit.value = false
   record.value = createRawUserForm()
+  record.value.namespace = namespace.value
   dialogVisible.value = true
 }
 
 const handleEdit = (row: DataManagerItem) => {
-  dialogVisible.value = true
   isEdit.value = true
   record.value = {
     user_id: row.user_id,
     is_superuser: row.is_superuser,
     password: '',
+    namespace: namespace.value,
   }
+  dialogVisible.value = true
 }
 
+const getTableNsParams = () => ({ ns: namespace.value })
 const handleDelete = (row: DataManagerItem) => {
   MB.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
@@ -235,7 +267,7 @@ const handleDelete = (row: DataManagerItem) => {
       if (prop.gateway) {
         await deleteGatewayUser(prop.gateway, row.user_id)
       } else {
-        await deleteAuthnUser(id.value, row.user_id)
+        await deleteAuthnUser(id.value, row.user_id, getTableNsParams())
       }
       resetPageAndLoadData()
     })
@@ -260,11 +292,13 @@ const save = async () => {
 const handleAdd = async function () {
   let res
   try {
+    const dataToSubmit = record.value
     if (prop.gateway) {
-      res = await addGatewayUserManagement(prop.gateway, record.value)
+      res = await addGatewayUserManagement(prop.gateway, dataToSubmit)
     } else {
-      res = await createAuthnUsers(id.value, record.value)
+      res = await createAuthnUsers(id.value, dataToSubmit)
     }
+    namespace.value = record.value.namespace
     if (res) {
       dialogVisible.value = false
       M.success(t('Base.createSuccess'))
@@ -283,16 +317,17 @@ const handleAdd = async function () {
 }
 
 const handleUpdate = async function () {
-  const { password, is_superuser, user_id } = record.value
+  const { password, is_superuser, user_id, namespace } = record.value
+
   const data = {
-    password: password,
-    is_superuser: is_superuser,
+    password,
+    is_superuser,
   }
   let res
   if (prop.gateway) {
     res = await updateGatewayUser(prop.gateway, user_id, data)
   } else {
-    res = await updateAuthnUser(id.value, user_id, data)
+    res = await updateAuthnUser(id.value, user_id, data, { ns: namespace })
   }
   if (res) {
     dialogVisible.value = false
