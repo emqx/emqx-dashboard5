@@ -75,6 +75,7 @@ export interface DataManagerItem {
   user_id: string
   password: string
   is_superuser: boolean
+  namespace?: string
 }
 
 export type Metrics = MetricsDataWithExtraData<{

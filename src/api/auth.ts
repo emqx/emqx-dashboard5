@@ -3,6 +3,7 @@ import http from '@/common/http'
 import { AuthzSetting, BuiltInDBItem, BuiltInDBRule, ImportResult, Metrics } from '@/types/auth'
 import { ListDataWithPagination } from '@/types/common'
 import { BuiltInDBType } from '@/types/enum'
+import { NsParams } from '@/types/rule'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
@@ -81,16 +82,23 @@ export function loadAuthnUsers(id: string, params = {}) {
   })
 }
 
-export function deleteAuthnUser(id: string, userId: string) {
+export function deleteAuthnUser(id: string, userId: string, params?: NsParams) {
   return http.delete(
     `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}`,
+    { params },
   )
 }
 
-export function updateAuthnUser(id: string, userId: string, body: { [key: string]: any }) {
+export function updateAuthnUser(
+  id: string,
+  userId: string,
+  body: { [key: string]: any },
+  params?: NsParams,
+) {
   return http.put(
     `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}`,
     body,
+    { params },
   )
 }
 
