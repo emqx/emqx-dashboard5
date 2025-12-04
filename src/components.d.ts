@@ -82,6 +82,7 @@ declare module 'vue' {
     SettingsButton: typeof import('./components/Buttons/SettingsButton.vue')['default']
     ShowMoreButton: typeof import('./components/Buttons/ShowMoreButton.vue')['default']
     SSLVersionSelect: typeof import('./components/ListenerDrawer/SSLVersionSelect.vue')['default']
+    StatsContent: typeof import('./components/StatsContent.vue')['default']
     StatusDetailsOfEachNode: typeof import('./components/StatusDetailsOfEachNode.vue')['default']
     TableButton: typeof import('./components/Buttons/TableButton.vue')['default']
     TextareaWithUploader: typeof import('./components/TextareaWithUploader.vue')['default']

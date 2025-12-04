@@ -322,3 +322,16 @@ export interface NamespaceItem {
   not_explicit_created?: boolean
   created_at?: number
 }
+
+export interface NamespaceMetrics {
+  builtin_authn_record_count: number
+  builtin_authz_record_count: number
+  session_count: number
+  messaging_stats: {
+    'messages.received': number
+    'messages.sent': number
+    'client.connect': number
+    'actions.executed': number
+    [key: string]: number
+  }
+}

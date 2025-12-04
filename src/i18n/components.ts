@@ -87,6 +87,10 @@ export default {
     zh: '订阅管理',
     en: 'Subscriptions',
   },
+  'namespace-metrics': {
+    zh: '命名空间',
+    en: 'Namespace',
+  },
   retained: {
     zh: '保留消息',
     en: 'Retained Messages',

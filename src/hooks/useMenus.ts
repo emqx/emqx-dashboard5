@@ -24,6 +24,7 @@ const useMenus = (): {
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
     { title: 'subscriptions', path: '/subscriptions' },
+    { title: 'namespace-metrics', path: '/namespace-metrics' },
     { title: 'retained', path: '/retained' },
     { title: 'delayed-pub', path: '/delayed-pub' },
     { title: 'alarm', path: '/alarm' },
