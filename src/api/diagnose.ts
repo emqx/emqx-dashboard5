@@ -36,8 +36,8 @@ export function getTraceList(): Promise<Array<TraceItem>> {
   return http.get('/trace')
 }
 
-export function addTrace(body: TraceRecord): Promise<TraceRecord> {
-  return http.post('/trace', body)
+export function addTrace(body: TraceRecord, params: { ns?: string }): Promise<TraceRecord> {
+  return http.post('/trace', body, { params })
 }
 
 export function getTraceNodesMsg(
