@@ -410,6 +410,7 @@ export default (
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
+    [BridgeType.AWSTimestream]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
     [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
     [BridgeType.Datalayers]: getDatalayersColClass,
