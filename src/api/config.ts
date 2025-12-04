@@ -6,6 +6,7 @@ import {
   Limiter,
   Log,
   NamespaceItem,
+  NamespaceMetrics,
   Zone,
   Zones,
 } from '@/types/config'
@@ -102,6 +103,9 @@ export const getManagedDetailNamespaceList = (
 export const getDetailNamespaceList = (
   params: GetNamespaceListParams,
 ): Promise<Array<NamespaceDetailItem>> => http.get('/mt/ns_list_details', { params })
+
+export const getNamespaceMetrics = (namespace: string): Promise<NamespaceMetrics> =>
+  http.get(`/mt/ns/${encodeURIComponent(namespace)}/metrics`)
 
 export const getConfigs = (key?: string) => http.get('/configs', { params: { key } })
 

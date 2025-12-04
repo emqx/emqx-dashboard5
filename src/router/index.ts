@@ -130,6 +130,24 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
 
+  // Namespace Metrics
+  {
+    path: '/namespace-metrics',
+    redirect: { name: 'namespace-metrics' },
+    component: Layout,
+    meta: {
+      hideKey: 'namespace-metrics',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'namespace-metrics',
+        component: () => import('@/views/NamespaceMetrics/NamespaceMetrics.vue'),
+      },
+    ],
+  },
+
   // Connections
   {
     path: '/retained',

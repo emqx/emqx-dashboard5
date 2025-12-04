@@ -1051,4 +1051,32 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '不再提示',
     en: 'Do not show again',
   },
+  dataIntegrationActions: {
+    zh: '数据集成动作',
+    en: 'Data Integration Actions',
+  },
+  authRecords: {
+    zh: '认证记录',
+    en: 'Auth Records DB',
+  },
+  messageReceived: {
+    zh: '已接收消息数',
+    en: 'Message Received',
+  },
+  messageSent: {
+    zh: '已发送消息数',
+    en: 'Message Sent',
+  },
+  authnRecordCount: {
+    zh: '认证凭证数',
+    en: 'Authentication Credential Count',
+  },
+  authzRecordCount: {
+    zh: '授权规则数',
+    en: 'Authorization Rule Count',
+  },
+  pleaseSelectNamespace: {
+    zh: '请选择命名空间',
+    en: 'Please select a namespace',
+  },
 }
