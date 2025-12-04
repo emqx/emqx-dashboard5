@@ -20,7 +20,7 @@ export default (): {
   emptyLogArr: () => void
   handleStopTest: () => void
   getLogItemTitle: (item: Record<string, any>) => string
-  submitMockDataForTestRule: (ruleId: string, data: Record<string, any>) => Promise<any>
+  submitMockDataForTestRule: (rule: RuleItem, data: Record<string, any>) => Promise<any>
   startTest: (rule: RuleItem) => Promise<void>
 } => {
   let traceName = ''
@@ -43,10 +43,11 @@ export default (): {
       //
     }
   }
+  const { getNsParams } = useNsParams()
   /**
    * Create trace before get trace log
    */
-  const createTrace = async ({ id: ruleId }: RuleItem) => {
+  const createTrace = async ({ id: ruleId, namespace }: RuleItem) => {
     try {
       deleteCurrentTrace()
       const nowTimestamp = new Date().getTime()
@@ -60,7 +61,7 @@ export default (): {
         end_at: new Date(oneDayLaterTimestamp).toISOString(),
         formatter: LogTraceFormatter.JSON,
       }
-      const { name } = await addTrace(traceData)
+      const { name } = await addTrace(traceData, getNsParams(namespace))
       emptyLogData()
       traceName = name
       traceStartTime = nowTimestamp
@@ -146,8 +147,11 @@ export default (): {
     syncPolling(getNewestLog, 1500)
   }
 
-  const submitMockDataForTestRule = (ruleId: string, data: Record<string, any>) => {
-    return applyRuleTest(ruleId, data)
+  const submitMockDataForTestRule = (
+    { id: ruleId, namespace }: RuleItem,
+    data: Record<string, any>,
+  ) => {
+    return applyRuleTest(ruleId, data, getNsParams(namespace))
   }
 
   /**

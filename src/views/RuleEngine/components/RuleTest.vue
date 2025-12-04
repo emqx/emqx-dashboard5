@@ -105,7 +105,7 @@ const openMockDataDrawer = () => {
 const handleSubmitMockData = async (context: Record<string, any>) => {
   try {
     isSubmittingMockData.value = true
-    await submitMockDataForTestRule(props.ruleData.id, context)
+    await submitMockDataForTestRule(props.ruleData as RuleItem, context)
     showMockDataDrawer.value = false
   } catch (error) {
     //
