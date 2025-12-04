@@ -6,16 +6,12 @@
           <div class="stats-grid">
             <!-- Rate Cards -->
             <div class="stat-card rate-card-in">
-              <div class="stat-header">
-                <ArrowDown class="stat-icon" />
-                <span class="stat-label">{{ $t('Dashboard.currentMessageInRate') }}</span>
-              </div>
-              <div class="stat-value">
-                <span class="stat-number">{{
-                  _formatNumber(currentMetrics.received_msg_rate)
-                }}</span>
-                <span class="stat-unit">msg/s</span>
-              </div>
+              <StatsContent
+                unit="msg/s"
+                :icon="ArrowDown"
+                :value="currentMetrics.received_msg_rate"
+                :title="tl('currentMessageInRate')"
+              />
               <div class="stat-chart">
                 <rate-chart
                   :value="currentMetricsLogs.received_msg_rate"
@@ -26,14 +22,12 @@
             </div>
 
             <div class="stat-card rate-card-out">
-              <div class="stat-header">
-                <ArrowUp class="stat-icon" />
-                <span class="stat-label">{{ $t('Dashboard.currentMessageOutRate') }}</span>
-              </div>
-              <div class="stat-value">
-                <span class="stat-number">{{ _formatNumber(currentMetrics.sent_msg_rate) }}</span>
-                <span class="stat-unit">msg/s</span>
-              </div>
+              <StatsContent
+                unit="msg/s"
+                :icon="ArrowUp"
+                :value="currentMetrics.sent_msg_rate"
+                :title="tl('currentMessageOutRate')"
+              />
               <div class="stat-chart">
                 <rate-chart :value="currentMetricsLogs.sent_msg_rate" type="bar" color="#5D4EFF" />
               </div>
@@ -42,13 +36,11 @@
             <!-- Sessions Card -->
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'clients' }">
-                <div class="stat-header">
-                  <Link class="stat-icon" />
-                  <span class="stat-label">{{ $t('Dashboard.allConnections') }}</span>
-                </div>
-                <div class="stat-value">
-                  <span class="stat-number">{{ _formatNumber(currentMetrics.connections) }}</span>
-                </div>
+                <StatsContent
+                  :icon="Link"
+                  :value="currentMetrics.connections"
+                  :title="tl('allConnections')"
+                />
               </router-link>
 
               <div class="stat-divider"></div>
@@ -57,67 +49,47 @@
                 class="stat-item"
                 :to="{ name: 'clients', query: { conn_state: 'connected' } }"
               >
-                <div class="stat-header">
-                  <Activity class="stat-icon" />
-                  <span class="stat-label">{{ $t('Dashboard.liveConnections') }}</span>
-                </div>
-                <div class="stat-value">
-                  <span class="stat-number">{{
-                    _formatNumber(currentMetrics.live_connections)
-                  }}</span>
-                </div>
+                <StatsContent
+                  :icon="Activity"
+                  :value="currentMetrics.live_connections"
+                  :title="tl('liveConnections')"
+                />
               </router-link>
             </div>
 
             <!-- Subscriptions Card -->
             <div class="stat-card combined-card">
               <router-link class="stat-item" :to="{ name: 'subscription' }">
-                <div class="stat-header">
-                  <Bell class="stat-icon" />
-                  <span class="stat-label">{{ $t('Dashboard.subscriptionNumber') }}</span>
-                </div>
-                <div class="stat-value">
-                  <span class="stat-number">{{ _formatNumber(currentMetrics.subscriptions) }}</span>
-                </div>
+                <StatsContent
+                  :icon="Bell"
+                  :value="currentMetrics.subscriptions"
+                  :title="tl('subscriptionNumber')"
+                />
               </router-link>
 
               <div class="stat-divider"></div>
 
               <div class="stat-item">
-                <div class="stat-header">
-                  <Share2 class="stat-icon" />
-                  <span class="stat-label">{{ $t('Dashboard.shareSubscription') }}</span>
-                </div>
-                <div class="stat-value">
-                  <span class="stat-number">{{
-                    _formatNumber(currentMetrics.shared_subscriptions)
-                  }}</span>
-                </div>
+                <StatsContent
+                  :icon="Share2"
+                  :value="currentMetrics.shared_subscriptions"
+                  :title="tl('shareSubscription')"
+                />
               </div>
             </div>
 
             <!-- Topics -->
             <router-link class="stat-card" :to="{ name: 'topics' }">
-              <div class="stat-header">
-                <Hash class="stat-icon" />
-                <span class="stat-label">{{ $t('Dashboard.topics') }}</span>
-              </div>
-              <div class="stat-value">
-                <span class="stat-number">{{ _formatNumber(currentMetrics.topics) }}</span>
-              </div>
+              <StatsContent :icon="Hash" :value="currentMetrics.topics" :title="tl('topics')" />
             </router-link>
 
             <!-- Retained -->
             <router-link class="stat-card" :to="{ name: 'retained' }">
-              <div class="stat-header">
-                <Archive class="stat-icon" />
-                <span class="stat-label">{{ $t('Dashboard.retained') }}</span>
-              </div>
-              <div class="stat-value">
-                <span class="stat-number">{{
-                  _formatNumber(currentMetrics.retained_msg_count)
-                }}</span>
-              </div>
+              <StatsContent
+                :icon="Archive"
+                :value="currentMetrics.retained_msg_count"
+                :title="tl('retained')"
+              />
             </router-link>
           </div>
         </el-card>
@@ -137,12 +109,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import RateChart from './components/RateChart.vue'
-import PolylineCards from './components/PolylineCards.vue'
-import NodesGraphCard from './components/NodesGraphCard.vue'
-import dayjs from 'dayjs'
-import { ArrowDown, ArrowUp, Link, Activity, Bell, Share2, Hash, Archive } from 'lucide-vue-next'
 import { loadCurrentMetrics } from '@/api/common'
+import dayjs from 'dayjs'
+import { Activity, Archive, ArrowDown, ArrowUp, Bell, Hash, Link, Share2 } from 'lucide-vue-next'
+import NodesGraphCard from './components/NodesGraphCard.vue'
+import PolylineCards from './components/PolylineCards.vue'
+import RateChart from './components/RateChart.vue'
 
 interface MetricData {
   x: Array<string>
@@ -188,8 +160,6 @@ const currentMetrics: Ref<CurrentMetrics> = ref({
 // )
 
 // const rateType = ref<'msg' | 'byte'>('msg')
-
-const _formatNumber = (num: number) => (num === undefined ? 0 : formatNumber(num))
 const { syncPolling } = useSyncPolling()
 
 const loadData = async () => {
@@ -222,6 +192,8 @@ const setCurrentMetricsLogsRealtime = (state: Record<string, number> = {}) => {
     },
   )
 }
+
+const { tl } = useI18nTl('Dashboard')
 
 syncPolling(loadData, POLLING_INTERVAL)
 </script>
@@ -346,48 +318,6 @@ syncPolling(loadData, POLLING_INTERVAL)
   .stat-divider {
     height: 1px;
     background: var(--color-border-card);
-  }
-
-  .stat-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .stat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    color: var(--color-text-secondary);
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-  }
-
-  .stat-label {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    line-height: 18px;
-  }
-
-  .stat-value {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-
-  .stat-number {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 40px;
-    color: var(--color-title-primary);
-    transition: color 0.2s ease;
-  }
-
-  .stat-unit {
-    font-size: 14px;
-    color: var(--color-text-secondary);
-    line-height: 20px;
   }
 
   .stat-chart {
