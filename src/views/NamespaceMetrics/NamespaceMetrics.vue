@@ -9,7 +9,6 @@
               class="w-96"
               clearable
               :placeholder="t('BasicConfig.namespace')"
-              :global="{ enable: false }"
               @change="handleNamespaceChange"
             />
           </el-col>
@@ -20,10 +19,7 @@
           </el-col>
         </el-row>
       </div>
-      <div v-if="!namespace" class="empty-placeholder">
-        <el-empty :description="tl('pleaseSelectNamespace')" />
-      </div>
-      <div v-else class="metrics-content">
+      <div class="metrics-content">
         <el-row :gutter="24" class="mb-6">
           <!-- Row 1 -->
           <el-col :span="12">
@@ -55,7 +51,7 @@
               />
             </el-card>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-card shadow="never" class="metric-card">
               <StatsContent
                 :icon="Activity"
@@ -63,7 +59,7 @@
                 :title="tl('liveConnections')"
               />
             </el-card>
-          </el-col>
+          </el-col> -->
           <el-col :span="6">
             <el-card shadow="never" class="metric-card">
               <StatsContent
@@ -73,7 +69,7 @@
               />
             </el-card>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" v-if="!isGlobal">
             <el-card shadow="never" class="metric-card">
               <div class="flex gap-4">
                 <StatsContent
@@ -97,15 +93,17 @@
 </template>
 
 <script setup lang="ts">
-import { getNamespaceMetrics } from '@/api/config'
+import { loadCurrentMetrics, loadMetrics } from '@/api/common'
+import { getNamespaceMetrics as queryNamespaceMetrics } from '@/api/config'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { NamespaceMetrics } from '@/types/config'
-import { Activity, ArrowDown, ArrowUp, Link, ShieldCheck, Workflow } from 'lucide-vue-next'
+import { ArrowDown, ArrowUp, Link, ShieldCheck, Workflow } from 'lucide-vue-next'
 
 const { t, tl } = useI18nTl('Dashboard')
 
 const isLoading = ref(false)
 const namespace = ref<string | undefined>(undefined)
+const isGlobal = computed(() => !namespace.value)
 
 const metricsData = ref<NamespaceMetrics>({} as NamespaceMetrics)
 
@@ -113,13 +111,42 @@ const handleNamespaceChange = () => {
   getMetrics()
 }
 
-const getMetrics = async () => {
-  if (!namespace.value) return
-
+const getGlobalMetrics = async () => {
   try {
-    metricsData.value = await getNamespaceMetrics(namespace.value)
+    isLoading.value = true
+    const [metrics, currentMetrics] = await Promise.all([loadMetrics(), loadCurrentMetrics()])
+    metricsData.value = {
+      builtin_authn_record_count: 0,
+      builtin_authz_record_count: 0,
+      session_count: currentMetrics.connections,
+      messaging_stats: isPlainObject(metrics) ? metrics : (metrics as any)[0],
+    }
   } catch (error) {
-    console.error(error)
+    //
+  } finally {
+    isLoading.value = false
   }
 }
+
+const getNamespaceMetrics = async () => {
+  try {
+    isLoading.value = true
+    const data = await queryNamespaceMetrics(namespace.value as string)
+    metricsData.value = data
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const getMetrics = async () => {
+  if (!namespace.value) {
+    getGlobalMetrics()
+  } else {
+    getNamespaceMetrics()
+  }
+}
+
+getMetrics()
 </script>
