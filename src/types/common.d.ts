@@ -48,6 +48,11 @@ export interface PageParams {
   page: number
 }
 
+export interface CursorParams {
+  cursor?: string
+  limit?: number
+}
+
 export interface RuleInValidatorParam {
   field: string
   fullField: string
