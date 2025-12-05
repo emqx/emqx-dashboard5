@@ -58,6 +58,7 @@ const tagArr = [
   'AI Completion',
   'Message Queue',
   'TLS Management',
+  'Message Stream',
 ]
 
 const typesFolder = './src/types/schemas/'

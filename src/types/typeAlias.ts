@@ -110,6 +110,10 @@ import type {
 import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tlsManagement.schemas'
+import {
+  GetMessageStreamsStreams200Item,
+  StreamsApiConfigGet,
+} from './schemas/messageStream.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -273,3 +277,7 @@ export type CertBundleInfo = Partial<Record<keyof CertBundleIn, { path: string }
 export type NamespaceCertBundleInfo = CertBundleInfo
 export type ManagedCerts = EmqxManagedCerts
 export type ManagedCertsServer = EmqxManagedCertsServer
+
+/* MESSAGE STREAM */
+export type MessageStreamConfig = StreamsApiConfigGet
+export type MessageStreamItem = GetMessageStreamsStreams200Item
