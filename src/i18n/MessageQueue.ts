@@ -16,10 +16,6 @@ export default {
     en: `The filter used to determine which messages are getting into the message queue.
 Clients can consume messages from the queue by subscribing to \`$q/{'{'}Topic Filter{'}'}\`.`,
   },
-  invalidTopicFilter: {
-    zh: '无效的过滤主题格式',
-    en: 'Invalid topic filter format',
-  },
   dataRetentionPeriod: {
     zh: '数据保留期',
     en: 'Data Retention Period',

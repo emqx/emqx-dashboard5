@@ -1,5 +1,6 @@
 import type { Component } from 'vue'
 import {
+  ChartNoAxesGantt,
   Database,
   Gauge,
   Layers,
@@ -127,6 +128,11 @@ const useMenus = (): {
       title: 'message-queue',
       icon: Layers,
       path: '/message-queue',
+    },
+    {
+      title: 'message-stream',
+      icon: ChartNoAxesGantt,
+      path: '/message-stream',
     },
     {
       title: 'management',

@@ -1,10 +1,7 @@
 import { MessageQueueDispatchStrategy, MessageQueueDispatchStrategyValue } from '@/types/typeAlias'
 
-const useMessageQueue = () => {
-  const { tl } = useI18nTl('MessageQueue')
-
-  const descForKeyExpression = `${tl('keyExpressionDesc')}<br />
-<pre>
+export const useMessageTemplate = () => {
+  const messageTemplate = `<pre>
 {
     "flags": {
         "dup": false,
@@ -30,8 +27,15 @@ const useMessageQueue = () => {
     "topic": "t/9",
     "qos": 1
 }
-<pre />
-`
+<pre />`
+  return { messageTemplate }
+}
+
+const useMessageQueue = () => {
+  const { tl } = useI18nTl('MessageQueue')
+
+  const { messageTemplate } = useMessageTemplate()
+  const descForKeyExpression = `${tl('keyExpressionDesc')}<br />${messageTemplate}`
 
   const dispatchStrategyOptions = [
     {

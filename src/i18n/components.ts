@@ -431,6 +431,10 @@ export default {
     zh: '消息队列',
     en: 'Message Queue',
   },
+  'message-stream': {
+    zh: '消息流',
+    en: 'Message Stream',
+  },
   /* For Quick Panel Start */
   'rule-create': {
     zh: '创建规则',
