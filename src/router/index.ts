@@ -1052,7 +1052,7 @@ export const routes: Array<RouteRecordRaw> = [
     path: '/message-queue',
     component: Layout,
     meta: {
-      hideKey: 'messageQueue',
+      hideKey: 'message-queue',
       authRequired: true,
     },
     children: [
@@ -1060,6 +1060,22 @@ export const routes: Array<RouteRecordRaw> = [
         path: '',
         name: 'message-queue',
         component: () => import('@/views/MessageQueue/MessageQueue.vue'),
+      },
+    ],
+  },
+  // Message Stream
+  {
+    path: '/message-stream',
+    component: Layout,
+    meta: {
+      hideKey: 'message-stream',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'message-stream',
+        component: () => import('@/views/MessageStream/MessageStream.vue'),
       },
     ],
   },

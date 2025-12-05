@@ -30,7 +30,7 @@ export const getMessageStreamDetail = (topicFilter: string): Promise<MessageStre
 
 export const putMessageStream = (
   topicFilter: string,
-  data: MessageStreamItem,
+  data: Omit<MessageStreamItem, 'topic_filter'>,
 ): Promise<MessageStreamItem> => {
   return http.put(`/message_streams/streams/${topicFilter}`, data)
 }
