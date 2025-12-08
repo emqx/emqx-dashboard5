@@ -54,18 +54,27 @@
                 />
               </el-form-item>
             </el-col>
-            <!-- LASTVALUE -->
+            <!-- ENABLE AUTO CREATE QUEUE -->
             <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('lastValueMSConf')">
-                <el-divider />
+              <el-form-item :label="tl('enableAutoCreateMS')">
+                <el-switch v-model="enableAutoCreateProxy" />
               </el-form-item>
             </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="auto_create.lastvalue">
-                <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateLastValueMS')" desc-marked />
-                </template>
-                <el-switch v-model="lastvalueProxy" />
+            <!-- AUTO CREATE TYPE -->
+            <el-col :span="21" class="custom-col" v-if="enableAutoCreateProxy">
+              <el-form-item :label="tl('autoCreateMSType')">
+                <el-radio-group class="flex-1" v-model="autoCreateTypeProxy">
+                  <el-space class="flex-1" :size="28">
+                    <el-radio
+                      v-for="{ value, label } in autoCreateTypeOpt"
+                      :key="value"
+                      :value="value"
+                      border
+                    >
+                      <span class="platform-name"> {{ label }} </span>
+                    </el-radio>
+                  </el-space>
+                </el-radio-group>
               </el-form-item>
             </el-col>
             <!-- LASTVALUE CONF-->
@@ -98,20 +107,6 @@
                 </el-form-item>
               </el-col>
             </template>
-            <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('regularMSConf')">
-                <el-divider />
-              </el-form-item>
-            </el-col>
-            <!-- REGULAR -->
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="auto_create.lastvalue">
-                <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateRegularMS')" desc-marked />
-                </template>
-                <el-switch v-model="regularProxy" />
-              </el-form-item>
-            </el-col>
             <!-- REGULAR CONF -->
             <template v-if="typeof streamConfig.auto_create.regular === 'object'">
               <el-col :span="21" class="custom-col">
@@ -192,34 +187,64 @@ const streamConfig = ref<MessageStreamConfig>({
   regular_stream_retention_period: '',
 })
 
-const createDefaultCommonConf = (): MessageStreamConfig['auto_create']['regular'] => ({
+const enableAutoCreateProxy = computed<boolean>({
+  get() {
+    const { lastvalue, regular } = streamConfig.value.auto_create
+    return !!(lastvalue || regular)
+  },
+  set(nV: boolean) {
+    const { lastvalue, regular } = streamConfig.value.auto_create
+
+    if (nV && !lastvalue && !regular) {
+      streamConfig.value.auto_create.lastvalue = createDefaultAutoCreate()
+    } else if (!nV) {
+      streamConfig.value.auto_create.lastvalue = false
+      streamConfig.value.auto_create.regular = false
+    }
+  },
+})
+
+const enum AutoCreateType {
+  Lastvalue = 'lastvalue',
+  Regular = 'regular',
+}
+const autoCreateTypeOpt = [
+  {
+    value: AutoCreateType.Lastvalue,
+    label: t('BasicConfig.lastValueStream'),
+  },
+  {
+    value: AutoCreateType.Regular,
+    label: t('BasicConfig.regularStream'),
+  },
+]
+const autoCreateTypeProxy = computed<AutoCreateType>({
+  get() {
+    if (streamConfig.value.auto_create.regular) {
+      return AutoCreateType.Regular
+    }
+    return AutoCreateType.Lastvalue
+  },
+  set(nV: AutoCreateType) {
+    if (nV === AutoCreateType.Regular) {
+      streamConfig.value.auto_create.lastvalue = false
+      streamConfig.value.auto_create.regular = createDefaultAutoCreate()
+    } else {
+      streamConfig.value.auto_create.regular = false
+      streamConfig.value.auto_create.lastvalue = createDefaultAutoCreate()
+    }
+  },
+})
+
+const createDefaultAutoCreate = (): MessageStreamConfig['auto_create'][
+  | 'lastvalue'
+  | 'regular'] => ({
   data_retention_period: '7d',
   key_expression: 'message.from',
   ...createDefaultLimits(),
 })
-const createDefaultAutoCreateLastvalue = (): MessageStreamConfig['auto_create']['lastvalue'] => ({
-  ...createDefaultCommonConf(),
-  key_expression: 'message.from',
-  ...createDefaultLimits(),
-})
-const lastvalueProxy = computed({
-  get() {
-    return !!streamConfig.value.auto_create.lastvalue
-  },
-  set(val) {
-    streamConfig.value.auto_create.lastvalue = val ? createDefaultAutoCreateLastvalue() : false
-  },
-})
-const { descForKeyExpression } = useMessageStream()
 
-const regularProxy = computed({
-  get() {
-    return !!streamConfig.value.auto_create.regular
-  },
-  set(val) {
-    streamConfig.value.auto_create.regular = val ? createDefaultCommonConf() : false
-  },
-})
+const { descForKeyExpression } = useMessageStream()
 
 const formRef = useTemplateRef('form')
 const { createRequiredRule } = useFormRules()

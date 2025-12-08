@@ -358,21 +358,21 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '常规队列保留周期',
     en: 'Regular Queue Retention Period',
   },
-  enableAutoCreateLastValueMQ: {
-    zh: '启用自动创建最后值语义消息队列',
-    en: 'Enable Auto Create Last Value Semantics Queue',
+  enableAutoCreateMQ: {
+    zh: '启用自动创建消息队列',
+    en: 'Enable Auto Create Message Queue',
   },
-  lastValueMQConf: {
-    zh: '最后值语义消息队列配置',
-    en: 'Last Value Semantics Message Queue Configuration',
+  lastValueQueue: {
+    zh: '最后值语义消息队列',
+    en: 'Last Value Semantics Queue',
   },
-  enableAutoCreateRegularMQ: {
-    zh: '启用自动创建常规消息队列',
-    en: 'Enable Auto Create Regular Message Queue',
+  regularQueue: {
+    zh: '常规消息队列',
+    en: 'Regular Queue',
   },
-  regularMQConf: {
-    zh: '常规消息队列配置',
-    en: 'Regular Message Queue Configuration',
+  autoCreateMQType: {
+    zh: '自动创建消息队列类型',
+    en: 'Auto Create Message Queue Type',
   },
   shared_subs: {
     zh: '共享订阅',
@@ -402,20 +402,20 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '常规消息流保留周期',
     en: 'Regular Stream Retention Period',
   },
-  lastValueMSConf: {
-    zh: '最后值消息流配置',
-    en: 'Last Value Message Stream Configuration',
+  enableAutoCreateMS: {
+    zh: '启用自动创建消息流',
+    en: 'Enable Auto Create Message Stream',
   },
-  enableAutoCreateLastValueMS: {
-    zh: '启用自动创建最后值消息流',
-    en: 'Enable Auto Create Last Value Message Stream',
+  autoCreateMSType: {
+    zh: '自动创建消息流类型',
+    en: 'Auto Create Message Stream Type',
   },
-  regularMSConf: {
-    zh: '常规消息流配置',
-    en: 'Regular Message Stream Configuration',
+  lastValueStream: {
+    zh: '最后值消息流',
+    en: 'Last Value Message Stream',
   },
-  enableAutoCreateRegularMS: {
-    zh: '启用自动创建常规消息流',
-    en: 'Enable Auto Create Regular Message Stream',
+  regularStream: {
+    zh: '常规消息流',
+    en: 'Regular Message Stream',
   },
 }
