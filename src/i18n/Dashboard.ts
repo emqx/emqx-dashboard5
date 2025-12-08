@@ -1075,6 +1075,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '授权规则数',
     en: 'Authorization Rule Count',
   },
+  actionsExecuted: {
+    zh: '动作执行总数',
+    en: 'Number of Actions Executed',
+  },
   pleaseSelectNamespace: {
     zh: '请选择命名空间',
     en: 'Please select a namespace',
