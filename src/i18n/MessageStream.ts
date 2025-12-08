@@ -47,13 +47,9 @@ The variables can be referenced as follows:
     zh: '创建您的第一个 EMQX 流',
     en: 'Create your first EMQX Stream',
   },
-  msGuidance1: {
-    zh: '通过内置的消息流功能挖掘数据价值。EMQX 流支持消息的持久化存储与历史回溯，提供分区内的严格有序性，并支持通过键值压缩（Compaction）来高效维护最新状态。',
-    en: 'Unlock data value with built-in message streaming. EMQX Stream enables message persistence and historical replay, ensuring strict ordering within partitions and efficient state maintenance via key-based compaction.',
-  },
-  msGuidance2: {
-    zh: '允许客户端随时从任意历史位点或时间戳开始重新消费数据。',
-    en: 'Allowing clients to re-consume data from any historical offset or timestamp at any time.',
+  msGuidance: {
+    zh: '利用仅追加写入（Append-only）的消息流扩展 MQTT 功能。EMQX 流能够捕获匹配主题过滤器的消息，并将其持久化以供回放。借助可配置的数据保留期和可选的日志压缩支持，构建时序分析、事件溯源管道及数字孪生应用。',
+    en: 'Extend MQTT with append-only message streaming. EMQX Stream captures messages matching your topic filters and persists them for replay. Build time-series analytics, event sourcing pipelines, and digital twins with configurable retention and optional compaction support.',
   },
   msDisabledTip: {
     zh: '消息流未启用，请先启用该功能。',

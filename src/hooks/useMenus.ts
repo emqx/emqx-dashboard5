@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 import {
-  ChartNoAxesGantt,
+  Waves,
   Database,
   Gauge,
   Layers,
@@ -131,7 +131,7 @@ const useMenus = (): {
     },
     {
       title: 'message-stream',
-      icon: ChartNoAxesGantt,
+      icon: Waves,
       path: '/message-stream',
     },
     {
