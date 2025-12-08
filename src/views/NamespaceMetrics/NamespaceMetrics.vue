@@ -65,7 +65,7 @@
               <StatsContent
                 :icon="Workflow"
                 :value="metricsData.messaging_stats?.['actions.executed']"
-                :title="tl('actions_executed')"
+                :title="tl('actionsExecuted')"
               />
             </el-card>
           </el-col>
@@ -150,3 +150,27 @@ const getMetrics = async () => {
 
 getMetrics()
 </script>
+
+<style lang="scss">
+.metric-card {
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+
+    .stat-icon {
+      color: var(--color-primary);
+    }
+
+    .stat-label {
+      color: var(--color-primary);
+    }
+
+    .stat-number {
+      color: var(--color-primary);
+    }
+  }
+}
+</style>
