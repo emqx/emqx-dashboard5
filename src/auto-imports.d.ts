@@ -428,6 +428,9 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
+  const useNamespaceAuthzConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']
+  const useNamespaceListenerConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceListenerConfig']
+  const useNamespaceMqttConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
   const useNamespaceUserRouter: typeof import('./hooks/useNamespaceUserRouter')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
@@ -1023,6 +1026,9 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
+    readonly useNamespaceAuthzConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']>
+    readonly useNamespaceListenerConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceListenerConfig']>
+    readonly useNamespaceMqttConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
     readonly useNamespaceUserRouter: UnwrapRef<typeof import('./hooks/useNamespaceUserRouter')['default']>
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>

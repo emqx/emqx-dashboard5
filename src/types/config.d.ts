@@ -191,6 +191,8 @@ export interface Mqtt {
   use_username_as_clientid: boolean
   peer_cert_as_username: string
   peer_cert_as_clientid: string
+  clientid_override: string
+  client_attrs_init: { expression: string; set_as_attr: string }[]
 }
 
 export interface Stats {

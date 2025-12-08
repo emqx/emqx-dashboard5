@@ -5,36 +5,90 @@
     size="500px"
     destroy-on-close
     class="settings"
-    @open="getNamespaceConfigs"
+    @open="handleOpen"
   >
-    <el-form
-      ref="FormRef"
-      class="configuration-form"
-      label-position="top"
-      :model="record"
-      :rules="rules"
-      v-loading="isLoading"
-    >
-      <el-form-item prop="allow_only_managed_namespaces">
-        <template #label>
-          <FormItemLabel
-            :label="tl('allowOnlyManagedNamespaces')"
-            :desc="tl('allowOnlyManagedNamespacesDesc')"
+    <div v-loading="isLoading">
+      <el-form
+        ref="FormRef"
+        class="configuration-form"
+        label-position="top"
+        :model="record"
+        :rules="rules"
+      >
+        <el-form-item prop="allow_only_managed_namespaces">
+          <template #label>
+            <FormItemLabel
+              :label="tl('allowOnlyManagedNamespaces')"
+              :desc="tl('allowOnlyManagedNamespacesDesc')"
+            />
+          </template>
+          <el-switch v-model="record.allow_only_managed_namespaces" />
+        </el-form-item>
+        <el-form-item prop="default_max_sessions">
+          <template #label>
+            <FormItemLabel :label="tl('defaultMaxSessions')" :desc="tl('defaultMaxSessionsDesc')" />
+          </template>
+          <Oneof
+            class="in-one-row"
+            v-model="record.default_max_sessions"
+            :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
           />
-        </template>
-        <el-switch v-model="record.allow_only_managed_namespaces" />
-      </el-form-item>
-      <el-form-item prop="default_max_sessions">
-        <template #label>
-          <FormItemLabel :label="tl('defaultMaxSessions')" :desc="tl('defaultMaxSessionsDesc')" />
-        </template>
-        <Oneof
-          class="in-one-row"
-          v-model="record.default_max_sessions"
-          :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
-        />
-      </el-form-item>
-    </el-form>
+        </el-form-item>
+      </el-form>
+      <el-divider>
+        <span class="text-nowrap">{{ t('BasicConfig.namespaceRelatedConfig') }}</span>
+      </el-divider>
+      <!-- MQTT -->
+      <el-form class="configuration-form" label-position="top" :model="namespaceMqttConfig">
+        <el-form-item prop="tns">
+          <template #label>
+            <FormItemLabel
+              :max-height="300"
+              :label="tl('namespaceExpression')"
+              :desc="tConfigText('client_attrs_init_expression.desc')"
+              desc-marked
+            />
+          </template>
+          <el-input v-model="namespaceMqttConfig.tns" />
+        </el-form-item>
+        <el-form-item prop="clientid_override">
+          <template #label>
+            <FormItemLabel
+              :max-height="300"
+              :label="tConfigText('clientid_override.label')"
+              :desc="tConfigText('clientid_override.desc')"
+              desc-marked
+            />
+          </template>
+          <Oneof
+            class="in-one-row"
+            v-model="namespaceMqttConfig.clientid_override"
+            :items="[{ type: 'string' }, { type: 'enum', symbols: ['disabled'] }]"
+          />
+        </el-form-item>
+      </el-form>
+      <!-- LISTENER -->
+      <el-form class="configuration-form" label-position="top" :model="defaultTcpNamespaceConfig">
+        <el-form-item prop="mountpoint">
+          <template #label>
+            <FormItemLabel :label="tl('defaultTCPListenerMountpoint')" />
+          </template>
+          <el-input v-model="defaultTcpNamespaceConfig.mountpoint" />
+        </el-form-item>
+      </el-form>
+      <!-- AUTHZ -->
+      <el-form class="configuration-form" label-position="top" :model="namespaceAuthzConfig">
+        <el-form-item prop="include_mountpoint">
+          <template #label>
+            <FormItemLabel
+              :label="t('Auth.includeMountpoint')"
+              :desc="t('Auth.includeMountpointDesc')"
+            />
+          </template>
+          <el-switch v-model="namespaceAuthzConfig.include_mountpoint" />
+        </el-form-item>
+      </el-form>
+    </div>
     <template #footer>
       <el-button type="primary" @click="submit">
         {{ t('Base.confirm') }}
@@ -71,6 +125,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
   },
 })
 const { tl } = useI18nTl('BasicConfig')
+const tConfigText = (key: string) => t(`ConfigSchema.${key}`)
 
 const sessionsPattern = /^(\d+|infinity)$/
 const rules = {
@@ -101,7 +156,7 @@ const getNamespaceConfigs = async () => {
 }
 
 const FormRef = ref()
-const submit = async () => {
+const updateNamespaceConfig = async () => {
   try {
     await FormRef.value.validate()
     const data = `multi_tenancy {
@@ -109,6 +164,51 @@ const submit = async () => {
     default_max_sessions = ${record.value.default_max_sessions}
 }`
     await putConfigs(data)
+    return Promise.resolve()
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+/* MQTT */
+const { namespaceMqttConfig, getNamespaceMqttConfig, updateNamespaceMqttConfig } =
+  useNamespaceMqttConfig()
+getNamespaceMqttConfig()
+
+/* LISTENER */
+const { defaultTcpNamespaceConfig, getNamespaceListenerConfig, updateNamespaceListenerConfig } =
+  useNamespaceListenerConfig()
+getNamespaceListenerConfig()
+
+/* AUTHZ */
+const { namespaceAuthzConfig, getNamespaceAuthzConfig, updateNamespaceAuthzConfig } =
+  useNamespaceAuthzConfig()
+getNamespaceAuthzConfig()
+
+const handleOpen = async () => {
+  try {
+    isLoading.value = true
+    await Promise.allSettled([
+      getNamespaceConfigs(),
+      getNamespaceMqttConfig(),
+      getNamespaceListenerConfig(),
+      getNamespaceAuthzConfig(),
+    ])
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const submit = async () => {
+  try {
+    await Promise.allSettled([
+      updateNamespaceConfig(),
+      updateNamespaceMqttConfig(),
+      updateNamespaceListenerConfig(),
+      updateNamespaceAuthzConfig(),
+    ])
     ElMessage.success(t('Base.updateSuccess'))
     showDrawer.value = false
   } catch (error) {
