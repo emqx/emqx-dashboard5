@@ -4,8 +4,7 @@
       <div class="guidance-text">
         <h2 class="guidance-title">{{ tl('createFirstMSTitle') }}</h2>
         <div class="guidance-description">
-          <p>{{ tl('msGuidance1') }}</p>
-          <p>{{ tl('msGuidance2') }}</p>
+          <p>{{ tl('msGuidance') }}</p>
           <template v-if="!enabled">
             <p class="disabled-tip">{{ tl('msDisabledTip') }}</p>
             <LinkButton
