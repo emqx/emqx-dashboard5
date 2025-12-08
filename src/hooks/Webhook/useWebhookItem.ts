@@ -1,4 +1,4 @@
-import { RuleItem } from '@/types/rule'
+import { Connector, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 
@@ -20,7 +20,7 @@ export default (): {
     return await Promise.all([
       toggleActionEnable(webhook.action, enable),
       toggleRuleEnableStatus(webhook.rule as RuleItem, enable),
-      requestPutConnectorEnable(webhook.connector.id, enable),
+      requestPutConnectorEnable(webhook.connector as Connector, enable),
     ])
   }
 
