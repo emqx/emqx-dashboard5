@@ -386,4 +386,36 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '当订阅队列主题时，如果未找到队列，订阅者重新查找队列的重试间隔时间',
     en: 'The interval at which subscribers will retry to find a queue if the queue is not found when subscribing to a queue topic',
   },
+  enableMessageStream: {
+    zh: '启用消息流',
+    en: 'Enable Message Stream',
+  },
+  disableMessageStreamTip: {
+    zh: '不支持通过热配置禁用消息流，请在配置文件中修改。',
+    en: 'Cannot disable message stream through hot configuration, please modify it in the configuration file.',
+  },
+  maxStreamCount: {
+    zh: '最大消息流数',
+    en: 'Max Stream Count',
+  },
+  regularStreamRetentionPeriod: {
+    zh: '常规消息流保留周期',
+    en: 'Regular Stream Retention Period',
+  },
+  lastValueMSConf: {
+    zh: '最后值消息流配置',
+    en: 'Last Value Message Stream Configuration',
+  },
+  enableAutoCreateLastValueMS: {
+    zh: '启用自动创建最后值消息流',
+    en: 'Enable Auto Create Last Value Message Stream',
+  },
+  regularMSConf: {
+    zh: '常规消息流配置',
+    en: 'Regular Message Stream Configuration',
+  },
+  enableAutoCreateRegularMS: {
+    zh: '启用自动创建常规消息流',
+    en: 'Enable Auto Create Regular Message Stream',
+  },
 }

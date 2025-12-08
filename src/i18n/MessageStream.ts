@@ -67,4 +67,8 @@ The variables can be referenced as follows:
     zh: '常规流消息限制无法在无限制和有限之间切换',
     en: 'Regular streams cannot be updated from limited to unlimited and vice versa',
   },
+  keyExpression: {
+    zh: '流键表达式',
+    en: 'Stream Key Expression',
+  },
 }

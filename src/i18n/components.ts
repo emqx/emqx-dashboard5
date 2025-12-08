@@ -427,6 +427,10 @@ export default {
     zh: '消息队列',
     en: 'Message Queue',
   },
+  'mqtt-message-stream': {
+    zh: '消息流',
+    en: 'Message Stream',
+  },
   'message-queue': {
     zh: '消息队列',
     en: 'Message Queue',
