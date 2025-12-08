@@ -68,18 +68,27 @@
                 />
               </el-form-item>
             </el-col>
-            <!-- LASTVALUE -->
+            <!-- ENABLE AUTO CREATE QUEUE -->
             <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('lastValueMQConf')">
-                <el-divider />
+              <el-form-item :label="tl('enableAutoCreateMQ')">
+                <el-switch v-model="enableAutoCreateProxy" />
               </el-form-item>
             </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="auto_create.lastvalue">
-                <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateLastValueMQ')" desc-marked />
-                </template>
-                <el-switch v-model="lastvalueProxy" />
+            <!-- AUTO CREATE TYPE -->
+            <el-col :span="21" class="custom-col" v-if="enableAutoCreateProxy">
+              <el-form-item :label="tl('autoCreateMQType')">
+                <el-radio-group class="flex-1" v-model="autoCreateTypeProxy">
+                  <el-space class="flex-1" :size="28">
+                    <el-radio
+                      v-for="{ value, label } in autoCreateTypeOpt"
+                      :key="value"
+                      :value="value"
+                      border
+                    >
+                      <span class="platform-name"> {{ label }} </span>
+                    </el-radio>
+                  </el-space>
+                </el-radio-group>
               </el-form-item>
             </el-col>
             <!-- LASTVALUE CONF-->
@@ -127,20 +136,6 @@
                 </el-form-item>
               </el-col>
             </template>
-            <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('regularMQConf')">
-                <el-divider />
-              </el-form-item>
-            </el-col>
-            <!-- REGULAR -->
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="auto_create.lastvalue">
-                <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateRegularMQ')" desc-marked />
-                </template>
-                <el-switch v-model="regularProxy" />
-              </el-form-item>
-            </el-col>
             <!-- REGULAR CONF -->
             <template v-if="typeof queueConfig.auto_create.regular === 'object'">
               <el-col :span="21" class="custom-col">
@@ -225,6 +220,55 @@ const queueConfig = ref<MessageQueueConfig>({
   find_queue_retry_interval: '',
 })
 
+const enableAutoCreateProxy = computed<boolean>({
+  get() {
+    const { lastvalue, regular } = queueConfig.value.auto_create
+    return !!(lastvalue || regular)
+  },
+  set(nV: boolean) {
+    const { lastvalue, regular } = queueConfig.value.auto_create
+
+    if (nV && !lastvalue && !regular) {
+      queueConfig.value.auto_create.lastvalue = createDefaultAutoCreateLastvalue()
+    } else if (!nV) {
+      queueConfig.value.auto_create.lastvalue = false
+      queueConfig.value.auto_create.regular = false
+    }
+  },
+})
+
+const enum AutoCreateType {
+  Lastvalue = 'lastvalue',
+  Regular = 'regular',
+}
+const autoCreateTypeOpt = [
+  {
+    value: AutoCreateType.Lastvalue,
+    label: t('BasicConfig.lastValueQueue'),
+  },
+  {
+    value: AutoCreateType.Regular,
+    label: t('BasicConfig.regularQueue'),
+  },
+]
+const autoCreateTypeProxy = computed<AutoCreateType>({
+  get() {
+    if (queueConfig.value.auto_create.regular) {
+      return AutoCreateType.Regular
+    }
+    return AutoCreateType.Lastvalue
+  },
+  set(nV: AutoCreateType) {
+    if (nV === AutoCreateType.Regular) {
+      queueConfig.value.auto_create.lastvalue = false
+      queueConfig.value.auto_create.regular = createDefaultCommonConf()
+    } else {
+      queueConfig.value.auto_create.regular = false
+      queueConfig.value.auto_create.lastvalue = createDefaultAutoCreateLastvalue()
+    }
+  },
+})
+
 const createDefaultCommonConf = (): MessageQueueConfig['auto_create']['regular'] => ({
   data_retention_period: '7d',
   dispatch_strategy: 'random',
@@ -235,24 +279,7 @@ const createDefaultAutoCreateLastvalue = (): MessageQueueConfig['auto_create']['
   key_expression: 'message.from',
   ...createDefaultLimits(),
 })
-const lastvalueProxy = computed({
-  get() {
-    return !!queueConfig.value.auto_create.lastvalue
-  },
-  set(val) {
-    queueConfig.value.auto_create.lastvalue = val ? createDefaultAutoCreateLastvalue() : false
-  },
-})
 const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
-
-const regularProxy = computed({
-  get() {
-    return !!queueConfig.value.auto_create.regular
-  },
-  set(val) {
-    queueConfig.value.auto_create.regular = val ? createDefaultCommonConf() : false
-  },
-})
 
 const messageQueueForm = ref()
 const { createRequiredRule } = useFormRules()
