@@ -55,7 +55,7 @@ const props = withDefaults(
     webhookActionDisabled: true,
   },
 )
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = inject<string | undefined>('ns', undefined)
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
