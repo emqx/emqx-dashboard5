@@ -4,32 +4,32 @@
       <el-skeleton v-if="configLoading" :rows="12" animated />
       <div class="schema-form" v-else>
         <el-form
-          ref="messageQueueForm"
+          ref="form"
           class="configuration-form"
           label-position="right"
           :label-width="store.state.lang === 'zh' ? 268 : 400"
-          :model="queueConfig"
+          :model="streamConfig"
           :validate-on-rule-change="false"
           :rules="rules"
           @keyup.enter="updateConfigData()"
         >
           <el-row>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="enable" :label="tl('enableMessageQueue')">
+              <el-form-item prop="enable" :label="tl('enableMessageStream')">
                 <el-tooltip
                   class="box-item"
                   effect="dark"
                   placement="top"
                   :disabled="!isEnabled"
-                  :content="tl('disableMessageQueueTip')"
+                  :content="tl('disableMessageStreamTip')"
                 >
-                  <el-switch v-model="queueConfig.enable" :disabled="isEnabled" />
+                  <el-switch v-model="streamConfig.enable" :disabled="isEnabled" />
                 </el-tooltip>
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="max_queue_count" :label="tl('maxQueueCount')">
-                <CustomInputNumber v-model="queueConfig.max_queue_count" :min="1" />
+              <el-form-item prop="max_stream_count" :label="tl('maxStreamCount')">
+                <CustomInputNumber v-model="streamConfig.max_stream_count" :min="1" />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -38,78 +38,49 @@
                   <FormItemLabel :label="tl('gcInterval')" />
                 </template>
                 <TimeInputWithUnitSelect
-                  v-model="queueConfig.gc_interval"
+                  v-model="streamConfig.gc_interval"
                   :enabled-units="['ms', 's', 'm', 'h', 'd']"
                 />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="regular_queue_retention_period">
+              <el-form-item prop="regular_stream_retention_period">
                 <template #label>
-                  <FormItemLabel :label="tl('regularQueueRetentionPeriod')" />
+                  <FormItemLabel :label="tl('regularStreamRetentionPeriod')" />
                 </template>
                 <TimeInputWithUnitSelect
-                  v-model="queueConfig.regular_queue_retention_period"
-                  :enabled-units="['ms', 's', 'm', 'h', 'd']"
-                />
-              </el-form-item>
-            </el-col>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="find_queue_retry_interval">
-                <template #label>
-                  <FormItemLabel
-                    :label="tl('findQueueRetryInterval')"
-                    :desc="tl('findQueueRetryIntervalDesc')"
-                  />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="queueConfig.find_queue_retry_interval"
+                  v-model="streamConfig.regular_stream_retention_period"
                   :enabled-units="['ms', 's', 'm', 'h', 'd']"
                 />
               </el-form-item>
             </el-col>
             <!-- LASTVALUE -->
             <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('lastValueMQConf')">
+              <el-form-item class="divider-item" :label="tl('lastValueMSConf')">
                 <el-divider />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
               <el-form-item prop="auto_create.lastvalue">
                 <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateLastValueMQ')" desc-marked />
+                  <FormItemLabel :label="tl('enableAutoCreateLastValueMS')" desc-marked />
                 </template>
                 <el-switch v-model="lastvalueProxy" />
               </el-form-item>
             </el-col>
             <!-- LASTVALUE CONF-->
-            <template v-if="typeof queueConfig.auto_create.lastvalue === 'object'">
+            <template v-if="typeof streamConfig.auto_create.lastvalue === 'object'">
               <el-col :span="21" class="custom-col">
                 <el-form-item prop="auto_create.lastvalue.key_expression">
                   <template #label>
                     <FormItemLabel
-                      :label="t('MessageQueue.keyExpression')"
+                      :label="t('MessageStream.keyExpression')"
                       :desc="descForKeyExpression"
                       desc-marked
                       :max-height="200"
                     />
                   </template>
-                  <el-input v-model="queueConfig.auto_create.lastvalue.key_expression" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="21" class="custom-col">
-                <el-form-item
-                  prop="auto_create.lastvalue.dispatch_strategy"
-                  :label="t('MessageQueue.dispatchStrategy')"
-                >
-                  <el-select v-model="queueConfig.auto_create.lastvalue.dispatch_strategy">
-                    <el-option
-                      v-for="{ value, label } in dispatchStrategyOptions"
-                      :key="value"
-                      :label="label"
-                      :value="value"
-                    />
-                  </el-select>
+                  <el-input v-model="streamConfig.auto_create.lastvalue.key_expression" />
                 </el-form-item>
               </el-col>
               <el-col :span="21" class="custom-col">
@@ -117,18 +88,18 @@
                   <template #label>
                     <FormItemLabel
                       :label="t('MessageQueue.dataRetentionPeriod')"
-                      :desc="t('MessageQueue.dataRetentionPeriodDesc')"
+                      :desc="t('MessageStream.dataRetentionPeriodDesc')"
                     />
                   </template>
                   <TimeInputWithUnitSelect
-                    v-model="queueConfig.auto_create.lastvalue.data_retention_period"
+                    v-model="streamConfig.auto_create.lastvalue.data_retention_period"
                     :enabled-units="['s', 'm', 'h', 'd']"
                   />
                 </el-form-item>
               </el-col>
             </template>
             <el-col :span="21" class="custom-col">
-              <el-form-item class="divider-item" :label="tl('regularMQConf')">
+              <el-form-item class="divider-item" :label="tl('regularMSConf')">
                 <el-divider />
               </el-form-item>
             </el-col>
@@ -136,26 +107,24 @@
             <el-col :span="21" class="custom-col">
               <el-form-item prop="auto_create.lastvalue">
                 <template #label>
-                  <FormItemLabel :label="tl('enableAutoCreateRegularMQ')" desc-marked />
+                  <FormItemLabel :label="tl('enableAutoCreateRegularMS')" desc-marked />
                 </template>
                 <el-switch v-model="regularProxy" />
               </el-form-item>
             </el-col>
             <!-- REGULAR CONF -->
-            <template v-if="typeof queueConfig.auto_create.regular === 'object'">
+            <template v-if="typeof streamConfig.auto_create.regular === 'object'">
               <el-col :span="21" class="custom-col">
-                <el-form-item
-                  prop="auto_create.regular.dispatch_strategy"
-                  :label="t('MessageQueue.dispatchStrategy')"
-                >
-                  <el-select v-model="queueConfig.auto_create.regular.dispatch_strategy">
-                    <el-option
-                      v-for="{ value, label } in dispatchStrategyOptions"
-                      :key="value"
-                      :label="label"
-                      :value="value"
+                <el-form-item prop="auto_create.regular.key_expression">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('MessageStream.keyExpression')"
+                      :desc="descForKeyExpression"
+                      desc-marked
+                      :max-height="200"
                     />
-                  </el-select>
+                  </template>
+                  <el-input v-model="streamConfig.auto_create.regular.key_expression" />
                 </el-form-item>
               </el-col>
               <el-col :span="21" class="custom-col">
@@ -163,11 +132,11 @@
                   <template #label>
                     <FormItemLabel
                       :label="t('MessageQueue.dataRetentionPeriod')"
-                      :desc="t('MessageQueue.dataRetentionPeriodDesc')"
+                      :desc="t('MessageStream.dataRetentionPeriodDesc')"
                     />
                   </template>
                   <TimeInputWithUnitSelect
-                    v-model="queueConfig.auto_create.regular.data_retention_period"
+                    v-model="streamConfig.auto_create.regular.data_retention_period"
                     :enabled-units="['s', 'm', 'h', 'd']"
                   />
                 </el-form-item>
@@ -191,8 +160,8 @@
 </template>
 
 <script setup lang="ts">
-import { getMessageQueueConfigs, putMessageQueueConfigs } from '@/api/config'
-import { MessageQueueConfig, MessageQueueLimits } from '@/types/typeAlias'
+import { getMessageStreamsConfig, putMessageStreamsConfig } from '@/api/messageStream'
+import { MessageStreamConfig, MessageStreamLimits } from '@/types/typeAlias'
 
 const { t, tl } = useI18nTl('BasicConfig')
 
@@ -202,74 +171,73 @@ const store = useStore()
 let rawData: any = undefined
 
 const isEnabled = ref(true)
-const createDefaultLimits = (): { limits: MessageQueueLimits } => ({
+const createDefaultLimits = (): { limits: MessageStreamLimits } => ({
   limits: {
     max_shard_message_bytes: 'infinity',
     max_shard_message_count: 'infinity',
   },
 })
-const queueConfig = ref<MessageQueueConfig>({
+const streamConfig = ref<MessageStreamConfig>({
   enable: true,
   auto_create: {
     lastvalue: {
       data_retention_period: undefined,
-      dispatch_strategy: undefined,
       key_expression: '',
       ...createDefaultLimits(),
     },
     regular: false,
   },
-  max_queue_count: 0,
+  max_stream_count: 0,
   gc_interval: '',
-  regular_queue_retention_period: '',
-  find_queue_retry_interval: '',
+  regular_stream_retention_period: '',
 })
 
-const createDefaultCommonConf = (): MessageQueueConfig['auto_create']['regular'] => ({
+const createDefaultCommonConf = (): MessageStreamConfig['auto_create']['regular'] => ({
   data_retention_period: '7d',
-  dispatch_strategy: 'random',
+  key_expression: 'message.from',
   ...createDefaultLimits(),
 })
-const createDefaultAutoCreateLastvalue = (): MessageQueueConfig['auto_create']['lastvalue'] => ({
+const createDefaultAutoCreateLastvalue = (): MessageStreamConfig['auto_create']['lastvalue'] => ({
   ...createDefaultCommonConf(),
   key_expression: 'message.from',
   ...createDefaultLimits(),
 })
 const lastvalueProxy = computed({
   get() {
-    return !!queueConfig.value.auto_create.lastvalue
+    return !!streamConfig.value.auto_create.lastvalue
   },
   set(val) {
-    queueConfig.value.auto_create.lastvalue = val ? createDefaultAutoCreateLastvalue() : false
+    streamConfig.value.auto_create.lastvalue = val ? createDefaultAutoCreateLastvalue() : false
   },
 })
-const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
+const { descForKeyExpression } = useMessageStream()
 
 const regularProxy = computed({
   get() {
-    return !!queueConfig.value.auto_create.regular
+    return !!streamConfig.value.auto_create.regular
   },
   set(val) {
-    queueConfig.value.auto_create.regular = val ? createDefaultCommonConf() : false
+    streamConfig.value.auto_create.regular = val ? createDefaultCommonConf() : false
   },
 })
 
-const messageQueueForm = ref()
+const formRef = useTemplateRef('form')
 const { createRequiredRule } = useFormRules()
 const rules = {
-  'auto_create.lastvalue.key_expression': createRequiredRule(t('MessageQueue.keyExpression')),
+  'auto_create.lastvalue.key_expression': createRequiredRule(t('MessageStream.keyExpression')),
+  'auto_create.regular.key_expression': createRequiredRule(t('MessageStream.keyExpression')),
 }
 
-const checkDataIsChanged = () => !isEqual(queueConfig.value, rawData)
+const checkDataIsChanged = () => !isEqual(streamConfig.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadData = async () => {
   try {
     configLoading.value = true
-    const res = await getMessageQueueConfigs()
-    queueConfig.value = res
-    isEnabled.value = res.enable
-    rawData = cloneDeep(queueConfig.value)
+    const res = await getMessageStreamsConfig()
+    streamConfig.value = res
+    isEnabled.value = res.enable ?? false
+    rawData = cloneDeep(streamConfig.value)
   } catch (error) {
     //
   } finally {
@@ -278,13 +246,13 @@ const loadData = async () => {
 }
 
 const updateConfigData = async () => {
-  await messageQueueForm.value?.validate()
+  await formRef.value?.validate()
   try {
     saveLoading.value = true
-    await putMessageQueueConfigs(queueConfig.value)
+    await putMessageStreamsConfig(streamConfig.value)
     ElMessage.success(t('Base.updateSuccess'))
-    rawData = cloneDeep(queueConfig.value)
-    isEnabled.value = queueConfig.value.enable
+    rawData = cloneDeep(streamConfig.value)
+    isEnabled.value = streamConfig.value.enable ?? false
   } catch (err) {
     loadData()
   } finally {

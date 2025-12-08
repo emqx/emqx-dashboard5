@@ -419,6 +419,8 @@ declare global {
   const useMenus: typeof import('./hooks/useMenus')['default']
   const useMessageDroppedDetails: typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']
   const useMessageQueue: typeof import('./hooks/MessageQueue/useMessageQueue')['default']
+  const useMessageStream: typeof import('./hooks/MessageStream/useMessageStream')['default']
+  const useMessageTemplate: typeof import('./hooks/MessageQueue/useMessageQueue')['useMessageTemplate']
   const useMessageTransformForm: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']
   const useMessageTransformLogLevel: typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']
   const useMessageTransformMetrics: typeof import('./hooks/useMetrics')['useMessageTransformMetrics']
@@ -1012,6 +1014,8 @@ declare module 'vue' {
     readonly useMenus: UnwrapRef<typeof import('./hooks/useMenus')['default']>
     readonly useMessageDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useMessageDroppedDetails']>
     readonly useMessageQueue: UnwrapRef<typeof import('./hooks/MessageQueue/useMessageQueue')['default']>
+    readonly useMessageStream: UnwrapRef<typeof import('./hooks/MessageStream/useMessageStream')['default']>
+    readonly useMessageTemplate: UnwrapRef<typeof import('./hooks/MessageQueue/useMessageQueue')['useMessageTemplate']>
     readonly useMessageTransformForm: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformForm']>
     readonly useMessageTransformLogLevel: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useMessageTransformLogLevel']>
     readonly useMessageTransformMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useMessageTransformMetrics']>

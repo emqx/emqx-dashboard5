@@ -106,6 +106,7 @@ import type {
   MqMessageQueueRegularApiPost,
   MqMessageQueueLastvalueApiPost,
   MqMessageQueueRegularApiPostDispatchStrategy,
+  MqMqIndividualLimits,
 } from './schemas/messageQueue.schemas'
 import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
@@ -113,6 +114,7 @@ import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tl
 import {
   GetMessageStreamsStreams200Item,
   StreamsApiConfigGet,
+  StreamsStreamIndividualLimits,
 } from './schemas/messageStream.schemas'
 
 /* BASE */
@@ -262,9 +264,8 @@ export type MessageQueueLastValue = MqMessageQueueLastvalueApiPost
 export type MessageQueue = MessageQueueRegular | MessageQueueLastValue
 export type MessageQueueDispatchStrategy = MqMessageQueueRegularApiPostDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
-export type MessageQueueConfig = MqApiConfigPut & {
-  find_queue_retry_interval: string
-}
+export type MessageQueueConfig = MqApiConfigPut
+export type MessageQueueLimits = MqMqIndividualLimits
 
 /* LOG TRACE */
 export type GetTraceContentParams = GetTraceNameLogParams
@@ -281,3 +282,4 @@ export type ManagedCertsServer = EmqxManagedCertsServer
 /* MESSAGE STREAM */
 export type MessageStreamConfig = StreamsApiConfigGet
 export type MessageStreamItem = GetMessageStreamsStreams200Item
+export type MessageStreamLimits = StreamsStreamIndividualLimits
