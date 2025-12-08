@@ -45,18 +45,14 @@
                 desc-marked
               />
             </template>
-            <el-switch
-              v-model="form.is_lastvalue"
-              :disabled="isEdit"
-              @change="handleIsLastvalueChange"
-            />
+            <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="form.is_lastvalue">
+        <el-col :span="12">
           <el-form-item prop="key_expression">
             <template #label>
               <FormItemLabel
-                :label="t('MessageQueue.keyExpression')"
+                :label="tl('keyExpression')"
                 :desc="descForKeyExpression"
                 desc-marked
                 :max-height="200"
@@ -194,11 +190,6 @@ const resetForm = () => {
   form.value = createEmptyForm()
 }
 
-const handleIsLastvalueChange = () => {
-  if (!form.value.is_lastvalue && form.value.key_expression) {
-    delete (form.value as any).key_expression
-  }
-}
 const createStream = () => postMessageStream(form.value)
 const updateStream = () => {
   const { topic_filter, ...data } = form.value
