@@ -290,6 +290,10 @@ const handleSchemaToFileInfo = (data: SchemaData, type: 'local' | 's3') => {
     const sslSchema = get(components, getFieldSchemaPath(sslConfPath))
     if (sslSchema) {
       sslSchema.componentProps = { managedCertConfColumns: 1 }
+      // do not render managed_certs field
+      if (sslSchema.properties?.managed_certs) {
+        delete sslSchema.properties.managed_certs
+      }
     }
 
     const fieldVerifySchema = get(components, getFieldSchemaPath(getSSLConfPath('verify')))
