@@ -436,4 +436,16 @@ So the total byte limit for the {target} is \`n_shards * replication_factor * ma
     en: `The maximum number of messages in a shard for the {target}. The number of shards is configured for all {target} in the Durable Storage settings.
 The total count limit for the {target} is \`n_shards * max_shard_message_count\`.`,
   },
+  namespaceExpression: {
+    zh: '命名空间表达式',
+    en: 'Namespace Expression',
+  },
+  defaultTCPListenerMountpoint: {
+    zh: '默认 TCP 监听器挂载点',
+    en: 'Default TCP Listener Mountpoint',
+  },
+  namespaceRelatedConfig: {
+    zh: '命名空间相关配置',
+    en: 'Namespace Related Configurations',
+  },
 }
