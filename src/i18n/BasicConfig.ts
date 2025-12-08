@@ -418,4 +418,22 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '常规消息流',
     en: 'Regular Message Stream',
   },
+  maxShardMessageBytes: {
+    zh: '每个分片的最大字节数',
+    en: 'Max Shard Message Bytes',
+  },
+  maxShardMessageBytesDesc: {
+    zh: `{target}中每个分片的最大字节数。分片数量在持久存储设置中为所有{target}配置。注意，此限制不考虑 replication_factor。因此，{target}的总字节限制为 \`n_shards * replication_factor * max_shard_message_bytes\`。`,
+    en: `The maximum number of bytes in a shard for the {target}. The number of shards is configured for all {target} in the Durable Storage settings. Note that this limit is not aware of the replication factor.
+So the total byte limit for the {target} is \`n_shards * replication_factor * max_shard_message_bytes\`.`,
+  },
+  maxShardMessageCount: {
+    zh: '每个分片的最大消息数量',
+    en: 'Max Shard Message Count',
+  },
+  maxShardMessageCountDesc: {
+    zh: `{target}中每个分片的最大消息数量。分片数量在持久化存储设置中为所有{target}配置。{target}的总消息数量限制为 \`n_shards * max_shard_message_count\`。`,
+    en: `The maximum number of messages in a shard for the {target}. The number of shards is configured for all {target} in the Durable Storage settings.
+The total count limit for the {target} is \`n_shards * max_shard_message_count\`.`,
+  },
 }

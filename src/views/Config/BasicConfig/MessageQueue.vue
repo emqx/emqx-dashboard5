@@ -135,6 +135,10 @@
                   />
                 </el-form-item>
               </el-col>
+              <MessageQueueStreamLimits
+                v-model="queueConfig.auto_create.lastvalue.limits"
+                conf="queue"
+              />
             </template>
             <!-- REGULAR CONF -->
             <template v-if="typeof queueConfig.auto_create.regular === 'object'">
@@ -167,6 +171,10 @@
                   />
                 </el-form-item>
               </el-col>
+              <MessageQueueStreamLimits
+                v-model="queueConfig.auto_create.regular.limits"
+                conf="queue"
+              />
             </template>
             <el-col :span="24" class="btn-col">
               <el-button
@@ -188,6 +196,7 @@
 <script setup lang="ts">
 import { getMessageQueueConfigs, putMessageQueueConfigs } from '@/api/config'
 import { MessageQueueConfig, MessageQueueLimits } from '@/types/typeAlias'
+import MessageQueueStreamLimits from './components/MessageQueueStreamLimits.vue'
 
 const { t, tl } = useI18nTl('BasicConfig')
 
