@@ -8,6 +8,7 @@ import {
   postGlobalCertBundle,
   postNamespaceCertBundle,
 } from '@/api/tlsManagement'
+import { CertKind } from '@/types/enum'
 import { CertBundleIn, ManagedCerts, ManagedCertsServer } from '@/types/typeAlias'
 
 export interface CertBundleForm extends CertBundleIn {
@@ -60,6 +61,26 @@ const useCertBundle = () => {
     }
   }
 
+  const deleteCertFile = (formData: CertBundleForm, kind: CertKind) => {
+    const { name, namespace } = formData
+    if (namespace) {
+      return deleteNamespaceCertBundle(namespace, name, kind)
+    }
+    return deleteGlobalCertBundle(name, kind)
+  }
+
+  const removeUselessCerts = async (currentForm: CertBundleForm, initialForm: CertBundleForm) => {
+    const keysNeedRemove: Array<CertKind> = []
+    ;[CertKind.AccKey, CertKind.CA, CertKind.Chain, CertKind.Key, CertKind.KeyPassword].forEach(
+      (kind) => {
+        if (initialForm[kind] && !currentForm[kind]) {
+          keysNeedRemove.push(kind)
+        }
+      },
+    )
+    return Promise.all(keysNeedRemove.map((kind: CertKind) => deleteCertFile(currentForm, kind)))
+  }
+
   const getCertBundleList = async (namespace?: string) => {
     if (namespace) {
       return getNamespaceCertBundleList(namespace)
@@ -100,6 +121,7 @@ const useCertBundle = () => {
   return {
     createEmptyCertBundle,
     createEmptyCertBundleForm,
+    removeUselessCerts,
     submitCertBundle,
     getCertBundleList,
     deleteCertBundle,
