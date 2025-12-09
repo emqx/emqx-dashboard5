@@ -66,9 +66,7 @@ export default (): {
 
   const joiningData = () => {
     webhookList.value = joiningDataToWebhookList(connectorList, actionList, ruleList)
-    if (!webhookList.value.length) {
-      isEmpty.value = true
-    }
+    isEmpty.value = !webhookList.value.length
   }
 
   const getWebhookList = async () => {
