@@ -20,8 +20,14 @@
           {{ getTypeLabelByValue(row.type) }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('LogTrace.condition')" :min-width="100">
+      <el-table-column :label="$t('LogTrace.condition')" :min-width="140">
         <template #default="{ row }">
+          <CommonOverflowTooltip
+            v-if="row.namespace"
+            content-class="tip"
+            :content="`${t('BasicConfig.namespace')}:  ${row.namespace}`"
+          />
+          <!-- <p class="tip" v-if="row.name">{{ t('BasicConfig.namespace') }}: {{ row.namespace }}</p> -->
           {{ row[row.type] }}
         </template>
       </el-table-column>
@@ -77,7 +83,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="188">
+      <el-table-column :label="$t('Base.operation')" :min-width="180">
         <template #default="{ row }">
           <TableButton @click="download(row)" :loading="row.isLoading">
             {{ $t('LogTrace.download') }}
@@ -99,6 +105,7 @@
     <el-dialog
       :title="$t('LogTrace.createLog')"
       v-model="createDialog"
+      destroy-on-close
       @close="initForm"
       width="800px"
     >
@@ -142,11 +149,18 @@
               <el-input v-model="record.ip_address" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="record.type === LogTraceType.RuleID">
-            <el-form-item :label="`${startCase(t('RuleEngine.rule'))} ID`" prop="ruleid">
-              <el-input v-model="record.ruleid" />
-            </el-form-item>
-          </el-col>
+          <template v-if="record.type === LogTraceType.RuleID">
+            <el-col :span="12" v-if="!isNamespaceUser">
+              <el-form-item :label="t('BasicConfig.namespace')" :error="nsErrorMsg">
+                <NamespaceSelectSwitch v-model="recordNamespace" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="`${startCase(t('RuleEngine.rule'))} ID`" prop="ruleid">
+                <el-input v-model="record.ruleid" />
+              </el-form-item>
+            </el-col>
+          </template>
           <el-col :span="12" style="clear: both">
             <el-form-item :label="$t('LogTrace.startEndTime')" prop="startTime">
               <el-date-picker
@@ -249,6 +263,8 @@ export default defineComponent({
   components: { PayloadLimitInput },
   setup() {
     const { t } = useI18n()
+    const store = useStore()
+    const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
     const traceTbLoading = ref(false)
     const traceTable: Ref<Array<TraceItemInTable>> = ref([])
     const createLoading = ref(false)
@@ -271,6 +287,7 @@ export default defineComponent({
       },
     ]
     const record: Ref<TraceFormRecord> = ref(createRawTraceForm())
+    const recordNamespace = ref<string | undefined>(undefined)
     const createDialog = ref(false)
     const { createLetterStartRule } = useFormRules()
     const createRules: FormRules = {
@@ -289,6 +306,7 @@ export default defineComponent({
       ],
     }
     const createForm: Ref<typeof ElForm | null> = ref(null)
+    const { nsErrorMsg, validateNamespace } = useNamespaceValidation()
 
     const encodeTypeOpt = [
       { label: 'Text', value: TraceEncodeType.Text },
@@ -328,7 +346,9 @@ export default defineComponent({
     const getEncodeTypeLabelByValue = (value: string) =>
       getLabelFromValueInOptionList(value, encodeTypeOpt)
 
+    const { getNsParams } = useNsParams()
     const submitTrace = async () => {
+      await validateNamespace(recordNamespace.value)
       createForm.value?.validate(async (valid: boolean) => {
         if (!valid) return
         createLoading.value = true
@@ -356,7 +376,7 @@ export default defineComponent({
             break
         }
         try {
-          await addTrace(targetInfo)
+          await addTrace(targetInfo, getNsParams(recordNamespace.value))
           M.success(t('LogTrace.createSuc'))
           loadTraceList()
           cancelDialog()
@@ -373,6 +393,7 @@ export default defineComponent({
     }
 
     const initForm = () => {
+      recordNamespace.value = undefined
       record.value = createRawTraceForm()
     }
 
@@ -439,12 +460,15 @@ export default defineComponent({
     return {
       t,
       tl: (key: string) => t('LogTrace.' + key),
+      isNamespaceUser,
       traceTbLoading,
       traceTable,
       CheckStatus,
       createForm,
       typeOptions,
       record,
+      recordNamespace,
+      nsErrorMsg,
       encodeTypeOpt,
       formatterOpt,
       LogTraceType,
