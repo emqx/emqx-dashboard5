@@ -247,6 +247,9 @@ p.description {
   overflow: hidden;
   display: flex;
   align-items: center;
+  .el-select {
+    font-weight: normal;
+  }
   &:not(:first-of-type) {
     margin-top: 16px;
   }
