@@ -1,6 +1,6 @@
 <template>
   <OverflowTooltip class="common-overflow-tooltip">
-    <PreWithEllipsis>{{ content }}</PreWithEllipsis>
+    <PreWithEllipsis :class="contentClass">{{ content }}</PreWithEllipsis>
     <template #content>
       <el-scrollbar :max-height="150">
         <PreWrap>{{ content }}</PreWrap>
@@ -14,7 +14,7 @@ import OverflowTooltip from './OverflowTooltip.vue'
 import PreWithEllipsis from './PreWithEllipsis.vue'
 import PreWrap from './PreWrap.vue'
 
-defineProps<{ content: string | null }>()
+defineProps<{ content: string | null; contentClass?: string }>()
 </script>
 
 <style lang="scss">

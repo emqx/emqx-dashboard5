@@ -430,6 +430,7 @@ declare global {
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
   const useNamespaceUserRouter: typeof import('./hooks/useNamespaceUserRouter')['default']
+  const useNamespaceValidation: typeof import('./hooks/useNamespaceValidation')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
@@ -1025,6 +1026,7 @@ declare module 'vue' {
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
     readonly useNamespaceUserRouter: UnwrapRef<typeof import('./hooks/useNamespaceUserRouter')['default']>
+    readonly useNamespaceValidation: UnwrapRef<typeof import('./hooks/useNamespaceValidation')['default']>
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
