@@ -5,6 +5,7 @@
         <el-row :gutter="20" justify="space-between">
           <el-col v-bind="colProps">
             <NamespaceSelect
+              v-if="!isNamespaceUser"
               v-model="namespace"
               class="w-96"
               clearable
@@ -69,7 +70,7 @@
               />
             </el-card>
           </el-col>
-          <el-col :span="6" v-if="!isGlobal">
+          <el-col :span="12" v-if="!isGlobal">
             <el-card shadow="never" class="metric-card">
               <div class="flex gap-4">
                 <StatsContent
@@ -101,8 +102,14 @@ import { ArrowDown, ArrowUp, Link, ShieldCheck, Workflow } from 'lucide-vue-next
 
 const { t, tl } = useI18nTl('Dashboard')
 
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentNamespace = computed(() => store.getters.userNamespace)
+
 const isLoading = ref(false)
-const namespace = ref<string | undefined>(undefined)
+const namespace = ref<string | undefined>(
+  isNamespaceUser.value ? currentNamespace.value : undefined,
+)
 const isGlobal = computed(() => !namespace.value)
 
 const metricsData = ref<NamespaceMetrics>({} as NamespaceMetrics)
