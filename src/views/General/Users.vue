@@ -35,9 +35,10 @@
         </template>
       </el-table-column>
       <el-table-column
+        v-if="!isNamespaceUser"
         prop="namespace"
         :label="t('BasicConfig.namespace')"
-        :min-width="120"
+        :min-width="132"
         sortable
       >
         <template #default="{ row }">
@@ -136,13 +137,12 @@
               :disabled="accessType === 'edit'"
               @change="toggleNamespaceEnabled"
             />
-            <el-select
+            <NamespaceSelect
               v-if="isNamespaceEnabled"
               v-model="record.namespace"
               :disabled="accessType === 'edit'"
-            >
-              <el-option v-for="item in namespaceOptions" :key="item" :value="item" :label="item" />
-            </el-select>
+              :global="{ enable: false }"
+            />
           </div>
         </el-form-item>
         <div v-if="accessType === 'chPass'">
@@ -210,22 +210,8 @@ const formCom = ref()
 const { processUserRecordForSubmit } = useNamespaceUser()
 
 const isNamespaceEnabled = ref(false)
-const namespaceOptions = ref([])
-const isNamespaceOptionsLoaded = ref(false)
-const { getNamespaceOptions } = useManagedNamespaceOptions()
-const queryNamespaceList = async () => {
-  try {
-    const res = await getNamespaceOptions()
-    namespaceOptions.value = res
-    isNamespaceOptionsLoaded.value = true
-  } catch (error) {
-    //
-  }
-}
 const toggleNamespaceEnabled = () => {
-  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
-    queryNamespaceList()
-  } else if (!isNamespaceEnabled.value && record.value.namespace) {
+  if (!isNamespaceEnabled.value && record.value.namespace) {
     record.value.namespace = ''
   }
 }
@@ -309,11 +295,18 @@ const currentUser = computed(() => {
   return store.state.user
 })
 
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentUserNamespace = computed(() => store.getters.userNamespace)
 const loadData = async () => {
   lockTable.value = true
   try {
     await getEnabledSSO()
-    tableData.value = await loadUser()
+    const users = await loadUser()
+    if (isNamespaceUser.value) {
+      tableData.value = users.filter(({ namespace }) => namespace === currentUserNamespace.value)
+    } else {
+      tableData.value = users
+    }
     if (loadConfigPromise) {
       await loadConfigPromise
     }
