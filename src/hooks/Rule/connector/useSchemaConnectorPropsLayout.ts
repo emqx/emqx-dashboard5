@@ -113,6 +113,7 @@ export default (
       [
         'bootstrap_hosts',
         'authentication',
+        'authentication.username',
         'authentication.password',
         // these two just for confluent
         'logical_cluster',
