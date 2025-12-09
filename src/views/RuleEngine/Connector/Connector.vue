@@ -66,7 +66,11 @@
                 <template #default="{ disabledOpByNsResource }">
                   <el-switch
                     :model-value="row.enable"
-                    :disabled="judgeIsWebhookConnector(row) || disabledOpByNsResource"
+                    :disabled="
+                      !$hasPermission('put') ||
+                      judgeIsWebhookConnector(row) ||
+                      disabledOpByNsResource
+                    "
                     @update:modelValue="enableOrDisableConnector(row)"
                   />
                 </template>
