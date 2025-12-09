@@ -18,12 +18,16 @@
                 v-if="webhookData"
                 class="enable-btn"
                 v-model="webhookData.enable"
-                :disabled="!$hasPermission('put')"
+                :disabled="!$hasPermission('put') || isOpNsDisabled"
                 @change="toggleEnabled"
               />
             </span>
           </el-tooltip>
-          <DeleteButton :loading="deleteLoading" @click="handleDeleteWebhook" />
+          <DeleteButton
+            :loading="deleteLoading"
+            :disabled="!$hasPermission('delete') || isOpNsDisabled"
+            @click="handleDeleteWebhook"
+          />
         </template>
       </detail-header>
     </div>
@@ -40,12 +44,25 @@
           </div>
         </el-tab-pane>
         <el-tab-pane :label="t('Base.setting')" :name="DetailTab.Setting" lazy>
+          <OperationDisabledAlert
+            v-if="isOpNsDisabled"
+            class="webhook-tip-alert"
+            type="rule"
+            :data="{ name: webhookData?.name ?? '', namespace: webhookData?.rule?.namespace }"
+            by="ns"
+          />
           <el-card class="detail-card webhook-create-card app-card" v-loading="infoLoading">
-            <WebhookFormCom v-if="webhookData" ref="FormCom" v-model="webhookData" is-edit />
+            <WebhookFormCom
+              v-if="webhookData"
+              ref="FormCom"
+              v-model="webhookData"
+              :disabled="isOpNsDisabled"
+              is-edit
+            />
             <div class="card-ft">
               <el-button
                 :loading="isSubmitting"
-                :disabled="!$hasPermission('put')"
+                :disabled="!$hasPermission('put') || isOpNsDisabled"
                 type="primary"
                 @click="submit"
               >
@@ -63,6 +80,7 @@
 import { BridgeType, DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import BridgeItemOverview from '../RuleEngine/Bridge/Components/BridgeItemOverview.vue'
+import OperationDisabledAlert from '../RuleEngine/components/OperationDisabledAlert.vue'
 import WebhookFormCom from './components/WebhookForm.vue'
 
 const route = useRoute()
@@ -87,6 +105,9 @@ const { getWebhookName, syncHeaders } = useWebhookForm()
 const infoLoading = ref(false)
 const webhookData: Ref<WebhookItem | undefined> = ref(undefined)
 const isSubmitting = ref(false)
+
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = computed<boolean>(() => isOpNsResourceDisabled(webhookData.value?.rule))
 
 const { getEnableStatus } = useWebhookUtils()
 
@@ -183,6 +204,8 @@ getWebhookData()
 </script>
 
 <style lang="scss">
+@use '@/style/rule.scss';
+
 .webhook-detail {
   .card-ft {
     padding-top: 36px;
