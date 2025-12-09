@@ -3,18 +3,12 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div>
-          <el-select
+          <NamespaceSelect
             v-model="namespace"
-            :placeholder="t('BasicConfig.namespace')"
+            :clearable="false"
+            :global="{ enable: true, value: GLOBAL_NAMESPACE }"
             @change="getCertBundleList"
-          >
-            <el-option
-              v-for="{ label, value } in namespaceOptions"
-              :key="value"
-              :label="label"
-              :value="value"
-            />
-          </el-select>
+          />
         </div>
         <div>
           <CreateButton @click="createBundle" />
@@ -52,7 +46,6 @@
 <script setup lang="ts">
 import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
-import { OptionList } from '@/types/common'
 
 const { t } = useI18n()
 
@@ -62,17 +55,7 @@ const namespace = ref<string>(GLOBAL_NAMESPACE)
 const selectedNamespace = computed(() =>
   namespace.value === GLOBAL_NAMESPACE ? undefined : namespace.value,
 )
-const namespaceOptions = ref<OptionList<string>>([])
-const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
-  useManagedNamespaceOptions()
-const getNamespaceOptions = async () => {
-  try {
-    const res = await requestNamespaceOptions()
-    namespaceOptions.value = [globalNamespaceOption, ...res.map((i) => ({ label: i, value: i }))]
-  } catch (error) {
-    //
-  }
-}
+
 const isDrawerShow = ref(false)
 const currentBundleName = ref<string>('')
 
@@ -117,7 +100,7 @@ const handleDelete = async (row: CertBundleOut) => {
 ;(async () => {
   try {
     isLoading.value = true
-    await Promise.all([getNamespaceOptions(), getCertBundleList()])
+    await getCertBundleList()
   } catch (error) {
     //
   } finally {
