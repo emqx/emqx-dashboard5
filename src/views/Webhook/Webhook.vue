@@ -1,6 +1,6 @@
 <template>
   <div class="webhook app-wrapper">
-    <template v-if="!isEmpty">
+    <template v-if="!isEmpty || namespaceFilter || isLoading">
       <div class="section-header">
         <el-row :gutter="20" justify="space-between">
           <el-col v-bind="colProps">
@@ -9,7 +9,6 @@
               v-model="namespaceFilter"
               :placeholder="t('BasicConfig.namespace')"
               :global="{ enable: true, value: GLOBAL_NAMESPACE }"
-              @clear="getWebhookList"
               @change="getWebhookList"
             />
           </el-col>
