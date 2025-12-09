@@ -24,7 +24,7 @@
     <template #footer>
       <CancelButton @click="isDrawerShow = false" :disabled="isSubmitting" />
       <el-button type="primary" :loading="isSubmitting" @click="submit">
-        {{ t('Base.create') }}
+        {{ isEditing ? t('Base.update') : t('Base.create') }}
       </el-button>
     </template>
   </el-drawer>
@@ -69,6 +69,10 @@ const isEditing = computed(() => !!props.bundleName)
 
 const { createEmptyCertBundleForm, getCertBundleInfo: queryBundleInfo } = useCertBundle()
 const formData = ref<CertBundleForm>(createEmptyCertBundleForm())
+/**
+ * Just for comparing the initial data when editing
+ */
+let initialFormData: CertBundleForm = createEmptyCertBundleForm()
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
@@ -92,6 +96,7 @@ const getBundleInfo = async () => {
       namespace: props.namespace,
       ...bundleInfo,
     }
+    initialFormData = cloneDeep(formData.value)
   } catch (error) {
     //
   } finally {
@@ -132,12 +137,15 @@ const handleClose = async () => {
 }
 
 const isSubmitting = ref(false)
-const { submitCertBundle } = useCertBundle()
+const { submitCertBundle, removeUselessCerts } = useCertBundle()
 const submit = async () => {
   try {
     await formRef.value?.validate()
     isSubmitting.value = true
     await submitCertBundle(formData.value)
+    if (isEditing.value) {
+      await removeUselessCerts(formData.value, initialFormData)
+    }
     const message = isEditing.value ? t('Base.updateSuccess') : t('Base.createSuccess')
     ElMessage.success(message)
     emit('submit', { namespace: formData.value.namespace, bundle_name: formData.value.name })

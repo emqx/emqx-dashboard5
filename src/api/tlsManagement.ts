@@ -1,4 +1,5 @@
 import http from '@/common/http'
+import { CertKind } from '@/types/enum'
 import type {
   CertBundleIn,
   CertBundleInfo,
@@ -18,8 +19,8 @@ export const getGlobalCertBundleInfo = (name: string): Promise<CertBundleInfo> =
   return http.get(`/certs/global/name/${encodeURIComponent(name)}`)
 }
 
-export const deleteGlobalCertBundle = (name: string): Promise<void> => {
-  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`)
+export const deleteGlobalCertBundle = (name: string, kind?: CertKind): Promise<void> => {
+  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, { params: { kind } })
 }
 
 export const postNamespaceCertBundle = (
@@ -44,6 +45,13 @@ export const getNamespaceCertBundleInfo = (
   return http.get(`/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`)
 }
 
-export const deleteNamespaceCertBundle = (namespace: string, name: string): Promise<void> => {
-  return http.delete(`/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`)
+export const deleteNamespaceCertBundle = (
+  namespace: string,
+  name: string,
+  kind?: CertKind,
+): Promise<void> => {
+  return http.delete(
+    `/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`,
+    { params: { kind } },
+  )
 }

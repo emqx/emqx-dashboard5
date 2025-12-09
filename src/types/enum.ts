@@ -449,3 +449,11 @@ export const enum ClientsExportFormat {
   JSON = 'json',
   CSV = 'csv',
 }
+
+export const enum CertKind {
+  Key = 'key',
+  Chain = 'chain',
+  CA = 'ca',
+  AccKey = 'acc_key',
+  KeyPassword = 'key_password',
+}
