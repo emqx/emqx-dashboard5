@@ -23,7 +23,7 @@
           {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('BasicConfig.namespace')" sortable>
+      <el-table-column v-if="!isNamespaceUser" :label="t('BasicConfig.namespace')" sortable>
         <template #default="{ row }">
           {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
         </template>
@@ -69,6 +69,7 @@ const { t } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
   return t(collection + '.' + key)
 }
+const store = useStore()
 
 const isTableLoading = ref(false)
 const keyList: Ref<Array<APIKey>> = ref([])
@@ -114,10 +115,17 @@ const toggleKeyItemEnable = async (itemData: APIKey) => {
 const expiredAt = (expiredAt: string | undefined) =>
   !expiredAt ? tl('neverExpire') : dayjs(expiredAt).format('YYYY-MM-DD')
 
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentUserNamespace = computed(() => store.getters.userNamespace)
 const getList = async () => {
   try {
     isTableLoading.value = true
-    keyList.value = await loadAPIKeyList()
+    const list = await loadAPIKeyList()
+    if (!isNamespaceUser.value) {
+      keyList.value = list
+    } else {
+      keyList.value = list.filter(({ namespace }) => namespace === currentUserNamespace.value)
+    }
   } catch (error) {
     //
   } finally {
