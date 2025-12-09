@@ -37,7 +37,7 @@ import { DetailTab } from '@/types/enum'
 const props = defineProps<{
   data: { name: string; namespace?: string | null } & unknown
   by: 'webhook' | 'ns'
-  type: 'rule' | 'connector' | 'action' | 'source'
+  type: 'rule' | 'connector' | 'action' | 'source' | 'webhook'
 }>()
 
 const { t } = useI18nTl('RuleEngine')
@@ -54,6 +54,7 @@ const targetLabelMap = new Map([
   ['connector', lowerCase(t('RuleEngine.connector'))],
   ['action', lowerCase(t('RuleEngine.action'))],
   ['source', 'source'],
+  ['webhook', 'Webhook'],
 ])
 const targetLabel = computed(() => targetLabelMap.get(props.type))
 </script>

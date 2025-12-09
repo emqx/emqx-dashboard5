@@ -41,11 +41,21 @@
         </el-table-column>
         <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="92">
           <template #default="{ row }">
-            <el-switch
-              v-model="row.enable"
-              :disabled="!$hasPermission('put')"
-              @change="handleToggleStatus(row)"
-            />
+            <OperationDisabledPopover
+              :disabled-by-webhook="true"
+              :name="row.id"
+              target-label="Webhook"
+              :namespace="row.rule.namespace"
+              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+            >
+              <template #default="{ disabledOpByNsResource }">
+                <el-switch
+                  v-model="row.enable"
+                  :disabled="!$hasPermission('put') || disabledOpByNsResource"
+                  @change="handleToggleStatus(row)"
+                />
+              </template>
+            </OperationDisabledPopover>
           </template>
         </el-table-column>
         <el-table-column
@@ -59,13 +69,24 @@
             <TableButton :disabled="!$hasPermission('put')" @click="goEditWebhook(row)">
               {{ $t('Base.edit') }}
             </TableButton>
-            <TableButton
-              :disabled="!$hasPermission('delete')"
-              :loading="deleteLoading"
-              @click="handleDeleteWebhook(row)"
+            <OperationDisabledPopover
+              :disabled-by-webhook="true"
+              :name="row.id"
+              target-label="Webhook"
+              :namespace="row.rule.namespace"
+              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
             >
-              {{ $t('Base.delete') }}
-            </TableButton>
+              <template #default="{ disabledOpByNsResource }">
+                <TableButton
+                  :disabled="!$hasPermission('delete') || disabledOpByNsResource"
+                  :loading="deleteLoading"
+                  @click="handleDeleteWebhook(row)"
+                >
+                  {{ $t('Base.delete') }}
+                </TableButton>
+              </template>
+            </OperationDisabledPopover>
+
             <!-- <TableItemDropdown :row-data="row" /> -->
           </template>
         </el-table-column>
@@ -86,9 +107,10 @@ import placeholderImgLight from '@/assets/img/webhook-placeholder-light.png'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
+import OperationDisabledPopover from '../RuleEngine/components/OperationDisabledPopover.vue'
 
 const router = useRouter()
-const { t } = useI18nTl('RuleEngine')
+const { t, tl } = useI18nTl('RuleEngine')
 const store = useStore()
 
 const theme = computed(() => store.state.theme)
