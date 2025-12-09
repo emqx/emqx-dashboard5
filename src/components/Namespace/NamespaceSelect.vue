@@ -57,13 +57,28 @@ const namespaceOptions = ref<OptionList<string>>([])
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
 
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentUserNamespace = computed(() => store.getters.userNamespace)
 const getNamespaceOptions = async () => {
   try {
     const res = await requestNamespaceOptions()
-    namespaceOptions.value = [
-      ...(props.global.enable ? [globalNamespaceOption] : []),
-      ...res.map((i) => ({ label: i, value: i })),
-    ]
+    if (!isNamespaceUser.value) {
+      namespaceOptions.value = [
+        ...(props.global.enable ? [globalNamespaceOption] : []),
+        ...res.map((i) => ({ label: i, value: i })),
+      ]
+    } else {
+      namespaceOptions.value = res.reduce(
+        (arr, item) => {
+          if (item === currentUserNamespace.value) {
+            arr.push({ label: item, value: item })
+          }
+          return arr
+        },
+        props.global.enable ? [globalNamespaceOption] : [],
+      )
+    }
   } catch (error) {
     //
   }
