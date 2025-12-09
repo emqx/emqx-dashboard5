@@ -4,7 +4,7 @@
       <div class="searchbar">
         <el-space wrap :size="20">
           <NamespaceSelect
-            v-if="!gateway"
+            v-if="!gateway && !isNamespaceUser"
             v-model="namespace"
             class="flex-0"
             @change="resetPageAndLoadData"
@@ -77,7 +77,7 @@
         require-asterisk-position="right"
       >
         <el-form-item
-          v-if="!gateway"
+          v-if="!gateway && !isNamespaceUser"
           prop="namespace"
           :label="t('BasicConfig.namespace')"
           label-position="top"
@@ -154,8 +154,15 @@ const prop = defineProps({
 })
 
 const { t } = useI18n()
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentUserNamespace = computed(() => store.getters.userNamespace)
+
 const record = ref<DataManagerItem>(createRawUserForm())
-const namespace = ref<string | undefined>(undefined)
+const namespace = ref<string | undefined>(
+  isNamespaceUser.value ? currentUserNamespace.value : undefined,
+)
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
