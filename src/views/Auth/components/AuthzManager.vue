@@ -7,7 +7,7 @@
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="6" v-if="!isNamespaceUser">
           <NamespaceSelect v-model="namespace" class="flex-0" @change="resetPageAndLoadData" />
         </el-col>
         <template v-if="!isTypeAll">
@@ -25,6 +25,8 @@
             <RefreshButton @click="loadData" />
           </el-col>
         </template>
+        <!-- placeholder for namespace user -->
+        <el-col :span="6" v-if="isNamespaceUser" />
         <el-col :span="!isTypeAll ? 6 : 18">
           <div class="flex justify-end">
             <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
@@ -144,7 +146,7 @@
       destroy-on-close
     >
       <template v-if="isTypeAll">
-        <el-row :gutter="20">
+        <el-row :gutter="20" v-if="!isNamespaceUser">
           <el-col :span="12">
             <el-form-item :label="t('BasicConfig.namespace')" label-position="top">
               <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
@@ -186,7 +188,7 @@
               <el-input v-model="record.username" :disabled="isEdit" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" v-if="!isNamespaceUser">
             <el-form-item :label="t('BasicConfig.namespace')">
               <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
             </el-form-item>
@@ -278,6 +280,8 @@ interface RecordData extends BuiltInDBRule {
 }
 
 const { t, tl } = useI18nTl('Auth')
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)
 const namespace = ref<string | undefined>(undefined)
