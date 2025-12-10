@@ -50,6 +50,7 @@ export default (
     edit?: boolean
   } & unknown,
 ): {
+  filterSSLParams: (components: Properties) => Properties
   getComponentsHandler: () => Handler
 } => {
   const { t, tl, te } = useI18nTl('RuleEngine')
@@ -91,7 +92,7 @@ export default (
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
     const walk = (com: Properties): Properties => {
-      Object.entries(com).forEach(([key, prop]) => {
+      Object.entries(com).forEach(([, prop]) => {
         if (prop.properties) {
           if (prop.key === SSL_KEY) {
             prop.properties = pick(prop.properties, SSLKeys)
@@ -487,6 +488,7 @@ export default (
   }
 
   return {
+    filterSSLParams,
     getComponentsHandler,
   }
 }
