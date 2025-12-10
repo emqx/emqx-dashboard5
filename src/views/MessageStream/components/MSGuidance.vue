@@ -25,7 +25,15 @@
           {{ tl('createMessageStreamBtn') }}
         </el-button>
       </div>
-      <img class="illustration-placeholder" src="@/assets/img/mq_placeholder.png" width="420" />
+      <img
+        class="illustration-placeholder"
+        :src="
+          theme === 'dark'
+            ? getImg('img/ms_placeholder_dark.png')
+            : getImg('img/ms_placeholder_light.png')
+        "
+        width="420"
+      />
     </div>
   </div>
 </template>
@@ -40,6 +48,9 @@ defineProps<{
 const emit = defineEmits<(e: 'create') => void>()
 
 const { t, tl } = useI18nTl('MessageStream')
+
+const store = useStore()
+const theme = computed(() => store.state.theme)
 
 const handleCreateMS = () => {
   emit('create')
