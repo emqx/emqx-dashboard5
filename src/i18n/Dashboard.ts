@@ -976,8 +976,8 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Messages dropped because there were no subscribers for the topic.',
   },
   dropped_no_subscribers_impact: {
-    zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。注意：EMQX 规则引擎不被视为 MQTT 订阅者，因此即使消息符合规则但未匹配到任何 MQTT 订阅者，该计数器仍会递增。',
-    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Note: The EMQX rule engine is not considered a subscription, so this counter will increment even if the message matches rules but not any MQTT subscriptions.',
+    zh: '当 `PUBLISH` 消息未能找到相应的订阅者时，该计数器将递增。请注意：EMQX 规则引擎不被视为 MQTT 订阅者。因此，即使消息触发了规则动作（被规则处理），但除非有实际的 MQTT 客户端订阅了该主题，否则此计数器仍会递增。每条规则有其单独的指标，因此规则处理不反映在消息订阅指标中。',
+    en: 'This counter increments when no subscriber is found for a `PUBLISH` message. Important note: The Rule Engine does not count as a subscriber. So, even if a message triggers a rule action (is processed by rules), this counter will still increase unless an actual MQTT client is subscribed to the topic. Each rule maintains its own metrics separately, so rule processing is not reflected in messaging subscription metrics.',
   },
   dropped_qos0_msg: {
     zh: '消息队列满且 QoS 为 0',
