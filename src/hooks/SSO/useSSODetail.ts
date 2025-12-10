@@ -73,6 +73,7 @@ export default (): {
 
   const formHandlerMap: Map<string, (form: any) => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
+    [DashboardSsoBackendStatusBackend.oidc, checkNOmitFromObj],
     [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
   ])
 
