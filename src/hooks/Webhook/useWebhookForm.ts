@@ -26,8 +26,11 @@ export default (): {
       false,
     )
 
+  const { filterSSLParams } = useConnectorComponentsHandlers({ type: BridgeType.Webhook })
   const createRawHTTPConnector = () => {
-    const ret = initRecordByComponents(httpConnectorComponents.value) as ConnectorForm
+    const ret = initRecordByComponents(
+      filterSSLParams(httpConnectorComponents.value),
+    ) as ConnectorForm
     if (ret.headers && typeof ret.headers === 'object') {
       ret.headers = pick(ret.headers, 'content-type')
     }
