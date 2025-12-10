@@ -142,6 +142,11 @@ export default (
     ),
     ...createOrderObj(kafkaProducerAdvancedProps, 70),
   }
+
+  const greptimeDBOrderMap = createOrderObj(
+    getPathArrInParameters(['write_syntax', 'precision']),
+    fieldStartIndex,
+  )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(
@@ -252,10 +257,8 @@ export default (
       getPathArrInParameters(['stream_name', 'partition_key', 'payload_template']),
       fieldStartIndex,
     ),
-    [BridgeType.GreptimeDB]: createOrderObj(
-      getPathArrInParameters(['write_syntax', 'precision']),
-      fieldStartIndex,
-    ),
+    [BridgeType.GreptimeDB]: greptimeDBOrderMap,
+    [BridgeType.EMQXTables]: greptimeDBOrderMap,
     [BridgeType.SysKeeperForwarder]: createOrderObj(
       getPathArrInParameters(['target_topic', 'target_qos', 'template']),
       fieldStartIndex,

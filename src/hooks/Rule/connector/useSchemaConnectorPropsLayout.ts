@@ -159,6 +159,10 @@ export default (
     ],
     fieldStartIndex,
   )
+  const greptimeDBOrderMap = createOrderObj(
+    ['server', 'dbname', 'username', 'password', 'ssl', 'ttl', 'ts_column'],
+    fieldStartIndex,
+  )
 
   const mongoTopologyProps = [
     'max_overflow',
@@ -276,10 +280,8 @@ export default (
       ['endpoint', 'aws_access_key_id', 'aws_secret_access_key'],
       fieldStartIndex,
     ),
-    [BridgeType.GreptimeDB]: createOrderObj(
-      ['server', 'dbname', 'username', 'password', 'ssl', 'ttl', 'ts_column'],
-      fieldStartIndex,
-    ),
+    [BridgeType.GreptimeDB]: greptimeDBOrderMap,
+    [BridgeType.EMQXTables]: greptimeDBOrderMap,
     [BridgeType.TDengine]: createOrderObj(
       ['server', 'username', 'password', 'token'],
       fieldStartIndex,
@@ -420,6 +422,7 @@ export default (
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
+  const greptimeDBAdvancedFields = ['ttl', 'ts_column']
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight'],
     [BridgeType.Webhook]: httpAdvancedProps,
@@ -437,7 +440,8 @@ export default (
     [BridgeType.PgSQL]: pgSqlAdvancedFields,
     [BridgeType.TimescaleDB]: pgSqlAdvancedFields,
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,
-    [BridgeType.GreptimeDB]: ['ttl', 'ts_column'],
+    [BridgeType.GreptimeDB]: greptimeDBAdvancedFields,
+    [BridgeType.EMQXTables]: greptimeDBAdvancedFields,
     [BridgeType.AlloyDB]: pgSqlAdvancedFields,
     [BridgeType.CockroachDB]: pgSqlAdvancedFields,
     [BridgeType.Redshift]: pgSqlAdvancedFields,
