@@ -44,6 +44,7 @@
         </el-radio>
         <el-radio :value="CertificateSource.ManagedCerts">
           {{ t('Base.selectFromManagedCerts') }}
+          <InfoTooltip v-if="managedCertsArr" :content="t('Base.managedCertListDesc')" />
         </el-radio>
       </el-radio-group>
     </el-form-item>
