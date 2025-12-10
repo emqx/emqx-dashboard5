@@ -159,6 +159,7 @@ export enum BridgeType {
   CockroachDB = 'cockroachdb',
   Redshift = 'redshift',
   AWSTimestream = 'aws_timestream',
+  EMQXTables = 'emqx_tables',
 }
 
 export enum ConnectorCategory {
