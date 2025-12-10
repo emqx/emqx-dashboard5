@@ -836,4 +836,8 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '托管证书包名称',
     en: 'Managed Cert Bundle Name',
   },
+  managedCertListDesc: {
+    zh: '可以添加多个证书包以服务于不同的 SNI。列表中的第一个证书包将作为默认证书包，当客户端请求的 SNI 未匹配到其他证书包时使用。',
+    en: 'You can add multiple certificate bundles to serve different SNIs. The first certificate bundle in the list will be used as the default certificate bundle when the client requests an SNI that does not match any other certificate bundles.',
+  },
 }
