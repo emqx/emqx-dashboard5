@@ -1,7 +1,7 @@
 <template>
   <div class="connectors">
     <div class="app-wrapper">
-      <template v-if="!isEmpty">
+      <template v-if="!isEmpty || namespaceFilter || isLoading">
         <div class="section-header">
           <el-row :gutter="20" justify="space-between">
             <el-col v-bind="colProps">
