@@ -123,7 +123,7 @@ export default (): {
     isBridgerNode,
     isActionBridgeNode,
     isWithFallbackNodes,
-    isBridgeType,
+    isBridgeType: sharedIsBridgeType,
     isAIType,
     isLikeFunctionType,
     getNodeInfoFunc: getNodeInfo,
@@ -156,6 +156,10 @@ export default (): {
     [SinkType.KafkaProducer]: `${t('RuleEngine.kafka')} ${t('RuleEngine.producer')}`,
   }
   const { getBridgeLabelByTypeValue } = useBridgeTypeValue()
+  const bridgeTypeList = Object.values(BridgeType)
+  const isBridgeType = (type: string): boolean => {
+    return sharedIsBridgeType(type) || bridgeTypeList.includes(type as BridgeType)
+  }
   const getTypeLabel = (specificType: string): string => {
     let ret: string | undefined = typeLabelMap[specificType]
     if (!ret && isBridgeType(specificType)) {
