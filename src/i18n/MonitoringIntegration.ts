@@ -316,4 +316,15 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '添加{target}到白名单',
     en: 'Add {target} to White List',
   },
+  namespaceRateLimit: {
+    zh: '命名空间数据抓取速率限制',
+    en: 'Namespace Data Scraping Rate Limit',
+  },
+  namespaceRateLimitDesc: {
+    zh: `命名空间数据抓取时的最大请求速率，针对特定命名空间的请求不受限制。例如：
+
+- \`1/5s\`: 每 5 秒最多接收 1 次请求，超出部分将被拒绝。`,
+    en: `The maximum request rate when scraping namespace data, requests for specific namespaces are not limited. For example:<br/>
+- \`1/5s\`: At most 1 request per 5 seconds will be allowed, and the remaining requests will be rejected.`,
+  },
 }
