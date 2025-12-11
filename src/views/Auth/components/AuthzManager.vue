@@ -7,8 +7,13 @@
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
       <el-row :gutter="20">
-        <el-col :span="6" v-if="!isNamespaceUser">
-          <NamespaceSelect v-model="namespace" class="flex-0" @change="resetPageAndLoadData" />
+        <el-col :span="6">
+          <NamespaceSelect
+            v-model="namespace"
+            class="flex-0"
+            :clearable="false"
+            @change="resetPageAndLoadData"
+          />
         </el-col>
         <template v-if="!isTypeAll">
           <el-col :span="6">
@@ -26,7 +31,6 @@
           </el-col>
         </template>
         <!-- placeholder for namespace user -->
-        <el-col :span="6" v-if="isNamespaceUser" />
         <el-col :span="!isTypeAll ? 6 : 18">
           <div class="flex justify-end">
             <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
@@ -126,12 +130,29 @@
         </el-table-column>
         <el-table-column :label="$t('Base.operation')">
           <template #default="{ row, $index }">
-            <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row, $index)">
-              {{ $t('Base.edit') }}
-            </TableButton>
-            <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row, $index)">
-              {{ $t('Base.delete') }}
-            </TableButton>
+            <el-popover
+              placement="top-start"
+              :width="188"
+              :disabled="!tableButtonsDisabled"
+              :content="t('Base.operationDisabled')"
+            >
+              <template #reference>
+                <div class="inline">
+                  <TableButton
+                    :disabled="!$hasPermission('put') || tableButtonsDisabled"
+                    @click="handleEdit(row, $index)"
+                  >
+                    {{ $t('Base.edit') }}
+                  </TableButton>
+                  <TableButton
+                    :disabled="!$hasPermission('delete') || tableButtonsDisabled"
+                    @click="handleDelete(row, $index)"
+                  >
+                    {{ $t('Base.delete') }}
+                  </TableButton>
+                </div>
+              </template>
+            </el-popover>
           </template>
         </el-table-column>
       </el-table>
@@ -281,10 +302,13 @@ interface RecordData extends BuiltInDBRule {
 
 const { t, tl } = useI18nTl('Auth')
 const store = useStore()
+const currentUserNamespace = computed(() => store.getters.userNamespace)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)
-const namespace = ref<string | undefined>(undefined)
+const namespace = ref<string | undefined>(
+  isNamespaceUser.value ? currentUserNamespace.value : undefined,
+)
 const lockTable = ref(false)
 const typeList = [
   {
@@ -336,6 +360,10 @@ const { actionOpts, permissionOpts } = useAuthzManager()
 const isTypeAll = computed(() => type.value === BuiltInDBType.All)
 
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
+
+const tableButtonsDisabled = computed(() => {
+  return isNamespaceUser.value && namespace.value !== currentUserNamespace.value
+})
 
 const { createRequiredRule } = useFormRules()
 const formRules = {
@@ -389,7 +417,7 @@ const handleAdd = function () {
   dialogVisible.value = true
   isEdit.value = false
   addColumn()
-  recordNamespace.value = namespace.value
+  recordNamespace.value = isNamespaceUser.value ? currentUserNamespace.value : namespace.value
   if (recordForm.value) {
     setTimeout(recordForm.value.clearValidate, 10)
   }

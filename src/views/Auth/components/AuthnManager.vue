@@ -4,9 +4,10 @@
       <div class="searchbar">
         <el-space wrap :size="20">
           <NamespaceSelect
-            v-if="!gateway && !isNamespaceUser"
+            v-if="!gateway"
             v-model="namespace"
             class="flex-0"
+            :clearable="false"
             @change="resetPageAndLoadData"
           />
           <el-input
@@ -50,12 +51,29 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
-            {{ $t('Base.edit') }}
-          </TableButton>
-          <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
-            {{ $t('Base.delete') }}
-          </TableButton>
+          <el-popover
+            placement="top-start"
+            :width="188"
+            :disabled="!tableButtonsDisabled"
+            :content="t('Base.operationDisabled')"
+          >
+            <template #reference>
+              <div class="inline">
+                <TableButton
+                  :disabled="!$hasPermission('put') || tableButtonsDisabled"
+                  @click="handleEdit(row)"
+                >
+                  {{ $t('Base.edit') }}
+                </TableButton>
+                <TableButton
+                  :disabled="!$hasPermission('delete') || tableButtonsDisabled"
+                  @click="handleDelete(row)"
+                >
+                  {{ $t('Base.delete') }}
+                </TableButton>
+              </div>
+            </template>
+          </el-popover>
         </template>
       </el-table-column>
     </el-table>
@@ -176,6 +194,10 @@ const searchVal = reactive({
 })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
+const tableButtonsDisabled = computed(() => {
+  return isNamespaceUser.value && namespace.value !== currentUserNamespace.value
+})
+
 const id = computed(function (): string {
   return route.params.id as string
 })
@@ -247,7 +269,7 @@ const getRules = function () {
 const addCommand = () => {
   isEdit.value = false
   record.value = createRawUserForm()
-  record.value.namespace = namespace.value
+  record.value.namespace = isNamespaceUser.value ? currentUserNamespace.value : namespace.value
   dialogVisible.value = true
 }
 
