@@ -37,9 +37,10 @@
       <el-table-column
         v-if="!isNamespaceUser"
         prop="namespace"
-        :label="t('BasicConfig.namespace')"
-        :min-width="132"
         sortable
+        :min-width="132"
+        :label="t('BasicConfig.namespace')"
+        :sort-by="({ namespace }) => namespace || ''"
       >
         <template #default="{ row }">
           {{ row.namespace }}
