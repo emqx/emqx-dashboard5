@@ -66,6 +66,9 @@ export interface Prometheus {
     url: string
     enable: boolean
   }
+  namespaced_metrics_limiter?: {
+    rate?: string
+  }
 }
 
 export interface StatsD {

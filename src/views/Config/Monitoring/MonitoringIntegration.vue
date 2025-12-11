@@ -9,7 +9,7 @@
           require-asterisk-position="left"
           :rules="rules"
           :model="opentelemetryFormData"
-          :label-width="store.state.lang === 'zh' ? 176 : 232"
+          :label-width="store.state.lang === 'zh' ? 236 : 308"
         >
           <el-row>
             <el-col class="ps-1.5" :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
@@ -125,6 +125,22 @@
                     <FormItemLabel :label="tl('latencyBuckets')" :desc="tl('latencyBucketsDesc')" />
                   </template>
                   <el-input v-model="prometheusFormData.latency_buckets" />
+                </el-form-item>
+              </el-col>
+              <el-col
+                v-if="prometheusFormData.namespaced_metrics_limiter"
+                :span="21"
+                class="custom-col"
+              >
+                <el-form-item>
+                  <template #label>
+                    <FormItemLabel
+                      :label="tl('namespaceRateLimit')"
+                      :desc="tl('namespaceRateLimitDesc')"
+                      desc-marked
+                    />
+                  </template>
+                  <el-input v-model="prometheusFormData.namespaced_metrics_limiter.rate" />
                 </el-form-item>
               </el-col>
             </el-row>
