@@ -5,10 +5,10 @@
       <div class="app-wrapper">
         <div class="section-header">
           <div></div>
-          <!-- <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-message-stream' }">
+          <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-message-stream' }">
             <Settings class="mr-2" />
             {{ t('Base.setting') }}
-          </LinkButton> -->
+          </LinkButton>
           <CreateButton @click="handleCreate" />
         </div>
 
@@ -81,6 +81,7 @@ import { MessageStreamItem } from '@/types/typeAlias'
 // import { Settings } from 'lucide-vue-next'
 import MessageStreamDialog from './components/MessageStreamDialog.vue'
 import MSGuidance from './components/MSGuidance.vue'
+import { Settings } from 'lucide-vue-next'
 
 const { t, tl } = useI18nTl('MessageStream')
 
