@@ -2,8 +2,10 @@
   <div class="namespace app-wrapper">
     <div class="section-header">
       <div>
-        <el-switch v-model="onlyManagedNamespaces" @change="handleViewChanged" />
-        <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
+        <template v-if="!isNamespaceUser">
+          <el-switch v-model="onlyManagedNamespaces" @change="handleViewChanged" />
+          <p class="tip">{{ tl('managedNamespacesOnly') }}</p>
+        </template>
       </div>
       <div>
         <DangerButton
@@ -135,17 +137,17 @@ import {
   deleteManagedNamespace,
   batchDeleteNamespace as requestBatchDeleteNamespace,
 } from '@/api/config'
-import useNamespace from '@/hooks/Config/useNamespace'
-import useI18nTl from '@/hooks/useI18nTl'
 import { NamespaceItem } from '@/types/config'
-import { ref } from 'vue'
+import { last } from 'lodash'
+import { Trash2 } from 'lucide-vue-next'
 import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
 import NamespaceDialog from './components/NamespaceDialog.vue'
-import { last } from 'lodash'
-import { Trash2 } from 'lucide-vue-next'
 
 const { tl, t } = useI18nTl('BasicConfig')
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const loading = ref(false)
 const dialogVisible = ref(false)
