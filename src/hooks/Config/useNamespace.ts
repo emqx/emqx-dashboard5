@@ -11,6 +11,10 @@ import { NamespaceItem } from '@/types/config'
 import { GetNamespaceListParams, NamespaceDetailItem } from '@/types/typeAlias'
 
 export default () => {
+  const store = useStore()
+  const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+  const currentUserNamespace = computed(() => store.getters.userNamespace)
+
   let totalManagedNamespaceList: Array<string> = []
   let hasFetchedAllManagedNamespaces = false
   const fetchAllManagedNamespaces = async (): Promise<void> => {
@@ -61,7 +65,12 @@ export default () => {
     params: GetNamespaceListParams,
   ): Promise<Array<NamespaceItem>> => {
     try {
-      const managedNamespaceList = await getManagedDetailNamespaceList(params)
+      let managedNamespaceList = await getManagedDetailNamespaceList(params)
+      if (isNamespaceUser.value) {
+        managedNamespaceList = managedNamespaceList.filter(
+          ({ name }) => name === currentUserNamespace.value,
+        )
+      }
       const namespaceList = managedNamespaceList.map(({ name: ns, created_at }) => ({
         ns: ns || '',
         created_at,
@@ -101,12 +110,23 @@ export default () => {
 
 export const useManagedNamespaceOptions = () => {
   const { t } = useI18n()
+  const store = useStore()
+  const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+  const currentUserNamespace = computed(() => store.getters.userNamespace)
   const globalNamespaceOption = {
     label: t('BasicConfig.global'),
     value: 'global',
   }
-  const getNamespaceOptions = () => {
-    return getManagedNamespaceList({ limit: 10000 })
+  const getNamespaceOptions = async () => {
+    try {
+      let namespaceList = await getManagedNamespaceList({ limit: 10000 })
+      if (isNamespaceUser.value) {
+        namespaceList = namespaceList.filter((name) => name === currentUserNamespace.value)
+      }
+      return namespaceList
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
   return {
     globalNamespaceOption,
