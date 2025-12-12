@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 import {
-  Waves,
+  TextAlignCenter,
   Database,
   Gauge,
   Layers,
@@ -131,7 +131,7 @@ const useMenus = (): {
     },
     {
       title: 'message-stream',
-      icon: Waves,
+      icon: TextAlignCenter,
       path: '/message-stream',
     },
     {
