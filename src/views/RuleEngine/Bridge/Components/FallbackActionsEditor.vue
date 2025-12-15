@@ -89,7 +89,7 @@
 import { sentenceCase } from '@/common/tools'
 import { useRuleFallbackActions } from '@/hooks/Rule/rule/useRule'
 import { FallbackActionKind } from '@/types/enum'
-import { FallbackAction, OutputItem, RePub } from '@/types/rule'
+import { FallbackAction, FallbackActionRepublish, OutputItem, RePub } from '@/types/rule'
 import { defineProps } from 'vue'
 import RuleOutputsDrawer from '../../components/RuleOutputsDrawer.vue'
 
@@ -128,7 +128,8 @@ const actionList = computed<FallbackActionArr>({
 const { t, tl } = useI18nTl('RuleEngine')
 
 const isReference = (action: FallbackAction) => action.kind === FallbackActionKind.Reference
-const isRepublish = (action: FallbackAction) => action.kind === FallbackActionKind.Republish
+const isRepublish = (action: FallbackAction): action is FallbackActionRepublish =>
+  action.kind === FallbackActionKind.Republish
 
 const getActionKey = (item: FallbackAction) => {
   if (isRepublish(item)) {
@@ -137,10 +138,12 @@ const getActionKey = (item: FallbackAction) => {
   return `${item.kind}:${getBridgeKey(item)}`
 }
 
-const { getBridgeIconKey } = useBridgeTypeIcon()
+const { getBridgeIcon } = useBridgeTypeIcon()
 const getActionImg = (action: FallbackAction) => {
-  const imgPath = `img/${isRepublish(action) ? REPUBLISH_FUNCTION : getBridgeIconKey(action.type)}.png`
-  return getImg(imgPath)
+  if (isRepublish(action)) {
+    return getImg(`img/${REPUBLISH_FUNCTION}.png`)
+  }
+  return getBridgeIcon(action.type)
 }
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 const getActionTypeLabel = (action: FallbackAction) => {

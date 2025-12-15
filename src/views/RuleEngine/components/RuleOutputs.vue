@@ -13,7 +13,7 @@
               :to="{ name: 'action-detail', params: { id: item }, query: getNsParams(namespace) }"
               target="_blank"
             >
-              <img :src="getOutputImage(item)" />
+              <img :src="getOutputImage(item)" width="48" height="48" />
               <div class="io-item-bd">
                 <div v-if="isOutputAction(item)">
                   {{ item.split(ACTION_TYPE_NAME_CONNECTOR)[1] }}
@@ -138,7 +138,7 @@ const isEdit = ref(false)
 const editIndex: Ref<number | undefined> = ref(undefined)
 const currentOutputItem: Ref<OutputItem | undefined> = ref(undefined)
 
-const { getBridgeIconKey } = useBridgeTypeIcon()
+const { getBridgeIcon } = useBridgeTypeIcon()
 const { getGeneralTypeLabel } = useBridgeTypeValue()
 
 const calcDisableList = () => {
@@ -219,8 +219,7 @@ const getOutputImage = (item: OutputItem) => {
   let keyForIcon = ''
   switch (itemType) {
     case RuleOutput.DataBridge:
-      keyForIcon = getBridgeIconKey((item as string).split(ACTION_TYPE_NAME_CONNECTOR)[0])
-      break
+      return getBridgeIcon((item as string).split(ACTION_TYPE_NAME_CONNECTOR)[0])
     case RuleOutput.Console:
       keyForIcon = (item as OutputItemObj).function
       break
