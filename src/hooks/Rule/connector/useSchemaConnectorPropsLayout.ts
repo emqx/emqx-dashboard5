@@ -402,6 +402,11 @@ export default (
     }
     return {}
   }
+  const getKafkaConsumerColClass = (formData: Record<string, any>) => {
+    const ret = { allow_auto_topic_creation: 'col-hidden' }
+    const extraClass = getKafkaProducerColClass(formData)
+    return { ...ret, ...extraClass }
+  }
   const typeColClassMap: Record<
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
@@ -409,7 +414,7 @@ export default (
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.BigQuery]: GCPColClass,
-    [BridgeType.KafkaConsumer]: { allow_auto_topic_creation: 'col-hidden' },
+    [BridgeType.KafkaConsumer]: getKafkaConsumerColClass,
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
