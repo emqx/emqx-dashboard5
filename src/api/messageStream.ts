@@ -21,16 +21,16 @@ export const postMessageStream = (data: MessageStreamItem): Promise<MessageStrea
 }
 
 export const deleteMessageStream = (topicFilter: string): Promise<void> => {
-  return http.delete(`/message_streams/streams/${topicFilter}`)
+  return http.delete(`/message_streams/streams/${encodeURIComponent(topicFilter)}`)
 }
 
 export const getMessageStreamDetail = (topicFilter: string): Promise<MessageStreamItem> => {
-  return http.get(`/message_streams/streams/${topicFilter}`)
+  return http.get(`/message_streams/streams/${encodeURIComponent(topicFilter)}`)
 }
 
 export const putMessageStream = (
   topicFilter: string,
   data: Omit<MessageStreamItem, 'topic_filter'>,
 ): Promise<MessageStreamItem> => {
-  return http.put(`/message_streams/streams/${topicFilter}`, data)
+  return http.put(`/message_streams/streams/${encodeURIComponent(topicFilter)}`, data)
 }
