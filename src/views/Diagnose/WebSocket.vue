@@ -160,9 +160,5 @@ addNewTab()
       border-bottom: 1px solid var(--color-bg-main);
     }
   }
-  & :deep(.el-badge__content.is-dot) {
-    top: 7px;
-    right: 5px;
-  }
 }
 </style>
