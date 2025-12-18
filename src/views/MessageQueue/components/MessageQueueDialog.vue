@@ -239,10 +239,8 @@ const handleOpen = () => {
       form.value.limits.max_shard_message_bytes &&
       typeof form.value.limits.max_shard_message_bytes === 'number'
     ) {
-      form.value.limits.max_shard_message_bytes = transMemorySizeNumToStr(
+      form.value.limits.max_shard_message_bytes = transMemorySizeNumToStrForInput(
         form.value.limits.max_shard_message_bytes,
-        undefined,
-        false,
       )
     }
   }
