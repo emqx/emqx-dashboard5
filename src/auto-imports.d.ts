@@ -281,6 +281,7 @@ declare global {
   const transLink: typeof import('./common/tools')['transLink']
   const transMSNumToString: typeof import('./common/tools')['transMSNumToString']
   const transMemorySizeNumToStr: typeof import('./common/tools')['transMemorySizeNumToStr']
+  const transMemorySizeNumToStrForInput: typeof import('./common/tools')['transMemorySizeNumToStrForInput']
   const transMemorySizeStrToNum: typeof import('./common/tools')['transMemorySizeStrToNum']
   const transMsNumToDuration: typeof import('./common/tools')['transMsNumToDuration']
   const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
@@ -880,6 +881,7 @@ declare module 'vue' {
     readonly transLink: UnwrapRef<typeof import('./common/tools')['transLink']>
     readonly transMSNumToString: UnwrapRef<typeof import('./common/tools')['transMSNumToString']>
     readonly transMemorySizeNumToStr: UnwrapRef<typeof import('./common/tools')['transMemorySizeNumToStr']>
+    readonly transMemorySizeNumToStrForInput: UnwrapRef<typeof import('./common/tools')['transMemorySizeNumToStrForInput']>
     readonly transMemorySizeStrToNum: UnwrapRef<typeof import('./common/tools')['transMemorySizeStrToNum']>
     readonly transMsNumToDuration: UnwrapRef<typeof import('./common/tools')['transMsNumToDuration']>
     readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>

@@ -439,26 +439,44 @@ const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
 const ONE_GB = ONE_MB * 1024
 
-export const transMemorySizeNumToStr = (
-  byte: number,
-  toFixed?: number,
-  needSpace: boolean = true,
-): string => {
-  const space = needSpace ? ' ' : ''
+export const transMemorySizeNumToStr = (byte: number, toFixed?: number): string => {
   if (byte === 0 || isUndefined(byte)) {
-    return '0' + space + 'bytes'
+    return '0 bytes'
   }
   const getNumPart = (num: number) => (toFixed ? round(num, toFixed) : num)
   if (byte < ONE_KB) {
-    return getNumPart(byte) + space + 'bytes'
+    return getNumPart(byte) + ' bytes'
   }
   if (byte < ONE_MB) {
-    return getNumPart(byte / ONE_KB) + space + 'KB'
+    return getNumPart(byte / ONE_KB) + ' KB'
   }
   if (byte < ONE_GB) {
-    return getNumPart(byte / ONE_MB) + space + 'MB'
+    return getNumPart(byte / ONE_MB) + ' MB'
   }
-  return getNumPart(byte / ONE_GB) + space + 'GB'
+  return getNumPart(byte / ONE_GB) + ' GB'
+}
+
+/**
+ * diff from transMemorySizeNumToStr, the minimum unit is B
+ * and keep int
+ */
+export const transMemorySizeNumToStrForInput = (byte: number): string => {
+  if (byte === 0 || isUndefined(byte)) {
+    return '0' + 'B'
+  }
+  const arr = [ONE_GB, ONE_MB, ONE_KB]
+  const unitMap = new Map<number, string>([
+    [ONE_KB, 'KB'],
+    [ONE_MB, 'MB'],
+    [ONE_GB, 'GB'],
+  ])
+  for (const item of arr) {
+    const val = byte / item
+    if (Number.isInteger(val) && unitMap.get(item)) {
+      return val + unitMap.get(item)!
+    }
+  }
+  return byte + 'B'
 }
 
 const memoryStrReg = new RegExp(`^(\\d+(\\.\\d+)?)(${usefulMemoryUnit.join('|')})$`)
