@@ -8,6 +8,7 @@
             v-model="selectedNamespace"
             :clearable="false"
             :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+            @change="handleNamespaceChange"
           />
         </el-col>
         <el-col v-bind="colProps">
@@ -20,7 +21,7 @@
       </el-row>
     </div>
     <FlowView
-      v-if="hasFlowData && showBy === ShowByOpt.Flow"
+      v-if="hasFlowData"
       :namespace="selectedNamespace"
       @load="handleLoad"
       @loaded="handleLoaded"
@@ -57,12 +58,6 @@ const getImgSrc = () => {
   }
 }
 
-const enum ShowByOpt {
-  Flow,
-  List,
-}
-const showBy = ref(ShowByOpt.Flow)
-
 const isLoading = ref(true)
 const hasFlowData = ref(true)
 
@@ -80,6 +75,11 @@ const showEmpty = computed(() => {
     !hasFlowData.value
   )
 })
+
+const handleNamespaceChange = () => {
+  // reset the flag to true when namespace changes
+  hasFlowData.value = true
+}
 
 const handleLoad = () => {
   isLoading.value = true
