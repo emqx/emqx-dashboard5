@@ -6,6 +6,9 @@
 </template>
 
 <script setup lang="ts">
+import useI18nTl from '@/hooks/useI18nTl'
+import { defineProps, defineEmits, ref, computed, onMounted } from 'vue'
+
 const props = defineProps<{
   modelValue: string
   edit: boolean
