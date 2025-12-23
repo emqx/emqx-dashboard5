@@ -44,8 +44,8 @@
           <template #label>
             <FormItemLabel
               :max-height="300"
-              :label="tl('namespaceExpression')"
-              :desc="tConfigText('client_attrs_init_expression.desc')"
+              :label="tl('takeNamespaceFrom')"
+              :desc="tl('takeNamespaceFromDesc')"
               desc-marked
             />
           </template>
@@ -55,8 +55,8 @@
           <template #label>
             <FormItemLabel
               :max-height="300"
-              :label="tConfigText('clientid_override.label')"
-              :desc="tConfigText('clientid_override.desc')"
+              :label="tl('clientIdIsolation')"
+              :desc="tl('clientIdIsolationDesc')"
               desc-marked
             />
           </template>
