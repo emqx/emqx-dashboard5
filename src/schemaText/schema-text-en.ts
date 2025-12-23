@@ -57,6 +57,17 @@ export default {
     label: 'Client ID Override Expression',
     desc: "A one line expression to evaluate a set of predefined string functions (like in the rule engine SQL statements).<br />The expression can be a function call with nested calls as its arguments, or direct variable reference.<br />So far, it does not provide user-defined variable binding (like `var a=1`) or user-defined functions.<br />As an example, to extract the prefix of client ID delimited by a dot: `nth(1, tokens(username, '.'))`.<br /><br />The variables pre-bound variables are:<br />- `clientid`: The original MQTT Client ID.<br />- `username`: MQTT Client's username.<br />- `client_attrs.{'{'}NAME{'}'}`: Client attributes initialized by per config `client_attrs_init`.<br />For TLS clients, connected directly or via proxy-protocol (v2) enabled load balancer,<br />some extra variables can be used:<br />- `cn`: Client's TLS certificate common name.<br />- `dn`: Client's TLS certificate distinguished name (the subject).<br />- `peersni`: TLS server name indication sent by the client.<br /><br />You can read more about variform expressions in EMQX docs.",
   },
+  namespace_as_mountpoint: {
+    label: 'Namespace as Mountpoint',
+    desc: `Uses the client's namespace as a topic mountpoint. This setting is ignored if the listener already has a \`mountpoint\` configured.<br />
+When enabled, EMQX isolates topics by:
+  - Prepending the namespace to topics in PUBLISH, SUBSCRIBE, UNSUBSCRIBE, and Will messages.
+  - Stripping this prefix from messages delivered to the client.
+
+For example (Namespace \`n1\`):
+  - Client subscribes to \`sensors/#\` -> Broker registers \`n1/sensors/#\`.
+  - Broker routes \`n1/sensors/data\` -> Client receives \`sensors/data\`.`,
+  },
   retain_available: {
     desc: 'Whether to enable support for MQTT retained message. When this option is disabled, clients will not be able to publish retained messages.',
     label: 'Allowed Retain',

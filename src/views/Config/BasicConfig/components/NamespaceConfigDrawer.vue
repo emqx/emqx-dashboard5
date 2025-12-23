@@ -66,14 +66,16 @@
             :items="[{ type: 'string' }, { type: 'enum', symbols: ['disabled'] }]"
           />
         </el-form-item>
-      </el-form>
-      <!-- LISTENER -->
-      <el-form class="configuration-form" label-position="top" :model="defaultTcpNamespaceConfig">
-        <el-form-item prop="mountpoint">
+        <el-form-item prop="namespace_as_mountpoint">
           <template #label>
-            <FormItemLabel :label="tl('defaultTCPListenerMountpoint')" />
+            <FormItemLabel
+              :max-height="300"
+              :label="tConfigText('namespace_as_mountpoint.label')"
+              :desc="tConfigText('namespace_as_mountpoint.desc')"
+              desc-marked
+            />
           </template>
-          <el-input v-model="defaultTcpNamespaceConfig.mountpoint" />
+          <el-switch v-model="namespaceMqttConfig.namespace_as_mountpoint" />
         </el-form-item>
       </el-form>
       <!-- AUTHZ -->
@@ -173,17 +175,10 @@ const updateNamespaceConfig = async () => {
 /* MQTT */
 const { namespaceMqttConfig, getNamespaceMqttConfig, updateNamespaceMqttConfig } =
   useNamespaceMqttConfig()
-getNamespaceMqttConfig()
-
-/* LISTENER */
-const { defaultTcpNamespaceConfig, getNamespaceListenerConfig, updateNamespaceListenerConfig } =
-  useNamespaceListenerConfig()
-getNamespaceListenerConfig()
 
 /* AUTHZ */
 const { namespaceAuthzConfig, getNamespaceAuthzConfig, updateNamespaceAuthzConfig } =
   useNamespaceAuthzConfig()
-getNamespaceAuthzConfig()
 
 const handleOpen = async () => {
   try {
@@ -191,7 +186,6 @@ const handleOpen = async () => {
     await Promise.allSettled([
       getNamespaceConfigs(),
       getNamespaceMqttConfig(),
-      getNamespaceListenerConfig(),
       getNamespaceAuthzConfig(),
     ])
   } catch (error) {
@@ -206,7 +200,6 @@ const submit = async () => {
     await Promise.allSettled([
       updateNamespaceConfig(),
       updateNamespaceMqttConfig(),
-      updateNamespaceListenerConfig(),
       updateNamespaceAuthzConfig(),
     ])
     ElMessage.success(t('Base.updateSuccess'))

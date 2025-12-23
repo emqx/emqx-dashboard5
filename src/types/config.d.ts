@@ -193,6 +193,7 @@ export interface Mqtt {
   peer_cert_as_clientid: string
   clientid_override: string
   client_attrs_init: { expression: string; set_as_attr: string }[]
+  namespace_as_mountpoint: boolean
 }
 
 export interface Stats {

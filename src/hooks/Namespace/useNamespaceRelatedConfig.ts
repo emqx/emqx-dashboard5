@@ -1,28 +1,34 @@
 import { listAuthzSetting, updateAuthzSetting } from '@/api/auth'
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { queryListenerDetail, updateListener } from '@/api/listener'
 import { AuthzSetting } from '@/types/auth'
 import { Mqtt, Zone } from '@/types/config'
-import { ListenerType } from '@/types/enum'
-import { Listener } from '@/types/listener'
 
 const NS_ATTR = 'tns'
 
 type NamespaceMqttConfig = {
   tns: string
   clientid_override: string
+  namespace_as_mountpoint?: boolean
 }
 export const useNamespaceMqttConfig = () => {
   let totalConfig: Zone | undefined = undefined
-  let preNamespaceMqttConfig: NamespaceMqttConfig = { tns: '', clientid_override: '' }
-  const namespaceMqttConfig = ref<NamespaceMqttConfig>({ tns: '', clientid_override: '' })
+  let preNamespaceMqttConfig: NamespaceMqttConfig = {
+    tns: '',
+    clientid_override: '',
+    namespace_as_mountpoint: undefined,
+  }
+  const namespaceMqttConfig = ref<NamespaceMqttConfig>({
+    tns: '',
+    clientid_override: '',
+    namespace_as_mountpoint: undefined,
+  })
   const getNamespaceMqttConfig = async () => {
     try {
       totalConfig = await getDefaultZoneConfigs()
-      const { client_attrs_init, clientid_override } = totalConfig.mqtt
+      const { client_attrs_init, clientid_override, namespace_as_mountpoint } = totalConfig.mqtt
       const tnsExpression =
         client_attrs_init.find((item) => item.set_as_attr === NS_ATTR)?.expression ?? ''
-      namespaceMqttConfig.value = { clientid_override, tns: tnsExpression }
+      namespaceMqttConfig.value = { clientid_override, tns: tnsExpression, namespace_as_mountpoint }
       preNamespaceMqttConfig = cloneDeep(namespaceMqttConfig.value)
       return Promise.resolve()
     } catch (error) {
@@ -57,13 +63,13 @@ export const useNamespaceMqttConfig = () => {
       if (isEqual(preNamespaceMqttConfig, namespaceMqttConfig.value)) {
         return Promise.resolve()
       }
-      const { tns, clientid_override } = namespaceMqttConfig.value
+      const { tns, ...others } = namespaceMqttConfig.value
       const data = {
         ...totalConfig,
         mqtt: {
           ...totalConfig.mqtt,
           client_attrs_init: getClientAttrsInit(totalConfig.mqtt.client_attrs_init ?? [], tns),
-          clientid_override,
+          ...others,
         },
       }
       await updateDefaultZoneConfigs(data)
@@ -119,46 +125,5 @@ export const useNamespaceAuthzConfig = () => {
     namespaceAuthzConfig,
     getNamespaceAuthzConfig,
     updateNamespaceAuthzConfig,
-  }
-}
-
-type NamespaceListenerConfig = Pick<Listener, 'mountpoint'>
-export const useNamespaceListenerConfig = () => {
-  let defaultTcpConfig: Listener | undefined = undefined
-  let preNamespaceListenerConfig: NamespaceListenerConfig = { mountpoint: '' }
-  const defaultTcpNamespaceConfig = ref<NamespaceListenerConfig>({ mountpoint: '' })
-  const getNamespaceListenerConfig = async () => {
-    try {
-      defaultTcpConfig = await queryListenerDetail(`${ListenerType.TCP}:default`)
-      defaultTcpNamespaceConfig.value = { mountpoint: defaultTcpConfig.mountpoint }
-      preNamespaceListenerConfig = cloneDeep(defaultTcpNamespaceConfig.value)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
-  const updateNamespaceListenerConfig = async () => {
-    if (!defaultTcpConfig) {
-      await getNamespaceListenerConfig()
-    }
-    if (!defaultTcpConfig) {
-      throw new Error('Default TCP config not found')
-    }
-    try {
-      if (isEqual(preNamespaceListenerConfig, defaultTcpNamespaceConfig.value)) {
-        return Promise.resolve()
-      }
-      const data = {
-        ...defaultTcpConfig,
-        mountpoint: defaultTcpNamespaceConfig.value.mountpoint,
-      }
-      await updateListener(data, `${ListenerType.TCP}:default`)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
-  return {
-    defaultTcpNamespaceConfig,
-    getNamespaceListenerConfig,
-    updateNamespaceListenerConfig,
   }
 }
