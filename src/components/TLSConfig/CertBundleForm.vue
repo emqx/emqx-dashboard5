@@ -35,11 +35,7 @@
     </el-form-item> -->
 
     <template v-if="confMethod === CertBundleType.Regular">
-      <el-form-item prop="chain">
-        <template #label>
-          <span>TLS Cert</span>
-          <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Cert' })" />
-        </template>
+      <el-form-item prop="chain" label="TLS Cert">
         <CertFileInput
           class="TLS-input"
           v-model="record.chain"
@@ -47,11 +43,7 @@
           :placeholder="t('Base.certPlaceholder')"
         />
       </el-form-item>
-      <el-form-item prop="key">
-        <template #label>
-          <span>TLS Key</span>
-          <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'TLS Key' })" />
-        </template>
+      <el-form-item prop="key" label="TLS Key">
         <CertFileInput
           class="TLS-input"
           v-model="record.key"
@@ -87,11 +79,7 @@
       />
     </el-form-item>
 
-    <el-form-item prop="ca">
-      <template #label>
-        <span>CA Cert</span>
-        <InfoTooltip :content="t('Base.tlsConfigItemDesc', { file: 'CA Cert' })" />
-      </template>
+    <el-form-item prop="ca" label="CA Cert">
       <CertFileInput
         class="TLS-input"
         v-model="record.ca"
