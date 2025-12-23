@@ -448,4 +448,30 @@ The total count limit for the {target} is \`n_shards * max_shard_message_count\`
     zh: '命名空间相关配置',
     en: 'Namespace Related Configurations',
   },
+  takeNamespaceFrom: {
+    zh: '命名空间来源',
+    en: 'Take Namespace From',
+  },
+  takeNamespaceFromDesc: {
+    zh: `使用 Variform 表达式提取 MQTT 客户端的命名空间。<br />
+示例：\`username\` 使用用户名作为命名空间，或 \`nth(1, tokens(username, '.'))\` 使用用户名中 \`.\` 之前的部分作为命名空间。<br />
+更多表达式语法请参考 EMQX 文档。`,
+    en: `Extract MQTT client namespace using a Variform expression.<br />
+Example: \`username\` to use username as namespace, or \`nth(1, tokens(username, '.'))\` to use the prefix before \`.\` in username as namespace.<br />
+See EMQX documentation for expression syntax.`,
+  },
+  clientIdIsolation: {
+    zh: '客户端 ID 隔离',
+    en: 'Client ID Isolation',
+  },
+  clientIdIsolationDesc: {
+    zh: `使用 Variform 表达式覆盖客户端 ID。<br />
+示例：\`concat(client_attrs.tns, '-', clientid)\` 添加命名空间作为前缀。<br />
+这允许不同命名空间中的客户端使用相同的客户端 ID 连接而不会引起冲突。<br />
+更多表达式语法请参考 EMQX 文档。`,
+    en: `Override the Client ID using a Variform expression.<br />
+Example: \`concat(client_attrs.tns, '-', clientid)\` adds the namespace as a prefix.<br />
+This allows clients in different namespaces to connect using the same Client ID without conflict.<br />
+See EMQX documentation for expression syntax.`,
+  },
 }
