@@ -119,7 +119,7 @@ export default defineComponent({
   }
   .menu-item-title.group-name {
     position: relative;
-    left: -23px;
+    left: -20px;
   }
   .el-menu.el-menu--collapse {
     width: var(--menu-collapse-width);
