@@ -712,6 +712,10 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     zh: '，',
     en: ', ',
   },
+  colon: {
+    zh: '：',
+    en: ': ',
+  },
   wordBdy: {
     zh: '',
     en: ' ',
@@ -767,5 +771,9 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   unauthorizedRole: {
     zh: '您没有权限访问此资源，请联系管理员',
     en: "You don't have permission to access this resource, please contact the administrator",
+  },
+  infinite: {
+    zh: '无限制',
+    en: 'Infinite',
   },
 }

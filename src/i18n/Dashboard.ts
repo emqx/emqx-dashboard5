@@ -378,6 +378,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '使用量低水位线必须低于使用量高水位线',
     en: 'Usage Low Watermark must be less than Usage High Watermark',
   },
+  maxTps: {
+    zh: 'TPS 上限',
+    en: 'TPS Limit',
+  },
   usageWarning: {
     zh: '当会话数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
     en: 'Trigger usage warning and send notifications through system alert when the number of sessions exceeds {percentage}.',

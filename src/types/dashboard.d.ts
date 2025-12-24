@@ -104,6 +104,7 @@ export interface LicenseData {
   max_sessions: number
   start_at: string
   type: string
+  max_tps: number | string
 }
 
 export interface LicenseConfig {
