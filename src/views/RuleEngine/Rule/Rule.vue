@@ -48,12 +48,29 @@
           <template #default="{ row }">
             <el-tooltip effect="dark" placement="top-start" popper-class="code-popper">
               <template #content>
-                <CodeView lang="sql" :code="row.sql" :show-copy-btn="false" />
+                <el-scrollbar :max-height="260">
+                  <CodeView lang="sql" :code="row.sql" :show-copy-btn="false" />
+                </el-scrollbar>
               </template>
               <div class="inputs-container">
-                <el-tag class="input-item" type="info" v-for="item in row.from" :key="item">{{
-                  item
-                }}</el-tag>
+                <el-tag
+                  class="input-item"
+                  type="info"
+                  v-for="(item, idx) in getDisplayFromList(row)"
+                  :key="`${item}-${idx}`"
+                >
+                  {{ item }}
+                </el-tag>
+                <el-link
+                  v-if="shouldShowFromToggle(row)"
+                  class="from-toggle"
+                  type="primary"
+                  :underline="false"
+                  @click.stop="toggleFromExpanded(row)"
+                >
+                  {{ isFromExpanded(row) ? t('Base.collapse') : t('Base.expandAll') }}
+                  <span v-if="!isFromExpanded(row)"> ({{ getFromList(row).length }})</span>
+                </el-link>
               </div>
             </el-tooltip>
           </template>
@@ -163,6 +180,32 @@ const { t } = useI18n()
 const router = useRouter()
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const ruleLoading: Ref<boolean> = ref(false)
+
+const maxCollapsedFromItems = 5
+const fromExpandedMap = ref<Record<string, boolean>>({})
+const getFromList = ({ from = [] }: RuleItem): Array<string> => {
+  if (Array.isArray(from)) {
+    return from.reduce((arr: Array<string>, v) => {
+      if (typeof v === 'string' && v.trim()) {
+        arr.push(v.trim())
+      }
+      return arr
+    }, [])
+  }
+  return []
+}
+const isFromExpanded = (row: RuleItem) => !!fromExpandedMap.value[row.id]
+const shouldShowFromToggle = (row: RuleItem) => getFromList(row).length > maxCollapsedFromItems
+const toggleFromExpanded = (row: RuleItem) => {
+  fromExpandedMap.value[row.id] = !fromExpandedMap.value[row.id]
+}
+const getDisplayFromList = (row: RuleItem) => {
+  const list = getFromList(row)
+  if (!shouldShowFromToggle(row) || isFromExpanded(row)) {
+    return list
+  }
+  return list.slice(0, maxCollapsedFromItems)
+}
 
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
@@ -318,6 +361,11 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   width: fit-content;
+}
+.from-toggle.el-link {
+  margin-top: 8px;
+  align-self: flex-start;
+  font-size: 12px;
 }
 .input-item {
   height: 26px;
