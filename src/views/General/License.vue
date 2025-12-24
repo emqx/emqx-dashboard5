@@ -30,6 +30,9 @@
           <el-descriptions-item :label="tl('EMQXVersion')">
             <EMQXVersion />
           </el-descriptions-item>
+          <el-descriptions-item :label="`${tl('maxTps')}${t('Base.colon')}`">
+            {{ (licenseData.max_tps = INFINITY_VALUE ? t('Base.infinite') : licenseData.max_tps) }}
+          </el-descriptions-item>
           <template v-if="!isEvaluationLicense && !isCommunityLicense">
             <el-descriptions-item :label="tl('customer')">
               <span>
