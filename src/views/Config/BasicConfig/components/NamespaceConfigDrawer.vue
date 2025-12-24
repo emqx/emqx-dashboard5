@@ -62,8 +62,9 @@
           </template>
           <Oneof
             class="in-one-row"
-            v-model="namespaceMqttConfig.clientid_override"
-            :items="[{ type: 'string' }, { type: 'enum', symbols: ['disabled'] }]"
+            :model-value="namespaceMqttConfig.clientid_override"
+            :items="[{ type: 'string' }, { type: 'enum', symbols: [CLIENT_ID_OVERRIDE_DISABLED] }]"
+            @update:model-value="handleClientIdOverrideChange"
           />
         </el-form-item>
         <el-form-item prop="namespace_as_mountpoint">
@@ -102,6 +103,9 @@
 <script lang="ts" setup>
 import { getConfigs, putConfigs } from '@/api/config'
 import parseHoconToObject from 'hocon-parser'
+
+const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
+const DEFAULT_OVERRIDE_EXP = `concat([client_attrs.tns, '-', clientid])`
 
 const MULTI_TENANCY_KEY = 'multi_tenancy'
 
@@ -175,6 +179,13 @@ const updateNamespaceConfig = async () => {
 /* MQTT */
 const { namespaceMqttConfig, getNamespaceMqttConfig, updateNamespaceMqttConfig } =
   useNamespaceMqttConfig()
+const handleClientIdOverrideChange = (val: string) => {
+  if (namespaceMqttConfig.value.clientid_override === CLIENT_ID_OVERRIDE_DISABLED && !val) {
+    namespaceMqttConfig.value.clientid_override = DEFAULT_OVERRIDE_EXP
+  } else {
+    namespaceMqttConfig.value.clientid_override = val
+  }
+}
 
 /* AUTHZ */
 const { namespaceAuthzConfig, getNamespaceAuthzConfig, updateNamespaceAuthzConfig } =
@@ -183,11 +194,7 @@ const { namespaceAuthzConfig, getNamespaceAuthzConfig, updateNamespaceAuthzConfi
 const handleOpen = async () => {
   try {
     isLoading.value = true
-    await Promise.allSettled([
-      getNamespaceConfigs(),
-      getNamespaceMqttConfig(),
-      getNamespaceAuthzConfig(),
-    ])
+    await Promise.all([getNamespaceConfigs(), getNamespaceMqttConfig(), getNamespaceAuthzConfig()])
   } catch (error) {
     //
   } finally {
@@ -197,7 +204,7 @@ const handleOpen = async () => {
 
 const submit = async () => {
   try {
-    await Promise.allSettled([
+    await Promise.all([
       updateNamespaceConfig(),
       updateNamespaceMqttConfig(),
       updateNamespaceAuthzConfig(),
