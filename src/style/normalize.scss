@@ -113,6 +113,10 @@
       padding-top: math.div($menu-item-height - $line-height, 2);
       padding-bottom: math.div($menu-item-height - $line-height, 2);
     }
+    .el-menu-item-group__title {
+      color: var(--color-text-secondary);
+      opacity: 0.45;
+    }
     .group-name {
       padding-left: $menu-icon-size + 10px;
     }
