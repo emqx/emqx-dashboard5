@@ -39,7 +39,13 @@
         <span class="text-nowrap">{{ t('BasicConfig.namespaceRelatedConfig') }}</span>
       </el-divider>
       <!-- MQTT -->
-      <el-form class="configuration-form" label-position="top" :model="namespaceMqttConfig">
+      <el-form
+        ref="namespaceMqttFormRef"
+        class="configuration-form"
+        label-position="top"
+        :rules="namespaceMqttRules"
+        :model="namespaceMqttConfig"
+      >
         <el-form-item prop="tns">
           <template #label>
             <FormItemLabel
@@ -102,6 +108,7 @@
 
 <script lang="ts" setup>
 import { getConfigs, putConfigs } from '@/api/config'
+import { FormInstance } from 'element-plus'
 import parseHoconToObject from 'hocon-parser'
 
 const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
@@ -179,6 +186,20 @@ const updateNamespaceConfig = async () => {
 /* MQTT */
 const { namespaceMqttConfig, getNamespaceMqttConfig, updateNamespaceMqttConfig } =
   useNamespaceMqttConfig()
+const namespaceMqttFormRef = useTemplateRef<FormInstance>('namespaceMqttFormRef')
+const namespaceMqttRules = {
+  clientid_override: [
+    {
+      validator(_rules: any, value: string, cb: (error?: Error) => void) {
+        let error = undefined
+        if (!value) {
+          error = new Error(t('Rule.inputRequired'))
+        }
+        cb(error)
+      },
+    },
+  ],
+}
 const handleClientIdOverrideChange = (val: string) => {
   if (namespaceMqttConfig.value.clientid_override === CLIENT_ID_OVERRIDE_DISABLED && !val) {
     namespaceMqttConfig.value.clientid_override = DEFAULT_OVERRIDE_EXP
@@ -204,6 +225,7 @@ const handleOpen = async () => {
 
 const submit = async () => {
   try {
+    await namespaceMqttFormRef.value?.validate()
     await Promise.all([
       updateNamespaceConfig(),
       updateNamespaceMqttConfig(),
