@@ -846,6 +846,6 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   },
   infinite: {
     zh: '无限制',
-    en: 'Infinite',
+    en: 'Infinity',
   },
 }
