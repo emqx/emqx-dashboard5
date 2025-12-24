@@ -151,6 +151,10 @@ export default {
     zh: '收起',
     en: 'Collapse',
   },
+  expandAll: {
+    zh: '展开全部',
+    en: 'Expand all',
+  },
   next: {
     zh: '下一页',
     en: 'Next',
