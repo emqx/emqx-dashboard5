@@ -112,7 +112,7 @@ const props = defineProps<{
   type: 'action' | 'source'
 }>()
 const emit = defineEmits<{
-  (e: 'search', filterParams: ActionAndSourceFilterParams): void
+  (e: 'search', filterParams: Record<string, string | boolean>): void
 }>()
 
 const store = useStore()
@@ -142,7 +142,7 @@ const typeOptList = [
 
 const { statusOptList } = useActionAndSourceStatus()
 
-const getFilterParams = () => {
+const getFilterParams = (): Record<string, string | boolean> => {
   const ret = (Object.keys(filterParams.value) as Array<keyof typeof filterParams.value>).reduce(
     (obj, currentKey) => {
       const currentVal = filterParams.value[currentKey]

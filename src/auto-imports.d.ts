@@ -32,6 +32,7 @@ declare global {
   const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
   const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
   const CertBundleType: typeof import('./hooks/useCertBundle')['CertBundleType']
+  const DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS']
   const DEFAULT_CLIENT_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']
   const DEFAULT_FROM: typeof import('./common/constants')['DEFAULT_FROM']
   const DEFAULT_PAGE_SIZE_OPT: typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']
@@ -298,6 +299,7 @@ declare global {
   const unref: typeof import('vue')['unref']
   const useAIModels: typeof import('./hooks/Flow/useAIModels')['default']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
+  const useActionAndSourceTableColumns: typeof import('./hooks/Rule/useActionAndSourceTableColumns')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
   const useActionDataHandler: typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']
   const useActionList: typeof import('./hooks/Rule/action/useActionList')['default']
@@ -631,6 +633,7 @@ declare module 'vue' {
     readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
     readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
     readonly CertBundleType: UnwrapRef<typeof import('./hooks/useCertBundle')['CertBundleType']>
+    readonly DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS']>
     readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']>
     readonly DEFAULT_FROM: UnwrapRef<typeof import('./common/constants')['DEFAULT_FROM']>
     readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']>
@@ -897,6 +900,7 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAIModels: UnwrapRef<typeof import('./hooks/Flow/useAIModels')['default']>
     readonly useActionAndSourceStatus: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceStatus')['default']>
+    readonly useActionAndSourceTableColumns: UnwrapRef<typeof import('./hooks/Rule/useActionAndSourceTableColumns')['default']>
     readonly useActionComponentsHandlers: UnwrapRef<typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']>
     readonly useActionDataHandler: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']>
     readonly useActionList: UnwrapRef<typeof import('./hooks/Rule/action/useActionList')['default']>

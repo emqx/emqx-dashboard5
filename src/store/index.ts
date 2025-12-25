@@ -54,6 +54,16 @@ const getClientTableColumns = () => {
   return columns ? JSON.parse(columns) : DEFAULT_CLIENT_TABLE_COLUMNS
 }
 
+const getActionTableColumns = () => {
+  const columns = localStorage.getItem('actionTableColumns')
+  return columns ? JSON.parse(columns) : DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS
+}
+
+const getSourceTableColumns = () => {
+  const columns = localStorage.getItem('sourceTableColumns')
+  return columns ? JSON.parse(columns) : DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS
+}
+
 const getLoginBackend = () => {
   const loginBackend = localStorage.getItem('loginBackend') || 'local'
   if (loginBackend === 'undefined') {
@@ -79,6 +89,8 @@ export default createStore({
     ruleEventRequest: undefined as undefined | Promise<any>,
     abortControllers: [] as AbortController[],
     clientTableColumns: getClientTableColumns(),
+    actionTableColumns: getActionTableColumns(),
+    sourceTableColumns: getSourceTableColumns(),
     /* rule page start */
     isTesting: false,
     savedAfterDataChange: false,
@@ -202,6 +214,14 @@ export default createStore({
     SET_CLIENT_TABLE_COLUMNS(state, columns) {
       state.clientTableColumns = columns
       localStorage.setItem('clientTableColumns', JSON.stringify(columns))
+    },
+    SET_ACTION_TABLE_COLUMNS(state, columns) {
+      state.actionTableColumns = columns
+      localStorage.setItem('actionTableColumns', JSON.stringify(columns))
+    },
+    SET_SOURCE_TABLE_COLUMNS(state, columns) {
+      state.sourceTableColumns = columns
+      localStorage.setItem('sourceTableColumns', JSON.stringify(columns))
     },
     /* rule page start */
     SET_IS_TESTING(state, isTesting) {
