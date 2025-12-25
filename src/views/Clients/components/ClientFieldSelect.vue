@@ -1,63 +1,18 @@
 <template>
-  <el-dropdown
-    ref="DropdownCom"
-    class="client-field-select"
-    @visible-change="dropdownVisibleChanged"
-  >
-    <el-button>
-      <Columns3 class="mr-2" />
-      {{ t('Base.selectColumn') }}
-    </el-button>
-    <template #dropdown>
-      <div class="client-field-select-dropdown">
-        <el-scrollbar max-height="320px">
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox
-              v-for="{ label, value } in fieldOpts"
-              :key="value"
-              :label="value"
-              :value="value"
-            >
-              {{ label }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-scrollbar>
-        <div class="dropdown-ft">
-          <el-button link type="primary" @click="confirm">{{ t('Base.confirm') }}</el-button>
-          <el-button link @click="reset">{{ t('Base.reset') }}</el-button>
-        </div>
-      </div>
-    </template>
-  </el-dropdown>
+  <TableColumnSelect
+    :selected="selected"
+    :column-options="fieldOpts"
+    @reset="reset"
+    @change="confirm"
+  />
 </template>
 
 <script setup lang="ts">
-import { Columns3 } from 'lucide-vue-next'
+const { tl } = useI18nTl('Clients')
 
-const { t, tl } = useI18nTl('Clients')
+defineProps<{ selected: Array<string> }>()
 
-const props = defineProps<{
-  selected: Array<string>
-}>()
-
-const emit = defineEmits<{
-  (e: 'change', value: Array<string>): void
-}>()
-
-const checkList = ref([...props.selected])
-const dropdownVisibleChanged = (value: boolean) => {
-  if (value) {
-    checkList.value = [...props.selected]
-  }
-}
-watch(
-  () => props.selected,
-  (value) => {
-    if (!isEqual(value, checkList.value)) {
-      checkList.value = [...value]
-    }
-  },
-)
+const emit = defineEmits<{ (e: 'change', value: Array<string>): void }>()
 
 const customFieldIndexMap = DEFAULT_CLIENT_TABLE_COLUMNS.reduce(
   (map: Map<string, number>, item: string, index: number) => {
@@ -92,46 +47,19 @@ const fieldOpts = Object.entries(clientFields)
     const bIndex = customFieldIndexMap.get(b.value) ?? 99
     return aIndex - bIndex
   })
+
 const fieldOptIndex = fieldOpts.reduce((map, { value }, index) => {
   map.set(value, index)
   return map
 }, new Map<string, number>())
 
-const DropdownCom = ref()
-const confirm = () => {
-  if (!checkList.value.length) {
-    ElMessage.warning(t('Base.oneColumnRequired'))
-    return
-  }
+const confirm = (value: Array<string>) => {
   // The checklist is not in order, so reorder it.
-  const list = checkList.value.sort(
-    (a, b) => (fieldOptIndex.get(a) ?? 99) - (fieldOptIndex.get(b) ?? 99),
-  )
+  const list = value.sort((a, b) => (fieldOptIndex.get(a) ?? 99) - (fieldOptIndex.get(b) ?? 99))
   emit('change', list)
-  DropdownCom.value?.handleClose?.()
 }
 
 const reset = () => {
   emit('change', [...DEFAULT_CLIENT_TABLE_COLUMNS])
-  DropdownCom.value?.handleClose?.()
 }
 </script>
-
-<style lang="scss">
-.client-field-select-dropdown {
-  padding: 4px;
-  .el-scrollbar__view {
-    padding: 20px 20px 4px;
-  }
-  .el-checkbox {
-    display: block;
-  }
-  .dropdown-ft {
-    padding: 8px 18px 8px;
-    border-top: 1px solid var(--color-border-card);
-    .el-button {
-      margin-right: 8px;
-    }
-  }
-}
-</style>
