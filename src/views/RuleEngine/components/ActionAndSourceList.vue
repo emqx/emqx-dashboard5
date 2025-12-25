@@ -1,6 +1,13 @@
 <template>
   <ActionAndSourceFilterForm :type="type" @search="search" />
   <div class="app-wrapper action-source-list">
+    <div class="section-header">
+      <div></div>
+      <ActionAndSourceTableColumnSelect
+        :selected="tableColumnFields"
+        @change="handleSelectedColumnChanged"
+      />
+    </div>
     <el-table
       :data="tableData"
       :empty-text="emptyTip"
@@ -13,9 +20,20 @@
           {{ $index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('name')" :min-width="172" sortable="custom" prop="id">
+      <el-table-column
+        v-for="column in tableColumnFields"
+        :key="column"
+        :prop="column"
+        :label="getColumnLabel(column)"
+        :min-width="getColumnWidth(column)"
+        :sortable="sortableColumns.includes(column)"
+      >
         <template #default="{ row }">
-          <router-link :to="getDetailPageRoute(row)" class="first-column-with-icon-type">
+          <router-link
+            v-if="column === 'id'"
+            :to="getDetailPageRoute(row)"
+            class="first-column-with-icon-type"
+          >
             <img v-if="row.type" class="icon-type" :src="getBridgeIcon(row.type)" />
             <div class="name-type-block">
               <span class="name-data">
@@ -24,84 +42,48 @@
               <span class="type-data">{{ getGeneralTypeLabel(row.type) }}</span>
             </div>
           </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column :label="t('Base.status')" :min-width="124" sortable>
-        <template #default="{ row }">
-          <TargetItemStatus type="action" :target="row" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="enable" :label="$t('Base.isEnabled')" :min-width="102" sortable>
-        <template #default="{ row }">
-          <OperationDisabledPopover
-            :disabled-by-webhook="!judgeIsWebhookAction(row)"
-            :name="row.name"
-            :namespace="row.namespace"
-            :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
-            :targetLabel="tl('action')"
-          >
-            <template #default="{ disabledOpByNsResource }">
-              <el-switch
-                v-model="row.enable"
-                :disabled="
-                  judgeIsWebhookAction(row) || !$hasPermission('put') || disabledOpByNsResource
-                "
-                @change="toggleEnable(row)"
-              />
-            </template>
-          </OperationDisabledPopover>
-        </template>
-      </el-table-column>
-      <el-table-column
-        v-if="!isNamespaceUser"
-        prop="namespace"
-        :label="t('BasicConfig.namespace')"
-        :min-width="108"
-      />
-      <el-table-column
-        prop="description"
-        :label="t('BridgeSchema.common.description.label')"
-        :min-width="108"
-      />
-      <el-table-column
-        sortable
-        prop="rules.length"
-        :min-width="168"
-        :label="tl('associatedRules')"
-        :sort-method="(row: BridgeItem) => row.rules?.length ?? 0"
-      >
-        <template #default="{ row }">
-          <router-link
-            v-for="item in row.rules"
-            :to="{ name: 'rule-detail', params: { id: item }, query: getNsParams(row.namespace) }"
-            :key="item"
-            target="_blank"
-            class="rule-detail-link"
-          >
-            <el-tag size="small" type="info">
-              <CommonOverflowTooltip :content="item" />
-            </el-tag>
-          </router-link>
-          <div class="view-rules-link">
-            <router-link :to="ruleFilterRoute(row.id)">
-              {{ `${tl('viewRules')} (${row.rules?.length || 0})` }}
+          <TargetItemStatus v-else-if="column === 'status'" type="action" :target="row" />
+          <template v-else-if="column === 'enable'">
+            <OperationDisabledPopover
+              :disabled-by-webhook="!judgeIsWebhookAction(row)"
+              :name="row.name"
+              :namespace="row.namespace"
+              :operation="`${t('Base.enable')}${tl('or')}${t('Base.disable')}`"
+              :targetLabel="tl('action')"
+            >
+              <template #default="{ disabledOpByNsResource }">
+                <el-switch
+                  v-model="row.enable"
+                  :disabled="
+                    judgeIsWebhookAction(row) || !$hasPermission('put') || disabledOpByNsResource
+                  "
+                  @change="toggleEnable(row)"
+                />
+              </template>
+            </OperationDisabledPopover>
+          </template>
+          <template v-else-if="column === 'rules.length'">
+            <router-link
+              v-for="item in row.rules"
+              :to="{ name: 'rule-detail', params: { id: item }, query: getNsParams(row.namespace) }"
+              :key="item"
+              target="_blank"
+              class="rule-detail-link"
+            >
+              <el-tag size="small" type="info">
+                <CommonOverflowTooltip :content="item" />
+              </el-tag>
             </router-link>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="created_at" :label="t('Base.createdAt')" :min-width="128" sortable>
-        <template #default="{ row }">
-          {{ dateFormat(row.created_at, '') }}
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="last_modified_at"
-        :label="t('Base.lastModified')"
-        :min-width="144"
-        sortable
-      >
-        <template #default="{ row }">
-          {{ dateFormat(row.last_modified_at, '') }}
+            <div class="view-rules-link">
+              <router-link :to="ruleFilterRoute(row.id)">
+                {{ `${tl('viewRules')} (${row.rules?.length || 0})` }}
+              </router-link>
+            </div>
+          </template>
+          <template v-else-if="['created_at', 'last_modified_at'].includes(column)">
+            {{ dateFormat(row[column], '') }}
+          </template>
+          <template v-else>{{ row[column] }}</template>
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="180">
@@ -166,6 +148,7 @@ import { Action, BridgeItem, Source } from '@/types/rule'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
 import DeleteFallbackActionConfirm from '../Bridge/Components/DeleteFallbackActionConfirm.vue'
 import ActionAndSourceFilterForm from './ActionAndSourceFilterForm.vue'
+import ActionAndSourceTableColumnSelect from './ActionAndSourceTableColumnSelect.vue'
 import OperationDisabledPopover from './OperationDisabledPopover.vue'
 import TableItemDropDown from './TableItemDropDown.vue'
 import TargetItemStatus from './TargetItemStatus.vue'
@@ -201,6 +184,39 @@ const getFilterArr = (
 const filterArr = computed(() => getFilterArr(filters.value))
 
 let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
+
+const filterNamespace = (columns: Array<string>) =>
+  columns.filter((item: string) => !(isNamespaceUser.value && item === 'namespace'))
+const tableColumnFields = computed({
+  get() {
+    const columns = isSource.value ? store.state.sourceTableColumns : store.state.actionTableColumns
+    return filterNamespace(columns)
+  },
+  set(value: Array<string>) {
+    if (isSource.value) {
+      store.commit('SET_SOURCE_TABLE_COLUMNS', value)
+    } else {
+      store.commit('SET_ACTION_TABLE_COLUMNS', value)
+    }
+  },
+})
+const handleSelectedColumnChanged = (value: Array<string>) => {
+  tableColumnFields.value = value
+}
+const sortableColumns = ['id', 'status', 'enable', 'rules.length', 'created_at', 'last_modified_at']
+const { getColumnLabel } = useActionAndSourceTableColumns()
+
+const specialColumnWidth = new Map<string, number>([
+  ['id', 172],
+  ['status', 124],
+  ['enable', 102],
+  ['namespace', 108],
+  ['description', 108],
+  ['rules.length', 168],
+  ['created_at', 128],
+  ['last_modified_at', 144],
+])
+const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const { setTotalData, getAPageData } = usePaging()
 const { updateParams, checkParamsInQuery } = usePaginationRemember(`${props.type}-detail`)
