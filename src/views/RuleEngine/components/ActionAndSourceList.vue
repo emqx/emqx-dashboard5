@@ -375,6 +375,9 @@ const direction = isSource.value ? BridgeDirection.Ingress : BridgeDirection.Egr
 
 <style lang="scss">
 .action-source-list {
+  .section-header {
+    margin-top: 0;
+  }
   .rule-detail-link {
     display: inline-block;
     max-width: 100%;
