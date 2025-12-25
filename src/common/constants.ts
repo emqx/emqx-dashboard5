@@ -442,6 +442,15 @@ export const DEFAULT_CLIENT_TABLE_COLUMNS = [
   'connected_at',
 ]
 
+export const DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS = [
+  'id',
+  'status',
+  'enable',
+  'namespace',
+  'rules.length',
+  'created_at',
+]
+
 export const BANNED_NEVER_EXPIRE_VALUE = 'infinity'
 
 export const DEFAULT_PAGE_SIZE_OPT = [20, 50, 100, 500]
