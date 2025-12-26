@@ -7,6 +7,7 @@
           v-model="record"
           :is-edit="isEdit"
           v-bind="$attrs"
+          :is-server="isServer"
           :readonly="readonly"
           :disabledVerify="disabledVerify"
         />
@@ -49,6 +50,12 @@ const props = defineProps({
   disabledVerify: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * is TLS config for server
+   */
+  isServer: {
+    type: Boolean,
   },
 })
 

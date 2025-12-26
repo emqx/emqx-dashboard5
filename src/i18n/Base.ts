@@ -332,6 +332,26 @@ export default {
     en: `Enable the middle box compatibility mode for a TLS-1.3 connection.<br />
 A significant number of middle boxes misbehave when a TLS-1.3 connection is negotiated. Enabling this option can increase the chance of making connections through those middle boxes by adapting the TLS-1.3 handshake to resemble that of a TLS-1.2 handshake.`,
   },
+  sessionTickets: {
+    zh: '会话票据',
+    en: 'Session Tickets',
+  },
+  sessionTicketsDesc: {
+    zh: `启用 TLS 1.3 会话恢复（无状态 Session Tickets）。<br />
+可选值：<br />
+- \`disabled\`：禁用（默认）<br />
+- \`stateless\`：启用无状态会话票据，服务端发送加密票据，客户端可用于恢复会话，服务端无需保存会话状态<br />
+- \`stateless_with_cert\`：在票据中包含证书信息，证书变更时仍可恢复会话，但会增加网络带宽开销<br />
+注意：EMQX 仅支持无状态 Session Tickets，不支持客户端早期数据（0-RTT）。<br />
+完整握手后发送的票据数量由配置 node.tls_server_session_tickets_amount 控制；种子密钥由 node.tls_stateless_tickets_seed 配置。`,
+    en: `Enable TLS 1.3 session resumption using stateless session tickets.<br />
+Possible values:<br />
+- \`disabled\`: Disable session tickets (default).<br />
+- \`stateless\`: Enable stateless session tickets. The server sends encrypted tickets that clients can use to resume sessions without storing session state on the server.<br />
+- \`stateless_with_cert\`: Enable stateless session tickets with certificate information included. This allows session resumption even when the server certificate changes, but increases network bandwidth usage as each ticket includes certificate data.<br />
+Note: EMQX only supports stateless session tickets without support for client early data (0-RTT).<br />
+The number of tickets sent after a full handshake is controlled by the config node.tls_server_session_tickets_amount; the seed key is configured at node.tls_stateless_tickets_seed.`,
+  },
   confirmReplacement: {
     zh: '是否确认替换当前内容？',
     en: 'Are you sure you want to replace the current content?',

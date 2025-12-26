@@ -1,5 +1,6 @@
 import { NodeStatusClass } from './enum'
 import { FormItemRule } from 'element-plus'
+import { SSLSessionTickets } from './typeAlias'
 
 export interface UserInfo {
   role: 'viewer' | 'administrator'
@@ -51,6 +52,13 @@ export interface SSL {
   keyfile?: string
   cacertfile?: string
   middlebox_comp_mode?: boolean
+  /**
+   * TLS 1.3 session resumption using stateless session tickets.
+   * - disabled: Disable session tickets (default).
+   * - stateless: Enable stateless session tickets.
+   * - stateless_with_cert: Enable stateless session tickets with certificate information included.
+   */
+  session_tickets?: valueof<typeof SSLSessionTickets>
 }
 
 export interface BackendI18n {
