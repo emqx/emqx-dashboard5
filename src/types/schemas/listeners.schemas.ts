@@ -95,6 +95,13 @@ export type PostListenersId400 = {
   message?: string
 }
 
+export type PostListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
 export type GetListenersId404Code =
   (typeof GetListenersId404Code)[keyof typeof GetListenersId404Code]
 
@@ -313,13 +320,6 @@ export interface ListenersWsRequiredBind {
   websocket?: EmqxWsOpts
   zone?: string
 }
-
-export type PostListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
 
 export type PostListenersIdBody =
   | ListenersQuicRequiredBind
@@ -1037,6 +1037,16 @@ export const EmqxListenerWssOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
+export type EmqxListenerWssOptsSessionTickets =
+  (typeof EmqxListenerWssOptsSessionTickets)[keyof typeof EmqxListenerWssOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerWssOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
+} as const
+
 export type EmqxListenerWssOptsPartialChain =
   (typeof EmqxListenerWssOptsPartialChain)[keyof typeof EmqxListenerWssOptsPartialChain]
 
@@ -1085,6 +1095,7 @@ export interface EmqxListenerWssOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: EmqxListenerWssOptsSessionTickets
   verify?: EmqxListenerWssOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
@@ -1097,6 +1108,16 @@ export type EmqxListenerSslOptsVerify =
 export const EmqxListenerSslOptsVerify = {
   verify_none: 'verify_none',
   verify_peer: 'verify_peer',
+} as const
+
+export type EmqxListenerSslOptsSessionTickets =
+  (typeof EmqxListenerSslOptsSessionTickets)[keyof typeof EmqxListenerSslOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -1150,6 +1171,7 @@ export interface EmqxListenerSslOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: EmqxListenerSslOptsSessionTickets
   verify?: EmqxListenerSslOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
