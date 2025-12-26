@@ -175,6 +175,16 @@ export const GatewaySslServerOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
+export type GatewaySslServerOptsSessionTickets =
+  (typeof GatewaySslServerOptsSessionTickets)[keyof typeof GatewaySslServerOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewaySslServerOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
+} as const
+
 export type GatewaySslServerOptsPartialChain =
   (typeof GatewaySslServerOptsPartialChain)[keyof typeof GatewaySslServerOptsPartialChain]
 
@@ -223,6 +233,7 @@ export interface GatewaySslServerOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: GatewaySslServerOptsSessionTickets
   verify?: GatewaySslServerOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
@@ -262,6 +273,7 @@ export interface GatewayJt808Proto {
 export interface GatewayJt808Frame {
   /** @minimum 0 */
   max_length?: number
+  parse_unknown_message?: boolean
 }
 
 export interface GatewayExprotoGrpcServer {
@@ -288,6 +300,16 @@ export type GatewayDtlsOptsVerify =
 export const GatewayDtlsOptsVerify = {
   verify_none: 'verify_none',
   verify_peer: 'verify_peer',
+} as const
+
+export type GatewayDtlsOptsSessionTickets =
+  (typeof GatewayDtlsOptsSessionTickets)[keyof typeof GatewayDtlsOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayDtlsOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
 } as const
 
 export type GatewayDtlsOptsPartialChain =
@@ -317,34 +339,6 @@ export const GatewayDtlsOptsLogLevel = {
   notice: 'notice',
   warning: 'warning',
 } as const
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
-}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -467,6 +461,35 @@ export interface EmqxOcsp {
   responder_url?: string
 }
 
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  session_tickets?: GatewayDtlsOptsSessionTickets
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
 export type EmqxListenerWssOptsVerify =
   (typeof EmqxListenerWssOptsVerify)[keyof typeof EmqxListenerWssOptsVerify]
 
@@ -474,6 +497,16 @@ export type EmqxListenerWssOptsVerify =
 export const EmqxListenerWssOptsVerify = {
   verify_none: 'verify_none',
   verify_peer: 'verify_peer',
+} as const
+
+export type EmqxListenerWssOptsSessionTickets =
+  (typeof EmqxListenerWssOptsSessionTickets)[keyof typeof EmqxListenerWssOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerWssOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
 } as const
 
 export type EmqxListenerWssOptsPartialChain =
@@ -524,6 +557,7 @@ export interface EmqxListenerWssOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: EmqxListenerWssOptsSessionTickets
   verify?: EmqxListenerWssOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
@@ -536,6 +570,16 @@ export type EmqxListenerSslOptsVerify =
 export const EmqxListenerSslOptsVerify = {
   verify_none: 'verify_none',
   verify_peer: 'verify_peer',
+} as const
+
+export type EmqxListenerSslOptsSessionTickets =
+  (typeof EmqxListenerSslOptsSessionTickets)[keyof typeof EmqxListenerSslOptsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxListenerSslOptsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
 } as const
 
 export type EmqxListenerSslOptsPartialChain =
@@ -589,6 +633,7 @@ export interface EmqxListenerSslOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: EmqxListenerSslOptsSessionTickets
   verify?: EmqxListenerSslOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
@@ -941,6 +986,8 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -980,8 +1027,6 @@ export interface EmqxGatewayApiSslListener {
   tcp_options?: EmqxTcpOpts
   type?: EmqxGatewayApiSslListenerType
 }
-
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
 
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]

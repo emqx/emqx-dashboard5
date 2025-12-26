@@ -523,6 +523,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  ssl?: EmqxSslClientOpts
 }
 
 export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend]
@@ -1232,6 +1233,16 @@ export const DashboardSslOptionsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
+export type DashboardSslOptionsSessionTickets =
+  (typeof DashboardSslOptionsSessionTickets)[keyof typeof DashboardSslOptionsSessionTickets]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSslOptionsSessionTickets = {
+  disabled: 'disabled',
+  stateless: 'stateless',
+  stateless_with_cert: 'stateless_with_cert',
+} as const
+
 export type DashboardSslOptionsPartialChain =
   (typeof DashboardSslOptionsPartialChain)[keyof typeof DashboardSslOptionsPartialChain]
 
@@ -1280,6 +1291,7 @@ export interface DashboardSslOptions {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: DashboardSslOptionsSessionTickets
   verify?: DashboardSslOptionsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]

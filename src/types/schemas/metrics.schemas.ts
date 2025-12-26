@@ -166,6 +166,8 @@ export interface EmqxMgmtApiStatsAggregatedData {
 
 export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
+  'actions.executed'?: number
+  /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
   'authentication.success'?: number
@@ -351,6 +353,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
   /** @minimum 0 */
+  'rules.matched'?: number
+  /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number
@@ -363,6 +367,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
 }
 
 export interface EmqxMgmtApiMetricsAggregatedMetrics {
+  /** @minimum 0 */
+  'actions.executed'?: number
   /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
@@ -548,6 +554,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
   /** @minimum 0 */
+  'rules.matched'?: number
+  /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number
@@ -569,6 +577,7 @@ export interface EmqxDashboardMonitorApiSessionsHistHwmark {
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
+  actions_executed_rate?: number
   cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
@@ -579,6 +588,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   persisted_rate?: number
   received_msg_rate?: number
   retained_msg_count?: number
+  rules_matched_rate?: number
   sent_msg_rate?: number
   sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
@@ -592,6 +602,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
 }
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
+  actions_executed_rate?: number
   cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
@@ -601,6 +612,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   persisted_rate?: number
   received_msg_rate?: number
   retained_msg_count?: number
+  rules_matched_rate?: number
   sent_msg_rate?: number
   sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
@@ -614,12 +626,14 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
 }
 
 export interface EmqxDashboardMonitorApiSampler {
+  actions_executed?: number
   connections?: number
   disconnected_durable_sessions?: number
   dropped?: number
   live_connections?: number
   persisted?: number
   received?: number
+  rules_matched?: number
   sent?: number
   subscriptions?: number
   subscriptions_durable?: number
