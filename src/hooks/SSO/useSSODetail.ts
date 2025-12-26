@@ -50,6 +50,7 @@ export default (): {
     provider: OIDCProvider.generic,
     fallback_methods: ['RS256'],
     client_jwks: 'none',
+    ssl: createSSLForm(),
   })
 
   const formCreatorMap: Map<string, () => any> = new Map([
@@ -72,6 +73,7 @@ export default (): {
 
   const formHandlerMap: Map<string, (form: any) => any> = new Map([
     [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
+    [DashboardSsoBackendStatusBackend.oidc, checkNOmitFromObj],
     [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
   ])
 

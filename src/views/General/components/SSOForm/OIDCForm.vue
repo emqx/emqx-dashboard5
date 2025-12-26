@@ -4,7 +4,7 @@
     ref="FormCom"
     :model="formData"
     :rules="rules"
-    :label-width="state.lang === 'zh' ? 140 : 224"
+    :label-width="state.lang === 'zh' ? 140 : 228"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'OIDC' })">
       <el-switch v-model="formData.enable" />
@@ -46,6 +46,7 @@
         </el-tooltip>
       </div>
     </div>
+    <CommonTLSConfig v-if="formData.ssl" v-model="(formData as any).ssl" :is-edit="isEdit" />
     <AdvancedSettingContainer>
       <el-form-item prop="scopes" :label="tl('scopes')">
         <ArrayEditor v-model="formData.scopes" />

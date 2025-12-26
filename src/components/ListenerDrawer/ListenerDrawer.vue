@@ -104,6 +104,7 @@
               v-if="showDialog && !isLoading"
               class="TLS-config"
               v-model="listenerRecord[SSLConfigKey]"
+              :is-server="true"
               :show-sni="false"
               :show-middlebox-comp-mode="false"
               :is-edit="isEdit"
