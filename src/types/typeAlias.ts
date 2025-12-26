@@ -95,6 +95,7 @@ import {
   AiAnthropicCompletionProfileApiPutAnthropicVersion,
   AiProviderType,
 } from './schemas/aiCompletion.schemas'
+import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
@@ -231,3 +232,5 @@ export type NamespaceDetailItem = Merge<
 
 /* GATEWAY */
 export type GatewayItem = EmqxGatewayApiGatewayOverview
+
+export const SSLSessionTickets = EmqxListenerWssOptsSessionTickets

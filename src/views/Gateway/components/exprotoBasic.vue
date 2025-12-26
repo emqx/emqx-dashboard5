@@ -40,6 +40,7 @@
         <TLSEnableConfig
           v-model="eValue.server.ssl_options"
           :is-edit="isEdit"
+          :is-server="true"
           :show-sni="false"
           :show-middlebox-comp-mode="false"
           :verify-label="tl('tlsVerifyClient', 'Base')"
@@ -70,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ExprotoGatewayConfig } from '@/types/typeAlias'
+import { ExprotoGatewayConfig, SSLSessionTickets } from '@/types/typeAlias'
 
 const props = defineProps<{
   value?: ExprotoGatewayConfig
@@ -101,6 +102,7 @@ const createDefaultValue = () => ({
       certfile: '',
       keyfile: '',
       cacertfile: '',
+      session_tickets: SSLSessionTickets.disabled,
     },
   },
 })
