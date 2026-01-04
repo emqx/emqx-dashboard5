@@ -217,7 +217,7 @@ onMounted(async () => {
 .object-array-editor {
   width: 100%;
 
-  .el-table {
+  &.el-table {
     .el-form-item {
       margin-bottom: 0;
     }
