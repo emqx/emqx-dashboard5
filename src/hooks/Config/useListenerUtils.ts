@@ -1,6 +1,7 @@
 import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
+import { SSLSessionTickets } from '@/types/typeAlias'
 import parseHoconToObject from 'hocon-parser'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 
@@ -148,6 +149,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     certfile: '',
     cacertfile: '',
     keyfile: '',
+    session_tickets: SSLSessionTickets.disabled,
     verify: SSL_VERIFY_VALUE_MAP.get(true),
     fail_if_no_peer_cert: true,
     depth: 10,

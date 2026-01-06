@@ -20,6 +20,23 @@
       <el-switch v-model="record.middlebox_comp_mode" :disabled="readonly" />
     </el-form-item>
 
+    <el-form-item v-if="isServer" :prop="getFormItemProp(`session_tickets`)">
+      <template #label>
+        <FormItemLabel
+          :label="t('Base.sessionTickets')"
+          :desc="t('Base.sessionTicketsDesc')"
+          desc-marked
+        />
+      </template>
+      <el-select
+        v-model="record.session_tickets"
+        class="TLS-input session-tickets"
+        :disabled="readonly"
+      >
+        <el-option v-for="item in sessionTicketOptions" :key="item" :label="item" :value="item" />
+      </el-select>
+    </el-form-item>
+
     <CustomFormItem
       v-if="showSni"
       :readonly="readonly"
@@ -164,6 +181,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { SSL } from '@/types/common'
+import { SSLSessionTickets } from '@/types/typeAlias'
 import CustomFormItem from '../CustomFormItem.vue'
 import FormItemLabel from '../FormItemLabel.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
@@ -222,6 +240,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  /**
+   * is TLS config for server
+   */
+  isServer: {
+    type: Boolean,
+  },
   globalOnly: {
     type: Boolean,
     default: true,
@@ -260,6 +284,12 @@ const record = computed<SSL>({
     emit('update:modelValue', val)
   },
 })
+
+const sessionTicketOptions = [
+  SSLSessionTickets.disabled,
+  SSLSessionTickets.stateless,
+  SSLSessionTickets.stateless_with_cert,
+]
 
 const certificateSource = ref(CertificateSource.Manual)
 const isUsingCertBundle = computed(() => certificateSource.value === CertificateSource.ManagedCerts)

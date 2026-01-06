@@ -116,6 +116,7 @@ import {
   StreamsApiConfigGet,
   StreamsStreamIndividualLimits,
 } from './schemas/messageStream.schemas'
+import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -257,6 +258,8 @@ export type NamespaceDetailItem = Merge<
 
 /* GATEWAY */
 export type GatewayItem = EmqxGatewayApiGatewayOverview
+
+export const SSLSessionTickets = EmqxListenerWssOptsSessionTickets
 
 /* MESSAGE QUEUE */
 export type MessageQueueRegular = MqMessageQueueRegularApiPost
