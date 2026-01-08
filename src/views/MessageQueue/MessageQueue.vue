@@ -5,7 +5,7 @@
       <div class="app-wrapper">
         <div class="section-header">
           <div></div>
-          <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-message-queue' }">
+          <LinkButton :disabled="!$hasPermission('put')" :to="{ name: 'mqtt-queues' }">
             <Settings class="mr-2" />
             {{ t('Base.setting') }}
           </LinkButton>

@@ -339,12 +339,12 @@ These clients must be manually kicked out if one wants them to abide to the new 
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
   enableMessageQueue: {
-    zh: '启用消息队列',
-    en: 'Enable Message Queue',
+    zh: '启用队列',
+    en: 'Enable Queues',
   },
   disableMessageQueueTip: {
-    zh: '不支持通过热配置禁用消息队列，请在配置文件中修改。',
-    en: 'Cannot disable message queue through hot configuration, please modify it in the configuration file.',
+    zh: '不支持通过热配置禁用队列，请在配置文件中修改。',
+    en: 'Cannot disable queues through hot configuration, please modify it in the configuration file.',
   },
   maxQueueCount: {
     zh: '最大队列数',
@@ -359,20 +359,20 @@ These clients must be manually kicked out if one wants them to abide to the new 
     en: 'Regular Queue Retention Period',
   },
   enableAutoCreateMQ: {
-    zh: '启用自动创建消息队列',
-    en: 'Enable Auto Create Message Queue',
+    zh: '启用自动创建队列',
+    en: 'Enable Auto Create Queue',
   },
   lastValueQueue: {
-    zh: '最后值语义消息队列',
+    zh: '最后值语义队列',
     en: 'Last Value Semantics Queue',
   },
   regularQueue: {
-    zh: '常规消息队列',
+    zh: '常规队列',
     en: 'Regular Queue',
   },
   autoCreateMQType: {
-    zh: '自动创建消息队列类型',
-    en: 'Auto Create Message Queue Type',
+    zh: '自动创建队列类型',
+    en: 'Auto Create Queue Type',
   },
   shared_subs: {
     zh: '共享订阅',
@@ -387,36 +387,36 @@ These clients must be manually kicked out if one wants them to abide to the new 
     en: 'The interval at which subscribers will retry to find a queue if the queue is not found when subscribing to a queue topic',
   },
   enableMessageStream: {
-    zh: '启用消息流',
-    en: 'Enable Message Stream',
+    zh: '启用流',
+    en: 'Enable Streams',
   },
   disableMessageStreamTip: {
-    zh: '不支持通过热配置禁用消息流，请在配置文件中修改。',
-    en: 'Cannot disable message stream through hot configuration, please modify it in the configuration file.',
+    zh: '不支持通过热配置禁用流，请在配置文件中修改。',
+    en: 'Cannot disable streams through hot configuration, please modify it in the configuration file.',
   },
   maxStreamCount: {
-    zh: '最大消息流数',
+    zh: '最大流数',
     en: 'Max Stream Count',
   },
   regularStreamRetentionPeriod: {
-    zh: '常规消息流保留周期',
+    zh: '常规流保留周期',
     en: 'Regular Stream Retention Period',
   },
   enableAutoCreateMS: {
-    zh: '启用自动创建消息流',
-    en: 'Enable Auto Create Message Stream',
+    zh: '启用自动创建流',
+    en: 'Enable Auto Create Streams',
   },
   autoCreateMSType: {
-    zh: '自动创建消息流类型',
+    zh: '自动创建流类型',
     en: 'Auto Create Message Stream Type',
   },
   lastValueStream: {
-    zh: '最后值消息流',
-    en: 'Last Value Message Stream',
+    zh: '最后值流',
+    en: 'Last Value Stream',
   },
   regularStream: {
-    zh: '常规消息流',
-    en: 'Regular Message Stream',
+    zh: '常规流',
+    en: 'Regular Stream',
   },
   maxShardMessageBytes: {
     zh: '每个分片的最大字节数',

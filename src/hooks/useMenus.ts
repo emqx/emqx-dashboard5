@@ -127,12 +127,12 @@ const useMenus = (): {
     {
       title: 'message-queue',
       icon: Layers,
-      path: '/message-queue',
+      path: '/queues',
     },
     {
       title: 'message-stream',
       icon: TextAlignCenter,
-      path: '/message-stream',
+      path: '/streams',
     },
     {
       title: 'management',

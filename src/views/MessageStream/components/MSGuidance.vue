@@ -10,7 +10,7 @@
             <LinkButton
               :icon="Setting"
               :disabled="!$hasPermission('put')"
-              :to="{ name: 'mqtt-message-stream' }"
+              :to="{ name: 'mqtt-streams' }"
             >
               {{ t('Base.setting') }}
             </LinkButton>

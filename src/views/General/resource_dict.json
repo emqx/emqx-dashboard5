@@ -2787,48 +2787,48 @@
     "method": "post",
     "path": "/message_queues/queues",
     "operation_label": {
-      "en": "Message Queue",
-      "zh": "消息队列"
+      "en": "Queues",
+      "zh": "队列"
     },
     "operation_name_label": {
-      "en": "Create a new message queue",
-      "zh": "创建新的消息队列"
+      "en": "Create a new queue",
+      "zh": "创建新的队列"
     }
   },
   {
     "method": "put",
     "path": "/message_queues/config",
     "operation_label": {
-      "en": "Message Queue",
-      "zh": "消息队列"
+      "en": "Queues",
+      "zh": "队列"
     },
     "operation_name_label": {
-      "en": "Update message queue config",
-      "zh": "更新消息队列配置"
+      "en": "Update queue config",
+      "zh": "更新队列配置"
     }
   },
   {
     "method": "delete",
     "path": "/message_queues/queues/:topic_filter",
     "operation_label": {
-      "en": "Message Queue",
-      "zh": "消息队列"
+      "en": "Queues",
+      "zh": "队列"
     },
     "operation_name_label": {
-      "en": "Delete message queue",
-      "zh": "删除消息队列"
+      "en": "Delete queue",
+      "zh": "删除队列"
     }
   },
   {
     "method": "put",
     "path": "/message_queues/queues/:topic_filter",
     "operation_label": {
-      "en": "Message Queue",
-      "zh": "消息队列"
+      "en": "Queues",
+      "zh": "队列"
     },
     "operation_name_label": {
-      "en": "Update message queue",
-      "zh": "更新消息队列"
+      "en": "Update queue",
+      "zh": "更新队列"
     }
   },
   {
@@ -2883,48 +2883,48 @@
     "method": "put",
     "path": "/message_streams/config",
     "operation_label": {
-      "en": "Message Stream",
-      "zh": "消息流"
+      "en": "Streams",
+      "zh": "流"
     },
     "operation_name_label": {
       "en": "Update streams config.",
-      "zh": "更新消息流配置"
+      "zh": "更新流配置"
     }
   },
   {
     "method": "post",
     "path": "/message_streams/streams",
     "operation_label": {
-      "en": "Message Stream",
-      "zh": "消息流"
+      "en": "Streams",
+      "zh": "流"
     },
     "operation_name_label": {
-      "en": "Create a new message stream.",
-      "zh": "创建新的消息流"
+      "en": "Create a new stream.",
+      "zh": "创建新的流"
     }
   },
   {
     "method": "delete",
     "path": "/message_streams/streams/:topic_filter",
     "operation_label": {
-      "en": "Message Stream",
-      "zh": "消息流"
+      "en": "Streams",
+      "zh": "流"
     },
     "operation_name_label": {
-      "en": "Delete message stream.",
-      "zh": "删除消息流"
+      "en": "Delete stream.",
+      "zh": "删除流"
     }
   },
   {
     "method": "put",
     "path": "/message_streams/streams/:topic_filter",
     "operation_label": {
-      "en": "Message Stream",
-      "zh": "消息流"
+      "en": "Streams",
+      "zh": "流"
     },
     "operation_name_label": {
-      "en": "Update message stream.",
-      "zh": "更新消息流"
+      "en": "Update stream.",
+      "zh": "更新流"
     }
   }
 ]

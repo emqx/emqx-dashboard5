@@ -423,21 +423,21 @@ export default {
     zh: '强制关闭',
     en: 'Force Shutdown',
   },
-  'mqtt-message-queue': {
-    zh: '消息队列',
-    en: 'Message Queue',
+  'mqtt-queues': {
+    zh: '队列',
+    en: 'Queues',
   },
-  'mqtt-message-stream': {
-    zh: '消息流',
-    en: 'Message Stream',
+  'mqtt-streams': {
+    zh: '流',
+    en: 'Streams',
   },
   'message-queue': {
-    zh: '消息队列',
-    en: 'Message Queue',
+    zh: '队列',
+    en: 'Queues',
   },
   'message-stream': {
-    zh: '消息流',
-    en: 'Message Stream',
+    zh: '流',
+    en: 'Streams',
   },
   /* For Quick Panel Start */
   'rule-create': {

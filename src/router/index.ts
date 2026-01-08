@@ -704,13 +704,13 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Config/BasicConfig/SystemTopics.vue'),
       },
       {
-        path: 'message-queue',
-        name: 'mqtt-message-queue',
+        path: 'queues',
+        name: 'mqtt-queues',
         component: () => import('@/views/Config/BasicConfig/MessageQueue.vue'),
       },
       {
-        path: 'message-stream',
-        name: 'mqtt-message-stream',
+        path: 'streams',
+        name: 'mqtt-streams',
         component: () => import('@/views/Config/BasicConfig/MessageStream.vue'),
       },
       {
@@ -1052,34 +1052,34 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Message Queue
+  // Queues
   {
-    path: '/message-queue',
+    path: '/queues',
     component: Layout,
     meta: {
-      hideKey: 'message-queue',
+      hideKey: 'queues',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'message-queue',
+        name: 'queues',
         component: () => import('@/views/MessageQueue/MessageQueue.vue'),
       },
     ],
   },
-  // Message Stream
+  // Streams
   {
-    path: '/message-stream',
+    path: '/streams',
     component: Layout,
     meta: {
-      hideKey: 'message-stream',
+      hideKey: 'streams',
       authRequired: true,
     },
     children: [
       {
         path: '',
-        name: 'message-stream',
+        name: 'streams',
         component: () => import('@/views/MessageStream/MessageStream.vue'),
       },
     ],
