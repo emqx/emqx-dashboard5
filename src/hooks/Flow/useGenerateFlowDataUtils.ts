@@ -1,7 +1,7 @@
 import { arraysAreEqual, getTypeAndNameFromKey } from '@/common/tools'
-import { Action, OutputItem, OutputItemObj, RuleItem } from '@/types/rule'
+import { Action, OutputItem, RuleItem } from '@/types/rule'
 import { AICompletionProfile, AIProviderForm, AIProviderType } from '@/types/typeAlias'
-import { useGenerateFlowDataUtils } from '@emqx/shared-ui-components'
+import { useGenerateFlowDataUtils, useNodeForm } from '@emqx/shared-ui-components'
 import { Edge, Node, Styles } from '@vue-flow/core'
 import { useRuleFallbackActions, useRuleInputs, useRuleUtils } from '../Rule/rule/useRule'
 import useWebhookUtils from '../Webhook/useWebhookUtils'
@@ -15,7 +15,6 @@ import useFlowNode, {
   SinkType,
   SourceTypeAllMsgsAndEvents,
 } from './useFlowNode'
-import { useNodeForm } from '@emqx/shared-ui-components'
 
 /**
  * ID rule of each node
@@ -76,7 +75,7 @@ export default (): {
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo, isAIType } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo, isAIType, getNodeHeight } = useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     detectFieldsExpressionsEditedWay,
@@ -213,22 +212,18 @@ export default (): {
       specificType = getSpecificTypeForBridge(specificType)
     }
 
-    let id = ''
     let formData = {}
 
     if (type === SinkType.Console) {
-      id = SinkType.Console
       formData = getCommonFormDataByType(SinkType.Console)
     } else if (type === SinkType.RePub) {
-      id = `${SinkType.RePub}-${(action as OutputItemObj).args?.topic}`
       formData = action
     } else {
-      id = `${type}-${action}`
       formData = { name: getBridgeNameFromId(action as string), id: action }
     }
 
     const node: Node = {
-      id,
+      id: createRandomString(),
       ...getTypeCommonData(NodeType.Sink),
       label: getTypeLabel(specificType),
       position: { x: 0, y: 0 },
