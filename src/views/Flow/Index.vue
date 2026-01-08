@@ -6,7 +6,6 @@
           <NamespaceSelect
             v-if="!isNamespaceUser"
             v-model="selectedNamespace"
-            :clearable="false"
             :global="{ enable: true, value: GLOBAL_NAMESPACE }"
             @change="handleNamespaceChange"
           />
@@ -61,7 +60,7 @@ const getImgSrc = () => {
 const isLoading = ref(true)
 const hasFlowData = ref(true)
 
-const selectedNamespace = ref<string>(GLOBAL_NAMESPACE)
+const selectedNamespace = ref<string | undefined>(undefined)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const showHeader = computed(() => {
