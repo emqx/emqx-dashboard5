@@ -11,7 +11,7 @@
             <LinkButton
               :icon="Setting"
               :disabled="!$hasPermission('put')"
-              :to="{ name: 'mqtt-message-queue' }"
+              :to="{ name: 'mqtt-queues' }"
             >
               {{ t('Base.setting') }}
             </LinkButton>
