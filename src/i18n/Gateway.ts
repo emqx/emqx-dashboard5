@@ -478,6 +478,14 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '最大帧长度',
     en: 'Max Length of Frame',
   },
+  parseUnknownMessage: {
+    zh: '解析未知消息 ID',
+    en: 'Parse Unknown Message IDs',
+  },
+  parseUnknownMessageDesc: {
+    zh: '是否处理并转发未识别的消息 ID。开启后，未识别的消息 ID 会被处理，其消息体将以 Base64 编码并转发；关闭后，收到未识别的消息 ID 时将返回错误并记录日志。',
+    en: 'Whether to process and forward unrecognized Message IDs. When enabled, unrecognized Message IDs are processed and their body is Base64-encoded then forwarded. When disabled, an error is reported and logged upon receiving an unrecognized Message ID.',
+  },
   allowAnonymous: {
     zh: '允许匿名',
     en: 'Allow Anonymous',
