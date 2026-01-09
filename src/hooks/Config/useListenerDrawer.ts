@@ -356,6 +356,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
         if (!props.gatewayName) {
           delete listenerRecord.value.max_conn_rate
         }
+        rawListenerRecord = cloneDeep(listenerRecord.value)
       }
       await nextTick()
       formCom.value.clearValidate()
