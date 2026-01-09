@@ -212,6 +212,9 @@ const isSettingCardLoading = computed(() => infoLoading.value && !isUsingSchemaF
 const { getSourceDetail, updateSource, toggleSourceEnable, isTesting, testConnectivity } =
   useHandleSourceItem()
 
+const countIsRecordChanged = () => !isEqual(rawSourceInfo, sourceInfo.value)
+useDataNotSaveConfirm(countIsRecordChanged)
+
 const getSourceInfo = async () => {
   infoLoading.value = true
   try {

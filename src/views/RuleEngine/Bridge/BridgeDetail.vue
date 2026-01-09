@@ -267,6 +267,9 @@ const webhookRoute = computed(() => ({
   query: { tab: DetailTab.Setting },
 }))
 
+const countIsRecordChanged = () => !isEqual(rawBridgeInfo, bridgeInfo.value)
+useDataNotSaveConfirm(countIsRecordChanged)
+
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
