@@ -23,7 +23,13 @@
           {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="!isNamespaceUser" :label="t('BasicConfig.namespace')" sortable>
+      <el-table-column
+        v-if="!isNamespaceUser"
+        prop="namespace"
+        :label="t('BasicConfig.namespace')"
+        sortable
+        :sort-by="({ namespace }) => namespace || ''"
+      >
         <template #default="{ row }">
           {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
         </template>
