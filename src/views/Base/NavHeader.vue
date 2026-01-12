@@ -98,12 +98,11 @@ export default defineComponent({
     const store = useStore()
     const { t } = useI18n()
     const router = useRouter()
-    const leftBarCollapse = computed(() => {
-      return store.state.leftBarCollapse
-    })
-    const user = computed(() => {
-      return store.state.user
-    })
+    const leftBarCollapse = computed(() => store.state.leftBarCollapse)
+    const user = computed(() => store.state.user)
+    if (!user.value.username && !user.value.token) {
+      toLogin()
+    }
 
     const logout = () => {
       ElMessageBox.confirm(t('components.whetherToLogOutOrNot'), {
