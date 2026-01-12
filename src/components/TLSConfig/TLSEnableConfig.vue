@@ -165,6 +165,8 @@
               :global-only="globalOnly"
               :user-namespace="userNamespace"
               :columns="managedCertConfColumns"
+              :current-index="index"
+              :all-managed-certs="record.managed_certs"
             />
           </el-card>
         </template>

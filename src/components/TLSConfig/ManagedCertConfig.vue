@@ -19,7 +19,13 @@
       <el-form-item :label="t('Base.managedCertBundleName')">
         <div class="flex items-center gap-2 flex-1">
           <el-select v-model="record.bundle_name" filterable>
-            <el-option v-for="item in bundleOptions" :key="item" :label="item" :value="item" />
+            <el-option
+              v-for="item in bundleOptions"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+              :disabled="item.disabled"
+            />
           </el-select>
           <el-button @click="createNewCertBundle">
             {{ t('Base.createManagedCerts') }}
@@ -70,6 +76,14 @@ const props = withDefaults(
      * not data integration
      */
     globalOnly?: boolean
+    /**
+     * Current index in the managed certs array
+     */
+    currentIndex?: number
+    /**
+     * All managed certs in the array
+     */
+    allManagedCerts?: (ManagedCerts | ManagedCertsServer)[]
   }>(),
   {
     columns: 2,
@@ -125,16 +139,40 @@ const getNamespaceOptions = async () => {
 }
 getNamespaceOptions()
 
-const bundleOptions = ref<string[]>([])
+const bundleOptions = ref<Array<{ name: string; disabled: boolean }>>([])
 const { getCertBundleList: requestCertBundleList } = useCertBundle()
+const setOptionsDisabled = () => {
+  // Mark bundle names that are already used by other managed certs as disabled
+  if (props.allManagedCerts && props.currentIndex !== undefined) {
+    const usedBundleNames = new Set<string>()
+    props.allManagedCerts.forEach((cert, index) => {
+      // Exclude current index and only add bundle names in the same namespace
+      if (index !== props.currentIndex && cert.bundle_name) {
+        const certNamespace = cert.namespace || GLOBAL_NAMESPACE
+        const currentNamespace = namespace.value || GLOBAL_NAMESPACE
+        if (certNamespace === currentNamespace) {
+          usedBundleNames.add(cert.bundle_name)
+        }
+      }
+    })
+    bundleOptions.value.forEach((item) => {
+      item.disabled = usedBundleNames.has(item.name)
+    })
+  } else {
+    bundleOptions.value.forEach((item) => {
+      item.disabled = false
+    })
+  }
+}
 const getBundleOptions = async () => {
   const res = await requestCertBundleList(selectedNamespace.value)
-  bundleOptions.value = res.reduce((arr: string[], { name }) => {
+  bundleOptions.value = res.reduce((arr: { name: string; disabled: boolean }[], { name }) => {
     if (name) {
-      arr.push(name)
+      arr.push({ name, disabled: false })
     }
     return arr
   }, [])
+  setOptionsDisabled()
 }
 getBundleOptions()
 
@@ -144,6 +182,15 @@ const handleNamespaceChanged = () => {
   }
   getBundleOptions()
 }
+
+// Watch for changes in other managed certs to update available options
+watch(
+  () => props.allManagedCerts,
+  () => {
+    setOptionsDisabled()
+  },
+  { deep: true },
+)
 
 const isCreateDrawerVisible = ref(false)
 const createNewCertBundle = () => {
