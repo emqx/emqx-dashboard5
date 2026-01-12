@@ -249,12 +249,12 @@ export default {
     en: 'This action cannot be undone.',
   },
   deleteNamespaceConfirmSecond: {
-    zh: '这将永久删除 {target} 命名空间，并断开该命名空间下的客户端连接',
-    en: 'This will permanently delete the {target} namespace and disconnect all clients under this namespace.',
+    zh: '这将永久删除 {target} 命名空间及其下的所有资源（认证、授权、规则等），并断开该命名空间下的客户端连接',
+    en: 'This will permanently delete the {target} namespace and all resources under it (authentication, authorization, rules, etc.), and disconnect all client connections under this namespace.',
   },
   deleteMultipleNamespaceConfirmSecond: {
-    zh: '这将永久删除所选择的 {n} 个命名空间，并断开其下的客户端连接',
-    en: 'This will permanently delete the selected {n} namespaces and disconnect all clients under them.',
+    zh: '这将永久删除所选择的 {n} 个命名空间及其下的所有资源（认证、授权、规则等），并断开其下的客户端连接',
+    en: 'This will permanently delete the selected {n} namespaces and all resources under them (authentication, authorization, rules, etc.), and disconnect all client connections under them.',
   },
   tenant: {
     zh: '租户',
