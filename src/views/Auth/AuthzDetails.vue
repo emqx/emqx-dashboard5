@@ -191,7 +191,6 @@ const { confirmDel } = useOperationConfirm()
 const handleDelete = async () => {
   try {
     await confirmDel(() => deleteAuthz(type.value))
-    ElMessage.success(t('Base.deleteSuccess'))
     router.push({ name: 'authorization' })
   } catch (error) {
     //
