@@ -32,3 +32,6 @@ pnpm-debug.log*
 
 # asdf
 .tool-versions
+
+# AI
+.claude

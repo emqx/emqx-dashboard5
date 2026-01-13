@@ -54,7 +54,6 @@ declare global {
   const GATEWAY_DISABLED_LISTENER_TYPE_MAP: typeof import('./common/constants')['GATEWAY_DISABLED_LISTENER_TYPE_MAP']
   const GATEWAY_ENABLED_DATABASES_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_DATABASES_MAP']
   const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
-  const GEMINI_DEFAULT_BASE_URL: typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']
   const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
@@ -144,7 +143,6 @@ declare global {
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
   const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
   const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
-  const createAIGeminiForm: typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']
   const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
   const createConsoleForm: typeof import('./hooks/Flow/useNodeForm')['createConsoleForm']
@@ -200,7 +198,6 @@ declare global {
   const h: typeof import('vue')['h']
   const handleTransformData: typeof import('./hooks/Rule/transform/useMessageTransform')['handleTransformData']
   const inject: typeof import('vue')['inject']
-  const intReg: typeof import('./common/tools')['intReg']
   const isArray: typeof import('lodash')['isArray']
   const isContainsAIExpression: typeof import('./common/tools')['isContainsAIExpression']
   const isEqual: typeof import('lodash')['isEqual']
@@ -225,7 +222,6 @@ declare global {
   const nextTick: typeof import('vue')['nextTick']
   const numToFixed: typeof import('./common/tools')['numToFixed']
   const numberArgTypes: typeof import('./hooks/useRuleFunc')['numberArgTypes']
-  const numberReg: typeof import('./common/tools')['numberReg']
   const objectToAvroJson: typeof import('./hooks/Plugins/avroUtils')['objectToAvroJson']
   const omit: typeof import('lodash')['omit']
   const omitArr: typeof import('./common/tools')['omitArr']
@@ -256,7 +252,6 @@ declare global {
   const replaceSpaceForHTML: typeof import('./common/tools')['replaceSpaceForHTML']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const round: typeof import('lodash')['round']
-  const routesRegNamespaceUserCanAccess: typeof import('./hooks/useNamespaceUserRouter')['routesRegNamespaceUserCanAccess']
   const ruleSelectionAliasPartReg: typeof import('./common/tools')['ruleSelectionAliasPartReg']
   const scrollToTop: typeof import('./common/tools')['scrollToTop']
   const sentenceCase: typeof import('./common/tools')['sentenceCase']
@@ -287,8 +282,8 @@ declare global {
   const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
   const triggerRef: typeof import('vue')['triggerRef']
   const trim: typeof import('lodash')['trim']
+  const trimAndRemoveReturnFromValues: typeof import('./common/tools')['trimAndRemoveReturnFromValues']
   const trimSpacesAndLFs: typeof import('./common/tools')['trimSpacesAndLFs']
-  const trimValues: typeof import('./common/tools')['trimValues']
   const tryToCompleteURL: typeof import('./common/tools')['tryToCompleteURL']
   const typesWithProducerAndConsumer: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']
   const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
@@ -296,7 +291,6 @@ declare global {
   const uniq: typeof import('lodash')['uniq']
   const uniqBy: typeof import('lodash')['uniqBy']
   const unref: typeof import('vue')['unref']
-  const useAIModels: typeof import('./hooks/Flow/useAIModels')['default']
   const useActionAndSourceStatus: typeof import('./hooks/Rule/useActionAndSourceStatus')['default']
   const useActionComponentsHandlers: typeof import('./hooks/Rule/bridge/useActionComponentsHandlers')['default']
   const useActionDataHandler: typeof import('./hooks/Rule/useDataHandler')['useActionDataHandler']
@@ -313,7 +307,6 @@ declare global {
   const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
   const useAuthz: typeof import('./hooks/Auth/useAuthz')['default']
   const useAuthzCreate: typeof import('./hooks/Auth/useAuthzCreate')['default']
-  const useAuthzDataHandler: typeof import('./hooks/Auth/useAuthzDataHandler')['default']
   const useAuthzManager: typeof import('./hooks/Auth/useAuthzManager')['default']
   const useAvailableProviders: typeof import('./hooks/Rule/useProvidersForMonaco')['useAvailableProviders']
   const useBackgroundCircle: typeof import('./hooks/Overview/useNodesGraph')['useBackgroundCircle']
@@ -414,7 +407,6 @@ declare global {
   const useLimiter: typeof import('./hooks/Config/useLimiter')['default']
   const useListenerDrawer: typeof import('./hooks/Config/useListenerDrawer')['default']
   const useListenerUtils: typeof import('./hooks/Config/useListenerUtils')['default']
-  const useLogOut: typeof import('./hooks/useLogOut')['default']
   const useMFAMethods: typeof import('./hooks/useMFA')['useMFAMethods']
   const useMQTTVersion5NewConfig: typeof import('./hooks/useMQTTVersion5NewConfig')['default']
   const useMenus: typeof import('./hooks/useMenus')['default']
@@ -426,8 +418,6 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
-  const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
-  const useNamespaceUserRouter: typeof import('./hooks/useNamespaceUserRouter')['default']
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
@@ -474,7 +464,6 @@ declare global {
   const useSchemaConnectorPropsLayout: typeof import('./hooks/Rule/connector/useSchemaConnectorPropsLayout')['default']
   const useSchemaForm: typeof import('./hooks/Schema/useSchemaForm')['default']
   const useSchemaFormRules: typeof import('./hooks/Schema/useSchemaFormRules')['default']
-  const useSchemaHandlers: typeof import('./hooks/Rule/useSchemaHandlers')['default']
   const useSchemaRecord: typeof import('./hooks/Schema/useSchemaRecord')['default']
   const useSchemaRegistryForm: typeof import('./hooks/Rule/schema/useSchemaRegistryForm')['default']
   const useSchemaType: typeof import('./hooks/Rule/schema/useSchemaType')['default']
@@ -497,7 +486,6 @@ declare global {
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useTestConnector: typeof import('./hooks/Rule/connector/useTestConnector')['default']
   const useToggleAuthStatus: typeof import('./hooks/Auth/useToggleAuthStatus')['default']
-  const useTopicMetrics: typeof import('./hooks/Diagnose/useTopicMetrics')['default']
   const useTransName: typeof import('./hooks/useTransName')['default']
   const useTransformFailureAction: typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']
   const useTwoWayBindingManually: typeof import('./hooks/useTwoWayBindingManually')['default']
@@ -871,8 +859,8 @@ declare module 'vue' {
     readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly trim: UnwrapRef<typeof import('lodash')['trim']>
+    readonly trimAndRemoveReturnFromValues: UnwrapRef<typeof import('./common/tools')['trimAndRemoveReturnFromValues']>
     readonly trimSpacesAndLFs: UnwrapRef<typeof import('./common/tools')['trimSpacesAndLFs']>
-    readonly trimValues: UnwrapRef<typeof import('./common/tools')['trimValues']>
     readonly tryToCompleteURL: UnwrapRef<typeof import('./common/tools')['tryToCompleteURL']>
     readonly typesWithProducerAndConsumer: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']>
     readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
