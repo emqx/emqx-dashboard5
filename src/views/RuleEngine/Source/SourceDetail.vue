@@ -283,6 +283,7 @@ const updateSourceInfo = async () => {
     const data = await getDataForSubmit()
     const res = await updateSource(data)
     if (!isFromRule.value) {
+      rawSourceInfo = cloneDeep(sourceInfo.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'source' })
     }
