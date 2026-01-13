@@ -281,7 +281,7 @@ const SchemaForm = defineComponent({
       parentProperty.selectedOneof = property.properties
       parentProperty.default = property.default
       const fieldValue = parentProperty.path && _.get(configForm.value, parentProperty.path)
-      if (fieldValue) {
+      if (fieldValue && isPlainObject(fieldValue)) {
         // Remove unneeded fields
         Object.keys(fieldValue).forEach((key) => {
           if (!property.properties?.[key]) {

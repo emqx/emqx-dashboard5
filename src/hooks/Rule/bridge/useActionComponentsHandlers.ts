@@ -343,26 +343,50 @@ export default (
     return { components, rules }
   }
 
+  const handleIoTDBDataProps = (dataProps: Properties) => {
+    if (!dataProps) {
+      return
+    }
+    const { data_type, timestamp } = dataProps
+    if (data_type && data_type.type === 'oneof') {
+      data_type.type = 'enum'
+      data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
+      data_type.default ??= ''
+    }
+    if (timestamp && timestamp.type === 'oneof') {
+      timestamp.type = 'enum'
+      timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
+      timestamp.default ??= ''
+    }
+    const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
+
+    Object.entries(dataProps).forEach(([key, value]) =>
+      setLabelAndDesc(value, `${i18nPrefix}${key}`),
+    )
+    return dataProps
+  }
   const IoTDBHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
-    const dataProps = components?.parameters?.properties?.data?.items?.properties
-    if (dataProps) {
-      const { data_type, timestamp } = dataProps
-      if (data_type && data_type.type === 'oneof') {
-        data_type.type = 'enum'
-        data_type.symbols = getSymbolsFromOneOfArr(data_type.oneOf)
-        data_type.default ??= ''
+    const treeParameters = components?.parameters?.oneOf?.find(
+      (item) => item.$ref && /tree/i.test(item.$ref),
+    )
+    const tableParameters = components?.parameters?.oneOf?.find(
+      (item) => item.$ref && /table/i.test(item.$ref),
+    )
+    const path = 'properties.data.items.properties'
+    const treeDataProps = get(treeParameters, path)
+    const tableDataProps = get(tableParameters, path)
+    if (components?.parameters) {
+      components.parameters.useNewCom = true
+      if (!components.parameters.default) {
+        components.parameters.default = treeParameters?.default
       }
-      if (timestamp && timestamp.type === 'oneof') {
-        timestamp.type = 'enum'
-        timestamp.symbols = getSymbolsFromOneOfArr(timestamp.oneOf)
-        timestamp.default ??= ''
-      }
-      const i18nPrefix = getI18nPrefix(BridgeType.IoTDB)
-
-      Object.entries(dataProps).forEach(([key, value]) =>
-        setLabelAndDesc(value, `${i18nPrefix}${key}`),
-      )
+    }
+    if (treeDataProps) {
+      handleIoTDBDataProps(treeDataProps)
+    }
+    if (tableDataProps) {
+      handleIoTDBDataProps(tableDataProps)
     }
     return { components, rules }
   }
