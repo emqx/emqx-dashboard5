@@ -1,3 +1,4 @@
+import parseForeachSQL from '@/common/parseForeachSQL'
 import {
   getKeyPartsFromSQL,
   getRuleSelectionAlias,
@@ -57,13 +58,36 @@ export default (): {
     return {}
   })
   const { transFromStrToFromArr, getTestTargetEvent } = useRuleUtils()
+  const isForeachSql = computed(() => /^[\s\n]*FOREACH[\s\n]+/i.test(sql.value))
+  const foreachResult = computed(() => parseForeachSQL(sql.value))
+  const foreachOutputList = computed(() => {
+    if (!isForeachSql.value) {
+      return []
+    }
+    const listSet = new Set<string>()
+    const { foreach, do: doList } = foreachResult.value
+    if (foreach.alias) {
+      listSet.add(foreach.alias)
+    }
+    doList?.forEach((item) => {
+      if (item.alias) {
+        listSet.add(item.alias)
+      }
+    })
+    return [...listSet]
+  })
   const selectList = computed<Array<string>>(() => {
-    if (isUndefined(sqlKeyParts.value.fieldStr)) {
+    if (isUndefined(sqlKeyParts.value.fieldStr) || isForeachSql.value) {
       return []
     }
     return splitOnComma(sqlKeyParts.value.fieldStr).map((item) => trimSpacesAndLFs(item))
   })
-  const fromList = computed(() => transFromStrToFromArr(sqlKeyParts.value.fromStr || ''))
+  const fromList = computed(() => {
+    if (!isForeachSql.value) {
+      return foreachResult.value.from
+    }
+    return transFromStrToFromArr(sqlKeyParts.value.fromStr || '')
+  })
 
   const ruleInputEventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
   const ruleInputBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
@@ -84,12 +108,12 @@ export default (): {
   const totalEventList = computed(() => [...eventList.value, ..._events] as Array<RuleEvent>)
 
   const availableFields = computed<Array<string>>(() => {
-    if (selectList.value.length === 0) {
+    if (selectList.value.length === 0 && !isForeachSql.value) {
       return []
     }
     let valueSet: Set<string> = new Set()
-    // if select `*`, fields is from `from`
-    if (selectList.value.length === 1 && /^\*$/.test(selectList.value[0])) {
+    // if select `*`, fields is from `from` or is `foreach`
+    if ((selectList.value.length === 1 && /^\*$/.test(selectList.value[0])) || isForeachSql.value) {
       if (!eventList) {
         return []
       }
@@ -110,6 +134,11 @@ export default (): {
         }
         return set
       }, new Set() as Set<string>)
+      if (isForeachSql.value) {
+        foreachOutputList.value.forEach((item) => {
+          valueSet.add(item)
+        })
+      }
     } else {
       // else output select
       valueSet = selectList.value.reduce((set, item) => {
