@@ -329,6 +329,7 @@ const updateBridgeInfo = async () => {
     const data = await getDataForSubmit()
     const res = await updateAction(data as any)
     if (!props.inDrawer) {
+      rawBridgeInfo = cloneDeep(bridgeInfo.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
     }

@@ -262,6 +262,7 @@ const submit = async () => {
     isSubmitting.value = true
     const res = await updateConnector(connectorData.value)
     if (!isFromRule.value) {
+      rawConnectorData = cloneDeep(connectorData.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'connector' })
     }
