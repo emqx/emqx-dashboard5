@@ -61,7 +61,7 @@ export default (): {
   const isForeachSql = computed(() => /^[\s\n]*FOREACH[\s\n]+/i.test(sql.value))
   const foreachResult = computed(() => parseForeachSQL(sql.value))
   const foreachOutputList = computed(() => {
-    if (!isForeachSql.value) {
+    if (!isForeachSql.value || !foreachResult.value) {
       return []
     }
     const listSet = new Set<string>()
@@ -83,7 +83,7 @@ export default (): {
     return splitOnComma(sqlKeyParts.value.fieldStr).map((item) => trimSpacesAndLFs(item))
   })
   const fromList = computed(() => {
-    if (!isForeachSql.value) {
+    if (isForeachSql.value && foreachResult.value) {
       return foreachResult.value.from
     }
     return transFromStrToFromArr(sqlKeyParts.value.fromStr || '')
