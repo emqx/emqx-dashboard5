@@ -365,6 +365,7 @@ declare global {
   const useDeleteRule: typeof import('./hooks/Rule/rule/useDeleteRule')['default']
   const useDeleteSource: typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']
   const useDeliveryDroppedDetails: typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']
+  const useDetectAggregatedAction: typeof import('./hooks/Rule/action/useDetectAggregatedAction')['default']
   const useDetectIsComInSinglePage: typeof import('./hooks/useDetectIsComInSinglePage')['default']
   const useDocLink: typeof import('./hooks/useDocLink')['default']
   const useDroppedCharts: typeof import('./hooks/useDroppedDetail')['useDroppedCharts']
@@ -966,6 +967,7 @@ declare module 'vue' {
     readonly useDeleteRule: UnwrapRef<typeof import('./hooks/Rule/rule/useDeleteRule')['default']>
     readonly useDeleteSource: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']>
     readonly useDeliveryDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']>
+    readonly useDetectAggregatedAction: UnwrapRef<typeof import('./hooks/Rule/action/useDetectAggregatedAction')['default']>
     readonly useDetectIsComInSinglePage: UnwrapRef<typeof import('./hooks/useDetectIsComInSinglePage')['default']>
     readonly useDocLink: UnwrapRef<typeof import('./hooks/useDocLink')['default']>
     readonly useDroppedCharts: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDroppedCharts']>
