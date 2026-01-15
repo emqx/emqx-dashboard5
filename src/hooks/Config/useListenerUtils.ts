@@ -150,6 +150,7 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     cacertfile: '',
     keyfile: '',
     session_tickets: SSLSessionTickets.disabled,
+    reuse_sessions: true,
     verify: SSL_VERIFY_VALUE_MAP.get(true),
     fail_if_no_peer_cert: true,
     depth: 10,
