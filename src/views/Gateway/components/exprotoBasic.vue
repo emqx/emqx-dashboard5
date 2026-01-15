@@ -139,6 +139,11 @@ const tl = (key: string, collection = 'Gateway') => t(collection + '.' + key)
     .TLS-input {
       width: 75%;
     }
+    .session-resumption-row {
+      .TLS-input {
+        width: 100%;
+      }
+    }
   }
 }
 </style>
