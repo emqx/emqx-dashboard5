@@ -1,4 +1,5 @@
 import { MessageParamsNormalized, MessageParams, MessageOptions, messageTypes } from 'element-plus'
+import { isVNode } from 'vue'
 
 /* for rewrite some configuration */
 const PER_MIN_LETTERS = 25
@@ -8,7 +9,10 @@ const countDuration = (message: string) => {
 }
 
 const normalizeOptions = (params?: MessageParams): MessageParamsNormalized => {
-  const options = !params || isString(params) || isFunction(params) ? { message: params } : params
+  const options =
+    !params || isString(params) || isFunction(params) || isVNode(params)
+      ? { message: params }
+      : params
   return options as MessageParamsNormalized
 }
 

@@ -1,6 +1,8 @@
 <template>
   <div class="code-view">
-    <component :is="hljsVuePlugin.component" :code="code" :language="lang" :autodetect="false" />
+    <component :is="maxHeight ? ElScrollbar : 'div'" v-bind="maxHeight ? { maxHeight } : {}">
+      <component :is="hljsVuePlugin.component" :code="code" :language="lang" :autodetect="false" />
+    </component>
     <el-tooltip v-if="showCopyBtn" effect="dark" placement="top" :content="tl('copy')">
       <el-icon class="icon-copy" @click="copyText(code)">
         <copy-document />
@@ -17,6 +19,7 @@ import bash from '@/common/highlight/bash'
 import yaml from 'highlight.js/lib/languages/yaml'
 import javascript from 'highlight.js/lib/languages/javascript'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
+import { ElScrollbar } from 'element-plus'
 import { CopyDocument } from '@element-plus/icons-vue'
 
 hljs.registerLanguage('javascript', javascript)
@@ -29,6 +32,7 @@ defineProps<{
   code: string
   lang: string
   showCopyBtn?: boolean
+  maxHeight?: number
 }>()
 
 const { tl } = useI18nTl('Base')
