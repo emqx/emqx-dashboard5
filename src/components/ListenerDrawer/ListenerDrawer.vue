@@ -106,7 +106,7 @@
               v-model="listenerRecord[SSLConfigKey]"
               :is-server="true"
               :show-sni="false"
-              :no-session-tickets="isQUIC"
+              :no-session-resumption="isQUIC"
               :show-middlebox-comp-mode="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
