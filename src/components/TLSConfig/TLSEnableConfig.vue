@@ -20,7 +20,7 @@
       <el-switch v-model="record.middlebox_comp_mode" :disabled="readonly" />
     </el-form-item>
 
-    <el-form-item v-if="isServer" :prop="getFormItemProp(`session_tickets`)">
+    <el-form-item v-if="isServer && !noSessionTickets" :prop="getFormItemProp(`session_tickets`)">
       <template #label>
         <FormItemLabel
           :label="t('Base.sessionTickets')"
@@ -197,6 +197,10 @@ const props = defineProps({
    */
   isServer: {
     type: Boolean,
+  },
+  noSessionTickets: {
+    type: Boolean,
+    default: false,
   },
 })
 

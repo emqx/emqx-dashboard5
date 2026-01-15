@@ -243,6 +243,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     if (data.type === ListenerType.WSS || data.type === ListenerType.QUIC) {
       delete data.ssl_options.ocsp
     }
+    if (data.type === ListenerType.QUIC) {
+      delete data.ssl_options.session_tickets
+    }
     // Handle the custom configs
     if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
       const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
