@@ -343,14 +343,22 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
 - \`stateless\`：启用无状态会话票据，服务端发送加密票据，客户端可用于恢复会话，服务端无需保存会话状态<br />
 - \`stateless_with_cert\`：在票据中包含证书信息，证书变更时仍可恢复会话，但会增加网络带宽开销<br />
 注意：EMQX 仅支持无状态 Session Tickets，不支持客户端早期数据（0-RTT）。<br />
-完整握手后发送的票据数量由配置 node.tls_server_session_tickets_amount 控制；种子密钥由 node.tls_stateless_tickets_seed 配置。`,
+完整握手后发送的票据数量由配置 node.tls_server_session_tickets_amount 控制；种子密钥由 node.tls_stateless_tickets_seed 配置。当此配置不为 \`disabled\` 且 node.tls_stateless_tickets_seed 为空时，将产生一条错误日志且可能导致监听器无法启用成功。`,
     en: `Enable TLS 1.3 session resumption using stateless session tickets.<br />
 Possible values:<br />
 - \`disabled\`: Disable session tickets (default).<br />
 - \`stateless\`: Enable stateless session tickets. The server sends encrypted tickets that clients can use to resume sessions without storing session state on the server.<br />
 - \`stateless_with_cert\`: Enable stateless session tickets with certificate information included. This allows session resumption even when the server certificate changes, but increases network bandwidth usage as each ticket includes certificate data.<br />
 Note: EMQX only supports stateless session tickets without support for client early data (0-RTT).<br />
-The number of tickets sent after a full handshake is controlled by the config node.tls_server_session_tickets_amount; the seed key is configured at node.tls_stateless_tickets_seed.`,
+The number of tickets sent after a full handshake is controlled by the config node.tls_server_session_tickets_amount; the seed key is configured at node.tls_stateless_tickets_seed. When this configuration is not \`disabled\` and node.tls_stateless_tickets_seed is empty, an error log will be generated and may cause the listener to fail to be enabled successfully.`,
+  },
+  reuseSessions: {
+    zh: 'TLS 1.2 会话复用',
+    en: 'TLS 1.2 Session Reuse',
+  },
+  reuseSessionsDesc: {
+    zh: '为 TLS 客户端启用 TLS 1.2 会话恢复。当 TLS 版本配置（或协商）为 1.3 时，此配置不生效。',
+    en: 'Enable TLS 1.2 session resumption for TLS client. It has no effect when TLS version is configured (or negotiated) to 1.3.',
   },
   confirmReplacement: {
     zh: '是否确认替换当前内容？',
