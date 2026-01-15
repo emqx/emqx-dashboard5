@@ -59,6 +59,7 @@ export interface SSL {
    * - stateless_with_cert: Enable stateless session tickets with certificate information included.
    */
   session_tickets?: valueof<typeof SSLSessionTickets>
+  reuse_sessions?: boolean
 }
 
 export interface BackendI18n {
