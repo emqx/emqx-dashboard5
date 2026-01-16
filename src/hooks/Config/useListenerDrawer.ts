@@ -3,7 +3,7 @@ import { addListener, queryListenerDetail, updateListener } from '@/api/listener
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
-import { isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'
+import { hoconToObject, isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'
 
 type Props = Readonly<
   {
@@ -93,7 +93,6 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     getListenerNameNTypeById,
     transPort,
     extractDifferences,
-    hoconToObject,
     resetCustomConfig,
   } = useListenerUtils(props.gatewayName)
 

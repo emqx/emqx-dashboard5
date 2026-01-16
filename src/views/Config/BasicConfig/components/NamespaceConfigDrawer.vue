@@ -108,8 +108,8 @@
 
 <script lang="ts" setup>
 import { getConfigs, putConfigs } from '@/api/config'
+import { hoconToObject } from '@emqx/shared-ui-utils'
 import { FormInstance } from 'element-plus'
-import parseHoconToObject from 'hocon-parser'
 
 const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
 const DEFAULT_OVERRIDE_EXP = `concat([client_attrs.tns, '-', clientid])`
@@ -160,7 +160,7 @@ const getNamespaceConfigs = async () => {
   try {
     isLoading.value = true
     const temp = await getConfigs(MULTI_TENANCY_KEY)
-    record.value = parseHoconToObject(temp)?.[MULTI_TENANCY_KEY]
+    record.value = hoconToObject(temp)?.[MULTI_TENANCY_KEY]
   } catch (error) {
     //
   } finally {

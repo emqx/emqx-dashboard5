@@ -80,9 +80,6 @@ importers:
       highlight.js:
         specifier: 10.7.3
         version: 10.7.3
-      hocon-parser:
-        specifier: ^1.0.1
-        version: 1.0.1
       js-base64:
         specifier: ^3.7.2
         version: 3.7.7

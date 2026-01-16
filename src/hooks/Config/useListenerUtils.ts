@@ -2,7 +2,6 @@ import { FormRules } from '@/types/common'
 import { ListenerType, ListenerTypeForGateway } from '@/types/enum'
 import { Listener } from '@/types/listener'
 import { SSLSessionTickets } from '@/types/typeAlias'
-import parseHoconToObject from 'hocon-parser'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 
 export interface ListenerUtils {
@@ -35,8 +34,6 @@ export interface ListenerUtils {
   handleListenerDataWhenItIsIndependent: (listener: Listener) => Listener
   transPort: (port: string) => string
   extractDifferences: (type: keyof typeof unexposedConfigs, data: any) => Record<string, any>
-  objectToHocon(obj: Record<string, any>): string
-  hoconToObject: (hoconData: string) => Record<string, any>
   resetCustomConfig: (data: Listener, defaultConfig: Listener) => Listener
 }
 
@@ -400,54 +397,6 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     return diff
   }
 
-  const wordReg = /^[a-zA-Z_]+$/
-  const numReg = /^[\d]+$/
-
-  const getValueStr = (value: string) => {
-    if (wordReg.test(value) || numReg.test(value)) {
-      return value
-    }
-    return `"${value}"`
-  }
-
-  const objectToHocon = (data: Record<string, any>): string => {
-    if (isEmptyObj(data)) {
-      return ''
-    }
-    let result = ''
-    const walk = (data: Record<string, any>, level = 0) => {
-      for (const key in data) {
-        const value = data[key]
-        if (typeof value === 'object' && !Array.isArray(value)) {
-          result += `${'  '.repeat(level)}${key} {\n`
-          walk(value, level + 1)
-          result += `${'  '.repeat(level)}}\n`
-        } else if (Array.isArray(value)) {
-          result += `${'  '.repeat(level)}${key} = [\n`
-          for (const item of value) {
-            result += `${'  '.repeat(level + 1)}${getValueStr(item)}\n`
-          }
-          result += `${'  '.repeat(level)}]\n`
-        } else {
-          result += `${'  '.repeat(level)}${key} = ${getValueStr(value)}\n`
-        }
-      }
-    }
-
-    walk(data, 1)
-
-    return `{\n${result}}`
-  }
-
-  const hoconToObject = (hoconData: string): Record<string, any> => {
-    try {
-      const parsedData = parseHoconToObject(hoconData)
-      return Promise.resolve(parsedData)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
-
   /**
    * Resets the custom configuration by merging it with the default configuration.
    * If a property in the custom configuration is undefined, null, empty string, or an empty object,
@@ -502,8 +451,6 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     handleListenerDataWhenItIsIndependent,
     transPort,
     extractDifferences,
-    objectToHocon,
-    hoconToObject,
     resetCustomConfig,
   }
 }
