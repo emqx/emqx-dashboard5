@@ -872,6 +872,18 @@ The number of tickets sent after a full handshake is controlled by the config no
     zh: '可以添加多个证书包以服务于不同的 SNI。列表中的第一个证书包将作为默认证书包，当客户端请求的 SNI 未匹配到其他证书包时使用。',
     en: 'You can add multiple certificate bundles to serve different SNIs. The first certificate bundle in the list will be used as the default certificate bundle when the client requests an SNI that does not match any other certificate bundles.',
   },
+  requestFailed: {
+    en: 'Request Failed',
+    zh: '请求失败',
+  },
+  path: {
+    en: 'Path',
+    zh: '路径',
+  },
+  copyErrorInfo: {
+    en: 'Copy Error Info',
+    zh: '复制错误信息',
+  },
   copyRawResponse: {
     zh: '复制原始响应',
     en: 'Copy Raw Response',

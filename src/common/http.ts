@@ -15,6 +15,7 @@ import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import HTTPErrorMessage from './HTTPErrorMessage'
 
 type CustomRequestConfig = InternalAxiosRequestConfig & {
   doNotTriggerProgress?: boolean
@@ -150,7 +151,7 @@ axios.interceptors.response.use(
           } else if (ERROR_CODE_HANDLE_BY_PAGE.includes(data.code)) {
             // do nothing, leave it to the page to do the rest of the processing
           } else {
-            CustomMessage.error(getErrorMessage(data, status))
+            HTTPErrorMessage(getErrorMessage(data, status) as VNode)
           }
         }
 
