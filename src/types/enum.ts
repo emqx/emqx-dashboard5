@@ -401,9 +401,11 @@ export enum LicenseCustomerType {
   Small = 0,
   Medium,
   Large,
-  Education = 5,
+  BusinessCritical,
+  Byoc,
+  Education,
   Evaluation = 10,
-  Developer = 11,
+  Developer,
 }
 
 export enum Role {
