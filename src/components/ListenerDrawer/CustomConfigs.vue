@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { Listener } from '@/types/listener'
+import { hoconToObject, objectToHocon } from '@emqx/shared-ui-utils'
 
 const { tl } = useI18nTl('Gateway')
 
@@ -31,8 +32,6 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['update:modelValue'])
-
-const { objectToHocon, hoconToObject } = useListenerUtils()
 
 const errorMsg = ref('')
 
