@@ -1953,4 +1953,16 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '连接器',
     en: 'Connector',
   },
+  aggregatedUploadSuccess: {
+    zh: '聚合上传成功',
+    en: 'Aggregated Upload Success',
+  },
+  aggregatedUploadFailure: {
+    zh: '聚合上传失败',
+    en: 'Aggregated Upload Failure',
+  },
+  aggregatedUpload: {
+    zh: '聚合上传',
+    en: 'Aggregated Upload',
+  },
 }

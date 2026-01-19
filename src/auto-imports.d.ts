@@ -288,8 +288,8 @@ declare global {
   const transTimeStrToMS: typeof import('./common/tools')['transTimeStrToMS']
   const triggerRef: typeof import('vue')['triggerRef']
   const trim: typeof import('lodash')['trim']
+  const trimAndRemoveReturnFromValues: typeof import('./common/tools')['trimAndRemoveReturnFromValues']
   const trimSpacesAndLFs: typeof import('./common/tools')['trimSpacesAndLFs']
-  const trimValues: typeof import('./common/tools')['trimValues']
   const tryToCompleteURL: typeof import('./common/tools')['tryToCompleteURL']
   const typesWithProducerAndConsumer: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']
   const unexposedConfigs: typeof import('./common/constants')['unexposedConfigs']
@@ -365,6 +365,7 @@ declare global {
   const useDeleteRule: typeof import('./hooks/Rule/rule/useDeleteRule')['default']
   const useDeleteSource: typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']
   const useDeliveryDroppedDetails: typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']
+  const useDetectAggregatedAction: typeof import('./hooks/Rule/action/useDetectAggregatedAction')['default']
   const useDetectIsComInSinglePage: typeof import('./hooks/useDetectIsComInSinglePage')['default']
   const useDocLink: typeof import('./hooks/useDocLink')['default']
   const useDroppedCharts: typeof import('./hooks/useDroppedDetail')['useDroppedCharts']
@@ -889,8 +890,8 @@ declare module 'vue' {
     readonly transTimeStrToMS: UnwrapRef<typeof import('./common/tools')['transTimeStrToMS']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly trim: UnwrapRef<typeof import('lodash')['trim']>
+    readonly trimAndRemoveReturnFromValues: UnwrapRef<typeof import('./common/tools')['trimAndRemoveReturnFromValues']>
     readonly trimSpacesAndLFs: UnwrapRef<typeof import('./common/tools')['trimSpacesAndLFs']>
-    readonly trimValues: UnwrapRef<typeof import('./common/tools')['trimValues']>
     readonly tryToCompleteURL: UnwrapRef<typeof import('./common/tools')['tryToCompleteURL']>
     readonly typesWithProducerAndConsumer: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['typesWithProducerAndConsumer']>
     readonly unexposedConfigs: UnwrapRef<typeof import('./common/constants')['unexposedConfigs']>
@@ -966,6 +967,7 @@ declare module 'vue' {
     readonly useDeleteRule: UnwrapRef<typeof import('./hooks/Rule/rule/useDeleteRule')['default']>
     readonly useDeleteSource: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['useDeleteSource']>
     readonly useDeliveryDroppedDetails: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDeliveryDroppedDetails']>
+    readonly useDetectAggregatedAction: UnwrapRef<typeof import('./hooks/Rule/action/useDetectAggregatedAction')['default']>
     readonly useDetectIsComInSinglePage: UnwrapRef<typeof import('./hooks/useDetectIsComInSinglePage')['default']>
     readonly useDocLink: UnwrapRef<typeof import('./hooks/useDocLink')['default']>
     readonly useDroppedCharts: UnwrapRef<typeof import('./hooks/useDroppedDetail')['useDroppedCharts']>

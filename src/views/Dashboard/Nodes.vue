@@ -29,6 +29,7 @@
       <el-table-column prop="version" :label="tl('version')" width="116" sortable>
       </el-table-column>
       <el-table-column prop="connections" :label="t('Clients.connect')" min-width="120" />
+      <el-table-column prop="role" :label="t('Dashboard.role')" width="90" />
       <el-table-column :label="`Erlang ${tl('process')}`" min-width="160">
         <template #default="{ row }">
           <el-tooltip

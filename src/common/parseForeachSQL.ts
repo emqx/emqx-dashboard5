@@ -54,12 +54,12 @@ class ForeachParser {
    * Parse FOREACH statement
    * @returns {object} Parse result
    */
-  parse(): ForeachParseResult {
+  parse(): ForeachParseResult | null {
     this.skipWhitespace()
 
     // Check FOREACH keyword
     if (!this.consumeKeyword('FOREACH')) {
-      throw new Error('Expected FOREACH keyword')
+      return null
     }
 
     const result: ForeachParseResult = {
@@ -390,7 +390,7 @@ class ForeachParser {
  * @param {string} sql - FOREACH SQL statement
  * @returns {object} Parse result
  */
-const parseForeachSQL = (sql: string): ForeachParseResult => {
+const parseForeachSQL = (sql: string): ForeachParseResult | null => {
   const parser = new ForeachParser(sql)
   return parser.parse()
 }

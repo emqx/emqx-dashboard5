@@ -12,8 +12,21 @@
             <CustomInputNumber
               v-model.number="jValue.frame.max_length"
               :min="0"
-              controls-position="right"
               :placeholder="String(createDefault().frame.max_length)"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="tl('parseUnknownMessage')"
+                :desc="tl('parseUnknownMessageDesc')"
+              />
+            </template>
+            <el-switch
+              v-model="jValue.frame.parse_unknown_message"
+              :placeholder="String(createDefault().frame.parse_unknown_message)"
             />
           </el-form-item>
         </el-col>
@@ -140,6 +153,7 @@ const refForm = ref()
 const createDefault = () => ({
   frame: {
     max_length: 8192,
+    parse_unknown_message: true,
   },
   proto: {
     auth: {

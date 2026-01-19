@@ -78,6 +78,7 @@ export interface SSL {
    * null just for updating listener
    */
   managed_certs?: ManagedCerts | ManagedCerts[] | null
+  reuse_sessions?: boolean
 }
 
 export interface BackendI18n {

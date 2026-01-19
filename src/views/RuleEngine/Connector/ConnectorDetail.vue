@@ -154,6 +154,13 @@ const { formCom } = useConnectorFormComponent(generalType)
 
 const connectorData = ref<Connector>({} as Connector)
 
+/**
+ * for compare
+ */
+let rawConnectorData: undefined | Connector = undefined
+const countIsRecordChanged = () => !isEqual(rawConnectorData, connectorData.value)
+useDataNotSaveConfirm(countIsRecordChanged)
+
 const showNameInputDialog = ref(false)
 const duplication = ref<Connector>({} as Connector)
 const copyTarget = computed<{ type: 'connector'; obj: Connector }>(() => ({
@@ -191,6 +198,7 @@ const getDetail = async () => {
   try {
     isLoading.value = true
     connectorData.value = await getConnectorDetail(id.value, namespace.value)
+    rawConnectorData = cloneDeep(connectorData.value)
   } catch (error) {
     //
   } finally {
@@ -241,6 +249,7 @@ const submit = async () => {
     isSubmitting.value = true
     const res = await updateConnector(connectorData.value)
     if (!isFromRule.value) {
+      rawConnectorData = cloneDeep(connectorData.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'connector' })
     }

@@ -16,6 +16,23 @@
     @metrics-change="handleMetricsLoaded"
   >
     <template #custom-block="{ data }" v-if="!isSource">
+      <!-- Aggregated Upload Metrics -->
+      <div class="metric-block" v-if="supportsAggregatedUpload">
+        <div class="block-hd">
+          <p class="block-title">
+            {{ tl('aggregatedUpload') }}
+          </p>
+        </div>
+        <el-row :class="['block-bd', { 'flow-node-row': isFlowNode }]" :gutter="24">
+          <TypeMetrics
+            :span="11"
+            :data="getAggregatedMetrics(data)"
+            :is-flow-node="isFlowNode"
+            :selected-node="selectedNode"
+          />
+        </el-row>
+      </div>
+      <!-- Buffer Metrics -->
       <div class="metric-block">
         <div class="block-hd">
           <p class="block-title">
@@ -123,7 +140,8 @@
 </template>
 
 <script setup lang="ts">
-import { MetricsData, NodeMetrics } from '@/types/common'
+import { TypeMetricDataItem } from '@/hooks/useMetrics'
+import { Metrics, MetricsData, NodeMetrics } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, NodeStatus, Source } from '@/types/rule'
 
@@ -157,6 +175,33 @@ const pieColSpan = computed(() => {
   }
   return 6
 })
+
+// Check if current action type supports aggregated upload
+const { detectAggregatedAction } = useDetectAggregatedAction()
+const supportsAggregatedUpload = computed(() => detectAggregatedAction(props.bridgeMsg))
+const getAggregatedMetrics = (data: Metrics): TypeMetricDataItem[] => {
+  if (!supportsAggregatedUpload.value) {
+    return []
+  }
+  const suc = data['aggregated_upload.success'] ?? 0
+  const sucLabel = tl('aggregatedUploadSuccess')
+  const fail = data['aggregated_upload.failure'] ?? 0
+  const failLabel = tl('aggregatedUploadFailure')
+  return [
+    {
+      title: sucLabel,
+      count: suc,
+      type: MetricType.Green,
+      detail: [{ value: suc, label: sucLabel }],
+    },
+    {
+      title: failLabel,
+      count: fail,
+      type: MetricType.Red,
+      detail: [{ value: fail, label: failLabel }],
+    },
+  ]
+}
 
 const { reconnectActionForNode, getActionMetrics, resetActionMetrics } = useHandleActionItem()
 const { reconnectSourceForNode, getSourceMetrics, resetSourceMetrics } = useHandleSourceItem()

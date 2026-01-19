@@ -19,23 +19,47 @@
       </template>
       <el-switch v-model="record.middlebox_comp_mode" :disabled="readonly" />
     </el-form-item>
-
-    <el-form-item v-if="isServer" :prop="getFormItemProp(`session_tickets`)">
-      <template #label>
-        <FormItemLabel
-          :label="t('Base.sessionTickets')"
-          :desc="t('Base.sessionTicketsDesc')"
-          desc-marked
-        />
-      </template>
-      <el-select
-        v-model="record.session_tickets"
-        class="TLS-input session-tickets"
-        :disabled="readonly"
-      >
-        <el-option v-for="item in sessionTicketOptions" :key="item" :label="item" :value="item" />
-      </el-select>
-    </el-form-item>
+    <el-row v-if="isServer && !noSessionResumption" :gutter="20" class="session-resumption-row">
+      <el-col :span="12">
+        <el-form-item :prop="getFormItemProp(`session_tickets`)">
+          <template #label>
+            <FormItemLabel
+              :label="t('Base.sessionTickets')"
+              :desc="t('Base.sessionTicketsDesc')"
+              desc-marked
+            />
+          </template>
+          <el-select
+            v-model="record.session_tickets"
+            class="TLS-input session-tickets"
+            :disabled="readonly"
+          >
+            <el-option
+              v-for="item in sessionTicketOptions"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :prop="getFormItemProp(`image.png`)">
+          <template #label>
+            <FormItemLabel
+              :label="t('Base.reuseSessions')"
+              :desc="t('Base.reuseSessionsDesc')"
+              desc-marked
+            />
+          </template>
+          <el-switch
+            v-model="record.reuse_sessions"
+            class="TLS-input session-tickets"
+            :disabled="readonly"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
 
     <CustomFormItem
       v-if="showSni"
@@ -271,6 +295,10 @@ const props = defineProps({
   managedCertsBundleEmptyValue: {
     type: null as unknown as PropType<null>,
     default: undefined,
+  },
+  noSessionResumption: {
+    type: Boolean,
+    default: false,
   },
 })
 

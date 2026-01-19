@@ -209,7 +209,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.IoTDB]: createOrderObj(
-      ['device_id', 'is_aligned', 'data'].map((k) => `parameters.${k}`),
+      ['device_id', 'table', 'is_aligned', 'data'].map((k) => `parameters.${k}`),
       fieldStartIndex,
     ),
     [BridgeType.RabbitMQ]: createOrderObj(
@@ -438,15 +438,16 @@ export default (
       }, 300)
     }
   }
+  const IoTDBCommonClassMap = { 'parameters.write_to_table': 'col-hidden' }
   const IoTDBClassMap = (formData: Record<string, any>): Record<string, string> => {
     const connector = formData?.connector
     if (connector) {
       confirmIoTDBConnectorType(connector)
     }
     if (isIoTDBSelectedThriftConnector.value) {
-      return { 'resource_opts.query_mode': 'col-hidden' }
+      return { 'resource_opts.query_mode': 'col-hidden', ...IoTDBCommonClassMap }
     }
-    return {}
+    return { ...IoTDBCommonClassMap }
   }
 
   const typeColClassMap: Record<

@@ -107,6 +107,7 @@
               managed-certs-arr
               :is-server="true"
               :show-sni="false"
+              :no-session-resumption="isQUIC"
               :show-middlebox-comp-mode="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
