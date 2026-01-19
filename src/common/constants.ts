@@ -366,7 +366,6 @@ const sslUnexposedOptions = {
   hibernate_after: '5s',
   honor_cipher_order: true,
   log_level: 'notice',
-  reuse_sessions: true,
   secure_renegotiate: true,
 }
 

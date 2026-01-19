@@ -9,7 +9,7 @@
     <template v-if="$slots.content" #content>
       <slot name="content"></slot>
     </template>
-    <i class="iconfont icon-question"></i>
+    <i class="iconfont icon-question" @click.stop.prevent></i>
   </el-tooltip>
 </template>
 

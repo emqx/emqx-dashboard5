@@ -5,14 +5,14 @@
         <el-col v-bind="colProps">
           <el-input
             v-model="queryParams.clientid"
-            :placeholder="$t('Clients.clientId')"
+            :placeholder="tl('clientId')"
             clearable
             @clear="handleSearch"
           >
             <template #prepend>
               <el-select v-model="queryParams.clientidSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
+                <el-option :label="tl('exactQuery')" :value="SearchType.Exact" />
+                <el-option :label="tl('fuzzySearch')" :value="SearchType.Fuzzy" />
               </el-select>
             </template>
           </el-input>
@@ -20,14 +20,14 @@
         <el-col v-bind="colProps">
           <el-input
             v-model="queryParams.username"
-            :placeholder="$t('Clients.username')"
+            :placeholder="tl('username')"
             clearable
             @clear="handleSearch"
           >
             <template #prepend>
               <el-select v-model="queryParams.usernameSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
+                <el-option :label="tl('exactQuery')" :value="SearchType.Exact" />
+                <el-option :label="tl('fuzzySearch')" :value="SearchType.Fuzzy" />
               </el-select>
             </template>
           </el-input>
@@ -35,7 +35,7 @@
         <el-col v-bind="colProps">
           <el-input
             v-model="queryParams.ip_address"
-            :placeholder="$t('Clients.ipAddress')"
+            :placeholder="tl('ipAddress')"
             clearable
             @clear="handleSearch"
           />
@@ -44,7 +44,7 @@
           <el-col v-bind="colProps">
             <el-select
               v-model="queryParams.conn_state"
-              :placeholder="$t('Clients.connectedStatus')"
+              :placeholder="tl('connectedStatus')"
               clearable
               @clear="handleSearch"
             >
@@ -56,20 +56,29 @@
             <div class="el-input-group el-input-group--prepend">
               <div class="el-input-group__prepend">
                 <el-select v-model="queryParams.comparator">
-                  <el-option :label="$t('Clients.gte')" :value="Comparator.After" />
-                  <el-option :label="$t('Clients.lte')" :value="Comparator.Before" />
+                  <el-option :label="tl('gte')" :value="Comparator.After" />
+                  <el-option :label="tl('lte')" :value="Comparator.Before" />
                 </el-select>
               </div>
               <el-date-picker
                 v-model="queryParams.connected_at"
                 type="datetime"
-                :placeholder="$t('Clients.connectedAt')"
+                :placeholder="tl('connectedAt')"
                 clearable
                 @clear="handleSearch"
               />
             </div>
           </el-col>
-          <el-col v-bind="colProps" />
+          <el-col v-bind="colProps">
+            <el-select
+              v-model="queryParams.node"
+              :placeholder="t('Base.node')"
+              clearable
+              @clear="handleSearch"
+            >
+              <el-option v-for="node in nodeOpts" :key="node" :value="node" :label="node" />
+            </el-select>
+          </el-col>
         </template>
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <SearchButton @click="handleSearch" />
@@ -131,7 +140,7 @@
                 :top="1"
               />
               <span class="text-status" :class="row.connected ? 'success' : 'danger'">
-                {{ row.connected ? $t('Clients.connected') : $t('Clients.disconnected') }}
+                {{ row.connected ? tl('connected') : tl('disconnected') }}
               </span>
             </template>
             <ClientInfoItem v-else :client="row" :field="column" />
@@ -188,6 +197,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { batchDisconnectClients, exactSearchClient, listClients } from '@/api/clients'
+import { loadNodes } from '@/api/common'
 import {
   SEARCH_FORM_RES_PROPS as colProps,
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
@@ -237,7 +247,10 @@ const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
   clientidSearchType: SearchType.Fuzzy,
   usernameSearchType: SearchType.Fuzzy,
+  node: undefined,
 })
+const nodeOpts = ref<string[]>([])
+;(async () => (nodeOpts.value = (await loadNodes()).map(({ node }) => node)))()
 
 const { page, limit, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
 const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
@@ -311,6 +324,7 @@ const genQueryParams = (params: Record<string, any>) => {
     connected_at,
     usernameSearchType,
     clientidSearchType,
+    node,
   } = params
 
   const addLikeParam = (key: string, value: string, searchType: string) => {
@@ -328,6 +342,7 @@ const genQueryParams = (params: Record<string, any>) => {
     ...addLikeParam('username', username, usernameSearchType),
     ip_address: ip_address || undefined,
     conn_state: conn_state || undefined,
+    node: node || undefined,
   }
 
   if (connected_at) {

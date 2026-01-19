@@ -1,10 +1,12 @@
 <template>
   <el-col :span="colSpan" v-bind="$attrs">
     <CustomFormItem
-      :label="getLabel(property)"
       :readonly="readonly"
       :value="getLabelFromValueInOptionList(typeIndex, typeOpts)"
     >
+      <template #label>
+        <FormItemLabel :label="getLabel(property)" :desc="getDesc(property)" desc-marked />
+      </template>
       <el-select v-if="type === 'select'" v-model="typeIndex" @change="handleTypeChanged">
         <el-option
           v-for="{ value, label } in typeOpts"
@@ -138,6 +140,7 @@ const getLocalizedValue = (property: Property, field: 'label' | 'desc') => {
 }
 
 const getLabel = (property: Property) => getLocalizedValue(property, 'label')
+const getDesc = (property: Property) => getLocalizedValue(property, 'desc')
 
 watch(
   () => props.fieldValue,
