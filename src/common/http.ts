@@ -52,7 +52,7 @@ axios.interceptors.request.use(
       ['post', 'put'].includes(config.method) &&
       isPlainObject(config.data)
     ) {
-      config.data = trimValues(config.data)
+      config.data = trimAndRemoveReturnFromValues(config.data)
     }
     return config
   },

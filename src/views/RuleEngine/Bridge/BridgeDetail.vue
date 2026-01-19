@@ -267,6 +267,9 @@ const webhookRoute = computed(() => ({
   query: { tab: DetailTab.Setting },
 }))
 
+const countIsRecordChanged = () => !isEqual(rawBridgeInfo, bridgeInfo.value)
+useDataNotSaveConfirm(countIsRecordChanged)
+
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
@@ -326,6 +329,7 @@ const updateBridgeInfo = async () => {
     const data = await getDataForSubmit()
     const res = await updateAction(data as any)
     if (!props.inDrawer) {
+      rawBridgeInfo = cloneDeep(bridgeInfo.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'actions' })
     }

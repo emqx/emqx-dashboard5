@@ -212,6 +212,9 @@ const isSettingCardLoading = computed(() => infoLoading.value && !isUsingSchemaF
 const { getSourceDetail, updateSource, toggleSourceEnable, isTesting, testConnectivity } =
   useHandleSourceItem()
 
+const countIsRecordChanged = () => !isEqual(rawSourceInfo, sourceInfo.value)
+useDataNotSaveConfirm(countIsRecordChanged)
+
 const getSourceInfo = async () => {
   infoLoading.value = true
   try {
@@ -280,6 +283,7 @@ const updateSourceInfo = async () => {
     const data = await getDataForSubmit()
     const res = await updateSource(data)
     if (!isFromRule.value) {
+      rawSourceInfo = cloneDeep(sourceInfo.value)
       ElMessage.success(t('Base.updateSuccess'))
       router.push({ name: 'source' })
     }

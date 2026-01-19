@@ -116,6 +116,7 @@ export default (
     [
       'driver',
       'server',
+      'sql_dialect',
       'base_url',
       'authentication.username',
       'authentication.password',

@@ -809,12 +809,12 @@ export const getImg = (relativePathInAssets: string) => {
 }
 
 type TrimValuesParam = string | Record<string, any> | Array<TrimValuesParam>
-export const trimValues = (obj: TrimValuesParam, omitKeys?: Array<string>) => {
+export const trimAndRemoveReturnFromValues = (obj: TrimValuesParam, omitKeys?: Array<string>) => {
   const ret = cloneDeep(obj)
   const handle = (val: TrimValuesParam): TrimValuesParam => {
     // If the value is from a textarea, don't handle spaces
     if (typeof val === 'string' && !/\n/.test(val)) {
-      return val.trim()
+      return val.trim().replace(/\r\n/g, '\n')
     }
     if (Array.isArray(val)) {
       return val.map((item) => handle(item))

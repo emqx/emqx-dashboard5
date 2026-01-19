@@ -381,6 +381,9 @@ export default (
       }
       components[IoTDBKeyField].symbols = IoTDBDrivers
     }
+    if (components.sql_dialect) {
+      components.sql_dialect.useNewCom = true
+    }
     if (components?.iotdb_version?.symbols) {
       components.iotdb_version.symbols = components.iotdb_version.symbols.filter((version) =>
         typeof version !== 'string' ? true : compare(version.replace('v', ''), '1.3.0', '>='),
