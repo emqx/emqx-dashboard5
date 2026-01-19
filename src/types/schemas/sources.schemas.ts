@@ -744,6 +744,8 @@ export interface ActionsAndSourcesNodeStatus {
 }
 
 export interface ActionsAndSourcesMetrics {
+  aggregated_upload_failure?: number
+  aggregated_upload_success?: number
   dropped?: number
   'dropped.other'?: number
   'dropped.queue_full'?: number

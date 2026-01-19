@@ -613,30 +613,6 @@ export const ListenersWithNameQuicRequiredBindEnableAuthn = {
   true: true,
 } as const
 
-export interface ListenersWithNameQuicRequiredBind {
-  /** @minimum 1 */
-  acceptors?: number
-  bind: string
-  bytes_burst?: string
-  bytes_rate?: string
-  ciphers?: string[]
-  /** @minimum 0 */
-  current_connections?: number
-  enable?: boolean
-  enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
-  max_conn_burst?: string
-  max_conn_rate?: string
-  max_connections?: ListenersWithNameQuicRequiredBindMaxConnections
-  messages_burst?: string
-  messages_rate?: string
-  mountpoint?: string
-  name: string
-  running?: boolean
-  ssl_options?: EmqxListenerQuicSslOpts
-  type: ListenersWithNameQuicRequiredBindType
-  zone?: string
-}
-
 export type ListenersTcpRequiredBindType =
   (typeof ListenersTcpRequiredBindType)[keyof typeof ListenersTcpRequiredBindType]
 
@@ -1266,6 +1242,30 @@ export interface EmqxListenerQuicSslOpts {
   managed_certs?: EmqxListenerQuicSslOptsManagedCerts
   password?: string
   verify?: EmqxListenerQuicSslOptsVerify
+}
+
+export interface ListenersWithNameQuicRequiredBind {
+  /** @minimum 1 */
+  acceptors?: number
+  bind: string
+  bytes_burst?: string
+  bytes_rate?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  current_connections?: number
+  enable?: boolean
+  enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
+  max_conn_burst?: string
+  max_conn_rate?: string
+  max_connections?: ListenersWithNameQuicRequiredBindMaxConnections
+  messages_burst?: string
+  messages_rate?: string
+  mountpoint?: string
+  name: string
+  running?: boolean
+  ssl_options?: EmqxListenerQuicSslOpts
+  type: ListenersWithNameQuicRequiredBindType
+  zone?: string
 }
 
 export type EmqxDeflateOptsStrategy =

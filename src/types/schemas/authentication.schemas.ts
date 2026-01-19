@@ -140,10 +140,6 @@ export type PostAuthenticationIdUsers400 = {
   message?: string
 }
 
-export type PostAuthenticationIdUsersParams = {
-  ns?: string
-}
-
 export type GetAuthenticationIdUsers404Code =
   (typeof GetAuthenticationIdUsers404Code)[keyof typeof GetAuthenticationIdUsers404Code]
 

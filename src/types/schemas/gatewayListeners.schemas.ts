@@ -478,6 +478,14 @@ export type PostGatewaysNameListeners400 = {
   message?: string
 }
 
+export type PostGatewaysNameListenersBody =
+  | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
+
 export type GetGatewaysNameListeners404Code =
   (typeof GetGatewaysNameListeners404Code)[keyof typeof GetGatewaysNameListeners404Code]
 
@@ -714,6 +722,7 @@ export interface GatewayDtlsOpts {
   password?: string
   reuse_sessions?: boolean
   secure_renegotiate?: boolean
+  session_tickets?: GatewayDtlsOptsSessionTickets
   verify?: GatewayDtlsOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
@@ -1147,16 +1156,6 @@ export interface EmqxGatewayApiTcpListener {
   type?: EmqxGatewayApiTcpListenerType
 }
 
-export type EmqxGatewayApiSslListenerType =
-  (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiSslListenerType = {
-  ssl: 'ssl',
-} as const
-
-export type EmqxGatewayApiSslListenerMaxConnections = 'infinity' | number
-
 export interface EmqxGatewayApiSslListener {
   acceptors?: number
   access_rules?: string[]
@@ -1176,6 +1175,24 @@ export interface EmqxGatewayApiSslListener {
   type?: EmqxGatewayApiSslListenerType
 }
 
+export type PostGatewaysNameListeners201 =
+  | EmqxGatewayApiDtlsListener
+  | EmqxGatewayApiSslListener
+  | EmqxGatewayApiTcpListener
+  | EmqxGatewayApiUdpListener
+  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiWssListener
+
+export type EmqxGatewayApiSslListenerType =
+  (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiSslListenerType = {
+  ssl: 'ssl',
+} as const
+
+export type EmqxGatewayApiSslListenerMaxConnections = 'infinity' | number
+
 export type EmqxGatewayApiDtlsListenerType =
   (typeof EmqxGatewayApiDtlsListenerType)[keyof typeof EmqxGatewayApiDtlsListenerType]
 
@@ -1183,6 +1200,8 @@ export type EmqxGatewayApiDtlsListenerType =
 export const EmqxGatewayApiDtlsListenerType = {
   dtls: 'dtls',
 } as const
+
+export type EmqxGatewayApiDtlsListenerMaxConnections = 'infinity' | number
 
 export interface EmqxGatewayApiDtlsListener {
   acceptors?: number
@@ -1201,24 +1220,6 @@ export interface EmqxGatewayApiDtlsListener {
   type?: EmqxGatewayApiDtlsListenerType
   udp_options?: GatewayUdpOpts
 }
-
-export type PostGatewaysNameListeners201 =
-  | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiSslListener
-  | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
-
-export type PostGatewaysNameListenersBody =
-  | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiSslListener
-  | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
-  | EmqxGatewayApiWsListener
-  | EmqxGatewayApiWssListener
-
-export type EmqxGatewayApiDtlsListenerMaxConnections = 'infinity' | number
 
 export type EmqxGatewayApiListenersUdpListenerType =
   (typeof EmqxGatewayApiListenersUdpListenerType)[keyof typeof EmqxGatewayApiListenersUdpListenerType]
