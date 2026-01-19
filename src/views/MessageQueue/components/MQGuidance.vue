@@ -26,7 +26,15 @@
           {{ tl('createMQQueue') }}
         </el-button>
       </div>
-      <img class="illustration-placeholder" src="@/assets/img/mq_placeholder.png" width="420" />
+      <img
+        class="illustration-placeholder"
+        :src="
+          theme === 'dark'
+            ? getImg('img/mq_placeholder_dark.png')
+            : getImg('img/mq_placeholder_light.png')
+        "
+        width="420"
+      />
     </div>
   </div>
 </template>
@@ -39,6 +47,9 @@ defineProps<{
 }>()
 
 const emit = defineEmits<(e: 'create') => void>()
+
+const store = useStore()
+const theme = computed(() => store.state.theme)
 
 const { t, tl } = useI18nTl('MessageQueue')
 
