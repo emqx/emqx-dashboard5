@@ -1052,3 +1052,31 @@ label.custom-required::after {
     }
   }
 }
+
+// Error Message Dialog
+.http-error-message {
+  padding: 0;
+  border: none;
+  background: var(--color-bg);
+  .el-message__icon {
+    display: none;
+  }
+  .el-message__closeBtn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+    font-size: 28px;
+  }
+  .error-header {
+    border-bottom: 1px solid var(--color-border-card);
+    color: var(--el-color-danger);
+  }
+  .error-body {
+    background: var(--color-bg);
+  }
+  .info-item {
+    background: var(--color-bg-split);
+  }
+}

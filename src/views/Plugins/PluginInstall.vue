@@ -26,6 +26,7 @@
       <div class="upload-tip">
         <p>{{ tl('pluginInstallCommand') }}</p>
         <CodeView
+          lang="bash"
           :class="{ empty: !file }"
           :code="!file ? tl('pleaseUploadPluginFirst') : `emqx ctl plugins allow ${fileName}`"
           :show-copy-btn="!!file"
@@ -52,7 +53,7 @@
 import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
 import CustomMessage from '@/common/CustomMessage'
-import { getErrorMessage } from '@/common/http'
+import getErrorMessage from '@/common/getHTTPErrorMessage'
 import xss from 'xss'
 
 const router = useRouter()
