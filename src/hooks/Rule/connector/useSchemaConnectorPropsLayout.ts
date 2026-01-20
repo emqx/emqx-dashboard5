@@ -116,8 +116,8 @@ export default (
     [
       'driver',
       'server',
-      'sql',
       'base_url',
+      'sql',
       'authentication.username',
       'authentication.password',
       'username',
