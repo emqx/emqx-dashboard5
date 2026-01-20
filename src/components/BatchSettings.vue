@@ -72,6 +72,9 @@ const props = defineProps<{
   type: BatchSettingDatabaseType
 }>()
 const emits = defineEmits(['uploadedData'])
+
+const isIotDBTable = inject<Ref<boolean>>('isIotDBTable', ref(false))
+
 const { locale } = useI18n()
 const { tl } = useI18nTl('General')
 
@@ -134,7 +137,7 @@ async function importData() {
       } else if (props.type === BatchSettingDatabaseType.TDengine) {
         res = (await processTDengineData(data)) as string
       } else if (props.type === BatchSettingDatabaseType.IoTDB) {
-        res = await processIoTDBData(data)
+        res = await processIoTDBData(data, isIotDBTable.value)
       }
       emits('uploadedData', res)
       fileList.value = []
