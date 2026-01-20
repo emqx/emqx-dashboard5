@@ -93,12 +93,28 @@ jobs:
           private-key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
+      - name: Calculate EMQX version
+        id: calc-version
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          # Remove 'e' prefix if exists: e1.10.3 -> 1.10.3 or 2.1.5 -> 2.1.5
+          version_no_prefix=${VERSION#e}
+          # Extract major, minor and patch version: 1.10.3 -> 1, 10, 3
+          major=$(echo $version_no_prefix | cut -d. -f1)
+          minor=$(echo $version_no_prefix | cut -d. -f2)
+          patch=$(echo $version_no_prefix | cut -d. -f3)
+          # Calculate EMQX version: dashboard major + 4 = emqx major
+          emqx_major=$((major + 4))
+          emqx_version="${emqx_major}.${minor}.${patch}"
+          echo "emqx-version=${emqx_version}" >> "$GITHUB_OUTPUT"
+
       - name: Create PR in emqx/emqx
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          EMQX_NAME: emqx-enterprise
           VERSION: ${{ github.ref_name }}
+          EMQX_VERSION: ${{ steps.calc-version.outputs.emqx-version }}
         run: |
           gh --repo emqx/emqx workflow run bump-dashboard-version.yaml \
-            -f emqx-name=${EMQX_NAME} \
+            -f emqx-version=${EMQX_VERSION} \
             -f version=${VERSION}
