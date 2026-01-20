@@ -352,16 +352,6 @@ export default (
     return { components, rules }
   }
 
-  const greptimeDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-
-    // TODO:remove
-    Reflect.deleteProperty(components, 'ssl')
-    Reflect.deleteProperty(rules, 'ssl')
-
-    return { components, rules }
-  }
-
   const pulsarHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
@@ -446,7 +436,6 @@ export default (
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],
     [BridgeType.AmazonKinesis, amazonKinesisHandler],
-    [BridgeType.GreptimeDB, greptimeDBHandler],
     [BridgeType.Pulsar, pulsarHandler],
     [BridgeType.IoTDB, iotDbHandler],
     [BridgeType.DiskLog, diskLogHandler],
