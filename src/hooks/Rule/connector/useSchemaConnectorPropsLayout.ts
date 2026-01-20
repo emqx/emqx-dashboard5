@@ -116,7 +116,7 @@ export default (
     [
       'driver',
       'server',
-      'sql_dialect',
+      'sql',
       'base_url',
       'authentication.username',
       'authentication.password',
@@ -352,6 +352,7 @@ export default (
     [BridgeType.InfluxDB]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
     [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
+    [BridgeType.IoTDB]: { 'sql.dialect': 'col-hidden' },
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']

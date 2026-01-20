@@ -378,8 +378,12 @@ export default (
       }
       components[IoTDBKeyField].symbols = IoTDBDrivers
     }
-    if (components.sql_dialect) {
-      components.sql_dialect.useNewCom = true
+    if (components.sql) {
+      components.sql.useNewCom = true
+      const treeItem = components.sql?.oneOf?.find?.(({ $ref }) => /tree/i.test($ref || ''))
+      if (treeItem && treeItem.default && !components.sql.default) {
+        components.sql.default = treeItem.default
+      }
     }
     if (components?.iotdb_version?.symbols) {
       components.iotdb_version.symbols = components.iotdb_version.symbols.filter((version) =>

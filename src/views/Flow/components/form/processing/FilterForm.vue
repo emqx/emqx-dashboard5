@@ -330,7 +330,6 @@ watch(
   () => props.modelValue?.editedWay,
   async (val) => {
     if (val === EditedWay.SQL) {
-      debugger
       transformToSqlFormForm()
     } else {
       transformToFormFromSql()
