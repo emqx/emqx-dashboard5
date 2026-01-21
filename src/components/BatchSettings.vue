@@ -76,7 +76,7 @@ const emits = defineEmits(['uploadedData'])
 const isIotDBTable = inject<Ref<boolean>>('isIotDBTable', ref(false))
 
 const { locale } = useI18n()
-const { tl } = useI18nTl('General')
+const { t, tl } = useI18nTl('General')
 
 const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
@@ -114,10 +114,10 @@ function downloadTemplate() {
   // FIXME: remove this after release
   if (isIotDBTable.value) {
     template = `Column Category,Timestamp,Measurement,Data Type,Value,Remarks (Optional)
-tag,now,temp,text,\${payload.temp},"${t('iotdbTemplateRemark')}"
+tag,now,temp,text,\${payload.temp},"${t('RuleEngine.iotdbTableTemplateRemark')}"
 field,now,hum,float,\${payload.hum},
-attribute,now,status,string,\${payload.status},
-attribute,now,clientid,string,\${clientid},
+attribute,now,status,text,\${payload.status},
+attribute,now,clientid,text,\${clientid},
 `
   }
   handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)

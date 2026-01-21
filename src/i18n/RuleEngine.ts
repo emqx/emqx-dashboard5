@@ -1897,4 +1897,8 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '节点名称不可修改',
     en: 'Node name cannot be modified',
   },
+  iotdbTableTemplateRemark: {
+    en: 'Column Category, Measurement, Value, and Data Type are required fields. The Column Category can have the optional values tag, field, attribute, and the Data Type can have the optional values boolean, int32, int64, float, double, text.',
+    zh: '列类别、字段、值、数据类型是必填选项，列类别可选的值为 tag、field、attribute，数据类型可选的值为 boolean、int32、int64、float、double、text',
+  },
 }
