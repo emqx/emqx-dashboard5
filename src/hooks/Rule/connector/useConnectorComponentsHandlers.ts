@@ -380,6 +380,12 @@ export default (
         typeof version !== 'string' ? true : compare(version.replace('v', ''), '1.3.0', '>='),
       )
     }
+    if (components?.protocol_version?.symbols) {
+      components.protocol_version.symbols = components.protocol_version.symbols.filter((version) =>
+        typeof version !== 'string' ? true : compare(version.replace('protocol_v', ''), '3', '>='),
+      )
+    }
+
     return { ...data, components }
   }
 
