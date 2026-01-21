@@ -109,8 +109,17 @@ const {
 } = useBatchSettings(locale.value === 'zh' ? 'zh' : 'en')
 
 function downloadTemplate() {
-  const template =
+  let template =
     getTemplateContent(props.type as any, isIotDBTable.value) ?? templateContentMap[props.type]
+  // FIXME: remove this after release
+  if (isIotDBTable.value) {
+    template = `Column Category,Timestamp,Measurement,Data Type,Value,Remarks (Optional)
+tag,now,temp,text,\${payload.temp},"${t('iotdbTemplateRemark')}"
+field,now,hum,float,\${payload.hum},
+attribute,now,status,string,\${payload.status},
+attribute,now,clientid,string,\${clientid},
+`
+  }
   handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
