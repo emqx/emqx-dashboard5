@@ -105,10 +105,12 @@ const {
   readFileAndParse: processingUploadedFile,
   handleDownloadTemp,
   templateContentMap,
+  getTemplateContent,
 } = useBatchSettings(locale.value === 'zh' ? 'zh' : 'en')
 
 function downloadTemplate() {
-  const template = templateContentMap[props.type]
+  const template =
+    getTemplateContent(props.type as any, isIotDBTable.value) ?? templateContentMap[props.type]
   handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
@@ -159,22 +161,26 @@ async function importData() {
 <style lang="scss">
 .batch-settings {
   line-height: 0;
+
   .el-button.is-link {
     font-weight: normal;
   }
 }
+
 .batch-settings-dialog {
   .el-step__title {
     ul {
       padding-left: 14px;
     }
   }
+
   .el-step__title.is-wait,
   .el-step__title.is-process {
     font-weight: normal;
     color: var(--color-text-primary);
     font-size: 14px;
   }
+
   .el-step:not(:last-child) {
     .el-button {
       margin-bottom: 32px;
