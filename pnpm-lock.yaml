@@ -15,8 +15,8 @@ importers:
         specifier: ~0.0.63
         version: 0.0.63
       '@emqx/shared-ui-utils':
-        specifier: ~0.0.16
-        version: 0.0.16(vue@3.5.4(typescript@5.5.4))
+        specifier: ~0.0.23
+        version: 0.0.23(typescript@5.5.4)
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@10.7.3)(vue@3.5.4(typescript@5.5.4))
@@ -382,8 +382,8 @@ packages:
   '@emqx/shared-ui-i18n@0.0.63':
     resolution: {integrity: sha512-rndS/8Cq83oxKWvjMBehvblZVUej3xGGz97fbAtMxZTdZwMN9mgn9JSuRZGyyA48mmOdqB+Z9VOsy4rBjk6pAA==}
 
-  '@emqx/shared-ui-utils@0.0.16':
-    resolution: {integrity: sha512-MAF8Ta8phj+1BCuAT+wbUqLIGdYV6yAww0GtvL6t+ezJcxjyXsS50HT+W8MOTv82A6GnI1Oj3ZS41PfcNOHJFw==}
+  '@emqx/shared-ui-utils@0.0.23':
+    resolution: {integrity: sha512-eYXHgs1xnk+BdAIpBMB4Ae9AvGF1nnSVvTo5h+fsDS4Yk6g+2II72idvAGWqLqZfdpg2AGw+PemAHkWSYDLIVg==}
 
   '@esbuild/aix-ppc64@0.19.12':
     resolution: {integrity: sha512-bmoCYyWdEL3wDQIVbcyzRyeKLgk2WtWLTWz1ZIAZF/EGbNOwSA6ew3PftJ1PqMiOOGu0OyFMzG53L0zqIpPeNA==}
@@ -3891,15 +3891,17 @@ snapshots:
 
   '@emqx/shared-ui-i18n@0.0.63': {}
 
-  '@emqx/shared-ui-utils@0.0.16(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-utils@0.0.23(typescript@5.5.4)':
     dependencies:
       '@emqx/shared-ui-constants': link:../constants
       '@emqx/shared-ui-i18n': link:../i18n
+      hocon-parser: 1.0.1
       json-bigint: 1.0.0
       papaparse: 5.4.1
+      vue: 3.5.4(typescript@5.5.4)
       vue-i18n: 9.14.0(vue@3.5.4(typescript@5.5.4))
     transitivePeerDependencies:
-      - vue
+      - typescript
 
   '@esbuild/aix-ppc64@0.19.12':
     optional: true
