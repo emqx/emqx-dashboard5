@@ -4,7 +4,7 @@
     ref="FormCom"
     :model="formData"
     :rules="rules"
-    :label-width="180"
+    :label-width="200"
     :validate-on-rule-change="false"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
@@ -39,6 +39,18 @@
     </div>
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
       <el-input v-model="formData.idp_metadata_url" placeholder="https://idp.example.com" />
+    </el-form-item>
+    <el-form-item prop="idp_signs_assertions">
+      <template #label>
+        <FormItemLabel :label="tl('idpSignsAssertions')" :desc="tl('idpSignsAssertionsDesc')" />
+      </template>
+      <el-switch v-model="formData.idp_signs_assertions" />
+    </el-form-item>
+    <el-form-item prop="idp_signs_envelopes">
+      <template #label>
+        <FormItemLabel :label="tl('idpSignsEnvelopes')" :desc="tl('idpSignsEnvelopesDesc')" />
+      </template>
+      <el-switch v-model="formData.idp_signs_envelopes" />
     </el-form-item>
     <el-form-item prop="sp_sign_request">
       <template #label>
