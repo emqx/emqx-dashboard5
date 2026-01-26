@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { Client } from '@/types/client'
 import qs from 'qs'
 
 export function listClients(params = {}) {
@@ -13,7 +12,7 @@ export function listClients(params = {}) {
   })
 }
 
-export function exactSearchClient(clientId: string): Promise<Client> {
+export function exactSearchClient(clientId: string) {
   return http.get(`/clients/${encodeURIComponent(clientId)}`)
 }
 
