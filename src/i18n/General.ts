@@ -283,6 +283,22 @@ export default {
     zh: 'SAML 元数据 URL',
     en: 'SAML Metadata URL',
   },
+  idpSignsAssertions: {
+    zh: 'IdP 签名断言（Assertion）',
+    en: 'Signed Assertions from IDP',
+  },
+  idpSignsAssertionsDesc: {
+    zh: '是否要求 IdP 对 SAML 断言进行签名。对于安全性考虑，生产环境中至少需要启用 IdP 签名断言（Assertion）或 IdP 签名响应（Envelope） 中的一个。',
+    en: 'Whether to require IdP to sign SAML Assertions (inner signature). For security, at least one of Signed Assertions from IdP or Signed Response Envelopes from IdP should be enabled in production.',
+  },
+  idpSignsEnvelopes: {
+    zh: 'IdP 签名响应（Envelope）',
+    en: 'Signed Response Envelopes from IdP',
+  },
+  idpSignsEnvelopesDesc: {
+    zh: '是否要求 IdP 对 SAML 响应（Envelope）进行签名。对于安全性考虑，生产环境中至少需要启用 IdP 签名断言（Assertion）或 IdP 签名响应（Envelope） 中的一个。',
+    en: 'Whether to require IdP to sign SAML Response envelopes (outer signature). For security, at least one of Signed Assertions from IdP or Signed Response Envelopes from IdP should be enabled in production.',
+  },
   spSignRequest: {
     zh: 'SP 请求签名',
     en: 'SP Request Signing',
