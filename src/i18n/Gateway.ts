@@ -486,6 +486,22 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '是否处理并转发未识别的消息 ID。开启后，未识别的消息 ID 会被处理，其消息体将以 Base64 编码并转发；关闭后，收到未识别的消息 ID 时将返回错误并记录日志。',
     en: 'Whether to process and forward unrecognized Message IDs. When enabled, unrecognized Message IDs are processed and their body is Base64-encoded then forwarded. When disabled, an error is reported and logged upon receiving an unrecognized Message ID.',
   },
+  stringEncoding: {
+    zh: '字符串编码',
+    en: 'String Encoding',
+  },
+  stringEncodingDesc: {
+    zh: `JT/T 808 报文中的 STRING 类型字段编码。<br/>
+- <code>utf8</code>：字符串被视为 UTF-8 编码（默认行为）。<br/>
+- <code>gbk</code>：字符串被视为 GBK 编码，根据 JT/T 808 规范转换为/从 UTF-8 用于 MQTT 负载。<br/>
+
+注意：MQTT 负载始终使用 UTF-8 编码，无论此设置如何。如果中文文本出现乱码（Mojibake），请设置为 <code>gbk</code>。`,
+    en: `Character encoding for STRING type fields on the JT/T 808 wire protocol.<br/>
+- <code>utf8</code>: Strings are treated as UTF-8 encoded (legacy behavior, default).<br/>
+- <code>gbk</code>: Strings are treated as GBK encoded per JT/T 808 specification; converted to/from UTF-8 for MQTT payloads.<br/>
+
+Note: MQTT payloads always use UTF-8 regardless of this setting. Set to <code>gbk</code> if Chinese text appears garbled (Mojibake).`,
+  },
   allowAnonymous: {
     zh: '允许匿名',
     en: 'Allow Anonymous',
