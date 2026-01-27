@@ -4,7 +4,7 @@
     ref="FormCom"
     :model="formData"
     :rules="rules"
-    :label-width="200"
+    :label-width="state.lang === 'zh' ? 200 : 272"
     :validate-on-rule-change="false"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
@@ -90,6 +90,8 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue', 'save'])
+
+const { state } = useStore()
 
 const { t, tl } = useI18nTl('General')
 
