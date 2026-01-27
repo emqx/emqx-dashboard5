@@ -40,17 +40,17 @@
     <el-form-item prop="idp_metadata_url" :label="tl('idpMetadataUrl')">
       <el-input v-model="formData.idp_metadata_url" placeholder="https://idp.example.com" />
     </el-form-item>
-    <el-form-item prop="idp_signs_assertions">
+    <el-form-item prop="idp_sign_assertions">
       <template #label>
         <FormItemLabel :label="tl('idpSignsAssertions')" :desc="tl('idpSignsAssertionsDesc')" />
       </template>
-      <el-switch v-model="formData.idp_signs_assertions" />
+      <el-switch v-model="formData.idp_sign_assertions" />
     </el-form-item>
-    <el-form-item prop="idp_signs_envelopes">
+    <el-form-item prop="idp_sign_envelopes">
       <template #label>
         <FormItemLabel :label="tl('idpSignsEnvelopes')" :desc="tl('idpSignsEnvelopesDesc')" />
       </template>
-      <el-switch v-model="formData.idp_signs_envelopes" />
+      <el-switch v-model="formData.idp_sign_envelopes" />
     </el-form-item>
     <el-form-item prop="sp_sign_request">
       <template #label>
