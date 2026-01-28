@@ -114,10 +114,10 @@ function downloadTemplate() {
   // FIXME: remove this after release
   if (isIotDBTable.value) {
     template = `Column Category,Timestamp,Measurement,Data Type,Value,Remarks (Optional)
-tag,now,temp,text,\${payload.temp},"${t('RuleEngine.iotdbTableTemplateRemark')}"
-field,now,hum,float,\${payload.hum},
+tag,now,clientid,text,\${clientid},"${t('RuleEngine.iotdbTableTemplateRemark')}"
+field,now,temp,float,\${payload.temp},
+attribute,now,hum,text,\${payload.hum},
 attribute,now,status,text,\${payload.status},
-attribute,now,clientid,text,\${clientid},
 `
   }
   handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
