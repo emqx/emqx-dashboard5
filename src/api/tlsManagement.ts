@@ -19,8 +19,14 @@ export const getGlobalCertBundleInfo = (name: string): Promise<CertBundleInfo> =
   return http.get(`/certs/global/name/${encodeURIComponent(name)}`)
 }
 
-export const deleteGlobalCertBundle = (name: string, kind?: CertKind): Promise<void> => {
-  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, { params: { kind } })
+export const deleteGlobalCertBundle = (
+  name: string,
+  kind?: CertKind,
+  forceDelete?: boolean,
+): Promise<void> => {
+  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, {
+    params: { kind, force_delete: forceDelete },
+  })
 }
 
 export const postNamespaceCertBundle = (
@@ -49,9 +55,10 @@ export const deleteNamespaceCertBundle = (
   namespace: string,
   name: string,
   kind?: CertKind,
+  forceDelete?: boolean,
 ): Promise<void> => {
   return http.delete(
     `/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`,
-    { params: { kind } },
+    { params: { kind, force_delete: forceDelete } },
   )
 }

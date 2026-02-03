@@ -1052,3 +1052,10 @@ label.custom-required::after {
     }
   }
 }
+
+.cert-in-use-message {
+  ul {
+    padding-inline-start: 0;
+    list-style: none;
+  }
+}
