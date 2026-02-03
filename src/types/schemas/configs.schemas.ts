@@ -460,6 +460,7 @@ export const GetConfigsKey = {
   schema_validation: 'schema_validation',
   slow_subs: 'slow_subs',
   sources: 'sources',
+  streams: 'streams',
   sys_topics: 'sys_topics',
   sysmon: 'sysmon',
   telemetry: 'telemetry',
@@ -492,6 +493,14 @@ export const SsoOidcPreferredAuthMethodsItem = {
   private_key_jwt: 'private_key_jwt',
 } as const
 
+export type SsoOidcNameVarSource = (typeof SsoOidcNameVarSource)[keyof typeof SsoOidcNameVarSource]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcNameVarSource = {
+  id_token: 'id_token',
+  userinfo: 'userinfo',
+} as const
+
 export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
 
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
@@ -510,6 +519,7 @@ export interface SsoOidc {
   fallback_methods?: string[]
   issuer: string
   name_var?: string
+  name_var_source?: SsoOidcNameVarSource
   preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
   provider?: SsoOidcProvider
   require_pkce?: boolean
@@ -642,6 +652,10 @@ export interface LdapSsl {
   versions?: string[]
 }
 
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
+}
+
 export type FileTransferS3ExporterAcl =
   (typeof FileTransferS3ExporterAcl)[keyof typeof FileTransferS3ExporterAcl]
 
@@ -705,10 +719,6 @@ export interface FileTransferLocalStorage {
   enable?: boolean
   exporter?: FileTransferLocalStorageExporterBackend
   segments?: FileTransferLocalStorageSegments
-}
-
-export interface FileTransferStorageBackend {
-  local?: FileTransferLocalStorage
 }
 
 export type EmqxSysmonVmLongSchedule = string | 'disabled'
@@ -944,6 +954,7 @@ export interface EmqxMqtt {
   mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
   mqueue_priorities?: EmqxMqttMqueuePriorities
   mqueue_store_qos0?: boolean
+  namespace_as_mountpoint?: boolean
   peer_cert_as_clientid?: EmqxMqttPeerCertAsClientid
   peer_cert_as_username?: EmqxMqttPeerCertAsUsername
   response_information?: string
@@ -1227,12 +1238,6 @@ export interface EmqxAlarm {
   validity_period?: string
 }
 
-export interface DashboardSso {
-  ldap?: SsoLdap
-  oidc?: SsoOidc
-  saml?: DashboardSaml
-}
-
 export type DashboardSslOptionsVerify =
   (typeof DashboardSslOptionsVerify)[keyof typeof DashboardSslOptionsVerify]
 
@@ -1321,11 +1326,15 @@ export interface DashboardSaml {
   dashboard_addr?: string
   enable?: boolean
   idp_metadata_url?: string
-  idp_signs_assertions?: boolean
-  idp_signs_envelopes?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean
+}
+
+export interface DashboardSso {
+  ldap?: SsoLdap
+  oidc?: SsoOidc
+  saml?: DashboardSaml
 }
 
 export type DashboardMfaSettingsMechanism =

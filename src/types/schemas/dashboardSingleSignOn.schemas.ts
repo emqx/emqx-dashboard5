@@ -209,7 +209,7 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
@@ -258,6 +258,14 @@ export const SsoOidcPreferredAuthMethodsItem = {
   private_key_jwt: 'private_key_jwt',
 } as const
 
+export type SsoOidcNameVarSource = (typeof SsoOidcNameVarSource)[keyof typeof SsoOidcNameVarSource]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcNameVarSource = {
+  id_token: 'id_token',
+  userinfo: 'userinfo',
+} as const
+
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -274,6 +282,7 @@ export interface SsoOidc {
   fallback_methods?: string[]
   issuer: string
   name_var?: string
+  name_var_source?: SsoOidcNameVarSource
   preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
   provider?: SsoOidcProvider
   require_pkce?: boolean
@@ -315,8 +324,6 @@ export interface SsoLdap {
   ssl?: LdapSsl
   username: string
 }
-
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -473,12 +480,12 @@ export interface DashboardSaml {
   dashboard_addr?: string
   enable?: boolean
   idp_metadata_url?: string
-  idp_signs_assertions?: boolean
-  idp_signs_envelopes?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean
 }
+
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type DashboardLoginBackend =
   (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
