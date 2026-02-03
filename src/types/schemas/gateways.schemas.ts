@@ -49,15 +49,6 @@ export type PutGatewaysNameBody =
   | EmqxGatewayApiNats
   | EmqxGatewayApiOcpp
   | EmqxGatewayApiStomp
-  | EmqxGatewayApiUpdateCoap
-  | EmqxGatewayApiUpdateExproto
-  | EmqxGatewayApiUpdateGbt32960
-  | EmqxGatewayApiUpdateJt808
-  | EmqxGatewayApiUpdateLwm2m
-  | EmqxGatewayApiUpdateMqttsn
-  | EmqxGatewayApiUpdateNats
-  | EmqxGatewayApiUpdateOcpp
-  | EmqxGatewayApiUpdateStomp
 
 export type GetGatewaysName404Code =
   (typeof GetGatewaysName404Code)[keyof typeof GetGatewaysName404Code]
@@ -276,7 +267,6 @@ export interface GatewayJt808Proto {
 export interface GatewayJt808Frame {
   /** @minimum 0 */
   max_length?: number
-  parse_unknown_message?: boolean
 }
 
 export interface GatewayExprotoGrpcServer {
@@ -344,6 +334,36 @@ export const GatewayDtlsOptsLogLevel = {
   notice: 'notice',
   warning: 'warning',
 } as const
+
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  managed_certs?: GatewayDtlsOptsManagedCerts
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  session_tickets?: GatewayDtlsOptsSessionTickets
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -465,35 +485,6 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
   refresh_interval?: string
   responder_url?: string
-}
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  managed_certs?: GatewayDtlsOptsManagedCerts
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export interface EmqxManagedCertsServer {
@@ -782,171 +773,6 @@ export interface EmqxGatewayApiWsListener {
   websocket?: GatewayWebsocket
 }
 
-export interface EmqxGatewayApiUpdateStomp {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  frame?: GatewayStompFrame
-  idle_timeout?: string
-  mountpoint?: string
-}
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiUpdateOcppMessageFormatChecking = {
-  disable: 'disable',
-  dnstream_only: 'dnstream_only',
-  upstream_only: 'upstream_only',
-  all: 'all',
-} as const
-
-export interface EmqxGatewayApiUpdateOcpp {
-  clientinfo_override?: GatewayClientinfoOverride
-  default_heartbeat_interval: string
-  dnstream?: GatewayOcppDnstream
-  enable?: boolean
-  enable_stats?: boolean
-  heartbeat_checking_times_backoff?: number
-  idle_timeout?: string
-  json_schema_dir?: string
-  json_schema_id_prefix?: string
-  message_format_checking?: (typeof EmqxGatewayApiUpdateOcppMessageFormatChecking)[keyof typeof EmqxGatewayApiUpdateOcppMessageFormatChecking]
-  mountpoint?: string
-  upstream?: GatewayOcppUpstream
-}
-
-export interface EmqxGatewayApiUpdateNats {
-  clientinfo_override?: GatewayClientinfoOverride
-  default_heartbeat_interval?: string
-  enable?: boolean
-  enable_stats?: boolean
-  heartbeat_wait_timeout?: string
-  idle_timeout?: string
-  mountpoint?: string
-  protocol?: GatewayProtocol
-  server_id?: string
-  server_name?: string
-}
-
-export interface EmqxGatewayApiUpdateMqttsn {
-  broadcast?: boolean
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_qos3?: boolean
-  enable_stats?: boolean
-  gateway_id: number
-  idle_timeout?: string
-  mountpoint?: string
-  predefined?: GatewayMqttsnPredefined[]
-  subs_resume?: boolean
-}
-
-export type EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition =
-  (typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition)[keyof typeof EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition = {
-  always: 'always',
-  contains_object_list: 'contains_object_list',
-} as const
-
-export interface EmqxGatewayApiUpdateLwm2m {
-  auto_observe?: boolean
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  idle_timeout?: string
-  lifetime_max?: string
-  lifetime_min?: string
-  mountpoint?: string
-  qmode_time_window?: string
-  translators: GatewayLwm2mTranslators
-  update_msg_publish_condition?: EmqxGatewayApiUpdateLwm2mUpdateMsgPublishCondition
-  xml_dir: string
-}
-
-export interface EmqxGatewayApiUpdateJt808 {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  frame?: GatewayJt808Frame
-  idle_timeout?: string
-  /** @minimum 0 */
-  max_retry_times?: number
-  /** @minimum 0 */
-  message_queue_len?: number
-  mountpoint?: string
-  proto?: GatewayJt808Proto
-  retry_interval?: string
-}
-
-export interface EmqxGatewayApiUpdateGbt32960 {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  idle_timeout?: string
-  /** @minimum 0 */
-  max_retry_times?: number
-  /** @minimum 0 */
-  message_queue_len?: number
-  mountpoint?: string
-  retry_interval?: string
-}
-
-export interface EmqxGatewayApiUpdateExproto {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  handler: GatewayExprotoGrpcHandler
-  idle_timeout?: string
-  mountpoint?: string
-  server: GatewayExprotoGrpcServer
-}
-
-export type EmqxGatewayApiUpdateCoapSubscribeQos =
-  (typeof EmqxGatewayApiUpdateCoapSubscribeQos)[keyof typeof EmqxGatewayApiUpdateCoapSubscribeQos]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiUpdateCoapSubscribeQos = {
-  coap: 'coap',
-  qos0: 'qos0',
-  qos1: 'qos1',
-  qos2: 'qos2',
-} as const
-
-export type EmqxGatewayApiUpdateCoapPublishQos =
-  (typeof EmqxGatewayApiUpdateCoapPublishQos)[keyof typeof EmqxGatewayApiUpdateCoapPublishQos]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiUpdateCoapPublishQos = {
-  coap: 'coap',
-  qos0: 'qos0',
-  qos1: 'qos1',
-  qos2: 'qos2',
-} as const
-
-export type EmqxGatewayApiUpdateCoapNotifyType =
-  (typeof EmqxGatewayApiUpdateCoapNotifyType)[keyof typeof EmqxGatewayApiUpdateCoapNotifyType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiUpdateCoapNotifyType = {
-  con: 'con',
-  non: 'non',
-  qos: 'qos',
-} as const
-
-export interface EmqxGatewayApiUpdateCoap {
-  clientinfo_override?: GatewayClientinfoOverride
-  connection_required?: boolean
-  enable?: boolean
-  enable_stats?: boolean
-  heartbeat?: string
-  idle_timeout?: string
-  mountpoint?: string
-  notify_type?: EmqxGatewayApiUpdateCoapNotifyType
-  publish_qos?: EmqxGatewayApiUpdateCoapPublishQos
-  subscribe_qos?: EmqxGatewayApiUpdateCoapSubscribeQos
-}
-
 export type EmqxGatewayApiUdpListenerType =
   (typeof EmqxGatewayApiUdpListenerType)[keyof typeof EmqxGatewayApiUdpListenerType]
 
@@ -1009,8 +835,6 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
-
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -1050,6 +874,8 @@ export interface EmqxGatewayApiSslListener {
   tcp_options?: EmqxTcpOpts
   type?: EmqxGatewayApiSslListenerType
 }
+
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
 
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]
