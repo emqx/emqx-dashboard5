@@ -59,6 +59,19 @@
       <el-form-item prop="name_var" :label="tl('nameVar')">
         <el-input v-model="formData.name_var" />
       </el-form-item>
+      <el-form-item prop="name_var_source">
+        <template #label>
+          <FormItemLabel :label="tl('nameVarSource')" :desc="tl('nameVarSourceDesc')" desc-marked />
+        </template>
+        <el-select v-model="formData.name_var_source">
+          <el-option
+            v-for="{ label, value } in nameVarSourceOpts"
+            :key="value"
+            :value="value"
+            :label="label"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item
         prop="session_expiry"
         :label="`${tl('sessionExpiry')}${
@@ -118,7 +131,7 @@
 
 <script setup lang="ts">
 import type { OIDBForm } from '@/types/typeAlias'
-import { OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
+import { OIDCNameVarSource, OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 
 const OIDC_REDIRECT = '/api/v5/sso/oidc/callback'
@@ -164,6 +177,17 @@ const preferredAuthMethodsOpts = Object.values(OIDCPreferredAuthMethods)
 const providerOpts = [
   { value: OIDCProvider.generic, label: tl('generic') },
   { value: OIDCProvider.okta, label: 'Okta' },
+]
+
+const nameVarSourceOpts = [
+  {
+    value: OIDCNameVarSource.userinfo,
+    label: tl('nameVarSourceUserinfo'),
+  },
+  {
+    value: OIDCNameVarSource.id_token,
+    label: tl('nameVarSourceIdToken'),
+  },
 ]
 
 const JWK_NONE = 'none'

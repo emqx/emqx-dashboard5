@@ -3,7 +3,12 @@ import {
   DashboardSsoBackendStatusBackend,
   SsoLdapBackend,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { OIDCPreferredAuthMethods, OIDCProvider, SSOOIDCBackend } from '@/types/typeAlias'
+import {
+  OIDCNameVarSource,
+  OIDCPreferredAuthMethods,
+  OIDCProvider,
+  SSOOIDCBackend,
+} from '@/types/typeAlias'
 import useSSL from '../useSSL'
 
 export default (): {
@@ -41,6 +46,7 @@ export default (): {
     secret: '',
     scopes: ['openid'],
     name_var: '${sub}',
+    name_var_source: OIDCNameVarSource.userinfo,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     session_expiry: '30s',
     require_pkce: false,
