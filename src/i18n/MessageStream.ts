@@ -8,9 +8,9 @@ export default {
     en: 'Edit Stream',
   },
   topicFilterDesc: {
-    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$s/<timestamp>/<topic_filter>\` 的特殊主题来消费流中的消息。其中 <timestamp> 可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
+    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$stream/<topic_filter>\` 的特殊主题来消费流中的消息。<br />可以通过 \`$stream.start-from\` 用户订阅属性来指定开始时间，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
     en: `The filter used to determine which messages are getting into the stream.
-Clients can consume messages from the stream by subscribing to a special topic in the format \`$s/<timestamp>/<topic_filter>\`. The <timestamp> can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
+Clients can consume messages from the stream by subscribing to a special topic in the format \`$stream/<topic_filter>\`. <br />The start time can be specified using the \`$stream.start-from\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
   },
   dataRetentionPeriodDesc: {
     zh: '流中数据保留的时间',
