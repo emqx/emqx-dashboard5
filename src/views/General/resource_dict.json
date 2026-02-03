@@ -2887,7 +2887,7 @@
       "zh": "流"
     },
     "operation_name_label": {
-      "en": "Update streams config.",
+      "en": "Update streams config",
       "zh": "更新流配置"
     }
   },
@@ -2899,7 +2899,7 @@
       "zh": "流"
     },
     "operation_name_label": {
-      "en": "Create a new stream.",
+      "en": "Create a new stream",
       "zh": "创建新的流"
     }
   },
@@ -2911,7 +2911,7 @@
       "zh": "流"
     },
     "operation_name_label": {
-      "en": "Delete stream.",
+      "en": "Delete stream",
       "zh": "删除流"
     }
   },
@@ -2923,7 +2923,7 @@
       "zh": "流"
     },
     "operation_name_label": {
-      "en": "Update stream.",
+      "en": "Update stream",
       "zh": "更新流"
     }
   }
