@@ -339,6 +339,22 @@ export default {
     zh: '名称变量',
     en: 'Name Variable',
   },
+  nameVarSource: {
+    zh: '名称变量来源',
+    en: 'Name Variable Source',
+  },
+  nameVarSourceDesc: {
+    zh: '指定从哪个来源提取用户信息以构建 Dashboard 用户名<br />用户信息端点：使用 /userinfo 端点的响应<br />ID Token：使用访问令牌中的声明',
+    en: 'Specify from which source to extract information to construct the Dashboard username<br />User Info Endpoint: Utilizes the response from the /userinfo endpoint<br />ID Token: Utilizes the claims contained in the access token',
+  },
+  nameVarSourceUserinfo: {
+    zh: '用户信息端点',
+    en: 'User Info Endpoint',
+  },
+  nameVarSourceIdToken: {
+    zh: 'ID Token',
+    en: 'ID Token',
+  },
   sessionExpiry: {
     zh: '会话过期',
     en: 'Session Expiry',

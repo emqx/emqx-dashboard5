@@ -49,6 +49,7 @@ import {
   SsoOidcPreferredAuthMethodsItem,
   SsoOidcProvider,
   SsoOidcBackend,
+  SsoOidcNameVarSource,
 } from './schemas/dashboardSingleSignOn.schemas'
 import type {
   PostRelupPackageUploadBody,
@@ -151,6 +152,7 @@ export type OverrideProperties<
 export type OIDBForm = SsoOidc
 export const OIDCPreferredAuthMethods = SsoOidcPreferredAuthMethodsItem
 export const OIDCProvider = SsoOidcProvider
+export const OIDCNameVarSource = SsoOidcNameVarSource
 export const SSOOIDCBackend = SsoOidcBackend
 
 /* CONF */
