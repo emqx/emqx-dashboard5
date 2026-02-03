@@ -10,6 +10,7 @@ import {
 } from '@/api/tlsManagement'
 import { CertKind } from '@/types/enum'
 import { CertBundleIn, ManagedCerts, ManagedCertsServer } from '@/types/typeAlias'
+import useCertInUseResourceContent from './useCertInUseResourceContent'
 
 export interface CertBundleForm extends CertBundleIn {
   name: string
@@ -61,12 +62,25 @@ const useCertBundle = () => {
     }
   }
 
-  const deleteCertFile = (formData: CertBundleForm, kind: CertKind) => {
+  const { tl } = useI18nTl('BasicConfig')
+  const { getCertInUseResourceContent } = useCertInUseResourceContent()
+  const handleCertInUse = (referencingConfigs: Record<string, string[][]>) => {
+    return ElMessageBox({
+      title: tl('certBundleInUseTitle'),
+      customClass: 'cert-in-use-message',
+      message: getCertInUseResourceContent(referencingConfigs),
+      confirmButtonText: tl('forceDelete'),
+      cancelButtonText: tl('cancel'),
+      type: 'warning',
+    })
+  }
+
+  const deleteCertFile = (formData: CertBundleForm, kind: CertKind, forceDelete?: boolean) => {
     const { name, namespace } = formData
     if (namespace) {
-      return deleteNamespaceCertBundle(namespace, name, kind)
+      return deleteNamespaceCertBundle(namespace, name, kind, forceDelete)
     }
-    return deleteGlobalCertBundle(name, kind)
+    return deleteGlobalCertBundle(name, kind, forceDelete)
   }
 
   const removeUselessCerts = async (currentForm: CertBundleForm, initialForm: CertBundleForm) => {
@@ -88,11 +102,22 @@ const useCertBundle = () => {
     return await getGlobalCertBundleList()
   }
 
-  const deleteCertBundle = async (name: string, namespace?: string) => {
-    if (namespace) {
-      return deleteNamespaceCertBundle(namespace, name)
+  const deleteCertBundle = async (name: string, namespace?: string, forceDelete?: boolean) => {
+    try {
+      if (namespace) {
+        await deleteNamespaceCertBundle(namespace, name, undefined, forceDelete)
+      }
+      await deleteGlobalCertBundle(name, undefined, forceDelete)
+      return Promise.resolve()
+    } catch (error: any) {
+      const { referencing_configs } = error?.response?.data ?? {}
+      if (referencing_configs) {
+        await handleCertInUse(referencing_configs)
+        return deleteCertBundle(name, namespace, true)
+      } else {
+        return Promise.reject(error)
+      }
     }
-    return deleteGlobalCertBundle(name)
   }
 
   const getCertBundleInfo = async (name: string, namespace?: string) => {

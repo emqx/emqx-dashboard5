@@ -474,4 +474,20 @@ Example: \`concat([client_attrs.tns, '-', clientid])\` adds the namespace as a p
 This allows clients in different namespaces to connect using the same Client ID without conflict.<br />
 See EMQX documentation for expression syntax.`,
   },
+  certBundleInUseTitle: {
+    zh: '证书包正在使用中',
+    en: 'Certificate Bundle In Use',
+  },
+  certBundleInUseMsg: {
+    zh: '证书包 {name} 正在被以下资源使用：',
+    en: 'Certificate bundle {name} is currently in use by the following resources:',
+  },
+  certBundleForceDeleteWarning: {
+    zh: '强制删除此证书包可能导致使用它的资源配置失效或无法正常工作。',
+    en: 'Force deleting this certificate bundle may cause resources using it to become invalid or malfunction.',
+  },
+  forceDelete: {
+    zh: '强制删除',
+    en: 'Force Delete',
+  },
 }
