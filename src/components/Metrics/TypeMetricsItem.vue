@@ -190,7 +190,7 @@ watch(
   .el-descriptions .el-descriptions__content {
     float: right;
     padding-right: 8px;
-    color: #fff;
+    color: var(--color-text-popper);
   }
 
   .el-descriptions__body .el-descriptions__table .el-descriptions__cell {
@@ -199,7 +199,7 @@ watch(
 
   .el-descriptions .el-descriptions__label,
   .icon-question {
-    color: #bac1cd;
+    color: var(--color-text-popper-secondary);
   }
   .icon-question {
     margin-left: 2px;
