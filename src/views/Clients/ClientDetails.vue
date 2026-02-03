@@ -243,7 +243,7 @@ const subsLockTable = ref(true)
 const doesTheClientExist = ref(true)
 const record = ref<Partial<Client>>({})
 const { clientFields, snake2pascal, getBaseLabel } = useClientFields()
-const clientsOrganizied = {
+const clientsOrganized = {
   MQTT: {
     ...clientFields,
     bytes: ['recv_oct', 'send_oct'],
@@ -298,6 +298,22 @@ const clientsOrganizied = {
     packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
     messages: [],
   },
+  JT808: {
+    connection: [
+      'node',
+      'clientid',
+      'username',
+      'proto_type',
+      'ip_address',
+      'keepalive',
+      'connected_at',
+      'disconnected_at',
+    ],
+    session: ['subscriptions', 'heap_size', 'reductions'],
+    bytes: ['recv_oct', 'send_oct'],
+    packets: ['recv_cnt', 'send_cnt', 'recv_pkt', 'send_pkt'],
+    messages: ['recv_msg', 'send_msg'],
+  },
   others: {
     connection: [
       'node',
@@ -344,17 +360,17 @@ const clientType = computed<ClientTypes>((): ClientTypes => {
   return proto_name.toUpperCase() as ClientTypes
 })
 const clientDetailParts = computed(() => {
-  const allParts = Object.keys(clientsOrganizied)
+  const allTypes = Object.keys(clientsOrganized)
   if (clientType.value === 'MQISDP') {
-    return clientsOrganizied.MQTT
+    return clientsOrganized.MQTT
   }
-  if (Array.prototype.includes.call(allParts, clientType.value)) {
-    return clientsOrganizied[clientType.value]
+  if (Array.prototype.includes.call(allTypes, clientType.value)) {
+    return clientsOrganized[clientType.value]
   }
   if (props.gateway === GatewayName.OCPP) {
-    return clientsOrganizied.OCPP
+    return clientsOrganized.OCPP
   }
-  return clientsOrganizied.others
+  return clientsOrganized.others
 })
 const isMQTTVersion5 = computed(() => {
   return record.value.proto_name === 'MQTT' && record.value.proto_ver === 5

@@ -18,8 +18,8 @@ importers:
         specifier: ~0.0.5
         version: 0.0.5
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.57
-        version: 0.0.57
+        specifier: ~0.0.63
+        version: 0.0.63
       '@emqx/shared-ui-utils':
         specifier: ~0.0.22
         version: 0.0.22(typescript@5.5.4)

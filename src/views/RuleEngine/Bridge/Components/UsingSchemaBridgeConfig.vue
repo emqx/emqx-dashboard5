@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { BatchSettingDatabaseType } from '@/types/enum'
+import { BatchSettingDatabaseType, BridgeType } from '@/types/enum'
 import { OtherBridge } from '@/types/rule'
 import { Properties } from '@/types/schemaForm'
 
@@ -85,6 +85,14 @@ const bridgeRecord = computed({
     emit('update:modelValue', val)
   },
 })
+
+const isIotDBTable = computed(() => {
+  if (!bridgeRecord.value.type || bridgeRecord.value.type !== BridgeType.IoTDB) {
+    return false
+  }
+  return bridgeRecord.value?.parameters?.write_to_table
+})
+provide('isIotDBTable', isIotDBTable)
 
 const colSpan = computed(() => (props.isUsingInFlow ? 24 : 12))
 

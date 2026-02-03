@@ -194,7 +194,7 @@ export default defineComponent({
     function handleUploadedData(newTableData: kvRow[]) {
       shouldPaginate.value = newTableData.length > 100
       currentPage.value = 1
-      tableData.value = newTableData
+      tableData.value = [...tableData.value, ...newTableData]
       atInputChange()
     }
 

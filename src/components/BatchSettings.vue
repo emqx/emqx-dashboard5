@@ -72,8 +72,11 @@ const props = defineProps<{
   type: BatchSettingDatabaseType
 }>()
 const emits = defineEmits(['uploadedData'])
+
+const isIotDBTable = inject<Ref<boolean>>('isIotDBTable', ref(false))
+
 const { locale } = useI18n()
-const { tl } = useI18nTl('General')
+const { t, tl } = useI18nTl('General')
 
 const UploadRef = ref<typeof ElUpload | null>(null)
 const dialogVisible = ref(false)
@@ -102,10 +105,21 @@ const {
   readFileAndParse: processingUploadedFile,
   handleDownloadTemp,
   templateContentMap,
+  getTemplateContent,
 } = useBatchSettings(locale.value === 'zh' ? 'zh' : 'en')
 
 function downloadTemplate() {
-  const template = templateContentMap[props.type]
+  let template =
+    getTemplateContent(props.type as any, isIotDBTable.value) ?? templateContentMap[props.type]
+  // FIXME: remove this after release
+  if (isIotDBTable.value) {
+    template = `Column Category,Timestamp,Measurement,Data Type,Value,Remarks (Optional)
+tag,now,clientid,text,\${clientid},"${t('RuleEngine.iotdbTableTemplateRemark')}"
+field,now,temp,float,\${payload.temp},
+attribute,now,hum,text,\${payload.hum},
+attribute,now,status,text,\${payload.status},
+`
+  }
   handleDownloadTemp(template, `EMQX_${dbNameMap[props.type]}_Template.csv`)
 }
 
@@ -134,7 +148,7 @@ async function importData() {
       } else if (props.type === BatchSettingDatabaseType.TDengine) {
         res = (await processTDengineData(data)) as string
       } else if (props.type === BatchSettingDatabaseType.IoTDB) {
-        res = await processIoTDBData(data)
+        res = await processIoTDBData(data, isIotDBTable.value)
       }
       emits('uploadedData', res)
       fileList.value = []
@@ -156,22 +170,26 @@ async function importData() {
 <style lang="scss">
 .batch-settings {
   line-height: 0;
+
   .el-button.is-link {
     font-weight: normal;
   }
 }
+
 .batch-settings-dialog {
   .el-step__title {
     ul {
       padding-left: 14px;
     }
   }
+
   .el-step__title.is-wait,
   .el-step__title.is-process {
     font-weight: normal;
     color: var(--color-text-primary);
     font-size: 14px;
   }
+
   .el-step:not(:last-child) {
     .el-button {
       margin-bottom: 32px;

@@ -31,6 +31,25 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="tl('stringEncoding')"
+                :desc="tl('stringEncodingDesc')"
+                desc-marked
+              />
+            </template>
+            <el-select v-model="jValue.frame.string_encoding">
+              <el-option
+                v-for="option in stringEncodingOptions"
+                :key="option"
+                :label="option"
+                :value="option"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('retryInterval')">
             <TimeInputWithUnitSelect
               v-model="jValue.retry_interval"
@@ -138,6 +157,11 @@ import {
   defineExpose,
 } from 'vue'
 
+const enum StringEncoding {
+  GBK = 'gbk',
+  UTF8 = 'utf8',
+}
+
 const props = defineProps({
   value: {
     type: Object,
@@ -154,6 +178,7 @@ const createDefault = () => ({
   frame: {
     max_length: 8192,
     parse_unknown_message: true,
+    string_encoding: StringEncoding.UTF8,
   },
   proto: {
     auth: {
@@ -189,6 +214,8 @@ const rules: any = computed(() => {
   }
   return rules
 })
+
+const stringEncodingOptions = [StringEncoding.GBK, StringEncoding.UTF8]
 
 const { tl } = useI18nTl('Gateway')
 
