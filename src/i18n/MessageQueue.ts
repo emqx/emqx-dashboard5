@@ -12,9 +12,9 @@ export default {
     en: 'Topic Filter',
   },
   topicFilterDesc: {
-    zh: `用于确定哪些消息进入队列的过滤器。客户端可以通过订阅 \`$q/{'{'}过滤主题{'}'}\` 来从队列中消费消息`,
+    zh: `用于确定哪些消息进入队列的过滤器。客户端可以通过订阅 \`$queue/{'{'}队列名称{'}'}/{'{'}过滤主题{'}'}\` 来从队列中消费消息，或者如果队列已存在，可以直接订阅 \`$queue/{'{'}队列名称{'}'}\``,
     en: `The filter used to determine which messages are getting into the queue.
-Clients can consume messages from the queue by subscribing to \`$q/{'{'}Topic Filter{'}'}\`.`,
+Clients can consume messages from the queue by subscribing to \`$queue/{'{'}Queue Name{'}'}/{'{'}Topic Filter{'}'}\`, or \`$queue/{'{'}Queue Name{'}'}\` if the queue is known to exist.`,
   },
   dataRetentionPeriod: {
     zh: '数据保留期',
@@ -83,8 +83,8 @@ The variables can be referenced as follows:
     en: 'Round Robin',
   },
   deleteTip: {
-    zh: '确定删除过滤主题为 {topicFilter} 的队列吗？',
-    en: 'Confirm to delete queue with topic filter {topicFilter}?',
+    zh: '确定删除名为 {name} 的队列吗？',
+    en: 'Confirm to delete queue with name {name}?',
   },
   // Guidance component
   createFirstMQTitle: {
