@@ -20,17 +20,17 @@ export const postMessageStream = (data: MessageStreamItem): Promise<MessageStrea
   return http.post(`/message_streams/streams`, data)
 }
 
-export const deleteMessageStream = (topicFilter: string): Promise<void> => {
-  return http.delete(`/message_streams/streams/${encodeURIComponent(topicFilter)}`)
+export const deleteMessageStream = (name: string): Promise<void> => {
+  return http.delete(`/message_streams/streams/${encodeURIComponent(name)}`)
 }
 
-export const getMessageStreamDetail = (topicFilter: string): Promise<MessageStreamItem> => {
-  return http.get(`/message_streams/streams/${encodeURIComponent(topicFilter)}`)
+export const getMessageStreamDetail = (name: string): Promise<MessageStreamItem> => {
+  return http.get(`/message_streams/streams/${encodeURIComponent(name)}`)
 }
 
 export const putMessageStream = (
-  topicFilter: string,
-  data: Omit<MessageStreamItem, 'topic_filter'>,
+  name: string,
+  data: Omit<MessageStreamItem, 'name' | 'topic_filter'>,
 ): Promise<MessageStreamItem> => {
-  return http.put(`/message_streams/streams/${encodeURIComponent(topicFilter)}`, data)
+  return http.put(`/message_streams/streams/${encodeURIComponent(name)}`, data)
 }
