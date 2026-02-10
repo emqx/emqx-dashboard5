@@ -8,9 +8,9 @@ export default {
     en: 'Edit Stream',
   },
   topicFilterDesc: {
-    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$stream/<topic_filter>\` 的特殊主题来消费流中的消息。<br />可以通过 \`$stream.start-from\` 用户订阅属性来指定开始时间，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
+    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$stream/<name>/<topic_filter>\` 的特殊主题来消费流中的消息。<br />可以通过 \`stream-offset\` 用户订阅属性来指定开始偏移量，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。为保持向后兼容，仍支持旧版 \`$stream.start-from\` 属性。`,
     en: `The filter used to determine which messages are getting into the stream.
-Clients can consume messages from the stream by subscribing to a special topic in the format \`$stream/<topic_filter>\`. <br />The start time can be specified using the \`$stream.start-from\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
+Clients can consume messages from the stream by subscribing to a special topic in the format \`$stream/<name>/<topic_filter>\`. <br />The start offset can be specified using the \`stream-offset\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`. For backward compatibility, the legacy \`$stream.start-from\` property is still supported.`,
   },
   dataRetentionPeriodDesc: {
     zh: '流中数据保留的时间',
@@ -39,8 +39,8 @@ The variables can be referenced as follows:
     en: `The maximum number of bytes in a shard for the Stream, the configuration will be saved to the durable storage.`,
   },
   deleteTip: {
-    zh: '确定删除过滤主题为 {topicFilter} 的流吗？',
-    en: 'Confirm to delete stream with topic filter {topicFilter}?',
+    zh: '确定删除名为 {name} 的流吗？',
+    en: 'Confirm to delete stream with name {name}?',
   },
   // Guidance component
   createFirstMSTitle: {

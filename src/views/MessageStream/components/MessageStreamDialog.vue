@@ -10,6 +10,11 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
       <el-row :gutter="24">
         <el-col :span="12">
+          <el-form-item :label="t('Base.name')" prop="name">
+            <el-input v-model="form.name" clearable :disabled="isEdit" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item prop="topic_filter">
             <template #label>
               <FormItemLabel
@@ -156,6 +161,7 @@ const title = computed(() => (isEdit.value ? tl('editMessageStream') : tl('creat
 
 const createEmptyForm = (): MessageStreamItem =>
   ({
+    name: '',
     topic_filter: '',
     data_retention_period: '7d',
     is_lastvalue: true,
@@ -173,8 +179,9 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
+const { createRequiredRule, createMqttSubscribeTopicRule, createCommonIdRule } = useFormRules()
 const rules: FormRules = {
+  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
   topic_filter: [
     ...createRequiredRule(t('MessageQueue.topicFilter')),
     ...createMqttSubscribeTopicRule(),
@@ -192,8 +199,9 @@ const resetForm = () => {
 
 const createStream = () => postMessageStream(form.value)
 const updateStream = () => {
-  const { topic_filter, ...data } = form.value
-  return putMessageStream(topic_filter, data)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { name, topic_filter, ...data } = form.value
+  return putMessageStream(name, data)
 }
 
 const handleSubmit = async () => {
