@@ -57,12 +57,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <BlockwiseConfig v-model="cValue.blockwise" />
     </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { CoapGatewayConfig } from '@/types/typeAlias'
+import BlockwiseConfig from './BlockwiseConfig.vue'
 
 const props = defineProps<{
   value?: CoapGatewayConfig

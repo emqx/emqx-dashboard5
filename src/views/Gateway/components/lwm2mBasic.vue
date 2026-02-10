@@ -113,11 +113,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <BlockwiseConfig v-model="lValue.blockwise" />
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
+import BlockwiseConfig from './BlockwiseConfig.vue'
+
 const props = defineProps({
   value: {
     type: Object,

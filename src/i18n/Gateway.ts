@@ -652,4 +652,52 @@ Note: MQTT payloads always use UTF-8 regardless of this setting. Set to <code>gb
     
 Changing the backend require restarting the listener, which will terminate all its active connections.`,
   },
+  blockwiseTransfer: {
+    zh: '块传输配置',
+    en: 'Block-wise Transfer Configuration',
+  },
+  blockwiseEnable: {
+    zh: '启用块传输',
+    en: 'Enable Block-wise Transfer',
+  },
+  blockwiseEnableDesc: {
+    zh: '启用或禁用 CoAP 块传输功能。启用后，支持将大型负载分割为多个小块进行传输，适用于资源受限的设备。',
+    en: 'Enable or disable CoAP block-wise transfer. When enabled, large payloads can be split into multiple small blocks for transmission, suitable for resource-constrained devices.',
+  },
+  maxBlockSize: {
+    zh: '最大块大小',
+    en: 'Max Block Size',
+  },
+  maxBodySize: {
+    zh: '最大消息体大小',
+    en: 'Max Body Size',
+  },
+  exchangeLifetime: {
+    zh: '交换生存期',
+    en: 'Exchange Lifetime',
+  },
+  autoTxBlock1: {
+    zh: '自动发送 Block1',
+    en: 'Auto TX Block1',
+  },
+  autoTxBlock1Desc: {
+    zh: '启用后，服务器在发送大型请求负载时会自动使用 Block1 传输。适用于固件更新等场景。',
+    en: 'When enabled, the server automatically uses Block1 transfer when sending large request payloads. Useful for scenarios like firmware updates.',
+  },
+  autoRxBlock2: {
+    zh: '自动接收 Block2',
+    en: 'Auto RX Block2',
+  },
+  autoRxBlock2Desc: {
+    zh: '启用后，客户端在接收大型响应负载时会自动使用 Block2 传输进行接收和重组。',
+    en: 'When enabled, the client automatically uses Block2 transfer to receive and reassemble large response payloads.',
+  },
+  autoTxBlock2: {
+    zh: '自动发送 Block2',
+    en: 'Auto TX Block2',
+  },
+  autoTxBlock2Desc: {
+    zh: '启用后，服务器在发送大型响应负载时会自动使用 Block2 传输。默认关闭以保持向后兼容性。',
+    en: 'When enabled, the server automatically uses Block2 transfer when sending large response payloads. Disabled by default for backward compatibility.',
+  },
 }
