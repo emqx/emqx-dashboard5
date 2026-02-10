@@ -8,9 +8,9 @@ export default {
     en: 'Edit Stream',
   },
   topicFilterDesc: {
-    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$stream/<name>/<topic_filter>\` 的特殊主题来消费流中的消息。<br />可以通过 \`stream-offset\` 用户订阅属性来指定开始偏移量，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。为保持向后兼容，仍支持旧版 \`$stream.start-from\` 属性。`,
+    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅 \`$stream/{'{'}流名称{'}'}/{'{'}过滤主题{'}'}\` 来消费流中的消息，或者如果流已存在，可以直接订阅 \`$stream/{'{'}流名称{'}'}\`。<br />可以通过 \`stream-offset\` 用户订阅属性来指定开始偏移量，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
     en: `The filter used to determine which messages are getting into the stream.
-Clients can consume messages from the stream by subscribing to a special topic in the format \`$stream/<name>/<topic_filter>\`. <br />The start offset can be specified using the \`stream-offset\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`. For backward compatibility, the legacy \`$stream.start-from\` property is still supported.`,
+Clients can consume messages from the stream by subscribing to \`$stream/{'{'}Stream Name{'}'}/{'{'}Topic Filter{'}'}\`, or \`$stream/{'{'}Stream Name{'}'}\` if the stream is known to exist. <br />The start offset can be specified using the \`stream-offset\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
   },
   dataRetentionPeriodDesc: {
     zh: '流中数据保留的时间',

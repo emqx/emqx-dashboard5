@@ -10,8 +10,8 @@ export const getMessageQueues = (params?: {
   return http.get('/message_queues/queues', { params })
 }
 
-export const getMessageQueue = (topicFilter: string): Promise<MessageQueue> => {
-  return http.get(`/message_queues/queues/${encodeURIComponent(topicFilter)}`)
+export const getMessageQueue = (name: string): Promise<MessageQueue> => {
+  return http.get(`/message_queues/queues/${encodeURIComponent(name)}`)
 }
 
 export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> => {
@@ -19,12 +19,12 @@ export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> =>
 }
 
 export const updateMessageQueue = (
-  topicFilter: string,
-  data: Omit<MessageQueue, 'topic_filter'>,
+  name: string,
+  data: Omit<MessageQueue, 'name' | 'topic_filter'>,
 ): Promise<MessageQueue> => {
-  return http.put(`/message_queues/queues/${encodeURIComponent(topicFilter)}`, data)
+  return http.put(`/message_queues/queues/${encodeURIComponent(name)}`, data)
 }
 
-export const deleteMessageQueue = (topicFilter: string): Promise<void> => {
-  return http.delete(`/message_queues/queues/${encodeURIComponent(topicFilter)}`)
+export const deleteMessageQueue = (name: string): Promise<void> => {
+  return http.delete(`/message_queues/queues/${encodeURIComponent(name)}`)
 }
