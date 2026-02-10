@@ -10,6 +10,11 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
       <el-row :gutter="24">
         <el-col :span="12">
+          <el-form-item :label="t('Base.name')" prop="name">
+            <el-input v-model="form.name" clearable :disabled="isEdit" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item prop="topic_filter">
             <template #label>
               <FormItemLabel :label="tl('topicFilter')" :desc="tl('topicFilterDesc')" desc-marked />
@@ -162,6 +167,7 @@ const isEdit = computed(() => !!props.queue)
 const title = computed(() => (isEdit.value ? tl('editMessageQueue') : tl('createMessageQueue')))
 
 const createEmptyForm = (): MessageQueue => ({
+  name: '',
   topic_filter: '',
   dispatch_strategy: MessageQueueDispatchStrategyValue.random,
   data_retention_period: '7d',
@@ -180,8 +186,9 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
+const { createRequiredRule, createMqttSubscribeTopicRule, createCommonIdRule } = useFormRules()
 const rules: FormRules = {
+  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
   'limits.max_shard_message_count': createRequiredRule(tl('maxShardMessageCount')),
@@ -204,8 +211,9 @@ const processForm = (data: MessageQueue): MessageQueue => {
 
 const createQueue = () => createMessageQueue(processForm(form.value))
 const updateQueue = () => {
-  const { topic_filter, ...data } = processForm(form.value)
-  return updateMessageQueue(topic_filter, data)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { name, topic_filter, ...data } = processForm(form.value)
+  return updateMessageQueue(name, data)
 }
 
 const handleSubmit = async () => {
