@@ -57,7 +57,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <BlockwiseConfig v-model="cValue.blockwise" />
     </el-form>
   </div>
@@ -75,6 +74,7 @@ const emit = defineEmits<{
   (e: 'update:value', value: CoapGatewayConfig): void
 }>()
 
+const { createDefaultBlockwise } = useGatewayBlockwise()
 const createDefault = () => ({
   connection_required: false,
   heartbeat: '30s',
@@ -83,6 +83,7 @@ const createDefault = () => ({
   subscribe_qos: 'coap',
   publish_qos: 'coap',
   mountpoint: '',
+  blockwise: createDefaultBlockwise(),
 })
 
 const cValueDefault = createDefault()

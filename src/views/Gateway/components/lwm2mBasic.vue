@@ -146,6 +146,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value'])
 
+const { createDefaultBlockwise } = useGatewayBlockwise()
 const createDefaultValue = () => ({
   idle_timeout: '30s',
   xml_dir: 'etc/lwm2m_xml/',
@@ -164,6 +165,7 @@ const createDefaultValue = () => ({
     register: { topic: 'up/register', qos: 0 },
     update: { topic: 'up/update', qos: 0 },
   },
+  blockwise: createDefaultBlockwise(),
 })
 
 const lValueDefault = createDefaultValue()
