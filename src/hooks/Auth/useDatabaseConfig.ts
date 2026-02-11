@@ -108,6 +108,10 @@ export default function useDatabaseConfig(
       return
     }
     databaseConfig.value.cmd = defaultContent.value
+    // Set default compatibility_mode for Redis authz
+    if (props.authType === 'authz' && !databaseConfig.value.compatibility_mode) {
+      databaseConfig.value.compatibility_mode = 'disabled'
+    }
   }
   switch (props.database) {
     case 'mysql':
