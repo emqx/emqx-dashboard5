@@ -134,6 +134,23 @@
           </template>
           <PreconditionFormItem v-if="isAuthn" v-model="databaseConfig.precondition" />
 
+          <!-- Redis Authz Compatibility Mode -->
+          <el-col v-if="isRedis && !isAuthn" :span="12">
+            <el-form-item prop="compatibility_mode">
+              <template #label>
+                <FormItemLabel
+                  :label="t('Auth.compatibilityMode')"
+                  :desc="t('Auth.compatibilityModeDesc')"
+                  desc-marked
+                />
+              </template>
+              <el-select v-model="databaseConfig.compatibility_mode">
+                <el-option value="disabled" :label="t('Auth.compatibilityModeDisabled')" />
+                <el-option value="v4" label="v4" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="24">
             <!-- TLS -->
             <CommonTLSConfig class="TLS-config" v-model="databaseConfig.ssl" :is-edit="isEdit" />

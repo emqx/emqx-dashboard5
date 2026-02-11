@@ -898,4 +898,16 @@ Find more information about Variform expressions in EMQX doc.`,
     zh: '存在重复的权限配置',
     en: 'Duplicated permission configuration',
   },
+  compatibilityMode: {
+    zh: '兼容模式',
+    en: 'Compatibility Mode',
+  },
+  compatibilityModeDesc: {
+    zh: "Redis ACL 兼容模式。设置为 `v4` 可接受旧版 ACL 值 `1{'|'}2{'|'}3` 和占位符 `%u/%c`。\n\n- `disabled`（默认）：使用现代格式\n- `v4`：兼容 EMQX 4.x 格式\n  - ACL 值：`1`（订阅）、`2`（发布）、`3`（全部）\n  - 占位符：`%u` → `${'{'}username{'}'}`、`%c` → `${'{'}clientid{'}'}`",
+    en: "Redis ACL compatibility mode. Set to `v4` to accept legacy ACL values `1{'|'}2{'|'}3` and placeholders `%u/%c`.\n\n- `disabled` (default): Use modern format\n- `v4`: Compatible with EMQX 4.x format\n  - ACL values: `1` (subscribe), `2` (publish), `3` (all)\n  - Placeholders: `%u` → `${'{'}username{'}'}`, `%c` → `${'{'}clientid{'}'}`",
+  },
+  compatibilityModeDisabled: {
+    zh: '禁用（默认）',
+    en: 'Disabled (Default)',
+  },
 }
