@@ -253,6 +253,26 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '自动订阅 (Auto Observe)',
     en: 'Auto Observe',
   },
+  aObserveModeDisabled: {
+    zh: '禁用',
+    en: 'Disabled',
+  },
+  aObserveModeAll: {
+    zh: '启用并观察所有上报对象',
+    en: 'Enable and observe all reported objects',
+  },
+  aObserveModeCustom: {
+    zh: '启用并指定观察对象列表',
+    en: 'Enable and specify object list',
+  },
+  aObservePaths: {
+    zh: '对象路径',
+    en: 'Object Paths',
+  },
+  aObservePathPlaceholder: {
+    zh: '例如: /3/0，输入对象路径后按回车添加，点击标签可删除',
+    en: 'e.g., /3/0, press Enter to add a path, click tag to remove',
+  },
   updateStrategy: {
     zh: 'Update 消息策略',
     en: 'Update Message Strategy',
