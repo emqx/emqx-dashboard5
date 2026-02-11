@@ -34,12 +34,12 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+      </el-row>
+
+      <el-row :gutter="30">
+        <el-col :span="24">
           <el-form-item :label="tl('aObserve')">
-            <el-select v-model="lValue.auto_observe">
-              <el-option :value="true" label="true" />
-              <el-option :value="false" label="false" />
-            </el-select>
+            <AutoObserveConfig v-model="lValue.auto_observe" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -135,6 +135,7 @@
 
 <script setup lang="ts">
 import BlockwiseConfig from './BlockwiseConfig.vue'
+import AutoObserveConfig from './AutoObserveConfig.vue'
 
 const props = defineProps({
   value: {
