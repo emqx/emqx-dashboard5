@@ -385,6 +385,7 @@ declare global {
   const useFlowView: typeof import('./hooks/Flow/useFlowView')['default']
   const useFormRules: typeof import('./hooks/useFormRules')['default']
   const useFormatDebugLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']
+  const useGatewayBlockwise: typeof import('./hooks/Gateway/useGatewayBlockwise')['default']
   const useGatewayStatus: typeof import('./hooks/useTransName')['useGatewayStatus']
   const useGenPluginFormRules: typeof import('./hooks/Plugins/useGenPluginFormRules')['default']
   const useGenerateFlowDataUtils: typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']
@@ -987,6 +988,7 @@ declare module 'vue' {
     readonly useFlowView: UnwrapRef<typeof import('./hooks/Flow/useFlowView')['default']>
     readonly useFormRules: UnwrapRef<typeof import('./hooks/useFormRules')['default']>
     readonly useFormatDebugLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']>
+    readonly useGatewayBlockwise: UnwrapRef<typeof import('./hooks/Gateway/useGatewayBlockwise')['default']>
     readonly useGatewayStatus: UnwrapRef<typeof import('./hooks/useTransName')['useGatewayStatus']>
     readonly useGenPluginFormRules: UnwrapRef<typeof import('./hooks/Plugins/useGenPluginFormRules')['default']>
     readonly useGenerateFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']>

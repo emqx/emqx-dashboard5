@@ -238,7 +238,7 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '资源定义文件目录',
   },
   qmodewindow: {
-    zh: 'QMode Time Window',
+    zh: 'QMode 接收窗口',
     en: 'QMode Time Window',
   },
   minLifetime: {
@@ -250,11 +250,11 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '最大心跳时间',
   },
   aObserve: {
-    zh: 'Auto Observe',
+    zh: '自动订阅 (Auto Observe)',
     en: 'Auto Observe',
   },
   updateStrategy: {
-    zh: 'Update Message Strategy',
+    zh: 'Update 消息策略',
     en: 'Update Message Strategy',
   },
   trCommand: {
