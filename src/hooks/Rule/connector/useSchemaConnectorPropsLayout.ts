@@ -145,8 +145,8 @@ export default (
     [
       'driver',
       'server',
-      'sql_dialect',
       'base_url',
+      'sql',
       'authentication.username',
       'authentication.password',
       'username',
@@ -422,6 +422,7 @@ export default (
     [BridgeType.AWSTimestream]: { 'parameters.influxdb_type': 'col-hidden' },
     [BridgeType.S3]: { 'transport_options.ssl': 'col-ssl' },
     [BridgeType.S3Tables]: { 's3_client.transport_options.ssl': 'col-ssl' },
+    [BridgeType.IoTDB]: { 'sql.dialect': 'col-hidden' },
     [BridgeType.Datalayers]: getDatalayersColClass,
     [BridgeType.KafkaProducer]: getKafkaProducerColClass,
     [BridgeType.Confluent]: getKafkaProducerColClass,

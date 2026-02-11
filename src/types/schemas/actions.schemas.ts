@@ -744,6 +744,46 @@ export interface SyskeeperPostBridgeV2 {
   type: SyskeeperPostBridgeV2Type
 }
 
+export type PostActionsProbeBody =
+  | ActionAzureBlobStoragePostBridgeV2
+  | ActionCouchbasePostBridgeV2
+  | ActionDiskLogPostBridgeV2
+  | ActionDorisPostBridgeV2
+  | ActionS3tablesPostBridgeV2
+  | ActionSnowflakePostBridgeV2
+  | BridgeAzureEventHubPostBridgeV2
+  | BridgeCassaPostBridgeV2
+  | BridgeClickhousePostBridgeV2
+  | BridgeDatalayersPostBridgeV2
+  | BridgeDynamoPostBridgeV2
+  | BridgeElasticsearchPostBridgeV2
+  | BridgeGreptimedbPostBridgeV2
+  | BridgeHstreamdbPostBridgeV2
+  | BridgeHttpPostBridgeV2
+  | BridgeInfluxdbPostBridgeV2
+  | BridgeIotdbPostBridgeV2
+  | BridgeKafkaPostBridgeV2
+  | BridgeKinesisPostBridgeV2
+  | BridgeMatrixPostBridgeV2
+  | BridgeMongodbPostBridgeV2
+  | BridgeMqttPublisherPostBridgeV2
+  | BridgeMysqlPostBridgeV2
+  | BridgeOpentsPostBridgeV2
+  | BridgeOraclePostBridgeV2
+  | BridgePgsqlPostBridgeV2
+  | BridgeRabbitmqPostBridgeV2
+  | BridgeS3PostBridgeV2
+  | BridgeSqlserverPostBridgeV2
+  | BridgeTablestorePostBridgeV2
+  | BridgeTdenginePostBridgeV2
+  | BridgeTimescalePostBridgeV2
+  | ConfluentPostBridgeV2
+  | GcpPubsubProducerPostBridgeV2
+  | PulsarPostBridgeV2
+  | RedisPostBridgeV2
+  | RocketmqPostBridgeV2
+  | SyskeeperPostBridgeV2
+
 export type SyskeeperGetBridgeV2Type =
   (typeof SyskeeperGetBridgeV2Type)[keyof typeof SyskeeperGetBridgeV2Type]
 
@@ -766,6 +806,22 @@ export const SyskeeperGetBridgeV2Status = {
 export type SyskeeperGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface SyskeeperGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: SyskeeperGetBridgeV2FallbackActionsItem[]
+  local_topic?: string
+  name: string
+  node_status?: BridgeNodeStatus[]
+  parameters: SyskeeperParameters
+  resource_opts?: SyskeeperCreationOpts
+  status?: SyskeeperGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: SyskeeperGetBridgeV2Type
+}
 
 export type SyskeeperCreationOptsRequestTtl = 'infinity' | string
 
@@ -3040,6 +3096,22 @@ export interface BridgeMongodbActionParameters {
   payload_template?: string
 }
 
+export interface BridgeMongodbGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeMongodbGetBridgeV2FallbackActionsItem[]
+  local_topic?: string
+  name: string
+  node_status?: BridgeNodeStatus[]
+  parameters: BridgeMongodbActionParameters
+  resource_opts?: BridgeMongodbActionResourceOpts
+  status?: BridgeMongodbGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeMongodbGetBridgeV2Type
+}
+
 export type BridgeMatrixPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
@@ -3390,9 +3462,24 @@ export interface BridgeKafkaGetBridgeV2 {
   type: BridgeKafkaGetBridgeV2Type
 }
 
+export type BridgeIotdbPutBridgeV2Parameters =
+  | BridgeIotdbActionParametersTable
+  | BridgeIotdbActionParametersTree
+
 export type BridgeIotdbPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgeIotdbPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeIotdbPutBridgeV2FallbackActionsItem[]
+  local_topic?: string
+  parameters: BridgeIotdbPutBridgeV2Parameters
+  resource_opts?: BridgeIotdbActionResourceOpts
+  tags?: string[]
+}
 
 export type BridgeIotdbPostBridgeV2Type =
   (typeof BridgeIotdbPostBridgeV2Type)[keyof typeof BridgeIotdbPostBridgeV2Type]
@@ -3401,6 +3488,10 @@ export type BridgeIotdbPostBridgeV2Type =
 export const BridgeIotdbPostBridgeV2Type = {
   iotdb: 'iotdb',
 } as const
+
+export type BridgeIotdbPostBridgeV2Parameters =
+  | BridgeIotdbActionParametersTable
+  | BridgeIotdbActionParametersTree
 
 export type BridgeIotdbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -3424,6 +3515,10 @@ export const BridgeIotdbGetBridgeV2Status = {
   disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
+
+export type BridgeIotdbGetBridgeV2Parameters =
+  | BridgeIotdbActionParametersTable
+  | BridgeIotdbActionParametersTree
 
 export type BridgeIotdbGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -3488,18 +3583,18 @@ export interface BridgeIotdbPostBridgeV2 {
   type: BridgeIotdbPostBridgeV2Type
 }
 
-export type BridgeIotdbActionParametersDataTimestamp =
+export type BridgeIotdbActionParametersDataTreeTimestamp =
   | string
   | 'now'
   | 'now_ms'
   | 'now_ns'
   | 'now_us'
 
-export type BridgeIotdbActionParametersDataDataType =
-  (typeof BridgeIotdbActionParametersDataDataType)[keyof typeof BridgeIotdbActionParametersDataDataType]
+export type BridgeIotdbActionParametersDataTreeDataType =
+  (typeof BridgeIotdbActionParametersDataTreeDataType)[keyof typeof BridgeIotdbActionParametersDataTreeDataType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeIotdbActionParametersDataDataType = {
+export const BridgeIotdbActionParametersDataTreeDataType = {
   boolean: 'boolean',
   double: 'double',
   float: 'float',
@@ -3508,19 +3603,58 @@ export const BridgeIotdbActionParametersDataDataType = {
   text: 'text',
 } as const
 
-export interface BridgeIotdbActionParametersData {
-  data_type: BridgeIotdbActionParametersDataDataType
+export interface BridgeIotdbActionParametersDataTree {
+  data_type: BridgeIotdbActionParametersDataTreeDataType
   measurement: string
-  timestamp?: BridgeIotdbActionParametersDataTimestamp
+  timestamp?: BridgeIotdbActionParametersDataTreeTimestamp
   value: string
 }
 
-export interface BridgeIotdbActionParameters {
-  data: BridgeIotdbActionParametersData[]
+export interface BridgeIotdbActionParametersTree {
+  data: BridgeIotdbActionParametersDataTree[]
   device_id?: string
   is_aligned?: boolean
   /** @minimum 0 */
   max_retries?: number
+  write_to_table?: BridgeIotdbActionParametersTreeWriteToTable
+}
+
+export type BridgeIotdbActionParametersDataTableTimestamp =
+  | string
+  | 'now'
+  | 'now_ms'
+  | 'now_ns'
+  | 'now_us'
+
+export type BridgeIotdbActionParametersDataTableDataType =
+  (typeof BridgeIotdbActionParametersDataTableDataType)[keyof typeof BridgeIotdbActionParametersDataTableDataType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeIotdbActionParametersDataTableDataType = {
+  boolean: 'boolean',
+  double: 'double',
+  float: 'float',
+  int32: 'int32',
+  int64: 'int64',
+  text: 'text',
+} as const
+
+export type BridgeIotdbActionParametersDataTableColumnCategory =
+  (typeof BridgeIotdbActionParametersDataTableColumnCategory)[keyof typeof BridgeIotdbActionParametersDataTableColumnCategory]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeIotdbActionParametersDataTableColumnCategory = {
+  attribute: 'attribute',
+  field: 'field',
+  tag: 'tag',
+} as const
+
+export interface BridgeIotdbActionParametersDataTable {
+  column_category: BridgeIotdbActionParametersDataTableColumnCategory
+  data_type: BridgeIotdbActionParametersDataTableDataType
+  measurement: string
+  timestamp?: BridgeIotdbActionParametersDataTableTimestamp
+  value: string
 }
 
 export interface BridgeIotdbPutBridgeV2 {
@@ -3657,19 +3791,25 @@ export interface BridgeInfluxdbActionParameters {
   write_syntax: string
 }
 
-export type BridgeHttpPutBridgeV2FallbackActionsItem =
-  | ActionsAndSourcesFallbackActionRepublish
-  | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeHttpPutBridgeV2 {
+export interface BridgeInfluxdbGetBridgeV2 {
   connector: string
   description?: string
   enable?: boolean
-  fallback_actions?: BridgeHttpPutBridgeV2FallbackActionsItem[]
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
+  fallback_actions?: BridgeInfluxdbGetBridgeV2FallbackActionsItem[]
+  local_topic?: string
+  name: string
+  node_status?: BridgeNodeStatus[]
+  parameters: BridgeInfluxdbActionParameters
+  resource_opts?: ActionsAndSourcesActionResourceOpts
+  status?: BridgeInfluxdbGetBridgeV2Status
+  status_reason?: string
   tags?: string[]
+  type: BridgeInfluxdbGetBridgeV2Type
 }
+
+export type BridgeHttpPutBridgeV2FallbackActionsItem =
+  | ActionsAndSourcesFallbackActionRepublish
+  | ActionsAndSourcesFallbackActionReference
 
 export type BridgeHttpPostBridgeV2Type =
   (typeof BridgeHttpPostBridgeV2Type)[keyof typeof BridgeHttpPostBridgeV2Type]
@@ -4291,7 +4431,6 @@ export interface BridgeDatalayersGetBridgeV2 {
   status?: BridgeDatalayersGetBridgeV2Status
   status_reason?: string
   tags?: string[]
-  type: BridgeDatalayersGetBridgeV2Type
 }
 
 export type BridgeDatalayersActionResourceOptsRequestTtl = 'infinity' | string

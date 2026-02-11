@@ -371,16 +371,6 @@ export default (
     return { components, rules }
   }
 
-  const greptimeDBHandler = (data: { components: Properties; rules: SchemaRules }) => {
-    const { components, rules } = commonHandler(data)
-
-    // TODO:remove
-    Reflect.deleteProperty(components, 'ssl')
-    Reflect.deleteProperty(rules, 'ssl')
-
-    return { components, rules }
-  }
-
   const pulsarHandler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
     const authList = components.authentication?.oneOf
     if (authList) {
@@ -397,14 +387,24 @@ export default (
       }
       components[IoTDBKeyField].symbols = IoTDBDrivers
     }
-    if (components.sql_dialect) {
-      components.sql_dialect.useNewCom = true
+    if (components.sql) {
+      components.sql.useNewCom = true
+      const treeItem = components.sql?.oneOf?.find?.(({ $ref }) => /tree/i.test($ref || ''))
+      if (treeItem && treeItem.default && !components.sql.default) {
+        components.sql.default = treeItem.default
+      }
     }
     if (components?.iotdb_version?.symbols) {
       components.iotdb_version.symbols = components.iotdb_version.symbols.filter((version) =>
         typeof version !== 'string' ? true : compare(version.replace('v', ''), '1.3.0', '>='),
       )
     }
+    if (components?.protocol_version?.symbols) {
+      components.protocol_version.symbols = components.protocol_version.symbols.filter((version) =>
+        typeof version !== 'string' ? true : compare(version.replace('protocol_v', ''), '3', '>='),
+      )
+    }
+
     return { ...data, components }
   }
 
@@ -471,7 +471,6 @@ export default (
     [BridgeType.InfluxDB, influxDbHandler],
     [BridgeType.AWSTimestream, influxDbHandler],
     [BridgeType.AmazonKinesis, amazonKinesisHandler],
-    [BridgeType.GreptimeDB, greptimeDBHandler],
     [BridgeType.Pulsar, pulsarHandler],
     [BridgeType.IoTDB, iotDbHandler],
     [BridgeType.DiskLog, diskLogHandler],
