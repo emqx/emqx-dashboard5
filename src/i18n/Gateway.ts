@@ -700,4 +700,12 @@ Changing the backend require restarting the listener, which will terminate all i
     zh: '启用后，服务器在发送大型响应负载时会自动使用 Block2 传输。默认关闭以保持向后兼容性。',
     en: 'When enabled, the server automatically uses Block2 transfer when sending large response payloads. Disabled by default for backward compatibility.',
   },
+  coapMaxBlockSize: {
+    zh: 'CoAP 最大块大小',
+    en: 'CoAP Max Block Size',
+  },
+  coapMaxBlockSizeDesc: {
+    zh: '该值设置单个 CoAP 块的最大字节数，范围为 16-1024 字节。',
+    en: 'Sets the maximum number of bytes per CoAP block, ranging from 16 to 1024 bytes.',
+  },
 }
