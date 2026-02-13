@@ -29,7 +29,7 @@ export default (): {
   resetActionMetrics: (action: Action) => Promise<void>
   toggleActionEnable: (action: Action, isEnable: boolean) => Promise<void>
   reconnectAction: (action: Action) => Promise<void>
-  reconnectActionForNode: (node: string, action: Action) => Promise<void>
+  reconnectActionForNode: (action: Action, node: string) => Promise<void>
   isTesting: Ref<boolean>
   testConnectivity: (data: Action) => Promise<void>
   handleConnDirection: (callback: HandleDirectionCallback) => void
@@ -78,7 +78,7 @@ export default (): {
     { id, namespace }: Action | BridgeItem,
     withDependency = false,
   ): Promise<void> => {
-    return requestDelAction(id, withDependency, namespace)
+    return requestDelAction(id, withDependency, namespace ?? undefined)
   }
 
   const getActionMetrics = async ({ id, namespace }: Action): Promise<any> => {
@@ -98,7 +98,7 @@ export default (): {
     return requestReconnectAction(id, getNsParams(namespace))
   }
 
-  const reconnectActionForNode = async (node: string, { id, namespace }: Action): Promise<void> => {
+  const reconnectActionForNode = async ({ id, namespace }: Action, node: string): Promise<void> => {
     return requestReconnectActionForNode(node, id, getNsParams(namespace))
   }
 

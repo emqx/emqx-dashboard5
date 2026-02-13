@@ -22,7 +22,7 @@ const useHandleSourceItem = (): {
   resetSourceMetrics: (source: Source) => Promise<void>
   toggleSourceEnable: (source: Source, isEnable: boolean) => Promise<Source>
   reconnectSource: (source: Source) => Promise<void>
-  reconnectSourceForNode: (node: string, source: Source) => Promise<void>
+  reconnectSourceForNode: (source: Source, node: string) => Promise<void>
   isTesting: Ref<boolean>
   testConnectivity: (data: Source) => Promise<void>
 } => {
@@ -60,7 +60,7 @@ const useHandleSourceItem = (): {
     { id, namespace }: Source | BridgeItem,
     withDependency = false,
   ): Promise<void> => {
-    return requestDeleteSource(id, withDependency, namespace)
+    return requestDeleteSource(id, withDependency, namespace || undefined)
   }
 
   const getSourceMetrics = async ({ id, namespace }: Source): Promise<any> => {
@@ -79,7 +79,7 @@ const useHandleSourceItem = (): {
     return requestReconnectSource(id, getNsParams(namespace))
   }
 
-  const reconnectSourceForNode = async (node: string, { id, namespace }: Source): Promise<void> => {
+  const reconnectSourceForNode = async ({ id, namespace }: Source, node: string): Promise<void> => {
     return requestReconnectSourceForNode(node, id, getNsParams(namespace))
   }
 
