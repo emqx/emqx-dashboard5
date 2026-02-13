@@ -40,42 +40,6 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item prop="blockwise.auto_tx_block1">
-            <template #label>
-              <FormItemLabel
-                :label="tl('autoTxBlock1')"
-                :desc="tl('autoTxBlock1Desc')"
-                desc-marked
-              />
-            </template>
-            <el-switch v-model="blockwiseValue.auto_tx_block1" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="blockwise.auto_rx_block2">
-            <template #label>
-              <FormItemLabel
-                :label="tl('autoRxBlock2')"
-                :desc="tl('autoRxBlock2Desc')"
-                desc-marked
-              />
-            </template>
-            <el-switch v-model="blockwiseValue.auto_rx_block2" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item prop="blockwise.auto_tx_block2">
-            <template #label>
-              <FormItemLabel
-                :label="tl('autoTxBlock2')"
-                :desc="tl('autoTxBlock2Desc')"
-                desc-marked
-              />
-            </template>
-            <el-switch v-model="blockwiseValue.auto_tx_block2" />
-          </el-form-item>
-        </el-col>
       </template>
     </el-row>
   </div>
