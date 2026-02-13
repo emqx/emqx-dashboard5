@@ -1050,6 +1050,42 @@ export default {
     zh: '解码后的数据结构',
     en: 'The decoded data',
   },
+  spbEncodeDesc: {
+    zh: 'Sparkplug B 编码',
+    en: 'Sparkplug B encode',
+  },
+  spbEncodeParams: {
+    zh: '需要编码的数据',
+    en: 'The data to be encoded',
+  },
+  spbEncodeReturns: {
+    zh: 'Sparkplug B 格式的二进制数据',
+    en: 'The Sparkplug B formatted binary data',
+  },
+  spbDecodeDesc: {
+    zh: 'Sparkplug B 解码',
+    en: 'Sparkplug B decode',
+  },
+  spbDecodeParams: {
+    zh: 'Sparkplug B 格式的二进制数据',
+    en: 'The Sparkplug B formatted binary data to be decoded',
+  },
+  spbDecodeReturns: {
+    zh: '解码后的数据结构',
+    en: 'The decoded data',
+  },
+  spbZipKvsDesc: {
+    zh: '将已解码的 Sparkplug B 消息中的键值对压缩转换，使数据结构更易于访问',
+    en: 'Zips key-value pairs in a decoded Sparkplug B message for easier access',
+  },
+  spbZipKvsParams: {
+    zh: '已解码的 Sparkplug B 消息对象',
+    en: 'Decoded Sparkplug B message object',
+  },
+  spbZipKvsReturns: {
+    zh: '转换后的消息对象',
+    en: 'Transformed message object',
+  },
   bin2HexstrDesc: {
     zh: '二进制数据转为 Hex 字符串',
     en: 'Binary to Hex String',
