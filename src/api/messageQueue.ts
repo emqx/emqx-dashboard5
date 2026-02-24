@@ -3,11 +3,14 @@ import http from '@/common/http'
 import { ListDataWithCursor } from '@/types/common'
 import { MessageQueue } from '@/types/typeAlias'
 
-export const getMessageQueues = (params?: {
-  cursor?: string
-  limit?: number
-}): Promise<ListDataWithCursor<MessageQueue>> => {
-  return http.get('/message_queues/queues', { params })
+export const getMessageQueues = (
+  params?: {
+    cursor?: string
+    limit?: number
+  },
+  config?: any,
+): Promise<ListDataWithCursor<MessageQueue>> => {
+  return http.get('/message_queues/queues', { params, ...config })
 }
 
 export const getMessageQueue = (name: string): Promise<MessageQueue> => {

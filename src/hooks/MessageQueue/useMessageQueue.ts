@@ -1,3 +1,4 @@
+import { getMessageQueues } from '@/api/messageQueue'
 import { MessageQueueDispatchStrategy, MessageQueueDispatchStrategyValue } from '@/types/typeAlias'
 
 export const useMessageTemplate = () => {
@@ -37,6 +38,19 @@ const useMessageQueue = () => {
   const { messageTemplate } = useMessageTemplate()
   const descForKeyExpression = `${tl('keyExpressionDesc')}<br />${messageTemplate}`
 
+  const notEnabledStatuses = [503, 404]
+  const getQueueEnabledFromList = async () => {
+    try {
+      await getMessageQueues({ limit: 1 }, { errorsHandleCustom: notEnabledStatuses })
+      return Promise.resolve(true)
+    } catch (error: any) {
+      if (error.status && notEnabledStatuses.includes(error.status)) {
+        return Promise.resolve(false)
+      }
+      return Promise.reject(error)
+    }
+  }
+
   const dispatchStrategyOptions = [
     {
       value: MessageQueueDispatchStrategyValue.least_inflight,
@@ -55,6 +69,7 @@ const useMessageQueue = () => {
     dispatchStrategyOptions,
     getDispatchStrategyLabel,
     descForKeyExpression,
+    getQueueEnabledFromList,
   }
 }
 
