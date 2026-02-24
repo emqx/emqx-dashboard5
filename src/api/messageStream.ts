@@ -12,8 +12,9 @@ export const putMessageStreamsConfig = (config: MessageStreamConfig): Promise<vo
 
 export const getMessageStreamList = (
   params?: CursorParams,
+  config?: any,
 ): Promise<ListDataWithCursor<MessageStreamItem>> => {
-  return http.get(`/message_streams/streams`, { params })
+  return http.get(`/message_streams/streams`, { params, ...config })
 }
 
 export const postMessageStream = (data: MessageStreamItem): Promise<MessageStreamItem> => {

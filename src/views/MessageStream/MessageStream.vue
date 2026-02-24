@@ -102,10 +102,14 @@ const currentMessageStream = ref<MessageStreamItem | undefined>(undefined)
 
 const noData = computed(() => messageStreams.value.length === 0 && page.value === 1)
 
+const { getStreamEnabledFromList } = useMessageStream()
 const loadMSEnabled = async () => {
   try {
     loading.value = true
-    const { enable } = await getMessageStreamsConfig()
+    let { enable } = await getMessageStreamsConfig()
+    if (enable === 'auto') {
+      enable = await getStreamEnabledFromList()
+    }
     // If enable is undefined, it might default to true or false?
     // Assuming true if not present or following server default.
     // Schema says enable?: boolean.

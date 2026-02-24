@@ -106,10 +106,14 @@ const currentMessageQueue = ref<MessageQueue | undefined>(undefined)
 
 const noData = computed(() => messageQueues.value.length === 0 && page.value === 1)
 
+const { getQueueEnabledFromList } = useMessageQueue()
 const loadMQEnabled = async () => {
   try {
     loading.value = true
-    const { enable } = await getMessageQueueConfigs()
+    let { enable } = await getMessageQueueConfigs()
+    if (enable === 'auto') {
+      enable = await getQueueEnabledFromList()
+    }
     isMQEnabled.value = enable
   } catch (error) {
     //

@@ -409,7 +409,7 @@ export interface MqAutoCreate {
 
 export interface MqApiConfigPut {
   auto_create: MqAutoCreate
-  enable: boolean
+  enable: boolean | 'auto'
   find_queue_retry_interval: string
   gc_interval: string
   /** @minimum 1 */

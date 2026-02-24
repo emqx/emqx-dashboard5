@@ -334,7 +334,7 @@ export interface StreamsApiConfigPut {
 
 export interface StreamsApiConfigGet {
   auto_create: StreamsAutoCreate
-  enable?: boolean
+  enable?: boolean | 'auto'
   gc_interval: string
   /** @minimum 0 */
   max_stream_count?: number
