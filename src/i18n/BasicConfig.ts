@@ -408,7 +408,7 @@ These clients must be manually kicked out if one wants them to abide to the new 
   },
   autoCreateMSType: {
     zh: '自动创建流类型',
-    en: 'Auto Create Message Stream Type',
+    en: 'Auto Create Stream Type',
   },
   lastValueStream: {
     zh: '最后值流',
