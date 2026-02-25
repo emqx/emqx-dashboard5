@@ -75,6 +75,7 @@ declare global {
   const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
   const LogTargetType: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']
   const MAX_DISPLAYED_REP_NODE: typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']
+  const MESSAGE_QUEUE_NAME_REG: typeof import('./common/constants')['MESSAGE_QUEUE_NAME_REG']
   const MESSAGE_TYPE_NONE: typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']
   const MQTT_V3_RES_CODES: typeof import('./common/constants')['MQTT_V3_RES_CODES']
   const MQTT_V5_RES_CODES: typeof import('./common/constants')['MQTT_V5_RES_CODES']
@@ -678,6 +679,7 @@ declare module 'vue' {
     readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
     readonly LogTargetType: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']>
     readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']>
+    readonly MESSAGE_QUEUE_NAME_REG: UnwrapRef<typeof import('./common/constants')['MESSAGE_QUEUE_NAME_REG']>
     readonly MESSAGE_TYPE_NONE: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']>
     readonly MQTT_V3_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V3_RES_CODES']>
     readonly MQTT_V5_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V5_RES_CODES']>
