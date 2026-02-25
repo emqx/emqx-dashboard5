@@ -215,6 +215,14 @@ export default {
     zh: '进程邮箱中的消息数量',
     en: 'Mailbox',
   },
+  mailboxLen: {
+    zh: '进程邮箱消息数',
+    en: 'Mailbox Length',
+  },
+  mailbox_lenDesc: {
+    zh: '该客户端 Erlang 进程邮箱中待处理的消息数量。',
+    en: 'The number of pending messages in the client Erlang process mailbox.',
+  },
   currentSubscription: {
     zh: '当前订阅',
     en: 'Subscriptions',
