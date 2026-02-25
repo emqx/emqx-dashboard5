@@ -53,7 +53,7 @@
             <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="form.is_lastvalue">
           <el-form-item prop="key_expression">
             <template #label>
               <FormItemLabel
@@ -218,6 +218,11 @@ const handleSubmit = async () => {
   try {
     await formRef.value.validate()
     submitting.value = true
+    if (isEdit.value) {
+      form.value.key_expression = props.stream?.key_expression ?? createEmptyForm().key_expression
+    } else {
+      form.value.key_expression = createEmptyForm().key_expression
+    }
     await (isEdit.value ? updateStream : createStream)()
     ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
     emit('submitted')
