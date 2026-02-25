@@ -2791,13 +2791,61 @@
       "zh": "队列"
     },
     "operation_name_label": {
+      "en": "Create a new queue (Deprecated)",
+      "zh": "创建新的队列（已弃用）"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_queues/config",
+    "operation_label": {
+      "en": "Queues",
+      "zh": "队列"
+    },
+    "operation_name_label": {
+      "en": "Update queue config (Deprecated)",
+      "zh": "更新队列配置（已弃用）"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/message_queues/queues/:topic_filter",
+    "operation_label": {
+      "en": "Queues",
+      "zh": "队列"
+    },
+    "operation_name_label": {
+      "en": "Delete queue (Deprecated)",
+      "zh": "删除队列（已弃用）"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_queues/queues/:topic_filter",
+    "operation_label": {
+      "en": "Queues",
+      "zh": "队列"
+    },
+    "operation_name_label": {
+      "en": "Update queue (Deprecated)",
+      "zh": "更新队列（已弃用）"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/queues",
+    "operation_label": {
+      "en": "Queues",
+      "zh": "队列"
+    },
+    "operation_name_label": {
       "en": "Create a new queue",
       "zh": "创建新的队列"
     }
   },
   {
     "method": "put",
-    "path": "/message_queues/config",
+    "path": "/queues/config",
     "operation_label": {
       "en": "Queues",
       "zh": "队列"
@@ -2809,7 +2857,7 @@
   },
   {
     "method": "delete",
-    "path": "/message_queues/queues/:topic_filter",
+    "path": "/queue/:name",
     "operation_label": {
       "en": "Queues",
       "zh": "队列"
@@ -2821,7 +2869,7 @@
   },
   {
     "method": "put",
-    "path": "/message_queues/queues/:topic_filter",
+    "path": "/queue/:name",
     "operation_label": {
       "en": "Queues",
       "zh": "队列"
@@ -2887,13 +2935,61 @@
       "zh": "流"
     },
     "operation_name_label": {
+      "en": "Update streams config (Deprecated)",
+      "zh": "更新流配置（已弃用）"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/message_streams/streams",
+    "operation_label": {
+      "en": "Streams",
+      "zh": "流"
+    },
+    "operation_name_label": {
+      "en": "Create a new stream (Deprecated)",
+      "zh": "创建新的流（已弃用）"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/message_streams/streams/:topic_filter",
+    "operation_label": {
+      "en": "Streams",
+      "zh": "流"
+    },
+    "operation_name_label": {
+      "en": "Delete stream (Deprecated)",
+      "zh": "删除流（已弃用）"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/message_streams/streams/:topic_filter",
+    "operation_label": {
+      "en": "Streams",
+      "zh": "流"
+    },
+    "operation_name_label": {
+      "en": "Update stream (Deprecated)",
+      "zh": "更新流（已弃用）"
+    }
+  },
+  {
+    "method": "put",
+    "path": "/streams/config",
+    "operation_label": {
+      "en": "Streams",
+      "zh": "流"
+    },
+    "operation_name_label": {
       "en": "Update streams config",
       "zh": "更新流配置"
     }
   },
   {
     "method": "post",
-    "path": "/message_streams/streams",
+    "path": "/streams",
     "operation_label": {
       "en": "Streams",
       "zh": "流"
@@ -2905,7 +3001,7 @@
   },
   {
     "method": "delete",
-    "path": "/message_streams/streams/:topic_filter",
+    "path": "/stream/:name",
     "operation_label": {
       "en": "Streams",
       "zh": "流"
@@ -2917,7 +3013,7 @@
   },
   {
     "method": "put",
-    "path": "/message_streams/streams/:topic_filter",
+    "path": "/stream/:name",
     "operation_label": {
       "en": "Streams",
       "zh": "流"

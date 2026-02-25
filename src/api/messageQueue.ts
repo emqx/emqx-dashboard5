@@ -10,24 +10,20 @@ export const getMessageQueues = (
   },
   config?: any,
 ): Promise<ListDataWithCursor<MessageQueue>> => {
-  return http.get('/message_queues/queues', { params, ...config })
-}
-
-export const getMessageQueue = (name: string): Promise<MessageQueue> => {
-  return http.get(`/message_queues/queues/${encodeURIComponent(name)}`)
+  return http.get('/queues', { params, ...config })
 }
 
 export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> => {
-  return http.post('/message_queues/queues', data)
+  return http.post('/queues', data)
 }
 
 export const updateMessageQueue = (
   name: string,
   data: Omit<MessageQueue, 'name' | 'topic_filter'>,
 ): Promise<MessageQueue> => {
-  return http.put(`/message_queues/queues/${encodeURIComponent(name)}`, data)
+  return http.put(`/queue/${encodeURIComponent(name)}`, data)
 }
 
 export const deleteMessageQueue = (name: string): Promise<void> => {
-  return http.delete(`/message_queues/queues/${encodeURIComponent(name)}`)
+  return http.delete(`/queue/${encodeURIComponent(name)}`)
 }
