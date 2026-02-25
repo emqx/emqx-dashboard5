@@ -131,6 +131,7 @@
 
 <script setup lang="ts">
 import { postMessageStream, putMessageStream } from '@/api/messageStream'
+import { MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useMessageStream from '@/hooks/MessageStream/useMessageStream'
 import { type MessageStreamItem } from '@/types/typeAlias'
@@ -181,16 +182,22 @@ const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue
 
 const { createRequiredRule, createMqttSubscribeTopicRule, createMessageQueueNameRule } =
   useFormRules()
-const rules: FormRules = {
-  name: [...createRequiredRule(tl('name')), ...createMessageQueueNameRule()],
-  topic_filter: [
-    ...createRequiredRule(t('MessageQueue.topicFilter')),
-    ...createMqttSubscribeTopicRule(),
-  ],
-  key_expression: createRequiredRule(t('MessageQueue.keyExpression')),
-  'limits.max_shard_message_count': createRequiredRule(t('MessageQueue.maxShardMessageCount')),
-  'limits.max_shard_message_bytes': createRequiredRule(t('MessageQueue.maxShardMessageBytes')),
-}
+const rules = computed<FormRules>(() => {
+  const namePatterRule =
+    isEdit.value && !MESSAGE_QUEUE_NAME_REG.test(form.value.name)
+      ? []
+      : createMessageQueueNameRule()
+  return {
+    name: [...createRequiredRule(t('Base.name')), ...namePatterRule],
+    topic_filter: [
+      ...createRequiredRule(t('MessageQueue.topicFilter')),
+      ...createMqttSubscribeTopicRule(),
+    ],
+    key_expression: createRequiredRule(t('MessageQueue.keyExpression')),
+    'limits.max_shard_message_count': createRequiredRule(t('MessageQueue.maxShardMessageCount')),
+    'limits.max_shard_message_bytes': createRequiredRule(t('MessageQueue.maxShardMessageBytes')),
+  }
+})
 
 const { descForKeyExpression } = useMessageStream()
 
