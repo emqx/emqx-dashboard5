@@ -3,35 +3,31 @@ import { CursorParams, ListDataWithCursor } from '@/types/common'
 import { MessageStreamConfig, MessageStreamItem } from '@/types/typeAlias'
 
 export const getMessageStreamsConfig = (): Promise<MessageStreamConfig> => {
-  return http.get(`/message_streams/config`)
+  return http.get(`/streams/config`)
 }
 
 export const putMessageStreamsConfig = (config: MessageStreamConfig): Promise<void> => {
-  return http.put(`/message_streams/config`, config)
+  return http.put(`/streams/config`, config)
 }
 
 export const getMessageStreamList = (
   params?: CursorParams,
   config?: any,
 ): Promise<ListDataWithCursor<MessageStreamItem>> => {
-  return http.get(`/message_streams/streams`, { params, ...config })
+  return http.get(`/streams`, { params, ...config })
 }
 
 export const postMessageStream = (data: MessageStreamItem): Promise<MessageStreamItem> => {
-  return http.post(`/message_streams/streams`, data)
+  return http.post(`/streams`, data)
 }
 
 export const deleteMessageStream = (name: string): Promise<void> => {
-  return http.delete(`/message_streams/streams/${encodeURIComponent(name)}`)
-}
-
-export const getMessageStreamDetail = (name: string): Promise<MessageStreamItem> => {
-  return http.get(`/message_streams/streams/${encodeURIComponent(name)}`)
+  return http.delete(`/stream/${encodeURIComponent(name)}`)
 }
 
 export const putMessageStream = (
   name: string,
   data: Omit<MessageStreamItem, 'name' | 'topic_filter'>,
 ): Promise<MessageStreamItem> => {
-  return http.put(`/message_streams/streams/${encodeURIComponent(name)}`, data)
+  return http.put(`/stream/${encodeURIComponent(name)}`, data)
 }
