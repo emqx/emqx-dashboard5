@@ -696,12 +696,4 @@ Changing the backend require restarting the listener, which will terminate all i
     zh: '交换生存期',
     en: 'Exchange Lifetime',
   },
-  coapMaxBlockSize: {
-    zh: 'CoAP 最大块大小',
-    en: 'CoAP Max Block Size',
-  },
-  coapMaxBlockSizeDesc: {
-    zh: '该值设置单个 CoAP 块的最大字节数，范围为 16-1024 字节。',
-    en: 'Sets the maximum number of bytes per CoAP block, ranging from 16 to 1024 bytes.',
-  },
 }

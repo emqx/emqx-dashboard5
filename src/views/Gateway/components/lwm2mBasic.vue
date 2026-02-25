@@ -59,20 +59,6 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item>
-            <template #label>
-              <FormItemLabel
-                :label="tl('coapMaxBlockSize')"
-                :desc="tl('coapMaxBlockSizeDesc')"
-                desc-marked
-              />
-            </template>
-            <el-select v-model="lValue.coap_max_block_size">
-              <el-option v-for="item in blockSizeOptions" :key="item" :value="item" />
-            </el-select>
-          </el-form-item>
-        </el-col>
       </el-row>
 
       <el-row :gutter="30">
@@ -158,7 +144,6 @@ const createDefaultValue = () => ({
   enable_stats: true,
   update_msg_publish_condition: 'contains_object_list',
   mountpoint: '',
-  coap_max_block_size: 1024,
   translators: {
     command: { topic: 'dn/#', qos: 0 },
     response: { topic: 'up/resp', qos: 0 },
@@ -174,8 +159,6 @@ const lValueDefault = createDefaultValue()
 const { t } = useI18n()
 
 const lValue = reactive(merge(createDefaultValue(), props.value))
-
-const blockSizeOptions = [16, 32, 64, 128, 256, 512, 1024]
 
 watch(
   () => cloneDeep(lValue),
