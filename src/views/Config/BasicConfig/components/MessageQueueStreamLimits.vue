@@ -2,11 +2,7 @@
   <el-col :span="21" class="custom-col">
     <el-form-item>
       <template #label>
-        <FormItemLabel
-          :label="tl('maxShardMessageBytes')"
-          :desc="tl('maxShardMessageBytesDesc', { target: confLabel })"
-          desc-marked
-        />
+        <FormItemLabel v-bind="bytesFormItemLabelProps" desc-marked />
       </template>
       <Oneof
         v-model="record.max_shard_message_bytes"
@@ -17,11 +13,7 @@
   <el-col :span="21" class="custom-col">
     <el-form-item>
       <template #label>
-        <FormItemLabel
-          :label="tl('maxShardMessageCount')"
-          :desc="tl('maxShardMessageCountDesc', { target: confLabel })"
-          desc-marked
-        />
+        <FormItemLabel v-bind="countFormItemLabelProps" desc-marked />
       </template>
       <Oneof
         v-model="record.max_shard_message_count"
@@ -38,6 +30,7 @@ const props = defineProps<{
   modelValue: MessageStreamLimits
   conf: 'queue' | 'stream'
 }>()
+const isQueue = computed(() => props.conf === 'queue')
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: MessageStreamLimits): void
@@ -54,10 +47,22 @@ const record = computed({
   },
 })
 
-const confLabel = computed(() => {
-  return props.conf === 'queue'
-    ? t("components['message-queue']")
-    : t("components['message-stream']")
+const bytesFormItemLabelProps = computed(() => {
+  return isQueue.value
+    ? { label: tl('queueMaxShardMessageBytes'), desc: tl('queueMaxShardMessageBytesDesc') }
+    : {
+        label: t('MessageStream.maxShardMessageBytes'),
+        desc: t('MessageStream.maxShardMessageBytesDesc'),
+      }
+})
+
+const countFormItemLabelProps = computed(() => {
+  return isQueue.value
+    ? { label: tl('queueMaxShardMessageCount'), desc: tl('queueMaxShardMessageCountDesc') }
+    : {
+        label: t('MessageStream.maxShardMessageCount'),
+        desc: t('MessageStream.maxShardMessageCountDesc'),
+      }
 })
 </script>
 

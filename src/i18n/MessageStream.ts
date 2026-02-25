@@ -23,20 +23,20 @@ Clients can consume messages from the stream by subscribing to \`$stream/{'{'}St
 Please note that each message should have the property set by "Stream Key Expression" to be saved in the stream.`,
   },
   keyExpressionDesc: {
-    zh: `用于确定流中消息的流键表达式，EMQX 将流键相同的消息放入同一个分区，从而保证消息的顺序性。<br />默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节。注意：不支持从 \`message.payload.xxx\` 中取值作为流键<br />
+    zh: `默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节。注意：不支持从 \`message.payload.xxx\` 中取值作为流键<br />
 可使用的变量请参考以下数据结构：
 `,
-    en: `The expression used to determine the key of the message for Streams, EMQX will put messages with the same stream key into the same partition to ensure the order of messages.<br />The default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter. Note: Extracting values from \`message.payload.xxx\` is not supported as stream key.
+    en: `The default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter. Note: Extracting values from \`message.payload.xxx\` is not supported as stream key.
 The variables can be referenced as follows:
 `,
   },
   maxShardMessageCountDesc: {
-    zh: `流中每个分片的最大消息数量，配置将进行持久化存储。`,
-    en: `The maximum number of messages in a shard for the Stream, the configuration will be saved to the durable storage.`,
+    zh: `流的最大消息数量。`,
+    en: `The maximum number of messages for the Message Stream.`,
   },
   maxShardMessageBytesDesc: {
-    zh: `流中每个分片的最大字节数，配置将进行持久化存储。`,
-    en: `The maximum number of bytes in a shard for the Stream, the configuration will be saved to the durable storage.`,
+    zh: `流的最大字节数。`,
+    en: `The maximum number of bytes for the Message Stream.`,
   },
   deleteTip: {
     zh: '确定删除名为 {name} 的流吗？',
@@ -66,5 +66,13 @@ The variables can be referenced as follows:
   keyExpression: {
     zh: '流键表达式',
     en: 'Stream Key Expression',
+  },
+  maxShardMessageBytes: {
+    zh: '最大消息字节数',
+    en: 'Max Message Bytes',
+  },
+  maxShardMessageCount: {
+    zh: '最大消息数量',
+    en: 'Max Message Count',
   },
 }

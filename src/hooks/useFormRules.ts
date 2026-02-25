@@ -1,5 +1,6 @@
 import { InternalRuleItem } from 'async-validator'
 import { FormItemRule } from 'element-plus'
+import { COMMON_ID_REG, LIMITER_REG, MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
 
 export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
 
@@ -8,6 +9,10 @@ export default (): {
   createNumRangeRule: (min?: number, max?: number) => Array<FormItemRule>
   createIntFieldRule: (min?: number | undefined, max?: number | undefined) => Array<FormItemRule>
   createCommonIdRule: () => Array<FormItemRule>
+  /**
+   * for message queue and stream name
+   */
+  createMessageQueueNameRule: () => Array<FormItemRule>
   createLetterStartRule: () => Array<FormItemRule>
   createNoChineseRule: () => Array<FormItemRule>
   createLimiterRule: () => Array<FormItemRule>
@@ -23,6 +28,10 @@ export default (): {
 
   const createCommonIdRule = (): Array<FormItemRule> => [
     { pattern: COMMON_ID_REG, message: t('Base.commonIdError') },
+  ]
+
+  const createMessageQueueNameRule = (): Array<FormItemRule> => [
+    { pattern: MESSAGE_QUEUE_NAME_REG, message: t('Base.messageQueueNameError') },
   ]
 
   const createLetterStartRule = (): Array<FormItemRule> => [
@@ -172,6 +181,7 @@ export default (): {
     createIntFieldRule,
     createNumRangeRule,
     createCommonIdRule,
+    createMessageQueueNameRule,
     createLetterStartRule,
     createNoChineseRule,
     createLimiterRule,
