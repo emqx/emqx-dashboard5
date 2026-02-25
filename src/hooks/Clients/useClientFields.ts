@@ -27,11 +27,12 @@ export default (): {
     session: [
       'expiry_interval',
       'created_at',
-      'heap_size',
       'subscriptions',
       'mqueue',
       'inflight',
       'awaiting_rel',
+      'heap_size',
+      'mailbox_len',
     ],
   }
 
