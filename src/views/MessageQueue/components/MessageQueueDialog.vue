@@ -186,9 +186,10 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const { createRequiredRule, createMqttSubscribeTopicRule, createCommonIdRule } = useFormRules()
+const { createRequiredRule, createMqttSubscribeTopicRule, createMessageQueueNameRule } =
+  useFormRules()
 const rules: FormRules = {
-  name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
+  name: [...createRequiredRule(t('Base.name')), ...createMessageQueueNameRule()],
   topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
   key_expression: createRequiredRule(tl('keyExpression')),
   'limits.max_shard_message_count': createRequiredRule(tl('maxShardMessageCount')),

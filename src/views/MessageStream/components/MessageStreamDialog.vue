@@ -73,7 +73,7 @@
           <el-form-item prop="limits.max_shard_message_count">
             <template #label>
               <FormItemLabel
-                :label="t('MessageQueue.maxShardMessageCount')"
+                :label="tl('maxShardMessageCount')"
                 :desc="tl('maxShardMessageCountDesc')"
                 desc-marked
               />
@@ -96,7 +96,7 @@
           <el-form-item prop="limits.max_shard_message_bytes">
             <template #label>
               <FormItemLabel
-                :label="t('MessageQueue.maxShardMessageBytes')"
+                :label="tl('maxShardMessageBytes')"
                 :desc="tl('maxShardMessageBytesDesc')"
                 desc-marked
               />
@@ -179,9 +179,10 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const { createRequiredRule, createMqttSubscribeTopicRule, createCommonIdRule } = useFormRules()
+const { createRequiredRule, createMqttSubscribeTopicRule, createMessageQueueNameRule } =
+  useFormRules()
 const rules: FormRules = {
-  name: [...createRequiredRule(tl('name')), ...createCommonIdRule()],
+  name: [...createRequiredRule(tl('name')), ...createMessageQueueNameRule()],
   topic_filter: [
     ...createRequiredRule(t('MessageQueue.topicFilter')),
     ...createMqttSubscribeTopicRule(),

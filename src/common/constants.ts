@@ -315,6 +315,11 @@ export const INFINITY_VALUE = 'infinity'
 
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
+/**
+ * for message queue and stream name
+ */
+export const MESSAGE_QUEUE_NAME_REG = /^[0-9a-zA-Z][-.0-9a-zA-Z_]*$/
+
 export const SSL_FIELDS = [
   'user_lookup_fun',
   'cacertfile',
