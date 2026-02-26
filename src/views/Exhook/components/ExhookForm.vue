@@ -120,7 +120,7 @@ const rules = {
   pool_size: createIntFieldRule(),
 }
 
-const validate = async () => formCom.value.validate()
+const validate = async () => customValidate(formCom.value)
 
 defineExpose({
   validate,
