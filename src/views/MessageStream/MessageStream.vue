@@ -16,8 +16,10 @@
           v-loading="loading"
           :data="messageStreams"
           class="data-table"
-          :default-sort="{ prop: 'topic_filter', order: 'ascending' }"
+          :default-sort="{ prop: 'name', order: 'ascending' }"
         >
+          <el-table-column prop="name" :label="t('Base.name')" />
+
           <el-table-column prop="topic_filter" :label="t('MessageQueue.topicFilter')">
             <template #default="{ row }">
               <span class="topic-filter">{{ row.topic_filter }}</span>
@@ -100,10 +102,14 @@ const currentMessageStream = ref<MessageStreamItem | undefined>(undefined)
 
 const noData = computed(() => messageStreams.value.length === 0 && page.value === 1)
 
+const { getStreamEnabledFromList } = useMessageStream()
 const loadMSEnabled = async () => {
   try {
     loading.value = true
-    const { enable } = await getMessageStreamsConfig()
+    let { enable } = await getMessageStreamsConfig()
+    if (enable === 'auto') {
+      enable = await getStreamEnabledFromList()
+    }
     // If enable is undefined, it might default to true or false?
     // Assuming true if not present or following server default.
     // Schema says enable?: boolean.
@@ -157,8 +163,8 @@ const handleEdit = (stream: MessageStreamItem) => {
 
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (stream: MessageStreamItem) => {
-  const confirmText = tl('deleteTip', { topicFilter: stream.topic_filter })
-  await confirmDel(() => deleteMessageStream(stream.topic_filter), confirmText)
+  const confirmText = tl('deleteTip', { name: stream.name })
+  await confirmDel(() => deleteMessageStream(stream.name), confirmText)
   loadMessageStreams()
 }
 

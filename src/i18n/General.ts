@@ -339,6 +339,22 @@ export default {
     zh: '名称变量',
     en: 'Name Variable',
   },
+  nameVarSource: {
+    zh: '名称变量来源',
+    en: 'Name Variable Source',
+  },
+  nameVarSourceDesc: {
+    zh: '指定从哪个来源提取用户信息以构建 Dashboard 用户名<br />用户信息端点：使用 /userinfo 端点的响应<br />ID Token：使用访问令牌中的声明',
+    en: 'Specify from which source to extract information to construct the Dashboard username<br />User Info Endpoint: Utilizes the response from the /userinfo endpoint<br />ID Token: Utilizes the claims contained in the access token',
+  },
+  nameVarSourceUserinfo: {
+    zh: '用户信息端点',
+    en: 'User Info Endpoint',
+  },
+  nameVarSourceIdToken: {
+    zh: 'ID Token',
+    en: 'ID Token',
+  },
   sessionExpiry: {
     zh: '会话过期',
     en: 'Session Expiry',
@@ -692,7 +708,7 @@ export default {
     zh: '用户名或密码或认证码错误',
   },
   loginLockedMsg: {
-    en: 'Your account has been locked due to multiple failed login attempts. Please get in touch with the administrator for assistance or try again in 10 minutes.',
-    zh: '账户因多次登录失败而被锁定。请与管理员联系以获取帮助，或10分钟后重试。',
+    en: 'Your account has been locked due to multiple failed login attempts. Please get in touch with the administrator for assistance or try again later.',
+    zh: '账户因多次登录失败而被锁定。请与管理员联系以获取帮助，或稍后重试。',
   },
 }

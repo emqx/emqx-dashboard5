@@ -1326,8 +1326,6 @@ export interface DashboardSaml {
   dashboard_addr?: string
   enable?: boolean
   idp_metadata_url?: string
-  idp_signs_assertions?: boolean
-  idp_signs_envelopes?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean

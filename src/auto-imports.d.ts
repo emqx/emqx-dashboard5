@@ -75,6 +75,7 @@ declare global {
   const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
   const LogTargetType: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']
   const MAX_DISPLAYED_REP_NODE: typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']
+  const MESSAGE_QUEUE_NAME_REG: typeof import('./common/constants')['MESSAGE_QUEUE_NAME_REG']
   const MESSAGE_TYPE_NONE: typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']
   const MQTT_V3_RES_CODES: typeof import('./common/constants')['MQTT_V3_RES_CODES']
   const MQTT_V5_RES_CODES: typeof import('./common/constants')['MQTT_V5_RES_CODES']
@@ -385,6 +386,7 @@ declare global {
   const useFlowView: typeof import('./hooks/Flow/useFlowView')['default']
   const useFormRules: typeof import('./hooks/useFormRules')['default']
   const useFormatDebugLog: typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']
+  const useGatewayBlockwise: typeof import('./hooks/Gateway/useGatewayBlockwise')['default']
   const useGatewayStatus: typeof import('./hooks/useTransName')['useGatewayStatus']
   const useGenPluginFormRules: typeof import('./hooks/Plugins/useGenPluginFormRules')['default']
   const useGenerateFlowDataUtils: typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']
@@ -677,6 +679,7 @@ declare module 'vue' {
     readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
     readonly LogTargetType: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogTargetType']>
     readonly MAX_DISPLAYED_REP_NODE: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['MAX_DISPLAYED_REP_NODE']>
+    readonly MESSAGE_QUEUE_NAME_REG: UnwrapRef<typeof import('./common/constants')['MESSAGE_QUEUE_NAME_REG']>
     readonly MESSAGE_TYPE_NONE: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['MESSAGE_TYPE_NONE']>
     readonly MQTT_V3_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V3_RES_CODES']>
     readonly MQTT_V5_RES_CODES: UnwrapRef<typeof import('./common/constants')['MQTT_V5_RES_CODES']>
@@ -987,6 +990,7 @@ declare module 'vue' {
     readonly useFlowView: UnwrapRef<typeof import('./hooks/Flow/useFlowView')['default']>
     readonly useFormRules: UnwrapRef<typeof import('./hooks/useFormRules')['default']>
     readonly useFormatDebugLog: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['default']>
+    readonly useGatewayBlockwise: UnwrapRef<typeof import('./hooks/Gateway/useGatewayBlockwise')['default']>
     readonly useGatewayStatus: UnwrapRef<typeof import('./hooks/useTransName')['useGatewayStatus']>
     readonly useGenPluginFormRules: UnwrapRef<typeof import('./hooks/Plugins/useGenPluginFormRules')['default']>
     readonly useGenerateFlowDataUtils: UnwrapRef<typeof import('./hooks/Flow/useGenerateFlowDataUtils')['default']>

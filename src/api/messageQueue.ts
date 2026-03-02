@@ -3,28 +3,27 @@ import http from '@/common/http'
 import { ListDataWithCursor } from '@/types/common'
 import { MessageQueue } from '@/types/typeAlias'
 
-export const getMessageQueues = (params?: {
-  cursor?: string
-  limit?: number
-}): Promise<ListDataWithCursor<MessageQueue>> => {
-  return http.get('/message_queues/queues', { params })
-}
-
-export const getMessageQueue = (topicFilter: string): Promise<MessageQueue> => {
-  return http.get(`/message_queues/queues/${encodeURIComponent(topicFilter)}`)
+export const getMessageQueues = (
+  params?: {
+    cursor?: string
+    limit?: number
+  },
+  config?: any,
+): Promise<ListDataWithCursor<MessageQueue>> => {
+  return http.get('/queues', { params, ...config })
 }
 
 export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> => {
-  return http.post('/message_queues/queues', data)
+  return http.post('/queues', data)
 }
 
 export const updateMessageQueue = (
-  topicFilter: string,
-  data: Omit<MessageQueue, 'topic_filter'>,
+  name: string,
+  data: Omit<MessageQueue, 'name' | 'topic_filter'>,
 ): Promise<MessageQueue> => {
-  return http.put(`/message_queues/queues/${encodeURIComponent(topicFilter)}`, data)
+  return http.put(`/queue/${encodeURIComponent(name)}`, data)
 }
 
-export const deleteMessageQueue = (topicFilter: string): Promise<void> => {
-  return http.delete(`/message_queues/queues/${encodeURIComponent(topicFilter)}`)
+export const deleteMessageQueue = (name: string): Promise<void> => {
+  return http.delete(`/queue/${encodeURIComponent(name)}`)
 }

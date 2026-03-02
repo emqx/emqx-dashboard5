@@ -16,8 +16,14 @@
           v-loading="loading"
           :data="messageQueues"
           class="data-table"
-          :default-sort="{ prop: 'topic_filter', order: 'ascending' }"
+          :default-sort="{ prop: 'name', order: 'ascending' }"
         >
+          <el-table-column prop="name" :label="t('Base.name')">
+            <template #default="{ row }">
+              <span>{{ row.name }}</span>
+            </template>
+          </el-table-column>
+
           <el-table-column prop="topic_filter" :label="tl('topicFilter')">
             <template #default="{ row }">
               <span class="topic-filter">{{ row.topic_filter }}</span>
@@ -100,10 +106,14 @@ const currentMessageQueue = ref<MessageQueue | undefined>(undefined)
 
 const noData = computed(() => messageQueues.value.length === 0 && page.value === 1)
 
+const { getQueueEnabledFromList } = useMessageQueue()
 const loadMQEnabled = async () => {
   try {
     loading.value = true
-    const { enable } = await getMessageQueueConfigs()
+    let { enable } = await getMessageQueueConfigs()
+    if (enable === 'auto') {
+      enable = await getQueueEnabledFromList()
+    }
     isMQEnabled.value = enable
   } catch (error) {
     //
@@ -154,8 +164,8 @@ const handleEdit = (messageQueue: MessageQueue) => {
 
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (messageQueue: MessageQueue) => {
-  const confirmText = tl('deleteTip', { topicFilter: messageQueue.topic_filter })
-  await confirmDel(() => deleteMessageQueue(messageQueue.topic_filter), confirmText)
+  const confirmText = tl('deleteTip', { name: messageQueue.name })
+  await confirmDel(() => deleteMessageQueue(messageQueue.name), confirmText)
   loadMessageQueues()
 }
 

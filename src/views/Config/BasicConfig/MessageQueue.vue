@@ -288,7 +288,7 @@ const createDefaultAutoCreateLastvalue = (): MessageQueueConfig['auto_create']['
   key_expression: 'message.from',
   ...createDefaultLimits(),
 })
-const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
+const { dispatchStrategyOptions, descForKeyExpression, getQueueEnabledFromList } = useMessageQueue()
 
 const messageQueueForm = ref()
 const { createRequiredRule } = useFormRules()
@@ -303,6 +303,9 @@ const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getMessageQueueConfigs()
+    if (res.enable === 'auto') {
+      res.enable = await getQueueEnabledFromList()
+    }
     queueConfig.value = res
     isEnabled.value = res.enable
     rawData = cloneDeep(queueConfig.value)
@@ -320,6 +323,9 @@ const updateConfigData = async () => {
     await putMessageQueueConfigs(queueConfig.value)
     ElMessage.success(t('Base.updateSuccess'))
     rawData = cloneDeep(queueConfig.value)
+    if (queueConfig.value.enable === 'auto') {
+      queueConfig.value.enable = await getQueueEnabledFromList()
+    }
     isEnabled.value = queueConfig.value.enable
   } catch (err) {
     loadData()

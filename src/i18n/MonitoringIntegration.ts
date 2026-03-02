@@ -1,7 +1,7 @@
 export default {
   monitoringPlatform: {
     zh: '监控平台',
-    en: 'Monitoring platform',
+    en: 'Monitoring Platform',
   },
   monitoringPlatformFormItemLabel: {
     en: `Select a monitoring platform, for Prometheus, click the "Help button" after configuration to see how to configure the monitoring platform.`,

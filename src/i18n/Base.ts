@@ -580,6 +580,10 @@ The number of tickets sent after a full handshake is controlled by the config no
     zh: '以字母或数字开头，后续仅限字母、数字、-、_',
     en: 'Start with letter/number; only letters, numbers, -, _ afterwards',
   },
+  messageQueueNameError: {
+    zh: '以字母或数字开头，后续仅限字母、数字、-、.、_',
+    en: 'Start with letter/number; only letters, numbers, -, ., _ afterwards',
+  },
   letterBeginError: {
     zh: '以字母开头，后续仅限字母、数字、-、_',
     en: 'Start with letter; only letters, numbers, -, _ afterwards',

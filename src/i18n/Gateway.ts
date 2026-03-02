@@ -238,7 +238,7 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '资源定义文件目录',
   },
   qmodewindow: {
-    zh: 'QMode Time Window',
+    zh: 'QMode 接收窗口',
     en: 'QMode Time Window',
   },
   minLifetime: {
@@ -250,11 +250,31 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '最大心跳时间',
   },
   aObserve: {
-    zh: 'Auto Observe',
+    zh: '自动订阅 (Auto Observe)',
     en: 'Auto Observe',
   },
+  aObserveModeDisabled: {
+    zh: '禁用',
+    en: 'Disabled',
+  },
+  aObserveModeAll: {
+    zh: '启用并观察所有上报对象',
+    en: 'Enable and observe all reported objects',
+  },
+  aObserveModeCustom: {
+    zh: '启用并指定观察对象列表',
+    en: 'Enable and specify object list',
+  },
+  aObservePaths: {
+    zh: '对象路径',
+    en: 'Object Paths',
+  },
+  aObservePathPlaceholder: {
+    zh: '例如: /3/0，输入对象路径后按回车添加，点击标签可删除',
+    en: 'e.g., /3/0, press Enter to add a path, click tag to remove',
+  },
   updateStrategy: {
-    zh: 'Update Message Strategy',
+    zh: 'Update 消息策略',
     en: 'Update Message Strategy',
   },
   trCommand: {
@@ -651,5 +671,29 @@ Note: MQTT payloads always use UTF-8 regardless of this setting. Set to <code>gb
     Note that some \`tcp_options\` settings will have no effect when using this backend, e.g.: \`high_watermark\` and \`send_timeout_close\`.
     
 Changing the backend require restarting the listener, which will terminate all its active connections.`,
+  },
+  blockwiseTransfer: {
+    zh: '块传输配置',
+    en: 'Block-wise Transfer Configuration',
+  },
+  blockwiseEnable: {
+    zh: '启用块传输',
+    en: 'Enable Block-wise Transfer',
+  },
+  blockwiseEnableDesc: {
+    zh: '启用或禁用 CoAP 块传输功能。启用后，支持将大型负载分割为多个小块进行传输，适用于资源受限的设备。',
+    en: 'Enable or disable CoAP block-wise transfer. When enabled, large payloads can be split into multiple small blocks for transmission, suitable for resource-constrained devices.',
+  },
+  maxBlockSize: {
+    zh: '最大块大小',
+    en: 'Max Block Size',
+  },
+  maxBodySize: {
+    zh: '最大消息体大小',
+    en: 'Max Body Size',
+  },
+  exchangeLifetime: {
+    zh: '交换生存期',
+    en: 'Exchange Lifetime',
   },
 }

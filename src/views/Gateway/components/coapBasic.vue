@@ -57,12 +57,14 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <BlockwiseConfig v-model="cValue.blockwise" />
     </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { CoapGatewayConfig } from '@/types/typeAlias'
+import BlockwiseConfig from './BlockwiseConfig.vue'
 
 const props = defineProps<{
   value?: CoapGatewayConfig
@@ -72,6 +74,7 @@ const emit = defineEmits<{
   (e: 'update:value', value: CoapGatewayConfig): void
 }>()
 
+const { createDefaultBlockwise } = useGatewayBlockwise()
 const createDefault = () => ({
   connection_required: false,
   heartbeat: '30s',
@@ -80,6 +83,7 @@ const createDefault = () => ({
   subscribe_qos: 'coap',
   publish_qos: 'coap',
   mountpoint: '',
+  blockwise: createDefaultBlockwise(),
 })
 
 const cValueDefault = createDefault()

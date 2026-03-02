@@ -34,12 +34,12 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+      </el-row>
+
+      <el-row :gutter="30">
+        <el-col :span="24">
           <el-form-item :label="tl('aObserve')">
-            <el-select v-model="lValue.auto_observe">
-              <el-option :value="true" label="true" />
-              <el-option :value="false" label="false" />
-            </el-select>
+            <AutoObserveConfig v-model="lValue.auto_observe" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -113,11 +113,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <BlockwiseConfig v-model="lValue.blockwise" />
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
+import BlockwiseConfig from './BlockwiseConfig.vue'
+import AutoObserveConfig from './AutoObserveConfig.vue'
+
 const props = defineProps({
   value: {
     type: Object,
@@ -128,6 +133,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value'])
 
+const { createDefaultBlockwise } = useGatewayBlockwise()
 const createDefaultValue = () => ({
   idle_timeout: '30s',
   xml_dir: 'etc/lwm2m_xml/',
@@ -145,6 +151,7 @@ const createDefaultValue = () => ({
     register: { topic: 'up/register', qos: 0 },
     update: { topic: 'up/update', qos: 0 },
   },
+  blockwise: createDefaultBlockwise(),
 })
 
 const lValueDefault = createDefaultValue()

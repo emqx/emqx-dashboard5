@@ -253,7 +253,7 @@ const createDefaultAutoCreate = (): MessageStreamConfig['auto_create'][
   ...createDefaultLimits(),
 })
 
-const { descForKeyExpression } = useMessageStream()
+const { descForKeyExpression, getStreamEnabledFromList } = useMessageStream()
 
 const formRef = useTemplateRef('form')
 const { createRequiredRule } = useFormRules()
@@ -269,6 +269,9 @@ const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getMessageStreamsConfig()
+    if (res.enable === 'auto') {
+      res.enable = await getStreamEnabledFromList()
+    }
     streamConfig.value = res
     isEnabled.value = res.enable ?? false
     rawData = cloneDeep(streamConfig.value)
@@ -286,6 +289,9 @@ const updateConfigData = async () => {
     await putMessageStreamsConfig(streamConfig.value)
     ElMessage.success(t('Base.updateSuccess'))
     rawData = cloneDeep(streamConfig.value)
+    if (streamConfig.value.enable === 'auto') {
+      streamConfig.value.enable = await getStreamEnabledFromList()
+    }
     isEnabled.value = streamConfig.value.enable ?? false
   } catch (err) {
     loadData()

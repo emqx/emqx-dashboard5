@@ -8,9 +8,9 @@ export default {
     en: 'Edit Stream',
   },
   topicFilterDesc: {
-    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅格式为 \`$s/<timestamp>/<topic_filter>\` 的特殊主题来消费流中的消息。其中 <timestamp> 可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
+    zh: `用于确定哪些消息进入流的过滤器。客户端可以通过订阅 \`$stream/{'{'}流名称{'}'}/{'{'}过滤主题{'}'}\` 来消费流中的消息，或者如果流已存在，可以直接订阅 \`$stream/{'{'}流名称{'}'}\`。<br />可以通过 \`stream-offset\` 用户订阅属性来指定开始偏移量，其值可以是微秒级 Unix 时间戳，也可以是特殊值 \`earliest\`（从最早开始）或 \`latest\`（从最新开始）。`,
     en: `The filter used to determine which messages are getting into the stream.
-Clients can consume messages from the stream by subscribing to a special topic in the format \`$s/<timestamp>/<topic_filter>\`. The <timestamp> can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
+Clients can consume messages from the stream by subscribing to \`$stream/{'{'}Stream Name{'}'}/{'{'}Topic Filter{'}'}\`, or \`$stream/{'{'}Stream Name{'}'}\` if the stream is known to exist. <br />The start offset can be specified using the \`stream-offset\` user subscription property, which can be a Unix timestamp in microseconds, or the special values \`earliest\` or \`latest\`.`,
   },
   dataRetentionPeriodDesc: {
     zh: '流中数据保留的时间',
@@ -23,24 +23,24 @@ Clients can consume messages from the stream by subscribing to a special topic i
 Please note that each message should have the property set by "Stream Key Expression" to be saved in the stream.`,
   },
   keyExpressionDesc: {
-    zh: `用于确定流中消息的流键表达式，EMQX 将流键相同的消息放入同一个分区，从而保证消息的顺序性。<br />默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节。注意：不支持从 \`message.payload.xxx\` 中取值作为流键<br />
+    zh: `默认值为 \`message.from\`，即为消息的发送者客户端 ID，关于 variform 表达式可使用的函数及语法请参考 [Variform 表达式](https://docs.emqx.com/zh/emqx/latest/configuration/configuration.html#variform-%E8%A1%A8%E8%BE%BE%E5%BC%8F) 章节。注意：不支持从 \`message.payload.xxx\` 中取值作为流键<br />
 可使用的变量请参考以下数据结构：
 `,
-    en: `The expression used to determine the key of the message for Streams, EMQX will put messages with the same stream key into the same partition to ensure the order of messages.<br />The default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter. Note: Extracting values from \`message.payload.xxx\` is not supported as stream key.
+    en: `The default value is \`message.from\`, which is the client ID of the message publisher. For functions and syntax of variform expression, please refer to the [Variform Expressions](https://docs.emqx.com/en/emqx/latest/configuration/configuration.html#variform-expressions) chapter. Note: Extracting values from \`message.payload.xxx\` is not supported as stream key.
 The variables can be referenced as follows:
 `,
   },
   maxShardMessageCountDesc: {
-    zh: `流中每个分片的最大消息数量，配置将进行持久化存储。`,
-    en: `The maximum number of messages in a shard for the Stream, the configuration will be saved to the durable storage.`,
+    zh: `流的最大消息数量。`,
+    en: `The maximum number of messages for the Message Stream.`,
   },
   maxShardMessageBytesDesc: {
-    zh: `流中每个分片的最大字节数，配置将进行持久化存储。`,
-    en: `The maximum number of bytes in a shard for the Stream, the configuration will be saved to the durable storage.`,
+    zh: `流的最大字节数。`,
+    en: `The maximum number of bytes for the Message Stream.`,
   },
   deleteTip: {
-    zh: '确定删除过滤主题为 {topicFilter} 的流吗？',
-    en: 'Confirm to delete stream with topic filter {topicFilter}?',
+    zh: '确定删除名为 {name} 的流吗？',
+    en: 'Confirm to delete stream with name {name}?',
   },
   // Guidance component
   createFirstMSTitle: {
@@ -66,5 +66,13 @@ The variables can be referenced as follows:
   keyExpression: {
     zh: '流键表达式',
     en: 'Stream Key Expression',
+  },
+  maxShardMessageBytes: {
+    zh: '最大消息字节数',
+    en: 'Max Message Bytes',
+  },
+  maxShardMessageCount: {
+    zh: '最大消息数量',
+    en: 'Max Message Count',
   },
 }

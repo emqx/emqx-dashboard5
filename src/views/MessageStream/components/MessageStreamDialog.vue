@@ -10,6 +10,11 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
       <el-row :gutter="24">
         <el-col :span="12">
+          <el-form-item :label="t('Base.name')" prop="name">
+            <el-input v-model="form.name" clearable :disabled="isEdit" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item prop="topic_filter">
             <template #label>
               <FormItemLabel
@@ -48,7 +53,7 @@
             <el-switch v-model="form.is_lastvalue" :disabled="isEdit" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="form.is_lastvalue">
           <el-form-item prop="key_expression">
             <template #label>
               <FormItemLabel
@@ -68,7 +73,7 @@
           <el-form-item prop="limits.max_shard_message_count">
             <template #label>
               <FormItemLabel
-                :label="t('MessageQueue.maxShardMessageCount')"
+                :label="tl('maxShardMessageCount')"
                 :desc="tl('maxShardMessageCountDesc')"
                 desc-marked
               />
@@ -91,7 +96,7 @@
           <el-form-item prop="limits.max_shard_message_bytes">
             <template #label>
               <FormItemLabel
-                :label="t('MessageQueue.maxShardMessageBytes')"
+                :label="tl('maxShardMessageBytes')"
                 :desc="tl('maxShardMessageBytesDesc')"
                 desc-marked
               />
@@ -126,6 +131,7 @@
 
 <script setup lang="ts">
 import { postMessageStream, putMessageStream } from '@/api/messageStream'
+import { MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useMessageStream from '@/hooks/MessageStream/useMessageStream'
 import { type MessageStreamItem } from '@/types/typeAlias'
@@ -156,6 +162,7 @@ const title = computed(() => (isEdit.value ? tl('editMessageStream') : tl('creat
 
 const createEmptyForm = (): MessageStreamItem =>
   ({
+    name: '',
     topic_filter: '',
     data_retention_period: '7d',
     is_lastvalue: true,
@@ -173,16 +180,24 @@ const submitting = ref(false)
 
 const isEditingRegular = computed(() => isEdit.value && !form.value.is_lastvalue)
 
-const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
-const rules: FormRules = {
-  topic_filter: [
-    ...createRequiredRule(t('MessageQueue.topicFilter')),
-    ...createMqttSubscribeTopicRule(),
-  ],
-  key_expression: createRequiredRule(t('MessageQueue.keyExpression')),
-  'limits.max_shard_message_count': createRequiredRule(t('MessageQueue.maxShardMessageCount')),
-  'limits.max_shard_message_bytes': createRequiredRule(t('MessageQueue.maxShardMessageBytes')),
-}
+const { createRequiredRule, createMqttSubscribeTopicRule, createMessageQueueNameRule } =
+  useFormRules()
+const rules = computed<FormRules>(() => {
+  const namePatterRule =
+    isEdit.value && !MESSAGE_QUEUE_NAME_REG.test(form.value.name)
+      ? []
+      : createMessageQueueNameRule()
+  return {
+    name: [...createRequiredRule(t('Base.name')), ...namePatterRule],
+    topic_filter: [
+      ...createRequiredRule(t('MessageQueue.topicFilter')),
+      ...createMqttSubscribeTopicRule(),
+    ],
+    key_expression: createRequiredRule(t('MessageQueue.keyExpression')),
+    'limits.max_shard_message_count': createRequiredRule(t('MessageQueue.maxShardMessageCount')),
+    'limits.max_shard_message_bytes': createRequiredRule(t('MessageQueue.maxShardMessageBytes')),
+  }
+})
 
 const { descForKeyExpression } = useMessageStream()
 
@@ -192,8 +207,9 @@ const resetForm = () => {
 
 const createStream = () => postMessageStream(form.value)
 const updateStream = () => {
-  const { topic_filter, ...data } = form.value
-  return putMessageStream(topic_filter, data)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { name, topic_filter, ...data } = form.value
+  return putMessageStream(name, data)
 }
 
 const handleSubmit = async () => {
@@ -202,6 +218,11 @@ const handleSubmit = async () => {
   try {
     await formRef.value.validate()
     submitting.value = true
+    if (isEdit.value) {
+      form.value.key_expression = props.stream?.key_expression ?? createEmptyForm().key_expression
+    } else {
+      form.value.key_expression = createEmptyForm().key_expression
+    }
     await (isEdit.value ? updateStream : createStream)()
     ElMessage.success(t(`Base.${isEdit.value ? 'updateSuccess' : 'createSuccess'}`))
     emit('submitted')

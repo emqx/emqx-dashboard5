@@ -111,8 +111,7 @@ export const getConfigs = (key?: string) => http.get('/configs', { params: { key
 
 export const putConfigs = (configs: any) => http.put('/configs', configs)
 
-export const getMessageQueueConfigs = (): Promise<MessageQueueConfig> =>
-  http.get('/message_queues/config')
+export const getMessageQueueConfigs = (): Promise<MessageQueueConfig> => http.get('/queues/config')
 
 export const putMessageQueueConfigs = (data: MessageQueueConfig): Promise<MessageQueueConfig> =>
-  http.put('/message_queues/config', data)
+  http.put('/queues/config', data)
