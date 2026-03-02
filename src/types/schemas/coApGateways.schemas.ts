@@ -11,6 +11,19 @@ export type PostGatewaysCoapClientsClientidRequest504 = {
   message?: string
 }
 
+export type PostGatewaysCoapClientsClientidRequest502Code =
+  (typeof PostGatewaysCoapClientsClientidRequest502Code)[keyof typeof PostGatewaysCoapClientsClientidRequest502Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysCoapClientsClientidRequest502Code = {
+  CLIENT_BAD_RESPONSE: 'CLIENT_BAD_RESPONSE',
+} as const
+
+export type PostGatewaysCoapClientsClientidRequest502 = {
+  code?: PostGatewaysCoapClientsClientidRequest502Code
+  message?: string
+}
+
 export type PostGatewaysCoapClientsClientidRequest404Code =
   (typeof PostGatewaysCoapClientsClientidRequest404Code)[keyof typeof PostGatewaysCoapClientsClientidRequest404Code]
 
@@ -21,6 +34,19 @@ export const PostGatewaysCoapClientsClientidRequest404Code = {
 
 export type PostGatewaysCoapClientsClientidRequest404 = {
   code?: PostGatewaysCoapClientsClientidRequest404Code
+  message?: string
+}
+
+export type PostGatewaysCoapClientsClientidRequest400Code =
+  (typeof PostGatewaysCoapClientsClientidRequest400Code)[keyof typeof PostGatewaysCoapClientsClientidRequest400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysCoapClientsClientidRequest400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostGatewaysCoapClientsClientidRequest400 = {
+  code?: PostGatewaysCoapClientsClientidRequest400Code
   message?: string
 }
 

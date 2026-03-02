@@ -996,14 +996,8 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
-export interface EmqxAuthzApiMnesiaRulesForUsername {
+export interface EmqxAuthzApiMnesiaRules {
   rules?: EmqxAuthzApiMnesiaRuleItem[]
-  username: string
-}
-
-export interface EmqxAuthzApiMnesiaUsernameResponseData {
-  data?: EmqxAuthzApiMnesiaRulesForUsername[]
-  meta?: PublicMeta
 }
 
 export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
@@ -1042,12 +1036,18 @@ export interface EmqxAuthzApiMnesiaRuleItem {
   zone_re?: string
 }
 
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  clientid: string
+export interface EmqxAuthzApiMnesiaRulesForUsername {
   rules?: EmqxAuthzApiMnesiaRuleItem[]
+  username: string
 }
 
-export interface EmqxAuthzApiMnesiaRules {
+export interface EmqxAuthzApiMnesiaUsernameResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForUsername[]
+  meta?: PublicMeta
+}
+
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  clientid: string
   rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
@@ -1094,10 +1094,20 @@ export const AuthzRedisSingleRedisType = {
   single: 'single',
 } as const
 
+export type AuthzRedisSingleCompatibilityMode =
+  (typeof AuthzRedisSingleCompatibilityMode)[keyof typeof AuthzRedisSingleCompatibilityMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzRedisSingleCompatibilityMode = {
+  disabled: 'disabled',
+  v4: 'v4',
+} as const
+
 export interface AuthzRedisSingle {
   /** @deprecated */
   auto_reconnect?: boolean
   cmd: string
+  compatibility_mode?: AuthzRedisSingleCompatibilityMode
   /** @minimum 0 */
   database?: number
   enable?: boolean
@@ -1127,10 +1137,20 @@ export const AuthzRedisSentinelRedisType = {
   sentinel: 'sentinel',
 } as const
 
+export type AuthzRedisSentinelCompatibilityMode =
+  (typeof AuthzRedisSentinelCompatibilityMode)[keyof typeof AuthzRedisSentinelCompatibilityMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzRedisSentinelCompatibilityMode = {
+  disabled: 'disabled',
+  v4: 'v4',
+} as const
+
 export interface AuthzRedisSentinel {
   /** @deprecated */
   auto_reconnect?: boolean
   cmd: string
+  compatibility_mode?: AuthzRedisSentinelCompatibilityMode
   /** @minimum 0 */
   database?: number
   enable?: boolean
@@ -1161,10 +1181,20 @@ export const AuthzRedisClusterRedisType = {
   cluster: 'cluster',
 } as const
 
+export type AuthzRedisClusterCompatibilityMode =
+  (typeof AuthzRedisClusterCompatibilityMode)[keyof typeof AuthzRedisClusterCompatibilityMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzRedisClusterCompatibilityMode = {
+  disabled: 'disabled',
+  v4: 'v4',
+} as const
+
 export interface AuthzRedisCluster {
   /** @deprecated */
   auto_reconnect?: boolean
   cmd: string
+  compatibility_mode?: AuthzRedisClusterCompatibilityMode
   enable?: boolean
   password?: string
   /** @minimum 1 */
