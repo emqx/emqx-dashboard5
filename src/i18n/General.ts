@@ -708,7 +708,7 @@ export default {
     zh: '用户名或密码或认证码错误',
   },
   loginLockedMsg: {
-    en: 'Your account has been locked due to multiple failed login attempts. Please get in touch with the administrator for assistance or try again in 10 minutes.',
-    zh: '账户因多次登录失败而被锁定。请与管理员联系以获取帮助，或10分钟后重试。',
+    en: 'Your account has been locked due to multiple failed login attempts. Please get in touch with the administrator for assistance or try again later.',
+    zh: '账户因多次登录失败而被锁定。请与管理员联系以获取帮助，或稍后重试。',
   },
 }
