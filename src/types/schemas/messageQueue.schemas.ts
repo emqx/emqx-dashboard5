@@ -1,197 +1,178 @@
-export type PutMessageQueuesQueuesTopicFilter503Code =
-  (typeof PutMessageQueuesQueuesTopicFilter503Code)[keyof typeof PutMessageQueuesQueuesTopicFilter503Code]
+export type PutQueuesConfig400Code =
+  (typeof PutQueuesConfig400Code)[keyof typeof PutQueuesConfig400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesQueuesTopicFilter503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type PutMessageQueuesQueuesTopicFilter503 = {
-  code?: PutMessageQueuesQueuesTopicFilter503Code
-  message?: string
-}
-
-export type PutMessageQueuesQueuesTopicFilter404Code =
-  (typeof PutMessageQueuesQueuesTopicFilter404Code)[keyof typeof PutMessageQueuesQueuesTopicFilter404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesQueuesTopicFilter404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutMessageQueuesQueuesTopicFilter404 = {
-  code?: PutMessageQueuesQueuesTopicFilter404Code
-  message?: string
-}
-
-export type PutMessageQueuesQueuesTopicFilter400Code =
-  (typeof PutMessageQueuesQueuesTopicFilter400Code)[keyof typeof PutMessageQueuesQueuesTopicFilter400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesQueuesTopicFilter400Code = {
+export const PutQueuesConfig400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type PutMessageQueuesQueuesTopicFilter400 = {
-  code?: PutMessageQueuesQueuesTopicFilter400Code
+export type PutQueuesConfig400 = {
+  code?: PutQueuesConfig400Code
   message?: string
 }
 
-export type PutMessageQueuesQueuesTopicFilter200 =
-  | MqMessageQueueLastvalueApiGet
-  | MqMessageQueueRegularApiGet
-
-export type PutMessageQueuesQueuesTopicFilterBody =
-  | MqMessageQueueApiLastvaluePut
-  | MqMessageQueueApiRegularPut
-
-export type GetMessageQueuesQueuesTopicFilter503Code =
-  (typeof GetMessageQueuesQueuesTopicFilter503Code)[keyof typeof GetMessageQueuesQueuesTopicFilter503Code]
+export type PostQueues503Code = (typeof PostQueues503Code)[keyof typeof PostQueues503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesQueuesTopicFilter503Code = {
+export const PostQueues503Code = {
   SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
 } as const
 
-export type GetMessageQueuesQueuesTopicFilter503 = {
-  code?: GetMessageQueuesQueuesTopicFilter503Code
+export type PostQueues503 = {
+  code?: PostQueues503Code
   message?: string
 }
 
-export type GetMessageQueuesQueuesTopicFilter404Code =
-  (typeof GetMessageQueuesQueuesTopicFilter404Code)[keyof typeof GetMessageQueuesQueuesTopicFilter404Code]
+export type PostQueues400Code = (typeof PostQueues400Code)[keyof typeof PostQueues400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesQueuesTopicFilter404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMessageQueuesQueuesTopicFilter404 = {
-  code?: GetMessageQueuesQueuesTopicFilter404Code
-  message?: string
-}
-
-export type GetMessageQueuesQueuesTopicFilter200 =
-  | MqMessageQueueLastvalueApiGet
-  | MqMessageQueueRegularApiGet
-
-export type DeleteMessageQueuesQueuesTopicFilter503Code =
-  (typeof DeleteMessageQueuesQueuesTopicFilter503Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesQueuesTopicFilter503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type DeleteMessageQueuesQueuesTopicFilter503 = {
-  code?: DeleteMessageQueuesQueuesTopicFilter503Code
-  message?: string
-}
-
-export type DeleteMessageQueuesQueuesTopicFilter404Code =
-  (typeof DeleteMessageQueuesQueuesTopicFilter404Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesQueuesTopicFilter404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteMessageQueuesQueuesTopicFilter404 = {
-  code?: DeleteMessageQueuesQueuesTopicFilter404Code
-  message?: string
-}
-
-export type DeleteMessageQueuesQueuesTopicFilter400Code =
-  (typeof DeleteMessageQueuesQueuesTopicFilter400Code)[keyof typeof DeleteMessageQueuesQueuesTopicFilter400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteMessageQueuesQueuesTopicFilter400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteMessageQueuesQueuesTopicFilter400 = {
-  code?: DeleteMessageQueuesQueuesTopicFilter400Code
-  message?: string
-}
-
-export type PostMessageQueuesQueues503Code =
-  (typeof PostMessageQueuesQueues503Code)[keyof typeof PostMessageQueuesQueues503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageQueuesQueues503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type PostMessageQueuesQueues503 = {
-  code?: PostMessageQueuesQueues503Code
-  message?: string
-}
-
-export type PostMessageQueuesQueues400Code =
-  (typeof PostMessageQueuesQueues400Code)[keyof typeof PostMessageQueuesQueues400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostMessageQueuesQueues400Code = {
+export const PostQueues400Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
   MAX_QUEUE_COUNT_REACHED: 'MAX_QUEUE_COUNT_REACHED',
 } as const
 
-export type PostMessageQueuesQueues400 = {
-  code?: PostMessageQueuesQueues400Code
+export type PostQueues400 = {
+  code?: PostQueues400Code
   message?: string
 }
 
-export type PostMessageQueuesQueues200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
+export type PostQueues200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
 
-export type PostMessageQueuesQueuesBody =
-  | MqMessageQueueLastvalueApiPost
-  | MqMessageQueueRegularApiPost
+export type PostQueuesBody = MqMessageQueueLastvalueApiPost | MqMessageQueueRegularApiPost
 
-export type GetMessageQueuesQueues503Code =
-  (typeof GetMessageQueuesQueues503Code)[keyof typeof GetMessageQueuesQueues503Code]
+export type GetQueues503Code = (typeof GetQueues503Code)[keyof typeof GetQueues503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesQueues503Code = {
+export const GetQueues503Code = {
   SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
 } as const
 
-export type GetMessageQueuesQueues503 = {
-  code?: GetMessageQueuesQueues503Code
+export type GetQueues503 = {
+  code?: GetQueues503Code
   message?: string
 }
 
-export type GetMessageQueuesQueues400Code =
-  (typeof GetMessageQueuesQueues400Code)[keyof typeof GetMessageQueuesQueues400Code]
+export type GetQueues400Code = (typeof GetQueues400Code)[keyof typeof GetQueues400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMessageQueuesQueues400Code = {
+export const GetQueues400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type GetMessageQueuesQueues400 = {
-  code?: GetMessageQueuesQueues400Code
+export type GetQueues400 = {
+  code?: GetQueues400Code
   message?: string
 }
 
-export type GetMessageQueuesQueues200Item =
-  | MqMessageQueueRegularApiGet
-  | MqMessageQueueLastvalueApiGet
+export type GetQueues200Item = MqMessageQueueRegularApiGet | MqMessageQueueLastvalueApiGet
 
-export type GetMessageQueuesQueuesParams = {
+export type GetQueuesParams = {
   cursor?: PublicCursorParameter
   limit?: PublicLimitParameter
 }
 
-export type PutMessageQueuesConfig400Code =
-  (typeof PutMessageQueuesConfig400Code)[keyof typeof PutMessageQueuesConfig400Code]
+export type PutQueueName503Code = (typeof PutQueueName503Code)[keyof typeof PutQueueName503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutMessageQueuesConfig400Code = {
+export const PutQueueName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PutQueueName503 = {
+  code?: PutQueueName503Code
+  message?: string
+}
+
+export type PutQueueName404Code = (typeof PutQueueName404Code)[keyof typeof PutQueueName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutQueueName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutQueueName404 = {
+  code?: PutQueueName404Code
+  message?: string
+}
+
+export type PutQueueName400Code = (typeof PutQueueName400Code)[keyof typeof PutQueueName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutQueueName400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
-export type PutMessageQueuesConfig400 = {
-  code?: PutMessageQueuesConfig400Code
+export type PutQueueName400 = {
+  code?: PutQueueName400Code
+  message?: string
+}
+
+export type PutQueueName200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
+
+export type PutQueueNameBody = MqMessageQueueApiLastvaluePut | MqMessageQueueApiRegularPut
+
+export type GetQueueName503Code = (typeof GetQueueName503Code)[keyof typeof GetQueueName503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetQueueName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetQueueName503 = {
+  code?: GetQueueName503Code
+  message?: string
+}
+
+export type GetQueueName404Code = (typeof GetQueueName404Code)[keyof typeof GetQueueName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetQueueName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetQueueName404 = {
+  code?: GetQueueName404Code
+  message?: string
+}
+
+export type GetQueueName200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
+
+export type DeleteQueueName503Code =
+  (typeof DeleteQueueName503Code)[keyof typeof DeleteQueueName503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueName503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteQueueName503 = {
+  code?: DeleteQueueName503Code
+  message?: string
+}
+
+export type DeleteQueueName404Code =
+  (typeof DeleteQueueName404Code)[keyof typeof DeleteQueueName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteQueueName404 = {
+  code?: DeleteQueueName404Code
+  message?: string
+}
+
+export type DeleteQueueName400Code =
+  (typeof DeleteQueueName400Code)[keyof typeof DeleteQueueName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteQueueName400 = {
+  code?: DeleteQueueName400Code
   message?: string
 }
 
@@ -231,6 +212,7 @@ export interface MqMessageQueueRegularApiPost {
   dispatch_strategy?: MqMessageQueueRegularApiPostDispatchStrategy
   is_lastvalue: MqMessageQueueRegularApiPostIsLastvalue
   limits: MqMqIndividualLimits
+  name: string
   topic_filter: string
 }
 
@@ -257,6 +239,7 @@ export interface MqMessageQueueRegularApiGet {
   dispatch_strategy?: MqMessageQueueRegularApiGetDispatchStrategy
   is_lastvalue: MqMessageQueueRegularApiGetIsLastvalue
   limits: MqMqIndividualLimits
+  name: string
   topic_filter: string
 }
 
@@ -284,6 +267,7 @@ export interface MqMessageQueueLastvalueApiPost {
   is_lastvalue: MqMessageQueueLastvalueApiPostIsLastvalue
   key_expression: string
   limits: MqMqIndividualLimits
+  name: string
   topic_filter: string
 }
 
@@ -311,6 +295,7 @@ export interface MqMessageQueueLastvalueApiGet {
   is_lastvalue: MqMessageQueueLastvalueApiGetIsLastvalue
   key_expression: string
   limits: MqMqIndividualLimits
+  name: string
   topic_filter: string
 }
 
@@ -407,9 +392,11 @@ export interface MqAutoCreate {
   regular: MqAutoCreateRegularProperty
 }
 
+export type MqApiConfigPutEnable = 'auto' | boolean
+
 export interface MqApiConfigPut {
   auto_create: MqAutoCreate
-  enable: boolean | 'auto'
+  enable: MqApiConfigPutEnable
   find_queue_retry_interval: string
   gc_interval: string
   /** @minimum 1 */
@@ -417,9 +404,11 @@ export interface MqApiConfigPut {
   regular_queue_retention_period: string
 }
 
+export type MqApiConfigGetEnable = 'auto' | boolean
+
 export interface MqApiConfigGet {
   auto_create: MqAutoCreate
-  enable: boolean
+  enable: MqApiConfigGetEnable
   find_queue_retry_interval: string
   gc_interval: string
   /** @minimum 1 */
