@@ -179,4 +179,8 @@ export default {
     zh: '上传配置将覆盖当前配置，是否确认上传？',
     en: 'Uploading the configuration will overwrite the current configuration. Confirm to upload?',
   },
+  pluginUI: {
+    zh: '插件界面',
+    en: 'Plugin UI',
+  },
 }
