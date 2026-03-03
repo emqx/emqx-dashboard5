@@ -76,7 +76,7 @@
             </el-row>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane :label="tl('pluginUI')" name="ui" :lazy="true">
+        <el-tab-pane v-if="hasPluginUI" :label="tl('pluginUI')" name="ui" :lazy="true">
           <el-card class="app-card">
             <iframe
               :src="pluginUIUrl"
@@ -181,7 +181,13 @@ const countIframeHeight = () => {
 
 const store = useStore()
 const windowLocation = window.origin + window.location.pathname
-const pluginUIUrl = computed(() => `${windowLocation}${API_BASE_URL}/plugin_api/${pluginName}/ui`)
+const hasPluginUI = computed(() => {
+  const { metadata } = pluginInfo.value
+  return metadata?.index !== undefined && metadata?.index !== null
+})
+const pluginUIUrl = computed(
+  () => `${windowLocation}${API_BASE_URL}/plugin_api${pluginInfo.value?.metadata?.index}`,
+)
 const setCookieForIframe = () => {
   const token = store.state.user.token
   document.cookie = `${EMQX_AUTH_COOKIE_NAME}=${token}; path=/; SameSite=Lax`
