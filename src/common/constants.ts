@@ -462,3 +462,5 @@ export const correctAliasReg = new RegExp(
 export const GEMINI_DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/'
 
 export const GLOBAL_NAMESPACE = 'global'
+
+export const EMQX_AUTH_COOKIE_NAME = 'emqx_auth'
