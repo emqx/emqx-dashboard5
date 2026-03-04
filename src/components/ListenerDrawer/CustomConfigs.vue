@@ -16,7 +16,15 @@
 
 <script lang="ts" setup>
 import { Listener } from '@/types/listener'
-import { hoconToObject, objectToHocon } from '@emqx/shared-ui-utils'
+import { hoconToObject, objectToHocon as sharedObjectToHocon } from '@emqx/shared-ui-utils'
+
+const objectToHocon = (data: any) => {
+  const result = sharedObjectToHocon(data)
+  if (result === JSON.stringify({})) {
+    return ''
+  }
+  return result
+}
 
 const { tl } = useI18nTl('Gateway')
 
