@@ -81,9 +81,8 @@
             <iframe
               :src="pluginUIUrl"
               frameborder="0"
-              class="w-full"
+              class="w-full iframe-container"
               :style="{ height: iframeHeight + 'px' }"
-              @load="setCookieForIframe"
             />
           </el-card>
         </el-tab-pane>
@@ -182,20 +181,21 @@ const countIframeHeight = () => {
 const store = useStore()
 const windowLocation = window.origin + window.location.pathname
 const hasPluginUI = computed(() => {
-  const { metadata } = pluginInfo.value
-  return metadata?.index !== undefined && metadata?.index !== null
+  const { index } = pluginInfo.value
+  return index !== undefined && index !== null
 })
 const pluginUIUrl = computed(
-  () => `${windowLocation}${API_BASE_URL}/plugin_api${pluginInfo.value?.metadata?.index}`,
+  () => `${windowLocation}${API_BASE_URL}/plugin_api/${pluginName.value}${pluginInfo.value?.index}`,
 )
 const setCookieForIframe = () => {
   const token = store.state.user.token
   document.cookie = `${EMQX_AUTH_COOKIE_NAME}=${token}; path=/; SameSite=Lax`
-  countIframeHeight()
 }
 const removeCookie = () => {
   document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`
 }
+setCookieForIframe()
+onMounted(countIframeHeight)
 onUnmounted(removeCookie)
 </script>
 
@@ -213,6 +213,9 @@ onUnmounted(removeCookie)
     & + .el-button {
       margin-left: 8px;
     }
+  }
+  .iframe-container {
+    width: 100%;
   }
 }
 </style>
