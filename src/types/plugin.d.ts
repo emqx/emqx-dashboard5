@@ -28,6 +28,7 @@ export interface PluginItem {
   git_commit_or_build_date: string
   with_config_schema?: boolean
   health_status?: PluginHealthStatusObj
+  index: string
 }
 
 export interface PluginDetail extends PluginItem {

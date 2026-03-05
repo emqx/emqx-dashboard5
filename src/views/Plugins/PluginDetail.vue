@@ -46,7 +46,7 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs class="detail-tabs" v-model="currTab">
+    <el-tabs ref="tabs" class="detail-tabs" v-model="currTab">
       <div class="app-wrapper">
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
           <el-card class="app-card">
@@ -71,6 +71,16 @@
             </el-row>
           </el-card>
         </el-tab-pane>
+        <el-tab-pane v-if="hasPluginUI" :label="tl('pluginUI')" name="ui" :lazy="true">
+          <el-card class="app-card">
+            <iframe
+              :src="pluginUIUrl"
+              frameborder="0"
+              class="w-full iframe-container"
+              :style="{ height: iframeHeight + 'px' }"
+            />
+          </el-card>
+        </el-tab-pane>
       </div>
     </el-tabs>
   </div>
@@ -78,6 +88,7 @@
 
 <script setup lang="ts">
 import { downloadPluginConfig, queryPluginDetail, uploadPluginConfig } from '@/api/plugins'
+import { EMQX_AUTH_COOKIE_NAME } from '@/common/constants'
 import router from '@/router'
 import { PluginStatus } from '@/types/enum'
 import { PluginDetail } from '@/types/plugin'
@@ -149,6 +160,38 @@ const handleConfigUpload = async (file: UploadFile) => {
     console.error(error)
   }
 }
+
+const tabsRef = useTemplateRef('tabs')
+const iframeHeight = ref(500)
+const countIframeHeight = () => {
+  const tabsEle = tabsRef.value?.$el
+  const tabContent = tabsEle?.querySelector('.el-tabs__content')
+  const tabContentTop = tabContent?.getBoundingClientRect()?.top
+  if (!tabContentTop) {
+    return
+  }
+  iframeHeight.value = window.innerHeight - tabContentTop - 20 * 2 - 24 - 10
+}
+
+const store = useStore()
+const windowLocation = window.origin + window.location.pathname
+const hasPluginUI = computed(() => {
+  const { index } = pluginInfo.value
+  return index !== undefined && index !== null
+})
+const pluginUIUrl = computed(
+  () => `${windowLocation}${API_BASE_URL}/plugin_api/${pluginName.value}${pluginInfo.value?.index}`,
+)
+const setCookieForIframe = () => {
+  const token = store.state.user.token
+  document.cookie = `${EMQX_AUTH_COOKIE_NAME}=${token}; path=/; SameSite=Lax`
+}
+const removeCookie = () => {
+  document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`
+}
+setCookieForIframe()
+onMounted(countIframeHeight)
+onUnmounted(removeCookie)
 </script>
 
 <style lang="scss" scoped>
@@ -165,6 +208,9 @@ const handleConfigUpload = async (file: UploadFile) => {
     & + .el-button {
       margin-left: 8px;
     }
+  }
+  .iframe-container {
+    width: 100%;
   }
 }
 </style>
