@@ -589,7 +589,7 @@ declare global {
   export type { SchemaRules } from './hooks/Schema/useSchemaFormRules'
   import('./hooks/Schema/useSchemaFormRules')
   // @ts-ignore
-  export type { CertBundleType, CertBundleForm } from './hooks/useCertBundle'
+  export type { CertBundleType, CertBundleForm, ReferencingConfigs, CertInUseError } from './hooks/useCertBundle'
   import('./hooks/useCertBundle')
   // @ts-ignore
   export type { MetricKey } from './hooks/useDroppedDetail'

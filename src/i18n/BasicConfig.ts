@@ -474,4 +474,64 @@ Example: \`concat([client_attrs.tns, '-', clientid])\` adds the namespace as a p
 This allows clients in different namespaces to connect using the same Client ID without conflict.<br />
 See EMQX documentation for expression syntax.`,
   },
+  certBundleInUseTitle: {
+    zh: '证书包正在使用中',
+    en: 'Bundle In Use',
+  },
+  certBundleInUseDesc: {
+    zh: '以下配置正在使用该证书包，强制删除后可能导致相关配置失效',
+    en: 'The following configurations are currently using this bundle. Force deleting it may cause dependent configurations to fail.',
+  },
+  certBundleFileInUseDesc: {
+    zh: '以下配置正在使用该证书包，强制删除证书文件后可能导致相关配置失效',
+    en: 'The following configurations are currently using this bundle. Force deleting the cert file may cause dependent configurations to fail.',
+  },
+  forceDelete: {
+    zh: '强制删除',
+    en: 'Force Delete',
+  },
+  viewPage: {
+    zh: '前往页面',
+    en: 'Go to Page',
+  },
+  refModuleGateway: {
+    zh: 'Gateway',
+    en: 'Gateway',
+  },
+  refModuleExhook: {
+    zh: 'ExHook',
+    en: 'ExHook',
+  },
+  refModuleConnector: {
+    zh: '连接器',
+    en: 'Connector',
+  },
+  refModuleSchemaRegistry: {
+    zh: 'Schema 注册中心',
+    en: 'Schema Registry',
+  },
+  refModuleListener: {
+    zh: '监听器',
+    en: 'Listener',
+  },
+  refModuleSSO: {
+    zh: 'SSO',
+    en: 'SSO',
+  },
+  refModuleAuthorization: {
+    zh: '授权',
+    en: 'Authorization',
+  },
+  refModuleAuthentication: {
+    zh: '认证',
+    en: 'Authentication',
+  },
+  refModuleFileTransfer: {
+    zh: '文件传输',
+    en: 'File Transfer',
+  },
+  refItemCount: {
+    zh: '{count} 个',
+    en: '{count}',
+  },
 }

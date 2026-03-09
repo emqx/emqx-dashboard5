@@ -19,6 +19,7 @@ declare module 'vue' {
     CertBundleDrawer: typeof import('./components/TLSConfig/CertBundleDrawer.vue')['default']
     CertBundleForm: typeof import('./components/TLSConfig/CertBundleForm.vue')['default']
     CertBundleInfo: typeof import('./components/TLSConfig/CertBundleInfo.vue')['default']
+    CertBundleInUseDialog: typeof import('./components/TLSConfig/CertBundleInUseDialog.vue')['default']
     CertFileInput: typeof import('./components/TLSConfig/CertFileInput.vue')['default']
     CheckIcon: typeof import('./components/CheckIcon.vue')['default']
     ClientFieldSelect: typeof import('./components/ClientFieldSelect.vue')['default']

@@ -16,6 +16,15 @@ export interface CertBundleForm extends CertBundleIn {
   namespace?: string
 }
 
+export interface ReferencingConfigs {
+  global?: Array<Array<string | number>>
+}
+
+export interface CertInUseError {
+  referencingConfigs: ReferencingConfigs
+  failedKinds: CertKind[]
+}
+
 export enum CertBundleType {
   /**
    * cert + key + [key_password]
@@ -61,12 +70,12 @@ const useCertBundle = () => {
     }
   }
 
-  const deleteCertFile = (formData: CertBundleForm, kind: CertKind) => {
+  const deleteCertFile = (formData: CertBundleForm, kind: CertKind, forceDelete?: boolean) => {
     const { name, namespace } = formData
     if (namespace) {
-      return deleteNamespaceCertBundle(namespace, name, kind)
+      return deleteNamespaceCertBundle(namespace, name, { kind, forceDelete })
     }
-    return deleteGlobalCertBundle(name, kind)
+    return deleteGlobalCertBundle(name, { kind, forceDelete })
   }
 
   const removeUselessCerts = async (currentForm: CertBundleForm, initialForm: CertBundleForm) => {
@@ -78,7 +87,31 @@ const useCertBundle = () => {
         }
       },
     )
-    return Promise.all(keysNeedRemove.map((kind: CertKind) => deleteCertFile(currentForm, kind)))
+    const results = await Promise.allSettled(
+      keysNeedRemove.map((kind: CertKind) => deleteCertFile(currentForm, kind)),
+    )
+    const failedKinds: CertKind[] = []
+    const allReferencingEntries: Array<Array<string | number>> = []
+    results.forEach((result, i) => {
+      if (result.status === 'rejected') {
+        const refGlobal = (result.reason as any)?.response?.data?.referencing_configs?.global
+        if (refGlobal) {
+          failedKinds.push(keysNeedRemove[i])
+          allReferencingEntries.push(...refGlobal)
+        }
+      }
+    })
+    if (failedKinds.length > 0) {
+      const error: CertInUseError = {
+        referencingConfigs: { global: allReferencingEntries },
+        failedKinds,
+      }
+      return Promise.reject(error)
+    }
+  }
+
+  const forceRemoveCerts = (form: CertBundleForm, kinds: CertKind[]) => {
+    return Promise.all(kinds.map((kind) => deleteCertFile(form, kind, true)))
   }
 
   const getCertBundleList = async (namespace?: string) => {
@@ -88,11 +121,11 @@ const useCertBundle = () => {
     return await getGlobalCertBundleList()
   }
 
-  const deleteCertBundle = async (name: string, namespace?: string) => {
+  const deleteCertBundle = async (name: string, namespace?: string, forceDelete?: boolean) => {
     if (namespace) {
-      return deleteNamespaceCertBundle(namespace, name)
+      return deleteNamespaceCertBundle(namespace, name, { forceDelete })
     }
-    return deleteGlobalCertBundle(name)
+    return deleteGlobalCertBundle(name, { forceDelete })
   }
 
   const getCertBundleInfo = async (name: string, namespace?: string) => {
@@ -122,6 +155,7 @@ const useCertBundle = () => {
     createEmptyCertBundle,
     createEmptyCertBundleForm,
     removeUselessCerts,
+    forceRemoveCerts,
     submitCertBundle,
     getCertBundleList,
     deleteCertBundle,
