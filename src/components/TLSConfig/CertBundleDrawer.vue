@@ -28,10 +28,17 @@
       </el-button>
     </template>
   </el-drawer>
+  <CertBundleInUseDialog
+    v-model="isInUseDialogShow"
+    :referencing-configs="certInUseError?.referencingConfigs"
+    is-cert-file
+    @force-delete="handleForceDelete"
+  />
 </template>
 
 <script lang="ts" setup>
-import { CertBundleForm } from '@/hooks/useCertBundle'
+import CertBundleInUseDialog from '@/components/TLSConfig/CertBundleInUseDialog.vue'
+import { type CertBundleForm, type CertInUseError } from '@/hooks/useCertBundle'
 import { CertBundleIn, ManagedCerts } from '@/types/typeAlias'
 import type { FormInstance } from 'element-plus'
 import CertBundleCreateForm from './CertBundleForm.vue'
@@ -137,23 +144,51 @@ const handleClose = async () => {
 }
 
 const isSubmitting = ref(false)
-const { submitCertBundle, removeUselessCerts } = useCertBundle()
+const isInUseDialogShow = ref(false)
+const certInUseError = ref<CertInUseError | null>(null)
+
+const { submitCertBundle, removeUselessCerts, forceRemoveCerts } = useCertBundle()
+
+const finishSubmit = () => {
+  const message = isEditing.value ? t('Base.updateSuccess') : t('Base.createSuccess')
+  ElMessage.success(message)
+  emit('submit', { namespace: formData.value.namespace, bundle_name: formData.value.name })
+  isDrawerShow.value = false
+}
+
 const submit = async () => {
   try {
     await formRef.value?.validate()
     isSubmitting.value = true
     await submitCertBundle(formData.value)
     if (isEditing.value) {
-      await removeUselessCerts(formData.value, initialFormData)
+      try {
+        await removeUselessCerts(formData.value, initialFormData)
+      } catch (removeError: any) {
+        if (removeError?.failedKinds) {
+          certInUseError.value = removeError
+          isInUseDialogShow.value = true
+          return
+        }
+      }
     }
-    const message = isEditing.value ? t('Base.updateSuccess') : t('Base.createSuccess')
-    ElMessage.success(message)
-    emit('submit', { namespace: formData.value.namespace, bundle_name: formData.value.name })
-    isDrawerShow.value = false
+    finishSubmit()
   } catch (error) {
     //
   } finally {
     isSubmitting.value = false
+  }
+}
+
+const handleForceDelete = async () => {
+  if (!certInUseError.value) {
+    return
+  }
+  try {
+    await forceRemoveCerts(formData.value, certInUseError.value.failedKinds)
+    finishSubmit()
+  } catch (error) {
+    //
   }
 }
 </script>

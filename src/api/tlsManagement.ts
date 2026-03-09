@@ -7,6 +7,8 @@ import type {
   NamespaceCertBundleInfo,
 } from '@/types/typeAlias'
 
+const CERT_CUSTOM_ERRORS = [400]
+
 export const postGlobalCertBundle = (name: string, data: CertBundleIn): Promise<void> => {
   return http.post(`/certs/global/name/${encodeURIComponent(name)}`, data)
 }
@@ -19,8 +21,15 @@ export const getGlobalCertBundleInfo = (name: string): Promise<CertBundleInfo> =
   return http.get(`/certs/global/name/${encodeURIComponent(name)}`)
 }
 
-export const deleteGlobalCertBundle = (name: string, kind?: CertKind): Promise<void> => {
-  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, { params: { kind } })
+export const deleteGlobalCertBundle = (
+  name: string,
+  options?: { kind?: CertKind; forceDelete?: boolean },
+): Promise<void> => {
+  const { kind, forceDelete } = options ?? {}
+  return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, {
+    params: { kind, ...(forceDelete ? { force_delete: true } : {}) },
+    errorsHandleCustom: CERT_CUSTOM_ERRORS,
+  })
 }
 
 export const postNamespaceCertBundle = (
@@ -48,10 +57,14 @@ export const getNamespaceCertBundleInfo = (
 export const deleteNamespaceCertBundle = (
   namespace: string,
   name: string,
-  kind?: CertKind,
+  options?: { kind?: CertKind; forceDelete?: boolean },
 ): Promise<void> => {
+  const { kind, forceDelete } = options ?? {}
   return http.delete(
     `/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`,
-    { params: { kind } },
+    {
+      params: { kind, ...(forceDelete ? { force_delete: true } : {}) },
+      errorsHandleCustom: CERT_CUSTOM_ERRORS,
+    },
   )
 }
