@@ -464,3 +464,5 @@ export const GEMINI_DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.co
 export const GLOBAL_NAMESPACE = 'global'
 
 export const EMQX_AUTH_COOKIE_NAME = 'emqx_auth'
+
+export const QUERY_TAB = 'tab'
