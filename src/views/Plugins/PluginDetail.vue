@@ -68,17 +68,6 @@
             />
           </el-card>
         </el-tab-pane>
-        <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
-          <el-card class="app-card">
-            <PluginManage
-              ref="PluginManageRef"
-              :plugin-name="pluginName"
-              :plugin-version="pluginVersion"
-              :plugin-with-config="pluginWithConfig"
-              :is-detail-loading="isDetailLoading"
-            />
-          </el-card>
-        </el-tab-pane>
         <el-tab-pane :label="tl('infoPlugin')" name="readme" :lazy="true">
           <el-card class="app-card">
             <el-row class="plugin-info-bd" :gutter="20">
@@ -89,6 +78,17 @@
                 <PluginInfo :plugin-data="pluginInfo" />
               </el-col>
             </el-row>
+          </el-card>
+        </el-tab-pane>
+        <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
+          <el-card class="app-card">
+            <PluginManage
+              ref="PluginManageRef"
+              :plugin-name="pluginName"
+              :plugin-version="pluginVersion"
+              :plugin-with-config="pluginWithConfig"
+              :is-detail-loading="isDetailLoading"
+            />
           </el-card>
         </el-tab-pane>
       </div>
@@ -119,7 +119,7 @@ const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
 
 const { queryTab, handleTabChange } = useQueryTab(Tab)
 
-const currTab = ref(queryTab.value ?? Tab.Configs)
+const currTab = ref(queryTab.value ?? Tab.Readme)
 
 const route = useRoute()
 
