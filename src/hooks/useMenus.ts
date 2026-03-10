@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Stethoscope,
   Workflow,
+  Blocks,
 } from 'lucide-vue-next'
 
 export interface Menu {
@@ -67,7 +68,6 @@ const useMenus = (): {
       children: [
         { title: 'gateway', path: '/gateway' },
         { title: 'exhook', path: '/exhook' },
-        { title: 'plugins', path: '/plugins' },
       ],
     },
   ]
@@ -133,6 +133,11 @@ const useMenus = (): {
       title: 'message-stream',
       icon: TextAlignCenter,
       path: '/streams',
+    },
+    {
+      title: 'plugins',
+      icon: Blocks,
+      path: '/plugins',
     },
     {
       title: 'management',
