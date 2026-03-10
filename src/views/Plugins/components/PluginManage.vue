@@ -40,12 +40,21 @@ const props = defineProps({
   },
 })
 
+let hasRequestedData = false
+const getSchemaAndConfigs = async () => {
+  if (props.pluginWithConfig) {
+    hasRequestedData = true
+    await fetchPluginSchema(props.pluginName, props.pluginVersion)
+    getPluginConfigs()
+  }
+}
+onMounted(getSchemaAndConfigs)
+
 watch(
   () => props.pluginWithConfig,
   async (val) => {
-    if (val) {
-      await fetchPluginSchema(props.pluginName, props.pluginVersion)
-      getPluginConfigs()
+    if (val && !hasRequestedData) {
+      getSchemaAndConfigs()
     }
   },
 )

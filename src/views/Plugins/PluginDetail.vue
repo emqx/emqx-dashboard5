@@ -51,8 +51,23 @@
         </template>
       </detail-header>
     </div>
-    <el-tabs ref="tabs" class="detail-tabs" v-model="currTab">
+    <el-tabs
+      ref="tabs"
+      class="detail-tabs"
+      v-model="currTab"
+      @tab-change="handleTabChange($event.toString())"
+    >
       <div class="app-wrapper">
+        <el-tab-pane v-if="hasPluginUI" :label="tl('pluginUI')" name="ui" :lazy="true">
+          <el-card class="app-card">
+            <iframe
+              :src="pluginUIUrl"
+              frameborder="0"
+              class="w-full iframe-container"
+              :style="{ height: iframeHeight + 'px' }"
+            />
+          </el-card>
+        </el-tab-pane>
         <el-tab-pane :label="tl('managePlugin')" name="configs" :lazy="true">
           <el-card class="app-card">
             <PluginManage
@@ -76,16 +91,6 @@
             </el-row>
           </el-card>
         </el-tab-pane>
-        <el-tab-pane v-if="hasPluginUI" :label="tl('pluginUI')" name="ui" :lazy="true">
-          <el-card class="app-card">
-            <iframe
-              :src="pluginUIUrl"
-              frameborder="0"
-              class="w-full iframe-container"
-              :style="{ height: iframeHeight + 'px' }"
-            />
-          </el-card>
-        </el-tab-pane>
       </div>
     </el-tabs>
   </div>
@@ -101,10 +106,20 @@ import type { UploadFile } from 'element-plus'
 import PluginInfo from './components/PluginInfo.vue'
 import PluginItemStatus from './components/PluginItemStatus.vue'
 import PluginManage from './components/PluginManage.vue'
+import useQueryTab from '@/hooks/useQueryTab'
+
+enum Tab {
+  Configs = 'configs',
+  Readme = 'readme',
+  UI = 'ui',
+}
 
 const { t } = useI18n()
 const tl = (key: string, moduleName = 'Plugins') => t(`${moduleName}.${key}`)
-const currTab = ref<'configs' | 'readme'>('configs')
+
+const { queryTab, handleTabChange } = useQueryTab(Tab)
+
+const currTab = ref(queryTab.value ?? Tab.Configs)
 
 const route = useRoute()
 
@@ -125,6 +140,10 @@ const getPluginDetail = async () => {
     pluginInfo.value = await queryPluginDetail(
       `${pluginName.value}${NAME_VERSION_JOINER}${pluginVersion.value}`,
     )
+    if (!queryTab.value && hasPluginUI.value) {
+      currTab.value = Tab.UI
+      handleTabChange(Tab.UI)
+    }
   } catch (error) {
     console.error(error)
   } finally {
