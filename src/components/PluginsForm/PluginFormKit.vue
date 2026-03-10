@@ -66,6 +66,10 @@ const { rules } = useGenPluginFormRules({
   formConfigs: props.layouts.$form,
 })
 
+// Provide failed field paths so map-records-editor can expand only entries with errors
+const validationFailedFields = ref<Record<string, any>>({})
+provide('pluginFormValidationFailed', validationFailedFields)
+
 watch(
   () => props.data,
   (val) => {
@@ -79,15 +83,14 @@ watch(
 async function save() {
   try {
     saveLoading.value = true
-    const valid = await PluginForm.value.validate()
-    if (!valid) {
-      return
-    }
+    await PluginForm.value.validate()
     await props.saveFunc(configsForm.value)
     ElMessage.success(t('Base.updateSuccess'))
     emit('saved', configsForm.value)
-  } catch (error) {
-    //
+  } catch (error: any) {
+    // el-form validate() rejects with { [fieldProp]: rules[] } on validation failure
+    validationFailedFields.value =
+      error && typeof error === 'object' && !(error instanceof Error) ? error : {}
   } finally {
     saveLoading.value = false
   }

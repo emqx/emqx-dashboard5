@@ -94,15 +94,61 @@ function extractUIConfigs(schema: { fields: Array<Field> }): {
   const uiConfigs: { $form: { [key: string]: PluginUIConfigForm } } = { $form: {} }
   orderFields(schema.fields).forEach((field) => {
     if (field.$ui) {
-      const { name } = field
+      const { name, type } = field
       const uiConfig = { ...field.$ui }
+      // For map-records-editor, attach valueSchema and valueChildren from the Avro field type
+      if (
+        uiConfig.component === 'map-records-editor' &&
+        typeof type === 'object' &&
+        !Array.isArray(type) &&
+        type.type === 'map'
+      ) {
+        const values = type.values
+        uiConfig.valueSchema = values
+        if (typeof values === 'object' && !Array.isArray(values) && values.type === 'record') {
+          const extracted = extractUIConfigs({ fields: values.fields })
+          if (!isEmptyObj(extracted.$form)) {
+            uiConfig.valueChildren = extracted.$form
+          }
+        }
+      }
+      // For fields with $ui but no component and a nested record type, extract children
+      if (
+        !uiConfig.component &&
+        typeof type === 'object' &&
+        !Array.isArray(type) &&
+        type.type === 'record' &&
+        type.fields.length !== 0
+      ) {
+        const extracted = extractUIConfigs({ fields: type.fields })
+        if (!isEmptyObj(extracted.$form)) {
+          uiConfig.children = extracted.$form
+        }
+      }
       uiConfigs.$form[name] = uiConfig
     } else {
       const { type, name } = field
-      if (typeof type === 'object' && type.type === 'record' && type.fields.length !== 0) {
-        const extracted = extractUIConfigs({ fields: type.fields })
-        if (!isEmptyObj(extracted.$form)) {
-          uiConfigs.$form[name] = { children: extracted.$form }
+      if (typeof type === 'object' && !Array.isArray(type)) {
+        if (type.type === 'record' && type.fields.length !== 0) {
+          const extracted = extractUIConfigs({ fields: type.fields })
+          if (!isEmptyObj(extracted.$form)) {
+            uiConfigs.$form[name] = { children: extracted.$form }
+          }
+        } else if (type.type === 'map') {
+          const values = type.values
+          const config: any = {
+            component: 'map-records-editor',
+            label: name,
+            description: '',
+            valueSchema: values,
+          }
+          if (typeof values === 'object' && !Array.isArray(values) && values.type === 'record') {
+            const extracted = extractUIConfigs({ fields: values.fields })
+            if (!isEmptyObj(extracted.$form)) {
+              config.valueChildren = extracted.$form
+            }
+          }
+          uiConfigs.$form[name] = config
         }
       }
     }
