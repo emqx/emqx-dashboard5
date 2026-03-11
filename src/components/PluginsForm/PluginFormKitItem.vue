@@ -55,6 +55,13 @@
           in-plugins
           :properties="TransMapsItemsToProperties(formConfigs.items)"
         ></object-array-editor>
+        <map-records-editor
+          v-else-if="formConfigs.component === 'map-records-editor'"
+          v-model="bindValue"
+          :name="name"
+          :value-schema="formConfigs.valueSchema"
+          :value-children="formConfigs.valueChildren"
+        ></map-records-editor>
       </template>
     </el-form-item>
   </el-col>

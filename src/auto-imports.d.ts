@@ -41,6 +41,7 @@ declare global {
   const DEFAULT_SELECT: typeof import('./common/constants')['DEFAULT_SELECT']
   const DEFAULT_SSL_VERIFY_VALUE: typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']
   const DEFAULT_ZONE: typeof import('./common/constants')['DEFAULT_ZONE']
+  const EMQX_AUTH_COOKIE_NAME: typeof import('./common/constants')['EMQX_AUTH_COOKIE_NAME']
   const EMQX_VERSION: typeof import('./common/constants')['EMQX_VERSION']
   const ENCRYPTED_PASSWORD: typeof import('./common/constants')['ENCRYPTED_PASSWORD']
   const ENCRYPTED_PWD_REG: typeof import('./common/constants')['ENCRYPTED_PWD_REG']
@@ -95,6 +96,7 @@ declare global {
   const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
   const PASSWORD_REG: typeof import('./common/constants')['PASSWORD_REG']
   const ProcessingType: typeof import('./hooks/Flow/useFlowNode')['ProcessingType']
+  const QUERY_TAB: typeof import('./common/constants')['QUERY_TAB']
   const QoSOptions: typeof import('./common/constants')['QoSOptions']
   const REQUEST_TIMEOUT_CODE: typeof import('./common/constants')['REQUEST_TIMEOUT_CODE']
   const RULE_FROM_SEPARATOR: typeof import('./common/constants')['RULE_FROM_SEPARATOR']
@@ -459,6 +461,7 @@ declare global {
   const useProcessAuthData: typeof import('./hooks/Auth/useProcessAuthData')['default']
   const useProviderUtils: typeof import('./hooks/Rule/useProvidersForMonaco')['useProviderUtils']
   const useProvidersForMonaco: typeof import('./hooks/Rule/useProvidersForMonaco')['default']
+  const useQueryTab: typeof import('./hooks/useQueryTab')['default']
   const useRateChart: typeof import('./hooks/useMetrics')['useRateChart']
   const useReceiveParams: typeof import('./hooks/usePaginationRemember')['useReceiveParams']
   const useRedisCommandCheck: typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']
@@ -645,6 +648,7 @@ declare module 'vue' {
     readonly DEFAULT_SELECT: UnwrapRef<typeof import('./common/constants')['DEFAULT_SELECT']>
     readonly DEFAULT_SSL_VERIFY_VALUE: UnwrapRef<typeof import('./common/constants')['DEFAULT_SSL_VERIFY_VALUE']>
     readonly DEFAULT_ZONE: UnwrapRef<typeof import('./common/constants')['DEFAULT_ZONE']>
+    readonly EMQX_AUTH_COOKIE_NAME: UnwrapRef<typeof import('./common/constants')['EMQX_AUTH_COOKIE_NAME']>
     readonly EMQX_VERSION: UnwrapRef<typeof import('./common/constants')['EMQX_VERSION']>
     readonly ENCRYPTED_PASSWORD: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PASSWORD']>
     readonly ENCRYPTED_PWD_REG: UnwrapRef<typeof import('./common/constants')['ENCRYPTED_PWD_REG']>
@@ -699,6 +703,7 @@ declare module 'vue' {
     readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']>
     readonly PASSWORD_REG: UnwrapRef<typeof import('./common/constants')['PASSWORD_REG']>
     readonly ProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['ProcessingType']>
+    readonly QUERY_TAB: UnwrapRef<typeof import('./common/constants')['QUERY_TAB']>
     readonly QoSOptions: UnwrapRef<typeof import('./common/constants')['QoSOptions']>
     readonly REQUEST_TIMEOUT_CODE: UnwrapRef<typeof import('./common/constants')['REQUEST_TIMEOUT_CODE']>
     readonly RULE_FROM_SEPARATOR: UnwrapRef<typeof import('./common/constants')['RULE_FROM_SEPARATOR']>
@@ -1063,6 +1068,7 @@ declare module 'vue' {
     readonly useProcessAuthData: UnwrapRef<typeof import('./hooks/Auth/useProcessAuthData')['default']>
     readonly useProviderUtils: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['useProviderUtils']>
     readonly useProvidersForMonaco: UnwrapRef<typeof import('./hooks/Rule/useProvidersForMonaco')['default']>
+    readonly useQueryTab: UnwrapRef<typeof import('./hooks/useQueryTab')['default']>
     readonly useRateChart: UnwrapRef<typeof import('./hooks/useMetrics')['useRateChart']>
     readonly useReceiveParams: UnwrapRef<typeof import('./hooks/usePaginationRemember')['useReceiveParams']>
     readonly useRedisCommandCheck: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']>
