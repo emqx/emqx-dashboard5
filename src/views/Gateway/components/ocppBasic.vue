@@ -35,10 +35,10 @@
         <el-col :span="12">
           <el-form-item :label="tl('messageFormatChecking')">
             <el-select v-model="oValue.message_format_checking">
-              <el-option label="All" value="all"></el-option>
+              <el-option label="Disable" value="disable"></el-option>
               <el-option label="Upstream Only" value="upstream_only"></el-option>
               <el-option label="Downstream Only" value="dnstream_only"></el-option>
-              <el-option label="Disable" value="disable"></el-option>
+              <el-option label="All" value="all"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -139,7 +139,7 @@ const createDefault = () => ({
     topic: 'cs/${cid}',
     max_mqueue_len: 100,
   },
-  message_format_checking: 'all', // This is assuming that 'all' is the default value
+  message_format_checking: 'disable', // This is assuming that 'disable' is the default value
   json_schema_dir: '${application_priv}/schemas',
   json_schema_id_prefix: 'urn:OCPP:1.6:2019:12:',
   idle_timeout: '30s',

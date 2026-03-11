@@ -41,11 +41,21 @@
     :namespace="selectedNamespace"
     @submit="handleSubmit"
   />
+  <CertBundleInUseDialog
+    v-model="isInUseDialogShow"
+    :referencing-configs="referencingConfigs"
+    @force-delete="handleForceDelete"
+  />
 </template>
 
 <script setup lang="ts">
+import { getErrorMessage } from '@/common/http'
 import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
+import CertBundleInUseDialog, {
+  type ReferencingConfigs,
+} from '@/components/TLSConfig/CertBundleInUseDialog.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
+import CustomMessage from '@/common/CustomMessage'
 
 const { t } = useI18n()
 
@@ -87,14 +97,39 @@ const handleSubmit = async ({ namespace: ns }: ManagedCerts) => {
   getCertBundleList()
 }
 
+const isInUseDialogShow = ref(false)
+const referencingConfigs = ref<ReferencingConfigs>({})
+const pendingDeleteName = ref('')
+
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (row: CertBundleOut) => {
   const { name } = row
   if (!name) {
     return
   }
-  await confirmDel(() => deleteCertBundle(name, selectedNamespace.value))
-  getCertBundleList()
+  try {
+    await confirmDel(() => deleteCertBundle(name, selectedNamespace.value))
+    getCertBundleList()
+  } catch (error: any) {
+    const refConfigs = error?.response?.data?.referencing_configs
+    if (refConfigs) {
+      referencingConfigs.value = refConfigs
+      pendingDeleteName.value = name
+      isInUseDialogShow.value = true
+    } else if (error.response) {
+      CustomMessage.error(getErrorMessage(error.response.data, error.response.status))
+    }
+  }
+}
+
+const handleForceDelete = async () => {
+  try {
+    await deleteCertBundle(pendingDeleteName.value, selectedNamespace.value, true)
+    ElMessage.success(t('Base.deleteSuccess'))
+    getCertBundleList()
+  } catch (error) {
+    //
+  }
 }
 
 ;(async () => {

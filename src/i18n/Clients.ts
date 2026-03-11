@@ -215,6 +215,14 @@ export default {
     zh: '进程邮箱中的消息数量',
     en: 'Mailbox',
   },
+  mailboxLen: {
+    zh: '进程邮箱消息数',
+    en: 'Mailbox Length',
+  },
+  mailbox_lenDesc: {
+    zh: '该客户端 Erlang 进程邮箱中待处理的消息数量。',
+    en: 'The number of pending messages in the client Erlang process mailbox.',
+  },
   currentSubscription: {
     zh: '当前订阅',
     en: 'Subscriptions',
@@ -512,7 +520,7 @@ export default {
     en: 'Message queue used to store messages that cannot be sent due to the limit of inflight window, and to temporarily store messages when a client is offline. The message queue has a length limit, and if it is reached, the oldest messages will be dropped.',
   },
   inflightDesc: {
-    zh: 'EMQX 允许多个未确认的 QoS 1 和 QoS 2 报文同时存在于网路链路上。这些已发送但未确认的报文将被存放在 Inflight Window 中直至完成确认。',
+    zh: 'EMQX 允许多个未确认的 QoS 1 和 QoS 2 报文同时存在于网络链路上。这些已发送但未确认的报文将被存放在 Inflight Window 中直至完成确认。',
     en: 'EMQX allows multiple unacknowledged QoS 1 and QoS 2 packets to exist on the network link at the same time. These sent but unconfirmed packets will be stored in the Inflight Window until acknowledgment is complete.',
   },
   cannotViewMsg: {

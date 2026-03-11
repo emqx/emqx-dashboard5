@@ -255,6 +255,17 @@ export interface GatewayLwm2mTranslators {
   update: GatewayTranslator
 }
 
+export interface GatewayLwm2mBlockwise {
+  enable?: boolean
+  exchange_lifetime?: string
+  /**
+   * @minimum 16
+   * @maximum 1024
+   */
+  max_block_size?: number
+  max_body_size?: string
+}
+
 export type GatewayJt808ProtoAuth = GatewayAnonymousFalse | GatewayAnonymousTrue
 
 export interface GatewayJt808Proto {
@@ -264,9 +275,20 @@ export interface GatewayJt808Proto {
   up_topic: string
 }
 
+export type GatewayJt808FrameStringEncoding =
+  (typeof GatewayJt808FrameStringEncoding)[keyof typeof GatewayJt808FrameStringEncoding]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayJt808FrameStringEncoding = {
+  gbk: 'gbk',
+  utf8: 'utf8',
+} as const
+
 export interface GatewayJt808Frame {
   /** @minimum 0 */
   max_length?: number
+  parse_unknown_message?: boolean
+  string_encoding?: GatewayJt808FrameStringEncoding
 }
 
 export interface GatewayExprotoGrpcServer {
@@ -363,6 +385,17 @@ export interface GatewayDtlsOpts {
   verify?: GatewayDtlsOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
+}
+
+export interface GatewayCoapBlockwise {
+  enable?: boolean
+  exchange_lifetime?: string
+  /**
+   * @minimum 16
+   * @maximum 1024
+   */
+  max_block_size?: number
+  max_body_size?: string
 }
 
 export interface GatewayClientinfoOverride {
@@ -989,8 +1022,11 @@ export type EmqxGatewayApiLwm2mListenersItem =
   | EmqxGatewayApiDtlsListener
   | EmqxGatewayApiUdpListener
 
+export type EmqxGatewayApiLwm2mAutoObserve = string[] | string | boolean
+
 export interface EmqxGatewayApiLwm2m {
-  auto_observe?: boolean
+  auto_observe?: EmqxGatewayApiLwm2mAutoObserve
+  blockwise?: GatewayLwm2mBlockwise
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
   enable_stats?: boolean
@@ -1225,6 +1261,7 @@ export const EmqxGatewayApiCoapName = {
 export type EmqxGatewayApiCoapListenersItem = EmqxGatewayApiDtlsListener | EmqxGatewayApiUdpListener
 
 export interface EmqxGatewayApiCoap {
+  blockwise?: GatewayCoapBlockwise
   clientinfo_override?: GatewayClientinfoOverride
   connection_required?: boolean
   enable?: boolean

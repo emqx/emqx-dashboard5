@@ -596,7 +596,8 @@ const handleUnsubscriptionGateway = async (clientid: Subscription['clientid'], t
 }
 
 const withMsgList = (item: string) => ['mqueue', 'inflight'].includes(item)
-const withItemDesc = (item: string) => withMsgList(item) || ['reductions'].includes(item)
+const withItemDesc = (item: string) =>
+  withMsgList(item) || ['reductions', 'mailbox_len'].includes(item)
 const viewMsgList = (type: 'mqueue' | 'inflight') => {
   msgListType.value = type
   showMsgListDialog.value = true

@@ -1140,6 +1140,7 @@ export async function toLogin(path?: string): Promise<void> {
   store.commit('UPDATE_EDITION', null)
   store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
   store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
+  document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`
   const currentPath = router.currentRoute.value.path
   if (currentPath !== '/login') {
     await router.push({

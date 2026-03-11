@@ -28,6 +28,7 @@ export interface PluginItem {
   git_commit_or_build_date: string
   with_config_schema?: boolean
   health_status?: PluginHealthStatusObj
+  index: string
 }
 
 export interface PluginDetail extends PluginItem {
@@ -63,7 +64,7 @@ export interface AvroSchema {
   name: string
   fields: Array<{
     name: string
-    type: string | string[] | AvroArray | AvroEnum | AvroSchema
+    type: string | string[] | AvroArray | AvroEnum | AvroSchema | AvroMap
     default?: any
     $ui?: PluginUIConfigForm
   }>
@@ -84,6 +85,12 @@ export interface AvroArray {
   items: AvroSchema | string
   default?: any
   doc?: string
+}
+
+export interface AvroMap {
+  type: 'map'
+  values: AvroSchema | string
+  default?: any
 }
 
 interface Rule {
@@ -112,6 +119,7 @@ type ComponentType =
   | 'input-array'
   | 'key-value-editor'
   | 'maps-editor'
+  | 'map-records-editor'
 
 interface ConfigField {
   label: string
@@ -134,6 +142,8 @@ interface ConfigField {
   }
   format: 'sql' | 'json'
   children: PluginUIConfigForm
+  valueSchema?: AvroSchema | AvroMap
+  valueChildren?: PluginUIConfigForm
 }
 
 interface PluginUIConfigForm {

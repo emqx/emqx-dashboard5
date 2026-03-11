@@ -262,6 +262,72 @@ export type DeletePluginsName400 = {
   message?: string
 }
 
+export type PutPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PutPluginApiPluginBody = { [key: string]: unknown }
+
+export type PostPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PostPluginApiPluginBody = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PatchPluginApiPluginBody = { [key: string]: unknown }
+
+export type GetPluginApiPlugin503 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin500 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin404 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin401 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin400 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin200 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin503 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin500 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin404 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin401 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin400 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin200 = { [key: string]: unknown }
+
 export interface PluginsSyncRequest {
   name: string
 }
