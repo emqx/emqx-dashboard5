@@ -49,8 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import { getErrorMessage } from '@/common/http'
 import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
+import getErrorMessage from '@/common/getHTTPErrorMessage'
 import CertBundleInUseDialog, {
   type ReferencingConfigs,
 } from '@/components/TLSConfig/CertBundleInUseDialog.vue'
