@@ -388,6 +388,10 @@ export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType 
   confluent: 'confluent',
 } as const
 
+export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
+  | SchemaRegistryConfluentSchemaRegistryAuthBasic
+  | 'none'
+
 export interface SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry {
   auth?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth
   name: string
@@ -404,6 +408,15 @@ export const SchemaRegistryExternalHttpParamsPoolType = {
   random: 'random',
 } as const
 
+export type SchemaRegistryExternalHttpParamsMethod =
+  (typeof SchemaRegistryExternalHttpParamsMethod)[keyof typeof SchemaRegistryExternalHttpParamsMethod]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SchemaRegistryExternalHttpParamsMethod = {
+  get: 'get',
+  post: 'post',
+} as const
+
 export type SchemaRegistryExternalHttpParamsHeaders = { [key: string]: unknown }
 
 export interface SchemaRegistryExternalHttpParams {
@@ -415,6 +428,7 @@ export interface SchemaRegistryExternalHttpParams {
   max_inactive?: string
   /** @minimum 0 */
   max_retries?: number
+  method?: SchemaRegistryExternalHttpParamsMethod
   /** @minimum 1 */
   pool_size?: number
   pool_type?: SchemaRegistryExternalHttpParamsPoolType
@@ -427,10 +441,6 @@ export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
   password: string
   username: string
 }
-
-export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
-  | SchemaRegistryConfluentSchemaRegistryAuthBasic
-  | 'none'
 
 export type SchemaRegistryConfluentSchemaRegistryType =
   (typeof SchemaRegistryConfluentSchemaRegistryType)[keyof typeof SchemaRegistryConfluentSchemaRegistryType]

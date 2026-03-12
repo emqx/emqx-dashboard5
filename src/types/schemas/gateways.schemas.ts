@@ -266,6 +266,24 @@ export interface GatewayLwm2mBlockwise {
   max_body_size?: string
 }
 
+export interface GatewayJwtResolverPreloadEntry {
+  jwt: string
+  pubkey: string
+}
+
+export type GatewayJwtResolverMemoryType =
+  (typeof GatewayJwtResolverMemoryType)[keyof typeof GatewayJwtResolverMemoryType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayJwtResolverMemoryType = {
+  memory: 'memory',
+} as const
+
+export interface GatewayJwtResolverMemory {
+  resolver_preload?: GatewayJwtResolverPreloadEntry[]
+  type: GatewayJwtResolverMemoryType
+}
+
 export type GatewayJt808ProtoAuth = GatewayAnonymousFalse | GatewayAnonymousTrue
 
 export interface GatewayJt808Proto {
@@ -289,6 +307,48 @@ export interface GatewayJt808Frame {
   max_length?: number
   parse_unknown_message?: boolean
   string_encoding?: GatewayJt808FrameStringEncoding
+}
+
+export type GatewayInternalAuthnTokenType =
+  (typeof GatewayInternalAuthnTokenType)[keyof typeof GatewayInternalAuthnTokenType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayInternalAuthnTokenType = {
+  token: 'token',
+} as const
+
+export interface GatewayInternalAuthnToken {
+  token: string
+  type: GatewayInternalAuthnTokenType
+}
+
+export type GatewayInternalAuthnNkeyType =
+  (typeof GatewayInternalAuthnNkeyType)[keyof typeof GatewayInternalAuthnNkeyType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayInternalAuthnNkeyType = {
+  nkey: 'nkey',
+} as const
+
+export interface GatewayInternalAuthnNkey {
+  nkeys: string[]
+  type: GatewayInternalAuthnNkeyType
+}
+
+export type GatewayInternalAuthnJwtType =
+  (typeof GatewayInternalAuthnJwtType)[keyof typeof GatewayInternalAuthnJwtType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayInternalAuthnJwtType = {
+  jwt: 'jwt',
+} as const
+
+export type GatewayInternalAuthnJwtResolver = GatewayJwtResolverMemory | 'memory'
+
+export interface GatewayInternalAuthnJwt {
+  resolver?: GatewayInternalAuthnJwtResolver
+  trusted_operators?: string[]
+  type: GatewayInternalAuthnJwtType
 }
 
 export interface GatewayExprotoGrpcServer {
@@ -868,6 +928,8 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
 export interface EmqxGatewayApiStomp {
   clientinfo_override?: GatewayClientinfoOverride
   enable?: boolean
@@ -907,8 +969,6 @@ export interface EmqxGatewayApiSslListener {
   tcp_options?: EmqxTcpOpts
   type?: EmqxGatewayApiSslListenerType
 }
-
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
 
 export type EmqxGatewayApiOcppName =
   (typeof EmqxGatewayApiOcppName)[keyof typeof EmqxGatewayApiOcppName]
@@ -959,6 +1019,11 @@ export type EmqxGatewayApiNatsListenersItem =
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
 
+export type EmqxGatewayApiNatsInternalAuthnItem =
+  | GatewayInternalAuthnJwt
+  | GatewayInternalAuthnNkey
+  | GatewayInternalAuthnToken
+
 export interface EmqxGatewayApiNats {
   clientinfo_override?: GatewayClientinfoOverride
   default_heartbeat_interval?: string
@@ -966,6 +1031,7 @@ export interface EmqxGatewayApiNats {
   enable_stats?: boolean
   heartbeat_wait_timeout?: string
   idle_timeout?: string
+  internal_authn?: EmqxGatewayApiNatsInternalAuthnItem[]
   listeners?: EmqxGatewayApiNatsListenersItem[]
   mountpoint?: string
   name?: EmqxGatewayApiNatsName

@@ -1541,6 +1541,7 @@ export interface AuthnPostgresql {
   /** @deprecated */
   auto_reconnect?: boolean
   backend: AuthnPostgresqlBackend
+  connect_timeout?: string
   database: string
   disable_prepared_statements?: boolean
   enable?: boolean
@@ -1576,7 +1577,9 @@ export interface AuthnMysql {
   /** @deprecated */
   auto_reconnect?: boolean
   backend: AuthnMysqlBackend
+  connect_timeout?: string
   database: string
+  disable_prepared_statements?: boolean
   enable?: boolean
   mechanism: AuthnMysqlMechanism
   password?: string

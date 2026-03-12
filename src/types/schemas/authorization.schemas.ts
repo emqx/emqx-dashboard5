@@ -476,6 +476,19 @@ export type PostAuthorizationSourcesTypeMove400 = {
   message?: string
 }
 
+export type PostAuthorizationSourcesTypeMetricsReset404Code =
+  (typeof PostAuthorizationSourcesTypeMetricsReset404Code)[keyof typeof PostAuthorizationSourcesTypeMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesTypeMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostAuthorizationSourcesTypeMetricsReset404 = {
+  code?: PostAuthorizationSourcesTypeMetricsReset404Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesType400Code =
   (typeof PutAuthorizationSourcesType400Code)[keyof typeof PutAuthorizationSourcesType400Code]
 
@@ -996,7 +1009,13 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
-export interface EmqxAuthzApiMnesiaRules {
+export interface EmqxAuthzApiMnesiaUsernameResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForUsername[]
+  meta?: PublicMeta
+}
+
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  clientid: string
   rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
@@ -1041,13 +1060,7 @@ export interface EmqxAuthzApiMnesiaRulesForUsername {
   username: string
 }
 
-export interface EmqxAuthzApiMnesiaUsernameResponseData {
-  data?: EmqxAuthzApiMnesiaRulesForUsername[]
-  meta?: PublicMeta
-}
-
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  clientid: string
+export interface EmqxAuthzApiMnesiaRules {
   rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
@@ -1213,18 +1226,16 @@ export const AuthzPostgresqlType = {
   postgresql: 'postgresql',
 } as const
 
-export type AuthzPostgresqlPrepareStatement = { [key: string]: unknown }
-
 export interface AuthzPostgresql {
   /** @deprecated */
   auto_reconnect?: boolean
+  connect_timeout?: string
   database: string
   disable_prepared_statements?: boolean
   enable?: boolean
   password?: string
   /** @minimum 1 */
   pool_size?: number
-  prepare_statement?: AuthzPostgresqlPrepareStatement
   query: string
   server: string
   ssl?: EmqxSslClientOpts
@@ -1239,18 +1250,25 @@ export const AuthzMysqlType = {
   mysql: 'mysql',
 } as const
 
+/**
+ * @deprecated
+ */
 export type AuthzMysqlPrepareStatement = { [key: string]: unknown }
 
 export interface AuthzMysql {
   /** @deprecated */
   auto_reconnect?: boolean
+  connect_timeout?: string
   database: string
+  disable_prepared_statements?: boolean
   enable?: boolean
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  /** @deprecated */
   prepare_statement?: AuthzMysqlPrepareStatement
   query: string
+  query_timeout?: string
   server: string
   ssl?: EmqxSslClientOpts
   type: AuthzMysqlType
