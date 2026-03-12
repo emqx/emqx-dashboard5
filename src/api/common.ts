@@ -13,15 +13,34 @@ import {
   LicenseData,
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
+import { getLoginPublicKey, prepareEncryptedLogin } from '@/common/loginCrypto'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { ClusterInfo } from '@/types/typeAlias'
 
 //account
-export function login(user: {
+function negotiateLoginKey(encryptedKey: string): Promise<{ key_id: string }> {
+  return http.post('/login/key', { encrypted_key: encryptedKey })
+}
+
+export async function login(user: {
   password: string
   username: string
   mfa_token?: string
 }): Promise<PostLogin200> {
+  const publicKey = await getLoginPublicKey()
+  if (publicKey) {
+    const { encryptedAesKey, encryptCredentials, decryptResponse } =
+      await prepareEncryptedLogin(publicKey)
+    const { key_id } = await negotiateLoginKey(encryptedAesKey)
+    const encryptedBody = await encryptCredentials(user)
+    const encryptedResponse: string = await http.post('/login', encryptedBody, {
+      headers: {
+        'Content-Type': 'text/plain',
+        'x-dashboard-login-key-id': key_id,
+      },
+    })
+    return decryptResponse(encryptedResponse) as Promise<PostLogin200>
+  }
   return http.post('/login', user, { keepSpaces: true })
 }
 
