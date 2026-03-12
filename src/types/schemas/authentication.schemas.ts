@@ -213,6 +213,19 @@ export type PutAuthenticationIdPositionPosition400 = {
   message?: string
 }
 
+export type PostAuthenticationIdMetricsReset404Code =
+  (typeof PostAuthenticationIdMetricsReset404Code)[keyof typeof PostAuthenticationIdMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthenticationIdMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostAuthenticationIdMetricsReset404 = {
+  code?: PostAuthenticationIdMetricsReset404Code
+  message?: string
+}
+
 export type PostAuthenticationIdImportUsers404Code =
   (typeof PostAuthenticationIdImportUsers404Code)[keyof typeof PostAuthenticationIdImportUsers404Code]
 
@@ -1011,6 +1024,7 @@ export interface AuthnPostgresql {
   /** @deprecated */
   auto_reconnect?: boolean
   backend: AuthnPostgresqlBackend
+  connect_timeout?: string
   database: string
   disable_prepared_statements?: boolean
   enable?: boolean
@@ -1076,7 +1090,9 @@ export interface AuthnMysql {
   /** @deprecated */
   auto_reconnect?: boolean
   backend: AuthnMysqlBackend
+  connect_timeout?: string
   database: string
+  disable_prepared_statements?: boolean
   enable?: boolean
   mechanism: AuthnMysqlMechanism
   password?: string

@@ -209,8 +209,6 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
-
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -222,8 +220,6 @@ export type GetSsoBackend404 = {
   code?: GetSsoBackend404Code
   message?: string
 }
-
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type DeleteSsoBackend404Code =
   (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
@@ -237,6 +233,14 @@ export type DeleteSsoBackend404 = {
   code?: DeleteSsoBackend404Code
   message?: string
 }
+
+export type SsoOidcRoleSource = (typeof SsoOidcRoleSource)[keyof typeof SsoOidcRoleSource]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcRoleSource = {
+  id_token: 'id_token',
+  userinfo: 'userinfo',
+} as const
 
 export type SsoOidcProvider = (typeof SsoOidcProvider)[keyof typeof SsoOidcProvider]
 
@@ -256,6 +260,15 @@ export const SsoOidcPreferredAuthMethodsItem = {
   client_secret_post: 'client_secret_post',
   none: 'none',
   private_key_jwt: 'private_key_jwt',
+} as const
+
+export type SsoOidcNamespaceSource =
+  (typeof SsoOidcNamespaceSource)[keyof typeof SsoOidcNamespaceSource]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SsoOidcNamespaceSource = {
+  id_token: 'id_token',
+  userinfo: 'userinfo',
 } as const
 
 export type SsoOidcNameVarSource = (typeof SsoOidcNameVarSource)[keyof typeof SsoOidcNameVarSource]
@@ -283,9 +296,13 @@ export interface SsoOidc {
   issuer: string
   name_var?: string
   name_var_source?: SsoOidcNameVarSource
+  namespace_expr?: string
+  namespace_source?: SsoOidcNamespaceSource
   preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
   provider?: SsoOidcProvider
   require_pkce?: boolean
+  role_expr?: string
+  role_source?: SsoOidcRoleSource
   scopes?: string[]
   secret: string
   session_expiry?: string
@@ -324,6 +341,8 @@ export interface SsoLdap {
   ssl?: LdapSsl
   username: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -488,6 +507,8 @@ export interface DashboardSaml {
 }
 
 export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type DashboardLoginBackend =
   (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]

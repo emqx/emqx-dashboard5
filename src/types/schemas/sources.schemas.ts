@@ -160,12 +160,14 @@ export type PutSourcesId400 = {
 }
 
 export type PutSourcesId200 =
+  | ActionSourceAzureEventGridGetSource
   | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
 
 export type PutSourcesIdBody =
+  | ActionSourceAzureEventGridPutSource
   | BridgeMqttPublisherPutSource
   | BridgeRabbitmqPutSource
   | GcpPubsubConsumerPutSource
@@ -188,6 +190,7 @@ export type GetSourcesId404 = {
 }
 
 export type GetSourcesId200 =
+  | ActionSourceAzureEventGridGetSource
   | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
@@ -261,6 +264,7 @@ export type PostSourcesProbe400 = {
 }
 
 export type PostSourcesProbeBody =
+  | ActionSourceAzureEventGridPostSource
   | BridgeMqttPublisherPostSource
   | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
@@ -283,12 +287,14 @@ export type PostSources400 = {
 }
 
 export type PostSources201 =
+  | ActionSourceAzureEventGridGetSource
   | BridgeMqttPublisherGetSource
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
 
 export type PostSourcesBody =
+  | ActionSourceAzureEventGridPostSource
   | BridgeMqttPublisherPostSource
   | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
@@ -303,6 +309,7 @@ export type GetSources200Item =
   | BridgeMqttPublisherGetSource
   | KafkaConsumerGetSource
   | GcpPubsubConsumerGetSource
+  | ActionSourceAzureEventGridGetSource
 
 export type GetSourcesParams = {
   ns?: string
@@ -314,6 +321,7 @@ export type GetSourceTypes200Item =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetSourceTypes200Item = {
+  azure_event_grid: 'azure_event_grid',
   gcp_pubsub_consumer: 'gcp_pubsub_consumer',
   kafka_consumer: 'kafka_consumer',
   mqtt: 'mqtt',
@@ -576,17 +584,6 @@ export const BridgeRabbitmqPostSourceType = {
   rabbitmq: 'rabbitmq',
 } as const
 
-export interface BridgeRabbitmqPostSource {
-  connector: string
-  description?: string
-  enable?: boolean
-  name: string
-  parameters: BridgeRabbitmqSourceParameters
-  resource_opts?: ActionsAndSourcesSourceResourceOpts
-  tags?: string[]
-  type: BridgeRabbitmqPostSourceType
-}
-
 export type BridgeRabbitmqGetSourceType =
   (typeof BridgeRabbitmqGetSourceType)[keyof typeof BridgeRabbitmqGetSourceType]
 
@@ -605,20 +602,6 @@ export const BridgeRabbitmqGetSourceStatus = {
   disconnected: 'disconnected',
   inconsistent: 'inconsistent',
 } as const
-
-export interface BridgeRabbitmqGetSource {
-  connector: string
-  description?: string
-  enable?: boolean
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeRabbitmqSourceParameters
-  resource_opts?: ActionsAndSourcesSourceResourceOpts
-  status?: BridgeRabbitmqGetSourceStatus
-  status_reason?: string
-  tags?: string[]
-  type: BridgeRabbitmqGetSourceType
-}
 
 export type BridgeMqttPublisherSourceResourceOptsHealthCheckTimeout = 'infinity' | string
 
@@ -707,6 +690,17 @@ export interface ActionsAndSourcesSourceResourceOpts {
   health_check_timeout?: ActionsAndSourcesSourceResourceOptsHealthCheckTimeout
 }
 
+export interface BridgeRabbitmqPostSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  parameters: BridgeRabbitmqSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
+  type: BridgeRabbitmqPostSourceType
+}
+
 export interface ActionsAndSourcesResponseNodeStatus {
   node?: string
   status?: string
@@ -743,6 +737,20 @@ export interface ActionsAndSourcesNodeStatus {
   status_reason?: string
 }
 
+export interface BridgeRabbitmqGetSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeRabbitmqSourceParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  status?: BridgeRabbitmqGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: BridgeRabbitmqGetSourceType
+}
+
 export interface ActionsAndSourcesMetrics {
   aggregated_upload_failure?: number
   aggregated_upload_success?: number
@@ -766,4 +774,65 @@ export interface ActionsAndSourcesMetrics {
 export interface ActionsAndSourcesNodeMetrics {
   metrics?: ActionsAndSourcesMetrics
   node?: string
+}
+
+export interface ActionSourceAzureEventGridPutSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  parameters: BridgeMqttPublisherIngressParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
+}
+
+export type ActionSourceAzureEventGridPostSourceType =
+  (typeof ActionSourceAzureEventGridPostSourceType)[keyof typeof ActionSourceAzureEventGridPostSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionSourceAzureEventGridPostSourceType = {
+  azure_event_grid: 'azure_event_grid',
+} as const
+
+export interface ActionSourceAzureEventGridPostSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  parameters: BridgeMqttPublisherIngressParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  tags?: string[]
+  type: ActionSourceAzureEventGridPostSourceType
+}
+
+export type ActionSourceAzureEventGridGetSourceType =
+  (typeof ActionSourceAzureEventGridGetSourceType)[keyof typeof ActionSourceAzureEventGridGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionSourceAzureEventGridGetSourceType = {
+  azure_event_grid: 'azure_event_grid',
+} as const
+
+export type ActionSourceAzureEventGridGetSourceStatus =
+  (typeof ActionSourceAzureEventGridGetSourceStatus)[keyof typeof ActionSourceAzureEventGridGetSourceStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionSourceAzureEventGridGetSourceStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ActionSourceAzureEventGridGetSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeMqttPublisherIngressParameters
+  resource_opts?: ActionsAndSourcesSourceResourceOpts
+  status?: ActionSourceAzureEventGridGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: ActionSourceAzureEventGridGetSourceType
 }

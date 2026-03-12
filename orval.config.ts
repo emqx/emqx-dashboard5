@@ -59,6 +59,7 @@ const tagArr = [
   'Message Queue',
   'TLS Management',
   'Message Stream',
+  'A2A Registry',
 ]
 
 const typesFolder = './src/types/schemas/'
