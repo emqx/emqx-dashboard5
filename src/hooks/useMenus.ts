@@ -10,6 +10,7 @@ import {
   Stethoscope,
   Workflow,
   Blocks,
+  Bot,
 } from 'lucide-vue-next'
 
 export interface Menu {
@@ -138,6 +139,11 @@ const useMenus = (): {
       title: 'plugins',
       icon: Blocks,
       path: '/plugins',
+    },
+    {
+      title: 'a2a-registry',
+      icon: Bot,
+      path: '/a2a-registry',
     },
     {
       title: 'management',

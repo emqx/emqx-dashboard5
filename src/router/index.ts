@@ -1099,6 +1099,28 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // A2A Registry
+  {
+    path: '/a2a-registry',
+    component: Layout,
+    meta: {
+      hideKey: 'a2aRegistry',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'a2a-registry',
+        component: () => import('@/views/A2A/A2ACards.vue'),
+      },
+      {
+        path: 'register',
+        name: 'a2a-registry-register',
+        component: () => import('@/views/A2A/A2ACardRegister.vue'),
+        meta: { hideInMenu: true },
+      },
+    ],
+  },
   {
     path: '/sso',
     name: 'sso-login',

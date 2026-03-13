@@ -118,6 +118,11 @@ import {
   StreamsStreamIndividualLimits,
 } from './schemas/messageStream.schemas'
 import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
+import {
+  GetA2aCardsListParams,
+  A2aCardOut as A2aCardOutType,
+  A2aRegisterCardIn as A2aRegisterCardInType,
+} from './schemas/a2ARegistry.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -288,3 +293,8 @@ export type ManagedCertsServer = EmqxManagedCertsServer
 export type MessageStreamConfig = StreamsApiConfigGet
 export type MessageStreamItem = GetMessageStreamsStreams200Item
 export type MessageStreamLimits = StreamsStreamIndividualLimits
+
+/* A2A */
+export type A2ACardListParams = GetA2aCardsListParams
+export type A2ACardOut = A2aCardOutType
+export type A2ARegisterCardIn = A2aRegisterCardInType

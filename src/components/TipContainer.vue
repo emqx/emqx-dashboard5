@@ -40,5 +40,12 @@ defineProps({
     margin-bottom: 0;
     line-height: 1.5;
   }
+  .markdown-content {
+    .markdown-body {
+      background-color: unset !important;
+      font-size: inherit !important;
+      color: inherit;
+    }
+  }
 }
 </style>
