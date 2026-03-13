@@ -512,4 +512,14 @@ export default {
     zh: '客户端',
   },
   /* For Breadcrumb End */
+
+  /* A2A Registry */
+  'a2a-registry': {
+    zh: 'A2A 注册',
+    en: 'A2A Registry',
+  },
+  'a2a-registry-register': {
+    zh: '注册 Agent',
+    en: 'Register Agent',
+  },
 }
