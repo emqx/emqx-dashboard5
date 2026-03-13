@@ -28,3 +28,16 @@ export function deleteA2ACard(orgId: string, unitId: string, agentId: string): P
     `/a2a/cards/card/${encodeURIComponent(orgId)}/${encodeURIComponent(unitId)}/${encodeURIComponent(agentId)}`,
   )
 }
+
+export interface A2ARegistryConfig {
+  enable?: boolean
+  validate_schema?: boolean
+}
+
+export function getA2ARegistryConfig(): Promise<A2ARegistryConfig> {
+  return http.get('/configs/a2a_registry')
+}
+
+export function updateA2ARegistryConfig(data: A2ARegistryConfig): Promise<A2ARegistryConfig> {
+  return http.put('/configs/a2a_registry', data)
+}

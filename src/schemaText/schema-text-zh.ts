@@ -539,4 +539,13 @@ export default {
   access_method: {
     label: '访问模式',
   },
+  /* A2A REGISTRY START */
+  a2a_registry_enable: {
+    label: '启用 A2A Registry',
+  },
+  a2a_registry_validate_schema: {
+    label: '验证 Schema',
+    desc: '写入时是否校验 Agent Card 的 Schema。',
+  },
+  /* A2A REGISTRY END */
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="a2a-cards">
-    <el-form class="search-wrapper" @keyup.enter="handleSearch">
+  <div class="a2a-cards" v-loading="isLoading">
+    <el-form v-if="isA2AEnabled" class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="20">
         <el-col v-bind="SEARCH_FORM_RES_PROPS">
           <el-input
@@ -34,9 +34,15 @@
       </el-row>
     </el-form>
 
-    <div class="app-wrapper">
+    <A2AGuidance v-if="!isLoading && !isA2AEnabled" />
+
+    <div v-else class="app-wrapper">
       <div class="section-header !mt-0">
         <div></div>
+        <LinkButton :to="{ name: 'a2a-registry-settings' }">
+          <Settings class="mr-2" />
+          {{ t('Base.setting') }}
+        </LinkButton>
         <RefreshButton :disabled="!$hasPermission('get')" @click="loadCards" />
         <CreateButton :disabled="!$hasPermission('post')" @click="goRegister">
           {{ tl('registerCard') }}
@@ -47,7 +53,7 @@
         <MarkdownContent :content="tl('A2AHelp')" />
       </TipContainer>
 
-      <el-table :data="cards" v-loading="isLoading">
+      <el-table :data="cards">
         <el-table-column
           :label="t('Base.name')"
           prop="name"
@@ -113,15 +119,18 @@
 </template>
 
 <script lang="ts" setup>
-import { deleteA2ACard, listA2ACards } from '@/api/a2a'
+import { deleteA2ACard, getA2ARegistryConfig, listA2ACards } from '@/api/a2a'
 import type { A2ACardListParams, A2ACardOut } from '@/types/typeAlias'
 import type { FormInstance, FormRules } from 'element-plus'
+import { Settings } from 'lucide-vue-next'
+import A2AGuidance from './components/A2AGuidance.vue'
 
 const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
 
 const isLoading = ref(false)
+const isA2AEnabled = ref(false)
 const cards = ref<A2ACardOut[]>([])
 
 const rawDialogVisible = ref(false)
@@ -160,6 +169,7 @@ const buildParams = (): A2ACardListParams => {
 }
 
 const loadCards = async () => {
+  if (!isA2AEnabled.value) return
   isLoading.value = true
   try {
     cards.value = await listA2ACards(buildParams())
@@ -221,7 +231,22 @@ const goRegister = () => {
   router.push({ name: 'a2a-registry-register' })
 }
 
-loadCards()
+const loadData = async () => {
+  try {
+    isLoading.value = true
+    const config = await getA2ARegistryConfig()
+    isA2AEnabled.value = config.enable ?? false
+  } catch (error) {
+    //
+  } finally {
+    isLoading.value = false
+  }
+  if (isA2AEnabled.value) {
+    loadCards()
+  }
+}
+
+loadData()
 </script>
 
 <style lang="scss" scoped>
