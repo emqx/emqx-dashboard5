@@ -1119,6 +1119,12 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/A2A/A2ACardRegister.vue'),
         meta: { hideInMenu: true },
       },
+      {
+        path: 'settings',
+        name: 'a2a-registry-settings',
+        component: () => import('@/views/A2A/A2ASettings.vue'),
+        meta: { hideInMenu: true },
+      },
     ],
   },
   {

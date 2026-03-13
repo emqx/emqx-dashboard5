@@ -522,4 +522,8 @@ export default {
     zh: '注册 Agent',
     en: 'Register Agent',
   },
+  'a2a-registry-settings': {
+    zh: '设置',
+    en: 'Settings',
+  },
 }

@@ -544,4 +544,13 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   access_method: {
     label: 'Access Method',
   },
+  /* A2A REGISTRY START */
+  a2a_registry_enable: {
+    label: 'Enable A2A Registry',
+  },
+  a2a_registry_validate_schema: {
+    label: 'Validate Schema',
+    desc: 'Whether to enable validation of Agent Card Schema during writes.',
+  },
+  /* A2A REGISTRY END */
 }

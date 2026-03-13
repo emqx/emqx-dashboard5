@@ -108,10 +108,22 @@ export default {
 
 1. 通过 Dashboard： 点击页面上方的注册按钮，填写并提交 Agent 信息。
 2. 通过 MQTT： 使用 {'{'}org_id{'}'}/{'{'}unit_id{'}'}/{'{'}agent_id{'}'} 作为客户端 ID 连接 EMQX，向主题 $a2a/v1/discovery/{'{'}org_id{'}'}/{'{'}unit_id{'}'}/{'{'}agent_id{'}'} 发布一条保留消息，消息内容为 Agent Card JSON。格式请参考 [Agent Card](@:A2A.agentCardDoc)。`,
-    en: `There are two ways to register an Agent:                                                                                                                            
-                  
+    en: `There are two ways to register an Agent:
+
 1. Via Dashboard: Click the Register button at the top of this page to fill in and submit the Agent.
 2. Via MQTT: Connect with a Client ID of {'{'}org_id{'}'}/{'{'}unit_id{'}'}/{'{'}agent_id{'}'}, then publish a retained message to the topic
   $a2a/v1/discovery/{'{'}org_id{'}'}/{'{'}unit_id{'}'}/{'{'}agent_id{'}'} with the Agent Card JSON as the payload. Please refer to [Agent Card](@:A2A.agentCardDoc) for the format.`,
+  },
+  guidanceTitle: {
+    zh: '注册管理您的 AI Agent',
+    en: 'Register and manage your AI Agents',
+  },
+  guidanceDesc: {
+    zh: '通过 A2A Registry 注册和管理 AI Agent，实现 Agent 之间的互相发现与协作。',
+    en: 'A2A Registry lets you register and manage AI Agents, enabling discovery and collaboration between them.',
+  },
+  guidanceDisabledTip: {
+    zh: 'A2A Registry 功能当前未启用，请先启用该功能。',
+    en: 'A2A Registry is currently disabled. Please enable it first.',
   },
 }
