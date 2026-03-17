@@ -382,6 +382,10 @@ export default (
     [BridgeType.CockroachDB]: pgSqlOrderMap,
     [BridgeType.Redshift]: pgSqlOrderMap,
     [BridgeType.AzureEventGrid]: mqttOrderMap,
+    [BridgeType.QuasarDB]: createOrderObj(
+      ['uri', 'dsn', 'username', 'password', 'cluster_public_key'],
+      fieldStartIndex,
+    ),
   }
 
   const propsOrderMap = computed(() => {
