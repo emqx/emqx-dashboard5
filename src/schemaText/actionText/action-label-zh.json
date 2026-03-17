@@ -1,11 +1,14 @@
 {
   "common": {
     "description": "描述",
-    "ssl": "启用SSL"
+    "ssl": "启用SSL",
+    "no_local": "禁止本地转发"
   },
   "mqtt": {
-    "source_topic": "主题",
-    "no_local": "禁止本地转发"
+    "source_topic": "主题"
+  },
+  "azure_event_grid": {
+    "source_topic": "主题"
   },
   "kafka_producer": {
     "bootstrap_hosts": "主机列表",
