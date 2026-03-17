@@ -1,6 +1,6 @@
 <template>
   <el-table class="key-and-value-editor shadow-none" :data="tableData">
-    <el-table-column>
+    <el-table-column :label="columnLabel">
       <template #default="{ $index }">
         <el-input v-model="tableData[$index]" />
       </template>
@@ -27,6 +27,9 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
+  },
+  columnLabel: {
+    type: String,
   },
 })
 
