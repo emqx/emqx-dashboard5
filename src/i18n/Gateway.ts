@@ -696,4 +696,72 @@ Changing the backend require restarting the listener, which will terminate all i
     zh: '交换生存期',
     en: 'Exchange Lifetime',
   },
+  internalAuthn: {
+    zh: '内部认证',
+    en: 'Internal Authentication',
+  },
+  internalAuthnDesc: {
+    zh: 'NATS 客户端的内部认证方式。各方式按顺序依次尝试，首次匹配成功后停止。',
+    en: 'Internal authentication methods for NATS clients. Methods are evaluated in order and stop at the first successful match.',
+  },
+  internalAuthnType: {
+    zh: '认证类型',
+    en: 'Authentication Type',
+  },
+  noAuthn: {
+    zh: '无',
+    en: 'None',
+  },
+  nkeys: {
+    zh: 'NKey 列表',
+    en: 'NKeys',
+  },
+  nkeysDesc: {
+    zh: '允许的 NKEY 公钥列表（NATS nkey 以 `U...` 开头）。配置后，仅持有匹配 NKEY 的客户端可连接，通过签名挑战/响应认证。',
+    en: 'Allowed NKEY public keys (NATS nkey starting with `U...`). When configured, only clients with matching NKEYs can connect. Authentication is performed via signed challenge/response.',
+  },
+  nkey: {
+    zh: '允许的 NKEY 公钥',
+    en: 'Allowed NKEY Public Key',
+  },
+  trustedOperators: {
+    zh: '受信操作者',
+    en: 'Trusted Operators',
+  },
+  trustedOperatorsDesc: {
+    zh: '受信操作者公钥列表。解析器仅接受能通过这些操作者验证的账户 JWT。',
+    en: 'A list of trusted operator public keys. The resolver only accepts account JWTs that can be validated by these operators.',
+  },
+  operatorPublicKey: {
+    zh: '操作者公钥',
+    en: 'Operator Public Key',
+  },
+  resolverType: {
+    zh: '解析器类型',
+    en: 'Resolver Type',
+  },
+  resolverPreload: {
+    zh: 'JWT 预加载',
+    en: 'JWT Resolver Preload',
+  },
+  resolverPreloadDesc: {
+    zh: '预加载的账户 JWT 条目，供内存解析器使用。',
+    en: 'Preloaded account JWT entries for the memory resolver.',
+  },
+  tokenDesc: {
+    zh: '认证令牌。可与用户名/密码认证同时配置。',
+    en: 'Authentication Token. Token authentication and username/password authentication can be configured simultaneously.',
+  },
+  jwtToken: {
+    zh: 'JWT',
+    en: 'JWT',
+  },
+  pubkey: {
+    zh: '公钥',
+    en: 'Public Key',
+  },
+  addAuthn: {
+    zh: '添加认证方式',
+    en: 'Add Authentication Method',
+  },
 }

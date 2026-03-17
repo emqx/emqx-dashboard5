@@ -64,6 +64,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <NatsInternalAuthn v-model="nValue.internal_authn" />
       <AdvancedSettingContainer>
         <el-row :gutter="30">
           <el-col :span="24">
@@ -112,6 +113,8 @@
 </template>
 
 <script setup lang="ts">
+import NatsInternalAuthn from './NatsInternalAuthn.vue'
+
 type NatsGatewayConfig = Record<string, any>
 
 const props = withDefaults(
@@ -143,6 +146,7 @@ const createDefault = () => ({
     password: '${Packet.pass}',
     clientid: '',
   },
+  internal_authn: [] as any[],
 })
 
 const nValueDefault = createDefault()
