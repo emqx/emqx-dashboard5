@@ -288,7 +288,11 @@ export const BRIDGE_TYPES_LIKE_INFLUXDB = [
 ]
 export const BRIDGE_TYPES_NOT_USE_SCHEMA = [...BRIDGE_TYPES_LIKE_INFLUXDB]
 
-export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [BridgeType.MQTT, BridgeType.RabbitMQ]
+export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [
+  BridgeType.MQTT,
+  BridgeType.RabbitMQ,
+  BridgeType.AzureEventGrid,
+]
 
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 

@@ -247,6 +247,7 @@ export const SourceServerType = {
   Kafka: BridgeType.KafkaConsumer,
   GCP: BridgeType.GCPConsumer,
   RabbitMQ: BridgeType.RabbitMQ,
+  AzureEventGrid: BridgeType.AzureEventGrid,
 }
 
 /**
