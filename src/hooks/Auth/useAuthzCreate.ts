@@ -44,6 +44,9 @@ export default function useAuthzCreate() {
     }
   }
   const getBuiltInConfig = () => ({ max_rules: 100 })
+  /**
+   * for pgsql and mysql
+   */
   const getDatabaseConfig = () => {
     return {
       server: '',
@@ -51,6 +54,8 @@ export default function useAuthzCreate() {
       password: '',
       database: '',
       pool_size: 8,
+      connect_timeout: '15s',
+      disable_prepared_statements: false,
       ssl: createSSLForm(),
       query: '',
       ...createResourceOpt(),

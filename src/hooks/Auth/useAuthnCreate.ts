@@ -55,6 +55,9 @@ export default function useAuthnCreate() {
         : {}),
     }
   }
+  /**
+   * for pgsql and mysql
+   */
   const getDatabaseConfig = (backend: string) => {
     const data: any = {
       server: '',
@@ -62,6 +65,7 @@ export default function useAuthnCreate() {
       password: '',
       database: '',
       pool_size: 8,
+      connect_timeout: '15s',
       ssl: createSSLForm(),
       query: '',
       ...getPasswordHashAlgorithmObj(),
@@ -69,6 +73,10 @@ export default function useAuthnCreate() {
     }
     if (backend === 'mysql') {
       data.query_timeout = '5s'
+      data.disable_prepared_statements = false
+    }
+    if (backend === 'postgresql') {
+      data.disable_prepared_statements = false
     }
     return data
   }

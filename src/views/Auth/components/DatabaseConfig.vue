@@ -303,7 +303,12 @@
                 <time-input-with-unit-select v-model="databaseConfig.topology.connect_timeout_ms" />
               </el-form-item>
             </el-col>
-            <el-col v-if="isPgSQL" :span="12">
+            <el-col v-if="isMySQL || isPgSQL" :span="12">
+              <el-form-item :label="$t('Auth.connectTimeout')">
+                <time-input-with-unit-select v-model="databaseConfig.connect_timeout" />
+              </el-form-item>
+            </el-col>
+            <el-col v-if="isMySQL || isPgSQL" :span="12">
               <el-form-item prop="disable_prepared_statements">
                 <template #label>
                   <FormItemLabel
