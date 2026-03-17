@@ -79,7 +79,7 @@ watch(showDialog, (val) => {
 const connectorDirection = ref(BridgeDirection.Egress)
 
 const confirm = () => {
-  if (CONNECTOR_TYPES_WITH_SOURCE.includes(props.connector?.type)) {
+  if (CONNECTOR_TYPES_WITH_TWO_DIRECTIONS.includes(props.connector?.type)) {
     confirmStep.value += 1
   } else {
     createRule()

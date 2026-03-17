@@ -23,7 +23,6 @@ declare module 'vue' {
     CertBundleInUseDialog: typeof import('./components/TLSConfig/CertBundleInUseDialog.vue')['default']
     CertFileInput: typeof import('./components/TLSConfig/CertFileInput.vue')['default']
     CheckIcon: typeof import('./components/CheckIcon.vue')['default']
-    ClientFieldSelect: typeof import('./components/ClientFieldSelect.vue')['default']
     CodeView: typeof import('./components/CodeView.vue')['default']
     CommonItemStatus: typeof import('./components/CommonItemStatus.vue')['default']
     CommonMiniPagination: typeof import('./components/CommonMiniPagination.vue')['default']
