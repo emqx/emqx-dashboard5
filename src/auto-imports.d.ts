@@ -635,7 +635,6 @@ declare module 'vue' {
     readonly BRIDGE_TYPES_NOT_USE_SCHEMA: UnwrapRef<typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']>
     readonly CER_FILE_ACCEPTS: UnwrapRef<typeof import('./common/constants')['CER_FILE_ACCEPTS']>
     readonly COMMON_ID_REG: UnwrapRef<typeof import('./common/constants')['COMMON_ID_REG']>
-    readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']>
     readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
     readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
     readonly CertBundleType: UnwrapRef<typeof import('./hooks/useCertBundle')['CertBundleType']>

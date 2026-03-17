@@ -296,8 +296,6 @@ export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [
 
 export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
 
-export const CONNECTOR_TYPES_WITH_SOURCE = [BridgeType.MQTT, BridgeType.RabbitMQ]
-
 export const COPY_SUFFIX = '_duplication'
 
 export const AUTO_RESTART_INTERVAL_DEFAULT = '60s'
