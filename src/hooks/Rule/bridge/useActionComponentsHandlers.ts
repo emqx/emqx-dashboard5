@@ -718,6 +718,7 @@ export default (
     [BridgeType.Snowflake]: snowflakeHandler,
     [BridgeType.Tablestore]: tablestoreHandler,
     [BridgeType.DiskLog]: diskLogHandler,
+    [BridgeType.AzureEventGrid]: mqttHandler,
   }
 
   const getComponentsHandler = () => {

@@ -177,24 +177,25 @@ export default (
     'heartbeat_frequency_ms',
     'min_heartbeat_frequency_ms',
   ].map((item) => `topology.${item}`)
+  const mqttOrderMap = createOrderObj(
+    [
+      'server',
+      'clientid_prefix',
+      'username',
+      'password',
+      'keepalive',
+      'proto_ver',
+      'static_clientids',
+      'clean_start',
+      'ssl',
+      'retry_interval',
+      'bridge_mode',
+      'max_inflight',
+    ],
+    fieldStartIndex,
+  )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
-    [BridgeType.MQTT]: createOrderObj(
-      [
-        'server',
-        'clientid_prefix',
-        'username',
-        'password',
-        'keepalive',
-        'proto_ver',
-        'static_clientids',
-        'clean_start',
-        'ssl',
-        'retry_interval',
-        'bridge_mode',
-        'max_inflight',
-      ],
-      fieldStartIndex,
-    ),
+    [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers'], fieldStartIndex),
       ...createOrderObj(httpAdvancedProps, 70),
@@ -380,6 +381,7 @@ export default (
     [BridgeType.AlloyDB]: pgSqlOrderMap,
     [BridgeType.CockroachDB]: pgSqlOrderMap,
     [BridgeType.Redshift]: pgSqlOrderMap,
+    [BridgeType.AzureEventGrid]: mqttOrderMap,
   }
 
   const propsOrderMap = computed(() => {
@@ -431,8 +433,9 @@ export default (
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
   const greptimeDBAdvancedFields = ['ttl', 'ts_column']
+  const mqttAdvancedFields = ['retry_interval', 'bridge_mode', 'max_inflight']
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
-    [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight'],
+    [BridgeType.MQTT]: mqttAdvancedFields,
     [BridgeType.Webhook]: httpAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
@@ -453,6 +456,7 @@ export default (
     [BridgeType.AlloyDB]: pgSqlAdvancedFields,
     [BridgeType.CockroachDB]: pgSqlAdvancedFields,
     [BridgeType.Redshift]: pgSqlAdvancedFields,
+    [BridgeType.AzureEventGrid]: mqttAdvancedFields,
   }
 
   const advancedFields = computed(() => {

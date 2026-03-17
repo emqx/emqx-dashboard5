@@ -13,6 +13,7 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.GCPProducer]: ConnectorCategory.MessageStreaming,
   [BridgeType.GCPConsumer]: ConnectorCategory.MessageStreaming,
   [BridgeType.AzureEventHubs]: ConnectorCategory.MessageStreaming,
+  [BridgeType.AzureEventGrid]: ConnectorCategory.MessageStreaming,
   [BridgeType.AmazonKinesis]: ConnectorCategory.MessageStreaming,
   [BridgeType.Confluent]: ConnectorCategory.MessageStreaming,
 
@@ -37,6 +38,7 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.AWSTimestream]: ConnectorCategory.DataPersistence,
   [BridgeType.Datalayers]: ConnectorCategory.DataPersistence,
   [BridgeType.EMQXTables]: ConnectorCategory.DataPersistence,
+  [BridgeType.QuasarDB]: ConnectorCategory.DataPersistence,
 
   // Data Analytics
   [BridgeType.ClickHouse]: ConnectorCategory.DataAnalytics,
@@ -171,6 +173,8 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Redshift, label: 'Redshift' },
     { value: BridgeType.AWSTimestream, label: 'Amazon Timestream' },
     { value: BridgeType.EMQXTables, label: 'EMQX Tables' },
+    { value: BridgeType.AzureEventGrid, label: 'Azure Event Grid' },
+    { value: BridgeType.QuasarDB, label: 'QuasarDB' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
 
   /**
@@ -480,6 +484,8 @@ export const useConnectorSchema = (): {
     [BridgeType.Redshift, getRef(BridgeType.Redshift, 'connector_')],
     [BridgeType.AWSTimestream, getRef(BridgeType.AWSTimestream, 'connector_')],
     [BridgeType.EMQXTables, getRef(BridgeType.EMQXTables, 'connector_')],
+    [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'connector_')],
+    [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -548,6 +554,8 @@ export const useActionSchema = (): {
     [BridgeType.Redshift, getRef(BridgeType.Redshift, 'action_')],
     [BridgeType.AWSTimestream, getRef(BridgeType.AWSTimestream, 'action_')],
     [BridgeType.EMQXTables, getRef(BridgeType.EMQXTables, 'action_')],
+    [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
+    [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
@@ -589,6 +597,7 @@ export const useSourceSchema = (): {
     [BridgeType.MQTT, getRef('mqtt_publisher')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
     [BridgeType.KafkaConsumer, getRef(BridgeType.KafkaConsumer, '')],
+    [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

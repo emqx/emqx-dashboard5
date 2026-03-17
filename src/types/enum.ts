@@ -160,6 +160,8 @@ export enum BridgeType {
   Redshift = 'redshift',
   AWSTimestream = 'aws_timestream',
   EMQXTables = 'emqx_tables',
+  AzureEventGrid = 'azure_event_grid',
+  QuasarDB = 'quasardb',
 }
 
 export enum ConnectorCategory {
