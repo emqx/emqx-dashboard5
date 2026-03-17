@@ -147,6 +147,11 @@ export default (
     getPathArrInParameters(['write_syntax', 'precision']),
     fieldStartIndex,
   )
+
+  const mqttOrderMap = createOrderObj(
+    getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
+    fieldStartIndex,
+  )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.Webhook]: {
       ...createOrderObj(
@@ -155,10 +160,7 @@ export default (
       ),
       ...createOrderObj(httpAdvancedFields, 70),
     },
-    [BridgeType.MQTT]: createOrderObj(
-      getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
-      fieldStartIndex,
-    ),
+    [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.MySQL]: createOrderObj(
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
@@ -383,6 +385,7 @@ export default (
       getPathArrInParameters(['dataset', 'table']),
       fieldStartIndex,
     ),
+    [BridgeType.AzureEventGrid]: mqttOrderMap,
   }
 
   const propsOrderMap = computed(() => {

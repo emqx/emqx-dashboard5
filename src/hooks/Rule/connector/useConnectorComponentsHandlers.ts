@@ -191,6 +191,15 @@ export default (
     return { components: comRet, rules }
   }
 
+  const azureEventGridHandler: Handler = (data) => {
+    const { components, rules } = mqttHandler(data)
+    const comRet = components
+    if (comRet?.server) {
+      comRet.server.componentProps = { placeholder: '' }
+    }
+    return { components: comRet, rules }
+  }
+
   const httpHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.url && !comRet.url.default) {
@@ -476,6 +485,7 @@ export default (
     [BridgeType.DiskLog, diskLogHandler],
     [BridgeType.S3Tables, s3TablesHandler],
     [BridgeType.Datalayers, datalayersHandler],
+    [BridgeType.AzureEventGrid, azureEventGridHandler],
   ])
 
   const getComponentsHandler = () => {
