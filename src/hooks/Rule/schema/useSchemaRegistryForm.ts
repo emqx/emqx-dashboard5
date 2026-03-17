@@ -39,6 +39,7 @@ export default () => {
       pool_size: 8,
       enable_pipelining: 100,
       max_inactive: '10s',
+      method: 'post',
       ssl: createSSLForm(),
     }) as SchemaRegistryExternalHttpParameters
 

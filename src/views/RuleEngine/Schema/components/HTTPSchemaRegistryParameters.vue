@@ -9,6 +9,19 @@
       </el-form-item>
     </el-col>
     <el-col :span="8">
+      <el-form-item prop="parameters.method" :label="tl('method')">
+        <el-select v-model="formData.method">
+          <el-option
+            v-for="item in methodOpts"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          />
+        </el-select>
+      </el-form-item>
+    </el-col>
+    <el-col :span="8" />
+    <el-col :span="8">
       <el-form-item prop="parameters.external_params">
         <template #label>
           <FormItemLabel
@@ -20,6 +33,7 @@
         <el-input v-model="formData.external_params" />
       </el-form-item>
     </el-col>
+    <el-col :span="16" />
     <el-col :span="16">
       <el-form-item prop="parameters.headers">
         <template #label>
@@ -124,6 +138,11 @@ const formData = computed<SchemaRegistryExternalHttpParameters>({
     emit('update:modelValue', val)
   },
 })
+
+const methodOpts = [
+  { label: 'GET', value: 'get' },
+  { label: 'POST', value: 'post' },
+]
 
 const { t, tl } = useI18nTl('Auth')
 const getHTTPConnectorText = (key: string, type: 'label' | 'desc') =>
