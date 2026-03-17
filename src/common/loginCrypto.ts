@@ -9,13 +9,12 @@ import http from '@/common/http'
  * 2. Encrypted login: encrypt credentials with AES-256-GCM,
  *    POST to /login with text/plain body and x-dashboard-login-key-id header
  *
- * Binary format for the encrypted body:
+ * Binary format for the encrypted body / response:
  *   IV (12 bytes) || AuthTag (16 bytes) || Ciphertext → base64
  *
  * Public key resolution order (first non-null wins):
  *   1. window.__EMQX_DASHBOARD_LOGIN_RSA_PUBLIC_KEY__  (server-side injection into index.html)
- *   2. GET /api/v5/login/public-key                    (dedicated API endpoint, recommended)
- *   3. GET /dashboard.config.json → .login_rsa_public_key  (static config file)
+ *   2. GET /api/v5/login/public_key → { public_key }   (backend derives from private key config)
  */
 
 function pemToArrayBuffer(pem: string): ArrayBuffer {
@@ -38,12 +37,22 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 /**
- * Returns the configured RSA public key PEM string, or null if not configured.
- * The public key can be injected by setting window.__EMQX_DASHBOARD_LOGIN_RSA_PUBLIC_KEY__
- * before the app starts (e.g. via index.html or server-side templating).
+ * Returns the RSA public key PEM string, or null when login encryption is not configured.
+ * Result is cached in memory — at most one network request per page load.
  */
 export async function getLoginPublicKey(): Promise<string | null> {
-  return http.get('/dashboard_login_public.pem', { baseURL: '' })
+  try {
+    // Backend derives the RSA public key from the configured private key.
+    // Suppress error popups: a 404 just means encryption is disabled.
+    const data = await http.get('/login/public_key', {
+      doNotTriggerProgress: true,
+      errorsHandleCustom: [404],
+    } as any)
+    const key: string | null = (data as { public_key?: string })?.public_key || null
+    return key
+  } catch {
+    return null
+  }
 }
 
 export interface EncryptedLoginPrep {
