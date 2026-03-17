@@ -1,11 +1,14 @@
 {
   "common": {
     "description": "Description",
-    "ssl": "Enable SSL"
+    "ssl": "Enable SSL",
+    "no_local": "No Local"
   },
   "mqtt": {
-    "source_topic": "Topic",
-    "no_local": "No Local"
+    "source_topic": "Topic"
+  },
+  "azure_event_grid": {
+    "source_topic": "Topic"
   },
   "kafka_producer": {
     "bootstrap_hosts": "Bootstrap Hosts",
