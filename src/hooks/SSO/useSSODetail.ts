@@ -7,6 +7,8 @@ import {
   OIDCNameVarSource,
   OIDCPreferredAuthMethods,
   OIDCProvider,
+  OIDCRoleSource,
+  OIDCNamespaceSource,
   SSOOIDCBackend,
 } from '@/types/typeAlias'
 import useSSL from '../useSSL'
@@ -47,6 +49,8 @@ export default (): {
     scopes: ['openid'],
     name_var: '${sub}',
     name_var_source: OIDCNameVarSource.userinfo,
+    role_source: OIDCRoleSource.userinfo,
+    namespace_source: OIDCNamespaceSource.userinfo,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     session_expiry: '30s',
     require_pkce: false,
