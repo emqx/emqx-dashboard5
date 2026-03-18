@@ -347,9 +347,9 @@ export default {
     desc: '审计日志文件名称',
     label: '审计日志文件',
   },
-  max_filter_size: {
-    desc: '在数据库中存储最新的 N 条日志条目，以允许 `/audit` HTTP API 进行日志数据的过滤和检索。',
-    label: '最大 Dashboard 记录数',
+  cache_size: {
+    desc: '在数据库中存储最新的 N 条日志条目，以允许 `/audit` HTTP API 进行日志数据的过滤和检索。清理冗余日志记录的间隔维持在 10~20 秒范围内。',
+    label: '缓存大小',
   },
   ignore_high_frequency_request: {
     desc: '忽略高频请求以避免淹没审计日志，例如被忽略的发布/订阅踢出 http api 请求。',
