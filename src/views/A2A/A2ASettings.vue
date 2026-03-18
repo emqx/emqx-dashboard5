@@ -1,6 +1,6 @@
 <template>
   <div class="a2a-settings app-wrapper">
-    <detail-header :item="{ name: t('Base.settings'), routeName: 'a2a-registry' }" />
+    <detail-header :item="{ name: t('Base.setting'), routeName: 'a2a-registry' }" />
     <el-card class="app-card allow-overflow">
       <schema-form
         ref="SchemaFormCom"
@@ -20,7 +20,7 @@
 import { getA2ARegistryConfig, updateA2ARegistryConfig, type A2ARegistryConfig } from '@/api/a2a'
 
 const { state } = useStore()
-const { t, tl } = useI18nTl('A2A')
+const { t } = useI18nTl('A2A')
 
 const configs = ref<A2ARegistryConfig>({})
 const saveLoading = ref(false)
