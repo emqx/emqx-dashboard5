@@ -47,14 +47,6 @@ export default {
     zh: '三个过滤条件均为精确匹配，不支持模糊搜索',
     en: 'All three filters use exact matching; fuzzy search is not supported',
   },
-  fieldRequired: {
-    zh: '此字段为必填项',
-    en: 'This field is required',
-  },
-  deleteCardTip: {
-    zh: '请输入要删除的 Agent 的完整路径标识',
-    en: 'Enter the full path identity of the Agent to delete',
-  },
   helpDesc: {
     zh: 'Agent Card JSON 必须是一个合法的 JSON 对象，包含以下必填字段：',
     en: 'Agent Card JSON must be a valid JSON object containing the following required fields:',
@@ -125,5 +117,9 @@ export default {
   guidanceDisabledTip: {
     zh: 'A2A Registry 功能当前未启用，请先启用该功能。',
     en: 'A2A Registry is currently disabled. Please enable it first.',
+  },
+  deleteConfirm: {
+    zh: '确认删除当前 Agent？',
+    en: 'Confirm to delete this Agent?',
   },
 }

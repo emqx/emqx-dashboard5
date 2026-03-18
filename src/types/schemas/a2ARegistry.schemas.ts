@@ -108,9 +108,12 @@ export const A2aCardOutStatus = {
 } as const
 
 export interface A2aCardOut {
+  agent_id?: string
   description?: string
   name?: string
+  org_id?: string
   raw?: string
   status?: A2aCardOutStatus
+  unit_id?: string
   version?: string
 }
