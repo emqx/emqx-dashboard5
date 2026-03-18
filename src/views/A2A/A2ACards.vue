@@ -61,6 +61,19 @@
           show-overflow-tooltip
         />
         <el-table-column :label="tl('version')" prop="version" min-width="100" />
+        <el-table-column :label="tl('orgId')" prop="org_id" min-width="120" show-overflow-tooltip />
+        <el-table-column
+          :label="tl('unitId')"
+          prop="unit_id"
+          min-width="120"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          :label="tl('agentId')"
+          prop="agent_id"
+          min-width="120"
+          show-overflow-tooltip
+        />
         <el-table-column
           :label="t('Base.description')"
           prop="description"
@@ -78,10 +91,13 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="t('Base.operation')" min-width="160">
+        <el-table-column :label="t('Base.operation')" min-width="228">
           <template #default="{ row }">
             <TableButton @click="showRaw(row)">{{ tl('agentJson') }}</TableButton>
-            <TableButton :disabled="!$hasPermission('delete')" @click="openDeleteDialog">
+            <TableButton
+              :disabled="!$hasPermission('delete') || !row.org_id || !row.unit_id || !row.agent_id"
+              @click="handleDelete(row)"
+            >
               {{ t('Base.delete') }}
             </TableButton>
           </template>
@@ -95,20 +111,20 @@
     <code-view lang="json" :code="formattedRaw" show-copy-btn />
   </el-dialog>
 
-  <!-- Delete dialog -->
-  <el-dialog v-model="deleteDialogVisible" :title="t('Base.delete')" width="480px">
-    <p class="delete-dialog-tip">{{ tl('deleteCardTip') }}</p>
-    <el-form ref="deleteFormRef" :model="deleteForm" :rules="deleteRules" label-position="top">
-      <el-form-item :label="tl('orgId')" prop="org_id">
-        <el-input v-model="deleteForm.org_id" />
-      </el-form-item>
-      <el-form-item :label="tl('unitId')" prop="unit_id">
-        <el-input v-model="deleteForm.unit_id" />
-      </el-form-item>
-      <el-form-item :label="tl('agentId')" prop="agent_id">
-        <el-input v-model="deleteForm.agent_id" />
-      </el-form-item>
-    </el-form>
+  <!-- Delete confirmation dialog -->
+  <el-dialog v-model="deleteDialogVisible" :title="t('Base.confirmDelete')" width="600px">
+    <p class="mb-4">{{ tl('deleteConfirm') }}</p>
+    <el-descriptions :column="1" :label-width="150" border>
+      <el-descriptions-item :label="tl('orgId')"> {{ deletingRow?.org_id }}</el-descriptions-item>
+      <el-descriptions-item :label="tl('unitId')">{{ deletingRow?.unit_id }}</el-descriptions-item>
+      <el-descriptions-item :label="tl('agentId')">
+        {{ deletingRow?.agent_id }}
+      </el-descriptions-item>
+    </el-descriptions>
+    <div class="mt-4">
+      <p class="mb-2 text-sm text-gray-500">{{ tl('agentJson') }}</p>
+      <code-view lang="json" :code="deletingFormattedRaw" show-copy-btn />
+    </div>
     <template #footer>
       <CancelButton @click="deleteDialogVisible = false" />
       <el-button type="danger" :loading="isDeleting" @click="confirmDelete">
@@ -121,7 +137,6 @@
 <script lang="ts" setup>
 import { deleteA2ACard, getA2ARegistryConfig, listA2ACards } from '@/api/a2a'
 import type { A2ACardListParams, A2ACardOut } from '@/types/typeAlias'
-import type { FormInstance, FormRules } from 'element-plus'
 import { Settings } from 'lucide-vue-next'
 import A2AGuidance from './components/A2AGuidance.vue'
 
@@ -137,28 +152,15 @@ const rawDialogVisible = ref(false)
 const formattedRaw = ref('')
 
 const deleteDialogVisible = ref(false)
+const deletingRow = ref<A2ACardOut | null>(null)
+const deletingFormattedRaw = ref('')
 const isDeleting = ref(false)
-const deleteFormRef = ref<FormInstance>()
-const deleteForm = ref({ org_id: '', unit_id: '', agent_id: '' })
 
 const filterParams = ref<A2ACardListParams>({
   org_id: undefined,
   unit_id: undefined,
   agent_id: undefined,
 })
-
-const ID_PATTERN = /^[A-Za-z0-9._-]+$/
-const validateDeleteId = (_rule: any, value: string, callback: (err?: Error) => void) => {
-  if (!value) callback(new Error(tl('fieldRequired')))
-  else if (!ID_PATTERN.test(value)) callback(new Error(tl('idFormatTip')))
-  else callback()
-}
-
-const deleteRules: FormRules = {
-  org_id: [{ validator: validateDeleteId, trigger: 'blur' }],
-  unit_id: [{ validator: validateDeleteId, trigger: 'blur' }],
-  agent_id: [{ validator: validateDeleteId, trigger: 'blur' }],
-}
 
 const buildParams = (): A2ACardListParams => {
   const p: A2ACardListParams = {}
@@ -196,27 +198,25 @@ const showRaw = (row: A2ACardOut) => {
   rawDialogVisible.value = true
 }
 
-const openDeleteDialog = () => {
-  deleteForm.value = {
-    org_id: filterParams.value.org_id ?? '',
-    unit_id: filterParams.value.unit_id ?? '',
-    agent_id: filterParams.value.agent_id ?? '',
+const handleDelete = (row: A2ACardOut) => {
+  deletingRow.value = row
+  try {
+    deletingFormattedRaw.value = row.raw ? JSON.stringify(JSON.parse(row.raw), null, 2) : ''
+  } catch {
+    deletingFormattedRaw.value = row.raw ?? ''
   }
   deleteDialogVisible.value = true
-  nextTick(() => deleteFormRef.value?.clearValidate())
 }
 
 const confirmDelete = async () => {
-  if (!deleteFormRef.value) return
-  try {
-    await deleteFormRef.value.validate()
-  } catch {
-    return
-  }
+  if (!deletingRow.value) return
   isDeleting.value = true
   try {
-    const { org_id, unit_id, agent_id } = deleteForm.value
-    await deleteA2ACard(org_id, unit_id, agent_id)
+    await deleteA2ACard(
+      deletingRow.value.org_id!,
+      deletingRow.value.unit_id!,
+      deletingRow.value.agent_id!,
+    )
     ElMessage.success(t('Base.deleteSuccess'))
     deleteDialogVisible.value = false
     loadCards()
@@ -259,23 +259,5 @@ loadData()
       margin-bottom: 4px;
     }
   }
-}
-
-.raw-card-pre {
-  background-color: var(--color-bg-secondary, #f5f7fa);
-  border-radius: 4px;
-  padding: 16px;
-  overflow: auto;
-  max-height: 400px;
-  font-size: 13px;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.delete-dialog-tip {
-  margin-bottom: 16px;
-  color: var(--color-text-secondary);
-  font-size: 13px;
 }
 </style>
