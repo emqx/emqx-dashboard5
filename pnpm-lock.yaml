@@ -13,13 +13,13 @@ importers:
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-components':
         specifier: ~0.0.16
-        version: 0.0.16(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.8)(@emqx/shared-ui-utils@0.0.24(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
+        version: 0.0.16(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.9)(@emqx/shared-ui-utils@0.0.24(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants':
-        specifier: ~0.0.8
-        version: 0.0.8
+        specifier: ~0.0.9
+        version: 0.0.9
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.63
-        version: 0.0.63
+        specifier: ~0.0.64
+        version: 0.0.64
       '@emqx/shared-ui-utils':
         specifier: ~0.0.24
         version: 0.0.24(typescript@5.5.4)
@@ -408,11 +408,11 @@ packages:
       tailwindcss: ^3.4
       vue: ^3.2.0
 
-  '@emqx/shared-ui-constants@0.0.8':
-    resolution: {integrity: sha512-hUIPzN4qGbwQ6T+ZjEMofrRxM0iv46xnkylzSXVuxh9kUiBirYRLER/0HhyPxSozjfSV7ecyISizUckQ9xL8vg==}
+  '@emqx/shared-ui-constants@0.0.9':
+    resolution: {integrity: sha512-Rv9VRgyiosuvHHd81sk/ydri/Es4sjaOWZtKKcXPUS4MvNL4g4ACEq3WlCcswU5dhvq5YGYbgw/NfueMaEOavw==}
 
-  '@emqx/shared-ui-i18n@0.0.63':
-    resolution: {integrity: sha512-rndS/8Cq83oxKWvjMBehvblZVUej3xGGz97fbAtMxZTdZwMN9mgn9JSuRZGyyA48mmOdqB+Z9VOsy4rBjk6pAA==}
+  '@emqx/shared-ui-i18n@0.0.64':
+    resolution: {integrity: sha512-hUi3o6UnZ2IhmMpzpEfHY65VvXFKQpTVkV8VVRMFI3vHGeCskOfmXLU6sRw8q+ZeztSnIu2GxT94BA5ahivQmQ==}
 
   '@emqx/shared-ui-utils@0.0.24':
     resolution: {integrity: sha512-8Hq4ljQQUI5aPRMfS3jfifRZB2ym41GINmvXnO7tZ+UWrBE7haqMusb6blatbdDjRHZk1GZ7d3GabMgJxTrfhQ==}
@@ -4111,10 +4111,10 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-components@0.0.16(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.8)(@emqx/shared-ui-utils@0.0.24(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-components@0.0.16(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.9)(@emqx/shared-ui-utils@0.0.24(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
     dependencies:
       '@element-plus/icons-vue': 1.1.4(vue@3.5.4(typescript@5.5.4))
-      '@emqx/shared-ui-constants': 0.0.8
+      '@emqx/shared-ui-constants': 0.0.9
       '@emqx/shared-ui-utils': 0.0.24(typescript@5.5.4)
       '@vue-flow/core': 1.41.1(vue@3.5.4(typescript@5.5.4))
       async-validator: 4.2.5
@@ -4125,9 +4125,9 @@ snapshots:
       tailwindcss: 3.4.17
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-constants@0.0.8': {}
+  '@emqx/shared-ui-constants@0.0.9': {}
 
-  '@emqx/shared-ui-i18n@0.0.63': {}
+  '@emqx/shared-ui-i18n@0.0.64': {}
 
   '@emqx/shared-ui-utils@0.0.24(typescript@5.5.4)':
     dependencies:
