@@ -336,16 +336,20 @@ export default {
     en: 'Scopes',
   },
   nameVar: {
-    zh: '名称变量',
-    en: 'Name Variable',
+    zh: '用户名变量',
+    en: 'Username Variable',
+  },
+  nameVarDesc: {
+    zh: "用于将 OIDC 用户信息字段映射为 Dashboard 用户名的模板。使用 {'$'}{'{'}字段名{'}'} 语法引用数据源中的字段（如 `{'$'}{'{'}sub{'}'}`、`{'$'}{'{'}email{'}'}`、`{'$'}{'{'}name{'}'}`），也可以组合多个字段，例如 `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`。默认值为 `{'$'}{'{'}sub{'}'}`。",
+    en: "A template that maps OIDC user information fields to the Dashboard username. Use {'$'}{'{'}field{'}'} syntax to reference fields from the data source (e.g., `{'$'}{'{'}sub{'}'}`, `{'$'}{'{'}email{'}'}`, `{'$'}{'{'}name{'}'}`). Multiple fields can be combined, for example `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`. Defaults to `{'$'}{'{'}sub{'}'}`.",
   },
   nameVarSource: {
-    zh: '名称变量来源',
-    en: 'Name Variable Source',
+    zh: '用户名变量来源',
+    en: 'Username Variable Source',
   },
   nameVarSourceDesc: {
-    zh: '指定从哪个来源提取用户信息以构建 Dashboard 用户名<br />用户信息端点：使用 /userinfo 端点的响应<br />ID Token：使用访问令牌中的声明',
-    en: 'Specify from which source to extract information to construct the Dashboard username<br />User Info Endpoint: Utilizes the response from the /userinfo endpoint<br />ID Token: Utilizes the claims contained in the access token',
+    zh: '指定从哪个来源提取用户信息以构建 Dashboard 用户名<br />用户信息端点：使用 `/userinfo` 端点的响应<br />ID Token：使用访问令牌中的声明',
+    en: 'Specify from which source to extract information to construct the Dashboard username<br />User Info Endpoint: Utilizes the response from the `/userinfo` endpoint<br />ID Token: Utilizes the claims contained in the access token',
   },
   nameVarSourceUserinfo: {
     zh: '用户信息端点',
@@ -354,6 +358,38 @@ export default {
   nameVarSourceIdToken: {
     zh: 'ID Token',
     en: 'ID Token',
+  },
+  roleSource: {
+    zh: '角色来源',
+    en: 'Role Source',
+  },
+  roleSourceDesc: {
+    zh: '指定从哪个来源提取信息以构建 Dashboard 用户角色<br />用户信息端点：使用 `/userinfo` 端点的响应<br />ID Token：使用访问令牌中的声明',
+    en: 'Specify from which source to extract information to construct the Dashboard user role<br />User Info Endpoint: Utilizes the response from the `/userinfo` endpoint<br />ID Token: Utilizes the claims contained in the access token',
+  },
+  roleExpr: {
+    zh: '角色表达式',
+    en: 'Role Expression',
+  },
+  roleExprDesc: {
+    zh: '用于构建 Dashboard 用户角色的 jq 表达式，必须返回一个有效角色字符串：`viewer` 或 `administrator`。若未设置，将创建 `viewer` 用户，或保留已有用户的角色。',
+    en: 'A jq expression to construct the Dashboard user role. Must return exactly one of: `viewer` or `administrator`. If not set, will create a `viewer` user or retain the existing role.',
+  },
+  namespaceSource: {
+    zh: '命名空间来源',
+    en: 'Namespace Source',
+  },
+  namespaceSourceDesc: {
+    zh: '指定从哪个来源提取信息以构建 Dashboard 用户命名空间<br />用户信息端点：使用 `/userinfo` 端点的响应<br />ID Token：使用访问令牌中的声明',
+    en: 'Specify from which source to extract information to construct the Dashboard user namespace<br />User Info Endpoint: Utilizes the response from the `/userinfo` endpoint<br />ID Token: Utilizes the claims contained in the access token',
+  },
+  namespaceExpr: {
+    zh: '命名空间表达式',
+    en: 'Namespace Expression',
+  },
+  namespaceExprDesc: {
+    zh: '用于构建 Dashboard 用户命名空间的 jq 表达式，必须返回一个已有命名空间名称字符串，或 null（表示全局命名空间）。若未设置，将在全局命名空间下创建用户，或保留已有用户的命名空间。',
+    en: 'A jq expression to construct the Dashboard user namespace. Must return a string with an existing namespace name, or null for the global namespace. If not set, will create a user in the global namespace or retain the existing namespace.',
   },
   sessionExpiry: {
     zh: '会话过期',

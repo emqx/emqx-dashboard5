@@ -56,9 +56,6 @@
       <el-form-item prop="scopes" :label="tl('scopes')">
         <ArrayEditor v-model="formData.scopes" />
       </el-form-item>
-      <el-form-item prop="name_var" :label="tl('nameVar')">
-        <el-input v-model="formData.name_var" />
-      </el-form-item>
       <el-form-item prop="name_var_source">
         <template #label>
           <FormItemLabel :label="tl('nameVarSource')" :desc="tl('nameVarSourceDesc')" desc-marked />
@@ -71,6 +68,55 @@
             :label="label"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item prop="name_var" :label="tl('nameVar')">
+        <template #label>
+          <FormItemLabel :label="tl('nameVar')" :desc="tl('nameVarDesc')" desc-marked />
+        </template>
+        <el-input v-model="formData.name_var" />
+      </el-form-item>
+
+      <el-form-item prop="role_source">
+        <template #label>
+          <FormItemLabel :label="tl('roleSource')" :desc="tl('roleSourceDesc')" desc-marked />
+        </template>
+        <el-select v-model="formData.role_source">
+          <el-option
+            v-for="{ label, value } in nameVarSourceOpts"
+            :key="value"
+            :value="value"
+            :label="label"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="role_expr">
+        <template #label>
+          <FormItemLabel :label="tl('roleExpr')" :desc="tl('roleExprDesc')" desc-marked />
+        </template>
+        <el-input v-model="formData.role_expr" />
+      </el-form-item>
+      <el-form-item prop="namespace_source">
+        <template #label>
+          <FormItemLabel
+            :label="tl('namespaceSource')"
+            :desc="tl('namespaceSourceDesc')"
+            desc-marked
+          />
+        </template>
+        <el-select v-model="formData.namespace_source">
+          <el-option
+            v-for="{ label, value } in nameVarSourceOpts"
+            :key="value"
+            :value="value"
+            :label="label"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="namespace_expr">
+        <template #label>
+          <FormItemLabel :label="tl('namespaceExpr')" :desc="tl('namespaceExprDesc')" desc-marked />
+        </template>
+        <el-input v-model="formData.namespace_expr" />
       </el-form-item>
       <el-form-item
         prop="session_expiry"
