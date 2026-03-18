@@ -41,7 +41,7 @@ const route = useRoute()
 const gname = computed(() => String(route.params.name).toLowerCase() as GatewayName)
 const types = computed(() => {
   const comonTypes = ['settings', 'clients', 'listeners']
-  if (gname.value !== 'jt808') {
+  if (gname.value !== GatewayName.JT808) {
     comonTypes.splice(2, 0, 'auth')
   }
   return comonTypes
