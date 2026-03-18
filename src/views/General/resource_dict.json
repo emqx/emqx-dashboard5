@@ -3022,5 +3022,65 @@
       "en": "Update stream",
       "zh": "更新流"
     }
+  },
+  {
+    "method": "put",
+    "path": "/configs/a2a_registry",
+    "operation_label": {
+      "en": "A2A Registry",
+      "zh": "A2A 注册"
+    },
+    "operation_name_label": {
+      "en": "Update A2A registry config",
+      "zh": "更新 A2A 注册配置"
+    }
+  },
+  {
+    "method": "delete",
+    "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
+    "operation_label": {
+      "en": "A2A Registry",
+      "zh": "A2A 注册"
+    },
+    "operation_name_label": {
+      "en": "Delete agent registration",
+      "zh": "删除 Agent 注册信息"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
+    "operation_label": {
+      "en": "A2A Registry",
+      "zh": "A2A 注册"
+    },
+    "operation_name_label": {
+      "en": "Register agent",
+      "zh": "注册 Agent"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/authorization/sources/:type/metrics/reset",
+    "operation_label": {
+      "en": "Authorization",
+      "zh": "授权"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics counters for a specific authorization source",
+      "zh": "重置指定授权源的指标计数器"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/authentication/:id/metrics/reset",
+    "operation_label": {
+      "en": "Authentication",
+      "zh": "认证"
+    },
+    "operation_name_label": {
+      "en": "Reset metrics counters for a specific authenticator in the global authentication chain",
+      "zh": "重置指定认证器的指标计数器"
+    }
   }
 ]
