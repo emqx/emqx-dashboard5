@@ -318,6 +318,45 @@ export type GetConfigsAlarm404 = {
   message?: string
 }
 
+export type PutConfigsA2aRegistry403Code =
+  (typeof PutConfigsA2aRegistry403Code)[keyof typeof PutConfigsA2aRegistry403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsA2aRegistry403Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsA2aRegistry403 = {
+  code?: PutConfigsA2aRegistry403Code
+  message?: string
+}
+
+export type PutConfigsA2aRegistry400Code =
+  (typeof PutConfigsA2aRegistry400Code)[keyof typeof PutConfigsA2aRegistry400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutConfigsA2aRegistry400Code = {
+  UPDATE_FAILED: 'UPDATE_FAILED',
+} as const
+
+export type PutConfigsA2aRegistry400 = {
+  code?: PutConfigsA2aRegistry400Code
+  message?: string
+}
+
+export type GetConfigsA2aRegistry404Code =
+  (typeof GetConfigsA2aRegistry404Code)[keyof typeof GetConfigsA2aRegistry404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetConfigsA2aRegistry404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetConfigsA2aRegistry404 = {
+  code?: GetConfigsA2aRegistry404Code
+  message?: string
+}
+
 export type PostConfigsResetRootname403Code =
   (typeof PostConfigsResetRootname403Code)[keyof typeof PostConfigsResetRootname403Code]
 
@@ -1260,6 +1299,12 @@ export interface EmqxAlarm {
   validity_period?: string
 }
 
+export interface DashboardSso {
+  ldap?: SsoLdap
+  oidc?: SsoOidc
+  saml?: DashboardSaml
+}
+
 export type DashboardSslOptionsVerify =
   (typeof DashboardSslOptionsVerify)[keyof typeof DashboardSslOptionsVerify]
 
@@ -1355,12 +1400,6 @@ export interface DashboardSaml {
   sp_sign_request?: boolean
 }
 
-export interface DashboardSso {
-  ldap?: SsoLdap
-  oidc?: SsoOidc
-  saml?: DashboardSaml
-}
-
 export type DashboardMfaSettingsMechanism =
   (typeof DashboardMfaSettingsMechanism)[keyof typeof DashboardMfaSettingsMechanism]
 
@@ -1413,4 +1452,9 @@ export interface DashboardDashboard {
   sso?: DashboardSso
   swagger_support?: boolean
   token_expired_time?: string
+}
+
+export interface A2aRegistryA2aRegistry {
+  enable?: boolean
+  validate_schema?: boolean
 }
