@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <el-form
+    ref="formRef"
+    label-position="top"
+    :rules="rules"
+    :model="formEntries"
+    :validate-on-rule-change="false"
+  >
     <el-divider>
       <span>{{ tl('internalAuthn') }}</span>
       <InfoTooltip :content="tl('internalAuthnDesc')" />
@@ -13,7 +19,7 @@
         <el-card class="grow">
           <el-row :gutter="30">
             <el-col :span="12">
-              <el-form-item>
+              <el-form-item :prop="`[${index}].type`" :rules="rules[`[${index}].type`]">
                 <template #label>
                   <FormItemLabel :label="tl('internalAuthnType')" />
                 </template>
@@ -25,7 +31,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" v-if="entry.type === 'token'">
-              <el-form-item>
+              <el-form-item :prop="`[${index}].token`" :rules="rules[`[${index}].token`]">
                 <template #label>
                   <FormItemLabel label="Token" :desc="tl('tokenDesc')" />
                 </template>
@@ -33,7 +39,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="24" v-if="entry.type === 'nkey'">
-              <el-form-item>
+              <el-form-item :prop="`[${index}].nkeys`" :rules="rules[`[${index}].nkeys`]">
                 <template #label>
                   <FormItemLabel :label="tl('nkeys')" :desc="tl('nkeysDesc')" />
                 </template>
@@ -42,7 +48,10 @@
             </el-col>
             <template v-if="entry.type === 'jwt'">
               <el-col :span="24">
-                <el-form-item>
+                <el-form-item
+                  :prop="`[${index}].trusted_operators`"
+                  :rules="rules[`[${index}].trusted_operators`]"
+                >
                   <template #label>
                     <FormItemLabel
                       :label="tl('trustedOperators')"
@@ -66,7 +75,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24">
-                <el-form-item>
+                <el-form-item
+                  :prop="`[${index}].resolver.resolver_preload`"
+                  :rules="rules[`[${index}].resolver.resolver_preload`]"
+                >
                   <template #label>
                     <FormItemLabel
                       :label="tl('resolverPreload')"
@@ -94,13 +106,14 @@
       </div>
     </div>
     <el-button @click="addEntry">{{ tl('addAuthn') }}</el-button>
-  </div>
+  </el-form>
 </template>
 
 <script setup lang="ts">
 import Sortable, { type SortableEvent } from 'sortablejs'
 import { GripVertical, Trash2 } from 'lucide-vue-next'
 import type { Properties } from '@/types/schemaForm'
+import { FormRules } from '@/types/common'
 
 type AuthnFormEntry = {
   _id: number
@@ -117,6 +130,7 @@ type AuthnFormEntry = {
 const modelValue = defineModel<any[]>({ default: () => [] })
 
 const { t, tl } = useI18nTl('Gateway')
+const { createRequiredRule } = useFormRules()
 
 const resolverPreloadPropKey = 'resolver_preload'
 const resolverPreloadProperties: Properties = {
@@ -201,6 +215,67 @@ const serializeEntry = (entry: AuthnFormEntry): Record<string, any> | null => {
 
 const formEntries = ref<AuthnFormEntry[]>([])
 
+const typeRuleCreatorMap = new Map<string, (i: string) => FormRules>([
+  [
+    'token',
+    (i: string) => ({
+      [`[${i}].token`]: createRequiredRule('Token'),
+    }),
+  ],
+  [
+    'nkey',
+    (i: string) => ({
+      [`[${i}].nkeys`]: [
+        {
+          validator: (rule: any, value: any, callback: any) => {
+            if (value.length === 0) {
+              callback(new Error(tl('nkeysRequired')))
+            }
+            callback()
+          },
+        },
+      ],
+    }),
+  ],
+  [
+    'jwt',
+    (i: string) => ({
+      [`[${i}].trusted_operators`]: [
+        {
+          validator: (rule: any, value: any, callback: any) => {
+            if (value.length === 0) {
+              callback(new Error(tl('trustedOperatorsRequired')))
+            }
+            callback()
+          },
+        },
+      ],
+      [`[${i}].resolver.resolver_preload`]: [
+        {
+          validator: (rule: any, value: any, callback: any) => {
+            if (value.length === 0) {
+              callback(new Error(tl('resolverPreloadRequired')))
+            }
+            callback()
+          },
+        },
+      ],
+    }),
+  ],
+])
+
+const rules = computed(() => {
+  const result: Record<string, any> = {}
+  formEntries.value.forEach((entry, i) => {
+    result[`[${i}].type`] = createRequiredRule(tl('internalAuthnType'), 'select')
+    const otherRulesCreator = typeRuleCreatorMap.get(entry.type)
+    if (otherRulesCreator) {
+      Object.assign(result, otherRulesCreator(i.toString()))
+    }
+  })
+  return result
+})
+
 const onTypeChange = (index: number) => {
   const entry = formEntries.value[index]
   entry.token = ''
@@ -263,4 +338,7 @@ onMounted(async () => {
 onUnmounted(() => {
   sortable?.destroy()
 })
+
+const formRef = ref()
+defineExpose({ validate: () => formRef.value?.validate?.() })
 </script>

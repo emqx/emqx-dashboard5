@@ -64,7 +64,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <NatsInternalAuthn v-model="nValue.internal_authn" />
+      <NatsInternalAuthn ref="authnRef" v-model="nValue.internal_authn" />
       <AdvancedSettingContainer>
         <el-row :gutter="30">
           <el-col :span="24">
@@ -159,4 +159,7 @@ watch(nValue, (v) => {
 onMounted(() => {
   emit('update:value', nValue)
 })
+
+const authnRef = ref()
+defineExpose({ validate: () => authnRef.value?.validate?.() })
 </script>

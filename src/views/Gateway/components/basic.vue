@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <div class="basic-info" v-loading="infoLoading">
-      <GatewayForm :name="name" v-model:value="basicData" :key="iKey" is-edit />
+      <GatewayForm ref="form" :name="name" v-model:value="basicData" :key="iKey" is-edit />
       <el-button
         type="primary"
         :loading="updateLoading"
@@ -39,8 +39,17 @@ const loadGatewayInfo = async () => {
   }
 }
 
+const formRef = useTemplateRef('form')
+const namesNeedValidation = [GatewayName.NATS, GatewayName.JT808]
 const { handleExprotoData } = useHandleGatewayData()
 const updateGatewayInfo = async () => {
+  try {
+    if (namesNeedValidation.includes(name)) {
+      await formRef.value?.validate()
+    }
+  } catch (error) {
+    return
+  }
   updateLoading.value = true
   infoLoading.value = true
   const removedFields = [
