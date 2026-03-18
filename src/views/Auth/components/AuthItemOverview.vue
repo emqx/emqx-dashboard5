@@ -6,6 +6,7 @@
         authz: 'total',
       }"
       :request-metrics="getAuthMetrics"
+      :request-reset="resetMetrics"
       :type-metrics-maps="getMetricsTypes()"
       :text-map="isAuthn ? authnTextMap : authzTextMap"
       :rate-metrics="rateData"
@@ -46,7 +47,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { queryAuthnItemMetrics, queryAuthzItemMetrics } from '@/api/auth'
+import {
+  queryAuthnItemMetrics,
+  queryAuthzItemMetrics,
+  resetAuthnItemMetrics,
+  resetAuthzItemMetrics,
+} from '@/api/auth'
 import { Metrics } from '@/types/auth'
 import { MetricsData } from '@/types/common'
 import { ConnectionStatus } from '@/types/enum'
@@ -90,6 +96,20 @@ const getAuthMetrics = async () => {
     return queryAuthzItemMetrics(authzType)
   } catch (error) {
     // ignore error
+  }
+}
+
+const resetMetrics = async () => {
+  if (isAuthn.value) {
+    const authId = route.params.id as string
+    if (authId) {
+      await resetAuthnItemMetrics(authId)
+    }
+  } else {
+    const authzType = route.params.type as string
+    if (authzType) {
+      await resetAuthzItemMetrics(authzType)
+    }
   }
 }
 
