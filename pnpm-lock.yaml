@@ -95,6 +95,9 @@ importers:
       mqtt:
         specifier: ^4.2.8
         version: 4.3.8
+      node-forge:
+        specifier: ^1.3.3
+        version: 1.3.3
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -138,6 +141,9 @@ importers:
       '@types/marked':
         specifier: ^4.0.1
         version: 4.3.2
+      '@types/node-forge':
+        specifier: ^1.3.14
+        version: 1.3.14
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
@@ -1097,6 +1103,9 @@ packages:
 
   '@types/marked@4.3.2':
     resolution: {integrity: sha512-a79Yc3TOk6dGdituy8hmTTJXjOkZ7zsFYV10L337ttq/rec8lRMDBpV7fL3uLx6TgbFCa5DU/h8FmIBQPSbU0w==}
+
+  '@types/node-forge@1.3.14':
+    resolution: {integrity: sha512-mhVF2BnD4BO+jtOp7z1CdzaK4mbuK0LLQYAvdOLqHTavxFNq4zA1EmYkpnFjP8HOUzedfQkRnp0E2ulSAYSzAw==}
 
   '@types/node@22.5.4':
     resolution: {integrity: sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==}
@@ -2735,6 +2744,10 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
+
+  node-forge@1.3.3:
+    resolution: {integrity: sha512-rLvcdSyRCyouf6jcOIPe/BgwG/d7hKjzMKOas33/pHEr6gbq18IK9zV7DiPvzsz0oBJPme6qr6H6kGZuI9/DZg==}
+    engines: {node: '>= 6.13.0'}
 
   node-readfiles@0.2.0:
     resolution: {integrity: sha512-SU00ZarexNlE4Rjdm83vglt5Y9yiQ+XI1XpflWlb7q7UTN1JUItm69xMeiQCTxtTfnzt+83T8Cx+vI2ED++VDA==}
@@ -4588,6 +4601,10 @@ snapshots:
   '@types/lodash@4.17.7': {}
 
   '@types/marked@4.3.2': {}
+
+  '@types/node-forge@1.3.14':
+    dependencies:
+      '@types/node': 22.5.4
 
   '@types/node@22.5.4':
     dependencies:
@@ -6480,6 +6497,8 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+
+  node-forge@1.3.3: {}
 
   node-readfiles@0.2.0:
     dependencies:
