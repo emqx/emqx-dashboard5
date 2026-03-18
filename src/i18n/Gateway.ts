@@ -716,6 +716,10 @@ Changing the backend require restarting the listener, which will terminate all i
     zh: 'NKey 列表',
     en: 'NKeys',
   },
+  nkeysRequired: {
+    zh: '请至少配置一个允许的 NKEY 公钥',
+    en: 'Please configure at least one allowed NKEY public key',
+  },
   nkeysDesc: {
     zh: '允许的 NKEY 公钥列表（NATS nkey 以 `U...` 开头）。配置后，仅持有匹配 NKEY 的客户端可连接，通过签名挑战/响应认证。',
     en: 'Allowed NKEY public keys (NATS nkey starting with `U...`). When configured, only clients with matching NKEYs can connect. Authentication is performed via signed challenge/response.',
@@ -727,6 +731,10 @@ Changing the backend require restarting the listener, which will terminate all i
   trustedOperators: {
     zh: '受信操作者',
     en: 'Trusted Operators',
+  },
+  trustedOperatorsRequired: {
+    zh: '请至少配置一个受信操作者公钥',
+    en: 'Please configure at least one trusted operator public key',
   },
   trustedOperatorsDesc: {
     zh: '受信操作者公钥列表。解析器仅接受能通过这些操作者验证的账户 JWT。',
@@ -743,6 +751,10 @@ Changing the backend require restarting the listener, which will terminate all i
   resolverPreload: {
     zh: 'JWT 预加载',
     en: 'JWT Resolver Preload',
+  },
+  resolverPreloadRequired: {
+    zh: '请至少配置一个预加载的 JWT',
+    en: 'Please configure at least one preloaded JWT',
   },
   resolverPreloadDesc: {
     zh: '预加载的账户 JWT 条目，供内存解析器使用。',

@@ -27,7 +27,7 @@
           <div class="part-header">
             {{ tl('clientAuth') }}
           </div>
-          <div v-if="gname !== 'jt808'" class="config-auth">
+          <div v-if="gname !== GatewayName.JT808" class="config-auth">
             {{ tl('clientAuthDesc') }}
           </div>
           <div v-else>
@@ -202,6 +202,8 @@ const gatewayStatus = async () => {
   }
 }
 
+const namesNeedValidation = [GatewayName.NATS, GatewayName.JT808]
+
 const validNext = async () => {
   if (
     gname === 'exproto' &&
@@ -214,7 +216,7 @@ const validNext = async () => {
       return Promise.resolve(false)
     }
   }
-  if (gname === 'jt808' && stepActive.value === 0) {
+  if (namesNeedValidation.includes(gname) && stepActive.value === 0) {
     return FormRef.value?.validate()
   }
   return Promise.resolve(true)
