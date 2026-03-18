@@ -10,7 +10,11 @@ export function listAuthn(params = {}) {
 }
 
 export function queryAuthnItemMetrics(id: string): Promise<Metrics> {
-  return http.get(`/authentication/${id}/status`)
+  return http.get(`/authentication/${encodeURIComponent(id)}/status`)
+}
+
+export function resetAuthnItemMetrics(id: string): Promise<void> {
+  return http.post(`/authentication/${encodeURIComponent(id)}/metrics/reset`)
 }
 
 export function listAuthz(params = {}) {
@@ -18,7 +22,11 @@ export function listAuthz(params = {}) {
 }
 
 export function queryAuthzItemMetrics(type: string): Promise<Metrics> {
-  return http.get(`/authorization/sources/${type}/status`)
+  return http.get(`/authorization/sources/${encodeURIComponent(type)}/status`)
+}
+
+export function resetAuthzItemMetrics(type: string): Promise<void> {
+  return http.post(`/authorization/sources/${encodeURIComponent(type)}/metrics/reset`)
 }
 
 export function listAuthzSetting(params = {}): Promise<AuthzSetting> {
@@ -110,7 +118,7 @@ export function uploadUsers(
   const formData = new FormData()
   formData.append('filename', file.raw)
   return http.post(
-    `/authentication/${encodeURIComponent(id)}/import_users?type=${type}`,
+    `/authentication/${encodeURIComponent(id)}/import_users?type=${encodeURIComponent(type)}`,
     formData,
     {
       params: { id },
@@ -119,7 +127,7 @@ export function uploadUsers(
 }
 
 export function moveAuthn(id: string, positionStr: string) {
-  return http.put(`/authentication/${id}/position/${positionStr}`)
+  return http.put(`/authentication/${encodeURIComponent(id)}/position/${positionStr}`)
 }
 
 type ReturnByParam<T> = T extends BuiltInDBType.All
@@ -129,7 +137,7 @@ export function loadBuiltInDatabaseData<T extends BuiltInDBType>(
   type: T,
   params = {},
 ): Promise<ReturnByParam<T>> {
-  return http.get(`/authorization/sources/built_in_database/rules/${type}`, {
+  return http.get(`/authorization/sources/built_in_database/rules/${encodeURIComponent(type)}`, {
     params,
   })
 }
@@ -139,12 +147,16 @@ export function createBuiltInDatabaseData(
   body: { [key: string]: any },
   params?: { ns?: string },
 ) {
-  return http.post(`/authorization/sources/built_in_database/rules/${type}`, body, { params })
+  return http.post(
+    `/authorization/sources/built_in_database/rules/${encodeURIComponent(type)}`,
+    body,
+    { params },
+  )
 }
 
 export function deleteBuiltInDatabaseData(type: string, key: string, params?: { ns?: string }) {
   return http.delete(
-    `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
+    `/authorization/sources/built_in_database/rules/${encodeURIComponent(type)}/${encodeURIComponent(key)}`,
     { params },
   )
 }
@@ -156,7 +168,7 @@ export function updateBuiltInDatabaseData(
   params?: { ns?: string },
 ) {
   return http.put(
-    `/authorization/sources/built_in_database/rules/${type}/${encodeURIComponent(key)}`,
+    `/authorization/sources/built_in_database/rules/${encodeURIComponent(type)}/${encodeURIComponent(key)}`,
     body,
     { params },
   )
