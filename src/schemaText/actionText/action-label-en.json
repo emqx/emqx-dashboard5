@@ -58,5 +58,8 @@
   },
   "azure_blob_storage": {
     "aggregated_blob": "Blob Name"
+  },
+  "quasardb": {
+    "health_check_table": "Health Check Table"
   }
 }
