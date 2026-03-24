@@ -161,6 +161,50 @@ For example:
 For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be sent in a short period of time.`,
     label: 'Packet Publish Burst',
   },
+  delivery_messages_rate: {
+    desc: `Limits the number of messages the broker can send to a single client, per each node. Note that this is for the opposite direction than that of \`Messages Publish Rate\`.
+
+This only takes effect when using in-memory sessions (i.e., when \`durable_sessions.enable = false\`, durable sessions are disabled).
+
+Once the limit is reached, EMQX will drop QoS 0 messages and enqueue QoS 1 and QoS 2 messages in the client's internal queue and retried later.
+
+For example:
+
+- \`500/s\`: Only 500 messages will be sent per second, and the remaining messages will be dropped/queued.
+- \`500/10s\`: Only 500 messages will be sent every 10 seconds and the remaining messages will be dropped/queued.`,
+    label: 'Message Delivery Rate',
+  },
+  delivery_messages_burst: {
+    desc: `Number of messages that can be sent in a burst, on top of regular \`Message Delivery Rate\`, per each node.
+
+This only takes effect when using in-memory sessions (i.e., when \`durable_sessions.enable = false\`, durable sessions are disabled).
+
+For example: \`10000/60m\`: Once in 60 minutes, up to 10000 messages can be sent in a short period of time.`,
+    label: 'Message Delivery Burst',
+  },
+  delivery_bytes_rate: {
+    desc: `Limits the number of bytes the broker can send to a single client, per each node. Note that this is for the opposite direction than that of \`Packet Publish Rate\`.
+
+This only takes effect when using in-memory sessions (i.e., when \`durable_sessions.enable = false\`, durable sessions are disabled).
+
+Once the limit is reached, EMQX will drop QoS 0 messages and enqueue QoS 1 and QoS 2 messages in the client's internal queue and retried later.
+
+The unit of the bytes could be: B, KB, MB, GB.
+
+For example:
+
+- \`500KB/s\`: Only 500 kilobytes per second will be sent, and the remaining bytes will be dropped/queued.
+- \`500MB/10s\`: Only 500 megabytes will be sent every 10 seconds, and the remaining bytes will be dropped/queued.`,
+    label: 'Data Delivery Rate',
+  },
+  delivery_bytes_burst: {
+    desc: `Number of bytes that can be sent in a burst, on top of regular \`Data Delivery Rate\`.
+
+This only takes effect when using in-memory sessions (i.e., when \`durable_sessions.enable = false\`, durable sessions are disabled).
+
+For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be sent in a short period of time.`,
+    label: 'Data Delivery Burst',
+  },
   /* MQTT END */
   /* SESSION START */
   max_subscriptions: {

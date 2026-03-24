@@ -196,6 +196,62 @@
               </el-form-item>
             </el-col>
           </el-row>
+
+          <el-row :gutter="20">
+            <!-- Client Delivery Bytes Limiter -->
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.delivery_bytes.rate">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('delivery_bytes_rate.label')"
+                    :desc="getSchemaText('delivery_bytes_rate.desc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="clientDeliveryBytes.rate" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.delivery_bytes.burst">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('delivery_bytes_burst.label')"
+                    :desc="getSchemaText('delivery_bytes_burst.desc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="clientDeliveryBytes.burst" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
+            <!-- Client Delivery Messages Limiter -->
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.delivery_messages.rate">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('delivery_messages_rate.label')"
+                    :desc="getSchemaText('delivery_messages_rate.desc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="clientDeliveryMessages.rate" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.delivery_messages.burst">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('delivery_messages_burst.label')"
+                    :desc="getSchemaText('delivery_messages_burst.desc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="clientDeliveryMessages.burst" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </template>
       </div>
     </el-form>
@@ -240,9 +296,15 @@ const getTenantConfigDesc = (key: string) => {
 }
 
 const createEmptyRateConfig = () => ({ rate: '', burst: '' })
-const createEmptyLimiterConfig = () => ({
+const createEmptyTenantLimiterConfig = () => ({
   bytes: createEmptyRateConfig(),
   messages: createEmptyRateConfig(),
+})
+const createEmptyClientLimiterConfig = () => ({
+  bytes: createEmptyRateConfig(),
+  messages: createEmptyRateConfig(),
+  delivery_bytes: createEmptyRateConfig(),
+  delivery_messages: createEmptyRateConfig(),
 })
 const generateRawRecord = (): NamespaceItem => ({
   ns: '',
@@ -280,6 +342,18 @@ const rules = {
   'config.limiter.client.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
   'config.limiter.client.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
   'config.limiter.client.messages.burst': createLimiterRule(getSchemaText('messages_burst.label')),
+  'config.limiter.client.delivery_bytes.rate': createLimiterRule(
+    getSchemaText('delivery_bytes_rate.label'),
+  ),
+  'config.limiter.client.delivery_bytes.burst': createLimiterRule(
+    getSchemaText('delivery_bytes_burst.label'),
+  ),
+  'config.limiter.client.delivery_messages.rate': createLimiterRule(
+    getSchemaText('delivery_messages_rate.label'),
+  ),
+  'config.limiter.client.delivery_messages.burst': createLimiterRule(
+    getSchemaText('delivery_messages_burst.label'),
+  ),
 }
 const FormCom = ref()
 
@@ -397,6 +471,34 @@ const clientMessages = computed({
   },
 })
 
+const clientDeliveryBytes = computed({
+  get: () => {
+    if (isActiveClientLimiter.value && typeof clientLimiter.value !== 'string') {
+      return clientLimiter.value?.delivery_bytes || createEmptyRateConfig()
+    }
+    return createEmptyRateConfig()
+  },
+  set: (val) => {
+    if (clientLimiter.value !== 'disabled' && clientLimiter.value) {
+      clientLimiter.value.delivery_bytes = val
+    }
+  },
+})
+
+const clientDeliveryMessages = computed({
+  get: () => {
+    if (isActiveClientLimiter.value && typeof clientLimiter.value !== 'string') {
+      return clientLimiter.value?.delivery_messages || createEmptyRateConfig()
+    }
+    return createEmptyRateConfig()
+  },
+  set: (val) => {
+    if (clientLimiter.value !== 'disabled' && clientLimiter.value) {
+      clientLimiter.value.delivery_messages = val
+    }
+  },
+})
+
 watch(showDialog, async (value: boolean) => {
   if (!value) {
     await waitAMoment(200)
@@ -412,16 +514,14 @@ const toggleTenantLimiter = (enabled: boolean) => {
   if (!record.value.config.limiter) {
     record.value.config.limiter = {}
   }
-
-  tenantLimiter.value = enabled ? createEmptyLimiterConfig() : 'disabled'
+  tenantLimiter.value = enabled ? createEmptyTenantLimiterConfig() : 'disabled'
 }
 
 const toggleClientLimiter = (enabled: boolean) => {
   if (!record.value.config.limiter) {
     record.value.config.limiter = {}
   }
-
-  clientLimiter.value = enabled ? createEmptyLimiterConfig() : 'disabled'
+  clientLimiter.value = enabled ? createEmptyClientLimiterConfig() : 'disabled'
 }
 
 const { createNamespace, updateNamespaceConfig } = useNamespace()

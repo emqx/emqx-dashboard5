@@ -226,6 +226,10 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     'messages_burst',
     'max_conn_rate',
     'max_conn_burst',
+    'delivery_bytes_rate',
+    'delivery_bytes_burst',
+    'delivery_messages_rate',
+    'delivery_messages_burst',
   ]
   const handleDataBeforeSubmit = (data: Listener) => {
     if (props.gatewayName) {
