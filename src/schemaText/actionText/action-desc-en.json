@@ -16,5 +16,8 @@
   },
   "datalayers": {
     "server": "The default port should be 8360 when the driver type is Arrow Flight"
+  },
+  "quasardb": {
+    "health_check_table": "Table name to use in Action health checks. Currently, it's not possible to infer the table name directly from the SQL. If set, this value will be used in a `SHOW TABLE <table>` statement to probe the table existence during Action health checks."
   }
 }
