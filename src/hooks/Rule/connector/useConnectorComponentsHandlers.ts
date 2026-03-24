@@ -264,7 +264,18 @@ export default (
   }
 
   const GCPHandler: Handler = ({ components, rules }) => {
-    const { service_account_json } = components
+    const authentication = components?.authentication
+    if (authentication) {
+      authentication.useNewCom = true
+    }
+    const accountItem = components?.authentication?.oneOf?.find((item: any) =>
+      /account_json/.test(item?.$ref),
+    )
+    if (accountItem && accountItem.default && !authentication.default) {
+      authentication.default = accountItem.default
+    }
+    const accountJsonProp = accountItem?.properties
+    const { service_account_json } = accountJsonProp || {}
     /* Common */
     if (service_account_json?.type === 'string') {
       // The backend does not give data indicating that it is possible to upload files here, add it manually

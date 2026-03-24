@@ -194,6 +194,23 @@ export default (
     ],
     fieldStartIndex,
   )
+  const GCPProducerOrderMap = createOrderObj(
+    [
+      'service_account_json',
+      'gcp_project_id',
+      'gcp_project_number',
+      'service_account_email',
+      'gcp_wif_pool_id',
+      'gcp_wif_pool_provider_id',
+      'authentication.initial_token.type',
+      'client_id',
+      'client_secret',
+      'endpoint_uri',
+      'scope',
+      'pipelining',
+    ],
+    fieldStartIndex,
+  )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
@@ -211,11 +228,9 @@ export default (
       ['server', 'database', 'username', 'password', 'ssl'],
       fieldStartIndex,
     ),
-    [BridgeType.GCPProducer]: createOrderObj(['pipelining'], fieldStartIndex),
-    [BridgeType.GCPConsumer]: createOrderObj(
-      ['pipelining', 'service_account_json'],
-      fieldStartIndex,
-    ),
+    [BridgeType.GCPProducer]: GCPProducerOrderMap,
+    [BridgeType.GCPConsumer]: GCPProducerOrderMap,
+    [BridgeType.BigQuery]: GCPProducerOrderMap,
     [BridgeType.MongoDB]: {
       ...createOrderObj(
         [
@@ -395,7 +410,10 @@ export default (
     }
     return ret
   })
-  const GCPColClass = { service_account_json: 'custom-col-24' }
+  const GCPColClass = {
+    'authentication.service_account_json': 'custom-col-24',
+    'authentication.type': 'col-hidden',
+  }
   const getDatalayersColClass = (formData: Record<string, any>): Record<string, string> => {
     const { driver_type } = formData?.parameters ?? {}
     if (/arrow_flight/i.test(driver_type)) {
