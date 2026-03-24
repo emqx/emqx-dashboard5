@@ -188,6 +188,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'delivery.dropped.expired'?: number
   /** @minimum 0 */
+  'delivery.dropped.filter'?: number
+  /** @minimum 0 */
   'delivery.dropped.no_local'?: number
   /** @minimum 0 */
   'delivery.dropped.qos0_msg'?: number

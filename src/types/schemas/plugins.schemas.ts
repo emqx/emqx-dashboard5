@@ -223,6 +223,19 @@ export type PutPluginsNameAction404 = {
   message?: string
 }
 
+export type PutPluginsNameAction400Code =
+  (typeof PutPluginsNameAction400Code)[keyof typeof PutPluginsNameAction400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameAction400Code = {
+  PARAM_ERROR: 'PARAM_ERROR',
+} as const
+
+export type PutPluginsNameAction400 = {
+  code?: PutPluginsNameAction400Code
+  message?: string
+}
+
 export type GetPluginsName404Code =
   (typeof GetPluginsName404Code)[keyof typeof GetPluginsName404Code]
 

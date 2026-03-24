@@ -2856,6 +2856,7 @@ export interface ConnectorRedshiftGetConnector {
 
 export interface ConnectorQuasardbPutConnector {
   cluster_public_key?: string
+  connect_timeout?: string
   description?: string
   dsn: string
   enable?: boolean
@@ -2878,6 +2879,7 @@ export const ConnectorQuasardbPostConnectorType = {
 
 export interface ConnectorQuasardbPostConnector {
   cluster_public_key?: string
+  connect_timeout?: string
   description?: string
   dsn: string
   enable?: boolean
@@ -2914,6 +2916,7 @@ export const ConnectorQuasardbGetConnectorStatus = {
 export interface ConnectorQuasardbGetConnector {
   actions?: string[]
   cluster_public_key?: string
+  connect_timeout?: string
   description?: string
   dsn: string
   enable?: boolean
