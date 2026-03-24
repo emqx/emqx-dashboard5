@@ -325,6 +325,22 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '最大消息发布流量突发速率（单客户端）',
     en: 'Max Message Publishing Traffic Burst (Per Client)',
   },
+  maxMsgDeliveryRate: {
+    zh: '最大消息投递速率（单客户端）',
+    en: 'Max Message Delivery Rate (Per Client)',
+  },
+  maxMsgDeliveryBurst: {
+    zh: '最大消息投递突发速率（单客户端）',
+    en: 'Max Message Delivery Burst (Per Client)',
+  },
+  maxMsgDeliveryTraffic: {
+    zh: '最大消息投递流量（单客户端）',
+    en: 'Max Message Delivery Traffic (Per Client)',
+  },
+  maxMsgDeliveryTrafficBurst: {
+    zh: '最大消息投递流量突发速率（单客户端）',
+    en: 'Max Message Delivery Traffic Burst (Per Client)',
+  },
   maxConn: {
     zh: '最大连接数',
     en: 'Max Connections',

@@ -212,6 +212,57 @@
             <el-input v-model="listenerRecord.bytes_burst" />
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('maxMsgDeliveryRate')" prop="delivery_messages_rate">
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.delivery_messages_rate"
+              :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="delivery_messages_burst">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxMsgDeliveryBurst')"
+                :desc="t('ConfigSchema.delivery_messages_burst.desc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="listenerRecord.delivery_messages_burst" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="tl('maxMsgDeliveryTraffic')" prop="delivery_bytes_rate">
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.delivery_bytes_rate"
+              :items="[
+                {
+                  type: 'rate',
+                  units: [
+                    { label: `MB/${t('Base.second')}`, value: 'MB/s' },
+                    { label: `KB/${t('Base.second')}`, value: 'KB/s' },
+                  ],
+                },
+                { symbols: [INFINITY_VALUE], type: 'enum' },
+              ]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="delivery_bytes_burst">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxMsgDeliveryTrafficBurst')"
+                :desc="t('ConfigSchema.delivery_bytes_burst.desc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="listenerRecord.delivery_bytes_burst" />
+          </el-form-item>
+        </el-col>
       </el-row>
       <!-- Advanced Settings -->
       <advanced-setting-container>
