@@ -737,6 +737,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '发送时由于 `No Local` 订阅选项而被丢弃的消息数量',
     en: 'Number of messages that were dropped due to the `No Local` subscription option when sending',
   },
+  delivery_dropped_filter: {
+    zh: '发送时由于订阅过滤条件不匹配而被丢弃的消息数量',
+    en: 'Number of messages that were dropped due to subscription filter mismatch when sending',
+  },
   delivery_dropped: {
     zh: '发送时丢弃的消息总数',
     en: 'Total number of messages that were dropped when sent',
@@ -1022,6 +1026,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   dropped_too_large_impact: {
     zh: '消息体超出限制或最大报文大小配置过小。',
     en: 'Message body exceeds the limit or the maximum message size is set too low.',
+  },
+  dropped_filter: {
+    zh: '订阅过滤条件不匹配',
+    en: 'Subscription Filter Mismatch',
+  },
+  dropped_filter_impact: {
+    zh: '消息的 User-Property 不满足订阅时附加的过滤条件。',
+    en: 'Message User-Property did not match the filter predicates appended to the subscription.',
   },
   rules_matched: {
     zh: '规则命中总数',

@@ -80,6 +80,10 @@ For example (Namespace \`n1\`):
     desc: 'Whether the messages sent by the MQTT v3.1.1/v3.1.0 client will be forwarded to the client itself, similar to `No Local` in MQTT 5.0.',
     label: 'Ignore Loop Deliver',
   },
+  subscription_message_filter: {
+    desc: 'Whether to enable support for EMQX subscription message filters appended to topic filters with `?`. When enabled, clients can append filter predicates (e.g. `sensor/+/temperature?location=roomA&value>25`) to subscription topics; messages whose User-Property entries do not match the predicates will be dropped before delivery.',
+    label: 'Subscription Message Filter',
+  },
   max_qos_allowed: {
     label: 'Max QoS Allowed',
   },

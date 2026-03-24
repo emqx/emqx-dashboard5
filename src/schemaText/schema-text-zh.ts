@@ -80,6 +80,10 @@ export default {
     desc: '设置由 MQTT v3.1.1/v3.1.0 客户端发布的消息是否将转发给其本身；类似 MQTT 5.0 协议中的 `No Local` 选项。',
     label: '忽略循环投递',
   },
+  subscription_message_filter: {
+    desc: '是否启用订阅消息过滤功能。启用后，客户端可在订阅主题后追加过滤条件（如 `sensor/+/temperature?location=roomA&value>25`），EMQX 将在投递时检查消息的 User-Property，不满足条件的消息会被丢弃。',
+    label: '订阅消息过滤',
+  },
   max_qos_allowed: {
     label: '最大 QoS',
   },

@@ -142,6 +142,7 @@ export enum MetricKey {
   QueueFull = 'delivery.dropped.queue_full',
   NoLocal = 'delivery.dropped.no_local',
   TooLarge = 'delivery.dropped.too_large',
+  Filter = 'delivery.dropped.filter',
 }
 
 const COLOR_NONE = '#c2c8d1'
@@ -195,6 +196,7 @@ export const useDeliveryDroppedDetails = (totalDeliveryDropped: ComputedRef<numb
     [getTypeName(MetricKey.QueueFull) ?? '', '#fdafa6'],
     [getTypeName(MetricKey.NoLocal) ?? '', '#c5a3e5'],
     [getTypeName(MetricKey.TooLarge) ?? '', '#7fd7b8'],
+    [getTypeName(MetricKey.Filter) ?? '', '#f0a070'],
   ])
 
   const itemStyle = computed<ItemStyle>(() => ({
