@@ -52,6 +52,7 @@ export default defineComponent({
         'exclusive_subscription',
         'retain_available',
         'ignore_loop_deliver',
+        'subscription_message_filter',
         'strict_mode',
         'response_information',
         'keepalive_multiplier',
