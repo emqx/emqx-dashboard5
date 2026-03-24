@@ -647,6 +647,10 @@ export interface S3TransportOptions {
 export interface LimiterMqtt {
   bytes_burst?: string
   bytes_rate?: string
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   max_conn_burst?: string
   max_conn_rate?: string
   messages_burst?: string
@@ -892,6 +896,15 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
+export type EmqxMqttSubscriptionMessageFilter =
+  (typeof EmqxMqttSubscriptionMessageFilter)[keyof typeof EmqxMqttSubscriptionMessageFilter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMqttSubscriptionMessageFilter = {
+  disable: 'disable',
+  enable: 'enable',
+} as const
+
 export type EmqxMqttSharedSubscriptionStrategy =
   (typeof EmqxMqttSharedSubscriptionStrategy)[keyof typeof EmqxMqttSharedSubscriptionStrategy]
 
@@ -1027,6 +1040,7 @@ export interface EmqxMqtt {
   shared_subscription_initial_sticky_pick?: EmqxMqttSharedSubscriptionInitialStickyPick
   shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
   strict_mode?: boolean
+  subscription_message_filter?: EmqxMqttSubscriptionMessageFilter
   upgrade_qos?: boolean
   use_username_as_clientid?: boolean
   wildcard_subscription?: boolean
