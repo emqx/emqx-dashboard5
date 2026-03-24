@@ -304,6 +304,8 @@ export interface Limiter {
   bytes_rate: string
   max_conn_rate: string
   messages_rate: string
+  delivery_bytes_rate: string
+  delivery_messages_rate: string
 }
 
 export interface DurableSessions {

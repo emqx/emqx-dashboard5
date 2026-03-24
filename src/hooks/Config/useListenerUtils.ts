@@ -140,6 +140,8 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     max_conn_burst: createLimiterRule(),
     messages_burst: createLimiterRule(),
     bytes_burst: createLimiterRule(),
+    delivery_messages_burst: createLimiterRule(),
+    delivery_bytes_burst: createLimiterRule(),
   }
 
   const createRawSSLParams = () => ({

@@ -12,12 +12,20 @@ export default (): {
     max_conn_rate: [{ pattern: rateRegExp, message: tl('rateMatchError'), trigger: 'blur' }],
     messages_rate: [{ pattern: rateRegExp, message: tl('rateMatchError'), trigger: 'blur' }],
     bytes_rate: [{ pattern: bytesRateExp, message: tl('rateMatchError'), trigger: 'blur' }],
+    delivery_messages_rate: [
+      { pattern: rateRegExp, message: tl('rateMatchError'), trigger: 'blur' },
+    ],
+    delivery_bytes_rate: [
+      { pattern: bytesRateExp, message: tl('rateMatchError'), trigger: 'blur' },
+    ],
   }
 
   const limiterPlaceholderMap = {
     max_conn_rate: '1000/s',
     messages_rate: '1000/s',
     bytes_rate: '100MB/s',
+    delivery_messages_rate: '1000/s',
+    delivery_bytes_rate: '100MB/s',
   }
   return {
     limiterRules,
