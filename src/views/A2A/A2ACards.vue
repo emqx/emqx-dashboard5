@@ -91,9 +91,14 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="t('Base.operation')" min-width="228">
+        <el-table-column :label="t('Base.operation')" min-width="188">
           <template #default="{ row }">
-            <TableButton @click="showRaw(row)">{{ tl('agentJson') }}</TableButton>
+            <TableButton
+              :disabled="!$hasPermission('post') || !row.org_id || !row.unit_id || !row.agent_id"
+              @click="goEdit(row)"
+            >
+              {{ t('Base.edit') }}
+            </TableButton>
             <TableButton
               :disabled="!$hasPermission('delete') || !row.org_id || !row.unit_id || !row.agent_id"
               @click="handleDelete(row)"
@@ -105,11 +110,6 @@
       </el-table>
     </div>
   </div>
-
-  <!-- Raw card dialog -->
-  <el-dialog v-model="rawDialogVisible" :title="tl('agentJson')" width="600px">
-    <code-view lang="json" :code="formattedRaw" show-copy-btn />
-  </el-dialog>
 
   <!-- Delete confirmation dialog -->
   <el-dialog v-model="deleteDialogVisible" :title="t('Base.confirmDelete')" width="600px">
@@ -147,9 +147,6 @@ const tl = (key: string) => t(`A2A.${key}`)
 const isLoading = ref(false)
 const isA2AEnabled = ref(false)
 const cards = ref<A2ACardOut[]>([])
-
-const rawDialogVisible = ref(false)
-const formattedRaw = ref('')
 
 const deleteDialogVisible = ref(false)
 const deletingRow = ref<A2ACardOut | null>(null)
@@ -189,15 +186,6 @@ const handleReset = () => {
   loadCards()
 }
 
-const showRaw = (row: A2ACardOut) => {
-  try {
-    formattedRaw.value = row.raw ? JSON.stringify(JSON.parse(row.raw), null, 2) : ''
-  } catch {
-    formattedRaw.value = row.raw ?? ''
-  }
-  rawDialogVisible.value = true
-}
-
 const handleDelete = (row: A2ACardOut) => {
   deletingRow.value = row
   try {
@@ -229,6 +217,11 @@ const confirmDelete = async () => {
 
 const goRegister = () => {
   router.push({ name: 'a2a-registry-register' })
+}
+
+const goEdit = (row: A2ACardOut) => {
+  const { org_id, unit_id, agent_id } = row
+  router.push({ name: 'a2a-registry-edit', params: { org_id, unit_id, agent_id } })
 }
 
 const loadData = async () => {

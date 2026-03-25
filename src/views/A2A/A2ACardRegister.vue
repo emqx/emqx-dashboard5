@@ -1,6 +1,8 @@
 <template>
   <div class="a2a-card-register app-wrapper">
-    <detail-header :item="{ name: tl('registerCard'), path: '/a2a-registry' }" />
+    <detail-header
+      :item="{ name: isEdit ? tl('editCard') : tl('registerCard'), path: '/a2a-registry' }"
+    />
     <el-card class="app-card">
       <el-form
         ref="formRef"
@@ -12,17 +14,17 @@
         <el-row :gutter="24">
           <el-col :span="8">
             <el-form-item :label="tl('orgId')" prop="org_id">
-              <el-input v-model="form.org_id" />
+              <el-input v-model="form.org_id" :disabled="isEdit" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="tl('unitId')" prop="unit_id">
-              <el-input v-model="form.unit_id" />
+              <el-input v-model="form.unit_id" :disabled="isEdit" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="tl('agentId')" prop="agent_id">
-              <el-input v-model="form.agent_id" />
+              <el-input v-model="form.agent_id" :disabled="isEdit" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -78,7 +80,7 @@
             :loading="isSubmitting"
             @click="submit"
           >
-            {{ tl('registerCard') }}
+            {{ isEdit ? t('Base.save') : tl('registerCard') }}
           </el-button>
         </div>
       </el-form>
@@ -87,21 +89,50 @@
 </template>
 
 <script lang="ts" setup>
-import { getA2ARegistryConfig, registerA2ACard } from '@/api/a2a'
+import { getA2ACard, getA2ARegistryConfig, registerA2ACard } from '@/api/a2a'
 import { A2AConf } from '@/types/typeAlias'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
+const route = useRoute()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
 
+const isEdit = computed(() => route.name === 'a2a-registry-edit')
+
+const form = ref({
+  org_id: '',
+  unit_id: '',
+  agent_id: '',
+  card: '',
+})
+
 const agentConf = ref<A2AConf>({})
+const formatJSON = (json: string) => {
+  try {
+    return JSON.stringify(JSON.parse(json), null, 2)
+  } catch {
+    return json
+  }
+}
 const validateSchema = computed(() => agentConf.value.validate_schema ?? false)
 ;(async () => {
   try {
     agentConf.value = await getA2ARegistryConfig()
   } catch (error) {
     //
+  }
+  if (isEdit.value) {
+    const { org_id, unit_id, agent_id } = route.params as Record<string, string>
+    form.value.org_id = org_id
+    form.value.unit_id = unit_id
+    form.value.agent_id = agent_id
+    try {
+      const card = await getA2ACard(org_id, unit_id, agent_id)
+      form.value.card = card.raw ? formatJSON(card.raw) : ''
+    } catch (error) {
+      //
+    }
   }
 })()
 
@@ -139,13 +170,6 @@ const helpFields = [
   { field: 'url', type: 'string (URI)', desc: tl('helpFieldUrl') },
   { field: 'skills', type: 'array', desc: tl('helpFieldSkills') },
 ]
-
-const form = ref({
-  org_id: '',
-  unit_id: '',
-  agent_id: '',
-  card: '',
-})
 
 const { createRequiredRule } = useFormRules()
 const createIdPatternRule = () => ({ pattern: ID_PATTERN, message: tl('idFormatTip') })
@@ -223,7 +247,7 @@ const submit = async () => {
     await registerA2ACard(form.value.org_id, form.value.unit_id, form.value.agent_id, {
       card: form.value.card,
     })
-    ElMessage.success(tl('registerSuccess'))
+    ElMessage.success(isEdit.value ? t('Base.updateSuccess') : tl('registerSuccess'))
     router.push({ name: 'a2a-registry' })
   } catch (error) {
     // handled by global error handler

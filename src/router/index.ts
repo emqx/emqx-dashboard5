@@ -1120,6 +1120,12 @@ export const routes: Array<RouteRecordRaw> = [
         meta: { hideInMenu: true },
       },
       {
+        path: 'edit/:org_id/:unit_id/:agent_id',
+        name: 'a2a-registry-edit',
+        component: () => import('@/views/A2A/A2ACardRegister.vue'),
+        meta: { hideInMenu: true },
+      },
+      {
         path: 'settings',
         name: 'a2a-registry-settings',
         component: () => import('@/views/A2A/A2ASettings.vue'),

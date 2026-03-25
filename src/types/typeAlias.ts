@@ -300,7 +300,11 @@ export type MessageStreamLimits = StreamsStreamIndividualLimits
 
 /* A2A */
 export type A2ACardListParams = GetA2aCardsListParams
-export type A2ACardOut = A2aCardOutType
+export interface A2ACardOut extends A2aCardOutType {
+  org_id: string
+  unit_id: string
+  agent_id: string
+}
 export type A2ARegisterCardIn = A2aRegisterCardInType
 
 export type A2AConf = A2aRegistryA2aRegistry
