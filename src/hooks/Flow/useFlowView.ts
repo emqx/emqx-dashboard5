@@ -1,6 +1,6 @@
 import { getAICompletionProfiles, getAIProviders } from '@/api/ai'
 import { getRules } from '@/api/ruleengine'
-import { Action, BridgeItem, RuleItem } from '@/types/rule'
+import { BridgeItem, RuleItem } from '@/types/rule'
 import { AICompletionProfile, AIProviderForm } from '@/types/typeAlias'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleActionItem from '../Rule/action/useHandleActionItem'
@@ -16,7 +16,6 @@ export default (): {
 } => {
   let ruleList: Array<RuleItem> = []
   let bridgeData: Map<string, BridgeItem> = new Map()
-  let actionList: Array<Action> = []
   let providerDataMap: Map<string, AIProviderForm> = new Map()
   let completionDataMap: Map<string, AICompletionProfile> = new Map()
 
@@ -59,17 +58,18 @@ export default (): {
       await Promise.allSettled(
         sinkList.map(async (item, index) => {
           const actionDetail = await getActionDetail(item.id, item.namespace)
-          sinkList[index] = { ...sinkList[index], ...actionDetail }
+          sinkList[index] = { ...sinkList[index], ...actionDetail } as BridgeItem
         }),
       )
-      actionList = sinkList as Array<Action>
       const list = [...sourceList, ...sinkList]
-      bridgeData = list.reduce((m: Map<string, BridgeItem>, item) => {
-        // FIXME:FIXME:FIXME:FIXME:FIXME:
-        // FIXME:FIXME:FIXME:FIXME:FIXME:
-        m.set(item.id, handleActionDataAfterLoaded(item))
-        return m
-      }, new Map())
+      const bridgeDataMap = new Map<string, BridgeItem>()
+      await Promise.allSettled(
+        list.map(async (item) => {
+          const data = (await handleActionDataAfterLoaded(item)) as BridgeItem
+          bridgeDataMap.set(item.id, data)
+        }),
+      )
+      bridgeData = bridgeDataMap
       return Promise.resolve()
     } catch (error) {
       return Promise.reject()
@@ -94,7 +94,7 @@ export default (): {
 
   const {
     generateFlowDataFromRuleItem,
-    generateFlowDataFromActionItem,
+    generateFallbackRelatedDataFromActionItem,
     countNodesPosition,
     addFlagToRemovedBridgeNode,
     addFlagToRemovedAINode,
@@ -255,20 +255,25 @@ export default (): {
       console.error(error)
     }
   }
-  const generateFlowDataFromActionData = (actionArr: Array<Action>) => {
+
+  const generateFallbackNodesAndEdges = () => {
     const actionFallbackNodes: Array<Node> = []
     const actionFallbackEdges: Array<Edge> = []
-    actionArr.forEach((item: Action) => {
+    sinkNodes.forEach((node: Node) => {
       // do not render action node without rules
-      if (!item.rules || !item.rules.length) {
+      if (!isBridgerNode(node)) {
         return
       }
-      const { nodes, edges } = generateFlowDataFromActionItem(item)
+
+      const { nodes, edges } = generateFallbackRelatedDataFromActionItem(
+        node.data.formData,
+        node.id,
+      )
       if (edges.length) {
-        const { rules } = item
+        const rules = node.data.rulesUsed
         actionFallbackNodes.push(
           ...(nodes[NodeType.Fallback] ?? []).map((node) => {
-            rules.forEach((rule) => addRuleIdToNode(node, rule))
+            rules?.forEach?.((rule: string) => addRuleIdToNode(node, rule))
             return node
           }),
         )
@@ -360,7 +365,7 @@ export default (): {
     try {
       initNodeAndEdge()
       generateFlowDataFromRuleData(ruleList)
-      generateFlowDataFromActionData(actionList)
+      generateFallbackNodesAndEdges()
       redUnavailableEdges()
       removeDuplicatedNodes()
       removeIsolatedBridge()

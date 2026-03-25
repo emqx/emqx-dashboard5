@@ -1,5 +1,5 @@
 import { getAICompletionProfileDetail, getAIProviderDetail } from '@/api/ai'
-import { RuleItem } from '@/types/rule'
+import { Action, RuleItem } from '@/types/rule'
 import { useEditFlow } from '@emqx/shared-ui-components'
 import { Edge, Node } from '@vue-flow/core'
 import useHandleSourceItem from '../Rule/action/useHandleSourceItem'
@@ -83,7 +83,16 @@ export default (): {
     return nodes
   }
   const addFallbackDataToFlow = (nodes: GroupedNode, edges: Array<Edge>) => {
-    return addFallbackDataToFlowInSharedUI(nodes, edges, generateFlowDataFromActionItem)
+    const findActionNodeId = (action: Action) => {
+      const arr = [...nodes[NodeType.Sink], ...(nodes[NodeType.Fallback] ?? [])]
+      const item = arr.find((item) => {
+        return item.data.formData?.id === action.id
+      })
+      return item ? item.id : undefined
+    }
+    return addFallbackDataToFlowInSharedUI(nodes, edges, (action: Action) =>
+      generateFallbackRelatedDataFromActionItem(action, findActionNodeId(action)),
+    )
   }
 
   /**
@@ -102,7 +111,7 @@ export default (): {
     countNodesPosition,
     addFlagToRemovedBridgeNode,
     addFlagToRemovedAINode,
-    generateFlowDataFromActionItem,
+    generateFallbackRelatedDataFromActionItem,
   } = useGenerateFlowDataUtils()
   const { isBridgerNode } = useFlowNode()
 
