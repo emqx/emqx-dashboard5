@@ -48,8 +48,8 @@ export default {
     en: 'All three filters use exact matching; fuzzy search is not supported',
   },
   helpDesc: {
-    zh: 'Agent Card JSON 必须是一个合法的 JSON 对象，包含以下必填字段：',
-    en: 'Agent Card JSON must be a valid JSON object containing the following required fields:',
+    zh: 'Agent Card JSON 必须是一个合法的 JSON 对象，在设置中开启 “验证 Schema” 时，JSON 需包含以下必填字段：',
+    en: 'Agent Card JSON must be a valid JSON object, and when "Validate Schema" is enabled in the settings, the JSON must contain the following required fields:',
   },
   helpFieldName: {
     zh: 'Agent 名称',

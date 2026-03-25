@@ -23,7 +23,7 @@ import {
   GetAuditFrom,
   GetAuditOperationResult,
 } from './schemas/audit.schemas'
-import { EmqxLog, EmqxManagedCerts } from './schemas/configs.schemas'
+import { A2aRegistryA2aRegistry, EmqxLog, EmqxManagedCerts } from './schemas/configs.schemas'
 import type {
   SchemaValidationValidation,
   SchemaValidationHttpApiReorder,
@@ -302,3 +302,5 @@ export type MessageStreamLimits = StreamsStreamIndividualLimits
 export type A2ACardListParams = GetA2aCardsListParams
 export type A2ACardOut = A2aCardOutType
 export type A2ARegisterCardIn = A2aRegisterCardInType
+
+export type A2AConf = A2aRegistryA2aRegistry
