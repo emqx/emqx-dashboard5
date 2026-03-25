@@ -87,12 +87,23 @@
 </template>
 
 <script lang="ts" setup>
-import { registerA2ACard } from '@/api/a2a'
+import { getA2ARegistryConfig, registerA2ACard } from '@/api/a2a'
+import { A2AConf } from '@/types/typeAlias'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
+
+const agentConf = ref<A2AConf>({})
+const validateSchema = computed(() => agentConf.value.validate_schema ?? false)
+;(async () => {
+  try {
+    agentConf.value = await getA2ARegistryConfig()
+  } catch (error) {
+    //
+  }
+})()
 
 const ID_PATTERN = /^[A-Za-z0-9._-]+$/
 
@@ -148,6 +159,11 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
     return
   }
 
+  if (!validateSchema.value) {
+    callback()
+    return
+  }
+
   if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
     callback(new Error(tl('cardJsonInvalid')))
     return
@@ -186,7 +202,7 @@ const rules: FormRules = {
   org_id: [...createRequiredRule(tl('orgId')), createIdPatternRule()],
   unit_id: [...createRequiredRule(tl('unitId')), createIdPatternRule()],
   agent_id: [...createRequiredRule(tl('agentId')), createIdPatternRule()],
-  card: [...createRequiredRule(tl('agentJson')), { validator: validateCard, trigger: 'change' }],
+  card: [...createRequiredRule(tl('agentJson')), { validator: validateCard, trigger: 'blur' }],
 }
 
 const handleCardChange = () => formRef.value?.validateField('card')
