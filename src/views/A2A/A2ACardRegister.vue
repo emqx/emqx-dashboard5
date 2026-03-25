@@ -62,13 +62,7 @@
           </el-collapse-transition>
 
           <div class="viewer-container">
-            <Monaco
-              :id="monacoId"
-              v-model="form.card"
-              lang="json"
-              @change="handleCardChange"
-              @blur="handleCardBlur"
-            />
+            <Monaco :id="monacoId" v-model="form.card" lang="json" @blur="handleCardBlur" />
           </div>
         </el-form-item>
 
@@ -195,14 +189,22 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
 
   const requiredStringFields = ['name', 'description', 'version', 'url'] as const
   for (const field of requiredStringFields) {
-    if (typeof parsed[field] !== 'string' || !parsed[field]) {
+    if (!(field in parsed) || parsed[field] === null || parsed[field] === undefined) {
       callback(new Error(t('A2A.cardFieldRequired', { field })))
+      return
+    }
+    if (typeof parsed[field] !== 'string' || !parsed[field]) {
+      callback(new Error(t('A2A.cardFieldTypeMismatch', { field, expected: 'string' })))
       return
     }
   }
 
-  if (!Array.isArray(parsed.skills)) {
+  if (!('skills' in parsed) || parsed.skills === null || parsed.skills === undefined) {
     callback(new Error(t('A2A.cardFieldRequired', { field: 'skills' })))
+    return
+  }
+  if (!Array.isArray(parsed.skills)) {
+    callback(new Error(t('A2A.cardFieldTypeMismatch', { field: 'skills', expected: 'array' })))
     return
   }
   if (parsed.skills.length === 0) {
@@ -212,8 +214,12 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
   for (let i = 0; i < parsed.skills.length; i++) {
     const skill = parsed.skills[i]
     for (const field of ['id', 'name', 'description'] as const) {
-      if (typeof skill[field] !== 'string' || !skill[field]) {
+      if (!(field in skill) || skill[field] === null || skill[field] === undefined) {
         callback(new Error(t('A2A.cardSkillItemInvalid', { index: i, field })))
+        return
+      }
+      if (typeof skill[field] !== 'string' || !skill[field]) {
+        callback(new Error(t('A2A.cardSkillItemTypeMismatch', { index: i, field })))
         return
       }
     }
@@ -228,8 +234,6 @@ const rules: FormRules = {
   agent_id: [...createRequiredRule(tl('agentId')), createIdPatternRule()],
   card: [...createRequiredRule(tl('agentJson')), { validator: validateCard, trigger: 'blur' }],
 }
-
-const handleCardChange = () => formRef.value?.validateField('card')
 
 const handleCardBlur = () => formRef.value?.validateField('card')
 

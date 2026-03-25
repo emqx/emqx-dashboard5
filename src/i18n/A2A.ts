@@ -91,6 +91,10 @@ export default {
     zh: 'Agent Card JSON 缺少必填字段：{field}',
     en: 'Agent Card JSON is missing required field: {field}',
   },
+  cardFieldTypeMismatch: {
+    zh: 'Agent Card JSON 字段类型错误：{field} 应为 {expected}',
+    en: 'Agent Card JSON field type mismatch: {field} should be {expected}',
+  },
   cardSkillsEmpty: {
     zh: 'skills 数组不能为空',
     en: 'skills array must not be empty',
@@ -98,6 +102,10 @@ export default {
   cardSkillItemInvalid: {
     zh: 'skills[{index}] 缺少必填字段：{field}',
     en: 'skills[{index}] is missing required field: {field}',
+  },
+  cardSkillItemTypeMismatch: {
+    zh: 'skills[{index}].{field} 字段类型错误，应为 string',
+    en: 'skills[{index}].{field} field type mismatch, expected string',
   },
   A2AHelp: {
     zh: `支持两种方式注册 Agent
