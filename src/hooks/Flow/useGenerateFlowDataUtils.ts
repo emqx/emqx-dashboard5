@@ -66,6 +66,13 @@ export default (): {
     nodes: GroupedNode
     edges: Array<Edge>
   }
+  generateFallbackRelatedDataFromActionItem: (
+    action: Action,
+    currentActionId?: string,
+  ) => {
+    nodes: GroupedNode
+    edges: Array<Edge>
+  }
   fallbackEdgeStyle: Styles
   generateFallbackEdge: (source: Node, target: Node, style?: Record<string, string>) => Edge
   countNodesPosition: (nodes: GroupedNode, edgeArr: Array<Edge>) => Promise<void>
@@ -75,7 +82,7 @@ export default (): {
   addFallbackFlagToNodes: (nodes: Array<Node>) => Array<Node>
   generateEdgesFromNodes: (nodes: GroupedNode) => Array<Edge>
 } => {
-  const { getTypeCommonData, getTypeLabel, getNodeInfo, isAIType, getNodeHeight } = useFlowNode()
+  const { getTypeCommonData, getTypeLabel, getNodeInfo, isAIType } = useFlowNode()
   const { getBridgeGeneralType } = useBridgeTypeValue()
   const {
     detectFieldsExpressionsEditedWay,
@@ -304,6 +311,23 @@ export default (): {
     return { nodes, edges }
   }
 
+  /**
+   * To connect a fallback node to an action node on the flow, we need the previous action node's ID.
+   */
+  const generateFallbackRelatedDataFromActionItem = (action: Action, currentActionId?: string) => {
+    const { nodes, edges } = generateFlowDataFromActionItem(action)
+    if (!currentActionId) {
+      return { nodes, edges }
+    }
+    nodes[NodeType.Sink].forEach((node) => {
+      node.id = currentActionId
+    })
+    edges.forEach((edge) => {
+      edge.source = currentActionId
+    })
+    return { nodes, edges }
+  }
+
   /* BRIDGE */
 
   return {
@@ -318,6 +342,7 @@ export default (): {
     generateFlowDataFromRuleItem,
     generateFallbackEdge,
     generateFlowDataFromActionItem,
+    generateFallbackRelatedDataFromActionItem,
     fallbackEdgeStyle,
     countNodesPosition,
     isRemovedBridge,

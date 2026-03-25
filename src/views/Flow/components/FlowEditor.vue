@@ -138,16 +138,6 @@ import {
   useVueFlow,
 } from '@vue-flow/core'
 import { Search } from 'lucide-vue-next'
-import {
-  computed,
-  defineEmits,
-  defineExpose,
-  defineProps,
-  nextTick,
-  provide,
-  ref,
-  watch,
-} from 'vue'
 import FlowGuide from './FlowGuide.vue'
 import FlowNode from './FlowNode.vue'
 import NodeDrawer from './NodeDrawer.vue'
