@@ -39,6 +39,10 @@ export default {
     zh: '注册成功',
     en: 'Registered successfully',
   },
+  editCard: {
+    zh: '编辑 Agent',
+    en: 'Edit Agent',
+  },
   idFormatTip: {
     zh: '只允许字母、数字、点号、下划线和连字符',
     en: 'Only letters, digits, dots, underscores, and hyphens are allowed',
