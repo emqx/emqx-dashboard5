@@ -51,7 +51,7 @@ export default {
   },
   client_attrs_init_expression: {
     label: '属性表达式',
-    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(clientid, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `user_property.{'{'}NAME{'}'}`：CONNECT 数据包中的用户属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。",
+    desc: "使用行表达式计算一组预定义的字符串函数（类似于规则引擎 SQL 语句）。<br />表达式可以是带有嵌套调用参数的函数调用，或直接引用变量。<br />目前不提供用户自定义变量绑定（如 `var a=1`）或用户自定义函数。<br />例如，要提取以点分隔的客户端 ID 前缀：`nth(1, tokens(clientid, '.'))`。<br /><br />预绑定的变量有：<br />- `clientid`：MQTT 客户端 ID。<br />- `username`：MQTT 客户端的用户名。<br />- `user_property.{'{'}NAME{'}'}`：CONNECT 数据包中的用户属性。<br />对于 TLS 客户端，直接连接或通过支持代理协议（v2）的负载均衡器连接，<br />可以使用一些额外的变量：<br />- `cn`：客户端 TLS 证书的通用名称。<br />- `cert_common_name`：`cn` 的别名。<br />- `dn`：客户端 TLS 证书的可分辨名称（主题）。<br />- `cert_subject`：`dn` 的别名。<br />- `peersni`：客户端发送的 TLS 服务器名称指示。<br /><br />您可以在 EMQX 文档中阅读更多关于 variform 表达式的信息。",
   },
   clientid_override: {
     label: '客户端 ID 重写表达式',
