@@ -51,6 +51,7 @@ export const useCommonDataHandler = () => {
     'access_key_id',
     'access_key_secret',
     'private_key_password',
+    'authentication.initial_token.client_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
   const getLikePasswordFieldKeys = (data: any) => {
     const ret: Array<string> = []
