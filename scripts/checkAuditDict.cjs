@@ -1,12 +1,35 @@
 const rawDict = require('../src/views/General/resource_dict.json')
 const axios = require('axios')
-const baseURL = process.env.HOST_URL || 'http://localhost:18083'
+const baseURL = process.env.HOST_URL || 'http://mac:18084'
 
-const dictMap = rawDict.reduce((map, dictItem) => {
-  const { method, path, operation_name_label: label, operation_label: typeLabel } = dictItem
-  map.set(`${method}:${path}`, { label, typeLabel })
-  return map
-}, new Map())
+const WILDCARD_MARKER = '[...]'
+
+// Flatten hierarchical structure into dictMap
+const dictMap = new Map()
+rawDict.forEach((group) => {
+  group.operations.forEach(({ method, path, name_label: label }) => {
+    dictMap.set(`${method}:${path}`, { label, typeLabel: group.label })
+  })
+})
+
+// Build regex patterns for wildcard entries (paths containing '[...]')
+const wildcardPatterns = []
+for (const key of dictMap.keys()) {
+  if (key.includes(WILDCARD_MARKER)) {
+    const colonIdx = key.indexOf(':')
+    const method = key.slice(0, colonIdx)
+    const path = key.slice(colonIdx + 1)
+    const regexStr = path
+      .replace(WILDCARD_MARKER, '\x00WILDCARD\x00')
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      .replace('\x00WILDCARD\x00', '.*')
+      .replace(/:[\w]+/g, '[^/]+')
+    wildcardPatterns.push({ method, dictKey: key, pattern: new RegExp(`^${regexStr}$`) })
+  }
+}
+
+const isMatchedByWildcard = (method, path) =>
+  wildcardPatterns.some((w) => w.method === method && w.pattern.test(path))
 
 const swaggerExistedKeyInfoMap = new Map([])
 const missingDictItems = []
@@ -42,20 +65,41 @@ const check = async () => {
       })
     })
   })
-  for (const key of swaggerExistedKeyInfoMap.keys()) {
-    if (!dictMap.get(key) && !specialMap.get(key)) {
-      missingDictItems.push(swaggerExistedKeyInfoMap.get(key))
+
+  for (const [key, info] of swaggerExistedKeyInfoMap) {
+    const colonIdx = key.indexOf(':')
+    const method = key.slice(0, colonIdx)
+    const path = key.slice(colonIdx + 1)
+    if (!dictMap.get(key) && !specialMap.get(key) && !isMatchedByWildcard(method, path)) {
+      missingDictItems.push(info)
     }
   }
 
-  for (let key of dictMap.keys()) {
+  for (const key of dictMap.keys()) {
     let isSpecialValue = false
-    for (let value of specialMap.values()) {
+    for (const value of specialMap.values()) {
       if (value === key) {
         isSpecialValue = true
       }
     }
-    if (!swaggerExistedKeyInfoMap.get(key) && !isSpecialValue && !ignoreArr.includes(key)) {
+    if (isSpecialValue || ignoreArr.includes(key)) {
+      continue
+    }
+    if (key.includes(WILDCARD_MARKER)) {
+      // Wildcard entry: useless only if no swagger entry matches its pattern
+      const wEntry = wildcardPatterns.find((w) => w.dictKey === key)
+      const hasMatch =
+        wEntry &&
+        [...swaggerExistedKeyInfoMap.keys()].some((swKey) => {
+          const colonIdx = swKey.indexOf(':')
+          const swMethod = swKey.slice(0, colonIdx)
+          const swPath = swKey.slice(colonIdx + 1)
+          return wEntry.method === swMethod && wEntry.pattern.test(swPath)
+        })
+      if (!hasMatch) {
+        uselessKeys.push(key)
+      }
+    } else if (!swaggerExistedKeyInfoMap.get(key)) {
       uselessKeys.push(key)
     }
   }

@@ -1364,6 +1364,14 @@
           "en": "Plugin custom API (POST)",
           "zh": "插件自定义 API (PUT)"
         }
+      },
+      {
+        "method": "patch",
+        "path": "/plugin_api/:plugin/[...]",
+        "name_label": {
+          "en": "Plugin custom API (PATCH)",
+          "zh": "插件自定义 API (PATCH)"
+        }
       }
     ]
   },
