@@ -1,3086 +1,2426 @@
 [
   {
-    "method": "put",
-    "path": "/cluster",
-    "operation_label": {
+    "label": {
       "en": "Cluster",
       "zh": "集群"
     },
-    "operation_name_label": {
-      "en": "Update cluster information",
-      "zh": "更新集群信息"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/cluster",
+        "name_label": {
+          "en": "Update cluster information",
+          "zh": "更新集群信息"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/cluster/:node/invite",
+        "name_label": {
+          "en": "Invite node to cluster",
+          "zh": "邀请节点加入集群"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/cluster/:node/invite_async",
+        "name_label": {
+          "en": "Asynchronously invite node to cluster",
+          "zh": "异步邀请节点加入集群"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/cluster/:node/force_leave",
+        "name_label": {
+          "en": "Force leave node from cluster",
+          "zh": "强制节点离开集群"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/cluster/:node/invite",
-    "operation_label": {
-      "en": "Cluster",
-      "zh": "集群"
-    },
-    "operation_name_label": {
-      "en": "Invite node to cluster",
-      "zh": "邀请节点加入集群"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/cluster/:node/invite_async",
-    "operation_label": {
-      "en": "Cluster",
-      "zh": "集群"
-    },
-    "operation_name_label": {
-      "en": "Asynchronously invite node to cluster",
-      "zh": "异步邀请节点加入集群"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/cluster/:node/force_leave",
-    "operation_label": {
-      "en": "Cluster",
-      "zh": "集群"
-    },
-    "operation_name_label": {
-      "en": "Force leave node from cluster",
-      "zh": "强制节点离开集群"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/prometheus",
-    "operation_label": {
+    "label": {
       "en": "Monitor",
       "zh": "监控"
     },
-    "operation_name_label": {
-      "en": "Update Prometheus config",
-      "zh": "更新 Prometheus 配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/prometheus",
+        "name_label": {
+          "en": "Update Prometheus config",
+          "zh": "更新 Prometheus 配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/opentelemetry",
+        "name_label": {
+          "en": "Update OpenTelmetry config",
+          "zh": "更新 OpenTelemetry 配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/monitor",
+        "name_label": {
+          "en": "Clear monitor (statistics) data for the whole cluster",
+          "zh": "清除集群监控（统计）数据"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/opentelemetry",
-    "operation_label": {
-      "en": "Monitor",
-      "zh": "监控"
-    },
-    "operation_name_label": {
-      "en": "Update OpenTelmetry config",
-      "zh": "更新 OpenTelemetry 配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/opentelemetry/whitelist/:type",
-    "operation_label": {
+    "label": {
       "en": "Opentelemetry",
       "zh": "Opentelemetry"
     },
-    "operation_name_label": {
-      "en": "Purge white list for specific type",
-      "zh": "删除指定类型的白名单"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/opentelemetry/whitelist/:type",
+        "name_label": {
+          "en": "Purge white list for specific type",
+          "zh": "删除指定类型的白名单"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/opentelemetry/whitelist/:type",
+        "name_label": {
+          "en": "Update white list for specific type",
+          "zh": "更新指定类型的白名单"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/opentelemetry/whitelist/:type",
-    "operation_label": {
-      "en": "Opentelemetry",
-      "zh": "Opentelemetry"
-    },
-    "operation_name_label": {
-      "en": "Update white list for specific type",
-      "zh": "更新指定类型的白名单"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/clients/:clientid",
-    "operation_label": {
+    "label": {
       "en": "Clients",
       "zh": "客户端"
     },
-    "operation_name_label": {
-      "en": "Kick out client",
-      "zh": "断开客户端"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/clients/:clientid",
+        "name_label": {
+          "en": "Kick out client",
+          "zh": "断开客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/clients/kickout/bulk",
+        "name_label": {
+          "en": "Batch kickout client",
+          "zh": "批量断开客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/clients/:clientid/subscribe",
+        "name_label": {
+          "en": "Subscribe",
+          "zh": "订阅"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/clients/:clientid/unsubscribe",
+        "name_label": {
+          "en": "Unsubscribe",
+          "zh": "取消订阅"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/clients/:clientid/subscribe/bulk",
+        "name_label": {
+          "en": "Subscribe bulk",
+          "zh": "批量订阅"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/clients/:clientid/unsubscribe/bulk",
+        "name_label": {
+          "en": "Unsubscribe bulk",
+          "zh": "批量取消订阅"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/clients/:clientid/authorization/cache",
+        "name_label": {
+          "en": "Clean the specified client's authorization cache",
+          "zh": "清除指定客户端的授权缓存"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/clients/kickout/bulk",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Batch kickout client",
-      "zh": "批量断开客户端"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/clients/:clientid/subscribe",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Subscribe",
-      "zh": "订阅"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/clients/:clientid/unsubscribe",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Unsubscribe",
-      "zh": "取消订阅"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/clients/:clientid/subscribe/bulk",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Subscribe bulk",
-      "zh": "批量订阅"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/clients/:clientid/unsubscribe/bulk",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Unsubscribe bulk",
-      "zh": "批量取消订阅"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/clients/:clientid/authorization/cache",
-    "operation_label": {
-      "en": "Clients",
-      "zh": "客户端"
-    },
-    "operation_name_label": {
-      "en": "Clean the specified client's authorization cache",
-      "zh": "清除指定客户端的授权缓存"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/publish",
-    "operation_label": {
+    "label": {
       "en": "Publish",
       "zh": "消息发布"
     },
-    "operation_name_label": {
-      "en": "Publish message",
-      "zh": "发布消息"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/publish",
+        "name_label": {
+          "en": "Publish message",
+          "zh": "发布消息"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/publish/bulk",
+        "name_label": {
+          "en": "Batch publish messages",
+          "zh": "批量发布消息"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/publish/bulk",
-    "operation_label": {
-      "en": "Publish",
-      "zh": "消息发布"
-    },
-    "operation_name_label": {
-      "en": "Batch publish messages",
-      "zh": "批量发布消息"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gcp_devices",
-    "operation_label": {
+    "label": {
       "en": "Authentication",
       "zh": "认证"
     },
-    "operation_name_label": {
-      "en": "Import GCP IoT Core data",
-      "zh": "从 GCP IoT Core 导入认证和配置数据"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/gcp_devices",
+        "name_label": {
+          "en": "Import GCP IoT Core data",
+          "zh": "从 GCP IoT Core 导入认证和配置数据"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authentication",
+        "name_label": {
+          "en": "Create authenticator",
+          "zh": "创建认证器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authentication/:id",
+        "name_label": {
+          "en": "Update authenticator",
+          "zh": "更新认证器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authentication/:id",
+        "name_label": {
+          "en": "Delete authenticator",
+          "zh": "删除认证器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authentication/order",
+        "name_label": {
+          "en": "Reorder all authenticators in global authentication chain",
+          "zh": "重新排序全局认证链中的所有认证器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gcp_devices/:deviceid",
+        "name_label": {
+          "en": "Update GCP IoT Core device",
+          "zh": "更新 GCP IoT Core 设备"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gcp_devices/:deviceid",
+        "name_label": {
+          "en": "Remove GCP IoT Core device",
+          "zh": "删除 GCP IoT Core 设备"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authentication/:id/users",
+        "name_label": {
+          "en": "Add client authentication credentials",
+          "zh": "添加客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authentication/:id/import_users",
+        "name_label": {
+          "en": "Import client authentication credentials",
+          "zh": "导入客户端认证凭证"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authentication/:id/users/:user_id",
+        "name_label": {
+          "en": "Update client authentication credentials",
+          "zh": "更新客户端认证凭证"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authentication/:id/users/:user_id",
+        "name_label": {
+          "en": "Delete client authentication credentials",
+          "zh": "删除客户端认证凭证"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authentication/:id/position/:position",
+        "name_label": {
+          "en": "Move authenticator position",
+          "zh": "调整认证器的顺序"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authentication/node_cache/reset",
+        "name_label": {
+          "en": "Reset node-wise authentication cache",
+          "zh": "重置节点认证缓存"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authentication/settings",
+        "name_label": {
+          "en": "Update authentication settings",
+          "zh": "更新认证配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authentication/:id/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics counters for a specific authenticator in the global authentication chain",
+          "zh": "重置指定认证器的指标计数器"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/authentication",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Create authenticator",
-      "zh": "创建认证器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authentication/:id",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Update authenticator",
-      "zh": "更新认证器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authentication/:id",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Delete authenticator",
-      "zh": "删除认证器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authentication/order",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Reorder all authenticators in global authentication chain",
-      "zh": "重新排序全局认证链中的所有认证器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gcp_devices/:deviceid",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Update GCP IoT Core device",
-      "zh": "更新 GCP IoT Core 设备"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gcp_devices/:deviceid",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Remove GCP IoT Core device",
-      "zh": "删除 GCP IoT Core 设备"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authentication/:id/users",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Add client authentication credentials",
-      "zh": "添加客户端认证凭证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authentication/:id/import_users",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Import client authentication credentials",
-      "zh": "导入客户端认证凭证"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authentication/:id/users/:user_id",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Update client authentication credentials",
-      "zh": "更新客户端认证凭证"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authentication/:id/users/:user_id",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Delete client authentication credentials",
-      "zh": "删除客户端认证凭证"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authentication/:id/position/:position",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Move authenticator position",
-      "zh": "调整认证器的顺序"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authentication/node_cache/reset",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Reset node-wise authentication cache",
-      "zh": "重置节点认证缓存"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authentication/settings",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Update authentication settings",
-      "zh": "更新认证配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/cache",
-    "operation_label": {
+    "label": {
       "en": "Authorization",
       "zh": "授权"
     },
-    "operation_name_label": {
-      "en": "Clean all authorization cache",
-      "zh": "清除所有授权缓存"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/authorization/cache",
+        "name_label": {
+          "en": "Clean all authorization cache",
+          "zh": "清除所有授权缓存"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources",
+        "name_label": {
+          "en": "Add a new authorization",
+          "zh": "添加授权器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/settings",
+        "name_label": {
+          "en": "Update authorization config",
+          "zh": "更新授权配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/sources/:type",
+        "name_label": {
+          "en": "Update Authorizer",
+          "zh": "更新授权检查器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authorization/sources/:type",
+        "name_label": {
+          "en": "Delete Authorizer",
+          "zh": "删除授权检查器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/sources/order",
+        "name_label": {
+          "en": "Reorder all authorization sources",
+          "zh": "重新排序所有授权器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources/:type/move",
+        "name_label": {
+          "en": "Change the exection order of authorizers",
+          "zh": "更新授权器的执行顺序"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authorization/sources/built_in_database/rules",
+        "name_label": {
+          "en": "Delete all authorization rules in the built-in database",
+          "zh": "清除内置数据库中的所有授权规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources/built_in_database/rules/all",
+        "name_label": {
+          "en": "Create/Update global authorization rules",
+          "zh": "创建/更新全局授权规则"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authorization/sources/built_in_database/rules/all",
+        "name_label": {
+          "en": "Delete global authorization rules",
+          "zh": "删除全局授权规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources/built_in_database/rules/users",
+        "name_label": {
+          "en": "Adding username-based authorization rules",
+          "zh": "添加基于用户名的授权规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources/built_in_database/rules/clients",
+        "name_label": {
+          "en": "Add Client ID based authorization rules",
+          "zh": "添加基于客户端 ID 的授权规则"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/sources/built_in_database/rules/users/:username",
+        "name_label": {
+          "en": "Set rule for 'username'",
+          "zh": "更新内置数据库中指定用户名的授权规则"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authorization/sources/built_in_database/rules/users/:username",
+        "name_label": {
+          "en": "Delete rule for 'username'",
+          "zh": "删除内置数据库中指定用户名的授权规则"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/sources/built_in_database/rules/clients/:clientid",
+        "name_label": {
+          "en": "Set rule for clientid",
+          "zh": "设置指定客户端 ID 的授权规则"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/authorization/sources/built_in_database/rules/clients/:clientid",
+        "name_label": {
+          "en": "Delete rule for clientid",
+          "zh": "删除指定客户端 ID 的授权规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/node_cache/reset",
+        "name_label": {
+          "en": "Reset node-wise authorization cache",
+          "zh": "重置节点授权缓存"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/authorization/node_cache",
+        "name_label": {
+          "en": "Update settings of node-wise authorization cache",
+          "zh": "更新节点授权缓存设置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/authorization/sources/:type/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics counters for a specific authorization source",
+          "zh": "重置指定授权源的指标计数器"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/authorization/sources",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Add a new authorization",
-      "zh": "添加授权器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/settings",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Update authorization config",
-      "zh": "更新授权配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/sources/:type",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Update Authorizer",
-      "zh": "更新授权检查器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/sources/:type",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Delete Authorizer",
-      "zh": "删除授权检查器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/sources/order",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Reorder all authorization sources",
-      "zh": "重新排序所有授权器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/sources/:type/move",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Change the exection order of authorizers",
-      "zh": "更新授权器的执行顺序"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/sources/built_in_database/rules",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Delete all authorization rules in the built-in database",
-      "zh": "清除内置数据库中的所有授权规则"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/sources/built_in_database/rules/all",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Create/Update global authorization rules",
-      "zh": "创建/更新全局授权规则"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/sources/built_in_database/rules/all",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Delete global authorization rules",
-      "zh": "删除全局授权规则"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/sources/built_in_database/rules/users",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Adding username-based authorization rules",
-      "zh": "添加基于用户名的授权规则"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/sources/built_in_database/rules/clients",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Add Client ID based authorization rules",
-      "zh": "添加基于客户端 ID 的授权规则"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/sources/built_in_database/rules/users/:username",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Set rule for 'username'",
-      "zh": "更新内置数据库中指定用户名的授权规则"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/sources/built_in_database/rules/users/:username",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Delete rule for 'username'",
-      "zh": "删除内置数据库中指定用户名的授权规则"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/sources/built_in_database/rules/clients/:clientid",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Set rule for clientid",
-      "zh": "设置指定客户端 ID 的授权规则"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/authorization/sources/built_in_database/rules/clients/:clientid",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Delete rule for clientid",
-      "zh": "删除指定客户端 ID 的授权规则"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/node_cache/reset",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Reset node-wise authorization cache",
-      "zh": "重置节点授权缓存"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/authorization/node_cache",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Update settings of node-wise authorization cache",
-      "zh": "更新节点授权缓存设置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/banned",
-    "operation_label": {
+    "label": {
       "en": "Banned",
       "zh": "黑名单"
     },
-    "operation_name_label": {
-      "en": "Add client blacklist",
-      "zh": "添加客户端黑名单"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/banned",
+        "name_label": {
+          "en": "Add client blacklist",
+          "zh": "添加客户端黑名单"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/banned",
+        "name_label": {
+          "en": "Clear all banned data",
+          "zh": "清除全部客户端黑名单数据"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/banned/:as/:who",
+        "name_label": {
+          "en": "Delete the specific banned data",
+          "zh": "删除黑名单"
+        }
+      }
+    ]
   },
   {
-    "method": "delete",
-    "path": "/banned",
-    "operation_label": {
-      "en": "Banned",
-      "zh": "黑名单"
-    },
-    "operation_name_label": {
-      "en": "Clear all banned data",
-      "zh": "清除全部客户端黑名单数据"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/banned/:as/:who",
-    "operation_label": {
-      "en": "Banned",
-      "zh": "黑名单"
-    },
-    "operation_name_label": {
-      "en": "Delete the specific banned data",
-      "zh": "删除黑名单"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/rules",
-    "operation_label": {
+    "label": {
       "en": "Rules",
       "zh": "规则引擎"
     },
-    "operation_name_label": {
-      "en": "Create a new rule",
-      "zh": "创建规则"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/rules",
+        "name_label": {
+          "en": "Create a new rule",
+          "zh": "创建规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/rule_test",
+        "name_label": {
+          "en": "Test a rule",
+          "zh": "测试规则"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/rules/:id/test",
+        "name_label": {
+          "en": "Apply a rule with the given message and environment",
+          "zh": "根据给定的上下文应用规则"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/rules/:id",
+        "name_label": {
+          "en": "Update a rule",
+          "zh": "更新规则"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/rules/:id",
+        "name_label": {
+          "en": "Delete a rule",
+          "zh": "删除规则"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/rule_engine",
+        "name_label": {
+          "en": "Update rule engine config",
+          "zh": "更新规则引擎配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/rules/:id/metrics/reset",
+        "name_label": {
+          "en": "Reset rule metrics",
+          "zh": "重置规则指标"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/rule_test",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Test a rule",
-      "zh": "测试规则"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/rules/:id/test",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Apply a rule with the given message and environment",
-      "zh": "根据给定的上下文应用规则"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/rules/:id",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Update a rule",
-      "zh": "更新规则"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/rules/:id",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Delete a rule",
-      "zh": "删除规则"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/rule_engine",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Update rule engine config",
-      "zh": "更新规则引擎配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/rules/:id/metrics/reset",
-    "operation_label": {
-      "en": "Rules",
-      "zh": "规则引擎"
-    },
-    "operation_name_label": {
-      "en": "Reset rule metrics",
-      "zh": "重置规则指标"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/connectors",
-    "operation_label": {
+    "label": {
       "en": "Connectors",
       "zh": "连接器"
     },
-    "operation_name_label": {
-      "en": "Create a new connector",
-      "zh": "创建连接器"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/connectors",
+        "name_label": {
+          "en": "Create a new connector",
+          "zh": "创建连接器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/connectors/:id",
+        "name_label": {
+          "en": "Update the specified connector",
+          "zh": "更新指定连接器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/connectors/:id",
+        "name_label": {
+          "en": "Delete the specified connector",
+          "zh": "删除指定连接器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/connectors_probe",
+        "name_label": {
+          "en": "Test creating a new connector",
+          "zh": "测试连接器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/connectors/:id/:operation",
+        "name_label": {
+          "en": "Start connector",
+          "zh": "启动连接器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/connectors/:id/enable/:enable",
+        "name_label": {
+          "en": "Disable/Enable connector",
+          "zh": "禁用或启用连接器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/nodes/:node/connectors/:id/:operation",
+        "name_label": {
+          "en": "Start connector on a specific node",
+          "zh": "启动指定节点上的连接器"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/connectors/:id",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Update the specified connector",
-      "zh": "更新指定连接器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/connectors/:id",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Delete the specified connector",
-      "zh": "删除指定连接器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/connectors_probe",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Test creating a new connector",
-      "zh": "测试连接器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/connectors/:id/:operation",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Start connector",
-      "zh": "启动连接器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/connectors/:id/enable/:enable",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Disable/Enable connector",
-      "zh": "禁用或启用连接器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/nodes/:node/connectors/:id/:operation",
-    "operation_label": {
-      "en": "Connectors",
-      "zh": "连接器"
-    },
-    "operation_name_label": {
-      "en": "Start connector on a specific node",
-      "zh": "启动指定节点上的连接器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/actions",
-    "operation_label": {
+    "label": {
       "en": "Actions",
       "zh": "动作"
     },
-    "operation_name_label": {
-      "en": "Create a new action",
-      "zh": "创建动作"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/actions",
+        "name_label": {
+          "en": "Create a new action",
+          "zh": "创建动作"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/actions/:id",
+        "name_label": {
+          "en": "Update an action",
+          "zh": "更新动作"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/actions/:id",
+        "name_label": {
+          "en": "Delete an action",
+          "zh": "删除动作"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/actions_probe",
+        "name_label": {
+          "en": "Test action",
+          "zh": "测试动作"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/actions/:id/:operation",
+        "name_label": {
+          "en": "Start action",
+          "zh": "启动动作"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/actions/:id/enable/:enable",
+        "name_label": {
+          "en": "Disable/Enable action",
+          "zh": "禁用或启用动作"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/nodes/:node/actions/:id/:operation",
+        "name_label": {
+          "en": "Start action on a specific node",
+          "zh": "启动指定节点上的动作"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/actions/:id/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics for the action",
+          "zh": "重置指定动作的指标"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/actions/:id",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Update an action",
-      "zh": "更新动作"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/actions/:id",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Delete an action",
-      "zh": "删除动作"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/actions_probe",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Test action",
-      "zh": "测试动作"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/actions/:id/:operation",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Start action",
-      "zh": "启动动作"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/actions/:id/enable/:enable",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Disable/Enable action",
-      "zh": "禁用或启用动作"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/nodes/:node/actions/:id/:operation",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Start action on a specific node",
-      "zh": "启动指定节点上的动作"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/actions/:id/metrics/reset",
-    "operation_label": {
-      "en": "Actions",
-      "zh": "动作"
-    },
-    "operation_name_label": {
-      "en": "Reset metrics for the action",
-      "zh": "重置指定动作的指标"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/sources",
-    "operation_label": {
+    "label": {
       "en": "Sources",
       "zh": "Sources"
     },
-    "operation_name_label": {
-      "en": "Create a new source",
-      "zh": "创建 Source"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/sources",
+        "name_label": {
+          "en": "Create a new source",
+          "zh": "创建 Source"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/sources/:id",
+        "name_label": {
+          "en": "Update an source",
+          "zh": "更新 Source"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/sources/:id",
+        "name_label": {
+          "en": "Delete an source",
+          "zh": "删除 Source"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sources_probe",
+        "name_label": {
+          "en": "Test source",
+          "zh": "测试 Source"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sources/:id/:operation",
+        "name_label": {
+          "en": "Start source",
+          "zh": "启动 Source"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/sources/:id/enable/:enable",
+        "name_label": {
+          "en": "Disable/Enable source",
+          "zh": "禁用或启用 Source"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/nodes/:node/sources/:id/:operation",
+        "name_label": {
+          "en": "Start source on a specific node",
+          "zh": "启动指定节点上的 Source"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/sources/:id/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics for the source",
+          "zh": "重置指定 Source 的指标"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/sources/:id",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Update an source",
-      "zh": "更新 Source"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/sources/:id",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Delete an source",
-      "zh": "删除 Source"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/sources_probe",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Test source",
-      "zh": "测试 Source"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/sources/:id/:operation",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Start source",
-      "zh": "启动 Source"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/sources/:id/enable/:enable",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Disable/Enable source",
-      "zh": "禁用或启用 Source"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/nodes/:node/sources/:id/:operation",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Start source on a specific node",
-      "zh": "启动指定节点上的 Source"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/sources/:id/metrics/reset",
-    "operation_label": {
-      "en": "Sources",
-      "zh": "Sources"
-    },
-    "operation_name_label": {
-      "en": "Reset metrics for the source",
-      "zh": "重置指定 Source 的指标"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_registry",
-    "operation_label": {
+    "label": {
       "en": "Schema Registry",
       "zh": "Schema Registry"
     },
-    "operation_name_label": {
-      "en": "Create a new schema",
-      "zh": "创建新的 Schema"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/schema_registry",
+        "name_label": {
+          "en": "Create a new schema",
+          "zh": "创建新的 Schema"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/schema_registry/:name",
+        "name_label": {
+          "en": "Update a schema",
+          "zh": "更新 Schema"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/schema_registry/:name",
+        "name_label": {
+          "en": "Delete a schema",
+          "zh": "删除 Schema"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/schema_registry_external",
+        "name_label": {
+          "en": "Create external schema registry",
+          "zh": "创建外部 Schema"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/schema_registry_external/registry/:name",
+        "name_label": {
+          "en": "Update external schema registry",
+          "zh": "更新外部 Schema"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/schema_registry_external/registry/:name",
+        "name_label": {
+          "en": "Delete external schema registry",
+          "zh": "删除外部 Schema"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/schema_registry_protobuf/bundle",
+        "name_label": {
+          "en": "Upload a Protobuf bundle for an existing schema",
+          "zh": "上传一个 Protobuf 包用于现有的 Schema"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/schema_registry_protobuf/bundle",
+        "name_label": {
+          "en": "Upload a Protobuf bundle for a new schema",
+          "zh": "上传一个 Protobuf 包用于新的 Schema"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/cluster/links/link/:name/metrics/reset",
+        "name_label": {
+          "en": "Reset a cluster link's metrics",
+          "zh": "重置集群链接的指标"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/schema_registry/:name",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Update a schema",
-      "zh": "更新 Schema"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/schema_registry/:name",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Delete a schema",
-      "zh": "删除 Schema"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_registry_external",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Create external schema registry",
-      "zh": "创建外部 Schema"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/schema_registry_external/registry/:name",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Update external schema registry",
-      "zh": "更新外部 Schema"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/schema_registry_external/registry/:name",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Delete external schema registry",
-      "zh": "删除外部 Schema"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/schema_registry_protobuf/bundle",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Upload a Protobuf bundle for an existing schema",
-      "zh": "上传一个 Protobuf 包用于现有的 Schema"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_registry_protobuf/bundle",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Upload a Protobuf bundle for a new schema",
-      "zh": "上传一个 Protobuf 包用于新的 Schema"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_validations/validation/:name/metrics/reset",
-    "operation_label": {
+    "label": {
       "en": "Schema Validation",
       "zh": "Schema 验证"
     },
-    "operation_name_label": {
-      "en": "Reset metrics for a particular validation",
-      "zh": "重置指定 Schema 验证的指标"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/schema_validations/validation/:name/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics for a particular validation",
+          "zh": "重置指定 Schema 验证的指标"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/schema_validations",
+        "name_label": {
+          "en": "Create a new validation",
+          "zh": "创建新的 Schema 验证"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/schema_validations",
+        "name_label": {
+          "en": "Update a validation",
+          "zh": "更新 Schema 验证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/schema_validations/reorder",
+        "name_label": {
+          "en": "Reorder of all validations",
+          "zh": "重新排列所有验证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/schema_validations/validation/:name/enable/:enable",
+        "name_label": {
+          "en": "Enable or disable a particular validation",
+          "zh": "启用或禁用指定的 Schema 验证"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/schema_validations/validation/:name",
+        "name_label": {
+          "en": "Delete a validation",
+          "zh": "删除 Schema 验证"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/schema_validations",
-    "operation_label": {
-      "en": "Schema Validation",
-      "zh": "Schema 验证"
-    },
-    "operation_name_label": {
-      "en": "Create a new validation",
-      "zh": "创建新的 Schema 验证"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/schema_validations",
-    "operation_label": {
-      "en": "Schema Validation",
-      "zh": "Schema 验证"
-    },
-    "operation_name_label": {
-      "en": "Update a validation",
-      "zh": "更新 Schema 验证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_validations/reorder",
-    "operation_label": {
-      "en": "Schema Validation",
-      "zh": "Schema 验证"
-    },
-    "operation_name_label": {
-      "en": "Reorder of all validations",
-      "zh": "重新排列所有验证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/schema_validations/validation/:name/enable/:enable",
-    "operation_label": {
-      "en": "Schema Validation",
-      "zh": "Schema 验证"
-    },
-    "operation_name_label": {
-      "en": "Enable or disable a particular validation",
-      "zh": "启用或禁用指定的 Schema 验证"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/schema_validations/validation/:name",
-    "operation_label": {
-      "en": "Schema Validation",
-      "zh": "Schema 验证"
-    },
-    "operation_name_label": {
-      "en": "Delete a validation",
-      "zh": "删除 Schema 验证"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/mqtt/delayed",
-    "operation_label": {
+    "label": {
       "en": "MQTT",
       "zh": "MQTT"
     },
-    "operation_name_label": {
-      "en": "Update delayed publish",
-      "zh": "更新延迟发布配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/mqtt/delayed",
+        "name_label": {
+          "en": "Update delayed publish",
+          "zh": "更新延迟发布配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/mqtt/topic_metrics",
+        "name_label": {
+          "en": "Create topic metrics",
+          "zh": "添加主题监控"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/mqtt/topic_rewrite",
+        "name_label": {
+          "en": "Update rewrite rules",
+          "zh": "更新主题重写规则"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/mqtt/topic_metrics",
+        "name_label": {
+          "en": "Reset all topic metrics",
+          "zh": "重置所有主题监控指标"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/topic_metrics/:topic",
+        "name_label": {
+          "en": "Delete topic metrics",
+          "zh": "删除主题监控"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/delayed/messages/:node/:msgid",
+        "name_label": {
+          "en": "Delete delayed message",
+          "zh": "删除延迟消息"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/delayed/messages/:topic",
+        "name_label": {
+          "en": "Delete delayed messages by topic",
+          "zh": "按照主题删除延迟消息"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/mqtt/topic_metrics",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Create topic metrics",
-      "zh": "添加主题监控"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/mqtt/topic_rewrite",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Update rewrite rules",
-      "zh": "更新主题重写规则"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/mqtt/topic_metrics",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Reset all topic metrics",
-      "zh": "重置所有主题监控指标"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mqtt/topic_metrics/:topic",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Delete topic metrics",
-      "zh": "删除主题监控"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mqtt/delayed/messages/:node/:msgid",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Delete delayed message",
-      "zh": "删除延迟消息"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mqtt/delayed/messages/:topic",
-    "operation_label": {
-      "en": "MQTT",
-      "zh": "MQTT"
-    },
-    "operation_name_label": {
-      "en": "Delete delayed messages by topic",
-      "zh": "按照主题删除延迟消息"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/mqtt/retainer",
-    "operation_label": {
+    "label": {
       "en": "Retainer",
       "zh": "保留消息"
     },
-    "operation_name_label": {
-      "en": "Update retainer config",
-      "zh": "更新保留消息配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/mqtt/retainer",
+        "name_label": {
+          "en": "Update retainer config",
+          "zh": "更新保留消息配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/retainer/message/:topic",
+        "name_label": {
+          "en": "Delete the specific retainer message of the topic",
+          "zh": "删除指定主题的保留消息"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/retainer/messages",
+        "name_label": {
+          "en": "Delete all retainer messages",
+          "zh": "删除所有保留消息"
+        }
+      }
+    ]
   },
   {
-    "method": "delete",
-    "path": "/mqtt/retainer/message/:topic",
-    "operation_label": {
-      "en": "Retainer",
-      "zh": "保留消息"
-    },
-    "operation_name_label": {
-      "en": "Delete the specific retainer message of the topic",
-      "zh": "删除指定主题的保留消息"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mqtt/retainer/messages",
-    "operation_label": {
-      "en": "Retainer",
-      "zh": "保留消息"
-    },
-    "operation_name_label": {
-      "en": "Delete all retainer messages",
-      "zh": "删除所有保留消息"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/mqtt/auto_subscribe",
-    "operation_label": {
+    "label": {
       "en": "Auto Subscribe",
       "zh": "自动订阅"
     },
-    "operation_name_label": {
-      "en": "Update auto subscribe topic list",
-      "zh": "更新自动订阅主题列表"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/mqtt/auto_subscribe",
+        "name_label": {
+          "en": "Update auto subscribe topic list",
+          "zh": "更新自动订阅主题列表"
+        }
+      }
+    ]
   },
   {
-    "method": "delete",
-    "path": "/slow_subscriptions",
-    "operation_label": {
+    "label": {
       "en": "Slow Subscriptions",
       "zh": "慢订阅"
     },
-    "operation_name_label": {
-      "en": "Clear all slow subscriptions",
-      "zh": "清除慢订阅列表"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/slow_subscriptions",
+        "name_label": {
+          "en": "Clear all slow subscriptions",
+          "zh": "清除慢订阅列表"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/slow_subscriptions/settings",
+        "name_label": {
+          "en": "Update slow subscriptions config",
+          "zh": "更新慢订阅配置"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/slow_subscriptions/settings",
-    "operation_label": {
-      "en": "Slow Subscriptions",
-      "zh": "慢订阅"
-    },
-    "operation_name_label": {
-      "en": "Update slow subscriptions config",
-      "zh": "更新慢订阅配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/file_transfer",
-    "operation_label": {
+    "label": {
       "en": "File Transfer",
       "zh": "文件传输"
     },
-    "operation_name_label": {
-      "en": "Update file transfer config",
-      "zh": "更新文件传输配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/file_transfer",
+        "name_label": {
+          "en": "Update file transfer config",
+          "zh": "更新文件传输配置"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/gateways/:name",
-    "operation_label": {
+    "label": {
       "en": "Gateways",
       "zh": "网关"
     },
-    "operation_name_label": {
-      "en": "Update the gateway",
-      "zh": "更新网关"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/gateways/:name",
+        "name_label": {
+          "en": "Update the gateway",
+          "zh": "更新网关"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/listeners",
+        "name_label": {
+          "en": "Create the gateway listener",
+          "zh": "为网关添加监听器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/listeners/:id",
+        "name_label": {
+          "en": "Update the gateway listener",
+          "zh": "更新指定监听器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/listeners/:id",
+        "name_label": {
+          "en": "Delete the gateway listener",
+          "zh": "删除指定监听器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/authentication",
+        "name_label": {
+          "en": "Create the gateway authenticator",
+          "zh": "为网关创建认证器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/enable/:enable",
+        "name_label": {
+          "en": "Disable/Enable the gateway",
+          "zh": "禁用或启用指定网关"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/authentication",
+        "name_label": {
+          "en": "Update the gateway authenticator",
+          "zh": "更新指网关认证器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/authentication",
+        "name_label": {
+          "en": "Delete the gateway authenticator",
+          "zh": "删除网关的认证器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/clients/:clientid",
+        "name_label": {
+          "en": "Kick out the client",
+          "zh": "断开客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/authentication/users",
+        "name_label": {
+          "en": "Add client authentication credentials",
+          "zh": "添加客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/lwm2m/clients/:clientid/read",
+        "name_label": {
+          "en": "Send a read command to a client",
+          "zh": "发送读指令到客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/lwm2m/clients/:clientid/write",
+        "name_label": {
+          "en": "Send a write command to a client",
+          "zh": "发送写指令到某客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/coap/clients/:clientid/request",
+        "name_label": {
+          "en": "Send a CoAP request message to the client",
+          "zh": "发送 CoAP 消息到指定客户端"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/lwm2m/clients/:clientid/observe",
+        "name_label": {
+          "en": "Observe or Cancel observe LwM2M resource",
+          "zh": "Observe/Un-Observe LwM2M 资源"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/authentication/users/:uid",
+        "name_label": {
+          "en": "Update client authentication credentials",
+          "zh": "更新客户端认证凭证"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/authentication/users/:uid",
+        "name_label": {
+          "en": "Delete client authentication credentials",
+          "zh": "删除客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/authentication/import_users",
+        "name_label": {
+          "en": "Import client authentication credentials",
+          "zh": "导入客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/listeners/:id/authentication",
+        "name_label": {
+          "en": "Add authenticator for the listener",
+          "zh": "为指定监听器添加认证器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/listeners/:id/authentication",
+        "name_label": {
+          "en": "Update authenticator configs for the listener",
+          "zh": "更新指定监听器的认证器配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/listeners/:id/authentication",
+        "name_label": {
+          "en": "Remove authenticator for the listener",
+          "zh": "移除监听器的认证器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/clients/:clientid/subscriptions",
+        "name_label": {
+          "en": "Create a subscription membership",
+          "zh": "为某客户端新增订阅关系"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/listeners/:id/authentication/users",
+        "name_label": {
+          "en": "Add authentication for the listener",
+          "zh": "为指定监听器添加认证器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/clients/:clientid/subscriptions/:topic",
+        "name_label": {
+          "en": "Unsubscribe for client",
+          "zh": "客户端取消订阅"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/gateways/:name/listeners/:id/authentication/users/:uid",
+        "name_label": {
+          "en": "Update the client authentication credentials",
+          "zh": "更新监听器客户端认证凭证"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/gateways/:name/listeners/:id/authentication/users/:uid",
+        "name_label": {
+          "en": "Delete the client authentication credentials",
+          "zh": "删除监听器客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/listeners/:id/authentication/import_users",
+        "name_label": {
+          "en": "Import client authentication credentials",
+          "zh": "导入客户端认证凭证"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/gateways/:name/listeners",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Create the gateway listener",
-      "zh": "为网关添加监听器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/listeners/:id",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Update the gateway listener",
-      "zh": "更新指定监听器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/listeners/:id",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Delete the gateway listener",
-      "zh": "删除指定监听器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Create the gateway authenticator",
-      "zh": "为网关创建认证器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/enable/:enable",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Disable/Enable the gateway",
-      "zh": "禁用或启用指定网关"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Update the gateway authenticator",
-      "zh": "更新指网关认证器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Delete the gateway authenticator",
-      "zh": "删除网关的认证器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/clients/:clientid",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Kick out the client",
-      "zh": "断开客户端"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/authentication/users",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Add client authentication credentials",
-      "zh": "添加客户端认证凭证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/lwm2m/clients/:clientid/read",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Send a read command to a client",
-      "zh": "发送读指令到客户端"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/lwm2m/clients/:clientid/write",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Send a write command to a client",
-      "zh": "发送写指令到某客户端"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/coap/clients/:clientid/request",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Send a CoAP request message to the client",
-      "zh": "发送 CoAP 消息到指定客户端"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/lwm2m/clients/:clientid/observe",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Observe or Cancel observe LwM2M resource",
-      "zh": "Observe/Un-Observe LwM2M 资源"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/authentication/users/:uid",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Update client authentication credentials",
-      "zh": "更新客户端认证凭证"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/authentication/users/:uid",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Delete client authentication credentials",
-      "zh": "删除客户端认证凭证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/authentication/import_users",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Import client authentication credentials",
-      "zh": "导入客户端认证凭证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/listeners/:id/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Add authenticator for the listener",
-      "zh": "为指定监听器添加认证器"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/listeners/:id/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Update authenticator configs for the listener",
-      "zh": "更新指定监听器的认证器配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/listeners/:id/authentication",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Remove authenticator for the listener",
-      "zh": "移除监听器的认证器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/clients/:clientid/subscriptions",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Create a subscription membership",
-      "zh": "为某客户端新增订阅关系"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/listeners/:id/authentication/users",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Add authentication for the listener",
-      "zh": "为指定监听器添加认证器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/clients/:clientid/subscriptions/:topic",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Unsubscribe for client",
-      "zh": "客户端取消订阅"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/gateways/:name/listeners/:id/authentication/users/:uid",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Update the client authentication credentials",
-      "zh": "更新监听器客户端认证凭证"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/gateways/:name/listeners/:id/authentication/users/:uid",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Delete the client authentication credentials",
-      "zh": "删除监听器客户端认证凭证"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/gateways/:name/listeners/:id/authentication/import_users",
-    "operation_label": {
-      "en": "Gateways",
-      "zh": "网关"
-    },
-    "operation_name_label": {
-      "en": "Import client authentication credentials",
-      "zh": "导入客户端认证凭证"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/plugins/:name",
-    "operation_label": {
+    "label": {
       "en": "Plugins",
       "zh": "插件"
     },
-    "operation_name_label": {
-      "en": "Uninstalls plugin",
-      "zh": "卸载插件"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/plugins/:name",
+        "name_label": {
+          "en": "Uninstalls plugin",
+          "zh": "卸载插件"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/plugins/install",
+        "name_label": {
+          "en": "Upload and install plugin",
+          "zh": "上传并安装插件"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/plugins/:name/move",
+        "name_label": {
+          "en": "Setting the boot order of plugins",
+          "zh": "调整插件启动顺序"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/plugins/:name/:action",
+        "name_label": {
+          "en": "Start or Stop plugin",
+          "zh": "停启插件"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/plugins/:name/config",
+        "name_label": {
+          "en": "Update plugin config",
+          "zh": "更新插件配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/plugins/cluster_sync",
+        "name_label": {
+          "en": "Forces a plugin to be synced to the cluster and removes other versions of the plugin",
+          "zh": "强制插件同步到集群并删除其他版本"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/plugins/:name/config/upload",
+        "name_label": {
+          "en": "Upload plugin config",
+          "zh": "上传插件配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/plugin_api/:plugin/[...]",
+        "name_label": {
+          "en": "Plugin custom API (DELETE)",
+          "zh": "插件自定义 API (DELETE)"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/plugin_api/:plugin/[...]",
+        "name_label": {
+          "en": "Plugin custom API (POST)",
+          "zh": "插件自定义 API (POST)"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/plugin_api/:plugin/[...]",
+        "name_label": {
+          "en": "Plugin custom API (POST)",
+          "zh": "插件自定义 API (PUT)"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/plugins/install",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Upload and install plugin",
-      "zh": "上传并安装插件"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/plugins/:name/move",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Setting the boot order of plugins",
-      "zh": "调整插件启动顺序"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/plugins/:name/:action",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Start or Stop plugin",
-      "zh": "停启插件"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/plugins/:name/config",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Update plugin config",
-      "zh": "更新插件配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/plugins/cluster_sync",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Forces a plugin to be synced to the cluster and removes other versions of the plugin",
-      "zh": "强制插件同步到集群并删除其他版本"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/plugins/:name/config/upload",
-    "operation_label": {
-      "en": "Plugins",
-      "zh": "插件"
-    },
-    "operation_name_label": {
-      "en": "Upload plugin config",
-      "zh": "上传插件配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/exhooks",
-    "operation_label": {
+    "label": {
       "en": "ExHook",
       "zh": "ExHook"
     },
-    "operation_name_label": {
-      "en": "Add a ExHook",
-      "zh": "添加 ExHook"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/exhooks",
+        "name_label": {
+          "en": "Add a ExHook",
+          "zh": "添加 ExHook"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/exhooks/:name",
+        "name_label": {
+          "en": "Update the ExHook",
+          "zh": "更新 Exhook"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/exhooks/:name",
+        "name_label": {
+          "en": "Delete the ExHook",
+          "zh": "删除 ExHook"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/exhooks/:name/move",
+        "name_label": {
+          "en": "Move ExHook position",
+          "zh": "调整 ExHook 顺序"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/exhooks/:name",
-    "operation_label": {
-      "en": "ExHook",
-      "zh": "ExHook"
-    },
-    "operation_name_label": {
-      "en": "Update the ExHook",
-      "zh": "更新 Exhook"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/exhooks/:name",
-    "operation_label": {
-      "en": "ExHook",
-      "zh": "ExHook"
-    },
-    "operation_name_label": {
-      "en": "Delete the ExHook",
-      "zh": "删除 ExHook"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/exhooks/:name/move",
-    "operation_label": {
-      "en": "ExHook",
-      "zh": "ExHook"
-    },
-    "operation_name_label": {
-      "en": "Move ExHook position",
-      "zh": "调整 ExHook 顺序"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs",
-    "operation_label": {
+    "label": {
       "en": "Configs",
       "zh": "配置"
     },
-    "operation_name_label": {
-      "en": "Update configs",
-      "zh": "更新配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/configs",
+        "name_label": {
+          "en": "Update configs",
+          "zh": "更新配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/log",
+        "name_label": {
+          "en": "Update the log config",
+          "zh": "更新日志配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/file_transfer",
+        "name_label": {
+          "en": "(Configs)Update file transfer config",
+          "zh": "(配置)更新文件传输配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/alarm",
+        "name_label": {
+          "en": "Update alarm config",
+          "zh": "更新告警配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/sysmon",
+        "name_label": {
+          "en": "Update sysmon config",
+          "zh": "更新 sysmon 配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/dashboard",
+        "name_label": {
+          "en": "Update dashboard config",
+          "zh": "更新 Dashboard 配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/sys_topics",
+        "name_label": {
+          "en": "Update sys_topics config",
+          "zh": "更新系统主题配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/global_zone",
+        "name_label": {
+          "en": "Update global zone config",
+          "zh": "更新全局 zone 配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/configs/broker",
+        "name_label": {
+          "en": "Update the sub-configurations under broker",
+          "zh": "更新 broker 下的子配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/configs_reset/:rootname",
+        "name_label": {
+          "en": "Reset the specific config to default value",
+          "zh": "重置指定配置为默认值"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/configs/log",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update the log config",
-      "zh": "更新日志配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/file_transfer",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "(Configs)Update file transfer config",
-      "zh": "(配置)更新文件传输配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/alarm",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update alarm config",
-      "zh": "更新告警配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/sysmon",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update sysmon config",
-      "zh": "更新 sysmon 配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/dashboard",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update dashboard config",
-      "zh": "更新 Dashboard 配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/sys_topics",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update sys_topics config",
-      "zh": "更新系统主题配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/global_zone",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update global zone config",
-      "zh": "更新全局 zone 配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/broker",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Update the sub-configurations under broker",
-      "zh": "更新 broker 下的子配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/configs_reset/:rootname",
-    "operation_label": {
-      "en": "Configs",
-      "zh": "配置"
-    },
-    "operation_name_label": {
-      "en": "Reset the specific config to default value",
-      "zh": "重置指定配置为默认值"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/listeners/:id",
-    "operation_label": {
+    "label": {
       "en": "Listeners",
       "zh": "监听器"
     },
-    "operation_name_label": {
-      "en": "Create a listener",
-      "zh": "创建监听器"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/listeners/:id",
+        "name_label": {
+          "en": "Create a listener",
+          "zh": "创建监听器"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/listeners/:id",
+        "name_label": {
+          "en": "Update the listener",
+          "zh": "更新监听器"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/listeners/:id",
+        "name_label": {
+          "en": "Delete a listener",
+          "zh": "删除监听器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/listeners/:id/stop",
+        "name_label": {
+          "en": "Stop the listener on all nodes",
+          "zh": "在所有节点上停止指定 ID 的监听器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/listeners/:id/start",
+        "name_label": {
+          "en": "Start the listener",
+          "zh": "启动监听器"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/listeners/:id/restart",
+        "name_label": {
+          "en": "Restart listener",
+          "zh": "重启监听器"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/listeners/:id",
-    "operation_label": {
-      "en": "Listeners",
-      "zh": "监听器"
-    },
-    "operation_name_label": {
-      "en": "Update the listener",
-      "zh": "更新监听器"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/listeners/:id",
-    "operation_label": {
-      "en": "Listeners",
-      "zh": "监听器"
-    },
-    "operation_name_label": {
-      "en": "Delete a listener",
-      "zh": "删除监听器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/listeners/:id/stop",
-    "operation_label": {
-      "en": "Listeners",
-      "zh": "监听器"
-    },
-    "operation_name_label": {
-      "en": "Stop the listener on all nodes",
-      "zh": "在所有节点上停止指定 ID 的监听器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/listeners/:id/start",
-    "operation_label": {
-      "en": "Listeners",
-      "zh": "监听器"
-    },
-    "operation_name_label": {
-      "en": "Start the listener",
-      "zh": "启动监听器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/listeners/:id/restart",
-    "operation_label": {
-      "en": "Listeners",
-      "zh": "监听器"
-    },
-    "operation_name_label": {
-      "en": "Restart listener",
-      "zh": "重启监听器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/license",
-    "operation_label": {
+    "label": {
       "en": "License",
       "zh": "License"
     },
-    "operation_name_label": {
-      "en": "Update License key",
-      "zh": "更新 License"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/license",
+        "name_label": {
+          "en": "Update License key",
+          "zh": "更新 License"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/license/setting",
+        "name_label": {
+          "en": "Update license config",
+          "zh": "更新 License 配置"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/license/setting",
-    "operation_label": {
-      "en": "License",
-      "zh": "License"
-    },
-    "operation_name_label": {
-      "en": "Update license config",
-      "zh": "更新 License 配置"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/tracing",
-    "operation_label": {
+    "label": {
       "en": "Trace",
       "zh": "日志追踪"
     },
-    "operation_name_label": {
-      "en": "Update Tracing configuration",
-      "zh": "更新日志追踪配置"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/tracing",
+        "name_label": {
+          "en": "Update Tracing configuration",
+          "zh": "更新日志追踪配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/trace",
+        "name_label": {
+          "en": "Create new trace",
+          "zh": "创建日志追踪"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/trace",
+        "name_label": {
+          "en": "Clear all traces",
+          "zh": "清除所有日志追踪"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/trace/:name",
+        "name_label": {
+          "en": "Delete trace",
+          "zh": "删除日志追踪"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/trace/:name/stop",
+        "name_label": {
+          "en": "Stop trace by name",
+          "zh": "停止指定的日志追踪"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/trace",
-    "operation_label": {
-      "en": "Trace",
-      "zh": "日志追踪"
-    },
-    "operation_name_label": {
-      "en": "Create new trace",
-      "zh": "创建日志追踪"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/trace",
-    "operation_label": {
-      "en": "Trace",
-      "zh": "日志追踪"
-    },
-    "operation_name_label": {
-      "en": "Clear all traces",
-      "zh": "清除所有日志追踪"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/trace/:name",
-    "operation_label": {
-      "en": "Trace",
-      "zh": "日志追踪"
-    },
-    "operation_name_label": {
-      "en": "Delete trace",
-      "zh": "删除日志追踪"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/trace/:name/stop",
-    "operation_label": {
-      "en": "Trace",
-      "zh": "日志追踪"
-    },
-    "operation_name_label": {
-      "en": "Stop trace by name",
-      "zh": "停止指定的日志追踪"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/alarms",
-    "operation_label": {
+    "label": {
       "en": "Alarms",
       "zh": "告警"
     },
-    "operation_name_label": {
-      "en": "Remove all historical alarms",
-      "zh": "删除所有历史告警"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/alarms",
+        "name_label": {
+          "en": "Remove all historical alarms",
+          "zh": "删除所有历史告警"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/alarms/force_deactivate",
+        "name_label": {
+          "en": "Force deactivate an alarm",
+          "zh": "强制关闭指定告警"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/alarms/force_deactivate",
-    "operation_label": {
-      "en": "Alarms",
-      "zh": "告警"
-    },
-    "operation_name_label": {
-      "en": "Force deactivate an alarm",
-      "zh": "强制关闭指定告警"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/load_rebalance/:node/stop",
-    "operation_label": {
+    "label": {
       "en": "Load Rebalance",
       "zh": "负载均衡"
     },
-    "operation_name_label": {
-      "en": "Stop rebalance process",
-      "zh": "停止重平衡任务"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/load_rebalance/:node/stop",
+        "name_label": {
+          "en": "Stop rebalance process",
+          "zh": "停止重平衡任务"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/load_rebalance/:node/start",
+        "name_label": {
+          "en": "Start rebalance process",
+          "zh": "启动重平衡任务"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/load_rebalance/:node/evacuation/stop",
+        "name_label": {
+          "en": "Stop evacuation process",
+          "zh": "停止疏散任务"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/load_rebalance/:node/evacuation/start",
+        "name_label": {
+          "en": "Start node evacuation",
+          "zh": "启动节点疏散"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/load_rebalance/:node/start",
-    "operation_label": {
-      "en": "Load Rebalance",
-      "zh": "负载均衡"
-    },
-    "operation_name_label": {
-      "en": "Start rebalance process",
-      "zh": "启动重平衡任务"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/load_rebalance/:node/evacuation/stop",
-    "operation_label": {
-      "en": "Load Rebalance",
-      "zh": "负载均衡"
-    },
-    "operation_name_label": {
-      "en": "Stop evacuation process",
-      "zh": "停止疏散任务"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/load_rebalance/:node/evacuation/start",
-    "operation_label": {
-      "en": "Load Rebalance",
-      "zh": "负载均衡"
-    },
-    "operation_name_label": {
-      "en": "Start node evacuation",
-      "zh": "启动节点疏散"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/users",
-    "operation_label": {
+    "label": {
       "en": "Dashboard",
       "zh": "Dashboard"
     },
-    "operation_name_label": {
-      "en": "Create dashboard user",
-      "zh": "创建 Dashboard 用户"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/users",
+        "name_label": {
+          "en": "Create dashboard user",
+          "zh": "创建 Dashboard 用户"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/login",
+        "name_label": {
+          "en": "Dashboard user login",
+          "zh": "Dashboard 用户登录"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/logout",
+        "name_label": {
+          "en": "Dashboard user logout",
+          "zh": "Dashboard 用户退出登录"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/users/:username",
+        "name_label": {
+          "en": "Update dashboard user",
+          "zh": "更新 Dashboard 用户"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/users/:username",
+        "name_label": {
+          "en": "Delete dashboard user",
+          "zh": "删除 Dashboard 用户"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/users/:username/change_pwd",
+        "name_label": {
+          "en": "Change dashboard user password",
+          "zh": "更改 Dashboard 用户密码"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/users/:username/mfa",
+        "name_label": {
+          "en": "Delete MFA state for a dashboard user",
+          "zh": "删除 Dashboard 用户的 MFA"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/users/:username/mfa",
+        "name_label": {
+          "en": "Setup MFA for a dashboard user",
+          "zh": "设置 Dashboard 用户的 MFA"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/login",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Dashboard user login",
-      "zh": "Dashboard 用户登录"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/logout",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Dashboard user logout",
-      "zh": "Dashboard 用户退出登录"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/users/:username",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Update dashboard user",
-      "zh": "更新 Dashboard 用户"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/users/:username",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Delete dashboard user",
-      "zh": "删除 Dashboard 用户"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/users/:username/change_pwd",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Change dashboard user password",
-      "zh": "更改 Dashboard 用户密码"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/users/:username/mfa",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Delete MFA state for a dashboard user",
-      "zh": "删除 Dashboard 用户的 MFA"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/users/:username/mfa",
-    "operation_label": {
-      "en": "Dashboard",
-      "zh": "Dashboard"
-    },
-    "operation_name_label": {
-      "en": "Setup MFA for a dashboard user",
-      "zh": "设置 Dashboard 用户的 MFA"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/sso/saml/acs",
-    "operation_label": {
+    "label": {
       "en": "Dashboard Single Sign-On",
       "zh": "Dashboard 单点登录"
     },
-    "operation_name_label": {
-      "en": "SAML SSO ACS Callback",
-      "zh": "SAML SSO ACS 回调"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/sso/saml/acs",
+        "name_label": {
+          "en": "SAML SSO ACS Callback",
+          "zh": "SAML SSO ACS 回调"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/sso/:backend",
+        "name_label": {
+          "en": "Update single sign-on config",
+          "zh": "更新单点登录配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/sso/:backend",
+        "name_label": {
+          "en": "Delete single sign-on config",
+          "zh": "删除单点登录配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sso/login/:backend",
+        "name_label": {
+          "en": "Single Sign-On Login",
+          "zh": "单点登录发起登录"
+        }
+      },
+      {
+        "method": "get",
+        "path": "/sso/oidc/callback",
+        "name_label": {
+          "en": "OIDC authorization server callback request",
+          "zh": "OIDC 授权服务器回调请求"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/sso/:backend",
-    "operation_label": {
-      "en": "Dashboard Single Sign-On",
-      "zh": "Dashboard 单点登录"
-    },
-    "operation_name_label": {
-      "en": "Update single sign-on config",
-      "zh": "更新单点登录配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/sso/:backend",
-    "operation_label": {
-      "en": "Dashboard Single Sign-On",
-      "zh": "Dashboard 单点登录"
-    },
-    "operation_name_label": {
-      "en": "Delete single sign-on config",
-      "zh": "删除单点登录配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/sso/login/:backend",
-    "operation_label": {
-      "en": "Dashboard Single Sign-On",
-      "zh": "Dashboard 单点登录"
-    },
-    "operation_name_label": {
-      "en": "Single Sign-On Login",
-      "zh": "单点登录发起登录"
-    }
-  },
-  {
-    "method": "get",
-    "path": "/sso/oidc/callback",
-    "operation_label": {
-      "en": "Dashboard Single Sign-On",
-      "zh": "Dashboard 单点登录"
-    },
-    "operation_name_label": {
-      "en": "OIDC authorization server callback request",
-      "zh": "OIDC 授权服务器回调请求"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/api_key",
-    "operation_label": {
+    "label": {
       "en": "API Key",
       "zh": "API 密钥"
     },
-    "operation_name_label": {
-      "en": "Create new API Key",
-      "zh": "创建 API 密钥"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/api_key",
+        "name_label": {
+          "en": "Create new API Key",
+          "zh": "创建 API 密钥"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/api_key/:name",
+        "name_label": {
+          "en": "Update the specific API Key",
+          "zh": "更新 API 密钥"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/api_key/:name",
+        "name_label": {
+          "en": "Delete the specific API Key",
+          "zh": "删除 API 密钥"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/api_key/:name",
-    "operation_label": {
-      "en": "API Key",
-      "zh": "API 密钥"
-    },
-    "operation_name_label": {
-      "en": "Update the specific API Key",
-      "zh": "更新 API 密钥"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/api_key/:name",
-    "operation_label": {
-      "en": "API Key",
-      "zh": "API 密钥"
-    },
-    "operation_name_label": {
-      "en": "Delete the specific API Key",
-      "zh": "删除 API 密钥"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/data/files/:filename",
-    "operation_label": {
+    "label": {
       "en": "Data Backup",
       "zh": "数据备份"
     },
-    "operation_name_label": {
-      "en": "Delete backup file",
-      "zh": "删除备份文件"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/data/files/:filename",
+        "name_label": {
+          "en": "Delete backup file",
+          "zh": "删除备份文件"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/data/export",
+        "name_label": {
+          "en": "Create a new backup file",
+          "zh": "创建备份文件"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/data/import",
+        "name_label": {
+          "en": "Restore from specified backup file",
+          "zh": "从指定备份文件恢复"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/data/files",
+        "name_label": {
+          "en": "Upload backup file",
+          "zh": "上传备份文件"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/data/export",
-    "operation_label": {
-      "en": "Data Backup",
-      "zh": "数据备份"
-    },
-    "operation_name_label": {
-      "en": "Create a new backup file",
-      "zh": "创建备份文件"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/data/import",
-    "operation_label": {
-      "en": "Data Backup",
-      "zh": "数据备份"
-    },
-    "operation_name_label": {
-      "en": "Restore from specified backup file",
-      "zh": "从指定备份文件恢复"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/data/files",
-    "operation_label": {
-      "en": "Data Backup",
-      "zh": "数据备份"
-    },
-    "operation_name_label": {
-      "en": "Upload backup file",
-      "zh": "上传备份文件"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/ds/storages/:ds/replicas/:site",
-    "operation_label": {
+    "label": {
       "en": "Durable Storage",
       "zh": "持久化存储"
     },
-    "operation_name_label": {
-      "en": "Remove site as a replica for the durable storage",
-      "zh": "移除作为持久化储存副本的站点"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/ds/storages/:ds/replicas/:site",
+        "name_label": {
+          "en": "Remove site as a replica for the durable storage",
+          "zh": "移除作为持久化储存副本的站点"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/ds/storages/:ds/replicas/:site",
+        "name_label": {
+          "en": "Add site as a replica for the durable storage",
+          "zh": "添加站点作为持久化存储的副本"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/ds/storages/:ds/replicas",
+        "name_label": {
+          "en": "Update replicas of the durable storage",
+          "zh": "更新持久化存储的副本"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/ds/sites/:site/forget",
+        "name_label": {
+          "en": "Forget site",
+          "zh": "遗忘站点"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/ds/storages/:ds/replicas/:site",
-    "operation_label": {
-      "en": "Durable Storage",
-      "zh": "持久化存储"
-    },
-    "operation_name_label": {
-      "en": "Add site as a replica for the durable storage",
-      "zh": "添加站点作为持久化存储的副本"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/ds/storages/:ds/replicas",
-    "operation_label": {
-      "en": "Durable Storage",
-      "zh": "持久化存储"
-    },
-    "operation_name_label": {
-      "en": "Update replicas of the durable storage",
-      "zh": "更新持久化存储的副本"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/ds/sites/:site/forget",
-    "operation_label": {
-      "en": "Durable Storage",
-      "zh": "持久化存储"
-    },
-    "operation_name_label": {
-      "en": "Forget site",
-      "zh": "遗忘站点"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_transformations",
-    "operation_label": {
+    "label": {
       "en": "Message Transformation",
       "zh": "消息转换"
     },
-    "operation_name_label": {
-      "en": "Append a new transformation",
-      "zh": "添加新的消息转换"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/message_transformations",
+        "name_label": {
+          "en": "Append a new transformation",
+          "zh": "添加新的消息转换"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/message_transformations",
+        "name_label": {
+          "en": "Update a transformation",
+          "zh": "更新消息转换"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/message_transformations/reorder",
+        "name_label": {
+          "en": "Reorder of all transformations",
+          "zh": "重新排序所有消息转换"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/message_transformations/transformation/:name",
+        "name_label": {
+          "en": "Delete a transformation",
+          "zh": "删除消息转换"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/message_transformations/transformation/:name/enable/:enable",
+        "name_label": {
+          "en": "Enable or disable a particular transformation",
+          "zh": "启用或禁用指定消息转换"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/message_transformations/transformation/:name/metrics/reset",
+        "name_label": {
+          "en": "Reset metrics for a particular transformation",
+          "zh": "重置指定消息转换的指标"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/message_transformations/dryrun",
+        "name_label": {
+          "en": "Test an input against a transformation",
+          "zh": "针对消息转换测试输入"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/message_transformations",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Update a transformation",
-      "zh": "更新消息转换"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_transformations/reorder",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Reorder of all transformations",
-      "zh": "重新排序所有消息转换"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/message_transformations/transformation/:name",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Delete a transformation",
-      "zh": "删除消息转换"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_transformations/transformation/:name/enable/:enable",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Enable or disable a particular transformation",
-      "zh": "启用或禁用指定消息转换"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_transformations/transformation/:name/metrics/reset",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Reset metrics for a particular transformation",
-      "zh": "重置指定消息转换的指标"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_transformations/dryrun",
-    "operation_label": {
-      "en": "Message Transformation",
-      "zh": "消息转换"
-    },
-    "operation_name_label": {
-      "en": "Test an input against a transformation",
-      "zh": "针对消息转换测试输入"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/relup/upgrade/:node",
-    "operation_label": {
+    "label": {
       "en": "Hot Upgrade",
       "zh": "热升级"
     },
-    "operation_name_label": {
-      "en": "Upgrade specified node to target version",
-      "zh": "升级指定节点到目标版本"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/relup/upgrade/:node",
+        "name_label": {
+          "en": "Upgrade specified node to target version",
+          "zh": "升级指定节点到目标版本"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/relup/upgrade",
+        "name_label": {
+          "en": "Upgrade all nodes to target version",
+          "zh": "升级所有节点到目标版本"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/relup/package/upload",
+        "name_label": {
+          "en": "Upload a hot upgrade package",
+          "zh": "上传热升级包"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/relup/package",
+        "name_label": {
+          "en": "Delete the installed hot upgrade package",
+          "zh": "删除已安装的热升级包"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/relup/upgrade",
-    "operation_label": {
-      "en": "Hot Upgrade",
-      "zh": "热升级"
-    },
-    "operation_name_label": {
-      "en": "Upgrade all nodes to target version",
-      "zh": "升级所有节点到目标版本"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/relup/package/upload",
-    "operation_label": {
-      "en": "Hot Upgrade",
-      "zh": "热升级"
-    },
-    "operation_name_label": {
-      "en": "Upload a hot upgrade package",
-      "zh": "上传热升级包"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/relup/package",
-    "operation_label": {
-      "en": "Hot Upgrade",
-      "zh": "热升级"
-    },
-    "operation_name_label": {
-      "en": "Delete the installed hot upgrade package",
-      "zh": "删除已安装的热升级包"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/cluster/links",
-    "operation_label": {
+    "label": {
       "en": "Cluster Linking",
       "zh": "集群连接"
     },
-    "operation_name_label": {
-      "en": "Create cluster link",
-      "zh": "创建集群连接"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/cluster/links",
+        "name_label": {
+          "en": "Create cluster link",
+          "zh": "创建集群连接"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/cluster/links/link/:name",
+        "name_label": {
+          "en": "Update cluster link configuration",
+          "zh": "更新集群链接配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/cluster/links/link/:name",
+        "name_label": {
+          "en": "Delete cluster link",
+          "zh": "删除集群链接"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/cluster/links/link/:name",
-    "operation_label": {
-      "en": "Cluster Linking",
-      "zh": "集群连接"
-    },
-    "operation_name_label": {
-      "en": "Update cluster link configuration",
-      "zh": "更新集群链接配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/cluster/links/link/:name",
-    "operation_label": {
-      "en": "Cluster Linking",
-      "zh": "集群连接"
-    },
-    "operation_name_label": {
-      "en": "Delete cluster link",
-      "zh": "删除集群链接"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/cluster/links/link/:name/metrics/reset",
-    "operation_label": {
-      "en": "Schema Registry",
-      "zh": "Schema Registry"
-    },
-    "operation_name_label": {
-      "en": "Reset a cluster link's metrics",
-      "zh": "重置集群链接的指标"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/monitor",
-    "operation_label": {
-      "en": "Monitor",
-      "zh": "监控"
-    },
-    "operation_name_label": {
-      "en": "Clear monitor (statistics) data for the whole cluster",
-      "zh": "清除集群监控（统计）数据"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/telemetry/status",
-    "operation_label": {
+    "label": {
       "en": "Telemetry",
       "zh": "遥测"
     },
-    "operation_name_label": {
-      "en": "Enable or disable telemetry",
-      "zh": "启用或禁用遥测"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/telemetry/status",
+        "name_label": {
+          "en": "Enable or disable telemetry",
+          "zh": "启用或禁用遥测"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/mt/bulk_import_configs",
-    "operation_label": {
+    "label": {
       "en": "Namespace",
       "zh": "命名空间"
     },
-    "operation_name_label": {
-      "en": "Upsert namespace configurations in bulk",
-      "zh": "批量更新命名空间配置"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/mt/bulk_import_configs",
+        "name_label": {
+          "en": "Upsert namespace configurations in bulk",
+          "zh": "批量更新命名空间配置"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/mt/ns/:ns/config",
+        "name_label": {
+          "en": "Update managed namespace configuration",
+          "zh": "更新命名空间配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/mt/ns/:ns/kick_all_clients",
+        "name_label": {
+          "en": "Kick all clients in namespace (async)",
+          "zh": "踢除命名空间中的所有客户端（异步）"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mt/ns/:ns",
+        "name_label": {
+          "en": "Delete managed namespace",
+          "zh": "删除命名空间"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mt/bulk_delete_ns",
+        "name_label": {
+          "en": "Bulk delete namespaces",
+          "zh": "批量删除命名空间"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/mt/ns/:ns",
+        "name_label": {
+          "en": "Create managed namespace",
+          "zh": "创建命名空间"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/mt/bulk_export_ns_configs",
+        "name_label": {
+          "en": "Export one or more namespaced configurations",
+          "zh": "批量导出命名空间配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/mt/bulk_import_ns_configs",
+        "name_label": {
+          "en": "Import one or more namespaced configurations",
+          "zh": "批量导入命名空间配置"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/mt/ns/:ns/config",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Update managed namespace configuration",
-      "zh": "更新命名空间配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/mt/ns/:ns/kick_all_clients",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Kick all clients in namespace (async)",
-      "zh": "踢除命名空间中的所有客户端（异步）"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mt/ns/:ns",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Delete managed namespace",
-      "zh": "删除命名空间"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/mt/bulk_delete_ns",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Bulk delete namespaces",
-      "zh": "批量删除命名空间"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/mt/ns/:ns",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Create managed namespace",
-      "zh": "创建命名空间"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/mt/bulk_export_ns_configs",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Export one or more namespaced configurations",
-      "zh": "批量导出命名空间配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/mt/bulk_import_ns_configs",
-    "operation_label": {
-      "en": "Namespace",
-      "zh": "命名空间"
-    },
-    "operation_name_label": {
-      "en": "Import one or more namespaced configurations",
-      "zh": "批量导入命名空间配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/ai/providers",
-    "operation_label": {
+    "label": {
       "en": "AI Completion",
       "zh": "AI 助手"
     },
-    "operation_name_label": {
-      "en": "Create provider entry for an AI provider",
-      "zh": "创建 AI 提供商条目"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/ai/providers",
+        "name_label": {
+          "en": "Create provider entry for an AI provider",
+          "zh": "创建 AI 提供商条目"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/ai/providers/:name",
+        "name_label": {
+          "en": "Update provider entry for an AI provider",
+          "zh": "更新 AI 提供商条目"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/ai/providers/:name",
+        "name_label": {
+          "en": "Delete provider entry for an AI provider",
+          "zh": "删除 AI 提供商条目"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/ai/completion_profiles",
+        "name_label": {
+          "en": "Create AI completion profile",
+          "zh": "创建 AI 助手条目"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/ai/completion_profiles/:name",
+        "name_label": {
+          "en": "Update AI completion profile",
+          "zh": "更新 AI 助手条目"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/ai/completion_profiles/:name",
+        "name_label": {
+          "en": "Delete AI completion profile",
+          "zh": "删除 AI 助手条目"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/ai/models",
+        "name_label": {
+          "en": "List all AI models available for a provider type",
+          "zh": "列出所有可用的 AI 模型"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/ai/providers/:name",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "Update provider entry for an AI provider",
-      "zh": "更新 AI 提供商条目"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/ai/providers/:name",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "Delete provider entry for an AI provider",
-      "zh": "删除 AI 提供商条目"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/ai/completion_profiles",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "Create AI completion profile",
-      "zh": "创建 AI 助手条目"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/ai/completion_profiles/:name",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "Update AI completion profile",
-      "zh": "更新 AI 助手条目"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/ai/completion_profiles/:name",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "Delete AI completion profile",
-      "zh": "删除 AI 助手条目"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/ai/models",
-    "operation_label": {
-      "en": "AI Completion",
-      "zh": "AI 助手"
-    },
-    "operation_name_label": {
-      "en": "List all AI models available for a provider type",
-      "zh": "列出所有可用的 AI 模型"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/message_queues/queues",
-    "operation_label": {
+    "label": {
       "en": "Queues",
       "zh": "队列"
     },
-    "operation_name_label": {
-      "en": "Create a new queue (Deprecated)",
-      "zh": "创建新的队列（已弃用）"
-    }
+    "operations": [
+      {
+        "method": "post",
+        "path": "/message_queues/queues",
+        "name_label": {
+          "en": "Create a new queue (Deprecated)",
+          "zh": "创建新的队列（已弃用）"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/message_queues/config",
+        "name_label": {
+          "en": "Update queue config (Deprecated)",
+          "zh": "更新队列配置（已弃用）"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/message_queues/queues/:topic_filter",
+        "name_label": {
+          "en": "Delete queue (Deprecated)",
+          "zh": "删除队列（已弃用）"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/message_queues/queues/:topic_filter",
+        "name_label": {
+          "en": "Update queue (Deprecated)",
+          "zh": "更新队列（已弃用）"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/queues",
+        "name_label": {
+          "en": "Create a new queue",
+          "zh": "创建新的队列"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/queues/config",
+        "name_label": {
+          "en": "Update queue config",
+          "zh": "更新队列配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/queue/:name",
+        "name_label": {
+          "en": "Delete queue",
+          "zh": "删除队列"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/queue/:name",
+        "name_label": {
+          "en": "Update queue",
+          "zh": "更新队列"
+        }
+      }
+    ]
   },
   {
-    "method": "put",
-    "path": "/message_queues/config",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Update queue config (Deprecated)",
-      "zh": "更新队列配置（已弃用）"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/message_queues/queues/:topic_filter",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Delete queue (Deprecated)",
-      "zh": "删除队列（已弃用）"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/message_queues/queues/:topic_filter",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Update queue (Deprecated)",
-      "zh": "更新队列（已弃用）"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/queues",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Create a new queue",
-      "zh": "创建新的队列"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/queues/config",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Update queue config",
-      "zh": "更新队列配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/queue/:name",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Delete queue",
-      "zh": "删除队列"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/queue/:name",
-    "operation_label": {
-      "en": "Queues",
-      "zh": "队列"
-    },
-    "operation_name_label": {
-      "en": "Update queue",
-      "zh": "更新队列"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/certs/ns/:namespace/name/:name",
-    "operation_label": {
+    "label": {
       "en": "TLS Management",
       "zh": "TLS 管理"
     },
-    "operation_name_label": {
-      "en": "Delete a managed namespace bundle",
-      "zh": "删除命名空间证书包"
-    }
+    "operations": [
+      {
+        "method": "delete",
+        "path": "/certs/ns/:namespace/name/:name",
+        "name_label": {
+          "en": "Delete a managed namespace bundle",
+          "zh": "删除命名空间证书包"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/certs/ns/:namespace/name/:name",
+        "name_label": {
+          "en": "Upload a file to a managed namespace bundle",
+          "zh": "上传命名空间证书包文件"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/certs/global/name/:name",
+        "name_label": {
+          "en": "Delete a global namespace bundle",
+          "zh": "删除全局证书包"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/certs/global/name/:name",
+        "name_label": {
+          "en": "Upload a file to a global namespace bundle",
+          "zh": "上传全局证书包文件"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/certs/ns/:namespace/name/:name",
-    "operation_label": {
-      "en": "TLS Management",
-      "zh": "TLS 管理"
-    },
-    "operation_name_label": {
-      "en": "Upload a file to a managed namespace bundle",
-      "zh": "上传命名空间证书包文件"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/certs/global/name/:name",
-    "operation_label": {
-      "en": "TLS Management",
-      "zh": "TLS 管理"
-    },
-    "operation_name_label": {
-      "en": "Delete a global namespace bundle",
-      "zh": "删除全局证书包"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/certs/global/name/:name",
-    "operation_label": {
-      "en": "TLS Management",
-      "zh": "TLS 管理"
-    },
-    "operation_name_label": {
-      "en": "Upload a file to a global namespace bundle",
-      "zh": "上传全局证书包文件"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/message_streams/config",
-    "operation_label": {
+    "label": {
       "en": "Streams",
       "zh": "流"
     },
-    "operation_name_label": {
-      "en": "Update streams config (Deprecated)",
-      "zh": "更新流配置（已弃用）"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/message_streams/config",
+        "name_label": {
+          "en": "Update streams config (Deprecated)",
+          "zh": "更新流配置（已弃用）"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/message_streams/streams",
+        "name_label": {
+          "en": "Create a new stream (Deprecated)",
+          "zh": "创建新的流（已弃用）"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/message_streams/streams/:topic_filter",
+        "name_label": {
+          "en": "Delete stream (Deprecated)",
+          "zh": "删除流（已弃用）"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/message_streams/streams/:topic_filter",
+        "name_label": {
+          "en": "Update stream (Deprecated)",
+          "zh": "更新流（已弃用）"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/streams/config",
+        "name_label": {
+          "en": "Update streams config",
+          "zh": "更新流配置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/streams",
+        "name_label": {
+          "en": "Create a new stream",
+          "zh": "创建新的流"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/stream/:name",
+        "name_label": {
+          "en": "Delete stream",
+          "zh": "删除流"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/stream/:name",
+        "name_label": {
+          "en": "Update stream",
+          "zh": "更新流"
+        }
+      }
+    ]
   },
   {
-    "method": "post",
-    "path": "/message_streams/streams",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Create a new stream (Deprecated)",
-      "zh": "创建新的流（已弃用）"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/message_streams/streams/:topic_filter",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Delete stream (Deprecated)",
-      "zh": "删除流（已弃用）"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/message_streams/streams/:topic_filter",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Update stream (Deprecated)",
-      "zh": "更新流（已弃用）"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/streams/config",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Update streams config",
-      "zh": "更新流配置"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/streams",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Create a new stream",
-      "zh": "创建新的流"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/stream/:name",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Delete stream",
-      "zh": "删除流"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/stream/:name",
-    "operation_label": {
-      "en": "Streams",
-      "zh": "流"
-    },
-    "operation_name_label": {
-      "en": "Update stream",
-      "zh": "更新流"
-    }
-  },
-  {
-    "method": "put",
-    "path": "/configs/a2a_registry",
-    "operation_label": {
+    "label": {
       "en": "A2A Registry",
       "zh": "A2A 注册"
     },
-    "operation_name_label": {
-      "en": "Update A2A registry config",
-      "zh": "更新 A2A 注册配置"
-    }
-  },
-  {
-    "method": "delete",
-    "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
-    "operation_label": {
-      "en": "A2A Registry",
-      "zh": "A2A 注册"
-    },
-    "operation_name_label": {
-      "en": "Delete agent registration",
-      "zh": "删除 Agent 注册信息"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
-    "operation_label": {
-      "en": "A2A Registry",
-      "zh": "A2A 注册"
-    },
-    "operation_name_label": {
-      "en": "Register agent",
-      "zh": "注册 Agent"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authorization/sources/:type/metrics/reset",
-    "operation_label": {
-      "en": "Authorization",
-      "zh": "授权"
-    },
-    "operation_name_label": {
-      "en": "Reset metrics counters for a specific authorization source",
-      "zh": "重置指定授权源的指标计数器"
-    }
-  },
-  {
-    "method": "post",
-    "path": "/authentication/:id/metrics/reset",
-    "operation_label": {
-      "en": "Authentication",
-      "zh": "认证"
-    },
-    "operation_name_label": {
-      "en": "Reset metrics counters for a specific authenticator in the global authentication chain",
-      "zh": "重置指定认证器的指标计数器"
-    }
+    "operations": [
+      {
+        "method": "put",
+        "path": "/configs/a2a_registry",
+        "name_label": {
+          "en": "Update A2A registry config",
+          "zh": "更新 A2A 注册配置"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
+        "name_label": {
+          "en": "Delete agent registration",
+          "zh": "删除 Agent 注册信息"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
+        "name_label": {
+          "en": "Register agent",
+          "zh": "注册 Agent"
+        }
+      }
+    ]
   }
 ]
