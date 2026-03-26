@@ -195,7 +195,19 @@ interface DictItem {
   typeLabel: LabelItem
 }
 
+interface OperationItem {
+  method: string
+  path: string
+  name_label: LabelItem
+}
+
+interface GroupItem {
+  label: LabelItem
+  operations: OperationItem[]
+}
+
 const METHOD_PATH_CONNECTOR = ':'
+const CHILDREN_PATH_FOR_MAT = '[...]'
 
 const { t, tl } = useI18nTl('General')
 const { state } = useStore()
@@ -221,14 +233,29 @@ const addBlockToLabel = (nameLabel: LabelItem, typeLabel: LabelItem): LabelItem 
     return result
   }, {} as LabelItem)
 }
-const resourceDict = resourceDictArr.reduce((obj: Record<string, DictItem>, dictItem) => {
-  const { method, path, operation_name_label, operation_label: typeLabel } = dictItem
-  const label = gatewayPathReg.test(path)
-    ? addBlockToLabel(operation_name_label, typeLabel)
-    : operation_name_label
-  obj[`${method}:${path}`] = { label, typeLabel }
-  return obj
-}, {})
+
+const resourceDict: Record<string, DictItem> = {}
+
+;(resourceDictArr as GroupItem[]).forEach((group) => {
+  const typeLabel = group.label
+  group.operations.forEach(({ method, path, name_label: nameLabel }) => {
+    const isGateway = gatewayPathReg.test(path)
+    const label = isGateway ? addBlockToLabel(nameLabel, typeLabel) : nameLabel
+    const isPathPattern = path.includes(CHILDREN_PATH_FOR_MAT)
+    let pathPatternData = {}
+    if (isPathPattern) {
+      const pathPat = escapeRegExp(path.replace(CHILDREN_PATH_FOR_MAT, '\x00WILDCARD\x00'))
+        .replace('\x00WILDCARD\x00', '.*')
+        .replace(/:[\w]+/g, '[^/]+')
+      pathPatternData = { pathPattern: new RegExp(`^${pathPat}$`) }
+    }
+    resourceDict[`${method}${METHOD_PATH_CONNECTOR}${path}`] = {
+      label,
+      typeLabel,
+      ...pathPatternData,
+    }
+  })
+})
 
 const langKey = state.lang === 'zh' ? 'zh' : 'en'
 const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
@@ -280,7 +307,7 @@ const handleParams = (params: GetAuditParams) => {
   if (params.lte_created_at) {
     params.lte_created_at = handleTimeStr(params.lte_created_at)
   }
-  if (params.operation_id) {
+  if (params.operation_id && resourceDict[params.operation_id]) {
     const { method, id } = getIdAndMethodFromOperationId(params.operation_id)
     params.http_method = method
     params.operation_id = id
@@ -361,8 +388,9 @@ const getSourceData = (row: AuditLogItem) => {
 
 const getLogInfo = ({ operation_id, http_method, operation_type }: AuditLogItem) => {
   const key = `${http_method}${METHOD_PATH_CONNECTOR}${operation_id}`
-  if (key in resourceDict) {
-    const { label, typeLabel } = resourceDict[key as keyof typeof resourceDict]
+  const entry: DictItem | undefined = resourceDict[key]
+  if (entry) {
+    const { label, typeLabel } = entry
     return `${typeLabel[langKey]}: ${label[langKey]}`
   }
   return `${operation_type}: ${operation_id}`
