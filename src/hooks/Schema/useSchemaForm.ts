@@ -84,6 +84,35 @@ export default function useSchemaForm(
   const getComponentByRef = (data: Schema, ref: string | Array<string>): Component =>
     get(data, filter(ref), {})
 
+  /**
+   * Like countRules, but also recurses into nested objects / single-$ref oneOf properties
+   * so that deeply nested required fields (e.g. authentication.initial_token.*) get rules.
+   */
+  const countRulesDeep = (
+    component: Component,
+    ruleMap: SchemaRules,
+    path?: string,
+  ): SchemaRules => {
+    ruleMap = countRules(component, ruleMap, path)
+    const { properties = {} } = component
+    Object.keys(properties).forEach((key) => {
+      const prop = properties[key]
+      const nestedPath = path ? `${path}.${key}` : key
+      let nestedComp: Component | undefined
+      if (prop.$ref) {
+        nestedComp = getComponentByRef(schema, prop.$ref)
+      } else if (prop.oneOf && prop.oneOf.length === 1 && prop.oneOf[0].$ref) {
+        nestedComp = getComponentByRef(schema, prop.oneOf[0].$ref)
+      } else if (prop.type === 'object' && prop.properties) {
+        nestedComp = prop as Component
+      }
+      if (nestedComp) {
+        countRulesDeep(nestedComp, ruleMap, nestedPath)
+      }
+    })
+    return ruleMap
+  }
+
   const getIsTemplateFromOneOfArr = (oneof: Property['oneOf']): boolean => {
     if (!oneof) {
       return false
@@ -188,7 +217,7 @@ export default function useSchemaForm(
               if (item.$ref) {
                 const component = getComponentByRef(schema, item.$ref)
                 item.properties = transComponents(component, property.path, false)
-                item.rules = countRules(component, {}, property.path)
+                item.rules = countRulesDeep(component, {}, property.path)
                 if (property.path) {
                   // Because when oneof refs takes the default, it does not take the default of the fields in sequence,
                   // but the default of the ref, so it needs to be processed here.
