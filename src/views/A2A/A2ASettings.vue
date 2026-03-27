@@ -48,13 +48,15 @@ const loadData = async () => {
   }
 }
 
+const router = useRouter()
 const handleSave = async (val: A2ARegistryConfig) => {
   try {
     await customValidate(SchemaFormRef.value)
     saveLoading.value = true
     await updateA2ARegistryConfig(val)
+    rawData = cloneDeep(val)
     ElMessage.success(t('Base.updateSuccess'))
-    loadData()
+    router.push({ name: 'a2a-registry' })
   } catch (error) {
     //
   } finally {
