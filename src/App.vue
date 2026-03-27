@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { getUserInfoBySSOCode } from './api/sso'
 
 const store = useStore()
 const lang = computed(() => {
@@ -67,7 +68,13 @@ const route = useRoute()
 const { getUserInfoFromQuery } = useGetInfoFromQuery()
 const { updateBaseInfo } = useUpdateBaseInfo()
 const handleQuery = async () => {
-  const info = getUserInfoFromQuery()
+  const ssoCode = getValueFromQuery('sso_code')
+  let info: any = undefined
+  if (ssoCode) {
+    info = await getUserInfoBySSOCode(ssoCode)
+  } else {
+    info = getUserInfoFromQuery()
+  }
   if (info) {
     location.replace(location.origin + location.pathname + location.hash)
     /**

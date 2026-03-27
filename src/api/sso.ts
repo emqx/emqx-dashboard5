@@ -32,3 +32,7 @@ export const putSSOBackend = (
 ): Promise<SsoLdap> => {
   return http.put(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
 }
+
+export const getUserInfoBySSOCode = (sso_code: string): Promise<any> => {
+  return http.post(`/sso/callback`, { sso_code })
+}
