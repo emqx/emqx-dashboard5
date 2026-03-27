@@ -277,7 +277,19 @@ const SchemaForm = defineComponent({
     const isComplexOneof = (prop: Property) =>
       prop.type === 'oneof' && prop.oneOf?.length && prop.oneOf?.some(({ $ref }) => $ref)
 
-    const handleSelectOneof = (parentProperty: Property, property: Property) => {
+    /**
+     * We need to wait for the components handler to finish processing rules before continuing,
+     * otherwise the rules will be overwritten by the return data from the components handler.
+     */
+    let handlePromise: undefined | Promise<unknown> = undefined
+    const handleSelectOneof = async (parentProperty: Property, property: Property) => {
+      if (handlePromise) {
+        try {
+          await handlePromise
+        } catch (error) {
+          //
+        }
+      }
       const isInit = _.isUndefined(parentProperty.selectedOneof)
       parentProperty.selectedOneof = property.properties
       parentProperty.default = property.default
@@ -1113,11 +1125,24 @@ const SchemaForm = defineComponent({
     }
 
     const handleComponentsData = async () => {
-      if (props.dataHandler && _.isFunction(props.dataHandler)) {
-        const data = await props.dataHandler({ components: components.value, rules: rules.value })
-        components.value = data.components
-        rules.value = data.rules
-      }
+      handlePromise = new Promise((resolve, reject) => {
+        const doWork = async () => {
+          if (props.dataHandler && _.isFunction(props.dataHandler)) {
+            const data = await props.dataHandler({
+              components: components.value,
+              rules: rules.value,
+            })
+            components.value = data.components
+            rules.value = data.rules
+            resolve(true)
+            handlePromise = undefined
+          }
+        }
+        doWork().catch(() => {
+          reject()
+          handlePromise = undefined
+        })
+      })
     }
 
     const getInitRecord = () => {
