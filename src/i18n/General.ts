@@ -268,8 +268,8 @@ export default {
     en: 'User Lookup Filter',
   },
   LDAPFilterDesc: {
-    zh: "LDAP 中匹配用户的过滤器,默认为 `(& (objectClass=person) (uid=${'{'}username{'}'}))`。<br />对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。",
-    en: "The filter for matching users in LDAP is by default `(&(objectClass=person)(uid=${'{'}username{'}'}))`.<br />For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName=${'{'}username{'}'}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.",
+    zh: "LDAP 中匹配用户的过滤器,默认为 `(& (objectClass=person) (uid={'$'}{'{'}username{'}'}))`。<br />对于Active Directory,默认应设置为 `(&(objectClass=user)(sAMAccountName={'$'}{'{'}username{'}'}))`，详见 [LDAP 过滤器](https://ldap.com/ldap-filters/)。",
+    en: "The filter for matching users in LDAP is by default `(&(objectClass=person)(uid={'$'}{'{'}username{'}'}))`.<br />For Active Directory, it should be set to `(&(objectClass=user)(sAMAccountName={'$'}{'{'}username{'}'}))` by default. Please refer to [LDAP Filters](https://ldap.com/ldap-filters/) for more details.",
   },
   dashboardAddr: {
     zh: 'Dashboard 地址',
@@ -335,13 +335,17 @@ export default {
     zh: 'Scopes',
     en: 'Scopes',
   },
+  scopesDesc: {
+    zh: "指定请求的 OAuth 2.0 scope 列表，`openid` 为必填项。若要在用户名变量中使用 `{'$'}{'{'}name{'}'}`、`{'$'}{'{'}given_name{'}'}`、`{'$'}{'{'}family_name{'}'}` 等 profile 字段，需额外添加 `profile`。",
+    en: "Specify the list of OAuth 2.0 scopes to request. `openid` is required. To use profile claims such as `{'$'}{'{'}name{'}'}`, `{'$'}{'{'}given_name{'}'}`, or `{'$'}{'{'}family_name{'}'}` in the username variable, also add `profile`.",
+  },
   nameVar: {
     zh: '用户名变量',
     en: 'Username Variable',
   },
   nameVarDesc: {
-    zh: "用于将 OIDC 用户信息字段映射为 Dashboard 用户名的模板。使用 {'$'}{'{'}字段名{'}'} 语法引用数据源中的字段（如 `{'$'}{'{'}sub{'}'}`、`{'$'}{'{'}email{'}'}`、`{'$'}{'{'}name{'}'}`），也可以组合多个字段，例如 `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`。默认值为 `{'$'}{'{'}sub{'}'}`。",
-    en: "A template that maps OIDC user information fields to the Dashboard username. Use {'$'}{'{'}field{'}'} syntax to reference fields from the data source (e.g., `{'$'}{'{'}sub{'}'}`, `{'$'}{'{'}email{'}'}`, `{'$'}{'{'}name{'}'}`). Multiple fields can be combined, for example `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`. Defaults to `{'$'}{'{'}sub{'}'}`.",
+    zh: "用于将 OIDC 用户信息字段映射为 Dashboard 用户名的模板。使用 {'$'}{'{'}字段名{'}'} 语法引用数据源中的字段（如 `{'$'}{'{'}sub{'}'}`、`{'$'}{'{'}email{'}'}`、`{'$'}{'{'}name{'}'}`），也可以组合多个字段，例如 `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`。默认值为 `{'$'}{'{'}sub{'}'}`。<br />注意：`{'$'}{'{'}name{'}'}`、`{'$'}{'{'}given_name{'}'}`、`{'$'}{'{'}family_name{'}'}` 等字段属于 `profile` scope，使用时需在 Scopes 中添加 `profile`。",
+    en: "A template that maps OIDC user information fields to the Dashboard username. Use {'$'}{'{'}field{'}'} syntax to reference fields from the data source (e.g., `{'$'}{'{'}sub{'}'}`, `{'$'}{'{'}email{'}'}`, `{'$'}{'{'}name{'}'}`). Multiple fields can be combined, for example `{'$'}{'{'}name{'}'}-{'$'}{'{'}sub{'}'}`. Defaults to `{'$'}{'{'}sub{'}'}`.<br />Note: Fields such as `{'$'}{'{'}name{'}'}`, `{'$'}{'{'}given_name{'}'}`, and `{'$'}{'{'}family_name{'}'}` belong to the `profile` scope. Make sure to add `profile` to Scopes when using them.",
   },
   nameVarSource: {
     zh: '用户名变量来源',
