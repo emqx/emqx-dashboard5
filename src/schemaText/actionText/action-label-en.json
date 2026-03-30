@@ -2,7 +2,8 @@
   "common": {
     "description": "Description",
     "ssl": "Enable SSL",
-    "no_local": "No Local"
+    "no_local": "No Local",
+    "audience": "OAuth Request Audience"
   },
   "mqtt": {
     "source_topic": "Topic"
