@@ -6,7 +6,7 @@ export default (): {
 } => {
   const getUserInfoFromQuery = () => {
     try {
-      const base64Str = getValueFromQuery(USER_INFO_KEY)
+      const base64Str = getValueFromQuery(USER_INFO_KEY)?.replace(/ /g, '+')
       if (!base64Str) {
         return
       }
