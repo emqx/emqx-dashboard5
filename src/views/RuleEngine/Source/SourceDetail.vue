@@ -125,7 +125,7 @@
 
 <script lang="ts" setup>
 import { BridgeDirection } from '@/types/enum'
-import { Source } from '@/types/rule'
+import { BridgeItem, Source } from '@/types/rule'
 import { Share } from '@element-plus/icons-vue'
 import BridgeItemOverview from '../Bridge/Components/BridgeItemOverview.vue'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
@@ -309,7 +309,7 @@ const toggleEnable = async () => {
   const { enable } = sourceInfo.value
   const sucMessage = enable ? 'Base.enableSuccess' : 'Base.disabledSuccess'
   try {
-    await toggleSourceEnable(sourceInfo.value.id, enable)
+    await toggleSourceEnable(sourceInfo.value, enable)
     ElMessage.success(t(sucMessage))
     getSourceInfo()
   } catch (error) {
