@@ -1080,7 +1080,7 @@ const SchemaForm = defineComponent({
             const isAdvancedField = props.advancedFields?.some(
               (field) =>
                 (typeof field === 'string' && field === propPath) ||
-                (_.isRegExp(field) && field.test(propPath)),
+                (_.isRegExp(field) && (field as RegExp).test(propPath)),
             )
             if (isAdvancedField) {
               advancedFieldElement.push(elFormItem)

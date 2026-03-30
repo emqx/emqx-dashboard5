@@ -2,7 +2,8 @@
   "common": {
     "description": "描述",
     "ssl": "启用SSL",
-    "no_local": "禁止本地转发"
+    "no_local": "禁止本地转发",
+    "audience": "OAuth 请求受众 (Audience)"
   },
   "mqtt": {
     "source_topic": "主题"
