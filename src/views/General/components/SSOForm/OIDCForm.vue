@@ -53,7 +53,10 @@
       :managed-cert-conf-columns="1"
     />
     <AdvancedSettingContainer>
-      <el-form-item prop="scopes" :label="tl('scopes')">
+      <el-form-item prop="scopes">
+        <template #label>
+          <FormItemLabel :label="tl('scopes')" :desc="tl('scopesDesc')" desc-marked />
+        </template>
         <ArrayEditor v-model="formData.scopes" />
       </el-form-item>
       <el-form-item prop="name_var_source">
