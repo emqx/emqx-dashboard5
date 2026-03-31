@@ -12,14 +12,10 @@ jobs:
     outputs:
       emqx-name: ${{ steps.set-output.outputs.emqx-name }}
     steps:
-    - name: check branch and set output
+    - name: set output
       id: set-output
       run: |
-        if [[ "${{ github.base_ref }}" == *enterprise* ]]; then
-          echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
-        else
-          echo "emqx-name=emqx" >> "$GITHUB_OUTPUT"
-        fi
+        echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
 
   build_emqx_for_test:
     needs:
