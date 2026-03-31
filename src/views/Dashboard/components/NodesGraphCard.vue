@@ -274,7 +274,7 @@ syncPolling(loadData, POLLING_INTERVAL)
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 32px;
+    padding: 20px 32px;
     border-bottom: 1px solid var(--color-border-card);
 
     .nodes-link {
@@ -302,7 +302,7 @@ syncPolling(loadData, POLLING_INTERVAL)
   }
 
   .node-card-body {
-    padding: 32px;
+    padding: 28px 32px;
 
     .info-grid {
       display: grid;
