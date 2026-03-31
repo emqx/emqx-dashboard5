@@ -1171,7 +1171,6 @@ router.beforeEach((to, from, next) => {
 //Logout and go to Login page
 export async function toLogin(path?: string): Promise<void> {
   store.commit('UPDATE_USER_INFO', { logOut: true })
-  store.commit('UPDATE_EDITION', null)
   store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
   store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
   document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`

@@ -67,14 +67,6 @@ export default {
     zh: '常见问题解答',
     en: 'FAQ',
   },
-  tryEnterprise: {
-    zh: '免费下载 EMQX 企业版',
-    en: 'Download EMQX Enterprise',
-  },
-  tryCloud: {
-    zh: '免费试用 EMQX Cloud',
-    en: 'Try EMQX Cloud for free',
-  },
   exploreMqtt: {
     zh: '探索 MQTT',
     en: 'Explore MQTT',

@@ -81,7 +81,6 @@ export default createStore({
     leftBarCollapse: getLeftBarCollapse(),
     alertCount: 0,
     request_queue: 0,
-    edition: localStorage.getItem('edition'),
     afterCurrentUserPwdChanged: false,
     schemaStoreMap: new Map(),
     licenseData: {} as LicenseData,
@@ -159,10 +158,6 @@ export default createStore({
     },
     SET_REQ_CHANGE(state, addOrDone) {
       addOrDone ? ++state.request_queue : --state.request_queue
-    },
-    UPDATE_EDITION(state, edition) {
-      edition ? localStorage.setItem('edition', edition) : localStorage.removeItem('edition')
-      state.edition = edition
     },
     UPDATE_SETTINGS(state, { lang, theme, syncOsTheme, enableSQLAI }) {
       localStorage.setItem('language', lang ?? state.lang)
@@ -242,12 +237,6 @@ export default createStore({
     },
   },
   getters: {
-    edition: (state) => {
-      const { edition } = state
-      if (!edition) return 0b10 //default to broker
-      const e = String(edition).toLowerCase()
-      return e == 'enterprise' ? 0b01 : 0b10
-    },
     isDev() {
       return false
       // return import.meta.env.DEV
