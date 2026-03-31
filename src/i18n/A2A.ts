@@ -72,8 +72,8 @@ export default {
     en: 'List of supported interfaces (array), each item must have url, protocolBinding, protocolVersion',
   },
   helpFieldCapabilities: {
-    zh: 'Agent 能力声明（对象），可为空对象 {}',
-    en: 'Agent capabilities declaration (object), can be an empty object {}',
+    zh: "Agent 能力声明（对象），可为空对象 {'{'}{'}'}",
+    en: "Agent capabilities declaration (object), can be an empty object {'{'}{'}'}",
   },
   helpFieldDefaultInputModes: {
     zh: '默认输入模式列表（字符串数组），如 ["text/plain"]',
