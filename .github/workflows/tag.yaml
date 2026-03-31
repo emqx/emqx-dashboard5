@@ -3,7 +3,6 @@ name: Tag
 on:
   push:
     tags:
-      - 'v1.*'
       - 'e1.*'
       - '2*'
 
@@ -13,14 +12,10 @@ jobs:
     outputs:
       emqx-name: ${{ steps.set-output.outputs.emqx-name }}
     steps:
-    - name: check branch and set output
+    - name: set output
       id: set-output
       run: |
-        if [[ "${{ github.ref_name }}" == e* ]] || [[ "${{ github.ref_name }}" == 2* ]]; then
-          echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
-        else
-          echo "emqx-name=emqx" >> "$GITHUB_OUTPUT"
-        fi
+        echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
 
   build_emqx_for_test:
     needs:
@@ -37,53 +32,19 @@ jobs:
     with:
       emqx-name: ${{ needs.set_version.outputs.emqx-name }}
 
-  build_ce_dashboard_package:
-    needs:
-      - check_package_version
-    if: startsWith(github.ref, 'refs/tags/v')
-    uses: ./.github/workflows/build_oss_package.yaml
-
   build_ee_dashboard_package:
     needs:
       - check_package_version
-    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e') || startsWith(github.ref, 'refs/tags/2')
     uses: ./.github/workflows/build_enterprise_package.yaml
     secrets:
       VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN }}
       VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN }}
-
-  bump_ce_dashboard_version:
-    needs:
-      - set_version
-      - check_package_version
-      - build_ce_dashboard_package
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.AUTH_APP_ID }}
-          private-key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-
-      - name: Create PR in emqx/emqx
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          EMQX_NAME: emqx
-          VERSION: ${{ github.ref_name }}
-        run: |
-          gh --repo emqx/emqx workflow run bump-dashboard-version.yaml \
-            -f emqx-name=${EMQX_NAME} \
-            -f version=${VERSION}
 
   bump_ee_dashboard_version:
     needs:
       - set_version
       - check_package_version
       - build_ee_dashboard_package
-    if: (github.ref == 'refs/heads/enterprise') || startsWith(github.ref, 'refs/tags/e') || startsWith(github.ref, 'refs/tags/2')
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App token

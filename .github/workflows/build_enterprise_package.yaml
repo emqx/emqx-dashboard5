@@ -32,7 +32,7 @@ jobs:
           VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_EN }}
         run: |
           pnpm install
-          pnpm build:enterprise
+          pnpm build
       - name: create package
         run: |
           touch dist/version
