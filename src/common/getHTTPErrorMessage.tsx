@@ -114,6 +114,10 @@ const getErrorMessage = (data: AxiosResponse['data'], status: number): string | 
           const structuredBodyVNode = getStructuredErrorBody(data, status)
           if (structuredBodyVNode) {
             bodyVNode = structuredBodyVNode
+          } else {
+            const parsed = parseJSONSafely(message)
+            const display = parsed ? JSON.stringify(parsed, null, 2) : message
+            bodyVNode = <CodeView code={display} lang="json" maxHeight={300} />
           }
         } else {
           bodyVNode = (
