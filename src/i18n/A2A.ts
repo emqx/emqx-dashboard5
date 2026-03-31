@@ -67,13 +67,25 @@ export default {
     zh: '版本号，如 "1.0.0"',
     en: 'Version string, e.g. "1.0.0"',
   },
-  helpFieldUrl: {
-    zh: 'Agent 的 HTTP 服务地址（URI）',
-    en: 'HTTP service URL for the agent (URI)',
+  helpFieldSupportedInterfaces: {
+    zh: '支持的接口列表（数组），每项需包含 url、protocolBinding、protocolVersion',
+    en: 'List of supported interfaces (array), each item must have url, protocolBinding, protocolVersion',
+  },
+  helpFieldCapabilities: {
+    zh: 'Agent 能力声明（对象），可为空对象 {}',
+    en: 'Agent capabilities declaration (object), can be an empty object {}',
+  },
+  helpFieldDefaultInputModes: {
+    zh: '默认输入模式列表（字符串数组），如 ["text/plain"]',
+    en: 'Default input modes (array of strings), e.g. ["text/plain"]',
+  },
+  helpFieldDefaultOutputModes: {
+    zh: '默认输出模式列表（字符串数组），如 ["text/plain"]',
+    en: 'Default output modes (array of strings), e.g. ["text/plain"]',
   },
   helpFieldSkills: {
-    zh: '技能列表（数组，不可为空），每项需包含 id、name、description',
-    en: 'List of skills (non-empty array), each item must have id, name, description',
+    zh: '技能列表（数组，不可为空），每项需包含 id、name、description、tags',
+    en: 'List of skills (non-empty array), each item must have id, name, description, tags',
   },
   agentCardDoc: {
     zh: 'https://a2a-protocol.org/latest/tutorials/python/3-agent-skills-and-card/#agent-card',
