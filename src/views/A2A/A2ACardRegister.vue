@@ -144,12 +144,22 @@ const EXAMPLE_JSON = JSON.stringify(
     name: 'my-agent',
     description: 'A sample A2A agent',
     version: '1.0.0',
-    url: 'https://example.com/a2a',
+    supportedInterfaces: [
+      {
+        url: 'https://example.com/a2a',
+        protocolBinding: 'JSONRPC',
+        protocolVersion: '1.0',
+      },
+    ],
+    capabilities: {},
+    defaultInputModes: ['text/plain'],
+    defaultOutputModes: ['text/plain'],
     skills: [
       {
         id: 'skill-1',
         name: 'Sample Skill',
         description: 'A sample skill that does something useful',
+        tags: ['sample'],
       },
     ],
   },
@@ -161,7 +171,10 @@ const helpFields = [
   { field: 'name', type: 'string', desc: tl('helpFieldName') },
   { field: 'description', type: 'string', desc: tl('helpFieldDescription') },
   { field: 'version', type: 'string', desc: tl('helpFieldVersion') },
-  { field: 'url', type: 'string (URI)', desc: tl('helpFieldUrl') },
+  { field: 'supportedInterfaces', type: 'array', desc: tl('helpFieldSupportedInterfaces') },
+  { field: 'capabilities', type: 'object', desc: tl('helpFieldCapabilities') },
+  { field: 'defaultInputModes', type: 'array', desc: tl('helpFieldDefaultInputModes') },
+  { field: 'defaultOutputModes', type: 'array', desc: tl('helpFieldDefaultOutputModes') },
   { field: 'skills', type: 'array', desc: tl('helpFieldSkills') },
 ]
 
@@ -187,7 +200,7 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
     return
   }
 
-  const requiredStringFields = ['name', 'description', 'version', 'url'] as const
+  const requiredStringFields = ['name', 'description', 'version'] as const
   for (const field of requiredStringFields) {
     if (!(field in parsed) || parsed[field] === null || parsed[field] === undefined) {
       callback(new Error(t('A2A.cardFieldRequired', { field })))
@@ -197,6 +210,52 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
       callback(new Error(t('A2A.cardFieldTypeMismatch', { field, expected: 'string' })))
       return
     }
+  }
+
+  if (!('supportedInterfaces' in parsed) || parsed.supportedInterfaces == null) {
+    callback(new Error(t('A2A.cardFieldRequired', { field: 'supportedInterfaces' })))
+    return
+  }
+  if (!Array.isArray(parsed.supportedInterfaces)) {
+    callback(
+      new Error(
+        t('A2A.cardFieldTypeMismatch', { field: 'supportedInterfaces', expected: 'array' }),
+      ),
+    )
+    return
+  }
+
+  if (!('capabilities' in parsed) || parsed.capabilities == null) {
+    callback(new Error(t('A2A.cardFieldRequired', { field: 'capabilities' })))
+    return
+  }
+  if (typeof parsed.capabilities !== 'object' || Array.isArray(parsed.capabilities)) {
+    callback(
+      new Error(t('A2A.cardFieldTypeMismatch', { field: 'capabilities', expected: 'object' })),
+    )
+    return
+  }
+
+  if (!('defaultInputModes' in parsed) || parsed.defaultInputModes == null) {
+    callback(new Error(t('A2A.cardFieldRequired', { field: 'defaultInputModes' })))
+    return
+  }
+  if (!Array.isArray(parsed.defaultInputModes)) {
+    callback(
+      new Error(t('A2A.cardFieldTypeMismatch', { field: 'defaultInputModes', expected: 'array' })),
+    )
+    return
+  }
+
+  if (!('defaultOutputModes' in parsed) || parsed.defaultOutputModes == null) {
+    callback(new Error(t('A2A.cardFieldRequired', { field: 'defaultOutputModes' })))
+    return
+  }
+  if (!Array.isArray(parsed.defaultOutputModes)) {
+    callback(
+      new Error(t('A2A.cardFieldTypeMismatch', { field: 'defaultOutputModes', expected: 'array' })),
+    )
+    return
   }
 
   if (!('skills' in parsed) || parsed.skills === null || parsed.skills === undefined) {
@@ -223,6 +282,18 @@ const validateCard = (_rule: any, value: string, callback: (err?: Error) => void
         return
       }
     }
+    if (!('tags' in skill) || skill.tags === null || skill.tags === undefined) {
+      callback(new Error(t('A2A.cardSkillItemInvalid', { index: i, field: 'tags' })))
+      return
+    }
+    if (!Array.isArray(skill.tags)) {
+      callback(
+        new Error(
+          t('A2A.cardFieldTypeMismatch', { field: `skills[${i}].tags`, expected: 'array' }),
+        ),
+      )
+      return
+    }
   }
 
   callback()
@@ -242,7 +313,7 @@ const cancel = () => router.push({ name: 'a2a-registry' })
 const submit = async () => {
   if (!formRef.value) return
   try {
-    await formRef.value.validate()
+    await customValidate(formRef.value)
   } catch {
     return
   }
