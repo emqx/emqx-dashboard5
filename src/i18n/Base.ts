@@ -552,14 +552,6 @@ The number of tickets sent after a full handshake is controlled by the config no
     zh: '升级',
     en: 'Upgrade',
   },
-  eeDesc: {
-    zh: '可扩展的 MQTT 平台。连接设备，实时处理 IoT 数据，并与 40+ 云服务和企业系统集成',
-    en: 'Scalable MQTT Platform. Connect devices, process IoT data in real-time, and integrate with 40+ cloud services and enterprise systems.',
-  },
-  cloudDesc: {
-    zh: '全托管的 MQTT 服务，简化部署、数据集成和全球支持，提升安全性、可靠性和成本效益',
-    en: 'Fully Managed MQTT service with simple deployment, data integration, and global support, boosting security, reliability, and cost-efficiency.',
-  },
   inputWithUploaderTip: {
     zh: '可输入文件内容或点击右侧按钮选择文件',
     en: 'You can enter the content of the file or select file by clicking the button on the right',
@@ -615,10 +607,6 @@ The number of tickets sent after a full handshake is controlled by the config no
   moreAboutMQTT: {
     zh: '更多关于 MQTT',
     en: 'More About MQTT',
-  },
-  upgradePlan: {
-    zh: '选择适合您需求的升级方案',
-    en: 'Choose the Upgrade Plan That Fits Your Needs',
   },
   none: {
     zh: '无',
@@ -719,10 +707,6 @@ The number of tickets sent after a full handshake is controlled by the config no
   maxBatchCsvSize: {
     zh: '文件大小不能超过 {size}MB',
     en: 'File size cannot exceed {size}MB',
-  },
-  openSourceEdition: {
-    zh: 'Open Source',
-    en: 'Open Source',
   },
   enterpriseEdition: {
     zh: 'Enterprise',

@@ -140,8 +140,7 @@ const { transMsNumToSimpleStr } = useDurationStr()
 
 const releaseNoteLink = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'
-  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
-  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
+  return ` https://www.emqx.com/${lang}/changelogs/enterprise/${version}`
 }
 
 const loadNode = async () => {

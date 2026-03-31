@@ -32,24 +32,6 @@
       </el-col>
     </el-row>
     <DocListCard :doc-list="mqttDocumentList" />
-    <el-row v-if="!IS_ENTERPRISE" :gutter="16" class="products-links">
-      <el-col :span="24">
-        <p>{{ $t('Base.upgradePlan') }}</p>
-      </el-col>
-      <el-col v-for="item in productList" :key="item.title" :span="12" class="flex-column">
-        <el-card shadow="never" class="card-product enterprise with-border">
-          <img class="img-product" :src="item.icon" />
-          <div class="card-product-bd">
-            <p class="card-product-name text-title">{{ item.title }}</p>
-            <p class="card-product-desc tip">{{ item.desc }}</p>
-            <a :href="item.link" target="_blank" class="link-product">
-              <span>{{ item.linkText }}</span>
-              <el-icon><Right /></el-icon>
-            </a>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
     <el-card shadow="never" class="follow-cards">
       <el-row class="follow-links" align="middle">
         <el-col :span="12">
@@ -86,8 +68,6 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import cloudIcon from '@/assets/img/cloud.png'
-import emqxEnterpriseIcon from '@/assets/img/emqx-enterprise-icon.png'
 import { Right } from '@element-plus/icons-vue'
 import { BookOpen, MessageCircle, Newspaper } from 'lucide-vue-next'
 import DocListCard from './components/DocListCard.vue'
@@ -145,23 +125,6 @@ const mqttDocumentList = [
   { link: docMap.mqttClient, title: t('Settings.findMQTTClient') },
 ]
 
-const productList = [
-  {
-    title: 'EMQX Enterprise',
-    desc: tl('eeDesc'),
-    linkText: t('Settings.tryEnterprise'),
-    link: docMap.emqxEnterprise,
-    icon: emqxEnterpriseIcon,
-  },
-  {
-    title: 'EMQX Cloud',
-    desc: tl('cloudDesc'),
-    linkText: t('Settings.tryCloud'),
-    link: docMap.cloudHome,
-    icon: cloudIcon,
-  },
-]
-
 const followUsList = [
   { link: docMap.githubHome, icon: 'icon-github' },
   { link: docMap.xHome, icon: 'icon-x' },
@@ -217,21 +180,6 @@ const handleLinkGo = (key: 'feedback' | 'contactUs') => {
     margin-top: 32px;
     margin-bottom: 32px;
     padding: 0 12px;
-  }
-  .products-links {
-    .img-product {
-      height: 32px;
-    }
-    .card-product-desc.tip {
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 14px 0;
-    }
-    .link-product {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
   }
   .follow-cards {
     margin-top: 32px;

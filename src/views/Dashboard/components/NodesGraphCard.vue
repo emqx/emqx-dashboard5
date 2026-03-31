@@ -38,7 +38,7 @@
                 <div class="info-label">{{ tl('version') }}</div>
                 <div class="info-value">
                   <a :href="releaseNoteLink" target="_blank">
-                    {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
+                    {{ currentInfo.node['version'] }} ({{ $t('Base.enterpriseEdition') }})
                   </a>
                 </div>
               </div>
@@ -119,8 +119,6 @@ import NodesGraph from './NodesGraph.vue'
 
 type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
-const { edition } = useEditionConfigs()
-
 const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
@@ -188,8 +186,7 @@ const getVersion = (version: string) => {
 
 const getReleaseNoteLinkByVersion = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'
-  const type = IS_ENTERPRISE ? 'enterprise' : 'broker'
-  return ` https://www.emqx.com/${lang}/changelogs/${type}/${version}`
+  return ` https://www.emqx.com/${lang}/changelogs/enterprise/${version}`
 }
 
 const releaseNoteLink = computed(() =>

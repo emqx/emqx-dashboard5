@@ -28,7 +28,6 @@ declare global {
   const BRIDGE_TYPES_NOT_USE_SCHEMA: typeof import('./common/constants')['BRIDGE_TYPES_NOT_USE_SCHEMA']
   const CER_FILE_ACCEPTS: typeof import('./common/constants')['CER_FILE_ACCEPTS']
   const COMMON_ID_REG: typeof import('./common/constants')['COMMON_ID_REG']
-  const CONNECTOR_TYPES_WITH_SOURCE: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']
   const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
   const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
   const CertBundleType: typeof import('./hooks/useCertBundle')['CertBundleType']
@@ -65,7 +64,6 @@ declare global {
   const INTEGRATION_SCHEMA_TYPES: typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']
   const INVALID_PUB_TOPIC_REG: typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']
   const IP_REG: typeof import('./common/constants')['IP_REG']
-  const IS_ENTERPRISE: typeof import('./common/constants')['IS_ENTERPRISE']
   const IoTDBDriver: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDriver']
   const IoTDBDrivers: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']
   const IoTDBKeyField: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']
@@ -671,7 +669,6 @@ declare module 'vue' {
     readonly INTEGRATION_SCHEMA_TYPES: UnwrapRef<typeof import('./common/constants')['INTEGRATION_SCHEMA_TYPES']>
     readonly INVALID_PUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['INVALID_PUB_TOPIC_REG']>
     readonly IP_REG: UnwrapRef<typeof import('./common/constants')['IP_REG']>
-    readonly IS_ENTERPRISE: UnwrapRef<typeof import('./common/constants')['IS_ENTERPRISE']>
     readonly IoTDBDriver: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDriver']>
     readonly IoTDBDrivers: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']>
     readonly IoTDBKeyField: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']>

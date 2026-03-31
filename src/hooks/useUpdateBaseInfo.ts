@@ -7,11 +7,10 @@ export default (): {
 
   const updateBaseInfo = (
     username: string,
-    { token, license, role, namespace }: LoginResponse,
+    { token, role, namespace }: LoginResponse,
     backend?: string,
   ) => {
     commit('UPDATE_USER_INFO', { token, username, role, namespace })
-    commit('UPDATE_EDITION', license?.edition)
     if (backend) {
       commit('UPDATE_LOGIN_BACKEND', backend)
     }

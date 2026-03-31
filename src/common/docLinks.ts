@@ -13,8 +13,6 @@ type DocKey =
   | 'xHome'
   | 'youtubeHome'
   | 'linkedInHome'
-  | 'emqxEnterprise'
-  | 'cloudHome'
   | 'blog'
   | 'emqxGettingStarted'
   | 'accessControl'
@@ -87,8 +85,6 @@ const createDocLinks = (lang: string): DocMap => {
     xHome: 'https://x.com/EMQTech',
     youtubeHome: 'https://www.youtube.com/channel/UC5FjR77ErAxvZENEWzQaO5Q',
     linkedInHome: 'https://www.linkedin.com/company/emqtech',
-    emqxEnterprise: `https://www.emqx.com/${lang}/products/emqx?${QUERY_FOR_HELP}`,
-    cloudHome: `https://www.emqx.com/${lang}/cloud?${QUERY_FOR_HELP}`,
     resetPassword: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/admin/cli.html#admins`,
     applyLicense: `https://www.emqx.com/${lang}/apply-licenses/emqx?${QUERY_FOR_LICENSE}`,
     moreAboutMqtt: `https://www.emqx.com/${lang}/blog/category/mqtt?${QUERY_FOR_HELP}`,
