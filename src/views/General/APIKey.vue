@@ -23,6 +23,21 @@
           {{ getLabelFromValueInOptionList(row.role, apiKeyRoleOptions) }}
         </template>
       </el-table-column>
+      <el-table-column prop="scopes" :label="tl('scopes')">
+        <template #default="{ row }">
+          <span v-if="!row.scopes?.length">{{ tl('allScopes') }}</span>
+          <template v-else>
+            <el-tag
+              v-for="scope in row.scopes"
+              :key="scope"
+              size="small"
+              style="margin-right: 4px; margin-bottom: 2px"
+            >
+              {{ getScopeLabel(scope) }}
+            </el-tag>
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column prop="desc" :label="t('Base.note')" />
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
         <template #default="{ row }">
@@ -59,7 +74,7 @@ import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import dayjs from 'dayjs'
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
   return t(collection + '.' + key)
 }
@@ -78,6 +93,11 @@ const createKeyItem = () => {
 }
 
 const { apiKeyRoleOptions } = useRole()
+
+const getScopeLabel = (name: string): string => {
+  const key = `APIKey.scopeLabel_${name}`
+  return te(key) ? t(key) : titleCase(name)
+}
 
 const operateKeyItem = (type: 'edit' | 'view', itemData: APIKey) => {
   dialogOperationType.value = type

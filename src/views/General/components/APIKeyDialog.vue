@@ -78,6 +78,30 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
+          <el-form-item :label="tl('scopes')" prop="scopes">
+            <el-select
+              v-model="formData.scopes"
+              multiple
+              clearable
+              :placeholder="tl('scopesPlaceholder')"
+              :disabled="operationType === 'view'"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="scope in availableScopes"
+                :key="scope.name"
+                :value="scope.name"
+                :label="getScopeLabel(scope.name)"
+              >
+                <span>{{ getScopeLabel(scope.name) }}</span>
+                <span class="scope-desc">
+                  {{ getScopeDesc(scope.name) }}
+                </span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
           <el-form-item :label="t('Base.note')" prop="description">
             <el-input
               type="textarea"
@@ -109,8 +133,13 @@
 </template>
 
 <script lang="ts" setup>
-import { APIKeyFormWhenCreating, APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
-import { createAPIKey, updateAPIKey } from '@/api/systemModule'
+import {
+  APIKeyFormWhenCreating,
+  APIKey,
+  APIKeyFormWhenEditing,
+  APIKeyScope,
+} from '@/types/systemModule'
+import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
@@ -134,7 +163,7 @@ const emit = defineEmits<{
   (e: 'submitted'): void
 }>()
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
@@ -145,10 +174,12 @@ const createRawFormData = () => ({
   desc: '',
   enable: true,
   role: 'administrator',
+  scopes: undefined as string[] | undefined,
 })
 
 const formCom = ref()
 const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
+const availableScopes: Ref<APIKeyScope[]> = ref([])
 const { createLetterStartRule } = useFormRules()
 const rules = {
   name: [
@@ -187,6 +218,9 @@ const showDialog = computed({
 
 watch(showDialog, async (val) => {
   if (val) {
+    getAPIKeyScopes().then((scopes) => {
+      availableScopes.value = scopes
+    })
     if (props.operationType !== 'create') {
       formData.value = { ...(props.APIKeyData as APIKey) }
       if (props.operationType === 'view') {
@@ -204,6 +238,16 @@ watch(showDialog, async (val) => {
 const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
+
+const getScopeLabel = (name: string): string => {
+  const key = `APIKey.scopeLabel_${name}`
+  return te(key) ? t(key) : titleCase(name)
+}
+
+const getScopeDesc = (name: string): string => {
+  const key = `APIKey.scopeDesc_${name}`
+  return te(key) ? t(key) : name
+}
 
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
@@ -236,8 +280,10 @@ const submit = async () => {
       const data = await submitAddedData()
       createdResult.value = data
       showResultDialog.value = true
+      ElMessage.success(t('Base.createSuccess'))
     } else if (props.operationType === 'edit') {
       await submitUpdatedData()
+      ElMessage.success(t('Base.updateSuccess'))
     }
     emit('submitted')
     showDialog.value = false
@@ -269,5 +315,11 @@ const submit = async () => {
       }
     }
   }
+}
+.scope-desc {
+  color: var(--el-text-color-secondary);
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: normal;
 }
 </style>

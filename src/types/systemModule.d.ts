@@ -1,6 +1,11 @@
 import { ExhookFailedAction, ExhookStatus } from './enum'
 import { SSL } from './common'
 
+export interface APIKeyScope {
+  name: string
+  desc: string
+}
+
 export interface APIKeyFormWhenCreating {
   name: string
   /**
@@ -12,6 +17,7 @@ export interface APIKeyFormWhenCreating {
   enable: boolean
   api_key?: string
   role: string
+  scopes?: string[]
 }
 
 export interface APIKey extends APIKeyFormWhenCreating {
@@ -21,7 +27,10 @@ export interface APIKey extends APIKeyFormWhenCreating {
   expired: boolean
 }
 
-export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
+export type APIKeyFormWhenEditing = Pick<
+  APIKey,
+  'name' | 'expired_at' | 'desc' | 'enable' | 'scopes'
+>
 
 export interface ExhookFormForCreate {
   auto_reconnect: false | string
