@@ -4,7 +4,8 @@
 
 <script setup lang="ts">
 import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { getUserInfoBySSOCode } from './api/sso'
+import { postSSOTokenExchange } from './api/sso'
+import { toLogin } from './router'
 
 const store = useStore()
 const lang = computed(() => {
@@ -68,28 +69,40 @@ const route = useRoute()
 const { getUserInfoFromQuery } = useGetInfoFromQuery()
 const { updateBaseInfo } = useUpdateBaseInfo()
 const handleQuery = async () => {
-  const ssoCode = getValueFromQuery('sso_code')
-  let info: any = undefined
-  if (ssoCode) {
-    info = await getUserInfoBySSOCode(ssoCode)
-  } else {
-    info = getUserInfoFromQuery()
-  }
-  if (info) {
-    location.replace(location.origin + location.pathname + location.hash)
-    /**
-     * Currently, if info is from location.search, it's using single sign-on;
-     * if it's from route.query, it's from ECP (i.e., no backend)
-     */
-    const backend = info.backend
-      ? info.backend
-      : location.search
-        ? DashboardSamlBackend.saml
-        : undefined
-    updateBaseInfo(info.username, info, backend)
-    // if in login page, redirect to overview page
-    if (/login/i.test(location.hash.split('?')[0])) {
-      router.push({ name: 'overview' })
+  try {
+    const info = getUserInfoFromQuery()
+    if (!info) return
+
+    if (info.code) {
+      const to = getValueFromQuery('to')
+      // New flow: exchange the one-time SSO code for a token or MFA prompt
+      try {
+        const result = await postSSOTokenExchange(info.code)
+        if ('token' in result) {
+          // Login success
+          updateBaseInfo(result.username, result, result.backend)
+          router.push({ path: to ?? '/' })
+        } else {
+          // MFA required — store the pending state and go to login page
+          store.commit('SET_SSO_MFA_PENDING', result)
+          router.push({ path: '/login' })
+        }
+      } catch (error) {
+        console.error('SSO token exchange failed', error)
+        toLogin()
+      }
+    } else if (info.token) {
+      // Backward-compatible flow: login_meta contains a JWT directly
+      const backend = info.backend
+        ? info.backend
+        : location.search
+          ? DashboardSamlBackend.saml
+          : undefined
+      updateBaseInfo(info.username, info, backend)
+      // if in login page, redirect to overview page
+      if (/login/i.test(location.hash.split('?')[0])) {
+        router.push({ name: 'overview' })
+      }
     }
     await waitAMoment()
     // remove login meta from query for safe
@@ -97,6 +110,14 @@ const handleQuery = async () => {
       const newQuery = omit(route.query, USER_INFO_KEY)
       router.replace({ ...route, query: newQuery })
     }
+    // Clear the login_meta from the URL immediately for security
+    window.history.replaceState(
+      {},
+      '',
+      location.origin + location.pathname + location.hash.split('?')[0],
+    )
+  } catch (error) {
+    console.error(error)
   }
 }
 handleQuery()
