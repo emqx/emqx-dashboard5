@@ -33,6 +33,38 @@ export const putSSOBackend = (
   return http.put(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
 }
 
-export const getUserInfoBySSOCode = (sso_code: string): Promise<any> => {
-  return http.post(`/sso/callback`, { sso_code })
+export type SSOTokenExchangeResult =
+  | {
+      token: string
+      username: string
+      role: string
+      backend: string
+      version: string
+      license: any
+    }
+  | {
+      action: 'mfa_setup'
+      setup_token: string
+      mechanism: string
+      username: string
+      backend: string
+    }
+  | { action: 'mfa_verify'; verify_token: string; username: string; backend: string }
+
+export const postSSOTokenExchange = (code: string): Promise<SSOTokenExchangeResult> => {
+  return http.post(`/sso/token_exchange`, { code })
+}
+
+export const postSSOmfaSetupInfo = (
+  setup_token: string,
+): Promise<{ secret: string; mechanism: string }> => {
+  return http.post(`/sso/mfa/setup_info`, { setup_token })
+}
+
+export const postSSOmfaSetup = (setup_token: string, totp_code: string): Promise<any> => {
+  return http.post(`/sso/mfa/setup`, { setup_token, totp_code })
+}
+
+export const postSSOmfaVerify = (verify_token: string, totp_code: string): Promise<any> => {
+  return http.post(`/sso/mfa/verify`, { verify_token, totp_code })
 }
