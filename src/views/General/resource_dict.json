@@ -2209,6 +2209,18 @@
   },
   {
     "method": "post",
+    "path": "/login/key",
+    "operation_label": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "operation_name_label": {
+      "en": "Dashboard user login key negotiation",
+      "zh": "Dashboard 用户登录密钥协商"
+    }
+  },
+  {
+    "method": "post",
     "path": "/logout",
     "operation_label": {
       "en": "Dashboard",
