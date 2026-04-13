@@ -51,20 +51,36 @@ export type SSOTokenExchangeResult =
     }
   | { action: 'mfa_verify'; verify_token: string; username: string; backend: string }
 
-export const postSSOTokenExchange = (code: string): Promise<SSOTokenExchangeResult> => {
-  return http.post(`/sso/token_exchange`, { code })
+export const postSSOTokenExchange = (
+  code: string,
+  username: string,
+  backend: string,
+): Promise<SSOTokenExchangeResult> => {
+  return http.post(`/sso/token_exchange`, { code, username, backend })
 }
 
 export const postSSOmfaSetupInfo = (
   setup_token: string,
+  username: string,
+  backend: string,
 ): Promise<{ secret: string; mechanism: string }> => {
-  return http.post(`/sso/mfa/setup_info`, { setup_token })
+  return http.post(`/sso/mfa/setup_info`, { setup_token, username, backend })
 }
 
-export const postSSOmfaSetup = (setup_token: string, totp_code: string): Promise<any> => {
-  return http.post(`/sso/mfa/setup`, { setup_token, totp_code })
+export const postSSOmfaSetup = (
+  setup_token: string,
+  totp_code: string,
+  username: string,
+  backend: string,
+): Promise<any> => {
+  return http.post(`/sso/mfa/setup`, { setup_token, totp_code, username, backend })
 }
 
-export const postSSOmfaVerify = (verify_token: string, totp_code: string): Promise<any> => {
-  return http.post(`/sso/mfa/verify`, { verify_token, totp_code })
+export const postSSOmfaVerify = (
+  verify_token: string,
+  totp_code: string,
+  username: string,
+  backend: string,
+): Promise<any> => {
+  return http.post(`/sso/mfa/verify`, { verify_token, totp_code, username, backend })
 }
