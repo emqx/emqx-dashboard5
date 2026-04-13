@@ -53,6 +53,7 @@ const { t, tl } = useI18nTl('General')
 
 const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
+const isSSOUser = computed(() => !!props.user?.backend && props.user.backend !== 'local')
 
 const defaultMFA = mfaOptions[0].value
 
@@ -84,8 +85,13 @@ const resetTOTPSecret = async () => {
       return
     }
     submitLoading.value = true
-    await updateUserMfa(username, { mechanism: UserMFA.totp })
+    if (isSSOUser.value) {
+      await deleteUserMfa(username, { reset: true })
+    } else {
+      await updateUserMfa(username, { mechanism: UserMFA.totp })
+    }
     ElMessage.success(t('Base.resetSuccess'))
+    emit('submitted')
     showDialog.value = false
   } catch (error) {
     //
@@ -122,7 +128,11 @@ const deleteMFA = async () => {
     }
     await operationWarning(t('General.confirmDisableMFA'))
     submitLoading.value = true
-    await deleteUserMfa(username)
+    if (isSSOUser.value) {
+      await deleteUserMfa(username, { reset: false })
+    } else {
+      await deleteUserMfa(username)
+    }
     ElMessage.success(t('Base.disabledSuccess'))
     emit('submitted')
     showDialog.value = false
