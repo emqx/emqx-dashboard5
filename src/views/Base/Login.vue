@@ -642,6 +642,7 @@ const submitWithAuthCode = async () => {
 // SSO MFA
 
 const ssoMfaPending = computed(() => store.state.ssoMfaPending)
+const lastSsoPendingKey = ref('')
 
 const isSSOMFARouting = ref(false)
 const submitSSOmfa = async () => {
@@ -678,9 +679,14 @@ const submitSSOmfa = async () => {
   }
 }
 
-onMounted(async () => {
-  const pending = ssoMfaPending.value
+const applySsoPending = async (pending: any) => {
   if (!pending) return
+  const key =
+    pending.action === 'mfa_setup'
+      ? `setup:${pending.setup_token}`
+      : `verify:${pending.verify_token}`
+  if (key && key === lastSsoPendingKey.value) return
+  lastSsoPendingKey.value = key
   if (pending.action === 'mfa_setup') {
     try {
       const { secret } = await postSSOmfaSetupInfo(
@@ -699,7 +705,15 @@ onMounted(async () => {
     // mfa_verify: just show the TOTP input (no QR code)
     showTotpSecret.value = true
   }
-})
+}
+
+watch(
+  ssoMfaPending,
+  async (pending) => {
+    await applySsoPending(pending)
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss">
