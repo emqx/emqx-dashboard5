@@ -77,7 +77,7 @@ const handleQuery = async () => {
       const to = getValueFromQuery('to')
       // New flow: exchange the one-time SSO code for a token or MFA prompt
       try {
-        const result = await postSSOTokenExchange(info.code)
+        const result = await postSSOTokenExchange(info.code, info.username, info.backend)
         if ('token' in result) {
           // Login success
           updateBaseInfo(result.username, result, result.backend)

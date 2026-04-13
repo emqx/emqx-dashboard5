@@ -650,9 +650,19 @@ const submitSSOmfa = async () => {
   try {
     let res: any
     if (ssoMfaPending.value.action === 'mfa_setup') {
-      res = await postSSOmfaSetup(ssoMfaPending.value.setup_token, twoFARecord.authCode)
+      res = await postSSOmfaSetup(
+        ssoMfaPending.value.setup_token,
+        twoFARecord.authCode,
+        ssoMfaPending.value.username,
+        ssoMfaPending.value.backend,
+      )
     } else {
-      res = await postSSOmfaVerify(ssoMfaPending.value.verify_token, twoFARecord.authCode)
+      res = await postSSOmfaVerify(
+        ssoMfaPending.value.verify_token,
+        twoFARecord.authCode,
+        ssoMfaPending.value.username,
+        ssoMfaPending.value.backend,
+      )
     }
     store.commit('SET_SSO_MFA_PENDING', null)
     updateStoreInfo(res.username, res)
@@ -673,7 +683,11 @@ onMounted(async () => {
   if (!pending) return
   if (pending.action === 'mfa_setup') {
     try {
-      const { secret } = await postSSOmfaSetupInfo(pending.setup_token)
+      const { secret } = await postSSOmfaSetupInfo(
+        pending.setup_token,
+        pending.username,
+        pending.backend,
+      )
       totpSecret.value = secret
       showTotpSecret.value = true
       await waitAMoment()
