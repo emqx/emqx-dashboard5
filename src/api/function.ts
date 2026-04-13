@@ -35,11 +35,22 @@ export function destroyUser(username: string, backend?: string): Promise<void> {
   )
 }
 
-export function updateUserMfa(username: string, body: { mechanism: string }): Promise<void> {
-  return http.post(`/users/${encodeURIComponent(username)}/mfa`, body)
+export function updateUserMfa(
+  username: string,
+  body: { mechanism: string },
+  query: { backend?: string },
+): Promise<void> {
+  return http.post(
+    `/users/${encodeURIComponent(username)}/mfa`,
+    body,
+    query ? { params: query } : undefined,
+  )
 }
 
-export function deleteUserMfa(username: string, params?: { reset?: boolean }): Promise<void> {
+export function deleteUserMfa(
+  username: string,
+  params?: { reset?: boolean; backend?: string },
+): Promise<void> {
   return http.delete(`/users/${encodeURIComponent(username)}/mfa`, params ? { params } : undefined)
 }
 

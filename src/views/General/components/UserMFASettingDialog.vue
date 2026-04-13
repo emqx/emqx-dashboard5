@@ -80,13 +80,13 @@ const initData = () => {
 const resetTOTPSecret = async () => {
   try {
     await operationWarning(tl('confirmResetTOTPSecret'))
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
       return
     }
     submitLoading.value = true
     if (isSSOUser.value) {
-      await deleteUserMfa(username, { reset: true })
+      await deleteUserMfa(username, { reset: true, backend })
     } else {
       await updateUserMfa(username, { mechanism: UserMFA.totp })
     }
@@ -104,11 +104,11 @@ const selectedMFA = ref(defaultMFA)
 const enableMFA = async () => {
   try {
     submitLoading.value = true
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
       return
     }
-    await updateUserMfa(username, { mechanism: selectedMFA.value })
+    await updateUserMfa(username, { mechanism: selectedMFA.value }, { backend })
     ElMessage.success(t('Base.enableSuccess'))
     emit('submitted')
     showDialog.value = false
@@ -122,14 +122,14 @@ const enableMFA = async () => {
 const { operationWarning } = useOperationConfirm()
 const deleteMFA = async () => {
   try {
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
       return
     }
     await operationWarning(t('General.confirmDisableMFA'))
     submitLoading.value = true
     if (isSSOUser.value) {
-      await deleteUserMfa(username, { reset: false })
+      await deleteUserMfa(username, { reset: false, backend })
     } else {
       await deleteUserMfa(username)
     }
