@@ -259,6 +259,14 @@ export default {
     zh: '启用 {backend} SSO',
     en: 'Enable {backend} SSO',
   },
+  forceMFA: {
+    zh: '强制启用 MFA',
+    en: 'Force MFA',
+  },
+  forceMFADesc: {
+    zh: '开启后，该 SSO 后端的用户登录时会被要求设置或验证 MFA。若用户曾被管理员停用过 MFA，还需要先清除其 disabled 状态才会重新生效。',
+    en: 'When enabled, users from this SSO backend will be required to set up or verify MFA during login. If a user was previously admin-disabled, their disabled state must be cleared before this takes effect again.',
+  },
   baseDN: {
     zh: '基本 DN',
     en: 'Base DN',
