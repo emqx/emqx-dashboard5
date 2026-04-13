@@ -41,7 +41,7 @@
             {{ tl('changePassword') }}
           </TableButton>
           <TableButton
-            v-if="canChangePwd(row)"
+            v-if="canManageMfa(row)"
             :disabled="!isCurrentUser(row.username) && !$hasPermission('post')"
             @click="openMfaSettingsDialog(row)"
           >
@@ -176,6 +176,7 @@ const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getB
 const { loadConfigPromise, hasSSOEnabled, getEnabledSSO } = useSSO()
 
 const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
+const canManageMfa = () => true
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {

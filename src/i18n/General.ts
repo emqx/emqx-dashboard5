@@ -715,6 +715,10 @@ export default {
     en: 'After enabling, the user will set up TOTP secret key in the next login.',
     zh: '启用后，用户将在下次登录时，设置 TOTP 密钥。',
   },
+  ssoMFASettingsTip: {
+    en: 'For SSO users, Dashboard currently supports disabling MFA only. Re-enabling MFA depends on the SSO login flow and backend force_mfa policy.',
+    zh: '对于 SSO 用户，Dashboard 当前仅支持禁用 MFA。重新启用 MFA 依赖 SSO 登录流程和后端的 force_mfa 策略。',
+  },
   mfa: {
     en: 'Multi-Factor Authentication',
     zh: '多因素认证',
