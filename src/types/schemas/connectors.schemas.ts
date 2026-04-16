@@ -1907,6 +1907,7 @@ export const GcpPubsubAuthWifOidcClientCredentialsType = {
 } as const
 
 export interface GcpPubsubAuthWifOidcClientCredentials {
+  audience?: string
   client_id: string
   client_secret: string
   endpoint_uri: string
