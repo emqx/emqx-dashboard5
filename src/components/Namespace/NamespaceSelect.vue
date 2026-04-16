@@ -4,7 +4,7 @@
     v-model="namespace"
     clearable
     class="namespace-select"
-    :placeholder="t('BasicConfig.namespace')"
+    :placeholder="placeholder ?? t('BasicConfig.namespace')"
   >
     <el-option
       v-for="{ label, value } in namespaceOptions"
@@ -25,6 +25,7 @@ const props = withDefaults(
       enable?: boolean
       value?: string
     }
+    placeholder?: string
   }>(),
   {
     global: () => ({ enable: true, value: undefined }),
