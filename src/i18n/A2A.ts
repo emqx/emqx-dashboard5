@@ -23,6 +23,18 @@ export default {
     zh: '在线',
     en: 'Online',
   },
+  namespace: {
+    zh: '命名空间',
+    en: 'Namespace',
+  },
+  agentCardLabel: {
+    zh: 'Agent Card',
+    en: 'Agent Card',
+  },
+  currentNamespaceTip: {
+    zh: '当前 Agent 将注册到所选命名空间下；不选择时默认注册到全局命名空间。',
+    en: 'The Agent will be registered in the selected namespace. If not selected, it will be registered in the global namespace.',
+  },
   offline: {
     zh: '离线',
     en: 'Offline',

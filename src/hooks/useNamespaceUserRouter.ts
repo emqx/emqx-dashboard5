@@ -1,6 +1,7 @@
 export const routesRegNamespaceUserCanAccess = [
   /login/,
   /not-found/,
+  /^a2a-registry/,
   /^webhook/,
   /^flow/,
   /^rule/,

@@ -115,15 +115,19 @@ import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchS
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tlsManagement.schemas'
 import {
-  GetMessageStreamsStreams200Item,
+  StreamsStreamRegularApiGet,
   StreamsApiConfigGet,
   StreamsStreamIndividualLimits,
+  StreamsStreamLastvalueApiGet,
 } from './schemas/messageStream.schemas'
 import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
 import {
   GetA2aCardsListParams,
   A2aCardOut as A2aCardOutType,
   A2aRegisterCardIn as A2aRegisterCardInType,
+  GetA2aCardsCardOrgIdUnitIdAgentIdParams,
+  PostA2aCardsCardOrgIdUnitIdAgentIdParams,
+  DeleteA2aCardsCardOrgIdUnitIdAgentIdParams,
 } from './schemas/a2ARegistry.schemas'
 
 /* BASE */
@@ -295,11 +299,14 @@ export type ManagedCertsServer = EmqxManagedCertsServer
 
 /* MESSAGE STREAM */
 export type MessageStreamConfig = StreamsApiConfigGet
-export type MessageStreamItem = GetMessageStreamsStreams200Item
+export type MessageStreamItem = StreamsStreamRegularApiGet | StreamsStreamLastvalueApiGet
 export type MessageStreamLimits = StreamsStreamIndividualLimits
 
 /* A2A */
 export type A2ACardListParams = GetA2aCardsListParams
+export type A2AGetCardParams = GetA2aCardsCardOrgIdUnitIdAgentIdParams
+export type A2ARegisterCardParams = PostA2aCardsCardOrgIdUnitIdAgentIdParams
+export type A2ADeleteCardParams = DeleteA2aCardsCardOrgIdUnitIdAgentIdParams
 export interface A2ACardOut extends A2aCardOutType {
   org_id: string
   unit_id: string

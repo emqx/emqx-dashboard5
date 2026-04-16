@@ -3,6 +3,7 @@ import { FormItemRule } from 'element-plus'
 import { ManagedCerts, SSLSessionTickets } from './typeAlias'
 
 export interface UserInfo {
+  namespace?: string | null
   role: 'viewer' | 'administrator'
   username: string
   token: string

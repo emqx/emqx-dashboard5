@@ -26,10 +26,21 @@
             @clear="handleSearch"
           />
         </el-col>
-        <el-col v-bind="SEARCH_FORM_RES_PROPS" class="col-oper">
+        <template v-if="showMoreQuery">
+          <el-col v-if="!isNamespaceUser" v-bind="SEARCH_FORM_RES_PROPS">
+            <NamespaceSelect
+              v-model="namespaceFilter"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              @clear="handleSearch"
+              @change="handleSearch"
+            />
+          </el-col>
+        </template>
+        <el-col v-bind="showMoreQuery ? { span: 24 } : SEARCH_FORM_RES_PROPS" class="col-oper">
           <InfoTooltip :content="tl('exactFilterTip')" />
           <SearchButton @click="handleSearch" />
           <ResetButton @click="handleReset" />
+          <ShowMoreButton v-model="showMoreQuery" />
         </el-col>
       </el-row>
     </el-form>
@@ -61,6 +72,11 @@
           show-overflow-tooltip
         />
         <el-table-column :label="tl('version')" prop="version" min-width="100" />
+        <el-table-column v-if="!isNamespaceUser" :label="tl('namespace')" min-width="140">
+          <template #default="{ row }">
+            {{ getNamespaceLabel(row.namespace) }}
+          </template>
+        </el-table-column>
         <el-table-column :label="tl('orgId')" prop="org_id" min-width="120" show-overflow-tooltip />
         <el-table-column
           :label="tl('unitId')"
@@ -68,12 +84,11 @@
           min-width="120"
           show-overflow-tooltip
         />
-        <el-table-column
-          :label="tl('agentId')"
-          prop="agent_id"
-          min-width="120"
-          show-overflow-tooltip
-        />
+        <el-table-column :label="tl('agentId')" prop="agent_id" min-width="120">
+          <template #default="{ row }">
+            <CommonOverflowTooltip :content="row.agent_id" />
+          </template>
+        </el-table-column>
         <el-table-column
           :label="t('Base.description')"
           prop="description"
@@ -91,7 +106,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="t('Base.operation')" min-width="188">
+        <el-table-column :label="t('Base.operation')" min-width="152">
           <template #default="{ row }">
             <TableButton
               :disabled="!$hasPermission('post') || !row.org_id || !row.unit_id || !row.agent_id"
@@ -99,7 +114,19 @@
             >
               {{ t('Base.edit') }}
             </TableButton>
+            <NamespaceResourcePopover
+              v-if="isOpNsDisabled(row)"
+              :namespace="row.namespace || undefined"
+              :target-label="tl('agentCardLabel')"
+            >
+              <template #default>
+                <TableButton disabled>
+                  {{ t('Base.delete') }}
+                </TableButton>
+              </template>
+            </NamespaceResourcePopover>
             <TableButton
+              v-else
               :disabled="!$hasPermission('delete') || !row.org_id || !row.unit_id || !row.agent_id"
               @click="handleDelete(row)"
             >
@@ -115,6 +142,9 @@
   <el-dialog v-model="deleteDialogVisible" :title="t('Base.confirmDelete')" width="600px">
     <p class="mb-4">{{ tl('deleteConfirm') }}</p>
     <el-descriptions :column="1" :label-width="150" border>
+      <el-descriptions-item v-if="!isNamespaceUser" :label="tl('namespace')">
+        {{ getNamespaceLabel(deletingRow?.namespace) }}
+      </el-descriptions-item>
       <el-descriptions-item :label="tl('orgId')"> {{ deletingRow?.org_id }}</el-descriptions-item>
       <el-descriptions-item :label="tl('unitId')">{{ deletingRow?.unit_id }}</el-descriptions-item>
       <el-descriptions-item :label="tl('agentId')">
@@ -136,17 +166,26 @@
 
 <script lang="ts" setup>
 import { deleteA2ACard, getA2ARegistryConfig, listA2ACards } from '@/api/a2a'
+import { GLOBAL_NAMESPACE } from '@/common/constants'
 import type { A2ACardListParams, A2ACardOut } from '@/types/typeAlias'
 import { Settings } from 'lucide-vue-next'
+import NamespaceResourcePopover from '../RuleEngine/components/NamespaceResourcePopover.vue'
 import A2AGuidance from './components/A2AGuidance.vue'
 
 const router = useRouter()
+const store = useStore()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const getNamespaceLabel = (namespace?: string) =>
+  !namespace || namespace === GLOBAL_NAMESPACE ? t('BasicConfig.global') : namespace
+const { isOpNsResourceDisabled } = useNsResource()
+const isOpNsDisabled = (row?: { namespace?: string | null }) => isOpNsResourceDisabled(row)
 
 const isLoading = ref(false)
 const isA2AEnabled = ref(false)
 const cards = ref<A2ACardOut[]>([])
+const showMoreQuery = ref(false)
 
 const deleteDialogVisible = ref(false)
 const deletingRow = ref<A2ACardOut | null>(null)
@@ -158,9 +197,14 @@ const filterParams = ref<A2ACardListParams>({
   unit_id: undefined,
   agent_id: undefined,
 })
+const namespaceFilter = ref<string | undefined>(undefined)
+const { getListNamespaceParams } = useListNsParams()
+const { getNsParams } = useNsParams()
 
 const buildParams = (): A2ACardListParams => {
-  const p: A2ACardListParams = {}
+  const p: A2ACardListParams = {
+    ...(!isNamespaceUser.value ? getListNamespaceParams(namespaceFilter.value) : {}),
+  }
   if (filterParams.value.org_id) p.org_id = filterParams.value.org_id
   if (filterParams.value.unit_id) p.unit_id = filterParams.value.unit_id
   if (filterParams.value.agent_id) p.agent_id = filterParams.value.agent_id
@@ -183,6 +227,7 @@ const handleSearch = () => loadCards()
 
 const handleReset = () => {
   filterParams.value = { org_id: undefined, unit_id: undefined, agent_id: undefined }
+  namespaceFilter.value = undefined
   loadCards()
 }
 
@@ -204,6 +249,7 @@ const confirmDelete = async () => {
       deletingRow.value.org_id!,
       deletingRow.value.unit_id!,
       deletingRow.value.agent_id!,
+      getNsParams(deletingRow.value.namespace),
     )
     ElMessage.success(t('Base.deleteSuccess'))
     deleteDialogVisible.value = false
@@ -221,7 +267,11 @@ const goRegister = () => {
 
 const goEdit = (row: A2ACardOut) => {
   const { org_id, unit_id, agent_id } = row
-  router.push({ name: 'a2a-registry-edit', params: { org_id, unit_id, agent_id } })
+  router.push({
+    name: 'a2a-registry-edit',
+    params: { org_id, unit_id, agent_id },
+    query: getNsParams(row.namespace),
+  })
 }
 
 const loadData = async () => {

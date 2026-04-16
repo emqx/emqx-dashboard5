@@ -4,10 +4,21 @@
       :item="{ name: isEdit ? tl('editCard') : tl('registerCard'), path: '/a2a-registry' }"
     />
     <el-card class="app-card">
+      <el-alert v-if="isOpNsDisabled" class="!mb-4" show-icon type="info" :closable="false">
+        <i18n-t keypath="RuleEngine.namespaceResourceTip" tag="div" scope="global">
+          <template #target>
+            <span>{{ tl('agentCardLabel') }}</span>
+          </template>
+          <template #namespace>
+            <span class="font-bold">{{ routeNamespace }}</span>
+          </template>
+        </i18n-t>
+      </el-alert>
       <el-form
         ref="formRef"
         :model="form"
         :rules="rules"
+        :disabled="isOpNsDisabled"
         label-position="top"
         class="register-form"
       >
@@ -70,7 +81,7 @@
           <CancelButton @click="cancel" />
           <el-button
             type="primary"
-            :disabled="!$hasPermission('post')"
+            :disabled="!$hasPermission('post') || isOpNsDisabled"
             :loading="isSubmitting"
             @click="submit"
           >
@@ -91,8 +102,17 @@ const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
+const { getNsParams } = useNsParams()
+const { isOpNsResourceDisabled } = useNsResource()
 
 const isEdit = computed(() => route.name === 'a2a-registry-edit')
+const routeNamespace = computed(() => {
+  const namespace = route.query.ns
+  return typeof namespace === 'string' && namespace !== GLOBAL_NAMESPACE ? namespace : undefined
+})
+const isOpNsDisabled = computed(
+  () => isEdit.value && isOpNsResourceDisabled({ namespace: routeNamespace.value }),
+)
 
 const form = ref({
   org_id: '',
@@ -122,7 +142,7 @@ const validateSchema = computed(() => agentConf.value.validate_schema ?? false)
     form.value.unit_id = unit_id
     form.value.agent_id = agent_id
     try {
-      const card = await getA2ACard(org_id, unit_id, agent_id)
+      const card = await getA2ACard(org_id, unit_id, agent_id, getNsParams(routeNamespace.value))
       form.value.card = card.raw ? formatJSON(card.raw) : ''
     } catch (error) {
       //
@@ -319,9 +339,15 @@ const submit = async () => {
   }
   isSubmitting.value = true
   try {
-    await registerA2ACard(form.value.org_id, form.value.unit_id, form.value.agent_id, {
-      card: form.value.card,
-    })
+    await registerA2ACard(
+      form.value.org_id,
+      form.value.unit_id,
+      form.value.agent_id,
+      {
+        card: form.value.card,
+      },
+      isEdit.value ? getNsParams(routeNamespace.value) : undefined,
+    )
     ElMessage.success(isEdit.value ? t('Base.updateSuccess') : tl('registerSuccess'))
     router.push({ name: 'a2a-registry' })
   } catch (error) {
