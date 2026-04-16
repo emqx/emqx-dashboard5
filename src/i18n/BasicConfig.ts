@@ -331,11 +331,11 @@ These clients must be manually kicked out if one wants them to abide to the new 
     en: 'The default number of live sessions allowed for each namespace. Access will be denied for new clients if limit is reached. Online config changes do not affect running sessions.',
   },
   allowOnlyManagedNamespaces: {
-    zh: '仅允许显示创建的命名空间',
+    zh: '仅允许显式创建的命名空间',
     en: 'Allow Only Explicitly Created Namespaces',
   },
   allowOnlyManagedNamespacesDesc: {
-    zh: '如果启用，属于非显示创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
+    zh: '如果启用，属于非显式创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
   enableMessageQueue: {
@@ -452,13 +452,41 @@ The total count limit for the Queue is \`n_shards * max_shard_message_count\`.`,
     zh: '命名空间来源',
     en: 'Take Namespace From',
   },
-  takeNamespaceFromDesc: {
-    zh: `使用 Variform 表达式提取 MQTT 客户端的命名空间。<br />
+  namespaceResolutionTiming: {
+    zh: '命名空间解析时机',
+    en: 'When to Resolve Namespace',
+  },
+  namespaceResolutionTimingDesc: {
+    zh: '选择在认证前还是认证后解析命名空间。',
+    en: 'Choose whether to resolve the namespace before or after authentication.',
+  },
+  beforeAuthentication: {
+    zh: '认证前',
+    en: 'Before Authentication',
+  },
+  afterAuthentication: {
+    zh: '认证后',
+    en: 'After Authentication',
+  },
+  takeNamespaceFromBeforeAuthDesc: {
+    zh: `使用 Variform 表达式在认证前提取 MQTT 客户端的命名空间。<br />
 示例：\`username\` 使用用户名作为命名空间，或 \`nth(1, tokens(username, '.'))\` 使用用户名中 \`.\` 之前的部分作为命名空间。<br />
 更多表达式语法请参考 EMQX 文档。`,
-    en: `Extract MQTT client namespace using a Variform expression.<br />
+    en: `Extract the MQTT client namespace before authentication using a Variform expression.<br />
 Example: \`username\` to use username as namespace, or \`nth(1, tokens(username, '.'))\` to use the prefix before \`.\` in username as namespace.<br />
 See EMQX documentation for expression syntax.`,
+  },
+  postAuthTnsExpression: {
+    zh: '认证后命名空间来源',
+    en: 'Post-authentication Namespace Source',
+  },
+  postAuthTnsExpressionDesc: {
+    zh: `在认证链完成后计算该表达式，并将结果作为命名空间来源。<br />
+当前可使用的变量有 \`username\`、\`clientid\` 以及 \`client_attrs.*\`。其中 \`client_attrs.*\` 包含认证前初始化的属性，以及认证结果返回后合并进来的属性。<br />
+示例：\`client_attrs.tag\`；带回退的示例：\`coalesce(client_attrs.tag, username)\`。`,
+    en: `Evaluate this expression after the authentication chain completes and use the rendered value as the namespace source.<br />
+The variables currently available are \`username\`, \`clientid\`, and \`client_attrs.*\`. The \`client_attrs.*\` values include both pre-auth initialized attributes and attributes merged in from the authentication result.<br />
+Example: \`client_attrs.tag\`; with fallback: \`coalesce(client_attrs.tag, username)\`.`,
   },
   clientIdIsolation: {
     zh: '客户端 ID 隔离',
