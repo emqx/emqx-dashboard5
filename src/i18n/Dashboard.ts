@@ -1035,6 +1035,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '动作执行总数',
     en: 'Number of actions executed',
   },
+  actions_messages: {
+    zh: '动作处理消息总数',
+    en: 'Number of messages handled by actions',
+  },
   category: {
     zh: '类别',
     en: 'Category',
