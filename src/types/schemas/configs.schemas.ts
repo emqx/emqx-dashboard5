@@ -644,13 +644,9 @@ export interface S3TransportOptions {
   ssl?: EmqxSslClientOpts
 }
 
-export interface LimiterMqtt {
+export interface LimiterMqttSharedLimiters {
   bytes_burst?: string
   bytes_rate?: string
-  delivery_bytes_burst?: string
-  delivery_bytes_rate?: string
-  delivery_messages_burst?: string
-  delivery_messages_rate?: string
   max_conn_burst?: string
   max_conn_rate?: string
   messages_burst?: string
@@ -994,7 +990,7 @@ export interface EmqxMqtt {
   ignore_loop_deliver?: boolean
   keepalive_check_interval?: string
   keepalive_multiplier?: number
-  limiter?: LimiterMqtt
+  limiter?: LimiterMqttSharedLimiters
   max_awaiting_rel?: EmqxMqttMaxAwaitingRel
   /**
    * @minimum 23

@@ -12,6 +12,8 @@ export type GetA2aCardsList503 = {
 }
 
 export type GetA2aCardsListParams = {
+  only_global?: boolean
+  ns?: string
   org_id?: string
   unit_id?: string
   agent_id?: string
@@ -56,6 +58,10 @@ export type PostA2aCardsCardOrgIdUnitIdAgentId400 = {
   message?: string
 }
 
+export type PostA2aCardsCardOrgIdUnitIdAgentIdParams = {
+  ns?: string
+}
+
 export type GetA2aCardsCardOrgIdUnitIdAgentId503Code =
   (typeof GetA2aCardsCardOrgIdUnitIdAgentId503Code)[keyof typeof GetA2aCardsCardOrgIdUnitIdAgentId503Code]
 
@@ -82,6 +88,10 @@ export type GetA2aCardsCardOrgIdUnitIdAgentId404 = {
   message?: string
 }
 
+export type GetA2aCardsCardOrgIdUnitIdAgentIdParams = {
+  ns?: string
+}
+
 export type DeleteA2aCardsCardOrgIdUnitIdAgentId503Code =
   (typeof DeleteA2aCardsCardOrgIdUnitIdAgentId503Code)[keyof typeof DeleteA2aCardsCardOrgIdUnitIdAgentId503Code]
 
@@ -93,6 +103,10 @@ export const DeleteA2aCardsCardOrgIdUnitIdAgentId503Code = {
 export type DeleteA2aCardsCardOrgIdUnitIdAgentId503 = {
   code?: DeleteA2aCardsCardOrgIdUnitIdAgentId503Code
   message?: string
+}
+
+export type DeleteA2aCardsCardOrgIdUnitIdAgentIdParams = {
+  ns?: string
 }
 
 export interface A2aRegisterCardIn {
@@ -109,7 +123,9 @@ export const A2aCardOutStatus = {
 
 export interface A2aCardOut {
   description?: string
+  id?: string
   name?: string
+  namespace?: string
   raw?: string
   status?: A2aCardOutStatus
   version?: string
