@@ -547,6 +547,10 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: 'client.authenticate 钩子触发次数',
     en: 'client.authenticate hook trigger times',
   },
+  client_post_authn: {
+    zh: 'client.post_authn 钩子触发次数',
+    en: 'client.post_authn hook trigger times',
+  },
   client_connack: {
     zh: 'client.connack 钩子触发次数',
     en: 'client.connack hook trigger times',
