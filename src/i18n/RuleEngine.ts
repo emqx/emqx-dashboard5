@@ -83,6 +83,14 @@ export default {
     zh: '触发器',
     en: 'Trigger',
   },
+  queryString: {
+    zh: '查询字符串',
+    en: 'Query String',
+  },
+  queryStringDesc: {
+    zh: '用于配置 Webhook 请求 URL 中的查询参数，例如 `token=xxx&key=value`。',
+    en: 'Used to configure query parameters in the Webhook request URL, for example `token=xxx&key=value`.',
+  },
   topicFilter: {
     zh: '主题过滤',
     en: 'Topic Filter',
