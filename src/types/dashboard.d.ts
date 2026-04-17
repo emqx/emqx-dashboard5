@@ -110,6 +110,21 @@ export interface LicenseData {
 export interface LicenseConfig {
   connection_low_watermark: string
   connection_high_watermark: string
+  high_watermark_timezone: string
+}
+
+export type LicenseSessionHwmHistoryPeriod = 'daily' | 'monthly'
+
+export interface LicenseSessionHwmHistoryRow {
+  period: string
+  high_watermark: number
+  observed_at: string
+}
+
+export interface LicenseSessionHwmHistoryResponse {
+  period: LicenseSessionHwmHistoryPeriod
+  count: number
+  data: Array<LicenseSessionHwmHistoryRow>
 }
 
 export default {}

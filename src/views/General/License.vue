@@ -1,173 +1,237 @@
 <template>
   <div class="license app-wrapper with-padding-top">
-    <el-card class="license-card">
-      <div class="license-info">
-        <el-descriptions :title="tl('basic')" :column="1">
-          <el-descriptions-item :label="tl('numberOfConnectionLines')">
-            <el-progress
-              :stroke-width="20"
-              :percentage="licensePercentage"
-              :status="isWarningUsage ? 'warning' : ''"
-              :format="
-                () =>
-                  `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}`
-              "
-              @mouseover="showTooltip = true"
-              @mouseout="showTooltip = false"
-            >
-              {{ `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}` }}
-            </el-progress>
-            <el-tooltip
-              :visible="showTooltip"
-              effect="dark"
-              popper-class="info-tooltip"
-              placement="top"
-              :content="tl('usageWarning', { percentage: licenseConfig.connection_high_watermark })"
-            >
-              <div v-show="showTooltip" class="marked" :style="{ left: markedLeftPosition }"></div>
-            </el-tooltip>
-          </el-descriptions-item>
-          <el-descriptions-item :label="tl('EMQXVersion')">
-            <EMQXVersion />
-          </el-descriptions-item>
-          <el-descriptions-item :label="`${tl('maxTps')}${t('Base.colon')}`">
-            {{ licenseData.max_tps === INFINITY_VALUE ? t('Base.infinite') : licenseData.max_tps }}
-          </el-descriptions-item>
-          <template v-if="!isEvaluationLicense && !isCommunityLicense">
-            <el-descriptions-item :label="tl('customer')">
-              <span>
-                {{ licenseData.customer }}
-                <!-- TRIAL -->
-                <el-tooltip
-                  v-if="
-                    licenseData.type === LicenseType.Trial &&
-                    !isEvaluationLicense &&
-                    licenseData.expiry === false
+    <el-card class="license-card app-card">
+      <el-tabs v-model="activeTab">
+        <el-tab-pane :label="tl('currentConfig')" name="settings">
+          <div class="license-info">
+            <el-descriptions :title="tl('basic')" :column="1">
+              <el-descriptions-item :label="tl('numberOfConnectionLines')">
+                <el-progress
+                  :stroke-width="20"
+                  :percentage="licensePercentage"
+                  :status="isWarningUsage ? 'warning' : ''"
+                  :format="
+                    () =>
+                      `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}`
                   "
-                  effect="dark"
-                  :content="tl('forTrialEdition')"
-                  placement="top"
-                  :visible-arrow="false"
+                  @mouseover="showTooltip = true"
+                  @mouseout="showTooltip = false"
                 >
-                  <el-tag type="warning">{{ tl('trialEdition') }}</el-tag>
+                  {{
+                    `${formatNumber(currentConnections)}/${formatNumber(licenseData.max_sessions)}`
+                  }}
+                </el-progress>
+                <el-tooltip
+                  :visible="showTooltip"
+                  effect="dark"
+                  popper-class="info-tooltip"
+                  placement="top"
+                  :content="
+                    tl('usageWarning', { percentage: licenseConfig.connection_high_watermark })
+                  "
+                >
+                  <div
+                    v-show="showTooltip"
+                    class="marked"
+                    :style="{ left: markedLeftPosition }"
+                  ></div>
                 </el-tooltip>
-              </span>
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('issuanceOfEmail')">
-              {{ licenseData.email }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('issuedAt')">
-              {{ licenseData.start_at }}
-            </el-descriptions-item>
-            <el-descriptions-item :label="tl('expireAt')">
-              {{ licenseData.expiry_at }}
-            </el-descriptions-item>
-          </template>
-        </el-descriptions>
-        <!-- EVALUATION -->
-        <el-alert v-if="isEvaluationLicense" show-icon :closable="false" type="info">
-          <template #title>
-            <MarkdownContent
-              :content="
-                tl('licenseEvaluationTip', { n: `<strong> ${licenseData.max_sessions} </strong>` })
-              "
-            />
-          </template>
-        </el-alert>
-        <!-- COMMUNITY -->
-        <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
-          <MarkdownContent
-            :content="
-              tl('communityLicenseTip', {
-                applyLicenseLink: docMap.applyLicense,
-                faqLinkPlaceholder: docMap.licenseFaq,
-              })
-            "
-          />
-        </el-alert>
+              </el-descriptions-item>
+              <el-descriptions-item :label="tl('EMQXVersion')">
+                <EMQXVersion />
+              </el-descriptions-item>
+              <el-descriptions-item :label="`${tl('maxTps')}${t('Base.colon')}`">
+                {{
+                  licenseData.max_tps === INFINITY_VALUE ? t('Base.infinite') : licenseData.max_tps
+                }}
+              </el-descriptions-item>
+              <template v-if="!isEvaluationLicense && !isCommunityLicense">
+                <el-descriptions-item :label="tl('customer')">
+                  <span>
+                    {{ licenseData.customer }}
+                    <!-- TRIAL -->
+                    <el-tooltip
+                      v-if="
+                        licenseData.type === LicenseType.Trial &&
+                        !isEvaluationLicense &&
+                        licenseData.expiry === false
+                      "
+                      effect="dark"
+                      :content="tl('forTrialEdition')"
+                      placement="top"
+                      :visible-arrow="false"
+                    >
+                      <el-tag type="warning">{{ tl('trialEdition') }}</el-tag>
+                    </el-tooltip>
+                  </span>
+                </el-descriptions-item>
+                <el-descriptions-item :label="tl('issuanceOfEmail')">
+                  {{ licenseData.email }}
+                </el-descriptions-item>
+                <el-descriptions-item :label="tl('issuedAt')">
+                  {{ licenseData.start_at }}
+                </el-descriptions-item>
+                <el-descriptions-item :label="tl('expireAt')">
+                  {{ licenseData.expiry_at }}
+                </el-descriptions-item>
+              </template>
+            </el-descriptions>
+            <!-- EVALUATION -->
+            <el-alert v-if="isEvaluationLicense" show-icon :closable="false" type="info">
+              <template #title>
+                <MarkdownContent
+                  :content="
+                    tl('licenseEvaluationTip', {
+                      n: `<strong> ${licenseData.max_sessions} </strong>`,
+                    })
+                  "
+                />
+              </template>
+            </el-alert>
+            <!-- COMMUNITY -->
+            <el-alert v-else-if="isCommunityLicense" show-icon :closable="false" type="info">
+              <MarkdownContent
+                :content="
+                  tl('communityLicenseTip', {
+                    applyLicenseLink: docMap.applyLicense,
+                    faqLinkPlaceholder: docMap.licenseFaq,
+                  })
+                "
+              />
+            </el-alert>
 
-        <!-- EXPIRED -->
-        <el-alert v-else-if="licenseData.expiry" show-icon :closable="false" type="info">
-          <template #title>
-            <i18n-t keypath="Dashboard.licenseExpiryTip" scope="global">
-              <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
-            </i18n-t>
-          </template>
-        </el-alert>
-        <!-- NOT EVALUATION (OFFICIAL OR TRIAL) -->
-        <el-alert
-          v-else
-          :title="tl('beforeTheCertificateExpires')"
-          show-icon
-          :closable="false"
-          type="info"
-        />
-        <el-button
-          type="primary"
-          :disabled="!$hasPermission('put')"
-          @click="showUpdateDialog = true"
-        >
-          {{ startCase(tl('updateLicense')) }}
-        </el-button>
-        <el-button
-          v-if="licenseData.deployment !== 'default' && !isCommunityLicense"
-          type="primary"
-          plain
-          :disabled="!$hasPermission('post')"
-          @click="showResetDialog = true"
-        >
-          {{ tl('resetLicense') }}
-        </el-button>
-      </div>
-      <!-- Config -->
-      <div class="license-config">
-        <h3>{{ tl('licenseSettings') }}</h3>
-        <el-form
-          ref="licenseConfigForm"
-          :model="licenseConfig"
-          label-position="right"
-          :label-width="store.state.lang === 'zh' ? 216 : 245"
-          :rules="rules"
-          hide-required-asterisk
-        >
-          <el-form-item prop="connection_high_watermark">
-            <template #label>
-              <FormItemLabel
-                :label="tl('connection_high_watermark')"
-                :desc="tl('connection_high_watermark_desc')"
-              />
-            </template>
-            <InputWithUnit
-              v-model="licenseConfig.connection_high_watermark"
-              :units="['%']"
-              :max="100"
-              :min="0"
+            <!-- EXPIRED -->
+            <el-alert v-else-if="licenseData.expiry" show-icon :closable="false" type="info">
+              <template #title>
+                <i18n-t keypath="Dashboard.licenseExpiryTip" scope="global">
+                  <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
+                </i18n-t>
+              </template>
+            </el-alert>
+            <!-- NOT EVALUATION (OFFICIAL OR TRIAL) -->
+            <el-alert
+              v-else
+              :title="tl('beforeTheCertificateExpires')"
+              show-icon
+              :closable="false"
+              type="info"
             />
-          </el-form-item>
-          <el-form-item prop="connection_low_watermark">
-            <template #label>
-              <FormItemLabel
-                :label="tl('connection_low_watermark')"
-                :desc="tl('connection_low_watermark_desc')"
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              @click="showUpdateDialog = true"
+            >
+              {{ startCase(tl('updateLicense')) }}
+            </el-button>
+            <el-button
+              v-if="licenseData.deployment !== 'default' && !isCommunityLicense"
+              type="primary"
+              plain
+              :disabled="!$hasPermission('post')"
+              @click="showResetDialog = true"
+            >
+              {{ tl('resetLicense') }}
+            </el-button>
+          </div>
+          <!-- Config -->
+          <div class="license-config">
+            <h3>{{ tl('licenseSettings') }}</h3>
+            <el-form
+              ref="licenseConfigForm"
+              :model="licenseConfig"
+              label-position="right"
+              :label-width="store.state.lang === 'zh' ? 216 : 245"
+              :rules="rules"
+              hide-required-asterisk
+            >
+              <el-form-item prop="connection_high_watermark">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('connection_high_watermark')"
+                    :desc="tl('connection_high_watermark_desc')"
+                  />
+                </template>
+                <InputWithUnit
+                  v-model="licenseConfig.connection_high_watermark"
+                  :units="['%']"
+                  :max="100"
+                  :min="0"
+                />
+              </el-form-item>
+              <el-form-item prop="connection_low_watermark">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('connection_low_watermark')"
+                    :desc="tl('connection_low_watermark_desc')"
+                  />
+                </template>
+                <InputWithUnit
+                  v-model="licenseConfig.connection_low_watermark"
+                  :units="['%']"
+                  :max="100"
+                  :min="0"
+                />
+              </el-form-item>
+              <el-form-item prop="high_watermark_timezone">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('high_watermark_timezone')"
+                    :desc="tl('high_watermark_timezone_desc')"
+                    desc-marked
+                  />
+                </template>
+                <el-input v-model="licenseConfig.high_watermark_timezone" />
+              </el-form-item>
+              <el-button
+                type="primary"
+                :disabled="!$hasPermission('put')"
+                :loading="saveLoading"
+                @click="handleUpdate()"
+              >
+                {{ $t('Base.saveChanges') }}
+              </el-button>
+            </el-form>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane :label="tl('viewHistoricalPeak')" name="history">
+          <div class="license-history">
+            <div>
+              <h3>{{ tl('sessionHighWatermarkHistory') }}</h3>
+              <p class="section-desc">{{ tl('sessionHighWatermarkHistoryDesc') }}</p>
+            </div>
+            <div class="history-toolbar">
+              <CustomInputNumber
+                v-if="historyPeriod === HistoryPeriod.Daily"
+                v-model="dailyHistoryLimit"
+                class="history-limit"
+                :min="1"
+                controls-position="right"
               />
-            </template>
-            <InputWithUnit
-              v-model="licenseConfig.connection_low_watermark"
-              :units="['%']"
-              :max="100"
-              :min="0"
-            />
-          </el-form-item>
-          <el-button
-            type="primary"
-            :disabled="!$hasPermission('put')"
-            :loading="saveLoading"
-            @click="handleUpdate()"
-          >
-            {{ $t('Base.saveChanges') }}
-          </el-button>
-        </el-form>
-      </div>
+              <el-radio-group v-model="historyPeriod" @change="loadHistoryData">
+                <el-radio-button :value="HistoryPeriod.Daily">
+                  {{ tl('daily') }}
+                </el-radio-button>
+                <el-radio-button :value="HistoryPeriod.Monthly">
+                  {{ tl('monthly') }}
+                </el-radio-button>
+              </el-radio-group>
+            </div>
+            <el-table :data="displayedHistoryData" v-loading="historyLoading">
+              <el-table-column prop="period" :label="tl('historyPeriod')" min-width="140" />
+              <el-table-column prop="high_watermark" :label="tl('peakSessions')" min-width="160">
+                <template #default="{ row }">
+                  {{ formatNumber(row.high_watermark) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="observed_at" :label="tl('peakObservedAt')" min-width="220">
+                <template #default="{ row }">
+                  {{ dateFormat(row.observed_at) }}
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </el-card>
     <LicenseUpdateDialog v-model="showUpdateDialog" @updated="loadLicenseData" />
     <LicenseResetDialog v-model="showResetDialog" @updated="loadLicenseData" />
@@ -179,18 +243,29 @@ import {
   loadCurrentMetrics,
   loadLicenseInfo,
   loadLicenseConfig,
+  loadLicenseSessionHwmHistory,
   updateLicenseConfig,
 } from '@/api/common'
 import LicenseUpdateDialog from './components/LicenseUpdateDialog.vue'
 import LicenseResetDialog from './components/LicenseResetDialog.vue'
 import { LicenseType } from '@/types/enum'
-import { LicenseConfig, LicenseData } from '@/types/dashboard'
+import {
+  LicenseConfig,
+  LicenseData,
+  LicenseSessionHwmHistoryPeriod,
+  LicenseSessionHwmHistoryResponse,
+} from '@/types/dashboard'
 
 type ValidatorFn = (
   rule: Record<string, unknown>,
   value: string,
   callback: (error?: Error) => void,
 ) => void
+
+enum HistoryPeriod {
+  Daily = 'daily',
+  Monthly = 'monthly',
+}
 
 const { t, tl } = useI18nTl('Dashboard')
 const currentConnections = ref(0)
@@ -203,15 +278,30 @@ const showUpdateDialog = ref(false)
 const showResetDialog = ref(false)
 const saveLoading = ref(false)
 const showTooltip = ref(false)
+const activeTab = ref<'settings' | 'history'>('settings')
 
 const licenseConfig = ref<LicenseConfig>({
   connection_high_watermark: '0%',
   connection_low_watermark: '0%',
+  high_watermark_timezone: 'system',
 })
 const licenseData: ComputedRef<LicenseData> = computed(() => store.state.licenseData)
 const isEvaluationLicense = computed(() => store.getters.isEvaluationLicense)
 const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
 const licenseConfigForm = ref<HTMLFormElement | null>(null)
+const historyLoading = ref(false)
+const historyPeriod = ref<LicenseSessionHwmHistoryPeriod>(HistoryPeriod.Daily)
+const dailyHistoryLimit = ref(30)
+const historyData = ref<LicenseSessionHwmHistoryResponse>({
+  period: HistoryPeriod.Daily,
+  count: 0,
+  data: [],
+})
+const displayedHistoryData = computed(() =>
+  historyPeriod.value === HistoryPeriod.Daily
+    ? historyData.value.data.slice(0, dailyHistoryLimit.value)
+    : historyData.value.data,
+)
 
 const licensePercentage = computed(() => {
   const connection = currentConnections.value
@@ -244,10 +334,25 @@ const loadLicenseData = async () => {
     ])
     currentConnections.value = state.connections
     store.commit('SET_LICENSE_DATA', data)
-    licenseConfig.value = config
+    licenseConfig.value = {
+      ...config,
+      high_watermark_timezone: config.high_watermark_timezone || 'system',
+    }
     progressBarOuterWidth.value = getProgressBarWidth()
   } catch (error) {
     // handle error
+  }
+}
+
+const loadHistoryData = async () => {
+  try {
+    historyLoading.value = true
+    const limit = historyPeriod.value === HistoryPeriod.Daily ? dailyHistoryLimit.value : undefined
+    historyData.value = await loadLicenseSessionHwmHistory(historyPeriod.value, limit)
+  } catch (error) {
+    //
+  } finally {
+    historyLoading.value = false
   }
 }
 
@@ -277,6 +382,17 @@ const watermarkValidator = (comparison: () => string, isHigher: boolean): Valida
   }
 }
 
+const timezonePattern = /^(system|[+-]\d{2}:\d{2})$/
+const timezoneValidator: ValidatorFn = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error(tl('highWatermarkTimezoneRequired')))
+  } else if (!timezonePattern.test(value)) {
+    callback(new Error(tl('invalidHighWatermarkTimezone')))
+  } else {
+    callback()
+  }
+}
+
 const rules: any = {
   connection_high_watermark: [
     { required: true, message: tl('highWatermarkRequired') },
@@ -290,6 +406,7 @@ const rules: any = {
       validator: watermarkValidator(() => licenseConfig.value.connection_high_watermark, false),
     },
   ],
+  high_watermark_timezone: [{ validator: timezoneValidator }],
 }
 
 const markedLeftPosition = computed(() => {
@@ -313,6 +430,7 @@ const handleUpdate = async () => {
 }
 
 loadLicenseData()
+loadHistoryData()
 </script>
 
 <style lang="scss">
@@ -391,6 +509,30 @@ html[lang='zh'] .license .el-descriptions .el-descriptions__label {
     width: 50%;
     .el-form-item {
       margin-bottom: 24px;
+    }
+  }
+  .license-history {
+    h3 {
+      margin: 0;
+      line-height: 1.4;
+    }
+    .section-desc {
+      margin: 4px 0 0;
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .history-toolbar {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .history-limit {
+      width: 120px;
     }
   }
   .el-button {

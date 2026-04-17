@@ -346,6 +346,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: 'License 设置',
     en: 'License Settings',
   },
+  currentConfig: {
+    zh: 'License 信息',
+    en: 'License Info',
+  },
+  viewHistoricalPeak: {
+    zh: '历史会话峰值',
+    en: 'Historical Session Peaks',
+  },
   connection_low_watermark: {
     zh: '当使用量低于此值时清除警报',
     en: 'Clear Alarm when usage is below:',
@@ -361,6 +369,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   connection_high_watermark_desc: {
     en: 'High watermark limit above which license session quota usage alarms are activated.',
     zh: '当 License 会话配额使用量超过预设的上限时，系统会发出警报',
+  },
+  high_watermark_timezone: {
+    zh: '会话峰值历史时区',
+    en: 'Session High-Watermark Timezone',
+  },
+  high_watermark_timezone_desc: {
+    zh: '用于确定会话峰值历史“每天”边界的时区。可填写 `system` 以跟随节点主机本地时区，或填写 `+08:00` 这样的显式 UTC 偏移。',
+    en: 'Timezone used to determine the local day boundary for session high-watermark history. Use `system` to follow the node host local timezone, or provide an explicit UTC offset such as `+08:00`.',
   },
   highWatermarkRequired: {
     zh: '需要填写使用量高水位线',
@@ -378,6 +394,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '使用量低水位线必须低于使用量高水位线',
     en: 'Usage Low Watermark must be less than Usage High Watermark',
   },
+  highWatermarkTimezoneRequired: {
+    zh: '需要填写会话峰值历史时区',
+    en: 'Session High-Watermark Timezone is required',
+  },
+  invalidHighWatermarkTimezone: {
+    zh: '请输入 `system` 或形如 `+08:00` / `-05:00` 的 UTC 偏移',
+    en: 'Please enter `system` or a UTC offset like `+08:00` / `-05:00`',
+  },
   maxTps: {
     zh: 'TPS 上限',
     en: 'TPS Limit',
@@ -385,6 +409,38 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   usageWarning: {
     zh: '当会话数超过 {percentage} 时触发使用量预警，并通过系统告警发送通知。',
     en: 'Trigger usage warning and send notifications through system alert when the number of sessions exceeds {percentage}.',
+  },
+  sessionHighWatermarkHistory: {
+    zh: '会话峰值历史',
+    en: 'Session High-Watermark History',
+  },
+  sessionHighWatermarkHistoryDesc: {
+    zh: '记录每天的会话峰值，并支持按日或按月查看。月视图会基于每日峰值折叠计算。数据至少保留 24 个月。',
+    en: 'Records daily peak session counts and supports daily or monthly views. The monthly view is folded from daily peaks. Data is retained for at least 24 months.',
+  },
+  daily: {
+    zh: '按日',
+    en: 'Daily',
+  },
+  monthly: {
+    zh: '按月',
+    en: 'Monthly',
+  },
+  historyPeriod: {
+    zh: '周期',
+    en: 'Period',
+  },
+  historyLimit: {
+    zh: '最近条数',
+    en: 'Recent Rows',
+  },
+  peakSessions: {
+    zh: '峰值会话数',
+    en: 'Peak Sessions',
+  },
+  peakObservedAt: {
+    zh: '峰值出现时间',
+    en: 'Peak Observed At',
   },
   key: {
     zh: 'Key',
