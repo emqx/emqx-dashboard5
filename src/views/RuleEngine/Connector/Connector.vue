@@ -3,7 +3,16 @@
     <div class="app-wrapper">
       <div class="section-header">
         <div></div>
-        <CreateButton @click="$router.push({ name: 'connector-create' })" />
+        <div>
+          <LinkButton
+            :icon="Setting"
+            :to="{ name: 'rule-engine-security' }"
+            :disabled="!$hasPermission('post')"
+          >
+            <span> {{ t('BasicConfig.ssrfPolicy') }}</span>
+          </LinkButton>
+          <CreateButton @click="$router.push({ name: 'connector-create' })" />
+        </div>
       </div>
       <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
         <el-table-column :label="tl('name')" :min-width="120">
@@ -109,7 +118,7 @@
   <DelConnectorTip v-model="showDelTip" :connector="currentConnector" />
   <DisableConnectorConfirm
     v-model="showDisableConfirm"
-    :connector="currentConnector as Connector"
+    v-bind="{ connector: currentConnector as Connector }"
     @submitted="getList"
   />
 </template>
@@ -117,6 +126,7 @@
 <script setup lang="ts">
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { BridgeItem, Connector } from '@/types/rule'
+import { Setting } from '@element-plus/icons-vue'
 import OperateWebhookAssociatedPopover from '../components/OperateWebhookAssociatedPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'

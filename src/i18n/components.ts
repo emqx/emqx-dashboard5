@@ -419,6 +419,10 @@ export default {
     zh: '消息队列',
     en: 'Message Queue',
   },
+  'rule-engine-security': {
+    zh: '规则引擎安全',
+    en: 'Rule Engine Security',
+  },
   'message-queue': {
     zh: '消息队列',
     en: 'Message Queue',

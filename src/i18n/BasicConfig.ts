@@ -314,7 +314,7 @@ That is: both MQTT limiters and namespace tenant rate limiters apply to the clie
   },
   clientLimiterDesc: {
     zh: `客户端速率限制器的令牌在命名空间内对每个客户端独占。<br />
-当为命名空间配置此类型的限流器时，它将替代现有的监听器速率限制器。<br /> 
+当为命名空间配置此类型的限流器时，它将替代现有的监听器速率限制器。<br />
 即当启用此配置时，监听器限流器将被忽略。<br />`,
     en: `Client rate limiters have tokens that are exclusive to each client in the namespace.<br />
 If this kind is configured for a namespace, it replaces with any existing listener rate limiters.<br />
@@ -385,5 +385,67 @@ These clients must be manually kicked out if one wants them to abide to the new 
   findQueueRetryIntervalDesc: {
     zh: '当订阅队列主题时，如果未找到队列，订阅者重新查找队列的重试间隔时间',
     en: 'The interval at which subscribers will retry to find a queue if the queue is not found when subscribing to a queue topic',
+  },
+  ruleEngineSecurity: {
+    zh: '规则引擎安全',
+    en: 'Rule Engine Security',
+  },
+  ssrfPolicy: {
+    zh: 'SSRF 策略',
+    en: 'SSRF Policy',
+  },
+  ruleEngineSsrfPolicyTip: {
+    zh: `EMQX 命名空间管理员通常被视为可信方，但你仍然可以启用下面的 SSRF 策略，在配置更新时校验规则引擎的出站目标。<br />
+这能降低 SSRF 风险，但不能防止校验通过后的恶意 DNS 变更；仍需结合防火墙、\`iptables\`、\`nftables\` 等出口控制，并参考 EMQX 文档了解更多细节。<br />
+该策略适用于出站连接器。评估顺序为：先精确匹配拒绝的主机名，再检查允许的 CIDR 范围，最后检查拒绝的 CIDR 范围。`,
+    en: `EMQX namespace administrators are intended to be trusted parties. Nonetheless, you can enable the SSRF policy below to validate outbound rule-engine targets at configuration-update time.<br />
+This reduces SSRF risk, but does not protect against malicious DNS changes after validation. Use firewall, \`iptables\`, or \`nftables\` egress controls and refer to the EMQX documentation for more details.<br />
+This policy applies to outbound connectors. Evaluation order is: exact Denied Hostnames first, then Allowed CIDR Ranges, then Denied CIDR Ranges.`,
+  },
+  enableSsrfProtection: {
+    zh: '启用 SSRF 保护',
+    en: 'Enable SSRF Protection',
+  },
+  enableSsrfProtectionDesc: {
+    zh: `启用后，将 \`rule_engine.ssrf\` 下的策略应用到出站连接器目标。<br />
+仅在配置更新时检查，运行时 DNS 重新解析不会被阻止。<br />
+请使用网络层出口控制来应对校验后的 DNS 变化。`,
+    en: `When enabled, apply the policy under \`rule_engine.ssrf\` to outbound connector targets.<br />
+Checks run only at config-update time, and runtime DNS re-resolution is not blocked.<br />
+Use network-layer egress controls to enforce protection against post-validation DNS changes.`,
+  },
+  allowedCIDRRanges: {
+    zh: '允许的 CIDR 范围',
+    en: 'Allowed CIDR Ranges',
+  },
+  allowedCIDRRangesDesc: {
+    zh: `在拒绝的 CIDR 范围之前优先放行的 CIDR 范围列表。<br />
+可用于给受信任的内网目标开白名单，而无需全局关闭 SSRF 保护。<br />
+默认值为空。`,
+    en: `List of CIDR ranges explicitly allowed before Denied CIDR Ranges are checked.<br />
+Use this to carve out approved internal targets without disabling SSRF protection globally.<br />
+The default is empty.`,
+  },
+  deniedCIDRRanges: {
+    zh: '拒绝的 CIDR 范围',
+    en: 'Denied CIDR Ranges',
+  },
+  deniedCIDRRangesDesc: {
+    zh: `被视为私网或其他不安全出站目标的 CIDR 范围列表。<br />
+默认值覆盖 loopback、link-local（含云 IMDS）、RFC1918、ULA、未指定地址、多播地址，以及已知云 metadata IP。<br />
+如需显式放行例外地址，请使用允许的 CIDR 范围。`,
+    en: `List of CIDR ranges considered private or otherwise unsafe as outbound targets.<br />
+The defaults cover loopback, link-local (including cloud IMDS), RFC1918, ULA, unspecified, multicast ranges, and known cloud metadata IPs.<br />
+Use Allowed CIDR Ranges for explicit exceptions when needed.`,
+  },
+  deniedHostnames: {
+    zh: '拒绝的主机名',
+    en: 'Denied Hostnames',
+  },
+  deniedHostnamesDesc: {
+    zh: `按精确匹配（不区分大小写）拒绝的主机名列表。<br />
+默认值覆盖几个云 metadata 主机名：metadata.tencentyun.com、metadata.google.internal、metadata.azure.internal。`,
+    en: `List of hostnames denied by exact match, case-insensitively.<br />
+The defaults cover cloud metadata hostnames: metadata.tencentyun.com, metadata.google.internal, and metadata.azure.internal.`,
   },
 }
