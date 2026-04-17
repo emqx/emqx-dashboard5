@@ -31,6 +31,7 @@ export default (): {
         { title: 'mqtt', path: '/mqtt' },
         { title: 'cluster', path: '/cluster' },
         { title: 'namespace', path: '/namespace' },
+        { title: 'rule-engine-security', path: '/rule-engine-security' },
         { title: 'listener', path: '/listener' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
