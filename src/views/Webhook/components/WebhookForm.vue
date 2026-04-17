@@ -45,6 +45,12 @@
         {{ tl('testConnectivity') }}
       </el-button>
     </el-form-item>
+    <el-form-item prop="action.parameters.path">
+      <template #label>
+        <FormItemLabel :label="tl('queryString')" :desc="tl('queryStringDesc')" desc-marked />
+      </template>
+      <el-input v-model="formData.action.parameters.path" placeholder="token=xxx&key=value" />
+    </el-form-item>
     <el-form-item :label="tl('headers')" class="item-headers">
       <KeyAndValueEditor v-model="formData.connector.headers" type="list" />
     </el-form-item>

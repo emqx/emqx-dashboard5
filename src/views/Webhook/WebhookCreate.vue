@@ -32,7 +32,13 @@ const { query } = useRoute()
 
 const FormCom = ref()
 
-const { createRawWebhookForm, getRuleIdByName, getActionNameByName, syncHeaders } = useWebhookForm()
+const {
+  createRawWebhookForm,
+  getRuleIdByName,
+  getActionNameByName,
+  syncHeaders,
+  normalizeActionPathForSubmit,
+} = useWebhookForm()
 const { getEventList } = useRuleEvents()
 const { transFromDataArrToStr, replaceTargetPartInSQL } = useRuleUtils()
 
@@ -84,10 +90,11 @@ const submit = async () => {
   }
   try {
     await customValidate(FormCom.value)
-    const data: any = checkNOmitFromObj(setName(webhook.value))
+    const data: any = checkNOmitFromObj(setName(cloneDeep(webhook.value)))
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
     syncHeaders(data)
+    normalizeActionPathForSubmit(data)
     await postConnector(data.connector)
     await postAction(data.action)
     await createRules(data.rule)
