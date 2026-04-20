@@ -68,8 +68,8 @@ export default {
     en: 'Scopes',
   },
   scopesPlaceholder: {
-    zh: '默认拥有全部权限',
-    en: 'Default has full access',
+    zh: '默认拥有全部范围权限',
+    en: 'Defaults to all scope permissions',
   },
   allScopes: {
     zh: '全部',

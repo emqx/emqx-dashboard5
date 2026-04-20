@@ -25,7 +25,8 @@
       </el-table-column>
       <el-table-column prop="scopes" :label="tl('scopes')">
         <template #default="{ row }">
-          <span v-if="!row.scopes?.length">{{ tl('allScopes') }}</span>
+          <span v-if="row.role === UserRole.Publisher">-</span>
+          <span v-else-if="!row.scopes?.length">{{ tl('allScopes') }}</span>
           <template v-else>
             <el-tag
               v-for="scope in row.scopes"
@@ -73,6 +74,7 @@ import { APIKey } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import dayjs from 'dayjs'
+import { UserRole } from '@/types/enum'
 
 const { t, te } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
