@@ -671,7 +671,8 @@ const submitSSOmfa = async () => {
     resetMFAData()
     redirectToDashboard()
   } catch (error) {
-    ElNotification.error(t('General.userInfoError'))
+    // The HTTP interceptor already surfaces the server-side verification error.
+    // Avoid showing an extra generic notification here.
   } finally {
     isSubmitting.value = false
     await waitAMoment(3000)
@@ -699,7 +700,7 @@ const applySsoPending = async (pending: any) => {
       await waitAMoment()
       displayQRCode(secret, pending.username)
     } catch {
-      ElNotification.error(t('General.userInfoError'))
+      //
     }
   } else {
     // mfa_verify: just show the TOTP input (no QR code)
