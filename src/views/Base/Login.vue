@@ -707,6 +707,7 @@ const applySsoPending = async (pending: any) => {
     showTotpSecret.value = true
   }
 }
+applySsoPending(ssoMfaPending.value)
 
 watch(
   ssoMfaPending,
