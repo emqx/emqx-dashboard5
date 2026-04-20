@@ -46,7 +46,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('role', 'Dashboard')" prop="role">
-            <el-select v-model="formData.role" :disabled="operationType === 'view'">
+            <el-select
+              v-model="formData.role"
+              :disabled="operationType === 'view'"
+              @change="handleRoleChanged"
+            >
               <el-option
                 v-for="{ label, value } in apiKeyRoleOptions"
                 :key="value"
@@ -77,7 +81,7 @@
             <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="24" v-if="!isPublisherRole">
           <el-form-item :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
@@ -133,6 +137,7 @@
 </template>
 
 <script lang="ts" setup>
+import { UserRole } from '@/types/enum'
 import {
   APIKeyFormWhenCreating,
   APIKey,
@@ -238,6 +243,13 @@ watch(showDialog, async (val) => {
 const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
+const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+
+const handleRoleChanged = () => {
+  if (formData.value.role === UserRole.Publisher) {
+    formData.value.scopes = undefined
+  }
+}
 
 const getScopeLabel = (name: string): string => {
   const key = `APIKey.scopeLabel_${name}`
@@ -252,8 +264,11 @@ const getScopeDesc = (name: string): string => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
+const handleDataForSubmitting = (formData: APIKeyFormWhenCreating) => {
   const ret = { ...formData }
+  if (ret.role === UserRole.Publisher) {
+    ret.scopes = undefined
+  }
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
@@ -265,11 +280,11 @@ const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
   return ret
 }
 
-const submitAddedData = () => createAPIKey(handleExpiredAt(formData.value))
+const submitAddedData = () => createAPIKey(handleDataForSubmitting(formData.value))
 
 const submitUpdatedData = () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing
-  return updateAPIKey(name, handleExpiredAt(data as APIKeyFormWhenCreating))
+  return updateAPIKey(name, handleDataForSubmitting(data as APIKeyFormWhenCreating))
 }
 
 const submit = async () => {
