@@ -83,6 +83,14 @@ export default {
     zh: '启用',
     en: 'Enable',
   },
+  retainerEnable: {
+    zh: '启用保留消息存储',
+    en: 'Enable Retainer Storage',
+  },
+  retainerEnableDesc: {
+    zh: '控制保留消息子系统是否运行并存储保留消息。关闭后，EMQX 不再存储新的保留消息；这与 MQTT 通用配置中的 `启用保留消息` 能力开关不同。',
+    en: 'Controls whether the retainer subsystem runs and stores retained messages. When disabled, EMQX stops storing new retained messages. This is different from the `Allowed Retain` capability switch in the MQTT general settings.',
+  },
   enableDelayed: {
     zh: '启用延迟发布',
     en: 'Enable Delayed Publish',
