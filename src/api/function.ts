@@ -38,7 +38,7 @@ export function destroyUser(username: string, backend?: string): Promise<void> {
 export function updateUserMfa(
   username: string,
   body: { mechanism: string },
-  query: { backend?: string },
+  query?: { backend?: string },
 ): Promise<void> {
   return http.post(
     `/users/${encodeURIComponent(username)}/mfa`,
