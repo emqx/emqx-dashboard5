@@ -70,7 +70,7 @@
         </div>
       </el-col>
     </el-row>
-    <el-row v-if="!showChangePwdForm">
+    <el-row v-else-if="!showChangePwdForm">
       <el-col class="intro" :span="8">
         <div class="content">
           <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
