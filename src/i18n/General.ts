@@ -264,8 +264,8 @@ export default {
     en: 'Force MFA',
   },
   forceMFADesc: {
-    zh: '开启后，该 SSO 后端的用户登录时会被要求设置或验证 MFA。若用户曾被管理员停用过 MFA，还需要先清除其 disabled 状态才会重新生效。',
-    en: 'When enabled, users from this SSO backend will be required to set up or verify MFA during login. If a user was previously admin-disabled, their disabled state must be cleared before this takes effect again.',
+    zh: '开启后，通过该 SSO 后端登录的用户需要设置或验证 MFA。若管理员曾为某个用户停用 MFA，该用户不会受此配置影响；需重新为该用户启用 MFA 后才会生效。',
+    en: 'When enabled, users signing in through this SSO backend must set up or verify MFA. If MFA was previously disabled for a user by an administrator, this setting will not apply to that user until MFA is re-enabled for them.',
   },
   baseDN: {
     zh: '基本 DN',
