@@ -85,11 +85,7 @@ const resetTOTPSecret = async () => {
       return
     }
     submitLoading.value = true
-    if (isSSOUser.value) {
-      await deleteUserMfa(username, { reset: true, backend })
-    } else {
-      await updateUserMfa(username, { mechanism: UserMFA.totp })
-    }
+    await updateUserMfa(username, { mechanism: UserMFA.totp }, backend ? { backend } : undefined)
     ElMessage.success(t('Base.resetSuccess'))
     emit('submitted')
     showDialog.value = false
