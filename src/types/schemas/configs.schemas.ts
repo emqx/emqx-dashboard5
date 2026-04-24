@@ -583,7 +583,7 @@ export interface S3TransportOptions {
   ssl?: EmqxSslClientOpts
 }
 
-export interface LimiterMqtt {
+export interface LimiterMqttSharedLimiters {
   bytes_burst?: string
   bytes_rate?: string
   max_conn_burst?: string
@@ -920,7 +920,7 @@ export interface EmqxMqtt {
   ignore_loop_deliver?: boolean
   keepalive_check_interval?: string
   keepalive_multiplier?: number
-  limiter?: LimiterMqtt
+  limiter?: LimiterMqttSharedLimiters
   max_awaiting_rel?: EmqxMqttMaxAwaitingRel
   /**
    * @minimum 23
@@ -1072,13 +1072,13 @@ export const EmqxLogAuditHandlerPayloadEncode = {
 } as const
 
 export interface EmqxLogAuditHandler {
-  enable?: boolean
-  ignore_high_frequency_request?: boolean
   /**
    * @minimum 10
    * @maximum 30000
    */
-  max_filter_size?: number
+  cache_size?: number
+  enable?: boolean
+  ignore_high_frequency_request?: boolean
   path?: string
   payload_encode?: EmqxLogAuditHandlerPayloadEncode
   /**

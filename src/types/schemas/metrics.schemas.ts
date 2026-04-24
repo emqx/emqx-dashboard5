@@ -168,6 +168,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'actions.executed'?: number
   /** @minimum 0 */
+  'actions.messages'?: number
+  /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
   'authentication.success'?: number
@@ -199,6 +201,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'client.connected'?: number
   /** @minimum 0 */
   'client.disconnected'?: number
+  /** @minimum 0 */
+  'client.post_authn'?: number
   /** @minimum 0 */
   'client.subscribe'?: number
   /** @minimum 0 */
@@ -372,6 +376,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   /** @minimum 0 */
   'actions.executed'?: number
   /** @minimum 0 */
+  'actions.messages'?: number
+  /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
   'authentication.success'?: number
@@ -403,6 +409,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'client.connected'?: number
   /** @minimum 0 */
   'client.disconnected'?: number
+  /** @minimum 0 */
+  'client.post_authn'?: number
   /** @minimum 0 */
   'client.subscribe'?: number
   /** @minimum 0 */
@@ -582,6 +590,7 @@ export interface EmqxDashboardMonitorApiSessionsHistHwmark {
 
 export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   actions_executed_rate?: number
+  actions_messages_rate?: number
   cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
@@ -607,6 +616,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
 
 export interface EmqxDashboardMonitorApiSamplerCurrent {
   actions_executed_rate?: number
+  actions_messages_rate?: number
   cluster_sessions?: number
   connections?: number
   disconnected_durable_sessions?: number
@@ -631,6 +641,7 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
 
 export interface EmqxDashboardMonitorApiSampler {
   actions_executed?: number
+  actions_messages?: number
   connections?: number
   disconnected_durable_sessions?: number
   dropped?: number

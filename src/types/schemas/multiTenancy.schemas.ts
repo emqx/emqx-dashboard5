@@ -225,6 +225,11 @@ export type DeleteMtBulkDeleteNs500 = {
   message?: string
 }
 
+export interface MtTenantLimiterIn {
+  bytes?: MtLimiterOptions
+  messages?: MtLimiterOptions
+}
+
 export type MtSessionConfigInMaxSessions = number | 'infinity'
 
 export interface MtSessionConfigIn {
@@ -247,14 +252,7 @@ export interface MtLimiterOptions {
   rate?: string
 }
 
-export interface MtLimiterIn {
-  bytes?: MtLimiterOptions
-  messages?: MtLimiterOptions
-}
-
-export type MtLimiterConfigInTenant = MtLimiterIn | 'disabled'
-
-export type MtLimiterConfigInClient = MtLimiterIn | 'disabled'
+export type MtLimiterConfigInTenant = MtTenantLimiterIn | 'disabled'
 
 export interface MtLimiterConfigIn {
   client?: MtLimiterConfigInClient
@@ -270,6 +268,15 @@ export interface MtConfigIn {
   limiter?: MtLimiterConfigIn
   session?: MtSessionConfigIn
 }
+
+export interface MtClientLimiterIn {
+  bytes?: MtLimiterOptions
+  delivery_bytes?: MtLimiterOptions
+  delivery_messages?: MtLimiterOptions
+  messages?: MtLimiterOptions
+}
+
+export type MtLimiterConfigInClient = MtClientLimiterIn | 'disabled'
 
 export type MtBulkImportNsConfigsInConfigsName = { [key: string]: unknown }
 

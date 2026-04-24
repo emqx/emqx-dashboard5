@@ -148,6 +148,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'actions.executed'?: number
   /** @minimum 0 */
+  'actions.messages'?: number
+  /** @minimum 0 */
   'authentication.failure'?: number
   /** @minimum 0 */
   'authentication.success'?: number
@@ -179,6 +181,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'client.connected'?: number
   /** @minimum 0 */
   'client.disconnected'?: number
+  /** @minimum 0 */
+  'client.post_authn'?: number
   /** @minimum 0 */
   'client.subscribe'?: number
   /** @minimum 0 */
