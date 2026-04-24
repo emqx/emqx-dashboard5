@@ -707,6 +707,10 @@ export default {
     en: 'Disabling MFA may affect account security, confirm to disable?',
     zh: '禁用 MFA 可能影响账户安全，确认禁用？',
   },
+  disableMFAForbiddenBySSO: {
+    en: 'MFA cannot be disabled because force MFA is enabled in the current SSO configuration.',
+    zh: '当前无法停用 MFA，因为当前类型单点登录配置启用了强制 MFA。',
+  },
   enableMFA: {
     en: 'Enable MFA',
     zh: '启用 MFA',

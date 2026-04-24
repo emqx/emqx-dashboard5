@@ -11,11 +11,20 @@
       <p>{{ t('General.currentMFA') }}: {{ getMFAMethodLabel(props.user?.mfa ?? '') }}</p>
     </el-card>
     <template v-if="withMFA">
+      <el-alert v-if="disableMfaBlocked" type="warning" :closable="false" class="mfa-alert">
+        {{ t('General.disableMFAForbiddenBySSO') }}
+      </el-alert>
       <div class="buttons">
         <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
           {{ tl('resetTOTPSecret') }}
         </el-button>
-        <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
+        <el-button
+          type="danger"
+          plain
+          :loading="submitLoading"
+          :disabled="disableMfaBlocked || ssoConfigLoading"
+          @click="deleteMFA"
+        >
           {{ tl('disableMFA') }}
         </el-button>
       </div>
@@ -41,6 +50,7 @@
 
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
+import { getSSOBackend } from '@/api/sso'
 import { type User, UserMFA } from '@/types/typeAlias'
 
 const props = defineProps<{
@@ -54,6 +64,12 @@ const { t, tl } = useI18nTl('General')
 const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
 const isSSOUser = computed(() => !!props.user?.backend && props.user.backend !== 'local')
+const ssoConfigLoading = ref(false)
+const ssoBackendConfig = ref<Record<string, any> | null>(null)
+const isSSOBackendMfaEnforced = computed(
+  () => !!(ssoBackendConfig.value?.force_mfa || ssoBackendConfig.value?.enforce_mfa),
+)
+const disableMfaBlocked = computed(() => isSSOUser.value && isSSOBackendMfaEnforced.value)
 
 const defaultMFA = mfaOptions[0].value
 
@@ -69,12 +85,31 @@ const showDialog = computed({
 watch(showDialog, async (value: boolean) => {
   if (!value) {
     initData()
+    return
   }
+  await loadSSOBackendConfig()
 })
 
 const initData = () => {
   submitLoading.value = false
   selectedMFA.value = defaultMFA
+  ssoConfigLoading.value = false
+  ssoBackendConfig.value = null
+}
+
+const loadSSOBackendConfig = async () => {
+  if (!isSSOUser.value || !props.user?.backend) {
+    ssoBackendConfig.value = null
+    return
+  }
+  try {
+    ssoConfigLoading.value = true
+    ssoBackendConfig.value = (await getSSOBackend(props.user.backend as any)) as Record<string, any>
+  } catch (error) {
+    ssoBackendConfig.value = null
+  } finally {
+    ssoConfigLoading.value = false
+  }
 }
 
 const resetTOTPSecret = async () => {
@@ -122,6 +157,10 @@ const deleteMFA = async () => {
     if (!username) {
       return
     }
+    if (disableMfaBlocked.value) {
+      ElMessage.warning(t('General.disableMFAForbiddenBySSO'))
+      return
+    }
     await operationWarning(t('General.confirmDisableMFA'))
     submitLoading.value = true
     if (isSSOUser.value) {
@@ -142,6 +181,9 @@ const deleteMFA = async () => {
 
 <style lang="scss">
 .mfa-setting-dialog {
+  .mfa-alert {
+    margin-bottom: 12px;
+  }
   .buttons {
     margin-top: 12px;
   }
