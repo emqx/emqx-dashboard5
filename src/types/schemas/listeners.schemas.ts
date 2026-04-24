@@ -214,6 +214,10 @@ export interface ListenersWssRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWssRequiredBindEnableAuthn
   id: string
@@ -262,6 +266,10 @@ export interface ListenersWssNotRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWssNotRequiredBindEnableAuthn
   id: string
@@ -310,6 +318,10 @@ export interface ListenersWsRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWsRequiredBindEnableAuthn
   id: string
@@ -357,6 +369,10 @@ export interface ListenersWsNotRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWsNotRequiredBindEnableAuthn
   id: string
@@ -404,6 +420,10 @@ export interface ListenersWithNameWssRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWithNameWssRequiredBindEnableAuthn
   max_conn_burst?: string
@@ -452,6 +472,10 @@ export interface ListenersWithNameWsRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWithNameWsRequiredBindEnableAuthn
   max_conn_burst?: string
@@ -517,6 +541,10 @@ export interface ListenersWithNameTcpRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWithNameTcpRequiredBindEnableAuthn
   max_conn_burst?: string
@@ -574,6 +602,10 @@ export interface ListenersWithNameSslRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWithNameSslRequiredBindEnableAuthn
   max_conn_burst?: string
@@ -660,6 +692,10 @@ export interface ListenersTcpRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersTcpRequiredBindEnableAuthn
   id: string
@@ -726,6 +762,10 @@ export interface ListenersTcpNotRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersTcpNotRequiredBindEnableAuthn
   id: string
@@ -794,6 +834,10 @@ export interface ListenersSslRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersSslRequiredBindEnableAuthn
   id: string
@@ -851,6 +895,10 @@ export interface ListenersSslNotRequiredBind {
   bytes_rate?: string
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersSslNotRequiredBindEnableAuthn
   id: string
@@ -899,6 +947,10 @@ export interface ListenersQuicRequiredBind {
   ciphers?: string[]
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersQuicRequiredBindEnableAuthn
   id: string
@@ -943,6 +995,10 @@ export interface ListenersQuicNotRequiredBind {
   ciphers?: string[]
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersQuicNotRequiredBindEnableAuthn
   id: string
@@ -1253,6 +1309,10 @@ export interface ListenersWithNameQuicRequiredBind {
   ciphers?: string[]
   /** @minimum 0 */
   current_connections?: number
+  delivery_bytes_burst?: string
+  delivery_bytes_rate?: string
+  delivery_messages_burst?: string
+  delivery_messages_rate?: string
   enable?: boolean
   enable_authn?: ListenersWithNameQuicRequiredBindEnableAuthn
   max_conn_burst?: string
