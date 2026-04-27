@@ -100,6 +100,7 @@ declare global {
   const RULE_FROM_SEPARATOR: typeof import('./common/constants')['RULE_FROM_SEPARATOR']
   const RULE_INPUT_BRIDGE_TYPE_PREFIX: typeof import('./common/constants')['RULE_INPUT_BRIDGE_TYPE_PREFIX']
   const RULE_INPUT_EVENT_PREFIX: typeof import('./common/constants')['RULE_INPUT_EVENT_PREFIX']
+  const RULE_INPUT_SOURCE_TYPE_PREFIX: typeof import('./common/constants')['RULE_INPUT_SOURCE_TYPE_PREFIX']
   const RULE_LOGICAL_OPERATORS: typeof import('./common/constants')['RULE_LOGICAL_OPERATORS']
   const RULE_MAX_NUM_PER_PAGE: typeof import('./common/constants')['RULE_MAX_NUM_PER_PAGE']
   const RuleSourceType: typeof import('./hooks/Rule/rule/useRule')['RuleSourceType']
@@ -705,6 +706,7 @@ declare module 'vue' {
     readonly RULE_FROM_SEPARATOR: UnwrapRef<typeof import('./common/constants')['RULE_FROM_SEPARATOR']>
     readonly RULE_INPUT_BRIDGE_TYPE_PREFIX: UnwrapRef<typeof import('./common/constants')['RULE_INPUT_BRIDGE_TYPE_PREFIX']>
     readonly RULE_INPUT_EVENT_PREFIX: UnwrapRef<typeof import('./common/constants')['RULE_INPUT_EVENT_PREFIX']>
+    readonly RULE_INPUT_SOURCE_TYPE_PREFIX: UnwrapRef<typeof import('./common/constants')['RULE_INPUT_SOURCE_TYPE_PREFIX']>
     readonly RULE_LOGICAL_OPERATORS: UnwrapRef<typeof import('./common/constants')['RULE_LOGICAL_OPERATORS']>
     readonly RULE_MAX_NUM_PER_PAGE: UnwrapRef<typeof import('./common/constants')['RULE_MAX_NUM_PER_PAGE']>
     readonly RuleSourceType: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['RuleSourceType']>

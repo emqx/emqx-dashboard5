@@ -9,7 +9,8 @@ export const getSources = async (params?: NsWithGlobalParams): Promise<Array<Sou
         const id = getBridgeKey(item as any)
         return {
           id,
-          idForRuleFrom: `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}`,
+          idForRuleFrom: `${RULE_INPUT_SOURCE_TYPE_PREFIX}${id}`,
+          legacyIdForRuleFrom: `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}`,
           ...item,
         }
       }),
@@ -27,7 +28,7 @@ export const getSimplifiedSources = async (params?: NsWithGlobalParams): Promise
         const id = getBridgeKey(item as any)
         return {
           id,
-          idForRuleFrom: `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}`,
+          idForRuleFrom: `${RULE_INPUT_SOURCE_TYPE_PREFIX}${id}`,
           ...item,
         }
       }),

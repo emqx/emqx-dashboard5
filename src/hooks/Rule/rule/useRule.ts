@@ -3,6 +3,7 @@ import {
   RULE_FROM_SEPARATOR,
   RULE_INPUT_BRIDGE_TYPE_PREFIX,
   RULE_INPUT_EVENT_PREFIX,
+  RULE_INPUT_SOURCE_TYPE_PREFIX,
   TOPIC_EVENT,
 } from '@/common/constants'
 import useBridgeTypeValue, {
@@ -43,16 +44,24 @@ export const useRuleUtils = (): {
   isMsgPubEvent: (event: string) => boolean
   replaceTargetPartInSQL: (sql: string, part: RuleSQLKeyword, newPartStr: string) => string
   getAIDataNameArrFromSQL: (sql: string) => Array<string>
+  getRuleInputSourceId: (input: string) => string
+  isRuleInputSource: (input: string) => boolean
+  getRuleInputSourceValue: (id: string) => string
 } => {
   const { bridgeTypeList } = useBridgeTypeValue()
   const bridgeTypeValueList = bridgeTypeList.map(({ value }) => value)
 
   const { allEventWildcardValue, eventWildcardOptions, getEventList } = useRuleEvents()
   const ruleEvents = ref<Array<RuleEvent>>([])
+  const ruleInputSourceReg = new RegExp(
+    `^(${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}|${escapeRegExp(RULE_INPUT_SOURCE_TYPE_PREFIX)})`,
+  )
+  const isRuleInputSource = (input: string) => ruleInputSourceReg.test(input)
+  const getRuleInputSourceId = (input: string) => input.replace(ruleInputSourceReg, '')
+  const getRuleInputSourceValue = (id: string) => `${RULE_INPUT_SOURCE_TYPE_PREFIX}${id}`
   ;(async () => {
     const list = await getEventList()
-    const bridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
-    ruleEvents.value = list.filter(({ event }) => !bridgeReg.test(event))
+    ruleEvents.value = list.filter(({ event }) => !isRuleInputSource(event))
   })()
   const allMsgsAndEvents = computed(() => [allEventWildcardValue, MULTI_LEVEL_WILDCARD])
 
@@ -88,7 +97,11 @@ export const useRuleUtils = (): {
       }
     }
 
-    const bridgeItem = bridgeList.find(({ idForRuleFrom }) => idForRuleFrom === inputItem)
+    const bridgeItem = bridgeList.find(
+      ({ idForRuleFrom }) =>
+        idForRuleFrom === inputItem ||
+        getRuleInputSourceId(idForRuleFrom) === getRuleInputSourceId(inputItem),
+    )
     if (bridgeItem) {
       return {
         type: RuleInputType.Bridge,
@@ -129,7 +142,9 @@ export const useRuleUtils = (): {
     }
     if (type === RuleInputType.Bridge) {
       const bridgeType = judgeBridgeTypeById(value)
-      return eventList.find(({ event }) => event === `$bridges/${bridgeType}:*`)
+      return eventList.find(
+        ({ event }) => event === `$sources/${bridgeType}:*` || event === `$bridges/${bridgeType}:*`,
+      )
     }
     return eventList.find(({ event }) => event === TOPIC_EVENT)
   }
@@ -239,6 +254,9 @@ export const useRuleUtils = (): {
     isMsgPubEvent,
     getEventForShow,
     getAIDataNameArrFromSQL,
+    getRuleInputSourceId,
+    isRuleInputSource,
+    getRuleInputSourceValue,
   }
 }
 
@@ -274,7 +292,8 @@ export const useRuleInputs = (): {
     return !isNotBridgeSourceTypes.includes(type) && isBridge
   }
 
-  const getBridgeIdFromInput = (input: string) => input.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, '')
+  const { getRuleInputSourceId, isRuleInputSource } = useRuleUtils()
+  const getBridgeIdFromInput = (input: string) => getRuleInputSourceId(input)
 
   const { tl } = useI18nTl('RuleEngine')
 
@@ -305,7 +324,6 @@ export const useRuleInputs = (): {
 
   const getBridgeTypeFromId = (id: string): string => getTypeAndNameFromKey(id).type
   const eventInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
-  const bridgeInputReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
   /**
    * @returns If the returned type is a bridge type, it is a specific bridge type
    */
@@ -313,9 +331,8 @@ export const useRuleInputs = (): {
     if (eventInputReg.test(from)) {
       return RuleSourceType.Event
     }
-    // now has mqtt & http
-    if (bridgeInputReg.test(from)) {
-      return getBridgeTypeFromId(from.replace(RULE_INPUT_BRIDGE_TYPE_PREFIX, ''))
+    if (isRuleInputSource(from)) {
+      return getBridgeTypeFromId(getRuleInputSourceId(from))
     }
     return RuleSourceType.Message
   }

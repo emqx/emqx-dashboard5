@@ -512,7 +512,7 @@ const sql = computed(() => {
       fieldNodeArr.push(pick(item, nodeNeededKeys))
     }
   })
-  const fromArr = getFromDataFromNodes(inputNodeArr)
+  const fromArr = getFromDataFromNodes(inputNodeArr, true)
   const fieldsExpressions = getFieldsExpressionsFromNode(fieldNodeArr, getEdges.value)
   return transSQLFormDataToSQL(fieldsExpressions, fromArr, '')
 })

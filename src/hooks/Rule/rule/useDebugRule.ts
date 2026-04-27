@@ -426,7 +426,7 @@ export const useMockData = (
       return getEventForTest(dataType.value)
     }
     if (type === RuleInputType.Bridge) {
-      return `$bridges/${(target as BridgeItem).type}:*`
+      return `$sources/${(target as BridgeItem).type}:*`
     }
     return TOPIC_EVENT.match(/(\$events\/)([\w]+)/)?.[2]
   }

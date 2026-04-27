@@ -282,7 +282,7 @@ const { handleConnDirection } = useHandleActionItem()
 const processAction = addBridgeToAction
 
 const processSource = async (sourceId: string) => {
-  replaceSQLFrom(`$bridges/${sourceId}`)
+  replaceSQLFrom(`${RULE_INPUT_SOURCE_TYPE_PREFIX}${sourceId}`)
   await nextTick()
   rightBlockActiveTab.value = RightTab.Sources
 }

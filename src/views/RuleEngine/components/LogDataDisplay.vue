@@ -182,7 +182,9 @@ const eventValueMap = new Map<string, string>([
   }, new Map())
 })()
 
-const isBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+const isBridgeReg = new RegExp(
+  `^(${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}|${escapeRegExp(RULE_INPUT_SOURCE_TYPE_PREFIX)})`,
+)
 const { getEventLabel } = useRuleSourceEvents()
 const getTriggerTitle = (trigger: string) => {
   if (isBridgeReg.test(trigger)) {

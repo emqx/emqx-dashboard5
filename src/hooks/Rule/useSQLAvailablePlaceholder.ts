@@ -13,11 +13,23 @@ import { RuleEvent } from '@/types/rule'
 const _events: Array<RuleEvent> = [
   {
     columns: ['payload', 'event', 'metadata', 'timestamp', 'node'],
+    event: '$sources/rabbitmq:*',
+  },
+  {
+    columns: ['payload', 'event', 'metadata', 'timestamp', 'node'],
     event: '$bridges/rabbitmq:*',
   },
   {
     columns: ['headers', 'key', 'offset', 'topic', 'ts', 'ts_type', 'value'],
+    event: '$sources/kafka_consumer:*',
+  },
+  {
+    columns: ['headers', 'key', 'offset', 'topic', 'ts', 'ts_type', 'value'],
     event: '$bridges/kafka_consumer:*',
+  },
+  {
+    columns: ['attributes', 'message_id', 'ordering_key', 'publishing_time', 'topic', 'value'],
+    event: '$sources/gcp_pubsub_consumer:*',
   },
   {
     columns: ['attributes', 'message_id', 'ordering_key', 'publishing_time', 'topic', 'value'],
@@ -90,7 +102,9 @@ export default (): {
   })
 
   const ruleInputEventReg = new RegExp(`^${escapeRegExp(RULE_INPUT_EVENT_PREFIX)}`)
-  const ruleInputBridgeReg = new RegExp(`^${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}`)
+  const ruleInputBridgeReg = new RegExp(
+    `^(${escapeRegExp(RULE_INPUT_BRIDGE_TYPE_PREFIX)}|${escapeRegExp(RULE_INPUT_SOURCE_TYPE_PREFIX)})`,
+  )
   const checkIsBridge = (str: string) => ruleInputBridgeReg.test(str)
   const checkIsTopic = (str: string) =>
     !ruleInputBridgeReg.test(str) && !ruleInputEventReg.test(str)

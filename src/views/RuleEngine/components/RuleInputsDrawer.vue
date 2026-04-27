@@ -286,7 +286,7 @@ const submit = async () => {
       } else {
         selectedSourceId = await updateSource()
       }
-      const id = `${RULE_INPUT_BRIDGE_TYPE_PREFIX}${selectedSourceId}`
+      const id = `${RULE_INPUT_SOURCE_TYPE_PREFIX}${selectedSourceId}`
       emit('submit', id)
     }
     showDrawer.value = false
