@@ -96,7 +96,7 @@ const { tl } = useI18nTl('RuleEngine')
 const selectCom = ref()
 const isTopic = ref(false)
 const EMPTY_TOPIC_VALUE = createRandomString()
-const { getEventForShow } = useRuleUtils()
+const { getEventForShow, getRuleInputSourceId } = useRuleUtils()
 
 const selected = computed({
   get() {
@@ -118,7 +118,7 @@ const selected = computed({
 const filterStr = ref('')
 const isClickOption = ref(false)
 
-const bridgeEventReg = /^\$bridges\//
+const bridgeEventReg = /^(\$bridges\/|\$sources\/)/
 const eventOptions = computed(() =>
   props.eventList
     ?.filter(({ event }) => !bridgeEventReg.test(event))
@@ -246,7 +246,12 @@ const setSelected = () => {
   if (!modelValue) {
     return
   }
-  if (ingressBridgeList?.some(({ idForRuleFrom }) => idForRuleFrom === modelValue)) {
+  if (
+    ingressBridgeList?.some(
+      ({ idForRuleFrom }) =>
+        getRuleInputSourceId(idForRuleFrom) === getRuleInputSourceId(modelValue),
+    )
+  ) {
     selectedInputType.value = RuleInputType.Bridge
     return
   }

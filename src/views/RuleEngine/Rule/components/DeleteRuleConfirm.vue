@@ -100,7 +100,7 @@ const refreshList = async () => {
   }
 }
 
-const { findInputTypeNTarget } = useRuleUtils()
+const { findInputTypeNTarget, getRuleInputSourceId } = useRuleUtils()
 const { judgeOutputType } = useRuleOutputs()
 const actions = computed(() => {
   const allActions = props.rule?.actions || []
@@ -123,7 +123,9 @@ const sources = computed(() => {
     return type === RuleInputType.Bridge
   })
   const ret = sourceFromIdList.reduce((arr: Array<any>, fromId) => {
-    const item = sourceList.value.find((source) => source.idForRuleFrom === fromId)
+    const item = sourceList.value.find(
+      (source) => getRuleInputSourceId(source.idForRuleFrom) === getRuleInputSourceId(fromId),
+    )
     if (item) {
       arr.push(item)
     }

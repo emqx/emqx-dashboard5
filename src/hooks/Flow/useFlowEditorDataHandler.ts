@@ -170,7 +170,7 @@ export default (): {
       [FlowNodeType.Default]: defaultNodes = [],
       [FlowNodeType.Output]: outputNodes = [],
     } = nodes
-    const fromArr = getFromDataFromNodes(inputNodes)
+    const fromArr = getFromDataFromNodes(inputNodes, true)
     const filterStr = getFilterStrFromNodes(defaultNodes)
     const fieldsExpressions = getFieldsExpressionsFromNode(defaultNodes, flowData.edges)
     rule.sql = transSQLFormDataToSQL(fieldsExpressions, fromArr, filterStr)

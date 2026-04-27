@@ -58,6 +58,7 @@ export const IP_REG =
 export const NUM_REG = /^(-?\d+(\.\d+)?e(\+|-)\d+|-?\d+(\.\d+)?)$/
 
 export const RULE_INPUT_BRIDGE_TYPE_PREFIX = '$bridges/'
+export const RULE_INPUT_SOURCE_TYPE_PREFIX = '$sources/'
 
 /*
   | Gateway | Built-In Database | MySQL | MongoDB | PostgreSQL | Redis | Ldap |

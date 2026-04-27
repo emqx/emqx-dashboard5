@@ -199,7 +199,7 @@ export default (): {
 
   const createBridgeDependencyProposals = () => {
     bridgeDependencyProposals = bridgeList.map((id) => {
-      const bridgeStr = `"${RULE_INPUT_BRIDGE_TYPE_PREFIX}${id}"`
+      const bridgeStr = `"${RULE_INPUT_SOURCE_TYPE_PREFIX}${id}"`
       return {
         label: bridgeStr,
         kind: monaco.languages.CompletionItemKind.Method,
