@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
 import { getSSOBackend } from '@/api/sso'
+import { UserRole } from '@/types/enum'
 import { type User, UserMFA } from '@/types/typeAlias'
 
 const props = defineProps<{
@@ -61,6 +62,10 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('General')
 
+const store = useStore()
+const currentUser = computed(() => store.state.user)
+const isCurrentUserAdmin = computed(() => currentUser.value.role === UserRole.Admin)
+
 const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
 const isSSOUser = computed(() => !!props.user?.backend && props.user.backend !== 'local')
@@ -69,7 +74,9 @@ const ssoBackendConfig = ref<Record<string, any> | null>(null)
 const isSSOBackendMfaEnforced = computed(
   () => !!(ssoBackendConfig.value?.force_mfa || ssoBackendConfig.value?.enforce_mfa),
 )
-const disableMfaBlocked = computed(() => isSSOUser.value && isSSOBackendMfaEnforced.value)
+const disableMfaBlocked = computed(
+  () => !isCurrentUserAdmin.value && isSSOUser.value && isSSOBackendMfaEnforced.value,
+)
 
 const defaultMFA = mfaOptions[0].value
 
