@@ -95,6 +95,13 @@ export type PostListenersId400 = {
   message?: string
 }
 
+export type PostListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
 export type PostListenersIdBody =
   | ListenersQuicRequiredBind
   | ListenersSslRequiredBind
@@ -115,13 +122,6 @@ export type GetListenersId404 = {
   code?: GetListenersId404Code
   message?: string
 }
-
-export type GetListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
 
 export type DeleteListenersId404Code =
   (typeof DeleteListenersId404Code)[keyof typeof DeleteListenersId404Code]
@@ -226,6 +226,13 @@ export interface ListenersWssRequiredBind {
   zone?: string
 }
 
+export type GetListenersId200 =
+  | ListenersQuicRequiredBind
+  | ListenersSslRequiredBind
+  | ListenersTcpRequiredBind
+  | ListenersWsRequiredBind
+  | ListenersWssRequiredBind
+
 export type ListenersWssNotRequiredBindType =
   (typeof ListenersWssNotRequiredBindType)[keyof typeof ListenersWssNotRequiredBindType]
 
@@ -320,13 +327,6 @@ export interface ListenersWsRequiredBind {
   websocket?: EmqxWsOpts
   zone?: string
 }
-
-export type PostListenersId200 =
-  | ListenersQuicRequiredBind
-  | ListenersSslRequiredBind
-  | ListenersTcpRequiredBind
-  | ListenersWsRequiredBind
-  | ListenersWssRequiredBind
 
 export type ListenersWsNotRequiredBindType =
   (typeof ListenersWsNotRequiredBindType)[keyof typeof ListenersWsNotRequiredBindType]

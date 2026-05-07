@@ -270,10 +270,20 @@ export interface GatewayJt808Proto {
   up_topic: string
 }
 
+export type GatewayJt808FrameStringEncoding =
+  (typeof GatewayJt808FrameStringEncoding)[keyof typeof GatewayJt808FrameStringEncoding]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayJt808FrameStringEncoding = {
+  gbk: 'gbk',
+  utf8: 'utf8',
+} as const
+
 export interface GatewayJt808Frame {
   /** @minimum 0 */
   max_length?: number
   parse_unknown_message?: boolean
+  string_encoding?: GatewayJt808FrameStringEncoding
 }
 
 export interface GatewayExprotoGrpcServer {

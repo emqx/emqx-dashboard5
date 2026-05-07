@@ -223,6 +223,19 @@ export type PutPluginsNameAction404 = {
   message?: string
 }
 
+export type PutPluginsNameAction400Code =
+  (typeof PutPluginsNameAction400Code)[keyof typeof PutPluginsNameAction400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameAction400Code = {
+  PARAM_ERROR: 'PARAM_ERROR',
+} as const
+
+export type PutPluginsNameAction400 = {
+  code?: PutPluginsNameAction400Code
+  message?: string
+}
+
 export type GetPluginsName404Code =
   (typeof GetPluginsName404Code)[keyof typeof GetPluginsName404Code]
 
@@ -261,6 +274,72 @@ export type DeletePluginsName400 = {
   code?: DeletePluginsName400Code
   message?: string
 }
+
+export type PutPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PutPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PutPluginApiPluginBody = { [key: string]: unknown }
+
+export type PostPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PostPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PostPluginApiPluginBody = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin503 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin500 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin404 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin401 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin400 = { [key: string]: unknown }
+
+export type PatchPluginApiPlugin200 = { [key: string]: unknown }
+
+export type PatchPluginApiPluginBody = { [key: string]: unknown }
+
+export type GetPluginApiPlugin503 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin500 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin404 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin401 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin400 = { [key: string]: unknown }
+
+export type GetPluginApiPlugin200 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin503 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin500 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin404 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin401 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin400 = { [key: string]: unknown }
+
+export type DeletePluginApiPlugin200 = { [key: string]: unknown }
 
 export interface PluginsSyncRequest {
   name: string

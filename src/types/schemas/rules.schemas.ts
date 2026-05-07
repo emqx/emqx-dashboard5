@@ -200,6 +200,13 @@ export interface RuleEngineUserProvidedFunction {
   function: string
 }
 
+export interface RuleEngineSsrf {
+  allow_cidrs?: string[]
+  deny_cidrs?: string[]
+  deny_hosts?: string[]
+  enable?: boolean
+}
+
 export type RuleEngineRuleTestContext =
   | RuleEngineCtxUnsub
   | RuleEngineCtxSub
@@ -303,6 +310,8 @@ export interface RuleEngineRuleEvents {
 export interface RuleEngineRuleEngine {
   ignore_sys_message?: boolean
   jq_function_default_timeout?: string
+  limit_selects_in_namespace?: boolean
+  ssrf?: RuleEngineSsrf
 }
 
 export type RuleEngineRuleCreationMetadata = { [key: string]: unknown }
@@ -320,6 +329,11 @@ export interface RuleEngineRuleCreation {
   metadata?: RuleEngineRuleCreationMetadata
   name?: string
   sql: string
+}
+
+export interface RuleEngineRuleApplyTest {
+  context?: RuleEngineRuleApplyTestContext
+  stop_action_after_template_rendering?: boolean
 }
 
 export interface RuleEngineRepublishMqttProperties {
@@ -806,11 +820,6 @@ export type RuleEngineRuleApplyTestContext =
   | RuleEngineCtxAlarmDeactivated
   | RuleEngineCtxAlarmActivated
   | RuleEngineCtxBridgeMqtt
-
-export interface RuleEngineRuleApplyTest {
-  context?: RuleEngineRuleApplyTestContext
-  stop_action_after_template_rendering?: boolean
-}
 
 export type RuleEngineBuiltinActionRepublishFunction =
   (typeof RuleEngineBuiltinActionRepublishFunction)[keyof typeof RuleEngineBuiltinActionRepublishFunction]

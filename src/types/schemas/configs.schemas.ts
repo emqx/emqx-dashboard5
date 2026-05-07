@@ -507,6 +507,7 @@ export interface SsoOidc {
   dashboard_addr?: string
   enable?: boolean
   fallback_methods?: string[]
+  force_mfa?: boolean
   issuer: string
   name_var?: string
   preferred_auth_methods?: SsoOidcPreferredAuthMethodsItem[]
@@ -530,6 +531,7 @@ export interface SsoLdap {
   base_dn: string
   enable?: boolean
   filter?: string
+  force_mfa?: boolean
   password?: string
   /** @minimum 1 */
   pool_size?: number
@@ -1047,13 +1049,13 @@ export const EmqxLogAuditHandlerPayloadEncode = {
 } as const
 
 export interface EmqxLogAuditHandler {
-  enable?: boolean
-  ignore_high_frequency_request?: boolean
   /**
    * @minimum 10
    * @maximum 30000
    */
-  max_filter_size?: number
+  cache_size?: number
+  enable?: boolean
+  ignore_high_frequency_request?: boolean
   path?: string
   payload_encode?: EmqxLogAuditHandlerPayloadEncode
   /**
@@ -1303,6 +1305,7 @@ export interface DashboardSaml {
   backend: DashboardSamlBackend
   dashboard_addr?: string
   enable?: boolean
+  force_mfa?: boolean
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean
