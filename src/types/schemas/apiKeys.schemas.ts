@@ -25,6 +25,7 @@ export type PutApiKeyName200 = {
   expired_at?: PutApiKeyName200ExpiredAt
   name?: string
   role?: string
+  scopes?: string[]
 }
 
 export type PutApiKeyNameBodyExpiredAtOneOf = number | string
@@ -37,6 +38,7 @@ export type PutApiKeyNameBody = {
   expired?: boolean
   expired_at?: PutApiKeyNameBodyExpiredAt
   role?: string
+  scopes?: string[]
 }
 
 export type GetApiKeyName404Code = (typeof GetApiKeyName404Code)[keyof typeof GetApiKeyName404Code]
@@ -66,6 +68,7 @@ export type GetApiKeyName200 = {
   expired_at?: GetApiKeyName200ExpiredAt
   name?: string
   role?: string
+  scopes?: string[]
 }
 
 export type DeleteApiKeyName404Code =
@@ -104,6 +107,7 @@ export type PostApiKeyBody = {
   expired_at?: PostApiKeyBodyExpiredAt
   name?: string
   role?: string
+  scopes?: string[]
 }
 
 export type GetApiKey200ExpiredAtOneOf = number | string
@@ -121,6 +125,16 @@ export type GetApiKey200 = {
   expired_at?: GetApiKey200ExpiredAt
   name?: string
   role?: string
+  scopes?: string[]
+}
+
+export interface ApiKeyScopeInfo {
+  desc?: string
+  name?: string
+}
+
+export interface ApiKeyScopesResponse {
+  scopes?: ApiKeyScopeInfo[]
 }
 
 export type ApiKeyAppExpiredAtOneOf = number | string
@@ -139,4 +153,5 @@ export interface ApiKeyApp {
   expired_at?: ApiKeyAppExpiredAt
   name?: string
   role?: string
+  scopes?: string[]
 }

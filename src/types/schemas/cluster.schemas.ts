@@ -217,6 +217,14 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
+export interface EmqxClientTcpOpts {
+  buffer?: string
+  keepalive?: boolean
+  nodelay?: boolean
+  recbuf?: string
+  sndbuf?: string
+}
+
 export type PutClusterLinksLinkNameBody = {
   clientid?: string
   enable?: boolean
@@ -229,6 +237,7 @@ export type PutClusterLinksLinkNameBody = {
   retry_interval?: string
   server: string
   ssl?: EmqxSslClientOpts
+  tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
 }
@@ -275,6 +284,7 @@ export interface ClusterLink {
   retry_interval?: string
   server: string
   ssl?: EmqxSslClientOpts
+  tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
 }
@@ -363,6 +373,7 @@ export interface ClusterLinkLinkConfigResponse {
   server: string
   ssl?: EmqxSslClientOpts
   status?: ClusterLinkLinkConfigResponseStatus
+  tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
 }
