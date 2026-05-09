@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { TypeMetricDataItem } from '@/hooks/useMetrics'
 import { isArray } from 'lodash'
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import TypeMetricsItem from './TypeMetricsItem.vue'
 
 const props = defineProps<{

@@ -80,6 +80,67 @@ const setFile = (selectedFile: File) => {
   return false
 }
 
+/**
+ * Pull out a backtick-quoted command from a backend message such as:
+ *   "Package is not allowed installation; first allow it to be
+ *    installed by running: `emqx ctl plugins allow foo-1.0.0`"
+ *   "Package sha256 does not match the value bound by
+ *    `emqx ctl plugins allow foo-1.0.0 sha256:...`"
+ */
+const extractCommand = (message: string): string => {
+  return message?.match(/`(.*?)`/)?.[1] ?? ''
+}
+
+const showHtmlError = (msg: string) => {
+  ElMessage({
+    dangerouslyUseHTMLString: true,
+    message: msg,
+    customClass: 'markdown-body',
+    type: 'error',
+  })
+}
+
+/**
+ * The backend returns 403 + code=FORBIDDEN for two distinct cases that the
+ * dashboard must distinguish (see emqx PR 17200):
+ *   - "first allow it to be installed by running ..." → not yet allowed
+ *   - "sha256 does not match the value bound by ..." → upload bytes do not
+ *     match the sha256 the operator pinned via `emqx ctl plugins allow`
+ * Anything else is shown using the backend's own message rather than being
+ * forced into the "not allowed" template (the previous behavior of the
+ * dashboard, which produced misleading toasts).
+ */
+const handleForbidden = (message: string) => {
+  const cmd = extractCommand(message)
+  if (/sha256 does not match/i.test(message)) {
+    showHtmlError(xss(t('Plugins.pluginInstallSha256Mismatch', { code: cmd })))
+    return
+  }
+  if (/first allow it/i.test(message) || /not allowed installation/i.test(message)) {
+    showHtmlError(xss(t('Plugins.pluginInstallForbidden', { code: cmd })))
+    return
+  }
+  // Unknown 403 variant — surface the backend message verbatim so we never
+  // again silently mis-label a new error class.
+  CustomMessage.error(message)
+}
+
+const handleInstallError = (error: any) => {
+  const { data, status } = error?.response ?? {}
+  const message: string = data?.message ?? ''
+  if (status === 403 && data?.code === 'FORBIDDEN') {
+    handleForbidden(message)
+    return
+  }
+  // Zip-slip rejection lands here (the backend wraps the reason map and
+  // typically yields a non-403 status). Detect by the marker in the message.
+  if (message && /unsafe_tar_entry_path/.test(message)) {
+    showHtmlError(xss(tl('pluginInstallUnsafePath')))
+    return
+  }
+  CustomMessage.error(getErrorMessage(data, status))
+}
+
 const submit = async () => {
   if (!file.value) {
     ElMessage.error(tl('uploadWarning'))
@@ -91,20 +152,7 @@ const submit = async () => {
     ElMessage.success(tl('successfulInstallation'))
     router.push({ name: 'plugins' })
   } catch (error: any) {
-    const { data, status } = error?.response ?? {}
-    if (status === 403) {
-      if (data?.code === 'FORBIDDEN') {
-        const cmd = data.message.match(/`(.*?)`/)?.[1]
-        ElMessage({
-          dangerouslyUseHTMLString: true,
-          message: xss(t('Plugins.pluginInstallForbidden', { code: cmd })),
-          customClass: 'markdown-body',
-          type: 'error',
-        })
-      } else {
-        CustomMessage.error(getErrorMessage(data, status))
-      }
-    }
+    handleInstallError(error)
   } finally {
     isUploading.value = false
   }
