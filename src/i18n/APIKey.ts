@@ -155,4 +155,36 @@ export default {
     zh: 'License 管理',
     en: 'License management',
   },
+  scopeLabel_user_management: {
+    zh: '用户管理',
+    en: 'User Management',
+  },
+  scopeLabel_mfa_management: {
+    zh: 'MFA 管理',
+    en: 'MFA Management',
+  },
+  scopeLabel_sso_management: {
+    zh: 'SSO 管理',
+    en: 'SSO Management',
+  },
+  scopeLabel_api_key_management: {
+    zh: 'API 密钥管理',
+    en: 'API Key Management',
+  },
+  scopeDesc_user_management: {
+    zh: '管理 Dashboard 用户（创建、更新、删除、修改其他用户密码）',
+    en: "Manage dashboard users (create, update, delete, change other users' password)",
+  },
+  scopeDesc_mfa_management: {
+    zh: '管理员可重置任意用户 MFA 并绕过强制启用 MFA 锁定；普通用户仅可对自身 MFA 进行豁免操作',
+    en: "For administrators: reset any user's MFA and override Force MFA locks. For non-administrators: self-exemption only on the holder's own MFA.",
+  },
+  scopeDesc_sso_management: {
+    zh: '配置单点登录后端（LDAP、OIDC、SAML）',
+    en: 'Configure SSO backends (LDAP, OIDC, SAML)',
+  },
+  scopeDesc_api_key_management: {
+    zh: '管理 API 密钥（创建、更新、删除）',
+    en: 'Manage API keys (create, update, delete)',
+  },
 }

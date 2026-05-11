@@ -6,6 +6,12 @@ export interface APIKeyScope {
   desc: string
 }
 
+export interface LoginUserScope {
+  name: string
+  desc: string
+  admin_only: boolean
+}
+
 export interface APIKeyFormWhenCreating {
   name: string
   /**
@@ -93,11 +99,16 @@ interface ExhookMetricItem {
 export interface User {
   description: string
   username: string
+  role?: string
+  scopes?: string[]
 }
 
 export interface UserItem {
   description: string
   username: string
+  role?: string
+  scopes?: string[]
+  backend?: string
 }
 
 export type UserFormForCreate = UserItem & {

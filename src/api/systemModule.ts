@@ -5,6 +5,7 @@ import {
   APIKeyFormWhenCreating,
   APIKeyFormWhenEditing,
   APIKeyScope,
+  LoginUserScope,
 } from '@/types/systemModule'
 import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
 import {
@@ -36,7 +37,11 @@ export const createAPIKey = (data: APIKeyFormWhenCreating): Promise<APIKey> => {
   return http.post('/api_key', data)
 }
 export const getAPIKeyScopes = async (): Promise<APIKeyScope[]> => {
-  const data: { scopes: APIKeyScope[] } = await http.get('/api_key/scopes')
+  const data: { scopes: APIKeyScope[] } = await http.get('/api_key_scopes')
+  return data.scopes
+}
+export const getLoginUserScopes = async (): Promise<LoginUserScope[]> => {
+  const data: { scopes: LoginUserScope[] } = await http.get('/user_scopes')
   return data.scopes
 }
 export const updateAPIKey = (
