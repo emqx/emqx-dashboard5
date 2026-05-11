@@ -51,6 +51,18 @@ export default {
     zh: '创建用户',
     en: 'Create',
   },
+  userScopes: {
+    zh: '权限范围',
+    en: 'Scopes',
+  },
+  userScopesPlaceholder: {
+    zh: '未选择时按角色默认权限授权',
+    en: 'When empty, fall back to the role default',
+  },
+  userScopesAdminOnlyTip: {
+    zh: '仅管理员可持有此权限范围',
+    en: 'Only administrators may hold this scope',
+  },
   source: {
     zh: '来源',
     en: 'Source',
