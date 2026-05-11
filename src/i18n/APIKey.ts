@@ -144,8 +144,8 @@ export default {
     en: 'Cluster management, node operations, load rebalancing, and multi-tenancy',
   },
   scopeDesc_system: {
-    zh: '核心配置、监听器、插件、备份、热升级、OpenTelemetry',
-    en: 'Core configuration, listeners, plugins, backup, hot upgrade, and OpenTelemetry',
+    zh: '核心配置、监听器、插件、备份、OpenTelemetry',
+    en: 'Core configuration, listeners, plugins, backup, and OpenTelemetry',
   },
   scopeDesc_audit: {
     zh: '查询审计日志记录',
