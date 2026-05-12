@@ -17,24 +17,7 @@ jobs:
       run: |
         echo "emqx-name=emqx-enterprise" >> "$GITHUB_OUTPUT"
 
-  build_emqx_for_test:
-    needs:
-      - set_version
-    uses: ./.github/workflows/build_emqx_for_test.yaml
-    with:
-      emqx-name: ${{ needs.set_version.outputs.emqx-name }}
-
-  check_package_version:
-    needs:
-      - set_version
-      - build_emqx_for_test
-    uses: ./.github/workflows/check_package_version.yaml
-    with:
-      emqx-name: ${{ needs.set_version.outputs.emqx-name }}
-
   build_ee_dashboard_package:
-    needs:
-      - check_package_version
     uses: ./.github/workflows/build_enterprise_package.yaml
     secrets:
       VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN: ${{ secrets.VITE_CLOUD_AI_SQL_ASSISTANT_API_URL_CN }}
@@ -43,7 +26,6 @@ jobs:
   bump_ee_dashboard_version:
     needs:
       - set_version
-      - check_package_version
       - build_ee_dashboard_package
     runs-on: ubuntu-latest
     steps:
