@@ -43,6 +43,7 @@ const generateRawRecord = (): ClusterLinkingData => ({
   pool_size: 8,
   retry_interval: '15s',
   max_inflight: 32,
+  tcp_opts: {},
   resource_opts: {
     start_timeout: '5s',
     worker_pool_size: 16,

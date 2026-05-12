@@ -44,14 +44,31 @@ export default (): {
 
   const { handleSSLDataBeforeSubmit } = useSSL()
   const removeKeys = ['status', 'node_status']
-  const handleLinkingDataBeforeSubmit = (data: ClusterLinkingForm): ClusterLinkingForm => {
-    return omit(
-      {
-        ...data,
-        ssl: handleSSLDataBeforeSubmit(data.ssl as any) as any,
+  const cleanTcpOpts = (tcpOpts: ClusterLinkingForm['tcp_opts']) => {
+    if (!tcpOpts) return undefined
+    const cleaned = Object.entries(tcpOpts).reduce(
+      (acc, [k, v]) => {
+        if (v !== undefined && v !== null && v !== '') {
+          ;(acc as any)[k] = v
+        }
+        return acc
       },
-      removeKeys,
-    ) as ClusterLinkingForm
+      {} as NonNullable<ClusterLinkingForm['tcp_opts']>,
+    )
+    return Object.keys(cleaned).length ? cleaned : undefined
+  }
+  const handleLinkingDataBeforeSubmit = (data: ClusterLinkingForm): ClusterLinkingForm => {
+    const tcpOpts = cleanTcpOpts(data.tcp_opts)
+    const result: ClusterLinkingForm = {
+      ...data,
+      ssl: handleSSLDataBeforeSubmit(data.ssl as any) as any,
+    }
+    if (tcpOpts) {
+      result.tcp_opts = tcpOpts
+    } else {
+      delete (result as Partial<ClusterLinkingForm>).tcp_opts
+    }
+    return omit(result, removeKeys) as ClusterLinkingForm
   }
 
   return {
