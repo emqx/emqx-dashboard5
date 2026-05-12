@@ -196,6 +196,26 @@ export default {
     zh: '由连接的远程 EMQX 服务转发至本地代理的 MQTT 主题。仅当本地 EMQX 服务有匹配的订阅者时，消息才会被转发。<br />支持通配符。如果在连接的一侧设置空主题列表，可实现单向连接：空主题列表的一侧不会接收远程消息，但可以根据另一侧配置的主题，将相关消息转发给其连接方。',
     en: "MQTT topics to be forwarded by the linked remote EMQX broker to the local broker. Messages are only forwarded if the local EMQX broker has matching subscriber(s).<br />Wildcards are supported. Setting empty topics list on one side of the link can be used to establish unidirectional links: the side with the empty topics won't receive remote messages, but it can forward relevant messages to its linked counterpart (according to the topics configured on that side of the link).",
   },
+  tcpOptsNodelay: {
+    zh: '是否关闭延迟发送',
+    en: 'No Delay',
+  },
+  tcpOptsKeepalive: {
+    zh: 'TCP Keepalive',
+    en: 'TCP Keepalive',
+  },
+  tcpOptsSndbuf: {
+    zh: 'TCP 发送缓冲区',
+    en: 'TCP Send Buffer',
+  },
+  tcpOptsRecbuf: {
+    zh: 'TCP 接收缓冲区',
+    en: 'TCP Receive Buffer',
+  },
+  tcpOptsBuffer: {
+    zh: 'TCP 连接缓冲区大小',
+    en: 'TCP Connection Buffer Size',
+  },
   routes: {
     zh: '路由',
     en: 'Routes',

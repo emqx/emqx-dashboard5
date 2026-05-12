@@ -159,6 +159,12 @@ export default (
         'retry_interval',
         'bridge_mode',
         'max_inflight',
+        'tcp_opts',
+        'tcp_opts.nodelay',
+        'tcp_opts.sndbuf',
+        'tcp_opts.recbuf',
+        'tcp_opts.buffer',
+        'tcp_opts.keepalive',
       ],
       fieldStartIndex,
     ),
@@ -373,7 +379,7 @@ export default (
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
-    [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight'],
+    [BridgeType.MQTT]: ['retry_interval', 'bridge_mode', 'max_inflight', 'tcp_opts', /^tcp_opts\./],
     [BridgeType.Webhook]: httpAdvancedProps,
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
