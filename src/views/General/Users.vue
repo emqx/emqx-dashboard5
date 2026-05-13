@@ -181,7 +181,7 @@
 </template>
 
 <script setup>
-import { getManagedNamespaceList } from '@/api/config'
+import { getAllManagedNamespaceList } from '@/api/config'
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
@@ -206,7 +206,7 @@ const namespaceOptions = ref([])
 const isNamespaceOptionsLoaded = ref(false)
 const queryNamespaceList = async () => {
   try {
-    const res = await getManagedNamespaceList({ limit: 10000 })
+    const res = await getAllManagedNamespaceList()
     namespaceOptions.value = res
     isNamespaceOptionsLoaded.value = true
   } catch (error) {

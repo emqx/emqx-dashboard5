@@ -76,6 +76,7 @@ import type {
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 import {
+  GetMtNsNsClientListParams,
   GetMtManagedNsListParams,
   MtConfigOut,
   MtNsWithDetailsOut,
@@ -239,6 +240,7 @@ export const AnthropicVersion = AiAnthropicProviderApiPutAnthropicVersion
 
 /* MULTI-TENANCY */
 export type GetNamespaceListParams = GetMtManagedNsListParams
+export type GetNamespaceClientListParams = GetMtNsNsClientListParams
 export type NamespaceDetailItem = Merge<
   MtNsWithDetailsOut,
   {

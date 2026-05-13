@@ -1,4 +1,5 @@
 import http from '@/common/http'
+import type { AxiosResponse } from 'axios'
 import {
   AlarmSettings,
   Cluster,
@@ -12,6 +13,7 @@ import {
 } from '@/types/config'
 import {
   FileTransferConf,
+  GetNamespaceClientListParams,
   GetNamespaceListParams,
   MessageQueueConfig,
   NamespaceConfig,
@@ -63,8 +65,66 @@ export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTran
   http.put('/configs/file_transfer', data)
 
 // Multi-tenancy API functions
-export const getNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
-  http.get('/mt/ns_list', { params })
+type LinkPaginationMeta = {
+  cursor?: string
+  hasnext: boolean
+}
+
+type LinkPaginationData<T> = {
+  data: T
+  meta: LinkPaginationMeta
+}
+
+const getHeader = (headers: AxiosResponse['headers'], key: string) => {
+  if (typeof headers?.get === 'function') {
+    return headers.get(key)
+  }
+  return headers?.[key] ?? headers?.[key.toLowerCase()]
+}
+
+const parseNextCursorFromLinkHeader = (
+  linkHeader: string | null | undefined,
+  cursorKeys: Array<string>,
+): LinkPaginationMeta => {
+  if (!linkHeader) {
+    return { hasnext: false }
+  }
+  const nextLink = linkHeader.split(',').find((item) => /rel="?next"?/.test(item))
+  const uri = nextLink?.match(/<([^>]+)>/)?.[1]
+  if (!uri) {
+    return { hasnext: false }
+  }
+  const params = new URL(uri, 'http://localhost').searchParams
+  return {
+    cursor: cursorKeys.map((key) => params.get(key)).find(Boolean) ?? undefined,
+    hasnext: true,
+  }
+}
+
+const getLinkPaginatedData = async <T>(
+  url: string,
+  params: object,
+  cursorKeys: Array<string>,
+): Promise<LinkPaginationData<T>> => {
+  const response = await http.get<T, AxiosResponse<T>>(url, {
+    params,
+    returnRawResponse: true,
+  } as any)
+  return {
+    data: response.data,
+    meta: parseNextCursorFromLinkHeader(getHeader(response.headers, 'link'), cursorKeys),
+  }
+}
+
+export const getNamespaceListWithLinkMeta = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginationData<Array<string>>> =>
+  getLinkPaginatedData('/mt/ns_list', params, ['last_ns', 'first_ns'])
+
+export const getNamespaceList = async (params: GetNamespaceListParams): Promise<Array<string>> => {
+  const { data } = await getNamespaceListWithLinkMeta(params)
+  return data
+}
 
 export const getNamespaceClientCount = (namespace: string): Promise<{ count: number }> =>
   http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_count`)
@@ -80,17 +140,51 @@ export const updateNamespaceConfig = (
   data: NamespaceConfig,
 ): Promise<NamespaceConfig> => http.put(`/mt/ns/${encodeURIComponent(namespace)}/config`, data)
 
-export const getManagedNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
-  http.get('/mt/managed_ns_list', { params })
+export const getManagedNamespaceListWithLinkMeta = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginationData<Array<string>>> =>
+  getLinkPaginatedData('/mt/managed_ns_list', params, ['last_ns', 'first_ns'])
+
+export const getManagedNamespaceList = async (
+  params: GetNamespaceListParams,
+): Promise<Array<string>> => {
+  const { data } = await getManagedNamespaceListWithLinkMeta(params)
+  return data
+}
+
+export const getAllManagedNamespaceList = async (limit = 10000): Promise<Array<string>> => {
+  const list: Array<string> = []
+  let params: GetNamespaceListParams = { limit }
+  let hasnext = false
+  do {
+    const { data, meta } = await getManagedNamespaceListWithLinkMeta(params)
+    list.push(...data)
+    hasnext = meta.hasnext
+    params = {
+      limit,
+      last_ns: meta.cursor ?? data[data.length - 1],
+    }
+  } while (hasnext && params.last_ns)
+  return list
+}
 
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}/kick_all_clients`)
 
 export const getNamespaceClientList = (
   namespace: string,
-  params: { last_clientid?: string; limit: number },
+  params: GetNamespaceClientListParams,
 ): Promise<Array<string>> =>
-  http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_list`, { params })
+  getNamespaceClientListWithLinkMeta(namespace, params).then(({ data }) => data)
+
+export const getNamespaceClientListWithLinkMeta = (
+  namespace: string,
+  params: GetNamespaceClientListParams,
+): Promise<LinkPaginationData<Array<string>>> =>
+  getLinkPaginatedData(`/mt/ns/${encodeURIComponent(namespace)}/client_list`, params, [
+    'last_clientid',
+    'first_clientid',
+  ])
 
 export const deleteManagedNamespace = (namespace: string): Promise<void> =>
   http.delete(`/mt/ns/${encodeURIComponent(namespace)}`)
@@ -103,11 +197,23 @@ export const createManagedNamespace = (namespace: string): Promise<void> =>
 
 export const getManagedDetailNamespaceList = (
   params: GetNamespaceListParams,
-): Promise<Array<NamespaceDetailItem>> => http.get('/mt/managed_ns_list_details', { params })
+): Promise<Array<NamespaceDetailItem>> =>
+  getManagedDetailNamespaceListWithLinkMeta(params).then(({ data }) => data)
+
+export const getManagedDetailNamespaceListWithLinkMeta = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginationData<Array<NamespaceDetailItem>>> =>
+  getLinkPaginatedData('/mt/managed_ns_list_details', params, ['last_ns', 'first_ns'])
 
 export const getDetailNamespaceList = (
   params: GetNamespaceListParams,
-): Promise<Array<NamespaceDetailItem>> => http.get('/mt/ns_list_details', { params })
+): Promise<Array<NamespaceDetailItem>> =>
+  getDetailNamespaceListWithLinkMeta(params).then(({ data }) => data)
+
+export const getDetailNamespaceListWithLinkMeta = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginationData<Array<NamespaceDetailItem>>> =>
+  getLinkPaginatedData('/mt/ns_list_details', params, ['last_ns', 'first_ns'])
 
 export const getConfigs = (key?: string) => http.get('/configs', { params: { key } })
 

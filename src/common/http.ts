@@ -22,6 +22,7 @@ type CustomRequestConfig = InternalAxiosRequestConfig & {
   handleTimeoutSelf?: boolean
   controller?: AbortController
   keepSpaces?: boolean
+  returnRawResponse?: boolean
 }
 
 type CustomResponse = AxiosResponse & {
@@ -111,6 +112,7 @@ const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED]
  * doNotTriggerProgress: The request progress bar is not affected when the request is initiated or after the request is ended
  * errorsHandleCustom: Array<HTTP code> errors are not handled uniformly
  * handleTimeoutSelf: when error.code === 'ECONNABORTED', handle the error if self
+ * returnRawResponse: return the full axios response when callers need headers
  */
 axios.interceptors.response.use(
   (response: CustomResponse) => {
@@ -124,6 +126,9 @@ axios.interceptors.response.use(
     // Remove AbortController
     const controller = response.config.controller
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
+    if (response.config.returnRawResponse) {
+      return response
+    }
     return response.data || response.status
   },
   async (error: any) => {

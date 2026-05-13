@@ -1,22 +1,29 @@
 import {
   createManagedNamespace,
   deleteManagedNamespace,
-  getDetailNamespaceList,
-  getManagedDetailNamespaceList,
-  getManagedNamespaceList,
+  getDetailNamespaceListWithLinkMeta,
+  getAllManagedNamespaceList,
+  getManagedDetailNamespaceListWithLinkMeta,
   getNamespaceConfig,
   updateNamespaceConfig as requestUpdateNamespaceConfig,
 } from '@/api/config'
 import { NamespaceItem } from '@/types/config'
-import { GetNamespaceListParams, NamespaceDetailItem } from '@/types/typeAlias'
+import { GetNamespaceListParams } from '@/types/typeAlias'
+
+type NamespaceListWithMeta = {
+  data: Array<NamespaceItem>
+  meta: {
+    cursor?: string
+    hasnext: boolean
+  }
+}
 
 export default () => {
   let totalManagedNamespaceList: Array<string> = []
   let hasFetchedAllManagedNamespaces = false
   const fetchAllManagedNamespaces = async (): Promise<void> => {
     try {
-      const managedNamespaceList = await getManagedNamespaceList({ limit: 10000 })
-      totalManagedNamespaceList = managedNamespaceList
+      totalManagedNamespaceList = await getAllManagedNamespaceList()
       hasFetchedAllManagedNamespaces = true
       return Promise.resolve()
     } catch (error) {
@@ -36,12 +43,12 @@ export default () => {
   }
   const queryAllTypeNamespaceList = async (
     params: GetNamespaceListParams,
-  ): Promise<Array<NamespaceItem>> => {
+  ): Promise<NamespaceListWithMeta> => {
     try {
       if (!hasFetchedAllManagedNamespaces) {
         await fetchAllManagedNamespaces()
       }
-      const namespaceNameList: Array<NamespaceDetailItem> = await getDetailNamespaceList(params)
+      const { data: namespaceNameList, meta } = await getDetailNamespaceListWithLinkMeta(params)
       const namespaceList: Array<NamespaceItem> = namespaceNameList.map(
         ({ name: ns, created_at }) => ({
           ns: ns || '',
@@ -51,7 +58,7 @@ export default () => {
         }),
       )
       await fillManagedNamespaceConfig(namespaceList)
-      return Promise.resolve(namespaceList)
+      return Promise.resolve({ data: namespaceList, meta })
     } catch (error) {
       return Promise.reject(error)
     }
@@ -59,9 +66,10 @@ export default () => {
 
   const queryManagedNamespaceList = async (
     params: GetNamespaceListParams,
-  ): Promise<Array<NamespaceItem>> => {
+  ): Promise<NamespaceListWithMeta> => {
     try {
-      const managedNamespaceList = await getManagedDetailNamespaceList(params)
+      const { data: managedNamespaceList, meta } =
+        await getManagedDetailNamespaceListWithLinkMeta(params)
       const namespaceList = managedNamespaceList.map(({ name: ns, created_at }) => ({
         ns: ns || '',
         created_at,
@@ -69,7 +77,7 @@ export default () => {
         not_explicit_created: false,
       }))
       await fillManagedNamespaceConfig(namespaceList)
-      return Promise.resolve(namespaceList)
+      return Promise.resolve({ data: namespaceList, meta })
     } catch (error) {
       return Promise.reject(error)
     }

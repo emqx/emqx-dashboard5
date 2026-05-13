@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { batchDisconnectClients } from '@/api/clients'
-import { getNamespaceClientCount, getNamespaceClientList } from '@/api/config'
+import { getNamespaceClientCount, getNamespaceClientListWithLinkMeta } from '@/api/config'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -124,10 +124,10 @@ const getClients = async (isBack?: boolean) => {
       limit: pageParams.value.limit,
     }
     getClientsCount()
-    const data = await getNamespaceClientList(props.namespace, params)
-    if (data.length === limit.value) {
-      setCursor(page.value + 1, data[data.length - 1])
-    } else if (data.length < limit.value && getCursor(page.value + 1)) {
+    const { data, meta } = await getNamespaceClientListWithLinkMeta(props.namespace, params)
+    if (meta.hasnext) {
+      setCursor(page.value + 1, meta.cursor ?? data[data.length - 1])
+    } else if (getCursor(page.value + 1)) {
       emptyCursorAfter(page.value + 1)
     }
     tableData.value = data
@@ -163,6 +163,7 @@ const handlePageChange = (no: number) => {
 
 const handleSizeChange = (size: number) => {
   limit.value = size
+  resetCursorMap()
   handlePageChange(1)
 }
 

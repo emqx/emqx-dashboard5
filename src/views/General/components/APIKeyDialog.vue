@@ -133,7 +133,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getManagedNamespaceList } from '@/api/config'
+import { getAllManagedNamespaceList } from '@/api/config'
 import { createAPIKey, updateAPIKey } from '@/api/systemModule'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
 import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
@@ -209,7 +209,7 @@ const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const queryNamespaceList = async () => {
   try {
-    const res = await getManagedNamespaceList({ limit: 10000 })
+    const res = await getAllManagedNamespaceList()
     namespaceOptions.value = res
     isNamespaceOptionsLoaded.value = true
   } catch (error) {
