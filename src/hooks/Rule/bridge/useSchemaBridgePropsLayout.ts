@@ -5,6 +5,7 @@ import useSyncConfiguration from './useSyncConfiguration'
 export const actionResourceOptFields = [
   'start_timeout',
   'worker_pool_size',
+  'dispatch_strategy',
   'request_ttl',
   'health_check_interval',
   'health_check_interval_jitter',
