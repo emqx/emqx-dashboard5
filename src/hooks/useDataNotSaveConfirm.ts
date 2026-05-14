@@ -6,7 +6,7 @@ export const useCheckDataChanged = (
 } => {
   let rawData: any = undefined
 
-  const checkDataIsChanged = () => !isEqual(rawData, nowData.value)
+  const checkDataIsChanged = () => rawData && !isEqual(rawData, nowData.value)
 
   const setRawData = (data: any) => {
     rawData = cloneDeep(data)

@@ -149,7 +149,7 @@ const sessionPersistenceConfig = ref<Zone['durable_sessions']>({
   message_retention_period: '1d',
 })
 
-const checkDataIsChanged = () => !isEqual(sessionPersistenceConfig.value, rawData)
+const checkDataIsChanged = () => rawData && !isEqual(sessionPersistenceConfig.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadData = async () => {

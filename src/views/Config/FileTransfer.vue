@@ -386,7 +386,7 @@ const handleSave = async () => {
   }
 }
 
-const checkDataIsChanged = () => !isEqual(getDataToSubmit(), rawData)
+const checkDataIsChanged = () => rawData && !isEqual(getDataToSubmit(), rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 loadData()
