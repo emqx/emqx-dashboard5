@@ -1190,6 +1190,8 @@ export interface BridgeRedisPutSentinel {
   redis_type?: BridgeRedisPutSentinelRedisType
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
@@ -1292,6 +1294,8 @@ export interface BridgeRedisPostSentinel {
   redis_type?: BridgeRedisPostSentinelRedisType
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   ssl?: EmqxSslClientOpts
   tags?: string[]
@@ -1431,6 +1435,8 @@ export interface BridgeRedisGetSentinel {
   redis_type?: BridgeRedisGetSentinelRedisType
   resource_opts?: BridgeRedisCreationOptsRedisSentinel
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   ssl?: EmqxSslClientOpts
   status?: BridgeRedisGetSentinelStatus
@@ -4085,6 +4091,7 @@ export interface BridgeInfluxdbPutApiV2 {
   enable?: boolean
   local_topic?: string
   org: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbPutApiV2Precision
   resource_opts?: ResourceSchemaCreationOpts
@@ -4112,6 +4119,7 @@ export interface BridgeInfluxdbPutApiV1 {
   enable?: boolean
   local_topic?: string
   password?: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbPutApiV1Precision
   resource_opts?: ResourceSchemaCreationOpts
@@ -4148,6 +4156,7 @@ export interface BridgeInfluxdbPostApiV2 {
   local_topic?: string
   name: string
   org: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbPostApiV2Precision
   resource_opts?: ResourceSchemaCreationOpts
@@ -4185,6 +4194,7 @@ export interface BridgeInfluxdbPostApiV1 {
   local_topic?: string
   name: string
   password?: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbPostApiV1Precision
   resource_opts?: ResourceSchemaCreationOpts
@@ -4234,6 +4244,7 @@ export interface BridgeInfluxdbGetApiV2 {
   name: string
   node_status?: BridgeNodeStatus[]
   org: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbGetApiV2Precision
   resource_opts?: ResourceSchemaCreationOpts
@@ -4285,6 +4296,7 @@ export interface BridgeInfluxdbGetApiV1 {
   name: string
   node_status?: BridgeNodeStatus[]
   password?: string
+  ping_with_auth?: boolean
   pool_size?: number
   precision?: BridgeInfluxdbGetApiV1Precision
   resource_opts?: ResourceSchemaCreationOpts

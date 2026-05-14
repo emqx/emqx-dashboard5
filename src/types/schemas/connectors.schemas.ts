@@ -889,6 +889,8 @@ export interface RedisRedisSentinelConnector {
   pool_size?: number
   redis_type?: RedisRedisSentinelConnectorRedisType
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   username?: string
 }
@@ -2782,6 +2784,7 @@ export interface ConnectorInfluxdbConnectorInfluxdbApiV2 {
   bucket: string
   influxdb_type: ConnectorInfluxdbConnectorInfluxdbApiV2InfluxdbType
   org: string
+  ping_with_auth?: boolean
   token: string
 }
 
@@ -2797,6 +2800,7 @@ export interface ConnectorInfluxdbConnectorInfluxdbApiV1 {
   database: string
   influxdb_type: ConnectorInfluxdbConnectorInfluxdbApiV1InfluxdbType
   password?: string
+  ping_with_auth?: boolean
   username?: string
 }
 
