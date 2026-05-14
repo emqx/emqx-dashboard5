@@ -213,6 +213,8 @@ export default (
         'password',
         'database',
         'sentinel',
+        'sentinel_username',
+        'sentinel_password',
         'pool_size',
         'ssl',
       ],
