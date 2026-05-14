@@ -33,7 +33,7 @@ export default defineComponent({
 
     let rawData: any = undefined
     const SchemaFormCom = ref()
-    const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+    const checkDataIsChanged = () => rawData && !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
 
     const propsOrderMap = createOrderObj(

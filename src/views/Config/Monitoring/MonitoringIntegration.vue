@@ -470,7 +470,7 @@ const nowRecordData = computed(() => ({
 }))
 const OpenTelemetrySampleDrawerCom = ref()
 const checkDataIsChanged = () => {
-  const pageChanged = !isEqual(nowRecordData.value, rawData)
+  const pageChanged = rawData && !isEqual(nowRecordData.value, rawData)
   let openTelemetrySampleChanged = false
   if (isOpenTelemetrySampleDrawerShow.value) {
     openTelemetrySampleChanged = OpenTelemetrySampleDrawerCom.value.isDataChanged()
