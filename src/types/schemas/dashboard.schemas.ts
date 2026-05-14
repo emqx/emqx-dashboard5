@@ -23,6 +23,21 @@ export type PostUsersUsernameMfaBody = {
   mechanism: PostUsersUsernameMfaBodyMechanism
 }
 
+export type PostUsersUsernameMfaBackend =
+  (typeof PostUsersUsernameMfaBackend)[keyof typeof PostUsersUsernameMfaBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameMfaBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type PostUsersUsernameMfaParams = {
+  backend?: PostUsersUsernameMfaBackend
+}
+
 export type DeleteUsersUsernameMfa404Code =
   (typeof DeleteUsersUsernameMfa404Code)[keyof typeof DeleteUsersUsernameMfa404Code]
 
@@ -34,6 +49,21 @@ export const DeleteUsersUsernameMfa404Code = {
 export type DeleteUsersUsernameMfa404 = {
   code?: DeleteUsersUsernameMfa404Code
   message?: string
+}
+
+export type DeleteUsersUsernameMfaBackend =
+  (typeof DeleteUsersUsernameMfaBackend)[keyof typeof DeleteUsersUsernameMfaBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsernameMfaBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type DeleteUsersUsernameMfaParams = {
+  backend?: DeleteUsersUsernameMfaBackend
 }
 
 export type PostUsersUsernameChangePwd404Code =
@@ -81,6 +111,20 @@ export type PutUsersUsername404 = {
   message?: string
 }
 
+export type PutUsersUsername400Code =
+  (typeof PutUsersUsername400Code)[keyof typeof PutUsersUsername400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutUsersUsername400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type PutUsersUsername400 = {
+  code?: PutUsersUsername400Code
+  message?: string
+}
+
 export type PutUsersUsername200Mfa =
   (typeof PutUsersUsername200Mfa)[keyof typeof PutUsersUsername200Mfa]
 
@@ -96,6 +140,7 @@ export type PutUsersUsername200 = {
   description?: string
   mfa?: PutUsersUsername200Mfa
   role?: string
+  scopes?: string[]
   /** @maxLength 100 */
   username?: string
 }
@@ -103,6 +148,7 @@ export type PutUsersUsername200 = {
 export type PutUsersUsernameBody = {
   description?: string
   role?: string
+  scopes?: string[]
 }
 
 export type PutUsersUsernameBackend =
@@ -162,10 +208,21 @@ export type DeleteUsersUsernameParams = {
   backend?: DeleteUsersUsernameBackend
 }
 
+export type PostUsers200Mfa = (typeof PostUsers200Mfa)[keyof typeof PostUsers200Mfa]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsers200Mfa = {
+  disabled: 'disabled',
+  none: 'none',
+  totp: 'totp',
+} as const
+
 export type PostUsers200 = {
   backend?: string
   description?: string
+  mfa?: PostUsers200Mfa
   role?: string
+  scopes?: string[]
   /** @maxLength 100 */
   username?: string
 }
@@ -175,9 +232,12 @@ export type PostUsersBody = {
   /** @maxLength 100 */
   password?: string
   role?: string
+  scopes?: string[]
   /** @maxLength 100 */
   username?: string
 }
+
+export type GetUserScopes200 = { [key: string]: unknown }
 
 export type PostLogout401Code = (typeof PostLogout401Code)[keyof typeof PostLogout401Code]
 
@@ -268,6 +328,7 @@ export interface DashboardUser {
   description?: string
   mfa?: DashboardUserMfa
   role?: string
+  scopes?: string[]
   /** @maxLength 100 */
   username?: string
 }
