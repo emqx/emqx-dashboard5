@@ -60,6 +60,16 @@
               <el-input v-model="databaseConfig.sentinel" />
             </el-form-item>
           </el-col>
+          <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
+            <el-form-item :label="$t('Auth.sentinelUsername')" prop="sentinel_username">
+              <el-input v-model="databaseConfig.sentinel_username" />
+            </el-form-item>
+          </el-col>
+          <el-col v-if="isRedis && databaseConfig.redis_type === 'sentinel'" :span="12">
+            <el-form-item :label="$t('Auth.sentinelPassword')" prop="sentinel_password">
+              <CustomInputPassword v-model="databaseConfig.sentinel_password" />
+            </el-form-item>
+          </el-col>
           <!-- Basic -->
           <el-col :span="12" v-if="!(isRedis && databaseConfig.redis_type === 'cluster')">
             <el-form-item :label="$t('Auth.database')" required prop="database">
