@@ -936,8 +936,11 @@ const SchemaForm = defineComponent({
       const keyPathMap = new Map<string, string>()
       if (propPaths) {
         propKeys.forEach((k: string) => {
+          const exactPathReg = new RegExp(`^${k}$`)
           const pathReg = new RegExp(`\\.${k}$`)
-          const path = propPaths.find((p) => p && pathReg.test(p))
+          const path =
+            propPaths.find((p) => p && exactPathReg.test(p)) ??
+            propPaths.find((p) => p && pathReg.test(p))
           if (path) {
             keyPathMap.set(k, path)
           }

@@ -15,6 +15,28 @@
       <el-input v-model="resourceOptForm.worker_pool_size" />
     </CustomFormItem>
   </el-col>
+  <el-col :span="colSpan">
+    <el-form-item prop="resource_opts.dispatch_strategy">
+      <template #label>
+        <FormItemLabel
+          :label="tl('dispatch_strategy.label')"
+          :desc="tl('dispatch_strategy.desc')"
+          desc-marked
+        />
+      </template>
+      <el-select v-model="resourceOptForm.dispatch_strategy" v-if="!readonly">
+        <el-option
+          v-for="item in ['per_clientid', 'random']"
+          :value="item"
+          :key="item"
+          :label="$t(`SchemaSymbolLabel.${item}`)"
+        />
+      </el-select>
+      <p class="value" v-else>
+        {{ $t(`SchemaSymbolLabel.${resourceOptForm.dispatch_strategy || 'per_clientid'}`) }}
+      </p>
+    </el-form-item>
+  </el-col>
   <el-col :span="colSpan" v-if="withRequestTimeoutConfig">
     <CustomFormItem prop="resource_opts.request_ttl" :readonly="readonly">
       <template #label>

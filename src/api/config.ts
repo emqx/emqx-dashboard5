@@ -7,6 +7,7 @@ import {
   Log,
   NamespaceItem,
   NamespaceMetrics,
+  RuleEngine,
   Zone,
   Zones,
 } from '@/types/config'
@@ -26,6 +27,11 @@ export const updateClusterConfigs = (data: Cluster): Promise<Cluster> =>
 export const getLogConfigs = (): Promise<Log> => http.get('/configs/log')
 
 export const updateLogConfigs = (data: Log): Promise<Log> => http.put('/configs/log', data)
+
+export const getRuleEngineConfigs = (): Promise<RuleEngine> => http.get('/rule_engine')
+
+export const updateRuleEngineConfigs = (data: RuleEngine): Promise<RuleEngine> =>
+  http.put('/rule_engine', data)
 
 export const getDashboardConfigs = (): Promise<Dashboard> => http.get('/configs/dashboard')
 

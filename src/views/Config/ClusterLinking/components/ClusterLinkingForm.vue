@@ -111,6 +111,43 @@
             <CustomInputNumber v-model.number="record.max_inflight" />
           </el-form-item>
         </el-col>
+        <template v-if="record.tcp_opts">
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsActiveN')" prop="tcp_opts.active_n">
+              <CustomInputNumber v-model.number="record.tcp_opts.active_n" :min="0" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsNodelay')" prop="tcp_opts.nodelay">
+              <el-switch v-model="record.tcp_opts.nodelay" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsKeepalive')" prop="tcp_opts.keepalive">
+              <el-switch v-model="record.tcp_opts.keepalive" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsDelaySend')" prop="tcp_opts.delay_send">
+              <el-switch v-model="record.tcp_opts.delay_send" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsSndbuf')" prop="tcp_opts.sndbuf">
+              <InputWithUnit v-model="record.tcp_opts.sndbuf" :units="['KB', 'MB', 'GB', 'B']" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsRecbuf')" prop="tcp_opts.recbuf">
+              <InputWithUnit v-model="record.tcp_opts.recbuf" :units="['KB', 'MB', 'GB', 'B']" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsBuffer')" prop="tcp_opts.buffer">
+              <InputWithUnit v-model="record.tcp_opts.buffer" :units="['KB', 'MB', 'GB', 'B']" />
+            </el-form-item>
+          </el-col>
+        </template>
         <template v-if="record.resource_opts">
           <el-col :span="12">
             <el-form-item :label="getLabel('start_timeout')" prop="resource_opts.start_timeout">

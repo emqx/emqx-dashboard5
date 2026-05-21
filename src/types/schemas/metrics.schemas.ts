@@ -357,8 +357,6 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
   /** @minimum 0 */
-  'rules.matched'?: number
-  /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number
@@ -564,8 +562,6 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
   /** @minimum 0 */
-  'rules.matched'?: number
-  /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number
@@ -601,7 +597,6 @@ export interface EmqxDashboardMonitorApiSamplerCurrentNode {
   persisted_rate?: number
   received_msg_rate?: number
   retained_msg_count?: number
-  rules_matched_rate?: number
   sent_msg_rate?: number
   sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
@@ -626,7 +621,6 @@ export interface EmqxDashboardMonitorApiSamplerCurrent {
   persisted_rate?: number
   received_msg_rate?: number
   retained_msg_count?: number
-  rules_matched_rate?: number
   sent_msg_rate?: number
   sessions_hist_hwmark?: EmqxDashboardMonitorApiSessionsHistHwmark
   shared_subscriptions?: number
@@ -648,7 +642,6 @@ export interface EmqxDashboardMonitorApiSampler {
   live_connections?: number
   persisted?: number
   received?: number
-  rules_matched?: number
   sent?: number
   subscriptions?: number
   subscriptions_durable?: number

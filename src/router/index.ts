@@ -797,6 +797,21 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/rule-engine-security',
+    component: Layout,
+    meta: {
+      hideKey: 'rule-engine-security',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'rule-engine-security',
+        component: () => import('@/views/Config/BasicConfig/RuleEngineSecurity.vue'),
+      },
+    ],
+  },
   // limiter config
   // {
   //   path: '/limiter',

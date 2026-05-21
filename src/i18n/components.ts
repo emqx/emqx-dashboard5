@@ -431,6 +431,10 @@ export default {
     zh: '流',
     en: 'Streams',
   },
+  'rule-engine-security': {
+    zh: '规则引擎安全',
+    en: 'Rule Engine Security',
+  },
   'message-queue': {
     zh: '队列',
     en: 'Queues',

@@ -120,6 +120,21 @@ export interface Dashboard {
   cors: boolean
 }
 
+export interface RuleEngineSSRF {
+  enable: boolean
+  allow_cidrs: string[]
+  deny_cidrs: string[]
+  deny_hosts: string[]
+}
+
+export interface RuleEngine {
+  ignore_sys_message?: boolean
+  jq_function_default_timeout?: string
+  jq_implementation_module?: string
+  rules?: Record<string, unknown>
+  ssrf: RuleEngineSSRF
+}
+
 export interface Listener {
   protocol: string
   bind: number

@@ -337,8 +337,6 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
   /** @minimum 0 */
-  'rules.matched'?: number
-  /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */
   'session.discarded'?: number

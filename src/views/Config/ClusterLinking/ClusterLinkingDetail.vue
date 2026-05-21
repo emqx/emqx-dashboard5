@@ -85,6 +85,9 @@ const getDetail = async () => {
   try {
     isLoading.value = true
     clusterLinkingData.value = await getClusterLinkingDetail(linkingName.value)
+    if (!clusterLinkingData.value.tcp_opts) {
+      clusterLinkingData.value.tcp_opts = {}
+    }
     editDataTopicLength.value = clusterLinkingData.value.topics.length
   } catch (error) {
     console.error(error)

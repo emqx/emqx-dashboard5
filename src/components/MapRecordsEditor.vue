@@ -22,7 +22,7 @@
               class="btn-remove"
               @click.stop="removeEntry(entry.id)"
             >
-              <Trash2 :size="14" />
+              <Delete :size="14" />
             </el-button>
           </div>
         </template>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Plus, Trash2 } from 'lucide-vue-next'
+import { Plus, Delete } from '@element-plus/icons-vue'
 import AvroRecordFields from './AvroRecordFields.vue'
 import { AvroSchema, AvroMap } from '@/types/plugin'
 
