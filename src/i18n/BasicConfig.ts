@@ -200,9 +200,17 @@ export default {
     zh: '是否关闭延迟发送',
     en: 'No Delay',
   },
+  tcpOptsActiveN: {
+    zh: 'Active N',
+    en: 'Active N',
+  },
   tcpOptsKeepalive: {
     zh: 'TCP Keepalive',
     en: 'TCP Keepalive',
+  },
+  tcpOptsDelaySend: {
+    zh: '延迟发送',
+    en: 'Delay Send',
   },
   tcpOptsSndbuf: {
     zh: 'TCP 发送缓冲区',

@@ -110,6 +110,11 @@
         </el-col>
         <template v-if="record.tcp_opts">
           <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsActiveN')" prop="tcp_opts.active_n">
+              <CustomInputNumber v-model.number="record.tcp_opts.active_n" :min="0" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item :label="tl('tcpOptsNodelay')" prop="tcp_opts.nodelay">
               <el-switch v-model="record.tcp_opts.nodelay" />
             </el-form-item>
@@ -117,6 +122,11 @@
           <el-col :span="12">
             <el-form-item :label="tl('tcpOptsKeepalive')" prop="tcp_opts.keepalive">
               <el-switch v-model="record.tcp_opts.keepalive" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="tl('tcpOptsDelaySend')" prop="tcp_opts.delay_send">
+              <el-switch v-model="record.tcp_opts.delay_send" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
