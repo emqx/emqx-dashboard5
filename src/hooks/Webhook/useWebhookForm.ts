@@ -8,6 +8,8 @@ export default (): {
   getRuleIdByName: (name: string) => string
   getActionNameByName: (name: string) => string
   syncHeaders: (webhookForm: WebhookForm) => void
+  normalizeActionPathForSubmit: (webhookForm: WebhookForm) => void
+  normalizeActionPathForDisplay: (webhookForm: WebhookForm) => void
 } => {
   const { getSchemaRefByType: getActionSchemaRefByType } = useActionSchema()
   const getActionTypeRefKey = (type: string) => getActionSchemaRefByType(type)
@@ -66,11 +68,34 @@ export default (): {
     action.parameters.headers = connector.headers
   }
 
+  const normalizeQueryString = (queryString = '') => queryString.trim().replace(/^\?+/, '')
+
+  // Users edit the raw query string, while the backend expects it as `?foo=bar` in action path.
+  const normalizeActionPathForSubmit = (webhookForm: WebhookForm) => {
+    const normalizedQueryString = normalizeQueryString(webhookForm.action.parameters.path)
+    webhookForm.action.parameters.path = normalizedQueryString ? `?${normalizedQueryString}` : ''
+  }
+
+  // Strip the leading `?` only when the stored action path starts with exactly one `?`.
+  const normalizeActionPathForDisplay = (webhookForm: WebhookForm) => {
+    const actionPath = webhookForm.action.parameters.path
+    if (!actionPath) {
+      webhookForm.action.parameters.path = ''
+      return
+    }
+    if (!/^\?[^?]/.test(actionPath)) {
+      return
+    }
+    webhookForm.action.parameters.path = actionPath.slice(1)
+  }
+
   return {
     createRawWebhookForm,
     getWebhookName,
     getRuleIdByName,
     getActionNameByName,
     syncHeaders,
+    normalizeActionPathForSubmit,
+    normalizeActionPathForDisplay,
   }
 }

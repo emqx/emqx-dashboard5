@@ -574,6 +574,7 @@ export interface SsoOidc {
   dashboard_addr?: string
   enable?: boolean
   fallback_methods?: string[]
+  force_mfa?: boolean
   issuer: string
   name_var?: string
   name_var_source?: SsoOidcNameVarSource
@@ -602,6 +603,7 @@ export interface SsoLdap {
   base_dn: string
   enable?: boolean
   filter?: string
+  force_mfa?: boolean
   password?: string
   /** @minimum 1 */
   pool_size?: number
@@ -1402,6 +1404,7 @@ export interface DashboardSaml {
   backend: DashboardSamlBackend
   dashboard_addr?: string
   enable?: boolean
+  force_mfa?: boolean
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean

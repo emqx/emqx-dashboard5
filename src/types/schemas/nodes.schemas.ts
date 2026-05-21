@@ -182,6 +182,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'client.disconnected'?: number
   /** @minimum 0 */
+  'client.post_authn'?: number
+  /** @minimum 0 */
   'client.subscribe'?: number
   /** @minimum 0 */
   'client.unsubscribe'?: number
@@ -336,8 +338,6 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'packets.unsubscribe.error'?: number
   /** @minimum 0 */
   'packets.unsubscribe.received'?: number
-  /** @minimum 0 */
-  'rules.matched'?: number
   /** @minimum 0 */
   'session.created'?: number
   /** @minimum 0 */

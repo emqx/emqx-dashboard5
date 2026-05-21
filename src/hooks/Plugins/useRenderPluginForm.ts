@@ -96,6 +96,9 @@ function extractUIConfigs(schema: { fields: Array<Field> }): {
     if (field.$ui) {
       const { name, type } = field
       const uiConfig = { ...field.$ui }
+      if (field.default !== undefined) {
+        uiConfig._defaultValue = field.default
+      }
       // For map-records-editor, attach valueSchema and valueChildren from the Avro field type
       if (
         uiConfig.component === 'map-records-editor' &&
@@ -142,6 +145,9 @@ function extractUIConfigs(schema: { fields: Array<Field> }): {
             description: '',
             valueSchema: values,
           }
+          if (field.default !== undefined) {
+            config._defaultValue = field.default
+          }
           if (typeof values === 'object' && !Array.isArray(values) && values.type === 'record') {
             const extracted = extractUIConfigs({ fields: values.fields })
             if (!isEmptyObj(extracted.$form)) {
@@ -184,6 +190,40 @@ function replaceI18nInConfigs(
     }
   }
   return configs
+}
+
+const DEFAULT_VALUE_LABEL: Record<'zh' | 'en', string> = {
+  zh: '默认值：',
+  en: 'Default: ',
+}
+const getDefaultValueLabel = (lang: 'zh' | 'en') => {
+  if (lang === 'zh') {
+    return DEFAULT_VALUE_LABEL['zh']
+  }
+  return DEFAULT_VALUE_LABEL['en']
+}
+
+/**
+ * Traverses form configs and appends the default value (stored as `_defaultValue`) to each
+ * field's description, using a localized label. Must be called after i18n replacement so that
+ * the description is already in the target language before the suffix is appended.
+ */
+function appendDefaultsToDescriptions(form: PluginUIConfigForm, lang: 'zh' | 'en'): void {
+  for (const key in form) {
+    const field = form[key] as any
+    if (typeof field !== 'object' || field === null) continue
+    if ('_defaultValue' in field) {
+      const defaultStr =
+        field._defaultValue !== null && typeof field._defaultValue === 'object'
+          ? JSON.stringify(field._defaultValue)
+          : String(field._defaultValue)
+      const suffix = `${getDefaultValueLabel(lang)}${defaultStr}`
+      field.description = field.description ? `${field.description}<br/> ${suffix}` : suffix
+      delete field._defaultValue
+    }
+    if (field.children) appendDefaultsToDescriptions(field.children, lang)
+    if (field.valueChildren) appendDefaultsToDescriptions(field.valueChildren, lang)
+  }
 }
 
 export interface PluginUI {
@@ -236,6 +276,9 @@ export default function usePluginRenderForm(): PluginUI {
             i18nConfigs.value,
             lang.value,
           )
+        }
+        if (uiConfigs.value !== null && !isEmptyObj(uiConfigs.value.$form)) {
+          appendDefaultsToDescriptions(uiConfigs.value.$form, lang.value)
         }
       }
     } catch (error) {

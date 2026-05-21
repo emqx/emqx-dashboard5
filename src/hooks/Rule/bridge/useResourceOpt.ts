@@ -10,6 +10,7 @@ export default (): {
 } => {
   const createCommonForm = (): ResourceOpt => ({
     worker_pool_size: 4,
+    dispatch_strategy: 'per_clientid',
     health_check_interval: '15s',
     query_mode: 'async',
     max_buffer_bytes: '1GB',

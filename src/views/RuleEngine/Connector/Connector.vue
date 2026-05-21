@@ -16,6 +16,13 @@
             </el-col>
             <el-col v-bind="colProps">
               <div class="flex justify-end">
+                <LinkButton
+                  :icon="Setting"
+                  :to="{ name: 'rule-engine-security' }"
+                  :disabled="!$hasPermission('post')"
+                >
+                  <span> {{ t('BasicConfig.ssrfPolicy') }}</span>
+                </LinkButton>
                 <CreateButton @click="$router.push({ name: 'connector-create' })" />
               </div>
             </el-col>
@@ -160,6 +167,7 @@
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import { BridgeItem, Connector } from '@/types/rule'
+import { Setting } from '@element-plus/icons-vue'
 import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
 import TableItemDropDown from '../components/TableItemDropDown.vue'
 import TargetItemStatus from '../components/TargetItemStatus.vue'

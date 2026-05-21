@@ -132,7 +132,6 @@ export interface RetainerRetainer {
   allow_never_expire?: boolean
   backend?: RetainerMnesiaConfig
   delivery_rate?: string
-  /** @deprecated */
   enable?: boolean
   max_payload_size?: string
   max_publish_rate?: string

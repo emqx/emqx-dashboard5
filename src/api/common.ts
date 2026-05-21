@@ -11,6 +11,8 @@ import {
   OpenTelemetry,
   LicenseConfig,
   LicenseData,
+  LicenseSessionHwmHistoryPeriod,
+  LicenseSessionHwmHistoryResponse,
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { ClusterInfo, LoginResponse } from '@/types/typeAlias'
@@ -40,6 +42,17 @@ export function loadLicenseConfig(): Promise<LicenseConfig> {
 }
 export function updateLicenseConfig(body: LicenseConfig) {
   return http.put('/license/setting', body)
+}
+
+export function loadLicenseSessionHwmHistory(
+  period: LicenseSessionHwmHistoryPeriod = 'daily',
+  limit?: number,
+): Promise<LicenseSessionHwmHistoryResponse> {
+  const params: Record<string, string | number> = { period }
+  if (limit !== undefined) {
+    params.limit = limit
+  }
+  return http.get('/license/session_hwm_history', { params })
 }
 
 //metrics

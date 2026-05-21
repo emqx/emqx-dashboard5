@@ -1,7 +1,9 @@
 <template>
   <el-button :disabled="!$hasPermission('put')">
     <Settings class="mr-2" />
-    {{ tl('setting') }}
+    <slot>
+      {{ tl('setting') }}
+    </slot>
   </el-button>
 </template>
 

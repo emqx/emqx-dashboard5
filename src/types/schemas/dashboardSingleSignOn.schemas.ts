@@ -1,3 +1,21 @@
+export type PostSsoTokenExchange400Code =
+  (typeof PostSsoTokenExchange400Code)[keyof typeof PostSsoTokenExchange400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoTokenExchange400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostSsoTokenExchange400 = {
+  code?: PostSsoTokenExchange400Code
+  message?: string
+}
+
+export type PostSsoTokenExchange200 =
+  | DashboardSsoLoginSuccessResponse
+  | DashboardSsoMfaSetupResponse
+  | DashboardSsoMfaVerifyResponse
+
 export type GetSsoSamlMetadata404Code =
   (typeof GetSsoSamlMetadata404Code)[keyof typeof GetSsoSamlMetadata404Code]
 
@@ -136,6 +154,71 @@ export type GetSsoOidcCallback200 = {
   version?: string
 }
 
+export type PostSsoMfaVerify401Code =
+  (typeof PostSsoMfaVerify401Code)[keyof typeof PostSsoMfaVerify401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoMfaVerify401Code = {
+  UNAUTHORIZED: 'UNAUTHORIZED',
+} as const
+
+export type PostSsoMfaVerify401 = {
+  code?: PostSsoMfaVerify401Code
+  message?: string
+}
+
+export type PostSsoMfaVerify400Code =
+  (typeof PostSsoMfaVerify400Code)[keyof typeof PostSsoMfaVerify400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoMfaVerify400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostSsoMfaVerify400 = {
+  code?: PostSsoMfaVerify400Code
+  message?: string
+}
+
+export type PostSsoMfaSetupInfo401Code =
+  (typeof PostSsoMfaSetupInfo401Code)[keyof typeof PostSsoMfaSetupInfo401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoMfaSetupInfo401Code = {
+  UNAUTHORIZED: 'UNAUTHORIZED',
+} as const
+
+export type PostSsoMfaSetupInfo401 = {
+  code?: PostSsoMfaSetupInfo401Code
+  message?: string
+}
+
+export type PostSsoMfaSetup401Code =
+  (typeof PostSsoMfaSetup401Code)[keyof typeof PostSsoMfaSetup401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoMfaSetup401Code = {
+  UNAUTHORIZED: 'UNAUTHORIZED',
+} as const
+
+export type PostSsoMfaSetup401 = {
+  code?: PostSsoMfaSetup401Code
+  message?: string
+}
+
+export type PostSsoMfaSetup400Code =
+  (typeof PostSsoMfaSetup400Code)[keyof typeof PostSsoMfaSetup400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSsoMfaSetup400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostSsoMfaSetup400 = {
+  code?: PostSsoMfaSetup400Code
+  message?: string
+}
+
 export type PostSsoLoginBackend404Code =
   (typeof PostSsoLoginBackend404Code)[keyof typeof PostSsoLoginBackend404Code]
 
@@ -175,25 +258,10 @@ export type PostSsoLoginBackend302 = {
   message?: string
 }
 
-export type PostSsoLoginBackend200LicenseEdition =
-  (typeof PostSsoLoginBackend200LicenseEdition)[keyof typeof PostSsoLoginBackend200LicenseEdition]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSsoLoginBackend200LicenseEdition = {
-  enterprise: 'enterprise',
-  opensource: 'opensource',
-} as const
-
-export type PostSsoLoginBackend200License = {
-  edition?: PostSsoLoginBackend200LicenseEdition
-}
-
-export type PostSsoLoginBackend200 = {
-  license?: PostSsoLoginBackend200License
-  role?: string
-  token?: string
-  version?: string
-}
+export type PostSsoLoginBackend200 =
+  | DashboardSsoLoginSuccessResponse
+  | DashboardSsoMfaSetupResponse
+  | DashboardSsoMfaVerifyResponse
 
 export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
 
@@ -293,6 +361,7 @@ export interface SsoOidc {
   dashboard_addr?: string
   enable?: boolean
   fallback_methods?: string[]
+  force_mfa?: boolean
   issuer: string
   name_var?: string
   name_var_source?: SsoOidcNameVarSource
@@ -498,6 +567,7 @@ export interface DashboardSaml {
   backend: DashboardSamlBackend
   dashboard_addr?: string
   enable?: boolean
+  force_mfa?: boolean
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean
@@ -522,6 +592,49 @@ export interface DashboardLogin {
   backend: DashboardLoginBackend
 }
 
+export interface DashboardSsoTokenExchangeRequest {
+  backend: string
+  code: string
+  username: string
+}
+
+export interface DashboardSsoMfaVerifyResponse {
+  action?: string
+  backend?: string
+  username?: string
+  verify_token?: string
+}
+
+export interface DashboardSsoMfaSetupResponse {
+  action?: string
+  backend?: string
+  mechanism?: string
+  setup_token?: string
+  username?: string
+}
+
+export type DashboardSsoLoginSuccessResponseLicenseEdition =
+  (typeof DashboardSsoLoginSuccessResponseLicenseEdition)[keyof typeof DashboardSsoLoginSuccessResponseLicenseEdition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSsoLoginSuccessResponseLicenseEdition = {
+  enterprise: 'enterprise',
+  opensource: 'opensource',
+} as const
+
+export type DashboardSsoLoginSuccessResponseLicense = {
+  edition?: DashboardSsoLoginSuccessResponseLicenseEdition
+}
+
+export interface DashboardSsoLoginSuccessResponse {
+  backend?: string
+  license?: DashboardSsoLoginSuccessResponseLicense
+  role?: string
+  token?: string
+  username?: string
+  version?: string
+}
+
 export type DashboardSsoBackendStatusBackend =
   (typeof DashboardSsoBackendStatusBackend)[keyof typeof DashboardSsoBackendStatusBackend]
 
@@ -535,6 +648,32 @@ export const DashboardSsoBackendStatusBackend = {
 export interface DashboardSsoBackendStatus {
   backend: DashboardSsoBackendStatusBackend
   enable?: boolean
+  force_mfa?: boolean
   last_error?: string
   running?: boolean
+}
+
+export interface DashboardSsoMfaMfaVerifyRequest {
+  backend: string
+  totp_code: string
+  username: string
+  verify_token: string
+}
+
+export interface DashboardSsoMfaMfaSetupRequest {
+  backend: string
+  setup_token: string
+  totp_code: string
+  username: string
+}
+
+export interface DashboardSsoMfaMfaSetupInfoResponse {
+  mechanism: string
+  secret: string
+}
+
+export interface DashboardSsoMfaMfaSetupInfoRequest {
+  backend: string
+  setup_token: string
+  username: string
 }

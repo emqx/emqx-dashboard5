@@ -191,6 +191,14 @@ export default (
       'retry_interval',
       'bridge_mode',
       'max_inflight',
+      'tcp_opts',
+      'tcp_opts.active_n',
+      'tcp_opts.nodelay',
+      'tcp_opts.sndbuf',
+      'tcp_opts.recbuf',
+      'tcp_opts.buffer',
+      'tcp_opts.keepalive',
+      'tcp_opts.delay_send',
     ],
     fieldStartIndex,
   )
@@ -455,7 +463,13 @@ export default (
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
   const greptimeDBAdvancedFields = ['ttl', 'ts_column']
-  const mqttAdvancedFields = ['retry_interval', 'bridge_mode', 'max_inflight']
+  const mqttAdvancedFields = [
+    'retry_interval',
+    'bridge_mode',
+    'max_inflight',
+    'tcp_opts',
+    /^tcp_opts\./,
+  ]
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.MQTT]: mqttAdvancedFields,
     [BridgeType.Webhook]: httpAdvancedProps,

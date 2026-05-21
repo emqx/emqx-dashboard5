@@ -281,6 +281,7 @@ export interface ClusterLink {
   retry_interval?: string
   server: string
   ssl?: EmqxSslClientOpts
+  tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
 }
@@ -369,6 +370,7 @@ export interface ClusterLinkLinkConfigResponse {
   server: string
   ssl?: EmqxSslClientOpts
   status?: ClusterLinkLinkConfigResponseStatus
+  tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
 }

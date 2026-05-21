@@ -89,8 +89,22 @@ export type GetMtNsNsClientList404 = {
   message?: string
 }
 
+export type GetMtNsNsClientList400Code =
+  (typeof GetMtNsNsClientList400Code)[keyof typeof GetMtNsNsClientList400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsNsClientList400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtNsNsClientList400 = {
+  code?: GetMtNsNsClientList400Code
+  message?: string
+}
+
 export type GetMtNsNsClientListParams = {
   last_clientid?: string
+  first_clientid?: string
   limit?: number
 }
 
@@ -136,23 +150,78 @@ export type PostMtNsNs400 = {
   message?: string
 }
 
+export type GetMtNsListDetails400Code =
+  (typeof GetMtNsListDetails400Code)[keyof typeof GetMtNsListDetails400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsListDetails400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtNsListDetails400 = {
+  code?: GetMtNsListDetails400Code
+  message?: string
+}
+
 export type GetMtNsListDetailsParams = {
   last_ns?: string
+  first_ns?: string
   limit?: number
+}
+
+export type GetMtNsList400Code = (typeof GetMtNsList400Code)[keyof typeof GetMtNsList400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsList400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtNsList400 = {
+  code?: GetMtNsList400Code
+  message?: string
 }
 
 export type GetMtNsListParams = {
   last_ns?: string
+  first_ns?: string
   limit?: number
+}
+
+export type GetMtManagedNsListDetails400Code =
+  (typeof GetMtManagedNsListDetails400Code)[keyof typeof GetMtManagedNsListDetails400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtManagedNsListDetails400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtManagedNsListDetails400 = {
+  code?: GetMtManagedNsListDetails400Code
+  message?: string
 }
 
 export type GetMtManagedNsListDetailsParams = {
   last_ns?: string
+  first_ns?: string
   limit?: number
+}
+
+export type GetMtManagedNsList400Code =
+  (typeof GetMtManagedNsList400Code)[keyof typeof GetMtManagedNsList400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtManagedNsList400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtManagedNsList400 = {
+  code?: GetMtManagedNsList400Code
+  message?: string
 }
 
 export type GetMtManagedNsListParams = {
   last_ns?: string
+  first_ns?: string
   limit?: number
 }
 

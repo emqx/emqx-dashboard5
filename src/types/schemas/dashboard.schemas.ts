@@ -23,6 +23,21 @@ export type PostUsersUsernameMfaBody = {
   mechanism: PostUsersUsernameMfaBodyMechanism
 }
 
+export type PostUsersUsernameMfaBackend =
+  (typeof PostUsersUsernameMfaBackend)[keyof typeof PostUsersUsernameMfaBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameMfaBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type PostUsersUsernameMfaParams = {
+  backend?: PostUsersUsernameMfaBackend
+}
+
 export type DeleteUsersUsernameMfa404Code =
   (typeof DeleteUsersUsernameMfa404Code)[keyof typeof DeleteUsersUsernameMfa404Code]
 
@@ -34,6 +49,21 @@ export const DeleteUsersUsernameMfa404Code = {
 export type DeleteUsersUsernameMfa404 = {
   code?: DeleteUsersUsernameMfa404Code
   message?: string
+}
+
+export type DeleteUsersUsernameMfaBackend =
+  (typeof DeleteUsersUsernameMfaBackend)[keyof typeof DeleteUsersUsernameMfaBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsernameMfaBackend = {
+  ldap: 'ldap',
+  local: 'local',
+  oidc: 'oidc',
+  saml: 'saml',
+} as const
+
+export type DeleteUsersUsernameMfaParams = {
+  backend?: DeleteUsersUsernameMfaBackend
 }
 
 export type PostUsersUsernameChangePwd404Code =

@@ -46,17 +46,48 @@
         :rules="namespaceMqttRules"
         :model="namespaceMqttConfig"
       >
-        <el-form-item prop="tns">
+        <el-form-item>
+          <template #label>
+            <FormItemLabel
+              :label="tl('namespaceResolutionTiming')"
+              :desc="tl('namespaceResolutionTimingDesc')"
+            />
+          </template>
+          <el-radio-group v-model="namespaceSourceTiming">
+            <el-radio :value="NamespaceSourceTiming.BeforeAuth">
+              {{ tl('beforeAuthentication') }}
+            </el-radio>
+            <el-radio :value="NamespaceSourceTiming.AfterAuth">
+              {{ tl('afterAuthentication') }}
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item
+          v-if="namespaceSourceTiming === NamespaceSourceTiming.AfterAuth"
+          prop="post_auth_tns_expression"
+        >
+          <template #label>
+            <FormItemLabel
+              :max-height="360"
+              :label="tl('takeNamespaceFrom')"
+              :desc="tl('postAuthTnsExpressionDesc')"
+              desc-marked
+            />
+          </template>
+          <el-input v-model="record.post_auth_tns_expression" />
+        </el-form-item>
+        <el-form-item v-else prop="tns">
           <template #label>
             <FormItemLabel
               :max-height="300"
               :label="tl('takeNamespaceFrom')"
-              :desc="tl('takeNamespaceFromDesc')"
+              :desc="tl('takeNamespaceFromBeforeAuthDesc')"
               desc-marked
             />
           </template>
           <el-input v-model="namespaceMqttConfig.tns" />
         </el-form-item>
+
         <el-form-item prop="clientid_override">
           <template #label>
             <FormItemLabel
@@ -115,13 +146,20 @@ const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
 const DEFAULT_OVERRIDE_EXP = `concat([client_attrs.tns, '-', clientid])`
 
 const MULTI_TENANCY_KEY = 'multi_tenancy'
+enum NamespaceSourceTiming {
+  BeforeAuth = 'before_auth',
+  AfterAuth = 'after_auth',
+}
 
 const { t } = useI18n()
 
-const record = ref({
+const createDefaultRecord = () => ({
   default_max_sessions: 1000,
   allow_only_managed_namespaces: false,
+  post_auth_tns_expression: '',
 })
+const record = ref(createDefaultRecord())
+const namespaceSourceTiming = ref<NamespaceSourceTiming>(NamespaceSourceTiming.BeforeAuth)
 
 const props = defineProps({
   modelValue: {
@@ -160,7 +198,14 @@ const getNamespaceConfigs = async () => {
   try {
     isLoading.value = true
     const temp = await getConfigs(MULTI_TENANCY_KEY)
-    record.value = hoconToObject(temp)?.[MULTI_TENANCY_KEY]
+    const nextRecord = {
+      ...createDefaultRecord(),
+      ...(hoconToObject(temp)?.[MULTI_TENANCY_KEY] ?? {}),
+    }
+    record.value = nextRecord
+    namespaceSourceTiming.value = nextRecord.post_auth_tns_expression
+      ? NamespaceSourceTiming.AfterAuth
+      : NamespaceSourceTiming.BeforeAuth
   } catch (error) {
     //
   } finally {
@@ -169,12 +214,20 @@ const getNamespaceConfigs = async () => {
 }
 
 const FormRef = ref()
+const syncNamespaceSourceConfig = () => {
+  if (namespaceSourceTiming.value === NamespaceSourceTiming.BeforeAuth) {
+    record.value.post_auth_tns_expression = ''
+  } else {
+    namespaceMqttConfig.value.tns = ''
+  }
+}
 const updateNamespaceConfig = async () => {
   try {
     await FormRef.value.validate()
     const data = `multi_tenancy {
     allow_only_managed_namespaces = ${record.value.allow_only_managed_namespaces}, 
-    default_max_sessions = ${record.value.default_max_sessions}
+    default_max_sessions = ${record.value.default_max_sessions},
+    post_auth_tns_expression = ${JSON.stringify(record.value.post_auth_tns_expression ?? '')}
 }`
     await putConfigs(data)
     return Promise.resolve()
@@ -225,6 +278,7 @@ const handleOpen = async () => {
 
 const submit = async () => {
   try {
+    syncNamespaceSourceConfig()
     await namespaceMqttFormRef.value?.validate()
     await Promise.all([
       updateNamespaceConfig(),

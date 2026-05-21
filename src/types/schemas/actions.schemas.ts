@@ -659,6 +659,50 @@ export type GetActionsParams = {
   only_global?: boolean
 }
 
+export type GetActions200Item =
+  | ActionDiskLogGetBridgeV2
+  | BridgeOpentsGetBridgeV2
+  | BridgeAzureEventHubGetBridgeV2
+  | BridgeMatrixGetBridgeV2
+  | ActionDorisGetBridgeV2
+  | ConfluentGetBridgeV2
+  | BridgeMysqlGetBridgeV2
+  | BridgeKafkaGetBridgeV2
+  | BridgePgsqlGetBridgeV2
+  | BridgeKinesisGetBridgeV2
+  | ActionCockroachdbGetBridgeV2
+  | PulsarGetBridgeV2
+  | BridgeDatalayersGetBridgeV2
+  | ActionAlloydbGetBridgeV2
+  | BridgeTablestoreGetBridgeV2
+  | BridgeMongodbGetBridgeV2
+  | GcpPubsubProducerGetBridgeV2
+  | ActionSnowflakeAggregatedGetBridgeV2
+  | BridgeHttpGetBridgeV2
+  | SyskeeperGetBridgeV2
+  | BridgeCassaGetBridgeV2
+  | BridgeRabbitmqGetBridgeV2
+  | ActionRedshiftGetBridgeV2
+  | ActionAzureBlobStorageGetBridgeV2
+  | RedisGetBridgeV2
+  | BridgeInfluxdbGetBridgeV2
+  | BridgeClickhouseGetBridgeV2
+  | ActionS3tablesGetBridgeV2
+  | BridgeS3GetBridgeV2
+  | BridgeGreptimedbGetBridgeV2
+  | ActionBigqueryGetBridgeV2
+  | BridgeMqttPublisherGetBridgeV2
+  | ActionCouchbaseGetBridgeV2
+  | BridgeTimescaleGetBridgeV2
+  | BridgeDynamoGetBridgeV2
+  | ActionSnowflakeStreamingGetBridgeV2
+  | BridgeIotdbGetBridgeV2
+  | RocketmqGetBridgeV2
+  | BridgeTdengineGetBridgeV2
+  | BridgeSqlserverGetBridgeV2
+  | BridgeOracleGetBridgeV2
+  | BridgeElasticsearchGetBridgeV2
+
 export type GetActionTypes200Item =
   (typeof GetActionTypes200Item)[keyof typeof GetActionTypes200Item]
 
@@ -1011,18 +1055,6 @@ export const RedisPostBridgeV2Type = {
 export type RedisPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface RedisPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: RedisPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeRedisActionParameters
-  resource_opts?: RedisActionResourceOpts
-  tags?: string[]
-  type: RedisPostBridgeV2Type
-}
 
 export type RedisGetBridgeV2Type = (typeof RedisGetBridgeV2Type)[keyof typeof RedisGetBridgeV2Type]
 
@@ -2651,6 +2683,25 @@ export type BridgeOpentsGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export type BridgeOpentsActionParametersDataValue = string | number | number
+
+export interface BridgeOpentsActionParametersData {
+  metric: string
+  tags: BridgeOpentsActionParametersDataTags
+  timestamp?: string
+  value: BridgeOpentsActionParametersDataValue
+}
+
+export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
+
+export type BridgeOpentsActionParametersDataTags =
+  | string
+  | BridgeOpentsActionParametersDataTagsOneOf
+
+export interface BridgeOpentsActionParameters {
+  data?: BridgeOpentsActionParametersData[]
+}
+
 export interface BridgeOpentsGetBridgeV2 {
   connector: string
   description?: string
@@ -3435,18 +3486,6 @@ export type BridgeIotdbPostBridgeV2Parameters =
 export type BridgeIotdbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeIotdbPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeIotdbPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeIotdbPostBridgeV2Parameters
-  resource_opts?: BridgeIotdbActionResourceOpts
-  tags?: string[]
-  type: BridgeIotdbPostBridgeV2Type
-}
 
 export type BridgeIotdbGetBridgeV2Type =
   (typeof BridgeIotdbGetBridgeV2Type)[keyof typeof BridgeIotdbGetBridgeV2Type]

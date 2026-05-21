@@ -101,7 +101,8 @@ const ruleId = computed(() => fullName.value)
 const tab = computed(() => route.query.tab && Number(route.query.tab))
 const activeTab = ref(tab.value || DetailTab.Overview)
 
-const { getWebhookName, syncHeaders } = useWebhookForm()
+const { getWebhookName, syncHeaders, normalizeActionPathForSubmit, normalizeActionPathForDisplay } =
+  useWebhookForm()
 const infoLoading = ref(false)
 const webhookData: Ref<WebhookItem | undefined> = ref(undefined)
 const isSubmitting = ref(false)
@@ -133,6 +134,7 @@ const getWebhookData = async () => {
       connector: connectorData,
       enable: getEnableStatus(action as any, ruleData),
     }
+    normalizeActionPathForDisplay(webhookData.value)
   } catch (error) {
     //
   } finally {
@@ -184,7 +186,8 @@ const submit = async () => {
   }
   try {
     await FormCom.value.validate()
-    const data: any = checkNOmitFromObj(webhookData.value)
+    const data: any = checkNOmitFromObj(cloneDeep(webhookData.value))
+    normalizeActionPathForSubmit(data)
     isSubmitting.value = true
     syncHeaders(data)
     const connectorData = await handleConnectorDataBeforeUpdate(data.connector)

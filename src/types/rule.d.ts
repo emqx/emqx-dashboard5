@@ -77,6 +77,7 @@ export interface RuleItem extends RuleForm {
 
 export interface ResourceOpt {
   worker_pool_size: number
+  dispatch_strategy?: 'per_clientid' | 'random'
   request_ttl?: string
   health_check_interval: string
   query_mode: 'async' | 'sync'
