@@ -53,6 +53,16 @@
             </el-select>
           </el-col>
           <el-col v-bind="colProps">
+            <el-select
+              v-model="queryParams.node"
+              :placeholder="$t('Clients.node')"
+              clearable
+              @clear="handleSearch"
+            >
+              <el-option v-for="item in currentNodes" :value="item.node" :key="item.node" />
+            </el-select>
+          </el-col>
+          <el-col v-bind="colProps">
             <div class="el-input-group el-input-group--prepend">
               <div class="el-input-group__prepend">
                 <el-select v-model="queryParams.comparator">
@@ -69,7 +79,6 @@
               />
             </div>
           </el-col>
-          <el-col v-bind="colProps" />
         </template>
         <el-col v-bind="{ sm: 12, md: 12, lg: showMoreQuery ? 12 : 6 }" class="col-oper">
           <SearchButton @click="handleSearch" />
@@ -193,46 +202,32 @@ import {
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
 } from '@/common/constants'
 import { Client } from '@/types/client'
+import type { ListDataWithCursor } from '@/types/common'
 import { CheckStatus, ClientsExportFormat } from '@/types/enum'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import dayjs from 'dayjs'
 import { Download, UserX } from 'lucide-vue-next'
+import {
+  CONNECTED_AT_SUFFIX,
+  ClientListComparator as Comparator,
+  ClientListSearchType as SearchType,
+  doesClientMatchClientListQuery,
+  genClientListQueryParams,
+} from './clientListQuery'
+import type { ClientListQueryParams } from './clientListQuery'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
-
-enum Comparator {
-  After = 'gte',
-  Before = 'lte',
-}
-
-enum SearchType {
-  Exact = 'exact',
-  Fuzzy = 'fuzzy',
-}
-
-type QueryParams = {
-  like_username?: string
-  username?: string
-  like_clientid?: string
-  clientid?: string
-  ip_address?: string
-  conn_state?: string
-  gte_connected_at?: string
-  lte_connected_at?: string
-}
-
-const CONNECTED_AT_SUFFIX = '_connected_at'
 
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
 const route = useRoute()
 const showMoreQuery = ref(false)
-const tableData = ref([])
+const tableData = ref<Client[]>([])
 const selectedClients = ref<Client[]>([])
 const lockTable = ref(false)
 const TableCom = ref()
 const batchDeleteLoading = ref(false)
-const params = ref<QueryParams>({})
+const params = ref<ClientListQueryParams>({})
 const queryParams = ref<Record<string, any>>({
   comparator: Comparator.After,
   clientidSearchType: SearchType.Fuzzy,
@@ -242,6 +237,7 @@ const queryParams = ref<Record<string, any>>({
 const { page, limit, pageParams, cursorMap, hasNext, setCursor, resetPage } = useCursorPagination()
 const { updateParams, checkNewCursorParamsInQuery, updateCursorMap, getCursorMap } =
   usePaginationRemember('clients-detail')
+const { nodes: currentNodes } = useClusterNodes()
 const routeName = computed(() => route.name?.toString() || 'clients')
 
 const tableColumnFields = ref<Array<string>>(state.clientTableColumns)
@@ -301,40 +297,8 @@ const handleSelectedColumnChanged = (val: Array<string>) => {
   loadNodeClients()
 }
 
-const genQueryParams = (params: Record<string, any>) => {
-  const {
-    clientid,
-    username,
-    ip_address,
-    conn_state,
-    comparator,
-    connected_at,
-    usernameSearchType,
-    clientidSearchType,
-  } = params
-
-  const addLikeParam = (key: string, value: string, searchType: string) => {
-    if (!value) return undefined
-
-    const isFuzzy = searchType === SearchType.Fuzzy
-    const _key = isFuzzy ? `like_${key}` : key
-    const _value = isFuzzy ? value : value.split(',')
-
-    return { [_key]: _value }
-  }
-
-  const newParams: Record<string, any> = {
-    ...addLikeParam('clientid', clientid, clientidSearchType),
-    ...addLikeParam('username', username, usernameSearchType),
-    ip_address: ip_address || undefined,
-    conn_state: conn_state || undefined,
-  }
-
-  if (connected_at) {
-    newParams[`${comparator}${CONNECTED_AT_SUFFIX}`] = new Date(connected_at).toISOString()
-  }
-
-  return newParams
+const genQueryParams = (params: Record<string, any>): ClientListQueryParams => {
+  return genClientListQueryParams(params)
 }
 
 const handlePageChange = (no: number) => {
@@ -348,45 +312,18 @@ const handleSizeChange = (size: number) => {
   handlePageChange(1)
 }
 
-const handleExactSearchClient = async (params: Record<string, any>) => {
+const handleExactSearchClient = async (
+  params: Record<string, any>,
+): Promise<ListDataWithCursor<Client>> => {
   try {
     const {
       clientid,
 
-      username,
-      ip_address,
-      conn_state,
-      like_username,
-      gte_connected_at,
-      lte_connected_at,
+      ...restParams
     } = params
-    const data = await exactSearchClient(clientid)
-    let isMatchOther = true
-    if (username && data.username !== username) {
-      isMatchOther = false
-    }
-    if (ip_address && data.ip_address !== ip_address) {
-      isMatchOther = false
-    }
-    if (conn_state && data.connected !== (conn_state === 'connected')) {
-      isMatchOther = false
-    }
-    if (like_username && data.username.indexOf(like_username) === -1) {
-      isMatchOther = false
-    }
-    if (
-      gte_connected_at &&
-      new Date(data.connected_at).getTime() < new Date(gte_connected_at).getTime()
-    ) {
-      isMatchOther = false
-    }
-    if (
-      lte_connected_at &&
-      new Date(data.connected_at).getTime() > new Date(lte_connected_at).getTime()
-    ) {
-      isMatchOther = false
-    }
-    return Promise.resolve({ data: isMatchOther ? [data] : [] })
+    const data = (await exactSearchClient(clientid)) as unknown as Client
+    const isMatchOther = doesClientMatchClientListQuery(data, restParams)
+    return Promise.resolve({ data: isMatchOther ? [data] : [], meta: {} })
   } catch (error) {
     return Promise.reject(error)
   }
@@ -398,8 +335,10 @@ const getQueryDataAllParams = () => ({
   fields: getClientFields(),
 })
 
-const getQueryFunc = (params: Record<string, any>) =>
-  params.clientid ? handleExactSearchClient(params) : listClients(params)
+const getQueryFunc = (params: Record<string, any>): Promise<ListDataWithCursor<Client>> =>
+  params.clientid
+    ? handleExactSearchClient(params)
+    : (listClients(params) as unknown as Promise<ListDataWithCursor<Client>>)
 
 const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
@@ -446,6 +385,7 @@ const getParamsFromQuery = () => {
   }
   params.value = genQueryParams(queryParams.value)
   if (
+    queryParams.value.node ||
     queryParams.value.ip_address ||
     queryParams.value.conn_state ||
     queryParams.value.connected_at
