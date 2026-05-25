@@ -50,22 +50,6 @@ export type PutClusterLinksLinkName400 = {
   message?: string
 }
 
-export type PutClusterLinksLinkNameBody = {
-  clientid?: string
-  enable?: boolean
-  /** @minimum 0 */
-  max_inflight?: number
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: ClusterCreationOpts
-  retry_interval?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  topics: string[]
-  username?: string
-}
-
 export type GetClusterLinksLinkName404Code =
   (typeof GetClusterLinksLinkName404Code)[keyof typeof GetClusterLinksLinkName404Code]
 
@@ -239,6 +223,34 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
+export interface EmqxClientTcpOpts {
+  /** @minimum 0 */
+  active_n?: number
+  buffer?: string
+  delay_send?: boolean
+  keepalive?: boolean
+  nodelay?: boolean
+  recbuf?: string
+  sndbuf?: string
+}
+
+export type PutClusterLinksLinkNameBody = {
+  clientid?: string
+  enable?: boolean
+  /** @minimum 0 */
+  max_inflight?: number
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: ClusterCreationOpts
+  retry_interval?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  tcp_opts?: EmqxClientTcpOpts
+  topics: string[]
+  username?: string
+}
+
 export interface ClusterTimeout {
   /** @minimum 0 */
   timeout?: number
@@ -296,6 +308,15 @@ export type ClusterCreationOptsRequestTtl = 'infinity' | string
 
 export type ClusterCreationOptsHealthCheckTimeout = 'infinity' | string
 
+export type ClusterCreationOptsDispatchStrategy =
+  (typeof ClusterCreationOptsDispatchStrategy)[keyof typeof ClusterCreationOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ClusterCreationOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 /**
  * @deprecated
  */
@@ -304,6 +325,7 @@ export type ClusterCreationOptsAutoRestartInterval = string | 'infinity'
 export interface ClusterCreationOpts {
   /** @deprecated */
   auto_restart_interval?: ClusterCreationOptsAutoRestartInterval
+  dispatch_strategy?: ClusterCreationOptsDispatchStrategy
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
