@@ -124,10 +124,11 @@ const getClients = async (isBack?: boolean) => {
       limit: pageParams.value.limit,
     }
     getClientsCount()
-    const data = await getNamespaceClientList(props.namespace, params)
-    if (data.length === limit.value) {
-      setCursor(page.value + 1, data[data.length - 1])
-    } else if (data.length < limit.value && getCursor(page.value + 1)) {
+    const clientPage = await getNamespaceClientList(props.namespace, params)
+    const data = clientPage.data
+    if (clientPage.nextCursor) {
+      setCursor(page.value + 1, clientPage.nextCursor)
+    } else if (getCursor(page.value + 1)) {
       emptyCursorAfter(page.value + 1)
     }
     tableData.value = data
@@ -163,6 +164,7 @@ const handlePageChange = (no: number) => {
 
 const handleSizeChange = (size: number) => {
   limit.value = size
+  resetCursorMap()
   handlePageChange(1)
 }
 
@@ -180,6 +182,7 @@ const cleanBatchClients = async () => {
     isDeleteLoading.value = true
     await batchDisconnectClients(selectedClients.value)
     resetPage()
+    resetCursorMap()
     getClients()
     ElMessage.success(t('Clients.kickedOutSuc'))
     TableCom.value?.clearSelection?.()
