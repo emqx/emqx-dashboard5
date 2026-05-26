@@ -1172,6 +1172,8 @@ export interface AuthzRedisSentinel {
   pool_size?: number
   redis_type?: AuthzRedisSentinelRedisType
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   ssl?: EmqxSslClientOpts
   type: AuthzRedisSentinelType

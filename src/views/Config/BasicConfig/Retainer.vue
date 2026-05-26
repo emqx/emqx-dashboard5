@@ -16,6 +16,18 @@
         >
           <el-row>
             <el-col :span="21" class="custom-col">
+              <el-form-item prop="enable">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('retainerEnable')"
+                    :desc="tl('retainerEnableDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-switch v-model="retainerConfig.enable" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="21" class="custom-col">
               <el-form-item>
                 <template #label>
                   <FormItemLabel :label="tl('storageType')" :desc="tl('typeDesc')" />
@@ -190,6 +202,7 @@ const NO_INTERVAL_VALUE = '0s'
 const DISABLED_VALUE = 'disabled'
 
 const retainerConfig = ref<Retainer>({
+  enable: true,
   max_payload_size: '1MB',
   msg_clear_interval: NO_INTERVAL_VALUE,
   msg_expiry_interval: NO_INTERVAL_VALUE,

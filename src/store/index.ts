@@ -1,8 +1,11 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
+import type { SSOTokenExchangeResult } from '@/api/sso'
 import type { UserInfo, VersionInfo } from '@/types/common'
 import type { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
 import type { RuleEvent } from '@/types/rule'
+
+export type SSOmfaPending = Extract<SSOTokenExchangeResult, { action: string }>
 
 const getLang = () => {
   const langFromQuery = getValueFromQuery('lang')
@@ -98,6 +101,7 @@ export default createStore({
     loginBackend: getLoginBackend(),
     enableSQLAI: getEnableSQLAI(),
     emqxVersion: null as VersionInfo | null,
+    ssoMfaPending: null as null | SSOmfaPending,
     clusterDesc: '',
   },
   actions: {
@@ -231,6 +235,9 @@ export default createStore({
     /* rule page end */
     SET_EMQX_VERSION(state, versionInfo: VersionInfo) {
       state.emqxVersion = versionInfo
+    },
+    SET_SSO_MFA_PENDING(state, payload: SSOmfaPending | null) {
+      state.ssoMfaPending = payload
     },
     SET_CLUSTER_DESC(state, clusterDesc) {
       state.clusterDesc = clusterDesc

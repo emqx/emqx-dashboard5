@@ -275,6 +275,14 @@ export default {
     zh: 'Sentinel 名字',
     en: 'Sentinel Name',
   },
+  sentinelUsername: {
+    zh: 'Sentinel 用户名',
+    en: 'Sentinel Username',
+  },
+  sentinelPassword: {
+    zh: 'Sentinel 密码',
+    en: 'Sentinel Password',
+  },
   method: {
     zh: '请求方式',
     en: 'Method',

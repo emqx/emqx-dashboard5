@@ -347,6 +347,8 @@ export const SsoOidcNameVarSource = {
   userinfo: 'userinfo',
 } as const
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -426,8 +428,6 @@ export interface SsoClientFileJwks {
   type: SsoClientFileJwksType
 }
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
-
 export type LdapSslVerify = (typeof LdapSslVerify)[keyof typeof LdapSslVerify]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -463,6 +463,46 @@ export const LdapSslLogLevel = {
   notice: 'notice',
   warning: 'warning',
 } as const
+
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: LdapSslPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: LdapSslServerNameIndication
+  verify?: LdapSslVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
+export interface SsoLdap {
+  backend: SsoLdapBackend
+  base_dn: string
+  enable?: boolean
+  filter?: string
+  force_mfa?: boolean
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  query_timeout?: string
+  request_timeout?: string
+  server: string
+  ssl?: LdapSsl
+  username: string
+}
 
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
@@ -506,30 +546,6 @@ export const EmqxSslClientOptsLogLevel = {
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
-}
-
-export interface LdapSsl {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  /** @minimum 0 */
-  depth?: number
-  enable?: boolean
-  hibernate_after?: string
-  keyfile?: string
-  log_level?: LdapSslLogLevel
-  managed_certs?: EmqxManagedCerts
-  middlebox_comp_mode?: boolean
-  partial_chain?: LdapSslPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  server_name_indication?: LdapSslServerNameIndication
-  verify?: LdapSslVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export interface EmqxSslClientOpts {

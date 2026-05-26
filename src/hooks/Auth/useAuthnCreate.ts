@@ -85,6 +85,8 @@ export default function useAuthnCreate() {
       server: '127.0.0.1:6379',
       servers: '127.0.0.1:6379,127.0.0.2:6379,127.0.0.3:6379',
       sentinel: 'mysentinel',
+      sentinel_username: '',
+      sentinel_password: '',
       redis_type: 'single',
       database: 0,
       password: '',

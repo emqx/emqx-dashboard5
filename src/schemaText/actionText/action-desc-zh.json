@@ -19,7 +19,9 @@
     "server": "驱动类型为 Arrow Flight 时，默认端口应为 8360"
   },
   "quasardb": {
-    "health_check_table":
-      "在动作健康检查中使用的表名。目前，无法直接从 SQL 中推断表名。如果设置，此值将在 `SHOW TABLE <table>` 语句中用于在动作健康检查期间探测表的存在。"
+    "health_check_table": "在动作健康检查中使用的表名。目前，无法直接从 SQL 中推断表名。如果设置，此值将在 `SHOW TABLE <table>` 语句中用于在动作健康检查期间探测表的存在。"
+  },
+  "influxdb": {
+    "ping_with_auth": "控制 EMQX 在发送 /ping 健康检查请求时是否附带连接器认证信息。如果你的 InfluxDB 服务要求 /ping 也进行认证，请启用此项。默认值为 false，即保持原有行为，不在 /ping 请求中附带认证信息。"
   }
 }

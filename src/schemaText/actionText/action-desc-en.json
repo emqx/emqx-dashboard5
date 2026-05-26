@@ -20,5 +20,8 @@
   },
   "quasardb": {
     "health_check_table": "Table name to use in Action health checks. Currently, it's not possible to infer the table name directly from the SQL. If set, this value will be used in a `SHOW TABLE <table>` statement to probe the table existence during Action health checks."
+  },
+  "influxdb": {
+    "ping_with_auth": "Controls whether EMQX includes connector credentials in /ping health-check requests. Enable this option if your InfluxDB service requires authentication on /ping. The default is false, which preserves the previous behavior and sends /ping without authentication."
   }
 }

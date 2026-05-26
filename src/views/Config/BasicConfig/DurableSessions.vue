@@ -30,7 +30,7 @@ const { t } = useI18n()
 
 let rawData: any = undefined
 const SchemaFormCom = ref()
-const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+const checkDataIsChanged = () => rawData && !isEqual(SchemaFormCom.value?.configForm, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const accordingTo = { ref: `#/components/schemas/emqx.durable_sessions` }

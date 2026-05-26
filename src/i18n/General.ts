@@ -51,6 +51,18 @@ export default {
     zh: '创建用户',
     en: 'Create',
   },
+  userScopes: {
+    zh: '权限范围',
+    en: 'Scopes',
+  },
+  userScopesPlaceholder: {
+    zh: '未选择时按角色默认权限授权',
+    en: 'When empty, fall back to the role default',
+  },
+  userScopesAdminOnlyTip: {
+    zh: '仅管理员可持有此权限范围',
+    en: 'Only administrators may hold this scope',
+  },
   source: {
     zh: '来源',
     en: 'Source',
@@ -258,6 +270,14 @@ export default {
   SSOEnable: {
     zh: '启用 {backend} SSO',
     en: 'Enable {backend} SSO',
+  },
+  forceMFA: {
+    zh: '强制启用 MFA',
+    en: 'Force MFA',
+  },
+  forceMFADesc: {
+    zh: '开启后，通过该 SSO 后端登录的用户需要设置或验证 MFA。若管理员曾为某个用户停用 MFA，该用户不会受此配置影响；需重新为该用户启用 MFA 后才会生效。',
+    en: 'When enabled, users signing in through this SSO backend must set up or verify MFA. If MFA was previously disabled for a user by an administrator, this setting will not apply to that user until MFA is re-enabled for them.',
   },
   baseDN: {
     zh: '基本 DN',
@@ -699,6 +719,10 @@ export default {
     en: 'Disabling MFA may affect account security, confirm to disable?',
     zh: '禁用 MFA 可能影响账户安全，确认禁用？',
   },
+  disableMFAForbiddenBySSO: {
+    en: 'MFA cannot be disabled because force MFA is enabled in the current SSO configuration.',
+    zh: '当前无法停用 MFA，因为当前类型单点登录配置启用了强制 MFA。',
+  },
   enableMFA: {
     en: 'Enable MFA',
     zh: '启用 MFA',
@@ -710,6 +734,10 @@ export default {
   currentEnableUserMFATip: {
     en: 'After enabling, the user will be logged out immediately and set up TOTP secret key in the next login.',
     zh: '启用后，将立即退出登录，进行 TOTP 设置。',
+  },
+  ssoMFASettingsTip: {
+    en: 'For SSO users, Dashboard currently supports disabling MFA only. Re-enabling MFA depends on the SSO login flow and backend force_mfa policy.',
+    zh: '对于 SSO 用户，Dashboard 当前仅支持禁用 MFA。重新启用 MFA 依赖 SSO 登录流程和后端的 force_mfa 策略。',
   },
   mfa: {
     en: 'Multi-Factor Authentication',

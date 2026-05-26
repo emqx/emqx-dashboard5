@@ -56,7 +56,12 @@
     </el-form>
     <template #footer>
       <CancelButton @click="cancelSettings" />
-      <el-button type="primary" @click="updateSettings" :loading="isSubmitting">
+      <el-button
+        type="primary"
+        :loading="isSubmitting"
+        :disabled="!$hasPermission('put')"
+        @click="updateSettings"
+      >
         {{ t('Base.update') }}
       </el-button>
     </template>
@@ -84,7 +89,11 @@
             <RefreshButton class="icon-button" no-text @click="loadCacheMetrics" />
           </el-tooltip>
           <el-tooltip :content="tl('resetNodeCacheStatus')" placement="top">
-            <el-button class="icon-button" @click="resetCacheMetrics">
+            <el-button
+              class="icon-button"
+              :disabled="!$hasPermission('post')"
+              @click="resetCacheMetrics"
+            >
               <X class="w-4 h-4" />
             </el-button>
           </el-tooltip>

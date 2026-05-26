@@ -271,6 +271,8 @@ export default (
         'password',
         'database',
         'sentinel',
+        'sentinel_username',
+        'sentinel_password',
         'pool_size',
         'ssl',
       ],
@@ -285,7 +287,18 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.InfluxDB]: createOrderObj(
-      ['server', 'parameters', 'token', 'org', 'bucket', 'database', 'username', 'password', 'ssl'],
+      [
+        'server',
+        'parameters',
+        'token',
+        'org',
+        'bucket',
+        'database',
+        'username',
+        'password',
+        'ping_with_auth',
+        'ssl',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.AWSTimestream]: createOrderObj(

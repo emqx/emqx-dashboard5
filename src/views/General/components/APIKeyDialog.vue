@@ -46,7 +46,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('role', 'Dashboard')" prop="role">
-            <el-select v-model="formData.role" :disabled="operationType === 'view'">
+            <el-select
+              v-model="formData.role"
+              :disabled="operationType === 'view'"
+              @change="handleRoleChanged"
+            >
               <el-option
                 v-for="{ label, value } in apiKeyRoleOptions"
                 :key="value"
@@ -101,6 +105,30 @@
             <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
+        <el-col :span="24" v-if="!isPublisherRole">
+          <el-form-item :label="tl('scopes')" prop="scopes">
+            <el-select
+              v-model="formData.scopes"
+              multiple
+              clearable
+              :placeholder="tl('scopesPlaceholder')"
+              :disabled="operationType === 'view'"
+              style="width: 100%"
+            >
+              <el-option
+                v-for="scope in availableScopes"
+                :key="scope.name"
+                :value="scope.name"
+                :label="getScopeLabel(scope.name)"
+              >
+                <span>{{ getScopeLabel(scope.name) }}</span>
+                <span class="scope-desc">
+                  {{ getScopeDesc(scope.name) }}
+                </span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
         <el-col :span="24">
           <el-form-item :label="t('Base.note')" prop="description">
             <el-input
@@ -133,9 +161,15 @@
 </template>
 
 <script lang="ts" setup>
-import { createAPIKey, updateAPIKey } from '@/api/systemModule'
+import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
+import { UserRole } from '@/types/enum'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
-import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
+import {
+  APIKey,
+  APIKeyFormWhenCreating,
+  APIKeyFormWhenEditing,
+  APIKeyScope,
+} from '@/types/systemModule'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
@@ -159,7 +193,7 @@ const emit = defineEmits<{
   (e: 'submitted'): void
 }>()
 
-const { t } = useI18n()
+const { t, te } = useI18n()
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
@@ -170,10 +204,12 @@ const createRawFormData = () => ({
   desc: '',
   enable: true,
   role: 'administrator',
+  scopes: undefined as string[] | undefined,
 })
 
 const formCom = ref()
 const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
+const availableScopes: Ref<APIKeyScope[]> = ref([])
 const { createLetterStartRule } = useFormRules()
 const rules = {
   name: [
@@ -233,6 +269,9 @@ const showDialog = computed({
 
 watch(showDialog, async (val) => {
   if (val) {
+    getAPIKeyScopes().then((scopes) => {
+      availableScopes.value = scopes
+    })
     if (props.operationType !== 'create') {
       formData.value = { ...(props.APIKeyData as APIKey) }
       if (props.operationType === 'view') {
@@ -252,12 +291,32 @@ watch(showDialog, async (val) => {
 const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
+const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+
+const handleRoleChanged = () => {
+  if (formData.value.role === UserRole.Publisher) {
+    formData.value.scopes = undefined
+  }
+}
+
+const getScopeLabel = (name: string): string => {
+  const key = `APIKey.scopeLabel_${name}`
+  return te(key) ? t(key) : titleCase(name)
+}
+
+const getScopeDesc = (name: string): string => {
+  const key = `APIKey.scopeDesc_${name}`
+  return te(key) ? t(key) : name
+}
 
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
+const handleDataForSubmitting = (formData: APIKeyFormWhenCreating) => {
   const ret = { ...formData }
+  if (ret.role === UserRole.Publisher) {
+    ret.scopes = undefined
+  }
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
@@ -271,13 +330,13 @@ const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
 
 const { processUserRecordForSubmit, processAPIKeyRecordForUpdating } = useNamespaceUser()
 const submitAddedData = () =>
-  createAPIKey(handleExpiredAt(processUserRecordForSubmit(formData.value)))
+  createAPIKey(processUserRecordForSubmit(handleDataForSubmitting(formData.value)))
 
 const submitUpdatedData = () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing
   return updateAPIKey(
     name,
-    handleExpiredAt(processAPIKeyRecordForUpdating(data) as APIKeyFormWhenCreating),
+    processAPIKeyRecordForUpdating(handleDataForSubmitting(data as APIKeyFormWhenCreating)),
   )
 }
 
@@ -289,8 +348,10 @@ const submit = async () => {
       const data = await submitAddedData()
       createdResult.value = data
       showResultDialog.value = true
+      ElMessage.success(t('Base.createSuccess'))
     } else if (props.operationType === 'edit') {
       await submitUpdatedData()
+      ElMessage.success(t('Base.updateSuccess'))
     }
     emit('submitted')
     showDialog.value = false
@@ -330,5 +391,11 @@ const submit = async () => {
       margin-left: 8px;
     }
   }
+}
+.scope-desc {
+  color: var(--el-text-color-secondary);
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: normal;
 }
 </style>

@@ -1,3 +1,4 @@
+import { parseLinkPaginationCursor, LinkPaginationCursorName } from '@/common/linkPagination'
 import http from '@/common/http'
 import {
   AlarmSettings,
@@ -18,6 +19,41 @@ import {
   NamespaceConfig,
   NamespaceDetailItem,
 } from '@/types/typeAlias'
+import type { AxiosResponse } from 'axios'
+
+export type LinkPaginatedResult<T> = {
+  data: T
+  nextCursor?: string
+  nextCursorName?: LinkPaginationCursorName
+}
+
+const getResponseHeader = (response: AxiosResponse, name: string) => {
+  const headers = response.headers as Record<string, unknown> & {
+    get?: (headerName: string) => unknown
+  }
+  return headers.get?.(name) ?? headers[name.toLowerCase()] ?? headers[name]
+}
+
+const toLinkPaginatedResult = <T>(response: AxiosResponse<T>): LinkPaginatedResult<T> => {
+  const nextCursor = parseLinkPaginationCursor(getResponseHeader(response, 'link'))
+  return {
+    data: response.data,
+    ...(nextCursor
+      ? {
+          nextCursor: nextCursor.value,
+          nextCursorName: nextCursor.name,
+        }
+      : {}),
+  }
+}
+
+const getLinkPaginated = async <T>(
+  url: string,
+  params: Record<string, unknown>,
+): Promise<LinkPaginatedResult<T>> => {
+  const response = await http.get<T, AxiosResponse<T>>(url, { params, returnRawResponse: true })
+  return toLinkPaginatedResult(response)
+}
 
 export const getClusterConfigs = (): Promise<Cluster> => http.get('/configs/cluster')
 
@@ -64,8 +100,9 @@ export const updateFileTransConfigs = (data: FileTransferConf): Promise<FileTran
   http.put('/configs/file_transfer', data)
 
 // Multi-tenancy API functions
-export const getNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
-  http.get('/mt/ns_list', { params })
+export const getNamespaceList = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginatedResult<Array<string>>> => getLinkPaginated('/mt/ns_list', params)
 
 export const getNamespaceClientCount = (namespace: string): Promise<{ count: number }> =>
   http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_count`)
@@ -81,17 +118,18 @@ export const updateNamespaceConfig = (
   data: NamespaceConfig,
 ): Promise<NamespaceConfig> => http.put(`/mt/ns/${encodeURIComponent(namespace)}/config`, data)
 
-export const getManagedNamespaceList = (params: GetNamespaceListParams): Promise<Array<string>> =>
-  http.get('/mt/managed_ns_list', { params })
+export const getManagedNamespaceList = (
+  params: GetNamespaceListParams,
+): Promise<LinkPaginatedResult<Array<string>>> => getLinkPaginated('/mt/managed_ns_list', params)
 
 export const kickAllClientsInNamespace = (namespace: string): Promise<void> =>
   http.post(`/mt/ns/${encodeURIComponent(namespace)}/kick_all_clients`)
 
 export const getNamespaceClientList = (
   namespace: string,
-  params: { last_clientid?: string; limit: number },
-): Promise<Array<string>> =>
-  http.get(`/mt/ns/${encodeURIComponent(namespace)}/client_list`, { params })
+  params: { last_clientid?: string; first_clientid?: string; limit: number },
+): Promise<LinkPaginatedResult<Array<string>>> =>
+  getLinkPaginated(`/mt/ns/${encodeURIComponent(namespace)}/client_list`, params)
 
 export const deleteManagedNamespace = (namespace: string): Promise<void> =>
   http.delete(`/mt/ns/${encodeURIComponent(namespace)}`)
@@ -104,11 +142,13 @@ export const createManagedNamespace = (namespace: string): Promise<void> =>
 
 export const getManagedDetailNamespaceList = (
   params: GetNamespaceListParams,
-): Promise<Array<NamespaceDetailItem>> => http.get('/mt/managed_ns_list_details', { params })
+): Promise<LinkPaginatedResult<Array<NamespaceDetailItem>>> =>
+  getLinkPaginated('/mt/managed_ns_list_details', params)
 
 export const getDetailNamespaceList = (
   params: GetNamespaceListParams,
-): Promise<Array<NamespaceDetailItem>> => http.get('/mt/ns_list_details', { params })
+): Promise<LinkPaginatedResult<Array<NamespaceDetailItem>>> =>
+  getLinkPaginated('/mt/ns_list_details', params)
 
 export const getNamespaceMetrics = (namespace: string): Promise<NamespaceMetrics> =>
   http.get(`/mt/ns/${encodeURIComponent(namespace)}/metrics`)

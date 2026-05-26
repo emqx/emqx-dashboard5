@@ -354,10 +354,14 @@ export default (
       }
 
       const sentinelOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Sentinel))
-      const { servers: sentinelServers } = sentinelOne?.properties || {}
+      const { servers: sentinelServers, sentinel_password: sentinelPwd } =
+        sentinelOne?.properties || {}
       if (sentinelServers) {
         sentinelServers.componentProps = { type: 'textarea', rows: 3 }
       }
+      // if (sentinelPwd?.type === 'string') {
+      //   setPwdFormat(sentinelPwd)
+      // }
 
       const clusterOne = oneOf?.find((item) => item.$ref?.includes(RedisType.Cluster))
       const { servers: clusterServers } = clusterOne?.properties || {}

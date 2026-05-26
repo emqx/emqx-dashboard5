@@ -34,6 +34,8 @@ export default function useProcessAuthData() {
     const { redis_type } = data
     if (redis_type !== 'sentinel') {
       delete tempData.sentinel
+      delete tempData.sentinel_username
+      delete tempData.sentinel_password
     }
     if (redis_type !== 'single') {
       delete tempData.server

@@ -116,12 +116,12 @@ export default {
     en: 'This plugin does not support configuration via the Dashboard.',
   },
   pluginInstallGuidance: {
-    zh: `为确保系统安全，EMQX 不允许直接通过 Dashboard 安装插件。点击“安装”按钮前，需先使用命令 \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` 授权插件安装，命令行执行后对集群内所有节点生效。安装完成后，授权将失效，如需再次安装插件，请重新授权。<br /><br />您也可以通过其他方法将插件包上传到 EMQX 服务器的 plugins/ 目录，并解压安装包进行安装。`,
-    en: `To ensure system security, EMQX does not allow direct installation of plugins through the Dashboard. Before clicking the "Install" button, you need to use the command \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` to allow plugin installation. After the installation is complete, the current authorization expires. If you need to install it again, you need to authorize again. <br /><br />You can also upload the plugin package to the plugins/ directory on the EMQX server and extract the package for installation.`,
+    zh: `为确保系统安全，EMQX 不允许直接通过 Dashboard 安装插件。点击“安装”按钮前，需先使用命令 \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` 授权插件安装，命令行执行后对集群内所有节点生效。授权 5 分钟内有效，过期后需重新授权。<br /><br />为更高的安全性，可在命令末尾追加 \`sha256:{'{'}HEX{'}'}\` 将授权绑定到具体的安装包内容（64 位小写十六进制摘要）。<br /><br />您也可以通过其他方法将插件包上传到 EMQX 服务器的 plugins/ 目录，并解压安装包进行安装。`,
+    en: `To ensure system security, EMQX does not allow direct installation of plugins through the Dashboard. Before clicking the "Install" button, you need to use the command \`emqx ctl plugins allow {'{'}NAME{'}'}-{'{'}VSN{'}'}\` to allow plugin installation. The grant is valid for 5 minutes, after which you need to authorize again.<br /><br />For stronger guarantees you may append \`sha256:{'{'}HEX{'}'}\` (a 64-character lowercase hex digest) to bind the grant to a specific package payload.<br /><br />You can also upload the plugin package to the plugins/ directory on the EMQX server and extract the package for installation.`,
   },
   pluginInstallCommand: {
-    zh: '授权插件安装命令：',
-    en: 'Authorization command for plugin installation:',
+    zh: '授权插件安装命令',
+    en: 'Authorization command for plugin installation',
   },
   pleaseUploadPluginFirst: {
     zh: '请先上传插件包',

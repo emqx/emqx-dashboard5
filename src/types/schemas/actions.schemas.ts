@@ -659,50 +659,6 @@ export type GetActionsParams = {
   only_global?: boolean
 }
 
-export type GetActions200Item =
-  | ActionDiskLogGetBridgeV2
-  | BridgeOpentsGetBridgeV2
-  | BridgeAzureEventHubGetBridgeV2
-  | BridgeMatrixGetBridgeV2
-  | ActionDorisGetBridgeV2
-  | ConfluentGetBridgeV2
-  | BridgeMysqlGetBridgeV2
-  | BridgeKafkaGetBridgeV2
-  | BridgePgsqlGetBridgeV2
-  | BridgeKinesisGetBridgeV2
-  | ActionCockroachdbGetBridgeV2
-  | PulsarGetBridgeV2
-  | BridgeDatalayersGetBridgeV2
-  | ActionAlloydbGetBridgeV2
-  | BridgeTablestoreGetBridgeV2
-  | BridgeMongodbGetBridgeV2
-  | GcpPubsubProducerGetBridgeV2
-  | ActionSnowflakeAggregatedGetBridgeV2
-  | BridgeHttpGetBridgeV2
-  | SyskeeperGetBridgeV2
-  | BridgeCassaGetBridgeV2
-  | BridgeRabbitmqGetBridgeV2
-  | ActionRedshiftGetBridgeV2
-  | ActionAzureBlobStorageGetBridgeV2
-  | RedisGetBridgeV2
-  | BridgeInfluxdbGetBridgeV2
-  | BridgeClickhouseGetBridgeV2
-  | ActionS3tablesGetBridgeV2
-  | BridgeS3GetBridgeV2
-  | BridgeGreptimedbGetBridgeV2
-  | ActionBigqueryGetBridgeV2
-  | BridgeMqttPublisherGetBridgeV2
-  | ActionCouchbaseGetBridgeV2
-  | BridgeTimescaleGetBridgeV2
-  | BridgeDynamoGetBridgeV2
-  | ActionSnowflakeStreamingGetBridgeV2
-  | BridgeIotdbGetBridgeV2
-  | RocketmqGetBridgeV2
-  | BridgeTdengineGetBridgeV2
-  | BridgeSqlserverGetBridgeV2
-  | BridgeOracleGetBridgeV2
-  | BridgeElasticsearchGetBridgeV2
-
 export type GetActionTypes200Item =
   (typeof GetActionTypes200Item)[keyof typeof GetActionTypes200Item]
 
@@ -845,6 +801,15 @@ export const SyskeeperCreationOptsQueryMode = {
 
 export type SyskeeperCreationOptsHealthCheckTimeout = 'infinity' | string
 
+export type SyskeeperCreationOptsDispatchStrategy =
+  (typeof SyskeeperCreationOptsDispatchStrategy)[keyof typeof SyskeeperCreationOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SyskeeperCreationOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 /**
  * @deprecated
  */
@@ -856,6 +821,7 @@ export interface SyskeeperCreationOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: SyskeeperCreationOptsDispatchStrategy
   /** @deprecated */
   enable_queue?: boolean
   health_check_interval?: string
@@ -998,10 +964,20 @@ export const RocketmqActionResourceOptsQueryMode = {
 
 export type RocketmqActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type RocketmqActionResourceOptsDispatchStrategy =
+  (typeof RocketmqActionResourceOptsDispatchStrategy)[keyof typeof RocketmqActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RocketmqActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface RocketmqActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: RocketmqActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: RocketmqActionResourceOptsHealthCheckTimeout
@@ -1056,6 +1032,18 @@ export type RedisPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export interface RedisPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: RedisPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeRedisActionParameters
+  resource_opts?: RedisActionResourceOpts
+  tags?: string[]
+  type: RedisPostBridgeV2Type
+}
+
 export type RedisGetBridgeV2Type = (typeof RedisGetBridgeV2Type)[keyof typeof RedisGetBridgeV2Type]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1106,10 +1094,20 @@ export const RedisActionResourceOptsQueryMode = {
 
 export type RedisActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type RedisActionResourceOptsDispatchStrategy =
+  (typeof RedisActionResourceOptsDispatchStrategy)[keyof typeof RedisActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RedisActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface RedisActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: RedisActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: RedisActionResourceOptsHealthCheckTimeout
@@ -1129,16 +1127,6 @@ export type PulsarPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface PulsarPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: PulsarPutBridgeV2FallbackActionsItem[]
-  parameters: PulsarActionParameters
-  resource_opts?: PulsarActionResourceOpts
-  tags?: string[]
-}
-
 export interface PulsarProducerPulsarMessage {
   key?: string
   value?: string
@@ -1155,6 +1143,18 @@ export const PulsarPostBridgeV2Type = {
 export type PulsarPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface PulsarPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: PulsarPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: PulsarActionParameters
+  resource_opts?: PulsarActionResourceOpts
+  tags?: string[]
+  type: PulsarPostBridgeV2Type
+}
 
 export type PulsarGetBridgeV2Type =
   (typeof PulsarGetBridgeV2Type)[keyof typeof PulsarGetBridgeV2Type]
@@ -1210,7 +1210,17 @@ export const PulsarActionResourceOptsQueryMode = {
 
 export type PulsarActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type PulsarActionResourceOptsDispatchStrategy =
+  (typeof PulsarActionResourceOptsDispatchStrategy)[keyof typeof PulsarActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PulsarActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface PulsarActionResourceOpts {
+  dispatch_strategy?: PulsarActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: PulsarActionResourceOptsHealthCheckTimeout
@@ -1358,10 +1368,20 @@ export const GcpPubsubProducerActionResourceOptsQueryMode = {
 
 export type GcpPubsubProducerActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type GcpPubsubProducerActionResourceOptsDispatchStrategy =
+  (typeof GcpPubsubProducerActionResourceOptsDispatchStrategy)[keyof typeof GcpPubsubProducerActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GcpPubsubProducerActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface GcpPubsubProducerActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: GcpPubsubProducerActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: GcpPubsubProducerActionResourceOptsHealthCheckTimeout
@@ -1728,21 +1748,6 @@ export type BridgeTdengineGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeTdengineGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeTdengineGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeTdengineActionParameters
-  resource_opts?: BridgeTdengineActionResourceOpts
-  status?: BridgeTdengineGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeTdengineGetBridgeV2Type
-}
-
 export type BridgeTdengineActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeTdengineActionResourceOptsQueryMode =
@@ -1756,10 +1761,20 @@ export const BridgeTdengineActionResourceOptsQueryMode = {
 
 export type BridgeTdengineActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeTdengineActionResourceOptsDispatchStrategy =
+  (typeof BridgeTdengineActionResourceOptsDispatchStrategy)[keyof typeof BridgeTdengineActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeTdengineActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeTdengineActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeTdengineActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeTdengineActionResourceOptsHealthCheckTimeout
@@ -1781,6 +1796,21 @@ export interface BridgeTdengineActionParameters {
   undefined_vars_as_null?: boolean
 }
 
+export interface BridgeTdengineGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeTdengineGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeTdengineActionParameters
+  resource_opts?: BridgeTdengineActionResourceOpts
+  status?: BridgeTdengineGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeTdengineGetBridgeV2Type
+}
+
 export type BridgeTablestoreTablestoreFieldsValue = string | number | boolean
 
 export type BridgeTablestoreTablestoreFieldsIsint = string | boolean
@@ -1797,6 +1827,16 @@ export interface BridgeTablestoreTablestoreFields {
 export type BridgeTablestorePutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgeTablestorePutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeTablestorePutBridgeV2FallbackActionsItem[]
+  parameters: BridgeTablestoreActionParameters
+  resource_opts?: BridgeTablestoreActionResourceOpts
+  tags?: string[]
+}
 
 export type BridgeTablestorePostBridgeV2Type =
   (typeof BridgeTablestorePostBridgeV2Type)[keyof typeof BridgeTablestorePostBridgeV2Type]
@@ -1873,10 +1913,20 @@ export const BridgeTablestoreActionResourceOptsQueryMode = {
 
 export type BridgeTablestoreActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeTablestoreActionResourceOptsDispatchStrategy =
+  (typeof BridgeTablestoreActionResourceOptsDispatchStrategy)[keyof typeof BridgeTablestoreActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeTablestoreActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeTablestoreActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeTablestoreActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeTablestoreActionResourceOptsHealthCheckTimeout
@@ -1890,16 +1940,6 @@ export interface BridgeTablestoreActionResourceOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
-}
-
-export interface BridgeTablestorePutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeTablestorePutBridgeV2FallbackActionsItem[]
-  parameters: BridgeTablestoreActionParameters
-  resource_opts?: BridgeTablestoreActionResourceOpts
-  tags?: string[]
 }
 
 export type BridgeTablestoreActionParametersTimestamp = string | number
@@ -1938,16 +1978,6 @@ export type BridgeSqlserverPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeSqlserverPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeSqlserverPutBridgeV2FallbackActionsItem[]
-  parameters: BridgeSqlserverActionParameters
-  resource_opts?: BridgeSqlserverActionResourceOpts
-  tags?: string[]
-}
-
 export type BridgeSqlserverPostBridgeV2Type =
   (typeof BridgeSqlserverPostBridgeV2Type)[keyof typeof BridgeSqlserverPostBridgeV2Type]
 
@@ -1959,18 +1989,6 @@ export const BridgeSqlserverPostBridgeV2Type = {
 export type BridgeSqlserverPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeSqlserverPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeSqlserverPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeSqlserverActionParameters
-  resource_opts?: BridgeSqlserverActionResourceOpts
-  tags?: string[]
-  type: BridgeSqlserverPostBridgeV2Type
-}
 
 export type BridgeSqlserverGetBridgeV2Type =
   (typeof BridgeSqlserverGetBridgeV2Type)[keyof typeof BridgeSqlserverGetBridgeV2Type]
@@ -1995,21 +2013,6 @@ export type BridgeSqlserverGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeSqlserverGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeSqlserverGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeSqlserverActionParameters
-  resource_opts?: BridgeSqlserverActionResourceOpts
-  status?: BridgeSqlserverGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeSqlserverGetBridgeV2Type
-}
-
 export type BridgeSqlserverActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeSqlserverActionResourceOptsQueryMode =
@@ -2023,10 +2026,20 @@ export const BridgeSqlserverActionResourceOptsQueryMode = {
 
 export type BridgeSqlserverActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeSqlserverActionResourceOptsDispatchStrategy =
+  (typeof BridgeSqlserverActionResourceOptsDispatchStrategy)[keyof typeof BridgeSqlserverActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeSqlserverActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeSqlserverActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeSqlserverActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeSqlserverActionResourceOptsHealthCheckTimeout
@@ -2047,6 +2060,43 @@ export interface BridgeSqlserverActionParameters {
   undefined_vars_as_null?: boolean
 }
 
+export interface BridgeSqlserverPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeSqlserverPutBridgeV2FallbackActionsItem[]
+  parameters: BridgeSqlserverActionParameters
+  resource_opts?: BridgeSqlserverActionResourceOpts
+  tags?: string[]
+}
+
+export interface BridgeSqlserverPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeSqlserverPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeSqlserverActionParameters
+  resource_opts?: BridgeSqlserverActionResourceOpts
+  tags?: string[]
+  type: BridgeSqlserverPostBridgeV2Type
+}
+
+export interface BridgeSqlserverGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeSqlserverGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeSqlserverActionParameters
+  resource_opts?: BridgeSqlserverActionResourceOpts
+  status?: BridgeSqlserverGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeSqlserverGetBridgeV2Type
+}
+
 export type BridgeS3S3UploadResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeS3S3UploadResourceOptsQueryMode =
@@ -2060,10 +2110,20 @@ export const BridgeS3S3UploadResourceOptsQueryMode = {
 
 export type BridgeS3S3UploadResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeS3S3UploadResourceOptsDispatchStrategy =
+  (typeof BridgeS3S3UploadResourceOptsDispatchStrategy)[keyof typeof BridgeS3S3UploadResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeS3S3UploadResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeS3S3UploadResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeS3S3UploadResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeS3S3UploadResourceOptsHealthCheckTimeout
@@ -2298,18 +2358,6 @@ export type BridgeRabbitmqPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeRabbitmqPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeRabbitmqPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeRabbitmqActionParameters
-  resource_opts?: BridgeRabbitmqActionResourceOpts
-  tags?: string[]
-  type: BridgeRabbitmqPostBridgeV2Type
-}
-
 export interface BridgeRabbitmqHeaderKeyValue {
   key: string
   value: string
@@ -2366,10 +2414,20 @@ export const BridgeRabbitmqActionResourceOptsQueryMode = {
 
 export type BridgeRabbitmqActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeRabbitmqActionResourceOptsDispatchStrategy =
+  (typeof BridgeRabbitmqActionResourceOptsDispatchStrategy)[keyof typeof BridgeRabbitmqActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeRabbitmqActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeRabbitmqActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeRabbitmqActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeRabbitmqActionResourceOptsHealthCheckTimeout
@@ -2426,6 +2484,16 @@ export type BridgePgsqlPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export interface BridgePgsqlPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgePgsqlPutBridgeV2FallbackActionsItem[]
+  parameters: BridgePgsqlActionParameters
+  resource_opts?: BridgePgsqlActionResourceOpts
+  tags?: string[]
+}
+
 export type BridgePgsqlPostBridgeV2Type =
   (typeof BridgePgsqlPostBridgeV2Type)[keyof typeof BridgePgsqlPostBridgeV2Type]
 
@@ -2437,6 +2505,18 @@ export const BridgePgsqlPostBridgeV2Type = {
 export type BridgePgsqlPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgePgsqlPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgePgsqlPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgePgsqlActionParameters
+  resource_opts?: BridgePgsqlActionResourceOpts
+  tags?: string[]
+  type: BridgePgsqlPostBridgeV2Type
+}
 
 export type BridgePgsqlGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -2465,10 +2545,20 @@ export const BridgePgsqlActionResourceOptsQueryMode = {
 
 export type BridgePgsqlActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgePgsqlActionResourceOptsDispatchStrategy =
+  (typeof BridgePgsqlActionResourceOptsDispatchStrategy)[keyof typeof BridgePgsqlActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgePgsqlActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgePgsqlActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgePgsqlActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgePgsqlActionResourceOptsHealthCheckTimeout
@@ -2514,16 +2604,6 @@ export type BridgeOraclePutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeOraclePutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeOraclePutBridgeV2FallbackActionsItem[]
-  parameters: BridgeOracleActionParameters
-  resource_opts?: BridgeOracleActionResourceOpts
-  tags?: string[]
-}
-
 export type BridgeOraclePostBridgeV2Type =
   (typeof BridgeOraclePostBridgeV2Type)[keyof typeof BridgeOraclePostBridgeV2Type]
 
@@ -2535,18 +2615,6 @@ export const BridgeOraclePostBridgeV2Type = {
 export type BridgeOraclePostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeOraclePostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeOraclePostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeOracleActionParameters
-  resource_opts?: BridgeOracleActionResourceOpts
-  tags?: string[]
-  type: BridgeOraclePostBridgeV2Type
-}
 
 export type BridgeOracleGetBridgeV2Type =
   (typeof BridgeOracleGetBridgeV2Type)[keyof typeof BridgeOracleGetBridgeV2Type]
@@ -2599,10 +2667,20 @@ export const BridgeOracleActionResourceOptsQueryMode = {
 
 export type BridgeOracleActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeOracleActionResourceOptsDispatchStrategy =
+  (typeof BridgeOracleActionResourceOptsDispatchStrategy)[keyof typeof BridgeOracleActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeOracleActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeOracleActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeOracleActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeOracleActionResourceOptsHealthCheckTimeout
@@ -2622,19 +2700,31 @@ export interface BridgeOracleActionParameters {
   sql?: string
 }
 
-export type BridgeOpentsPutBridgeV2FallbackActionsItem =
-  | ActionsAndSourcesFallbackActionRepublish
-  | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeOpentsPutBridgeV2 {
+export interface BridgeOraclePutBridgeV2 {
   connector: string
   description?: string
   enable?: boolean
-  fallback_actions?: BridgeOpentsPutBridgeV2FallbackActionsItem[]
-  parameters: BridgeOpentsActionParameters
-  resource_opts?: BridgeOpentsActionResourceOpts
+  fallback_actions?: BridgeOraclePutBridgeV2FallbackActionsItem[]
+  parameters: BridgeOracleActionParameters
+  resource_opts?: BridgeOracleActionResourceOpts
   tags?: string[]
 }
+
+export interface BridgeOraclePostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeOraclePostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeOracleActionParameters
+  resource_opts?: BridgeOracleActionResourceOpts
+  tags?: string[]
+  type: BridgeOraclePostBridgeV2Type
+}
+
+export type BridgeOpentsPutBridgeV2FallbackActionsItem =
+  | ActionsAndSourcesFallbackActionRepublish
+  | ActionsAndSourcesFallbackActionReference
 
 export type BridgeOpentsPostBridgeV2Type =
   (typeof BridgeOpentsPostBridgeV2Type)[keyof typeof BridgeOpentsPostBridgeV2Type]
@@ -2683,23 +2773,46 @@ export type BridgeOpentsGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export type BridgeOpentsActionParametersDataValue = string | number | number
+export type BridgeOpentsActionResourceOptsRequestTtl = 'infinity' | string
 
-export interface BridgeOpentsActionParametersData {
-  metric: string
-  tags: BridgeOpentsActionParametersDataTags
-  timestamp?: string
-  value: BridgeOpentsActionParametersDataValue
-}
+export type BridgeOpentsActionResourceOptsQueryMode =
+  (typeof BridgeOpentsActionResourceOptsQueryMode)[keyof typeof BridgeOpentsActionResourceOptsQueryMode]
 
-export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeOpentsActionResourceOptsQueryMode = {
+  async: 'async',
+  sync: 'sync',
+} as const
 
-export type BridgeOpentsActionParametersDataTags =
-  | string
-  | BridgeOpentsActionParametersDataTagsOneOf
+export type BridgeOpentsActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
-export interface BridgeOpentsActionParameters {
-  data?: BridgeOpentsActionParametersData[]
+export type BridgeOpentsActionResourceOptsDispatchStrategy =
+  (typeof BridgeOpentsActionResourceOptsDispatchStrategy)[keyof typeof BridgeOpentsActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeOpentsActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
+export interface BridgeOpentsActionResourceOpts {
+  /** @minimum 1 */
+  batch_size?: number
+  batch_time?: string
+  dispatch_strategy?: BridgeOpentsActionResourceOptsDispatchStrategy
+  health_check_interval?: string
+  health_check_interval_jitter?: string
+  health_check_timeout?: BridgeOpentsActionResourceOptsHealthCheckTimeout
+  /** @minimum 1 */
+  inflight_window?: number
+  max_buffer_bytes?: string
+  query_mode?: BridgeOpentsActionResourceOptsQueryMode
+  request_ttl?: BridgeOpentsActionResourceOptsRequestTtl
+  /**
+   * @minimum 1
+   * @maximum 1024
+   */
+  worker_pool_size?: number
 }
 
 export interface BridgeOpentsGetBridgeV2 {
@@ -2717,39 +2830,13 @@ export interface BridgeOpentsGetBridgeV2 {
   type: BridgeOpentsGetBridgeV2Type
 }
 
-export type BridgeOpentsActionResourceOptsRequestTtl = 'infinity' | string
-
-export type BridgeOpentsActionResourceOptsQueryMode =
-  (typeof BridgeOpentsActionResourceOptsQueryMode)[keyof typeof BridgeOpentsActionResourceOptsQueryMode]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const BridgeOpentsActionResourceOptsQueryMode = {
-  async: 'async',
-  sync: 'sync',
-} as const
-
-export type BridgeOpentsActionResourceOptsHealthCheckTimeout = 'infinity' | string
-
-export interface BridgeOpentsActionResourceOpts {
-  /** @minimum 1 */
-  batch_size?: number
-  batch_time?: string
-  health_check_interval?: string
-  health_check_interval_jitter?: string
-  health_check_timeout?: BridgeOpentsActionResourceOptsHealthCheckTimeout
-  /** @minimum 1 */
-  inflight_window?: number
-  max_buffer_bytes?: string
-  query_mode?: BridgeOpentsActionResourceOptsQueryMode
-  request_ttl?: BridgeOpentsActionResourceOptsRequestTtl
-  /**
-   * @minimum 1
-   * @maximum 1024
-   */
-  worker_pool_size?: number
-}
-
 export type BridgeOpentsActionParametersDataValue = string | number | number
+
+export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
+
+export type BridgeOpentsActionParametersDataTags =
+  | string
+  | BridgeOpentsActionParametersDataTagsOneOf
 
 export interface BridgeOpentsActionParametersData {
   metric: string
@@ -2758,19 +2845,33 @@ export interface BridgeOpentsActionParametersData {
   value: BridgeOpentsActionParametersDataValue
 }
 
-export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
-
-export type BridgeOpentsActionParametersDataTags =
-  | string
-  | BridgeOpentsActionParametersDataTagsOneOf
-
 export interface BridgeOpentsActionParameters {
   data?: BridgeOpentsActionParametersData[]
+}
+
+export interface BridgeOpentsPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeOpentsPutBridgeV2FallbackActionsItem[]
+  parameters: BridgeOpentsActionParameters
+  resource_opts?: BridgeOpentsActionResourceOpts
+  tags?: string[]
 }
 
 export type BridgeMysqlPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgeMysqlPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeMysqlPutBridgeV2FallbackActionsItem[]
+  parameters: BridgeMysqlActionParameters
+  resource_opts?: BridgeMysqlActionResourceOpts
+  tags?: string[]
+}
 
 export type BridgeMysqlPostBridgeV2Type =
   (typeof BridgeMysqlPostBridgeV2Type)[keyof typeof BridgeMysqlPostBridgeV2Type]
@@ -2847,10 +2948,20 @@ export const BridgeMysqlActionResourceOptsQueryMode = {
 
 export type BridgeMysqlActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeMysqlActionResourceOptsDispatchStrategy =
+  (typeof BridgeMysqlActionResourceOptsDispatchStrategy)[keyof typeof BridgeMysqlActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMysqlActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeMysqlActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeMysqlActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeMysqlActionResourceOptsHealthCheckTimeout
@@ -2945,6 +3056,7 @@ export type BridgeMqttPublisherGetBridgeV2FallbackActionsItem =
 export type BridgeMqttPublisherActionResourceOptsRequestTtl = 'infinity' | string
 
 export interface BridgeMqttPublisherActionResourceOpts {
+  dispatch_strategy?: BridgeMqttPublisherActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeMqttPublisherActionResourceOptsHealthCheckTimeout
@@ -3013,6 +3125,18 @@ export type BridgeMongodbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export interface BridgeMongodbPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeMongodbPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeMongodbActionParameters
+  resource_opts?: BridgeMongodbActionResourceOpts
+  tags?: string[]
+  type: BridgeMongodbPostBridgeV2Type
+}
+
 export type BridgeMongodbGetBridgeV2Type =
   (typeof BridgeMongodbGetBridgeV2Type)[keyof typeof BridgeMongodbGetBridgeV2Type]
 
@@ -3036,21 +3160,6 @@ export type BridgeMongodbGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeMongodbGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeMongodbGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeMongodbActionParameters
-  resource_opts?: BridgeMongodbActionResourceOpts
-  status?: BridgeMongodbGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeMongodbGetBridgeV2Type
-}
-
 export type BridgeMongodbActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeMongodbActionResourceOptsQueryMode =
@@ -3064,7 +3173,17 @@ export const BridgeMongodbActionResourceOptsQueryMode = {
 
 export type BridgeMongodbActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeMongodbActionResourceOptsDispatchStrategy =
+  (typeof BridgeMongodbActionResourceOptsDispatchStrategy)[keyof typeof BridgeMongodbActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeMongodbActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeMongodbActionResourceOpts {
+  dispatch_strategy?: BridgeMongodbActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeMongodbActionResourceOptsHealthCheckTimeout
@@ -3099,12 +3218,15 @@ export interface BridgeMongodbPostBridgeV2 {
   connector: string
   description?: string
   enable?: boolean
-  fallback_actions?: BridgeMongodbPostBridgeV2FallbackActionsItem[]
+  fallback_actions?: BridgeMongodbGetBridgeV2FallbackActionsItem[]
   name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
   parameters: BridgeMongodbActionParameters
   resource_opts?: BridgeMongodbActionResourceOpts
+  status?: BridgeMongodbGetBridgeV2Status
+  status_reason?: string
   tags?: string[]
-  type: BridgeMongodbPostBridgeV2Type
+  type: BridgeMongodbGetBridgeV2Type
 }
 
 export type BridgeMatrixPutBridgeV2FallbackActionsItem =
@@ -3238,6 +3360,15 @@ export const BridgeKinesisActionResourceOptsQueryMode = {
 
 export type BridgeKinesisActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeKinesisActionResourceOptsDispatchStrategy =
+  (typeof BridgeKinesisActionResourceOptsDispatchStrategy)[keyof typeof BridgeKinesisActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKinesisActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeKinesisActionResourceOpts {
   /**
    * @minimum 1
@@ -3245,6 +3376,7 @@ export interface BridgeKinesisActionResourceOpts {
    */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeKinesisActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeKinesisActionResourceOptsHealthCheckTimeout
@@ -3461,16 +3593,6 @@ export type BridgeIotdbPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeIotdbPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeIotdbPutBridgeV2FallbackActionsItem[]
-  parameters: BridgeIotdbPutBridgeV2Parameters
-  resource_opts?: BridgeIotdbActionResourceOpts
-  tags?: string[]
-}
-
 export type BridgeIotdbPostBridgeV2Type =
   (typeof BridgeIotdbPostBridgeV2Type)[keyof typeof BridgeIotdbPostBridgeV2Type]
 
@@ -3506,6 +3628,10 @@ export const BridgeIotdbGetBridgeV2Status = {
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeIotdbGetBridgeV2Parameters =
+  | BridgeIotdbActionParametersTable
+  | BridgeIotdbActionParametersTree
+
 export type BridgeIotdbGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
@@ -3538,10 +3664,20 @@ export const BridgeIotdbActionResourceOptsQueryMode = {
 
 export type BridgeIotdbActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeIotdbActionResourceOptsDispatchStrategy =
+  (typeof BridgeIotdbActionResourceOptsDispatchStrategy)[keyof typeof BridgeIotdbActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeIotdbActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeIotdbActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeIotdbActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeIotdbActionResourceOptsHealthCheckTimeout
@@ -3555,6 +3691,28 @@ export interface BridgeIotdbActionResourceOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
+}
+
+export interface BridgeIotdbPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeIotdbPutBridgeV2FallbackActionsItem[]
+  parameters: BridgeIotdbPutBridgeV2Parameters
+  resource_opts?: BridgeIotdbActionResourceOpts
+  tags?: string[]
+}
+
+export interface BridgeIotdbPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeIotdbPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeIotdbPostBridgeV2Parameters
+  resource_opts?: BridgeIotdbActionResourceOpts
+  tags?: string[]
+  type: BridgeIotdbPostBridgeV2Type
 }
 
 export type BridgeIotdbActionParametersTreeWriteToTable =
@@ -3690,18 +3848,6 @@ export type BridgeInfluxdbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeInfluxdbPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeInfluxdbPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeInfluxdbActionParameters
-  resource_opts?: BridgeInfluxdbActionResourceOpts
-  tags?: string[]
-  type: BridgeInfluxdbPostBridgeV2Type
-}
-
 export type BridgeInfluxdbGetBridgeV2Type =
   (typeof BridgeInfluxdbGetBridgeV2Type)[keyof typeof BridgeInfluxdbGetBridgeV2Type]
 
@@ -3753,10 +3899,20 @@ export const BridgeInfluxdbActionResourceOptsQueryMode = {
 
 export type BridgeInfluxdbActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeInfluxdbActionResourceOptsDispatchStrategy =
+  (typeof BridgeInfluxdbActionResourceOptsDispatchStrategy)[keyof typeof BridgeInfluxdbActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeInfluxdbActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeInfluxdbActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeInfluxdbActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeInfluxdbActionResourceOptsHealthCheckTimeout
@@ -3786,6 +3942,18 @@ export const BridgeInfluxdbActionParametersPrecision = {
 export interface BridgeInfluxdbActionParameters {
   precision?: BridgeInfluxdbActionParametersPrecision
   write_syntax: string
+}
+
+export interface BridgeInfluxdbPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeInfluxdbPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeInfluxdbActionParameters
+  resource_opts?: BridgeInfluxdbActionResourceOpts
+  tags?: string[]
+  type: BridgeInfluxdbPostBridgeV2Type
 }
 
 export type BridgeHttpPutBridgeV2FallbackActionsItem =
@@ -3871,21 +4039,6 @@ export type BridgeHttpGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeHttpGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeHttpGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeHttpParametersOpts
-  resource_opts?: BridgeHttpActionResourceOpts
-  status?: BridgeHttpGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeHttpGetBridgeV2Type
-}
-
 export type BridgeHttpActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeHttpActionResourceOptsQueryMode =
@@ -3899,7 +4052,17 @@ export const BridgeHttpActionResourceOptsQueryMode = {
 
 export type BridgeHttpActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeHttpActionResourceOptsDispatchStrategy =
+  (typeof BridgeHttpActionResourceOptsDispatchStrategy)[keyof typeof BridgeHttpActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeHttpActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeHttpActionResourceOpts {
+  dispatch_strategy?: BridgeHttpActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeHttpActionResourceOptsHealthCheckTimeout
@@ -3913,6 +4076,21 @@ export interface BridgeHttpActionResourceOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
+}
+
+export interface BridgeHttpGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeHttpGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeHttpParametersOpts
+  resource_opts?: BridgeHttpActionResourceOpts
+  status?: BridgeHttpGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeHttpGetBridgeV2Type
 }
 
 export type BridgeGreptimedbPutBridgeV2FallbackActionsItem =
@@ -3989,10 +4167,20 @@ export const BridgeGreptimedbActionResourceOptsQueryMode = {
 
 export type BridgeGreptimedbActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeGreptimedbActionResourceOptsDispatchStrategy =
+  (typeof BridgeGreptimedbActionResourceOptsDispatchStrategy)[keyof typeof BridgeGreptimedbActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeGreptimedbActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeGreptimedbActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeGreptimedbActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeGreptimedbActionResourceOptsHealthCheckTimeout
@@ -4070,11 +4258,6 @@ export type BridgeElasticsearchPostBridgeV2Type =
 export const BridgeElasticsearchPostBridgeV2Type = {
   elasticsearch: 'elasticsearch',
 } as const
-
-export type BridgeElasticsearchPostBridgeV2Parameters =
-  | BridgeElasticsearchActionUpdate
-  | BridgeElasticsearchActionDelete
-  | BridgeElasticsearchActionCreate
 
 export type BridgeElasticsearchPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -4168,7 +4351,17 @@ export const BridgeElasticsearchActionResourceOptsQueryMode = {
 
 export type BridgeElasticsearchActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeElasticsearchActionResourceOptsDispatchStrategy =
+  (typeof BridgeElasticsearchActionResourceOptsDispatchStrategy)[keyof typeof BridgeElasticsearchActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeElasticsearchActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeElasticsearchActionResourceOpts {
+  dispatch_strategy?: BridgeElasticsearchActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeElasticsearchActionResourceOptsHealthCheckTimeout
@@ -4220,6 +4413,11 @@ export interface BridgeElasticsearchActionCreate {
   require_alias?: boolean
   routing?: string
 }
+
+export type BridgeElasticsearchGetBridgeV2Parameters =
+  | BridgeElasticsearchActionUpdate
+  | BridgeElasticsearchActionDelete
+  | BridgeElasticsearchActionCreate
 
 export type BridgeDynamoPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -4288,10 +4486,20 @@ export const BridgeDynamoActionResourceOptsQueryMode = {
 
 export type BridgeDynamoActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeDynamoActionResourceOptsDispatchStrategy =
+  (typeof BridgeDynamoActionResourceOptsDispatchStrategy)[keyof typeof BridgeDynamoActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeDynamoActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeDynamoActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeDynamoActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeDynamoActionResourceOptsHealthCheckTimeout
@@ -4434,10 +4642,20 @@ export const BridgeDatalayersActionResourceOptsQueryMode = {
 
 export type BridgeDatalayersActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeDatalayersActionResourceOptsDispatchStrategy =
+  (typeof BridgeDatalayersActionResourceOptsDispatchStrategy)[keyof typeof BridgeDatalayersActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeDatalayersActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeDatalayersActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeDatalayersActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeDatalayersActionResourceOptsHealthCheckTimeout
@@ -4503,18 +4721,6 @@ export type BridgeClickhousePostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeClickhousePostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeClickhousePostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeClickhouseActionParameters
-  resource_opts?: BridgeClickhouseActionResourceOpts
-  tags?: string[]
-  type: BridgeClickhousePostBridgeV2Type
-}
-
 export type BridgeClickhouseGetBridgeV2Type =
   (typeof BridgeClickhouseGetBridgeV2Type)[keyof typeof BridgeClickhouseGetBridgeV2Type]
 
@@ -4566,10 +4772,20 @@ export const BridgeClickhouseActionResourceOptsQueryMode = {
 
 export type BridgeClickhouseActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeClickhouseActionResourceOptsDispatchStrategy =
+  (typeof BridgeClickhouseActionResourceOptsDispatchStrategy)[keyof typeof BridgeClickhouseActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeClickhouseActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeClickhouseActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeClickhouseActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeClickhouseActionResourceOptsHealthCheckTimeout
@@ -4670,10 +4886,20 @@ export const BridgeCassaActionResourceOptsQueryMode = {
 
 export type BridgeCassaActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type BridgeCassaActionResourceOptsDispatchStrategy =
+  (typeof BridgeCassaActionResourceOptsDispatchStrategy)[keyof typeof BridgeCassaActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeCassaActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface BridgeCassaActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: BridgeCassaActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: BridgeCassaActionResourceOptsHealthCheckTimeout
@@ -4993,10 +5219,20 @@ export const ActionsAndSourcesActionResourceOptsQueryMode = {
 
 export type ActionsAndSourcesActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionsAndSourcesActionResourceOptsDispatchStrategy =
+  (typeof ActionsAndSourcesActionResourceOptsDispatchStrategy)[keyof typeof ActionsAndSourcesActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionsAndSourcesActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionsAndSourcesActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionsAndSourcesActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionsAndSourcesActionResourceOptsHealthCheckTimeout
@@ -5191,10 +5427,20 @@ export const ActionSnowflakeStreamingActionResourceOptsQueryMode = {
 
 export type ActionSnowflakeStreamingActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionSnowflakeStreamingActionResourceOptsDispatchStrategy =
+  (typeof ActionSnowflakeStreamingActionResourceOptsDispatchStrategy)[keyof typeof ActionSnowflakeStreamingActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionSnowflakeStreamingActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionSnowflakeStreamingActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionSnowflakeStreamingActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionSnowflakeStreamingActionResourceOptsHealthCheckTimeout
@@ -5333,10 +5579,20 @@ export const ActionSnowflakeAggregatedActionResourceOptsQueryMode = {
 
 export type ActionSnowflakeAggregatedActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionSnowflakeAggregatedActionResourceOptsDispatchStrategy =
+  (typeof ActionSnowflakeAggregatedActionResourceOptsDispatchStrategy)[keyof typeof ActionSnowflakeAggregatedActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionSnowflakeAggregatedActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionSnowflakeAggregatedActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionSnowflakeAggregatedActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionSnowflakeAggregatedActionResourceOptsHealthCheckTimeout
@@ -5497,10 +5753,20 @@ export const ActionS3tablesActionResourceOptsQueryMode = {
 
 export type ActionS3tablesActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionS3tablesActionResourceOptsDispatchStrategy =
+  (typeof ActionS3tablesActionResourceOptsDispatchStrategy)[keyof typeof ActionS3tablesActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionS3tablesActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionS3tablesActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionS3tablesActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionS3tablesActionResourceOptsHealthCheckTimeout
@@ -5783,10 +6049,20 @@ export const ActionEmqxTablesActionResourceOptsQueryMode = {
 
 export type ActionEmqxTablesActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionEmqxTablesActionResourceOptsDispatchStrategy =
+  (typeof ActionEmqxTablesActionResourceOptsDispatchStrategy)[keyof typeof ActionEmqxTablesActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionEmqxTablesActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionEmqxTablesActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionEmqxTablesActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionEmqxTablesActionResourceOptsHealthCheckTimeout
@@ -5885,21 +6161,6 @@ export type ActionDorisGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface ActionDorisGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: ActionDorisGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: ActionDorisActionParameters
-  resource_opts?: ActionDorisActionResourceOpts
-  status?: ActionDorisGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: ActionDorisGetBridgeV2Type
-}
-
 export type ActionDorisActionResourceOptsRequestTtl = 'infinity' | string
 
 export type ActionDorisActionResourceOptsQueryMode =
@@ -5913,10 +6174,20 @@ export const ActionDorisActionResourceOptsQueryMode = {
 
 export type ActionDorisActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionDorisActionResourceOptsDispatchStrategy =
+  (typeof ActionDorisActionResourceOptsDispatchStrategy)[keyof typeof ActionDorisActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionDorisActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionDorisActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionDorisActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionDorisActionResourceOptsHealthCheckTimeout
@@ -5935,6 +6206,21 @@ export interface ActionDorisActionResourceOpts {
 export interface ActionDorisActionParameters {
   sql?: string
   undefined_vars_as_null?: boolean
+}
+
+export interface ActionDorisGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: ActionDorisGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: ActionDorisActionParameters
+  resource_opts?: ActionDorisActionResourceOpts
+  status?: ActionDorisGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: ActionDorisGetBridgeV2Type
 }
 
 export type ActionDiskLogPutBridgeV2FallbackActionsItem =
@@ -6016,10 +6302,20 @@ export const ActionDiskLogActionResourceOptsQueryMode = {
 
 export type ActionDiskLogActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionDiskLogActionResourceOptsDispatchStrategy =
+  (typeof ActionDiskLogActionResourceOptsDispatchStrategy)[keyof typeof ActionDiskLogActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionDiskLogActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionDiskLogActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionDiskLogActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionDiskLogActionResourceOptsHealthCheckTimeout
@@ -6339,10 +6635,20 @@ export const ActionBigqueryActionResourceOptsQueryMode = {
 
 export type ActionBigqueryActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionBigqueryActionResourceOptsDispatchStrategy =
+  (typeof ActionBigqueryActionResourceOptsDispatchStrategy)[keyof typeof ActionBigqueryActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionBigqueryActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionBigqueryActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionBigqueryActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionBigqueryActionResourceOptsHealthCheckTimeout
@@ -6366,16 +6672,6 @@ export interface ActionBigqueryActionParameters {
 export type ActionAzureBlobStoragePutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface ActionAzureBlobStoragePutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: ActionAzureBlobStoragePutBridgeV2FallbackActionsItem[]
-  parameters: ActionAzureBlobStoragePutBridgeV2Parameters
-  resource_opts?: ActionAzureBlobStorageActionResourceOpts
-  tags?: string[]
-}
 
 export type ActionAzureBlobStoragePostBridgeV2Type =
   (typeof ActionAzureBlobStoragePostBridgeV2Type)[keyof typeof ActionAzureBlobStoragePostBridgeV2Type]
@@ -6458,6 +6754,10 @@ export interface ActionAzureBlobStorageDirectParameters {
   mode: ActionAzureBlobStorageDirectParametersMode
 }
 
+export type ActionAzureBlobStoragePutBridgeV2Parameters =
+  | ActionAzureBlobStorageDirectParameters
+  | ActionAzureBlobStorageAggregParameters
+
 export type ActionAzureBlobStorageGetBridgeV2Parameters =
   | ActionAzureBlobStorageDirectParameters
   | ActionAzureBlobStorageAggregParameters
@@ -6489,10 +6789,6 @@ export interface ActionAzureBlobStorageAggregParameters {
   mode: ActionAzureBlobStorageAggregParametersMode
 }
 
-export type ActionAzureBlobStoragePutBridgeV2Parameters =
-  | ActionAzureBlobStorageDirectParameters
-  | ActionAzureBlobStorageAggregParameters
-
 export type ActionAzureBlobStorageActionResourceOptsRequestTtl = 'infinity' | string
 
 export type ActionAzureBlobStorageActionResourceOptsQueryMode =
@@ -6506,10 +6802,20 @@ export const ActionAzureBlobStorageActionResourceOptsQueryMode = {
 
 export type ActionAzureBlobStorageActionResourceOptsHealthCheckTimeout = 'infinity' | string
 
+export type ActionAzureBlobStorageActionResourceOptsDispatchStrategy =
+  (typeof ActionAzureBlobStorageActionResourceOptsDispatchStrategy)[keyof typeof ActionAzureBlobStorageActionResourceOptsDispatchStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ActionAzureBlobStorageActionResourceOptsDispatchStrategy = {
+  per_clientid: 'per_clientid',
+  random: 'random',
+} as const
+
 export interface ActionAzureBlobStorageActionResourceOpts {
   /** @minimum 1 */
   batch_size?: number
   batch_time?: string
+  dispatch_strategy?: ActionAzureBlobStorageActionResourceOptsDispatchStrategy
   health_check_interval?: string
   health_check_interval_jitter?: string
   health_check_timeout?: ActionAzureBlobStorageActionResourceOptsHealthCheckTimeout
@@ -6523,6 +6829,16 @@ export interface ActionAzureBlobStorageActionResourceOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
+}
+
+export interface ActionAzureBlobStoragePutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: ActionAzureBlobStoragePutBridgeV2FallbackActionsItem[]
+  parameters: ActionAzureBlobStoragePutBridgeV2Parameters
+  resource_opts?: ActionAzureBlobStorageActionResourceOpts
+  tags?: string[]
 }
 
 export type ActionAwsTimestreamPutBridgeV2FallbackActionsItem =

@@ -17,12 +17,19 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import HTTPErrorMessage from './HTTPErrorMessage'
 
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    returnRawResponse?: boolean
+  }
+}
+
 type CustomRequestConfig = InternalAxiosRequestConfig & {
   doNotTriggerProgress?: boolean
   errorsHandleCustom?: number[]
   handleTimeoutSelf?: boolean
   controller?: AbortController
   keepSpaces?: boolean
+  returnRawResponse?: boolean
 }
 
 type CustomResponse = AxiosResponse & {
@@ -99,13 +106,12 @@ axios.interceptors.response.use(
     if (!response?.config?.doNotTriggerProgress) {
       setProgressBarDone()
     }
-    if (response.data instanceof Blob) {
-      return response
-    }
-
     // Remove AbortController
     const controller = response.config.controller
     store.commit('REMOVE_ABORT_CONTROLLER', controller)
+    if (response.data instanceof Blob || response.config.returnRawResponse) {
+      return response
+    }
     return response.data || response.status
   },
   async (error: any) => {

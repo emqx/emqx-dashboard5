@@ -333,6 +333,12 @@ export interface MtConfigOut {
   session?: MtSessionConfigIn
 }
 
+export interface MtManagedNsWithDetailsOut {
+  config?: MtConfigOut
+  created_at?: number
+  name?: string
+}
+
 export interface MtConfigIn {
   limiter?: MtLimiterConfigIn
   session?: MtSessionConfigIn
