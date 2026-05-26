@@ -359,11 +359,11 @@ These clients must be manually kicked out if one wants them to abide to the new 
     en: 'The default number of live sessions allowed for each namespace. Access will be denied for new clients if limit is reached. Online config changes do not affect running sessions.',
   },
   allowOnlyManagedNamespaces: {
-    zh: '仅允许显示创建的命名空间',
+    zh: '仅允许显式创建的命名空间',
     en: 'Allow Only Explicitly Created Namespaces',
   },
   allowOnlyManagedNamespacesDesc: {
-    zh: '如果启用，属于非显示创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
+    zh: '如果启用，属于非显式创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
   enableMessageQueue: {

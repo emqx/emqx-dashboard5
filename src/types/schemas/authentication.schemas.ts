@@ -866,6 +866,8 @@ export interface AuthnRedisSentinel {
   precondition?: string
   redis_type?: AuthnRedisSentinelRedisType
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   ssl?: EmqxSslClientOpts
   username?: string

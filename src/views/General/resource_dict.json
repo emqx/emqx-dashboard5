@@ -2269,6 +2269,54 @@
   },
   {
     "method": "post",
+    "path": "/sso/mfa/verify",
+    "operation_label": {
+      "en": "Dashboard Single Sign-On",
+      "zh": "Dashboard 单点登录"
+    },
+    "operation_name_label": {
+      "en": "Verify SSO MFA TOTP code and issue a JWT session token",
+      "zh": "验证 SSO MFA TOTP 验证码并签发 JWT 会话令牌"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/sso/token_exchange",
+    "operation_label": {
+      "en": "Dashboard Single Sign-On",
+      "zh": "Dashboard 单点登录"
+    },
+    "operation_name_label": {
+      "en": "Exchange a one-time SSO code for the actual login result (JWT token or MFA metadata)",
+      "zh": "使用一次性 SSO code 换取实际登录结果（JWT 令牌或 MFA 元数据）"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/sso/mfa/setup",
+    "operation_label": {
+      "en": "Dashboard Single Sign-On",
+      "zh": "Dashboard 单点登录"
+    },
+    "operation_name_label": {
+      "en": "Complete SSO MFA TOTP setup: bind the TOTP authenticator and issue a JWT session token",
+      "zh": "完成 SSO MFA TOTP 设置：绑定 TOTP 认证器并签发 JWT 会话令牌"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/sso/mfa/setup_info",
+    "operation_label": {
+      "en": "Dashboard Single Sign-On",
+      "zh": "Dashboard 单点登录"
+    },
+    "operation_name_label": {
+      "en": "Retrieve TOTP setup info (secret, mechanism) for QR code display",
+      "zh": "获取用于展示二维码的 TOTP 设置信息（密钥、认证机制）"
+    }
+  },
+  {
+    "method": "post",
     "path": "/api_key",
     "operation_label": {
       "en": "API Key",

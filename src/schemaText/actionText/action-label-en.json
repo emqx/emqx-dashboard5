@@ -45,7 +45,8 @@
     "no_ack": "No Ack"
   },
   "influxdb": {
-    "influxdb_type": "Version of InfluxDB"
+    "influxdb_type": "Version of InfluxDB",
+    "ping_with_auth": "Ping With Auth"
   },
   "hstreamdb": {
     "hstream_batch_size": "HStreamDB Batch Size"

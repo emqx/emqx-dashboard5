@@ -14,6 +14,7 @@ export default (): {
 
   const createRawLDAPForm = (): any => ({
     enable: true,
+    force_mfa: false,
     backend: SsoLdapBackend.ldap,
     server: 'localhost:389',
     username: '',
@@ -24,6 +25,7 @@ export default (): {
   })
   const createRawSAMLForm = (): any => ({
     enable: true,
+    force_mfa: false,
     backend: DashboardSamlBackend.saml,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     idp_metadata_url: '',
@@ -35,6 +37,7 @@ export default (): {
   })
   const createRawOIDCForm = (): any => ({
     enable: true,
+    force_mfa: false,
     backend: SSOOIDCBackend.oidc,
     issuer: '',
     clientid: '',

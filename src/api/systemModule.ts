@@ -1,6 +1,12 @@
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
-import { APIKey, APIKeyFormWhenCreating, APIKeyFormWhenEditing } from '@/types/systemModule'
+import {
+  APIKey,
+  APIKeyFormWhenCreating,
+  APIKeyFormWhenEditing,
+  APIKeyScope,
+  LoginUserScope,
+} from '@/types/systemModule'
 import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
 import {
   EmqxMgmtApiDataBackupFilesResponse,
@@ -30,9 +36,17 @@ export const queryAPIKeyDetail = (name: string): Promise<APIKey> => {
 export const createAPIKey = (data: APIKeyFormWhenCreating): Promise<APIKey> => {
   return http.post('/api_key', data)
 }
+export const getAPIKeyScopes = async (): Promise<APIKeyScope[]> => {
+  const data: { scopes: APIKeyScope[] } = await http.get('/api_key_scopes')
+  return data.scopes
+}
+export const getLoginUserScopes = async (): Promise<LoginUserScope[]> => {
+  const data: { scopes: LoginUserScope[] } = await http.get('/user_scopes')
+  return data.scopes
+}
 export const updateAPIKey = (
   name: string,
-  data: Pick<APIKeyFormWhenEditing, 'desc' | 'enable' | 'expired_at'>,
+  data: Pick<APIKeyFormWhenEditing, 'desc' | 'enable' | 'expired_at' | 'scopes'>,
 ): Promise<APIKey> => {
   return http.put(`/api_key/${name}`, data)
 }

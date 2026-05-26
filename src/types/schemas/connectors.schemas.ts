@@ -917,6 +917,8 @@ export interface RedisRedisSentinelConnector {
   pool_size?: number
   redis_type?: RedisRedisSentinelConnectorRedisType
   sentinel: string
+  sentinel_password?: string
+  sentinel_username?: string
   servers: string
   username?: string
 }

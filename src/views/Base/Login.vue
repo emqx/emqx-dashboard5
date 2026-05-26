@@ -13,7 +13,7 @@
         <div class="form-container">
           <div class="form-hd">
             <h5 class="title-pwd">{{ $t('General.mfa') }}</h5>
-            <div class="tip totp-secret-tip" v-if="showTotpSecret">
+            <div class="tip totp-secret-tip" v-if="showTotpSecret && totpSecret">
               <i18n-t keypath="General.twoFASecretSetupTip" tag="p">
                 <template #key>
                   <el-popover placement="bottom" popper-class="is-wider" :width="360">
@@ -41,7 +41,7 @@
               class="qr-code"
               width="180"
               height="180"
-              v-if="showTotpSecret"
+              v-if="showTotpSecret && totpSecret"
               ref="canvasRef"
             />
             <el-form ref="TwoFAFormCom" :model="twoFARecord" :rules="twoFARules">
@@ -70,7 +70,7 @@
         </div>
       </el-col>
     </el-row>
-    <el-row v-if="!showChangePwdForm">
+    <el-row v-else-if="!showChangePwdForm">
       <el-col class="intro" :span="8">
         <div class="content">
           <img class="dashboard-img" :src="loginBgBanner" width="369" alt="emqx-dashboard" />
@@ -86,7 +86,10 @@
       </el-col>
       <el-col class="form" :span="16">
         <!-- Local Login -->
-        <div v-if="currentLoginBackend === 'local'" class="login-wrapper local-login">
+        <div
+          v-if="currentLoginBackend === 'local' && !isSSOMFARouting"
+          class="login-wrapper local-login"
+        >
           <div class="form-hd">
             <h1>{{ loginTitle }}</h1>
           </div>
@@ -324,6 +327,7 @@
 <script lang="ts" setup>
 import { login as loginApi } from '@/api/common'
 import { changePassword } from '@/api/function'
+import { postSSOmfaSetupInfo, postSSOmfaSetup, postSSOmfaVerify } from '@/api/sso'
 import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -627,11 +631,93 @@ const checkAuthCode = () => {
 const submitWithAuthCode = async () => {
   try {
     await TwoFAFormCom.value.validate()
-    queryLogin({ ...record, mfa_token: twoFARecord.authCode })
+    if (ssoMfaPending.value) {
+      await submitSSOmfa()
+    } else {
+      queryLogin({ ...record, mfa_token: twoFARecord.authCode })
+    }
   } catch (error) {
     //
   }
 }
+
+// SSO MFA
+
+const ssoMfaPending = computed(() => store.state.ssoMfaPending)
+const lastSsoPendingKey = ref('')
+
+const isSSOMFARouting = ref(false)
+const submitSSOmfa = async () => {
+  if (!ssoMfaPending.value) return
+  isSubmitting.value = true
+  try {
+    let res: any
+    if (ssoMfaPending.value.action === 'mfa_setup') {
+      res = await postSSOmfaSetup(
+        ssoMfaPending.value.setup_token,
+        twoFARecord.authCode,
+        ssoMfaPending.value.username,
+        ssoMfaPending.value.backend,
+      )
+    } else {
+      res = await postSSOmfaVerify(
+        ssoMfaPending.value.verify_token,
+        twoFARecord.authCode,
+        ssoMfaPending.value.username,
+        ssoMfaPending.value.backend,
+      )
+    }
+    store.commit('SET_SSO_MFA_PENDING', null)
+    updateStoreInfo(res.username, res)
+    isSSOMFARouting.value = true
+    resetMFAData()
+    redirectToDashboard()
+  } catch (error) {
+    // The HTTP interceptor already surfaces the server-side verification error.
+    // Avoid showing an extra generic notification here.
+  } finally {
+    isSubmitting.value = false
+    await waitAMoment(3000)
+    isSSOMFARouting.value = false
+  }
+}
+
+const applySsoPending = async (pending: any) => {
+  if (!pending) return
+  const key =
+    pending.action === 'mfa_setup'
+      ? `setup:${pending.setup_token}`
+      : `verify:${pending.verify_token}`
+  if (key && key === lastSsoPendingKey.value) return
+  lastSsoPendingKey.value = key
+  if (pending.action === 'mfa_setup') {
+    try {
+      const { secret } = await postSSOmfaSetupInfo(
+        pending.setup_token,
+        pending.username,
+        pending.backend,
+      )
+      totpSecret.value = secret
+      showTotpSecret.value = true
+      await waitAMoment()
+      displayQRCode(secret, pending.username)
+    } catch {
+      //
+    }
+  } else {
+    // mfa_verify: just show the TOTP input (no QR code)
+    showTotpSecret.value = true
+  }
+}
+applySsoPending(ssoMfaPending.value)
+
+watch(
+  ssoMfaPending,
+  async (pending) => {
+    await applySsoPending(pending)
+  },
+  { immediate: true },
+)
 </script>
 
 <style lang="scss">

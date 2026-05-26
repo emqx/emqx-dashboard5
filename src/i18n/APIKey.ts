@@ -63,4 +63,128 @@ export default {
     zh: '已过期',
     en: 'Expired',
   },
+  scopes: {
+    zh: '权限范围',
+    en: 'Scopes',
+  },
+  scopesPlaceholder: {
+    zh: '默认拥有全部范围权限',
+    en: 'Defaults to all scope permissions',
+  },
+  allScopes: {
+    zh: '全部',
+    en: 'All',
+  },
+  scopeLabel_connections: {
+    zh: '连接',
+    en: 'Connections',
+  },
+  scopeLabel_publish: {
+    zh: '消息发布',
+    en: 'Publish',
+  },
+  scopeLabel_data_integration: {
+    zh: '数据集成',
+    en: 'Data Integration',
+  },
+  scopeLabel_access_control: {
+    zh: '访问控制',
+    en: 'Access Control',
+  },
+  scopeLabel_gateways: {
+    zh: '网关',
+    en: 'Gateways',
+  },
+  scopeLabel_monitoring: {
+    zh: '监控',
+    en: 'Monitoring',
+  },
+  scopeLabel_cluster_operations: {
+    zh: '集群管理',
+    en: 'Cluster',
+  },
+  scopeLabel_system: {
+    zh: '系统设置',
+    en: 'System',
+  },
+  scopeLabel_audit: {
+    zh: '审计日志',
+    en: 'Audit Log',
+  },
+  scopeLabel_license: {
+    zh: 'License',
+    en: 'License',
+  },
+  scopeDesc_connections: {
+    zh: '客户端、订阅、主题、封禁、保留消息、文件传输、延迟发布',
+    en: 'Clients, subscriptions, topics, banning, retained messages, file transfer, and delayed messages',
+  },
+  scopeDesc_publish: {
+    zh: 'MQTT 消息发布接口',
+    en: 'MQTT message publishing',
+  },
+  scopeDesc_data_integration: {
+    zh: '规则、连接器、Schema 注册表、Schema 校验、消息转换、ExHook、AI Completion',
+    en: 'Rules, connectors, schema registry, schema validation, message transformation, ExHook, and AI completion',
+  },
+  scopeDesc_access_control: {
+    zh: '客户端认证与授权配置',
+    en: 'Client authentication and authorization configuration',
+  },
+  scopeDesc_gateways: {
+    zh: '协议网关（CoAP、LwM2M 等）及其认证、客户端与监听器',
+    en: 'Protocol gateways (CoAP, LwM2M, etc.) and their authentication, clients, and listeners',
+  },
+  scopeDesc_monitoring: {
+    zh: '指标、告警、日志追踪、慢订阅、Prometheus',
+    en: 'Metrics, alarms, trace, slow subscriptions, and Prometheus',
+  },
+  scopeDesc_cluster_operations: {
+    zh: '节点与集群管理、负载均衡、多租户',
+    en: 'Cluster management, node operations, load rebalancing, and multi-tenancy',
+  },
+  scopeDesc_system: {
+    zh: '核心配置、监听器、插件、备份、OpenTelemetry',
+    en: 'Core configuration, listeners, plugins, backup, and OpenTelemetry',
+  },
+  scopeDesc_audit: {
+    zh: '查询审计日志记录',
+    en: 'Audit log query',
+  },
+  scopeDesc_license: {
+    zh: 'License 管理',
+    en: 'License management',
+  },
+  scopeLabel_user_management: {
+    zh: '用户管理',
+    en: 'User Management',
+  },
+  scopeLabel_mfa_management: {
+    zh: 'MFA 管理',
+    en: 'MFA Management',
+  },
+  scopeLabel_sso_management: {
+    zh: 'SSO 管理',
+    en: 'SSO Management',
+  },
+  scopeLabel_api_key_management: {
+    zh: 'API 密钥管理',
+    en: 'API Key Management',
+  },
+  scopeDesc_user_management: {
+    zh: '管理 Dashboard 用户（创建、更新、删除、修改其他用户密码）',
+    en: "Manage dashboard users (create, update, delete, change other users' password)",
+  },
+  scopeDesc_mfa_management: {
+    zh: '管理员可重置任意用户 MFA 并绕过强制启用 MFA 锁定；普通用户仅可对自身 MFA 进行豁免操作',
+    en: "For administrators: reset any user's MFA and override Force MFA locks. For non-administrators: self-exemption only on the holder's own MFA.",
+  },
+  scopeDesc_sso_management: {
+    zh: '配置单点登录后端（LDAP、OIDC、SAML）',
+    en: 'Configure SSO backends (LDAP, OIDC, SAML)',
+  },
+  scopeDesc_api_key_management: {
+    zh: '管理 API 密钥（创建、更新、删除）',
+    en: 'Manage API keys (create, update, delete)',
+  },
 }
