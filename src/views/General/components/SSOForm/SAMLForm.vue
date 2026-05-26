@@ -10,6 +10,12 @@
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">
       <el-switch v-model="formData.enable" />
     </el-form-item>
+    <el-form-item prop="force_mfa">
+      <template #label>
+        <FormItemLabel :label="tl('forceMFA')" :desc="tl('forceMFADesc')" />
+      </template>
+      <el-switch v-model="formData.force_mfa" />
+    </el-form-item>
     <el-form-item prop="dashboard_addr">
       <template #label>
         <FormItemLabel :label="tl('dashboardAddr')" :desc="tl('dashboardAddrDesc')" />

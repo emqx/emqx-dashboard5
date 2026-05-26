@@ -1,6 +1,17 @@
 import { ExhookFailedAction, ExhookStatus, UserRole } from './enum'
 import { SSL } from './common'
 
+export interface APIKeyScope {
+  name: string
+  desc: string
+}
+
+export interface LoginUserScope {
+  name: string
+  desc: string
+  admin_only: boolean
+}
+
 export interface APIKeyFormWhenCreating {
   name: string
   /**
@@ -12,6 +23,7 @@ export interface APIKeyFormWhenCreating {
   enable: boolean
   api_key?: string
   role: string
+  scopes?: string[]
   namespace?: string
 }
 
@@ -24,7 +36,7 @@ export interface APIKey extends APIKeyFormWhenCreating {
 
 export type APIKeyFormWhenEditing = Pick<
   APIKey,
-  'name' | 'expired_at' | 'desc' | 'enable' | 'role' | 'namespace'
+  'name' | 'expired_at' | 'desc' | 'enable' | 'role' | 'namespace' | 'scopes'
 >
 
 export interface ExhookFormForCreate {
@@ -90,11 +102,15 @@ export interface User {
   username: string
   role: UserRole
   namespace: string | null
+  scopes?: string[]
 }
 
 export interface UserItem {
   description: string
   username: string
+  role?: string
+  scopes?: string[]
+  backend?: string
 }
 
 export type UserFormForCreate = UserItem & {

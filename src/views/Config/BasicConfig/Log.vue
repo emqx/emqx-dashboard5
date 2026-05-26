@@ -41,7 +41,7 @@ export default defineComponent({
     const route = useRoute()
     const tab: ComputedRef<string | undefined> = computed(() => route.query.tab?.toString())
 
-    const checkDataIsChanged = () => !isEqual(SchemaFormCom.value?.configForm, rawData)
+    const checkDataIsChanged = () => rawData && !isEqual(SchemaFormCom.value?.configForm, rawData)
     useDataNotSaveConfirm(checkDataIsChanged)
 
     const handleFileSchema = (data: { components: Properties; rules: SchemaRules }) => {

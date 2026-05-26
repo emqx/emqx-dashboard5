@@ -11,11 +11,20 @@
       <p>{{ t('General.currentMFA') }}: {{ getMFAMethodLabel(props.user?.mfa ?? '') }}</p>
     </el-card>
     <template v-if="withMFA">
+      <el-alert v-if="disableMfaBlocked" type="warning" :closable="false" class="mfa-alert">
+        {{ t('General.disableMFAForbiddenBySSO') }}
+      </el-alert>
       <div class="buttons">
         <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
           {{ tl('resetTOTPSecret') }}
         </el-button>
-        <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
+        <el-button
+          type="danger"
+          plain
+          :loading="submitLoading"
+          :disabled="disableMfaBlocked || ssoConfigLoading"
+          @click="deleteMFA"
+        >
           {{ tl('disableMFA') }}
         </el-button>
       </div>
@@ -41,6 +50,8 @@
 
 <script setup lang="ts">
 import { deleteUserMfa, updateUserMfa } from '@/api/function'
+import { getSSOBackend } from '@/api/sso'
+import { UserRole } from '@/types/enum'
 import { type User, UserMFA } from '@/types/typeAlias'
 
 const props = defineProps<{
@@ -52,8 +63,21 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('General')
 
+const store = useStore()
+const currentUser = computed(() => store.state.user)
+const isCurrentUserAdmin = computed(() => currentUser.value.role === UserRole.Admin)
+
 const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
+const isSSOUser = computed(() => !!props.user?.backend && props.user.backend !== 'local')
+const ssoConfigLoading = ref(false)
+const ssoBackendConfig = ref<Record<string, any> | null>(null)
+const isSSOBackendMfaEnforced = computed(
+  () => !!(ssoBackendConfig.value?.force_mfa || ssoBackendConfig.value?.enforce_mfa),
+)
+const disableMfaBlocked = computed(
+  () => !isCurrentUserAdmin.value && isSSOUser.value && isSSOBackendMfaEnforced.value,
+)
 
 const defaultMFA = mfaOptions[0].value
 
@@ -69,24 +93,44 @@ const showDialog = computed({
 watch(showDialog, async (value: boolean) => {
   if (!value) {
     initData()
+    return
   }
+  await loadSSOBackendConfig()
 })
 
 const initData = () => {
   submitLoading.value = false
   selectedMFA.value = defaultMFA
+  ssoConfigLoading.value = false
+  ssoBackendConfig.value = null
+}
+
+const loadSSOBackendConfig = async () => {
+  if (!isSSOUser.value || !props.user?.backend) {
+    ssoBackendConfig.value = null
+    return
+  }
+  try {
+    ssoConfigLoading.value = true
+    ssoBackendConfig.value = (await getSSOBackend(props.user.backend as any)) as Record<string, any>
+  } catch (error) {
+    ssoBackendConfig.value = null
+  } finally {
+    ssoConfigLoading.value = false
+  }
 }
 
 const resetTOTPSecret = async () => {
   try {
     await operationWarning(tl('confirmResetTOTPSecret'))
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
       return
     }
     submitLoading.value = true
-    await updateUserMfa(username, { mechanism: UserMFA.totp })
+    await updateUserMfa(username, { mechanism: UserMFA.totp }, backend ? { backend } : undefined)
     ElMessage.success(t('Base.resetSuccess'))
+    emit('submitted')
     showDialog.value = false
   } catch (error) {
     //
@@ -100,11 +144,11 @@ const { handleLogOut } = useLogOut()
 const enableMFA = async () => {
   try {
     submitLoading.value = true
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
       return
     }
-    await updateUserMfa(username, { mechanism: selectedMFA.value })
+    await updateUserMfa(username, { mechanism: selectedMFA.value }, { backend })
     ElMessage.success(t('Base.enableSuccess'))
     emit('submitted')
     showDialog.value = false
@@ -120,13 +164,21 @@ const enableMFA = async () => {
 const { operationWarning } = useOperationConfirm()
 const deleteMFA = async () => {
   try {
-    const { username } = props.user
+    const { username, backend } = props.user
     if (!username) {
+      return
+    }
+    if (disableMfaBlocked.value) {
+      ElMessage.warning(t('General.disableMFAForbiddenBySSO'))
       return
     }
     await operationWarning(t('General.confirmDisableMFA'))
     submitLoading.value = true
-    await deleteUserMfa(username)
+    if (isSSOUser.value) {
+      await deleteUserMfa(username, { reset: false, backend })
+    } else {
+      await deleteUserMfa(username)
+    }
     ElMessage.success(t('Base.disabledSuccess'))
     emit('submitted')
     showDialog.value = false
@@ -140,6 +192,9 @@ const deleteMFA = async () => {
 
 <style lang="scss">
 .mfa-setting-dialog {
+  .mfa-alert {
+    margin-bottom: 12px;
+  }
   .buttons {
     margin-top: 12px;
   }

@@ -16,5 +16,8 @@
   },
   "datalayers": {
     "server": "The default port should be 8360 when the driver type is Arrow Flight"
+  },
+  "influxdb": {
+    "ping_with_auth": "Controls whether EMQX includes connector credentials in /ping health-check requests. Enable this option if your InfluxDB service requires authentication on /ping. The default is false, which preserves the previous behavior and sends /ping without authentication."
   }
 }

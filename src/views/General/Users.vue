@@ -24,6 +24,22 @@
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
+      <el-table-column :label="tl('userScopes')" :min-width="220">
+        <template #default="{ row }">
+          <template v-if="row.scopes && row.scopes.length">
+            <el-tag
+              v-for="scope in row.scopes"
+              :key="scope"
+              type="info"
+              effect="plain"
+              size="small"
+            >
+              {{ getScopeLabel(scope) }}
+            </el-tag>
+          </template>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="mfa" :label="tl('mfa')" :min-width="280" sortable>
         <template #default="{ row }">
           <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
@@ -59,7 +75,7 @@
             {{ tl('changePassword') }}
           </TableButton>
           <TableButton
-            v-if="canChangePwd(row)"
+            v-if="canManageMfa(row)"
             :disabled="!isCurrentUser(row.username) && !$hasPermission('post')"
             @click="openMfaSettingsDialog(row)"
           >
@@ -115,7 +131,7 @@
           />
         </el-form-item>
         <el-form-item v-if="accessType !== 'chPass'" :label="t('Dashboard.role')" prop="role">
-          <el-select v-model="record.role">
+          <el-select v-model="record.role" @change="handleRoleChanged">
             <el-option
               v-for="{ label, value, desc } in userRoleOptions"
               :key="value"
@@ -124,6 +140,29 @@
             >
               {{ label }}
               <InfoTooltip :content="desc" />
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="accessType !== 'chPass'" :label="tl('userScopes')" prop="scopes">
+          <el-select
+            v-model="record.scopes"
+            multiple
+            clearable
+            :placeholder="tl('userScopesPlaceholder')"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="scope in availableUserScopes"
+              :key="scope.name"
+              :value="scope.name"
+              :label="getScopeLabel(scope.name)"
+              :disabled="scope.admin_only && !isAdminRole"
+            >
+              <span>{{ getScopeLabel(scope.name) }}</span>
+              <span class="scope-desc">
+                {{ getScopeDesc(scope.name) }}
+                <template v-if="scope.admin_only"> ({{ tl('userScopesAdminOnlyTip') }}) </template>
+              </span>
             </el-option>
           </el-select>
         </el-form-item>
@@ -192,13 +231,14 @@
 
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
+import { getLoginUserScopes } from '@/api/systemModule.ts'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
 const SOURCE_LOCAL = 'local'
 
 const store = useStore()
-const { tl, t } = useI18nTl('General')
+const { tl, t, te } = useI18nTl('General')
 
 const dialogVisible = ref(false)
 const tableData = ref([])
@@ -207,6 +247,7 @@ const accessType = ref('')
 const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
+const availableUserScopes = ref([])
 
 const { processUserRecordForSubmit } = useNamespaceUser()
 
@@ -219,12 +260,43 @@ const toggleNamespaceEnabled = () => {
 
 const { userRoleOptions } = useRole()
 
+const isAdminRole = computed(() => record.value.role === UserRole.Admin)
+
+const getScopeLabel = (name) => {
+  const key = `APIKey.scopeLabel_${name}`
+  return te(key) ? t(key) : name
+}
+const getScopeDesc = (name) => {
+  const key = `APIKey.scopeDesc_${name}`
+  return te(key) ? t(key) : ''
+}
+
+const handleRoleChanged = () => {
+  // When switching to a non-admin role, drop any admin-only scopes the
+  // user picked while on admin (server-side schema would reject them).
+  if (!isAdminRole.value && Array.isArray(record.value.scopes)) {
+    const adminOnly = new Set(
+      availableUserScopes.value.filter((s) => s.admin_only).map((s) => s.name),
+    )
+    record.value.scopes = record.value.scopes.filter((name) => !adminOnly.has(name))
+  }
+}
+
+const loadUserScopes = async () => {
+  try {
+    availableUserScopes.value = await getLoginUserScopes()
+  } catch (e) {
+    availableUserScopes.value = []
+  }
+}
+
 const { getBackendLabel } = useSSOBackendsLabel()
 const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
 
 const { loadConfigPromise, hasSSOEnabled, getEnabledSSO } = useSSO()
 
 const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
+const canManageMfa = () => true
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {
@@ -324,6 +396,7 @@ const generateRawForm = () => ({
   role: UserRole.Admin,
   password: '',
   namespace: '',
+  scopes: [],
 })
 
 const isCurrentUser = (user) => user === currentUser.value.username
@@ -332,8 +405,14 @@ const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
 
+  if (type !== 'chPass' && availableUserScopes.value.length === 0) {
+    loadUserScopes()
+  }
+
   if (type === 'edit') {
-    record.value = Object.assign({}, item)
+    record.value = Object.assign({}, item, {
+      scopes: Array.isArray(item.scopes) ? [...item.scopes] : [],
+    })
   } else if (type === 'chPass') {
     record.value = {
       username: item.username,
@@ -367,7 +446,28 @@ const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
 const getRecordForUpdating = () => {
   const ret = processUserRecordForSubmit(record.value)
-  return pick(ret, ['description', 'role'])
+  return buildUserPayload(ret, ['description', 'role', 'scopes'])
+}
+// Build the payload sent to POST/PUT /users.
+//
+// The backend distinguishes three states for the `scopes` field:
+//   - field absent / undefined → fall back to the user's role default
+//     (administrator gets implicit full access; viewer gets implicit
+//     empty — only the role's own privileges apply).
+//   - explicit []              → reject every mapped path (rarely the
+//     intended meaning of "leave it empty" in the UI).
+//   - explicit [..names..]     → only those scopes are granted.
+//
+// The form's empty multi-select therefore must NOT be submitted as `[]`,
+// or the user would be silently locked out of every scope-mapped path.
+// Strip the field entirely when no scope is selected so the backend
+// applies the role default.
+const buildUserPayload = (rec, fields) => {
+  const payload = pick(rec, fields)
+  if (Array.isArray(payload.scopes) && payload.scopes.length === 0) {
+    delete payload.scopes
+  }
+  return payload
 }
 
 const save = async () => {
@@ -390,7 +490,15 @@ const save = async () => {
         store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', true)
       }
     } else {
-      await createUser(processUserRecordForSubmit(record.value))
+      await createUser(
+        buildUserPayload(processUserRecordForSubmit(record.value), [
+          'username',
+          'password',
+          'description',
+          'role',
+          'scopes',
+        ]),
+      )
       ElMessage.success(tl('createUserSuccess'))
     }
     loadData()

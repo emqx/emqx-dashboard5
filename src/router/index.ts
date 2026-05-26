@@ -416,22 +416,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // Hot Upgrade
-  {
-    path: '/hot-upgrade',
-    component: Layout,
-    meta: {
-      hideKey: 'hot-upgrade',
-      authRequired: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'hot-upgrade',
-        component: () => import('@/views/General/HotUpgrade.vue'),
-      },
-    ],
-  },
+  // // Hot Upgrade
+  // {
+  //   path: '/hot-upgrade',
+  //   component: Layout,
+  //   meta: {
+  //     hideKey: 'hot-upgrade',
+  //     authRequired: true,
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'hot-upgrade',
+  //       component: () => import('@/views/General/HotUpgrade.vue'),
+  //     },
+  //   ],
+  // },
   // Plugins
   {
     path: '/plugins',

@@ -99,7 +99,7 @@ const forceShutdownConfig = ref<EmqxForceShutdown>({
 
 const configEnable = computed(() => forceShutdownConfig.value?.enable === true)
 
-const checkDataIsChanged = () => !isEqual(forceShutdownConfig.value, rawData)
+const checkDataIsChanged = () => rawData && !isEqual(forceShutdownConfig.value, rawData)
 useDataNotSaveConfirm(checkDataIsChanged)
 
 const loadData = async () => {

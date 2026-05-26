@@ -138,7 +138,6 @@ import {
   batchDeleteNamespace as requestBatchDeleteNamespace,
 } from '@/api/config'
 import { NamespaceItem } from '@/types/config'
-import { last } from 'lodash'
 import { Trash2 } from 'lucide-vue-next'
 import NamespaceClientsDrawer from './components/NamespaceClientsDrawer.vue'
 import NamespaceConfigDrawer from './components/NamespaceConfigDrawer.vue'
@@ -155,7 +154,8 @@ const dialogVisible = ref(false)
 const onlyManagedNamespaces = ref(true)
 const namespaceTableData = ref<Array<NamespaceItem>>([])
 
-const { page, limit, cursorMap, hasNext } = useCursorPagination()
+const { page, limit, hasNext, getCursor, setCursor, resetCursorMap, emptyCursorAfter } =
+  useCursorPagination()
 
 const currentNamespace = ref<NamespaceItem | undefined>(undefined)
 
@@ -167,15 +167,18 @@ const loadNamespaces = async (isBack?: boolean) => {
   loading.value = true
   try {
     const params = {
-      last_ns: cursorMap.value.get(page.value),
+      last_ns: getCursor(page.value),
       limit: limit.value,
     }
     const funcForQuery = onlyManagedNamespaces.value
       ? queryManagedNamespaceList
       : queryAllTypeNamespaceList
-    namespaceTableData.value = await funcForQuery(params)
-    if (namespaceTableData.value.length === limit.value) {
-      cursorMap.value.set(page.value + 1, last(namespaceTableData.value)?.ns)
+    const namespacePage = await funcForQuery(params)
+    namespaceTableData.value = namespacePage.data
+    if (namespacePage.nextCursor) {
+      setCursor(page.value + 1, namespacePage.nextCursor)
+    } else {
+      emptyCursorAfter(page.value + 1)
     }
     if (isBack && page.value !== 1 && namespaceTableData.value.length === 0) {
       ElMessage.warning(tl('pageJumpTip'))
@@ -197,10 +200,12 @@ const handlePageChange = (no: number) => {
 
 const handleSizeChange = (size: number) => {
   limit.value = size
+  resetCursorMap()
   handlePageChange(1)
 }
 
 const handleViewChanged = () => {
+  resetCursorMap()
   handlePageChange(1)
 }
 
