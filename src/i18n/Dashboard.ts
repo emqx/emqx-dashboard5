@@ -356,7 +356,7 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   },
   connection_low_watermark: {
     zh: '当使用量低于此值时清除警报',
-    en: 'Clear Alarm when usage is below:',
+    en: 'Clear Alarm when usage is below',
   },
   connection_low_watermark_desc: {
     zh: '当低于此限制时，License 的会话配额使用警报将被停用',
