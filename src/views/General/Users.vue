@@ -31,6 +31,7 @@
               {{ getScopeLabel(scope) }}
             </el-tag>
           </template>
+          <span v-else-if="row.scopes === null"> {{ t('APIKey.allScopes') }}</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
