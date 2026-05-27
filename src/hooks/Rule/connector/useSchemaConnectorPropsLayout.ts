@@ -447,7 +447,6 @@ export default (
     [BridgeType.Datalayers]: getDatalayersColClass,
     [BridgeType.KafkaProducer]: getKafkaProducerColClass,
     [BridgeType.Confluent]: getKafkaProducerColClass,
-    [BridgeType.EMQXTables]: { ttl: 'col-hidden', ts_column: 'col-hidden' },
   }
 
   const pgSqlAdvancedFields = ['disable_prepared_statements']
