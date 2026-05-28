@@ -82,7 +82,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="!isPublisherRole">
-          <el-form-item :label="tl('scopes')" prop="scopes">
+          <el-form-item prop="scopes">
+            <template #label>
+              <span>{{ tl('scopes') }}</span>
+              <el-tooltip
+                v-if="formData.scopesNeedUpdate"
+                :content="tl('legacyScopesTip')"
+                placement="top"
+              >
+                <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
+              </el-tooltip>
+            </template>
             <el-select
               v-model="formData.scopes"
               multiple
@@ -145,9 +155,16 @@ import {
   APIKeyScope,
 } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
+import { isLegacyUnsetScopes, normalizeScopes, sanitizeScopesForSubmit } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
+import { Warning } from '@element-plus/icons-vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
+type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
+  Partial<Omit<APIKey, 'scopes'>> & {
+    scopes?: string[]
+    scopesNeedUpdate?: boolean
+  }
 
 const props = defineProps({
   modelValue: {
@@ -183,7 +200,7 @@ const createRawFormData = () => ({
 })
 
 const formCom = ref()
-const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
+const formData: Ref<APIKeyFormData> = ref(createRawFormData())
 const availableScopes: Ref<APIKeyScope[]> = ref([])
 const { createLetterStartRule } = useFormRules()
 const rules = {
@@ -227,7 +244,12 @@ watch(showDialog, async (val) => {
       availableScopes.value = scopes
     })
     if (props.operationType !== 'create') {
-      formData.value = { ...(props.APIKeyData as APIKey) }
+      const data = props.APIKeyData as APIKey
+      formData.value = {
+        ...data,
+        scopes: normalizeScopes(data.scopes),
+        scopesNeedUpdate: isLegacyUnsetScopes(data.scopes),
+      }
       if (props.operationType === 'view') {
         await nextTick()
       }
@@ -264,11 +286,13 @@ const getScopeDesc = (name: string): string => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleDataForSubmitting = (formData: APIKeyFormWhenCreating) => {
+const handleDataForSubmitting = (formData: APIKeyFormData) => {
   const ret = { ...formData }
+  delete ret.scopesNeedUpdate
   if (ret.role === UserRole.Publisher) {
     ret.scopes = undefined
   }
+  sanitizeScopesForSubmit(ret)
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
@@ -336,5 +360,11 @@ const submit = async () => {
   margin-left: 8px;
   font-size: 12px;
   font-weight: normal;
+}
+.legacy-scopes-icon {
+  margin-left: 4px;
+  color: var(--el-color-warning);
+  cursor: help;
+  vertical-align: -2px;
 }
 </style>

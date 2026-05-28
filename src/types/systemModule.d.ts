@@ -1,6 +1,10 @@
 import { ExhookFailedAction, ExhookStatus } from './enum'
 import { SSL } from './common'
 
+export type LegacyUnsetScopes = 'unset'
+
+export type DashboardScopes = string[] | LegacyUnsetScopes | null | undefined
+
 export interface APIKeyScope {
   name: string
   desc: string
@@ -23,7 +27,7 @@ export interface APIKeyFormWhenCreating {
   enable: boolean
   api_key?: string
   role: string
-  scopes?: string[]
+  scopes?: DashboardScopes
 }
 
 export interface APIKey extends APIKeyFormWhenCreating {
@@ -100,14 +104,14 @@ export interface User {
   description: string
   username: string
   role?: string
-  scopes?: string[]
+  scopes?: DashboardScopes
 }
 
 export interface UserItem {
   description: string
   username: string
   role?: string
-  scopes?: string[]
+  scopes?: DashboardScopes
   backend?: string
 }
 
