@@ -37,6 +37,8 @@
             <el-tag
               v-for="scope in row.scopes"
               :key="scope"
+              type="info"
+              effect="plain"
               size="small"
               style="margin-right: 4px; margin-bottom: 2px"
             >
