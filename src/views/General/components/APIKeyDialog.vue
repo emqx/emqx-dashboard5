@@ -148,12 +148,7 @@
 
 <script lang="ts" setup>
 import { UserRole } from '@/types/enum'
-import {
-  APIKeyFormWhenCreating,
-  APIKey,
-  APIKeyFormWhenEditing,
-  APIKeyScope,
-} from '@/types/systemModule'
+import { APIKeyFormWhenCreating, APIKey, APIKeyScope } from '@/types/systemModule'
 import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
 import { isLegacyUnsetScopes, normalizeScopes, sanitizeScopesForSubmit } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
@@ -165,6 +160,7 @@ type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
     scopes?: string[]
     scopesNeedUpdate?: boolean
   }
+const PUBLISHER_SCOPES = ['publish']
 
 const props = defineProps({
   modelValue: {
@@ -269,7 +265,7 @@ const isPublisherRole = computed(() => formData.value.role === UserRole.Publishe
 
 const handleRoleChanged = () => {
   if (formData.value.role === UserRole.Publisher) {
-    formData.value.scopes = undefined
+    formData.value.scopes = [...PUBLISHER_SCOPES]
   }
 }
 
@@ -292,7 +288,7 @@ const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData,
   const ret = { ...formData }
   delete ret.scopesNeedUpdate
   if (ret.role === UserRole.Publisher) {
-    ret.scopes = undefined
+    ret.scopes = [...PUBLISHER_SCOPES]
   }
   sanitizeScopesForSubmit(ret)
   // The interface convention is that when the api key is never expired,
