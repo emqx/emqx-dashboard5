@@ -25,13 +25,13 @@
       </el-table-column>
       <el-table-column prop="scopes" :label="tl('scopes')">
         <template #default="{ row }">
-          <template v-if="isLegacyUnsetScopes(row.scopes)">
+          <span v-if="row.role === UserRole.Publisher">-</span>
+          <template v-else-if="isLegacyUnsetScopes(row.scopes)">
             <span>{{ tl('allScopes') }}</span>
             <el-tooltip :content="tl('legacyScopesTip')" placement="top">
               <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
             </el-tooltip>
           </template>
-          <span v-else-if="row.role === UserRole.Publisher">-</span>
           <span v-else-if="!hasSelectedScopes(row.scopes)">{{ tl('allScopes') }}</span>
           <template v-else>
             <el-tag
