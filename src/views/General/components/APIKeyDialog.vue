@@ -286,7 +286,9 @@ const getScopeDesc = (name: string): string => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleDataForSubmitting = (formData: APIKeyFormData) => {
+const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData, 'name'>>(
+  formData: T,
+) => {
   const ret = { ...formData }
   delete ret.scopesNeedUpdate
   if (ret.role === UserRole.Publisher) {
@@ -307,8 +309,8 @@ const handleDataForSubmitting = (formData: APIKeyFormData) => {
 const submitAddedData = () => createAPIKey(handleDataForSubmitting(formData.value))
 
 const submitUpdatedData = () => {
-  const { name, ...data } = formData.value as APIKeyFormWhenEditing
-  return updateAPIKey(name, handleDataForSubmitting(data as APIKeyFormWhenCreating))
+  const { name, ...data } = formData.value
+  return updateAPIKey(name, handleDataForSubmitting(data))
 }
 
 const submit = async () => {
