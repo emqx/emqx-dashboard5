@@ -22,7 +22,7 @@
         <template #default="{ row }">
           <template v-if="isLegacyUnsetScopes(row.scopes)">
             <span>{{ t('APIKey.allScopes') }}</span>
-            <el-tooltip :content="tl('legacyScopesTip')" placement="top">
+            <el-tooltip :content="tl('legacyUserScopesTip')" placement="top">
               <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
             </el-tooltip>
           </template>
@@ -137,7 +137,7 @@
             <span>{{ tl('userScopes') }}</span>
             <el-tooltip
               v-if="record.scopesNeedUpdate"
-              :content="tl('legacyScopesTip')"
+              :content="tl('legacyUserScopesTip')"
               placement="top"
             >
               <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
