@@ -198,6 +198,9 @@ const createRawFormData = () => ({
 const formCom = ref()
 const formData: Ref<APIKeyFormData> = ref(createRawFormData())
 const availableScopes: Ref<APIKeyScope[]> = ref([])
+const availableScopesPromise: Ref<Promise<APIKeyScope[]> | undefined> = ref(undefined)
+const initialRole = ref<UserRole>(UserRole.Admin)
+const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
 const rules = {
   name: [
@@ -234,11 +237,17 @@ const showDialog = computed({
   },
 })
 
+const loadAvailableScopes = () => {
+  availableScopesPromise.value = getAPIKeyScopes().then((scopes) => {
+    availableScopes.value = scopes
+    return scopes
+  })
+  return availableScopesPromise.value
+}
+
 watch(showDialog, async (val) => {
   if (val) {
-    getAPIKeyScopes().then((scopes) => {
-      availableScopes.value = scopes
-    })
+    loadAvailableScopes()
     if (props.operationType !== 'create') {
       const data = props.APIKeyData as APIKey
       formData.value = {
@@ -246,15 +255,21 @@ watch(showDialog, async (val) => {
         scopes: normalizeScopes(data.scopes),
         scopesNeedUpdate: isLegacyUnsetScopes(data.scopes),
       }
+      initialRole.value = formData.value.role as UserRole
+      lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
         await nextTick()
       }
     } else {
       await nextTick()
+      initialRole.value = formData.value.role as UserRole
+      lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
   } else {
     formData.value = createRawFormData()
+    initialRole.value = UserRole.Admin
+    lastRole.value = UserRole.Admin
   }
 })
 
@@ -263,10 +278,23 @@ const { copyText } = useCopy()
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
 
+const isOnlyPublisherScope = (scopes: APIKeyFormData['scopes']) =>
+  Array.isArray(scopes) && scopes.length === 1 && scopes[0] === PUBLISHER_SCOPES[0]
+
+const getAllScopeNames = () => availableScopes.value.map(({ name }) => name)
+
+const isChangingPublisherToAdmin = (role?: string) =>
+  initialRole.value === UserRole.Publisher && role === UserRole.Admin
+
 const handleRoleChanged = () => {
   if (formData.value.role === UserRole.Publisher) {
     formData.value.scopes = [...PUBLISHER_SCOPES]
+  } else if (lastRole.value === UserRole.Publisher && formData.value.role === UserRole.Admin) {
+    formData.value.scopes = getAllScopeNames()
+  } else if (lastRole.value === UserRole.Publisher && isOnlyPublisherScope(formData.value.scopes)) {
+    formData.value.scopes = []
   }
+  lastRole.value = formData.value.role as UserRole
 }
 
 const getScopeLabel = (name: string): string => {
@@ -290,6 +318,12 @@ const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData,
   if (ret.role === UserRole.Publisher) {
     ret.scopes = [...PUBLISHER_SCOPES]
   }
+  if (
+    isChangingPublisherToAdmin(ret.role) &&
+    (!Array.isArray(ret.scopes) || ret.scopes.length === 0)
+  ) {
+    ret.scopes = getAllScopeNames()
+  }
   sanitizeScopesForSubmit(ret)
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
@@ -304,8 +338,11 @@ const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData,
 
 const submitAddedData = () => createAPIKey(handleDataForSubmitting(formData.value))
 
-const submitUpdatedData = () => {
+const submitUpdatedData = async () => {
   const { name, ...data } = formData.value
+  if (isChangingPublisherToAdmin(data.role) && availableScopes.value.length === 0) {
+    await (availableScopesPromise.value ?? loadAvailableScopes())
+  }
   return updateAPIKey(name, handleDataForSubmitting(data))
 }
 
