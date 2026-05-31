@@ -46,7 +46,7 @@ export const getLoginUserScopes = async (): Promise<LoginUserScope[]> => {
 }
 export const updateAPIKey = (
   name: string,
-  data: Pick<APIKeyFormWhenEditing, 'desc' | 'enable' | 'expired_at' | 'scopes'>,
+  data: Pick<APIKeyFormWhenEditing, 'desc' | 'enable' | 'expired_at' | 'role' | 'scopes'>,
 ): Promise<APIKey> => {
   return http.put(`/api_key/${name}`, data)
 }

@@ -39,7 +39,7 @@ export interface APIKey extends APIKeyFormWhenCreating {
 
 export type APIKeyFormWhenEditing = Pick<
   APIKey,
-  'name' | 'expired_at' | 'desc' | 'enable' | 'scopes'
+  'name' | 'expired_at' | 'desc' | 'enable' | 'role' | 'scopes'
 >
 
 export interface ExhookFormForCreate {
