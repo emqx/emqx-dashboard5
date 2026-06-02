@@ -160,10 +160,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item
-              :label="getLabel('dispatch_strategy')"
-              prop="resource_opts.dispatch_strategy"
-            >
+            <el-form-item prop="resource_opts.dispatch_strategy">
+              <template #label>
+                <FormItemLabel
+                  :label="getLabel('dispatch_strategy')"
+                  :desc="$t('BridgeSchema.common.dispatch_strategy.desc')"
+                  desc-marked
+                />
+              </template>
               <el-select v-model="record.resource_opts.dispatch_strategy">
                 <el-option
                   v-for="item in ['per_clientid', 'random']"
