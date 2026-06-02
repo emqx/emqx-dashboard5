@@ -163,6 +163,21 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item
+              :label="getLabel('dispatch_strategy')"
+              prop="resource_opts.dispatch_strategy"
+            >
+              <el-select v-model="record.resource_opts.dispatch_strategy">
+                <el-option
+                  v-for="item in ['per_clientid', 'random']"
+                  :key="item"
+                  :value="item"
+                  :label="$t(`SchemaSymbolLabel.${item}`)"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item :label="getLabel('request_ttl')" prop="resource_opts.request_ttl">
               <Oneof
                 v-model="record.resource_opts.request_ttl"
