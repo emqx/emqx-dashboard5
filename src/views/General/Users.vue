@@ -26,7 +26,13 @@
       </el-table-column>
       <el-table-column :label="tl('userScopes')" :min-width="220">
         <template #default="{ row }">
-          <template v-if="row.scopes && row.scopes.length">
+          <template v-if="isLegacyUnsetScopes(row.scopes)">
+            <span>{{ t('APIKey.allScopes') }}</span>
+            <el-tooltip :content="tl('legacyUserScopesTip')" placement="top">
+              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
+            </el-tooltip>
+          </template>
+          <template v-else-if="hasSelectedScopes(row.scopes)">
             <el-tag
               v-for="scope in row.scopes"
               :key="scope"
@@ -37,6 +43,7 @@
               {{ getScopeLabel(scope) }}
             </el-tag>
           </template>
+          <span v-else-if="row.scopes === null"> {{ t('APIKey.allScopes') }}</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
@@ -143,7 +150,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" :label="tl('userScopes')" prop="scopes">
+        <el-form-item v-if="accessType !== 'chPass'" prop="scopes">
+          <template #label>
+            <span>{{ tl('userScopes') }}</span>
+            <el-tooltip
+              v-if="record.scopesNeedUpdate"
+              :content="tl('legacyUserScopesTip')"
+              placement="top"
+            >
+              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
+            </el-tooltip>
+          </template>
           <el-select
             v-model="record.scopes"
             multiple
@@ -232,8 +249,15 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
+import {
+  hasSelectedScopes,
+  isLegacyUnsetScopes,
+  normalizeScopes,
+  sanitizeScopesForSubmit,
+} from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
+import { Warning } from '@element-plus/icons-vue'
 
 const SOURCE_LOCAL = 'local'
 
@@ -411,7 +435,8 @@ const showDialog = (type = 'create', item = {}) => {
 
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
-      scopes: Array.isArray(item.scopes) ? [...item.scopes] : [],
+      scopes: normalizeScopes(item.scopes) ?? [],
+      scopesNeedUpdate: isLegacyUnsetScopes(item.scopes),
     })
   } else if (type === 'chPass') {
     record.value = {
@@ -452,8 +477,8 @@ const getRecordForUpdating = () => {
 //
 // The backend distinguishes three states for the `scopes` field:
 //   - field absent / undefined → fall back to the user's role default
-//     (administrator gets implicit full access; viewer gets implicit
-//     empty — only the role's own privileges apply).
+//     (administrator, viewer, and SSO users all get the default scope list
+//     that belongs to their role).
 //   - explicit []              → reject every mapped path (rarely the
 //     intended meaning of "leave it empty" in the UI).
 //   - explicit [..names..]     → only those scopes are granted.
@@ -464,10 +489,7 @@ const getRecordForUpdating = () => {
 // applies the role default.
 const buildUserPayload = (rec, fields) => {
   const payload = pick(rec, fields)
-  if (Array.isArray(payload.scopes) && payload.scopes.length === 0) {
-    delete payload.scopes
-  }
-  return payload
+  return sanitizeScopesForSubmit(payload)
 }
 
 const save = async () => {
@@ -539,6 +561,12 @@ onBeforeMount(async () => {
 .users {
   .el-tag {
     margin-right: 4px;
+  }
+  .legacy-scopes-icon {
+    margin-left: 4px;
+    color: var(--el-color-warning);
+    cursor: help;
+    vertical-align: -2px;
   }
   .mfa-label {
     text-wrap: nowrap;

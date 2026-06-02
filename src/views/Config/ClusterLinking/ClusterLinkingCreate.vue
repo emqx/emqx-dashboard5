@@ -47,10 +47,11 @@ const generateRawRecord = (): ClusterLinkingData => ({
   resource_opts: {
     start_timeout: '5s',
     worker_pool_size: 16,
+    dispatch_strategy: 'per_clientid',
+    request_ttl: '45s',
     health_check_interval: '15s',
     max_buffer_bytes: '256MB',
     inflight_window: 100,
-    request_ttl: '45s',
   },
 })
 

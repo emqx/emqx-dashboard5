@@ -63,6 +63,10 @@ export default {
     zh: '仅管理员可持有此权限范围',
     en: 'Only administrators may hold this scope',
   },
+  legacyUserScopesTip: {
+    zh: '该用户的权限范围未设置，请编辑并保存权限范围。',
+    en: 'This user has no scopes set. Edit and save the scopes.',
+  },
   source: {
     zh: '来源',
     en: 'Source',

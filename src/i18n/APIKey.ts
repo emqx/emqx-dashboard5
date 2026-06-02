@@ -68,12 +68,16 @@ export default {
     en: 'Scopes',
   },
   scopesPlaceholder: {
-    zh: '默认拥有全部范围权限',
-    en: 'Defaults to all scope permissions',
+    zh: '未选择时按角色默认权限授权',
+    en: 'When empty, fall back to the role default',
   },
   allScopes: {
     zh: '全部',
     en: 'All',
+  },
+  legacyScopesTip: {
+    zh: '该 API 密钥的权限范围未设置，请编辑并保存权限范围。',
+    en: 'This API key has no scopes set. Edit and save its scopes.',
   },
   scopeLabel_connections: {
     zh: '连接',
