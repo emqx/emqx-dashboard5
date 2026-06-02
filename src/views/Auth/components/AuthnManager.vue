@@ -95,7 +95,7 @@
             autocomplete="one-time-code"
           />
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="showIsSuperuserField">
           <div class="border-checkbox">
             <el-checkbox v-model="record.is_superuser" :label="$t('Auth.isSuperuser')" />
             <p class="checkbox-note">
@@ -163,6 +163,8 @@ const record = ref<DataManagerItem>(createRawUserForm())
 const namespace = ref<string | undefined>(
   isNamespaceUser.value ? currentUserNamespace.value : undefined,
 )
+const isNamespaceScopedUser = computed(() => !prop.gateway && !isUndefined(record.value.namespace))
+const showIsSuperuserField = computed(() => !isNamespaceScopedUser.value)
 const tableData = ref([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
@@ -299,7 +301,10 @@ const save = async () => {
 const handleAdd = async function () {
   let res
   try {
-    const dataToSubmit = record.value
+    const dataToSubmit = { ...record.value }
+    if (isNamespaceScopedUser.value) {
+      Reflect.deleteProperty(dataToSubmit, 'is_superuser')
+    }
     if (prop.gateway) {
       res = await addGatewayUserManagement(prop.gateway, dataToSubmit)
     } else {
@@ -326,9 +331,11 @@ const handleAdd = async function () {
 const handleUpdate = async function () {
   const { password, is_superuser, user_id, namespace } = record.value
 
-  const data = {
+  const data: { password: string; is_superuser?: boolean } = {
     password,
-    is_superuser,
+  }
+  if (!isNamespaceScopedUser.value) {
+    data.is_superuser = is_superuser
   }
   let res
   if (prop.gateway) {
