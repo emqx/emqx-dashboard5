@@ -106,7 +106,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="!isPublisherRole">
-          <el-form-item :label="tl('scopes')" prop="scopes">
+          <el-form-item prop="scopes">
+            <template #label>
+              <span>{{ tl('scopes') }}</span>
+              <el-tooltip
+                v-if="formData.scopesNeedUpdate"
+                :content="tl('legacyScopesTip')"
+                placement="top"
+              >
+                <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
+              </el-tooltip>
+            </template>
             <el-select
               v-model="formData.scopes"
               multiple
@@ -171,9 +181,17 @@ import {
   APIKeyFormWhenEditing,
   APIKeyScope,
 } from '@/types/systemModule'
+import { isLegacyUnsetScopes, normalizeScopes, sanitizeScopesForSubmit } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
+import { Warning } from '@element-plus/icons-vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
+type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
+  Partial<Omit<APIKey, 'scopes'>> & {
+    scopes?: string[]
+    scopesNeedUpdate?: boolean
+  }
+const PUBLISHER_SCOPES = ['publish']
 
 const props = defineProps({
   modelValue: {
@@ -209,8 +227,11 @@ const createRawFormData = () => ({
 })
 
 const formCom = ref()
-const formData: Ref<APIKeyFormWhenCreating | APIKey> = ref(createRawFormData())
+const formData: Ref<APIKeyFormData> = ref(createRawFormData())
 const availableScopes: Ref<APIKeyScope[]> = ref([])
+const availableScopesPromise: Ref<Promise<APIKeyScope[]> | undefined> = ref(undefined)
+const initialRole = ref<UserRole>(UserRole.Admin)
+const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
 const rules = {
   name: [
@@ -267,24 +288,41 @@ const showDialog = computed({
   },
 })
 
+const loadAvailableScopes = () => {
+  availableScopesPromise.value = getAPIKeyScopes().then((scopes) => {
+    availableScopes.value = scopes
+    return scopes
+  })
+  return availableScopesPromise.value
+}
+
 watch(showDialog, async (val) => {
   if (val) {
-    getAPIKeyScopes().then((scopes) => {
-      availableScopes.value = scopes
-    })
+    loadAvailableScopes()
     if (props.operationType !== 'create') {
-      formData.value = { ...(props.APIKeyData as APIKey) }
+      const data = props.APIKeyData as APIKey
+      formData.value = {
+        ...data,
+        scopes: normalizeScopes(data.scopes),
+        scopesNeedUpdate: isLegacyUnsetScopes(data.scopes),
+      }
+      initialRole.value = formData.value.role as UserRole
+      lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
         await nextTick()
       }
     } else {
       await nextTick()
+      initialRole.value = formData.value.role as UserRole
+      lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
     isNamespaceEnabled.value =
       !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
   } else {
     formData.value = createRawFormData()
+    initialRole.value = UserRole.Admin
+    lastRole.value = UserRole.Admin
   }
 })
 
@@ -293,10 +331,23 @@ const { copyText } = useCopy()
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
 
+const isOnlyPublisherScope = (scopes: APIKeyFormData['scopes']) =>
+  Array.isArray(scopes) && scopes.length === 1 && scopes[0] === PUBLISHER_SCOPES[0]
+
+const getAllScopeNames = () => availableScopes.value.map(({ name }) => name)
+
+const isChangingPublisherToAdmin = (role?: string) =>
+  initialRole.value === UserRole.Publisher && role === UserRole.Admin
+
 const handleRoleChanged = () => {
   if (formData.value.role === UserRole.Publisher) {
-    formData.value.scopes = undefined
+    formData.value.scopes = [...PUBLISHER_SCOPES]
+  } else if (lastRole.value === UserRole.Publisher && formData.value.role === UserRole.Admin) {
+    formData.value.scopes = getAllScopeNames()
+  } else if (lastRole.value === UserRole.Publisher && isOnlyPublisherScope(formData.value.scopes)) {
+    formData.value.scopes = []
   }
+  lastRole.value = formData.value.role as UserRole
 }
 
 const getScopeLabel = (name: string): string => {
@@ -312,11 +363,21 @@ const getScopeDesc = (name: string): string => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleDataForSubmitting = (formData: APIKeyFormWhenCreating) => {
+const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData, 'name'>>(
+  formData: T,
+) => {
   const ret = { ...formData }
+  delete ret.scopesNeedUpdate
   if (ret.role === UserRole.Publisher) {
-    ret.scopes = undefined
+    ret.scopes = [...PUBLISHER_SCOPES]
   }
+  if (
+    isChangingPublisherToAdmin(ret.role) &&
+    (!Array.isArray(ret.scopes) || ret.scopes.length === 0)
+  ) {
+    ret.scopes = getAllScopeNames()
+  }
+  sanitizeScopesForSubmit(ret)
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
@@ -332,11 +393,14 @@ const { processUserRecordForSubmit, processAPIKeyRecordForUpdating } = useNamesp
 const submitAddedData = () =>
   createAPIKey(processUserRecordForSubmit(handleDataForSubmitting(formData.value)))
 
-const submitUpdatedData = () => {
+const submitUpdatedData = async () => {
   const { name, ...data } = formData.value as APIKeyFormWhenEditing
+  if (isChangingPublisherToAdmin(data.role) && availableScopes.value.length === 0) {
+    await (availableScopesPromise.value ?? loadAvailableScopes())
+  }
   return updateAPIKey(
     name,
-    processAPIKeyRecordForUpdating(handleDataForSubmitting(data as APIKeyFormWhenCreating)),
+    processAPIKeyRecordForUpdating(handleDataForSubmitting(data as APIKeyFormData)),
   )
 }
 
@@ -397,5 +461,11 @@ const submit = async () => {
   margin-left: 8px;
   font-size: 12px;
   font-weight: normal;
+}
+.legacy-scopes-icon {
+  margin-left: 4px;
+  color: var(--el-color-warning);
+  cursor: help;
+  vertical-align: -2px;
 }
 </style>
