@@ -283,8 +283,8 @@ const isOnlyPublisherScope = (scopes: APIKeyFormData['scopes']) =>
 
 const getAllScopeNames = () => availableScopes.value.map(({ name }) => name)
 
-const isChangingPublisherToAdmin = (role?: string) =>
-  initialRole.value === UserRole.Publisher && role === UserRole.Admin
+const isChangingFromPublisher = (role?: string) =>
+  initialRole.value === UserRole.Publisher && role !== UserRole.Publisher
 
 const handleRoleChanged = () => {
   if (formData.value.role === UserRole.Publisher) {
@@ -319,7 +319,7 @@ const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData,
     ret.scopes = [...PUBLISHER_SCOPES]
   }
   if (
-    isChangingPublisherToAdmin(ret.role) &&
+    isChangingFromPublisher(ret.role) &&
     (!Array.isArray(ret.scopes) || ret.scopes.length === 0)
   ) {
     ret.scopes = getAllScopeNames()
@@ -340,7 +340,7 @@ const submitAddedData = () => createAPIKey(handleDataForSubmitting(formData.valu
 
 const submitUpdatedData = async () => {
   const { name, ...data } = formData.value
-  if (isChangingPublisherToAdmin(data.role) && availableScopes.value.length === 0) {
+  if (isChangingFromPublisher(data.role) && availableScopes.value.length === 0) {
     await (availableScopesPromise.value ?? loadAvailableScopes())
   }
   return updateAPIKey(name, handleDataForSubmitting(data))
