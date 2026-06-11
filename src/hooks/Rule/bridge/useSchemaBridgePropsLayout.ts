@@ -152,7 +152,7 @@ export default (
       ...createOrderObj(httpAdvancedFields, 70),
     },
     [BridgeType.MQTT]: createOrderObj(
-      getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
+      getPathArrInParameters(['topic', 'qos', 'retain', 'retain_as_published', 'payload']),
       fieldStartIndex,
     ),
     [BridgeType.MySQL]: createOrderObj(
