@@ -2091,7 +2091,10 @@ export const EmqxSslClientOptsLogLevel = {
 } as const
 
 export interface EmqxClientTcpOpts {
+  /** @minimum 0 */
+  active_n?: number
   buffer?: string
+  delay_send?: boolean
   keepalive?: boolean
   nodelay?: boolean
   recbuf?: string

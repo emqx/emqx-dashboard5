@@ -18,8 +18,8 @@ importers:
         specifier: ~0.0.5
         version: 0.0.5
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.68
-        version: 0.0.68
+        specifier: ~0.0.69
+        version: 0.0.69
       '@emqx/shared-ui-utils':
         specifier: ~0.0.24
         version: 0.0.24(typescript@5.5.4)
@@ -404,8 +404,8 @@ packages:
   '@emqx/shared-ui-constants@0.0.5':
     resolution: {integrity: sha512-WGS2DOgskpJLZZUqBGIZn+LwX5VT4HdYQ9XYa2tYwiex4Wy1I5QXvSljW2/l7ckKMJkd9izuYgyP6SE6PWfkMg==}
 
-  '@emqx/shared-ui-i18n@0.0.68':
-    resolution: {integrity: sha512-dgk2nDb+AfNE9ekZ47/N7EIsQu2KQtRgd7whUDXENTMAmRk1BtoziHdL+rJI0FfYL+lCjS96DbcAAw1ZlbWCyw==}
+  '@emqx/shared-ui-i18n@0.0.69':
+    resolution: {integrity: sha512-UudRMVUcNMzC7iFK+hNdh/YlnRz2EGgU3WeYRmyLhkrHZxvp6WTMpsSrbPz2b6GnEJHu7IclDXUvmSGoc0K+hg==}
 
   '@emqx/shared-ui-utils@0.0.24':
     resolution: {integrity: sha512-8Hq4ljQQUI5aPRMfS3jfifRZB2ym41GINmvXnO7tZ+UWrBE7haqMusb6blatbdDjRHZk1GZ7d3GabMgJxTrfhQ==}
@@ -2310,8 +2310,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  hasown@2.0.3:
-    resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
+  hasown@2.0.4:
+    resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
   he@1.2.0:
@@ -3114,6 +3114,10 @@ packages:
     resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==}
     engines: {node: '>=4'}
 
+  postcss-selector-parser@6.1.3:
+    resolution: {integrity: sha512-cDoO18VWCIWRsSaws3C23b0HXRxlUknttfdNcbXnf3IGHAPRNLlXPHc6dYiatOkxW0W4uZh524Plaaw5a7WEtQ==}
+    engines: {node: '>=4'}
+
   postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
@@ -3499,8 +3503,8 @@ packages:
     resolution: {integrity: sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww==}
     engines: {node: '>=12.0.0'}
 
-  tinyglobby@0.2.16:
-    resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
+  tinyglobby@0.2.17:
+    resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
 
   to-fast-properties@2.0.0:
@@ -4113,7 +4117,7 @@ snapshots:
 
   '@emqx/shared-ui-constants@0.0.5': {}
 
-  '@emqx/shared-ui-i18n@0.0.68': {}
+  '@emqx/shared-ui-i18n@0.0.69': {}
 
   '@emqx/shared-ui-utils@0.0.24(typescript@5.5.4)':
     dependencies:
@@ -6261,7 +6265,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hasown@2.0.3:
+  hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
 
@@ -6355,7 +6359,7 @@ snapshots:
 
   is-core-module@2.16.2:
     dependencies:
-      hasown: 2.0.3
+      hasown: 2.0.4
 
   is-data-view@1.0.1:
     dependencies:
@@ -7062,9 +7066,14 @@ snapshots:
   postcss-nested@6.2.0(postcss@8.5.15):
     dependencies:
       postcss: 8.5.15
-      postcss-selector-parser: 6.1.2
+      postcss-selector-parser: 6.1.3
 
   postcss-selector-parser@6.1.2:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+
+  postcss-selector-parser@6.1.3:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -7455,7 +7464,7 @@ snapshots:
       lines-and-columns: 1.2.4
       mz: 2.7.0
       pirates: 4.0.7
-      tinyglobby: 0.2.16
+      tinyglobby: 0.2.17
       ts-interface-checker: 0.1.13
 
   supports-color@5.5.0:
@@ -7512,7 +7521,7 @@ snapshots:
       postcss-js: 4.1.0(postcss@8.5.15)
       postcss-load-config: 4.0.2(postcss@8.5.15)
       postcss-nested: 6.2.0(postcss@8.5.15)
-      postcss-selector-parser: 6.1.2
+      postcss-selector-parser: 6.1.3
       resolve: 1.22.12
       sucrase: 3.35.1
     transitivePeerDependencies:
@@ -7537,7 +7546,7 @@ snapshots:
       fdir: 6.4.3(picomatch@4.0.2)
       picomatch: 4.0.2
 
-  tinyglobby@0.2.16:
+  tinyglobby@0.2.17:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
