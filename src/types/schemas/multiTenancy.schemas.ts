@@ -349,6 +349,7 @@ export interface MtClientLimiterIn {
   delivery_bytes?: MtLimiterOptions
   delivery_messages?: MtLimiterOptions
   messages?: MtLimiterOptions
+  subscribes?: MtLimiterOptions
 }
 
 export type MtLimiterConfigInClient = MtClientLimiterIn | 'disabled'

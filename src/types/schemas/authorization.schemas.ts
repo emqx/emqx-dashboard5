@@ -1127,6 +1127,7 @@ export interface AuthzRedisSingle {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthzRedisSingleRedisType
   server: string
   ssl?: EmqxSslClientOpts
@@ -1170,6 +1171,7 @@ export interface AuthzRedisSentinel {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthzRedisSentinelRedisType
   sentinel: string
   sentinel_password?: string
@@ -1214,6 +1216,7 @@ export interface AuthzRedisCluster {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   redis_type?: AuthzRedisClusterRedisType
   servers: string
   ssl?: EmqxSslClientOpts
@@ -1238,6 +1241,7 @@ export interface AuthzPostgresql {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   query: string
   server: string
   ssl?: EmqxSslClientOpts
@@ -1267,6 +1271,7 @@ export interface AuthzMysql {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   /** @deprecated */
   prepare_statement?: AuthzMysqlPrepareStatement
   query: string
@@ -1325,6 +1330,7 @@ export interface AuthzMongoSingle {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   server: string
   /** @minimum 0 */
   skip?: number
@@ -1386,6 +1392,7 @@ export interface AuthzMongoSharded {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   servers: string
   /** @minimum 0 */
   skip?: number
@@ -1453,6 +1460,7 @@ export interface AuthzMongoRs {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   r_mode?: AuthzMongoRsRMode
   replica_set_name: string
   servers: string
@@ -1483,6 +1491,7 @@ export interface AuthzLdap {
   password?: string
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   publish_attribute?: string
   query_timeout?: string
   request_timeout?: string
@@ -1529,6 +1538,7 @@ export interface AuthzHttpPost {
   method: AuthzHttpPostMethod
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   request?: ConnectorHttpRequest
   request_timeout?: string
   /** @deprecated */
@@ -1574,6 +1584,7 @@ export interface AuthzHttpGet {
   method: AuthzHttpGetMethod
   /** @minimum 1 */
   pool_size?: number
+  precondition?: string
   request?: ConnectorHttpRequest
   request_timeout?: string
   /** @deprecated */
@@ -1593,6 +1604,7 @@ export const AuthzFileType = {
 export interface AuthzFile {
   enable?: boolean
   path: string
+  precondition?: string
   type: AuthzFileType
 }
 
@@ -1607,6 +1619,7 @@ export interface AuthzBuiltinDb {
   enable?: boolean
   /** @minimum 1 */
   max_rules?: number
+  precondition?: string
   type: AuthzBuiltinDbType
 }
 
@@ -1619,6 +1632,7 @@ export const AuthzApiFileType = {
 
 export interface AuthzApiFile {
   enable?: boolean
+  precondition?: string
   rules: string
   type: AuthzApiFileType
 }

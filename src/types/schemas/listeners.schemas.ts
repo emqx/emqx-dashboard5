@@ -231,6 +231,8 @@ export interface ListenersWssRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWssRequiredBindType
   websocket?: EmqxWsOpts
@@ -283,6 +285,8 @@ export interface ListenersWssNotRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWssNotRequiredBindType
   websocket?: EmqxWsOpts
@@ -334,6 +338,8 @@ export interface ListenersWsRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWsRequiredBindType
   websocket?: EmqxWsOpts
@@ -385,6 +391,8 @@ export interface ListenersWsNotRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWsNotRequiredBindType
   websocket?: EmqxWsOpts
@@ -437,6 +445,8 @@ export interface ListenersWithNameWssRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWithNameWssRequiredBindType
   websocket?: EmqxWsOpts
@@ -488,6 +498,8 @@ export interface ListenersWithNameWsRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWithNameWsRequiredBindType
   websocket?: EmqxWsOpts
@@ -558,6 +570,8 @@ export interface ListenersWithNameTcpRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_backend?: ListenersWithNameTcpRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersWithNameTcpRequiredBindType
@@ -620,6 +634,8 @@ export interface ListenersWithNameSslRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersWithNameSslRequiredBindType
   zone?: string
@@ -709,6 +725,8 @@ export interface ListenersTcpRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_backend?: ListenersTcpRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersTcpRequiredBindType
@@ -779,6 +797,8 @@ export interface ListenersTcpNotRequiredBind {
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
   running?: boolean
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_backend?: ListenersTcpNotRequiredBindTcpBackend
   tcp_options?: EmqxTcpOpts
   type: ListenersTcpNotRequiredBindType
@@ -852,6 +872,8 @@ export interface ListenersSslRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersSslRequiredBindType
   zone?: string
@@ -913,6 +935,8 @@ export interface ListenersSslNotRequiredBind {
   proxy_protocol_timeout?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   tcp_options?: EmqxTcpOpts
   type: ListenersSslNotRequiredBindType
   zone?: string
@@ -962,6 +986,8 @@ export interface ListenersQuicRequiredBind {
   mountpoint?: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   type: ListenersQuicRequiredBindType
   zone?: string
 }
@@ -1010,6 +1036,8 @@ export interface ListenersQuicNotRequiredBind {
   mountpoint?: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   type: ListenersQuicNotRequiredBindType
   zone?: string
 }
@@ -1324,6 +1352,8 @@ export interface ListenersWithNameQuicRequiredBind {
   name: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
+  subscribes_burst?: string
+  subscribes_rate?: string
   type: ListenersWithNameQuicRequiredBindType
   zone?: string
 }
