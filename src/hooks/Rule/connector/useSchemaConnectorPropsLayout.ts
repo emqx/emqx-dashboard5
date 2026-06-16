@@ -204,6 +204,7 @@ export default (
   )
   const GCPProducerOrderMap = createOrderObj(
     [
+      'authentication',
       'service_account_json',
       'gcp_project_id',
       'gcp_project_number',
