@@ -416,10 +416,6 @@ If subscriber fails to reply in time, it's kicked from the group and all its wor
     desc: 'Store the latest N log entries in a database for allow `/audit` HTTP API to filter and retrieval of log data. The interval for purging redundant log records is maintained within a range of 10~20 seconds.',
     label: 'Cache Size',
   },
-  cache_size: {
-    desc: 'Store the latest N log entries in a database to allow the `/audit` HTTP API to filter and retrieve log data.',
-    label: 'Cache Size',
-  },
   ignore_high_frequency_request: {
     desc: 'Ignore high frequency requests to avoid flooding the audit log, such as publish/subscribe kick out http api requests are ignored.',
     label: 'Ignore High Frequency Request',

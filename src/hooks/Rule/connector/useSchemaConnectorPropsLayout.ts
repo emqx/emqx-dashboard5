@@ -96,6 +96,8 @@ export default (
         'bootstrap_hosts',
         'authentication',
         'authentication.password',
+        'authentication.endpoint',
+        'authentication.region',
         'ssl',
         'health_check_topic',
         'allow_auto_topic_creation',
@@ -115,6 +117,8 @@ export default (
         'authentication',
         'authentication.username',
         'authentication.password',
+        'authentication.endpoint',
+        'authentication.region',
         // these two just for confluent
         'logical_cluster',
         'identity_pool_id',
@@ -445,10 +449,11 @@ export default (
     return { 'parameters.enable_prepared': 'col-hidden' }
   }
   const getKafkaProducerColClass = (formData: Record<string, any>): Record<string, string> => {
+    const ret = { 'authentication.type': 'col-hidden' }
     if (/oauth/i.test(formData?.authentication?.mechanism)) {
-      return { 'authentication.mechanism': 'col-hidden' }
+      return { ...ret, 'authentication.mechanism': 'col-hidden' }
     }
-    return {}
+    return ret
   }
   const getKafkaConsumerColClass = (formData: Record<string, any>) => {
     const ret = { allow_auto_topic_creation: 'col-hidden' }
