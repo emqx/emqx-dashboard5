@@ -784,6 +784,14 @@ export interface FileTransferLocalStorage {
   segments?: FileTransferLocalStorageSegments
 }
 
+export interface FileTransferFileTransfer {
+  assemble_timeout?: string
+  enable?: boolean
+  init_timeout?: string
+  storage?: FileTransferStorageBackend
+  store_segment_timeout?: string
+}
+
 export type EmqxSysmonVmLongSchedule = string | 'disabled'
 
 export type EmqxSysmonVmLongGc = string | 'disabled'
@@ -975,6 +983,8 @@ export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
 export type EmqxMqttMaxSubscriptions = 'infinity' | number
 
+export type EmqxMqttMaxSessionExpiryInterval = 'infinity' | string
+
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
 export type EmqxMqttMaxAwaitingRel = 'infinity' | number
@@ -1011,6 +1021,7 @@ export interface EmqxMqtt {
    * @maximum 2
    */
   max_qos_allowed?: number
+  max_session_expiry_interval?: EmqxMqttMaxSessionExpiryInterval
   max_subscriptions?: EmqxMqttMaxSubscriptions
   /**
    * @minimum 0
@@ -1197,14 +1208,6 @@ export interface EmqxFlappingDetect {
   /** @minimum 0 */
   max_count?: number
   window_time?: string
-}
-
-export interface EmqxFileTransfer {
-  assemble_timeout?: string
-  enable?: boolean
-  init_timeout?: string
-  storage?: FileTransferStorageBackend
-  store_segment_timeout?: string
 }
 
 export interface EmqxEventNames {
