@@ -159,7 +159,7 @@ const judgeTypeIndexByValue = (value: FieldValue, items: Array<OneOfItem>): numb
       return prop
     })
   })
-  return ret < -1 ? 0 : ret
+  return ret < 0 ? 0 : ret
 }
 const init = () => {
   if (props.modelValue) {
