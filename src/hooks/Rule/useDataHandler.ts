@@ -116,19 +116,6 @@ export const useConnectorDataHandler = (): {
     handleDataForSaveAsCopy,
   } = useCommonDataHandler()
 
-  const { tl } = useI18nTl('RuleEngine')
-  const handleGCPData = (data: any) => {
-    if (data.service_account_json && typeof data.service_account_json === 'string') {
-      try {
-        data.service_account_json = JSON.parse(data.service_account_json)
-        return data
-      } catch (error) {
-        ElMessage.error(tl('accountJSONError'))
-        return Promise.reject()
-      }
-    }
-    return data
-  }
   const handleMQTTData = (data: any) => {
     const { static_clientids } = data
     static_clientids?.forEach((item: any) => {
@@ -144,11 +131,7 @@ export const useConnectorDataHandler = (): {
     return data
   }
 
-  const specialDataHandlerBeforeSubmit = new Map([
-    [BridgeType.GCPProducer, handleGCPData],
-    [BridgeType.GCPConsumer, handleGCPData],
-    [BridgeType.MQTT, handleMQTTData],
-  ])
+  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.MQTT, handleMQTTData]])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
     try {
@@ -175,17 +158,7 @@ export const useConnectorDataHandler = (): {
 
   const handleConnectorDataForSaveAsCopy = handleDataForSaveAsCopy
 
-  const handleGCPDataAfterLoaded = (data: any) => {
-    if ('service_account_json' in data && typeof data.service_account_json === 'object') {
-      data.service_account_json = stringifyObjSafely(data.service_account_json, 2)
-    }
-    return data
-  }
-
-  const specialHandlerAfterLoaded = new Map([
-    [BridgeType.GCPProducer, handleGCPDataAfterLoaded],
-    [BridgeType.GCPConsumer, handleGCPDataAfterLoaded],
-  ])
+  const specialHandlerAfterLoaded = new Map()
 
   const handleConnectorDataAfterLoaded = (data: Connector): Connector => {
     const { type } = data
