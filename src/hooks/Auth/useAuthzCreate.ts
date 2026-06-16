@@ -8,6 +8,7 @@ export default function useAuthzCreate() {
 
   const getFileConfig = () => {
     return {
+      precondition: '',
       rules: `%%--------------------------------------------------------------------
 %% -type(ipaddr() :: {ipaddr, string()}).
 %%
@@ -43,7 +44,7 @@ export default function useAuthzCreate() {
 `,
     }
   }
-  const getBuiltInConfig = () => ({ max_rules: 100 })
+  const getBuiltInConfig = () => ({ max_rules: 100, precondition: '' })
   /**
    * for pgsql and mysql
    */
@@ -56,6 +57,7 @@ export default function useAuthzCreate() {
       pool_size: 8,
       connect_timeout: '15s',
       disable_prepared_statements: false,
+      precondition: '',
       ssl: createSSLForm(),
       query: '',
       ...createResourceOpt(),
@@ -78,6 +80,7 @@ export default function useAuthzCreate() {
       request_timeout: '30s',
       max_inactive: '10s',
       enable_pipelining: 100,
+      precondition: '',
       ssl: createSSLForm(),
     }
   }
@@ -93,6 +96,7 @@ export default function useAuthzCreate() {
       r_mode: 'master',
       w_mode: 'unsafe',
       use_legacy_protocol: 'auto',
+      precondition: '',
       pool_size: 8,
       ssl: createSSLForm(),
       topology: {
@@ -112,6 +116,7 @@ export default function useAuthzCreate() {
       password: '',
       pool_size: 8,
       cmd: '',
+      precondition: '',
       ssl: createSSLForm(),
       ...createResourceOpt(),
     }
@@ -131,6 +136,7 @@ export default function useAuthzCreate() {
       subscribe_attribute: 'mqttSubscriptionTopic',
       all_attribute: 'mqttPubSubTopic',
       acl_rule_attribute: 'mqttAclRule',
+      precondition: '',
     }
   }
   const factory = (type: string) => {

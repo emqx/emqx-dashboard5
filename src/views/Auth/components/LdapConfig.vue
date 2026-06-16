@@ -109,7 +109,7 @@
             </el-form-item>
           </el-col>
 
-          <PreconditionFormItem v-if="authType === 'authn'" v-model="ldapConfig.precondition" />
+          <PreconditionFormItem v-model="ldapConfig.precondition" :auth-type="authType" />
 
           <!-- TLS -->
           <el-col :span="24">

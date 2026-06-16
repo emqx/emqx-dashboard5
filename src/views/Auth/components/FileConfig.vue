@@ -10,6 +10,7 @@
       require-asterisk-position="right"
     >
       <el-row :gutter="20">
+        <PreconditionFormItem v-model="fileConfig.precondition" auth-type="authz" />
         <el-col :span="24">
           <el-form-item prop="rules" required>
             <div
@@ -32,8 +33,13 @@
 </template>
 
 <script lang="ts">
+import PreconditionFormItem from './PreconditionFormItem.vue'
+
 export default defineComponent({
   name: 'FileConfig',
+  components: {
+    PreconditionFormItem,
+  },
   props: {
     modelValue: {
       type: Object,
