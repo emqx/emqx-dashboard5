@@ -1,4 +1,4 @@
-import { EmqxForceShutdown } from './schemas/configs.schemas'
+import { EmqxForceShutdown, EmqxMqttMaxSessionExpiryInterval } from '@/types/typeAlias'
 import { LogConf, NamespaceConfig } from './typeAlias'
 
 export interface SubTabComponent extends ComponentPublicInstance {
@@ -199,6 +199,7 @@ export interface Mqtt {
   max_awaiting_rel: string
   await_rel_timeout: string
   session_expiry_interval: string
+  max_session_expiry_interval: EmqxMqttMaxSessionExpiryInterval
   max_mqueue_len: string
   mqueue_priorities: string
   mqueue_default_priority: string
