@@ -683,6 +683,27 @@ export default (
     return { components, rules }
   }
 
+  const bigtableHandler: Handler = (data) => {
+    const { components, rules } = commonHandler(data)
+    const mutations = components?.parameters?.properties?.mutations
+    const mutationItem = mutations?.items?.oneOf?.[0]
+
+    if (mutations?.items && mutations?.items?.oneOf?.length === 1 && mutationItem?.properties) {
+      mutations.items.path = mutations.path
+      mutations.items.properties = mutationItem.properties
+      Reflect.deleteProperty(mutations.items, 'oneOf')
+    }
+    const mutationProps = mutations?.items?.properties
+    if (mutationProps) {
+      const i18nPrefix = getI18nPrefix(BridgeType.Bigtable)
+      Object.entries(mutationProps).forEach(([key, value]) =>
+        setLabelAndDesc(value, `${i18nPrefix}${key}`),
+      )
+    }
+
+    return { components, rules }
+  }
+
   const diskLogHandler: Handler = (data) => {
     const { components, rules } = commonHandler(data)
     const { template } = components?.parameters?.properties || {}
@@ -717,6 +738,7 @@ export default (
     [BridgeType.Couchbase]: couchbaseHandler,
     [BridgeType.Snowflake]: snowflakeHandler,
     [BridgeType.Tablestore]: tablestoreHandler,
+    [BridgeType.Bigtable]: bigtableHandler,
     [BridgeType.DiskLog]: diskLogHandler,
     [BridgeType.AzureEventGrid]: mqttHandler,
   }

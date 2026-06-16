@@ -38,6 +38,7 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.AWSTimestream]: ConnectorCategory.DataPersistence,
   [BridgeType.Datalayers]: ConnectorCategory.DataPersistence,
   [BridgeType.EMQXTables]: ConnectorCategory.DataPersistence,
+  [BridgeType.Bigtable]: ConnectorCategory.DataPersistence,
   [BridgeType.QuasarDB]: ConnectorCategory.DataPersistence,
 
   // Data Analytics
@@ -91,6 +92,7 @@ const bridgesOrder = [
   BridgeType.GreptimeDB,
   BridgeType.ClickHouse,
   BridgeType.DynamoDB,
+  BridgeType.Bigtable,
   BridgeType.Cassandra,
   BridgeType.MicrosoftSQLServer,
   BridgeType.OracleDatabase,
@@ -173,6 +175,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.Redshift, label: 'Redshift' },
     { value: BridgeType.AWSTimestream, label: 'Amazon Timestream' },
     { value: BridgeType.EMQXTables, label: 'EMQX Tables' },
+    { value: BridgeType.Bigtable, label: 'Bigtable' },
     { value: BridgeType.AzureEventGrid, label: 'Azure Event Grid' },
     { value: BridgeType.QuasarDB, label: 'QuasarDB' },
   ].sort((a, b) => (bridgeOrderIndex[a.value] ?? 99) - (bridgeOrderIndex[b.value] ?? 99))
@@ -484,6 +487,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Redshift, getRef(BridgeType.Redshift, 'connector_')],
     [BridgeType.AWSTimestream, getRef(BridgeType.AWSTimestream, 'connector_')],
     [BridgeType.EMQXTables, getRef(BridgeType.EMQXTables, 'connector_')],
+    [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'connector_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'connector_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'connector_')],
   ])
@@ -554,6 +558,7 @@ export const useActionSchema = (): {
     [BridgeType.Redshift, getRef(BridgeType.Redshift, 'action_')],
     [BridgeType.AWSTimestream, getRef(BridgeType.AWSTimestream, 'action_')],
     [BridgeType.EMQXTables, getRef(BridgeType.EMQXTables, 'action_')],
+    [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'action_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'action_')],
   ])
