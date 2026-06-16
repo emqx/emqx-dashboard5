@@ -39,6 +39,7 @@ export default defineComponent({
     const propsOrderMap = createOrderObj(
       [
         'session_expiry_interval',
+        'max_session_expiry_interval',
         'max_subscriptions',
         'upgrade_qos',
         'max_inflight',

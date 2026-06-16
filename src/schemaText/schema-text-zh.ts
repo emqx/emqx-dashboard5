@@ -144,6 +144,16 @@ export default {
 例如：\`10000/60m\`: 每 60 分钟允许在短时间内突发发送最多 10000 条消息。`,
     label: '消息发布突发速率',
   },
+  subscribes_rate: {
+    desc: `限制单个客户端向代理发送订阅报文的速率（每个节点）。
+
+达到限制后，EMQX 将不会处理该报文，并回复带有 "配额超限" 错误码 (0x97) 的 \`SUBACK\`。`,
+    label: '订阅速率',
+  },
+  subscribes_burst: {
+    desc: '限制单个客户端可向代理突发发送的订阅报文数量（每个节点）。',
+    label: '订阅突发速率',
+  },
   bytes_rate: {
     desc: `限制单个客户端向代理发送的数据量（每个节点）。
 
@@ -236,6 +246,10 @@ export default {
   session_expiry_interval: {
     desc: '指定会话将在连接断开后多久过期，仅适用于非 MQTT 5.0 的连接。',
     label: '会话过期间隔',
+  },
+  max_session_expiry_interval: {
+    desc: '限制 MQTT 5.0 客户端可请求的最大会话过期间隔。设置为 infinity 表示不限制。',
+    label: '最大会话过期间隔',
   },
   max_mqueue_len: {
     desc: '最大消息队列长度。持久客户端断开连接或飞行窗口已满时，允许排队的的最大消息数量。',

@@ -181,6 +181,7 @@ export const SESSION_FIELDS = [
   'max_awaiting_rel',
   'await_rel_timeout',
   'session_expiry_interval',
+  'max_session_expiry_interval',
   'max_mqueue_len',
   'mqueue_priorities',
   'mqueue_default_priority',

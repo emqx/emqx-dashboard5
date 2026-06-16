@@ -145,6 +145,16 @@ For example:
 For example: \`10000/60m\`: Once in 60 minutes, up to 10000 messages can be sent in a short period of time.`,
     label: 'Messages Publish Burst',
   },
+  subscribes_rate: {
+    desc: `Limits the number of subscribe packets a single client can send to the broker, per each node.
+
+Once the limit is reached, EMQX will not process the packet and reply the packet with a \`SUBACK\` with "Quota Exceeded" error code (0x97).`,
+    label: 'Subscribes Rate',
+  },
+  subscribes_burst: {
+    desc: 'Limits the number of subscribe packets a single client can send to the broker in a burst, per each node.',
+    label: 'Subscribes Burst',
+  },
   bytes_rate: {
     desc: `Limits the number of bytes a single client can send to the broker, per each node.
 
@@ -238,6 +248,10 @@ For example: \`100MB/60m\`: Once every 60 minutes, up to 100 megabytes can be se
   session_expiry_interval: {
     desc: 'Specifies how long the session will expire after the connection is disconnected, only for non-MQTT 5.0 connections.',
     label: 'Session Expiry Interval',
+  },
+  max_session_expiry_interval: {
+    desc: 'Caps the maximum session expiry interval that an MQTT 5.0 client may request. Use infinity for no clamp.',
+    label: 'Max Session Expiry Interval',
   },
   max_mqueue_len: {
     desc: 'Maximum allowed queue length when persistent client are disconnected or inflight window is full.',
