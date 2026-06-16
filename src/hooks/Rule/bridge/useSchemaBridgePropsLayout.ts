@@ -386,6 +386,10 @@ export default (
       getPathArrInParameters(['dataset', 'table']),
       fieldStartIndex,
     ),
+    [BridgeType.Bigtable]: createOrderObj(
+      getPathArrInParameters(['instance_id', 'table_id', 'row_key', 'mutations']),
+      fieldStartIndex,
+    ),
     [BridgeType.AzureEventGrid]: mqttOrderMap,
     [BridgeType.QuasarDB]: createOrderObj(
       getPathArrInParameters(['sql', 'health_check_table']),

@@ -239,6 +239,7 @@ export default (
     [BridgeType.GCPProducer]: GCPProducerOrderMap,
     [BridgeType.GCPConsumer]: GCPProducerOrderMap,
     [BridgeType.BigQuery]: GCPProducerOrderMap,
+    [BridgeType.Bigtable]: GCPProducerOrderMap,
     [BridgeType.MongoDB]: {
       ...createOrderObj(
         [
@@ -460,6 +461,7 @@ export default (
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.BigQuery]: GCPColClass,
+    [BridgeType.Bigtable]: GCPColClass,
     [BridgeType.KafkaConsumer]: getKafkaConsumerColClass,
     [BridgeType.MongoDB]: { 'parameters.mongo_type': 'col-hidden' },
     [BridgeType.Redis]: { 'parameters.redis_type': 'col-hidden' },

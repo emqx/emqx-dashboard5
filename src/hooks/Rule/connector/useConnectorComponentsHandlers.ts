@@ -285,23 +285,31 @@ export default (
         tip: t('Base.uploadTip', { format: 'JSON' }),
       }
     }
-    if (rules && !rules.service_account_json) {
-      rules.service_account_json = []
+    const serviceAccountJSONRule = {
+      validator(rule: unknown, value: string): any {
+        return new Promise((resolve, reject) => {
+          try {
+            JSON.parse(value)
+            resolve(true)
+          } catch (error) {
+            reject(tl('accountJSONError'))
+          }
+        })
+      },
+      trigger: 'blur',
     }
-    if (rules.service_account_json && Array.isArray(rules.service_account_json)) {
-      rules.service_account_json.push({
-        validator(rule, value: string): any {
-          return new Promise((resolve, reject) => {
-            try {
-              JSON.parse(value)
-              resolve(true)
-            } catch (error) {
-              reject(tl('accountJSONError'))
-            }
-          })
-        },
-        trigger: 'blur',
-      })
+    addRules(
+      {
+        service_account_json: [serviceAccountJSONRule],
+        'authentication.service_account_json': [serviceAccountJSONRule],
+      },
+      rules,
+    )
+    if (accountItem?.rules) {
+      addRules(
+        { 'authentication.service_account_json': [serviceAccountJSONRule] },
+        accountItem.rules,
+      )
     }
     return { components, rules }
   }
@@ -490,6 +498,7 @@ export default (
     [BridgeType.GCPProducer, GCPHandler],
     [BridgeType.GCPConsumer, GCPHandler],
     [BridgeType.BigQuery, GCPHandler],
+    [BridgeType.Bigtable, GCPHandler],
     [BridgeType.MongoDB, mongoHandler],
     [BridgeType.Redis, redisHandler],
     [BridgeType.InfluxDB, influxDbHandler],
