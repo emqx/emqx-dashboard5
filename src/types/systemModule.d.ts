@@ -21,6 +21,7 @@ export interface APIKey extends APIKeyFormWhenCreating {
   expired: boolean
 }
 
+
 export type APIKeyFormWhenEditing = Pick<APIKey, 'name' | 'expired_at' | 'desc' | 'enable'>
 
 export interface ExhookFormForCreate {
