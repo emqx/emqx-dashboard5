@@ -24,7 +24,7 @@
               <el-input v-model="httpConfig.url" />
             </el-form-item>
           </el-col>
-          <PreconditionFormItem v-if="authType === 'authn'" v-model="httpConfig.precondition" />
+          <PreconditionFormItem v-model="httpConfig.precondition" :auth-type="authType" />
 
           <el-col :span="24">
             <el-form-item>
@@ -152,7 +152,7 @@ export default defineComponent({
     },
     type: {
       type: String,
-      required: true,
+      default: '',
     },
   },
   setup(props, ctx) {

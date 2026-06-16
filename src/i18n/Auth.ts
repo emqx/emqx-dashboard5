@@ -902,6 +902,54 @@ Examples:
 
 Find more information about Variform expressions in EMQX doc.`,
   },
+  authzPreconditionDesc: {
+    zh: `一个可变形（Variform）的表达式，用于在调用此授权数据源前，根据客户端和授权请求信息进行求值。<br />
+如果表达式求值结果不为 \`true\`，则会跳过此授权数据源。
+
+支持的客户端变量：
+- \`username\`：客户端用户名
+- \`clientid\`：客户端 ID
+- \`client_attrs.*\`：客户端自定义属性
+- \`cert_common_name\`：客户端 TLS 证书中的 Common Name (CN) 字段
+- \`cert_subject\`：客户端 TLS 证书中的 Subject 字段
+- \`peersni\`：TLS 客户端发送的 SNI (Server Name Indication)
+- \`listener\`：监听器 ID（例如 \`tcp:default\`）
+- \`zone\`：关联的配置区域（Zone）
+
+支持的请求变量：
+- \`action\`：授权动作，值为 \`publish\` 或 \`subscribe\`
+- \`topic\`：正在授权的主题
+
+示例：
+- 仅发布授权时调用：
+  \`str_eq(action, 'publish')\`
+- 仅当主题匹配客户端范围的主题过滤器时调用：
+  \`topic_match(topic, topic_join([clientid, '#']))\`
+`,
+    en: `A Variform expression to evaluate with client and request information before calling this authorization source.<br />
+The source is skipped when the expression does not evaluate to \`true\`.
+
+Supported client variables:
+- \`username\`: The username of the client
+- \`clientid\`: The client ID of the client
+- \`client_attrs.*\`: The client attributes of the client
+- \`cert_common_name\`: The common name (CN) from the client's TLS certificate
+- \`cert_subject\`: The subject field from the client's TLS certificate
+- \`peersni\`: The SNI (Server Name Indication) sent by TLS client
+- \`listener\`: The listener ID (e.g. \`tcp:default\`)
+- \`zone\`: The associated config zone.
+
+Supported request variables:
+- \`action\`: The authorization action, either \`publish\` or \`subscribe\`
+- \`topic\`: The topic being authorized
+
+Examples:
+- Only invoke for publish authorization:
+  \`str_eq(action, 'publish')\`
+- Only invoke when the topic matches a client-scoped topic filter:
+  \`topic_match(topic, topic_join([clientid, '#']))\`
+`,
+  },
   duplicatedPermission: {
     zh: '存在重复的权限配置',
     en: 'Duplicated permission configuration',

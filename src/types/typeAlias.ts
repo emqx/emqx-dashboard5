@@ -129,6 +129,10 @@ import {
   PostA2aCardsCardOrgIdUnitIdAgentIdParams,
   DeleteA2aCardsCardOrgIdUnitIdAgentIdParams,
 } from './schemas/a2ARegistry.schemas'
+import {
+  EmqxForceShutdown as EmqxForceShutdownType,
+  EmqxMqttMaxSessionExpiryInterval,
+} from './schemas/configs.schemas'
 
 /* BASE */
 export interface LoginResponse extends PostLogin200 {
@@ -171,6 +175,8 @@ export const SSOOIDCBackend = SsoOidcBackend
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer
 export type LogConf = EmqxLog
+export type EmqxForceShutdown = EmqxForceShutdownType
+export type SessionMaxSessionExpiryInterval = EmqxMqttMaxSessionExpiryInterval
 
 /* AUDIT */
 export type GetAuditParams = GetAuditParamsType

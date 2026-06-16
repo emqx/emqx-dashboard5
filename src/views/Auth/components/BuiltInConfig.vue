@@ -18,6 +18,7 @@
             <CustomInputNumber v-model="builtConfig.max_rules" />
           </el-form-item>
         </el-col>
+        <PreconditionFormItem v-model="builtConfig.precondition" auth-type="authz" />
       </el-row>
       <el-row :gutter="20" v-else>
         <template v-if="type !== 'scram'">

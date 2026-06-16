@@ -142,7 +142,7 @@
               </el-col>
             </template>
           </template>
-          <PreconditionFormItem v-if="isAuthn" v-model="databaseConfig.precondition" />
+          <PreconditionFormItem v-model="databaseConfig.precondition" :auth-type="authType" />
 
           <!-- Redis Authz Compatibility Mode -->
           <el-col v-if="isRedis && !isAuthn" :span="12">

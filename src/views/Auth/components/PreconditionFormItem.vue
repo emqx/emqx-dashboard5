@@ -4,7 +4,7 @@
       <template #label>
         <FormItemLabel
           :label="$t('Auth.precondition')"
-          :desc="tl('preconditionDesc')"
+          :desc="desc"
           desc-marked
           :max-height="240"
         />
@@ -17,13 +17,23 @@
 <script setup lang="ts">
 const { tl } = useI18nTl('Auth')
 
-const props = defineProps<{
-  modelValue?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string
+    authType?: 'authn' | 'authz'
+  }>(),
+  {
+    authType: 'authn',
+  },
+)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
+
+const desc = computed(() =>
+  props.authType === 'authz' ? tl('authzPreconditionDesc') : tl('preconditionDesc'),
+)
 
 const precondition = computed({
   get() {
