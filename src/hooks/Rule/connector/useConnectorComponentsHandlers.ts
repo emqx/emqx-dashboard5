@@ -238,6 +238,7 @@ export default (
     return { components, rules }
   }
 
+  const fileStrReg = /^file:\/\/.*$/
   const GCPHandler: Handler = ({ components, rules }) => {
     const { service_account_json } = components
     /* Common */
@@ -256,6 +257,10 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
+            if (fileStrReg.test(value)) {
+              resolve(true)
+              return
+            }
             try {
               JSON.parse(value)
               resolve(true)
