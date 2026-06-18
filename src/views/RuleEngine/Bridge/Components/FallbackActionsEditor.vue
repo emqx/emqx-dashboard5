@@ -183,7 +183,9 @@ const deleteAction = async (index: number) => {
     if (props.inRuleOutputs) {
       await operationWarning(tl('updateActionTip', { operation: tl('deleteFallback') }))
     }
-    actionList.value = actionList.value.toSpliced(index, 1)
+    const newList = actionList.value.slice()
+    newList.splice(index, 1)
+    actionList.value = newList
   } catch (error) {
     //
   }
@@ -226,7 +228,8 @@ const handleActionSubmitted = (action: OutputItem) => {
     ) {
       return
     }
-    const newList = actionList.value.toSpliced(currentEditIndex.value, 1, newItem as FallbackAction)
+    const newList = actionList.value.slice()
+    newList.splice(currentEditIndex.value, 1, newItem as FallbackAction)
     actionList.value = newList
     currentEditIndex.value = -1
   } else if (newItem) {
