@@ -79,7 +79,6 @@ export default (): {
     { title: 'license', path: '/license' },
     { title: 'sso', path: '/sso' },
     { title: 'backup', path: '/backup' },
-    { title: 'hot-upgrade', path: '/hot-upgrade' },
   ]
 
   const menuList = [
