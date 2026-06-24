@@ -6,6 +6,7 @@ import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
 import useSchemaHandlers from '../useSchemaHandlers'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
+import { FILE_STR_REG } from '@/common/constants'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -292,6 +293,10 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
+            if (FILE_STR_REG.test(value)) {
+              resolve(true)
+              return
+            }
             try {
               JSON.parse(value)
               resolve(true)

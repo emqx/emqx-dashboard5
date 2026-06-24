@@ -1,3 +1,4 @@
+import { FILE_STR_REG } from '@/common/constants'
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
 
@@ -120,6 +121,9 @@ export const useConnectorDataHandler = (): {
   const handleGCPData = (data: any) => {
     if (data.service_account_json && typeof data.service_account_json === 'string') {
       try {
+        if (FILE_STR_REG.test(data.service_account_json)) {
+          return data
+        }
         data.service_account_json = JSON.parse(data.service_account_json)
         return data
       } catch (error) {
