@@ -15,6 +15,10 @@ export type GetPrometheusNamespacedStatsParams = {
 
 export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
 
+export type GetPrometheusMessageTransformationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
 
 export type GetPrometheusDataIntegrationParams = {
@@ -22,6 +26,10 @@ export type GetPrometheusDataIntegrationParams = {
 }
 
 export type GetPrometheusAuth200One = { [key: string]: unknown }
+
+export type GetPrometheusAuthParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
 
 export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
 
@@ -51,10 +59,6 @@ export const EmqxPrometheusApiModeParameter = {
 } as const
 
 export type GetPrometheusSchemaValidationParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 

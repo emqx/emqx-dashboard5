@@ -643,6 +643,7 @@ export interface BridgeMqttPublisherIngressParameters {
    * @maximum 2
    */
   qos?: number
+  retain_as_published?: boolean
   topic: string
 }
 
