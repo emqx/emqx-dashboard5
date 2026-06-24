@@ -150,7 +150,7 @@ export default (
   )
 
   const mqttOrderMap = createOrderObj(
-    getPathArrInParameters(['topic', 'qos', 'retain', 'payload']),
+    getPathArrInParameters(['topic', 'qos', 'retain', 'retain_as_published', 'payload']),
     fieldStartIndex,
   )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {

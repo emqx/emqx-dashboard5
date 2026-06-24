@@ -1553,27 +1553,6 @@ export const ConfluentProducerKafkaOptsCompression = {
   snappy: 'snappy',
 } as const
 
-export interface ConfluentProducerKafkaOpts {
-  buffer?: BridgeKafkaProducerBuffer
-  compression?: ConfluentProducerKafkaOptsCompression
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
-  kafka_headers?: string
-  max_batch_bytes?: string
-  /** @minimum 1 */
-  max_inflight?: number
-  max_linger_bytes?: string
-  max_linger_time?: string
-  message?: ConfluentKafkaMessage
-  partition_count_refresh_interval?: string
-  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
-  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
-  query_mode?: ConfluentProducerKafkaOptsQueryMode
-  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
-  sync_query_timeout?: string
-  topic: string
-}
-
 export type ConfluentPostBridgeV2Type =
   (typeof ConfluentPostBridgeV2Type)[keyof typeof ConfluentPostBridgeV2Type]
 
@@ -1601,6 +1580,27 @@ export interface ConfluentPostBridgeV2 {
 export interface ConfluentKafkaMessage {
   key?: string
   value?: string
+}
+
+export interface ConfluentProducerKafkaOpts {
+  buffer?: BridgeKafkaProducerBuffer
+  compression?: ConfluentProducerKafkaOptsCompression
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
+  kafka_headers?: string
+  max_batch_bytes?: string
+  /** @minimum 1 */
+  max_inflight?: number
+  max_linger_bytes?: string
+  max_linger_time?: string
+  message?: ConfluentKafkaMessage
+  partition_count_refresh_interval?: string
+  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
+  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
+  query_mode?: ConfluentProducerKafkaOptsQueryMode
+  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
+  sync_query_timeout?: string
+  topic: string
 }
 
 export type ConfluentGetBridgeV2Type =
