@@ -1,4 +1,8 @@
-import { GetAuthentication200Item, AuthnBuiltinDb } from './schemas/authentication.schemas'
+import {
+  GetAuthentication200Item,
+  AuthnBuiltinDb,
+  AuthnJwtPublicKeyOnMissingJwt,
+} from './schemas/authentication.schemas'
 import {
   EmqxAuthzApiMnesiaRuleItemAction,
   EmqxAuthzApiMnesiaRuleItemPermission,
@@ -147,6 +151,7 @@ export type GatewayListener = PostGatewaysNameListenersBody
 /* AUTHENTICATION */
 export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
+export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 
 /* AUTHORIZATION */
 export const AuthzRulePermission = EmqxAuthzApiMnesiaRuleItemPermission

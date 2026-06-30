@@ -2,6 +2,7 @@ import { ElMessage as M } from 'element-plus'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 import { CInfoConfig } from '@/types/auth'
+import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
 //
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -94,6 +95,7 @@ export default function useProcessAuthData() {
       verify_claims,
       ssl,
       disconnect_after_expire,
+      on_missing_jwt,
       headers,
       precondition,
     } = data
@@ -104,6 +106,9 @@ export default function useProcessAuthData() {
       verify_claims,
       disconnect_after_expire,
       precondition,
+    }
+    if (Object.values(PublicKeyOnMissingJWT).includes(on_missing_jwt)) {
+      tempData.on_missing_jwt = on_missing_jwt
     }
     if (use_jwks) {
       tempData = {
