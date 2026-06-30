@@ -643,6 +643,7 @@ export interface EmqxAuthnApiResponseUsers {
 }
 
 export interface EmqxAuthnApiResponseAuthnSettings {
+  ignore_backend_failures?: boolean
   node_cache?: AuthCacheConfig
 }
 
@@ -659,6 +660,7 @@ export interface EmqxAuthnApiRequestUserCreate {
 }
 
 export interface EmqxAuthnApiRequestAuthnSettings {
+  ignore_backend_failures?: boolean
   node_cache?: AuthCacheConfig
 }
 
