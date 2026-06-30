@@ -50,6 +50,7 @@ declare global {
   const ElMessage: typeof import('element-plus')['ElMessage']
   const ElMessageBox: typeof import('element-plus')['ElMessageBox']
   const ElNotification: typeof import('element-plus')['ElNotification']
+  const FILE_STR_REG: typeof import('./common/constants')['FILE_STR_REG']
   const FLOW_DEFAULT_ZOOM: typeof import('./hooks/Overview/useNodesGraph')['FLOW_DEFAULT_ZOOM']
   const FieldValueType: typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']
   const FlowNodeType: typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']
@@ -656,6 +657,7 @@ declare module 'vue' {
     readonly ElMessage: UnwrapRef<typeof import('element-plus')['ElMessage']>
     readonly ElMessageBox: UnwrapRef<typeof import('element-plus')['ElMessageBox']>
     readonly ElNotification: UnwrapRef<typeof import('element-plus')['ElNotification']>
+    readonly FILE_STR_REG: UnwrapRef<typeof import('./common/constants')['FILE_STR_REG']>
     readonly FLOW_DEFAULT_ZOOM: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['FLOW_DEFAULT_ZOOM']>
     readonly FieldValueType: UnwrapRef<typeof import('./hooks/Rule/bridge/useInfluxdbFieldsEditor')['FieldValueType']>
     readonly FlowNodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['FlowNodeType']>

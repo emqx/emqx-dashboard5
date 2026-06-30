@@ -22,6 +22,25 @@
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel
+                :label="$t('Auth.on_missing_jwt')"
+                :desc="$t('Auth.on_missing_jwt_desc')"
+                desc-marked
+              />
+            </template>
+            <el-select
+              v-model="jwtConfig.on_missing_jwt"
+              clearable
+              :placeholder="$t('Base.default')"
+            >
+              <el-option :value="PublicKeyOnMissingJWT.ignore" />
+              <el-option :value="PublicKeyOnMissingJWT.deny" />
+            </el-select>
+          </el-form-item>
+        </el-col>
         <template v-if="jwtConfig.use_jwks === false">
           <el-col :span="12">
             <el-form-item :label="$t('Auth.algorithm')" required prop="algorithm">
@@ -104,6 +123,7 @@
 </template>
 
 <script lang="ts">
+import { PublicKeyOnMissingJWT } from '@/types/typeAlias.js'
 import PreconditionFormItem from './PreconditionFormItem.vue'
 
 export default defineComponent({
@@ -138,6 +158,7 @@ export default defineComponent({
       jwtConfig,
       formCom,
       rules,
+      PublicKeyOnMissingJWT,
       handleUseJWKSChanged,
       validate,
     }
