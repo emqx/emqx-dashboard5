@@ -78,6 +78,13 @@
       </template>
       <el-input class="TLS-input" v-model="record.server_name_indication" />
     </CustomFormItem>
+    <el-form-item v-if="ciphers" :prop="getFormItemProp(`ciphers`)">
+      <template #label>
+        <FormItemLabel :label="ciphersLabelToShow" :desc="ciphersDescToShow" desc-marked />
+      </template>
+      <ArrayEditorInput v-if="!readonly" class="TLS-input" v-model="record.ciphers" />
+      <p class="value" v-else>{{ (record.ciphers || []).join(',') }}</p>
+    </el-form-item>
     <el-form-item :label="t('Base.certificateSource')">
       <el-radio-group :model-value="certificateSource" @change="handleCertificateSourceChange">
         <el-radio :value="CertificateSource.Manual">
@@ -211,6 +218,7 @@ import { SSLSessionTickets } from '@/types/typeAlias'
 import CustomFormItem from '../CustomFormItem.vue'
 import FormItemLabel from '../FormItemLabel.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
+import ArrayEditorInput from '../ArrayEditorInput.vue'
 import ConfigItemDataLook from './ConfigItemDataLook.vue'
 import ManagedCertConfig from './ManagedCertConfig.vue'
 
@@ -300,6 +308,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  ciphers: {
+    type: Boolean,
+  },
+  ciphersLabel: {
+    type: String,
+  },
+  ciphersDesc: {
+    type: String,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'verifyChange'])
@@ -314,6 +331,8 @@ const record = computed<SSL>({
     emit('update:modelValue', val)
   },
 })
+const ciphersLabelToShow = computed(() => props.ciphersLabel || t('Gateway.ciphers'))
+const ciphersDescToShow = computed(() => props.ciphersDesc || t('Gateway.ciphersDesc'))
 
 const sessionTicketOptions = [
   SSLSessionTickets.disabled,
