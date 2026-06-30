@@ -93,7 +93,7 @@ export default (
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
     const customSSLKeys = [...SSLKeys]
-    if (props.type === BridgeType.GreptimeDB) {
+    if (props.type === BridgeType.EMQXTables) {
       customSSLKeys.push('ciphers')
     }
     const walk = (com: Properties): Properties => {
