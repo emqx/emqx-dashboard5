@@ -277,6 +277,10 @@ export type PutSsoBackend404 = {
   message?: string
 }
 
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
+
 export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -288,6 +292,8 @@ export type GetSsoBackend404 = {
   code?: GetSsoBackend404Code
   message?: string
 }
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type DeleteSsoBackend404Code =
   (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
@@ -397,23 +403,6 @@ export type SsoLdapBackend = (typeof SsoLdapBackend)[keyof typeof SsoLdapBackend
 export const SsoLdapBackend = {
   ldap: 'ldap',
 } as const
-
-export interface SsoLdap {
-  backend: SsoLdapBackend
-  base_dn: string
-  enable?: boolean
-  filter?: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  query_timeout?: string
-  request_timeout?: string
-  server: string
-  ssl?: LdapSsl
-  username: string
-}
-
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
 
 export type SsoClientFileJwksType =
   (typeof SsoClientFileJwksType)[keyof typeof SsoClientFileJwksType]
@@ -591,10 +580,6 @@ export interface DashboardSaml {
   sp_public_key?: string
   sp_sign_request?: boolean
 }
-
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
-
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
 
 export type DashboardLoginBackend =
   (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
