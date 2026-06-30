@@ -92,19 +92,32 @@ export default (
   const SSLKeys = Object.keys(createSSLForm())
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
+    const customSSLKeys = [...SSLKeys]
+    if (props.type === BridgeType.GreptimeDB) {
+      customSSLKeys.push('ciphers')
+    }
     const walk = (com: Properties): Properties => {
       Object.entries(com).forEach(([, prop]) => {
         if (prop.properties) {
           if (prop.key === SSL_KEY) {
-            prop.properties = pick(prop.properties, SSLKeys)
+            const ciphersSchema = prop.properties.ciphers
+            prop.properties = pick(prop.properties, customSSLKeys)
             if (prop.properties.verify) {
               prop.properties.verify.default = DEFAULT_SSL_VERIFY_VALUE
             }
+            const showCiphers = customSSLKeys.includes('ciphers') && !!ciphersSchema
             prop.componentProps = {
               ...(prop.componentProps ?? {
                 globalOnly: false,
                 userNamespace: store.getters.userNamespace,
               }),
+              ...(showCiphers
+                ? {
+                    ciphers: true,
+                    ciphersLabel: t(`${getI18nPrefix('common')}ciphers.label`),
+                    ciphersDesc: t(`${getI18nPrefix(props.type ?? 'common')}ciphers.desc`),
+                  }
+                : {}),
             }
           } else {
             walk(prop.properties)
