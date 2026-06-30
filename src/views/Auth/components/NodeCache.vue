@@ -5,7 +5,7 @@
     placement="bottom-end"
     class="node-cache-dropdown"
   >
-    {{ tl('nodeCacheSettings') }}
+    {{ settingsTitle }}
     <template #dropdown>
       <el-button size="large" @click="openNodeCacheStatus">{{ tl('nodeCacheStatus') }}</el-button>
     </template>
@@ -16,7 +16,7 @@
     append-to-body
     class="node-cache-settings-drawer"
     :size="660"
-    :title="tl('nodeCacheSettings')"
+    :title="settingsTitle"
   >
     <el-form
       ref="FormCom"
@@ -25,33 +25,47 @@
       v-loading="isSettingsLoading"
       :label-width="236"
     >
+      <el-form-item v-if="!isAuthz">
+        <template #label>
+          <FormItemLabel
+            :label="tl('ignoreBackendFailures')"
+            :desc="tl('ignoreBackendFailuresDesc')"
+            desc-marked
+          />
+        </template>
+        <el-switch v-model="record.ignore_backend_failures" />
+      </el-form-item>
+
       <el-form-item>
         <template #label>
           <FormItemLabel :label="tl('enableNodeCache')" :desc="tl('enableNodeCacheDesc')" />
         </template>
-        <el-switch v-model="record.enable" />
+        <el-switch v-model="nodeCacheRecord.enable" />
       </el-form-item>
 
       <el-form-item :label="tl('nodeCacheMaxCount')" prop="max_count">
         <Oneof
           class="in-one-row"
-          v-model="record.max_count"
+          v-model="nodeCacheRecord.max_count"
           :items="[{ type: 'number' }, { symbols: [UNLIMITED], type: 'enum' }]"
-          :disabled="!record.enable"
+          :disabled="!nodeCacheRecord.enable"
           :disabled-label="t('Extension.unlimited')"
         />
       </el-form-item>
 
       <el-form-item :label="tl('maxMemory')" prop="max_memory">
         <InputWithUnit
-          v-model="record.max_memory"
-          :disabled="!record.enable"
+          v-model="nodeCacheRecord.max_memory"
+          :disabled="!nodeCacheRecord.enable"
           :units="usefulMemoryUnit"
         />
       </el-form-item>
 
       <el-form-item :label="tl('cacheTTL')" prop="cache_ttl">
-        <TimeInputWithUnitSelect v-model="record.cache_ttl" :disabled="!record.enable" />
+        <TimeInputWithUnitSelect
+          v-model="nodeCacheRecord.cache_ttl"
+          :disabled="!nodeCacheRecord.enable"
+        />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -223,9 +237,45 @@ type NodeCacheConfig = {
   cache_ttl?: string
 }
 
+type AuthnSettings = {
+  ignore_backend_failures?: boolean
+  node_cache?: NodeCacheConfig
+}
+
+type CacheMetricItem = {
+  value: number
+  rate: {
+    max: number
+    current: number
+    last5m: number
+  }
+}
+
+type CacheMetrics = {
+  count: number
+  memory: number
+  hits: CacheMetricItem
+  inserts: CacheMetricItem
+  misses: CacheMetricItem
+}
+
+type CacheMetricsResponse = {
+  metrics: CacheMetrics
+  node_metrics: Array<{
+    node: string
+    metrics: CacheMetrics
+  }>
+}
+
 const props = defineProps<{
   type: 'authn' | 'authz'
 }>()
+
+const { t, tl } = useI18nTl('Auth')
+const isAuthz = computed(() => props.type === 'authz')
+const settingsTitle = computed(() =>
+  isAuthz.value ? tl('nodeCacheSettings') : tl('authnSettings'),
+)
 
 const isNodeCacheSettingsDrawerOpen = ref(false)
 const openNodeCacheSettings = () => {
@@ -233,27 +283,36 @@ const openNodeCacheSettings = () => {
   loadSettings()
 }
 
-const { t, tl } = useI18nTl('Auth')
-
 const UNLIMITED = 'unlimited'
 
 const FormCom = ref()
-const record = ref<NodeCacheConfig>({})
+const record = ref<AuthnSettings>({ node_cache: {} })
+const nodeCacheRecord = computed({
+  get: () => {
+    if (!record.value.node_cache) {
+      record.value.node_cache = {}
+    }
+    return record.value.node_cache
+  },
+  set: (value: NodeCacheConfig) => {
+    record.value.node_cache = value
+  },
+})
 
-const isAuthz = computed(() => props.type === 'authz')
-const loadSettingsRequest = async () => {
+const loadSettingsRequest = async (): Promise<AuthnSettings> => {
   if (isAuthz.value) {
-    return loadAuthzSettings()
+    const nodeCache = (await loadAuthzSettings()) as unknown as NodeCacheConfig
+    return { node_cache: nodeCache }
   }
   try {
-    const { node_cache } = await loadAuthnSettings()
-    return Promise.resolve(node_cache)
+    const settings = (await loadAuthnSettings()) as unknown as AuthnSettings
+    return { node_cache: {}, ...settings }
   } catch (error) {
     return Promise.reject(error)
   }
 }
-const updateSettingsRequest = async (data: NodeCacheConfig) =>
-  isAuthz.value ? updateAuthzSettings(data) : updateAuthnSettings({ node_cache: data })
+const updateSettingsRequest = async (data: AuthnSettings) =>
+  isAuthz.value ? updateAuthzSettings(data.node_cache) : updateAuthnSettings(data)
 
 const isSettingsLoading = ref(false)
 const loadSettings = async () => {
@@ -292,8 +351,11 @@ const openNodeCacheStatus = () => {
   loadCacheMetrics()
 }
 
-const createEmptyMetricItem = () => ({ value: 0, rate: { max: 0, current: 0, last5m: 0 } })
-const createEmptyMetrics = () => ({
+const createEmptyMetricItem = (): CacheMetricItem => ({
+  value: 0,
+  rate: { max: 0, current: 0, last5m: 0 },
+})
+const createEmptyMetrics = (): CacheMetrics => ({
   count: 0,
   memory: 0,
   hits: createEmptyMetricItem(),
@@ -301,7 +363,7 @@ const createEmptyMetrics = () => ({
   misses: createEmptyMetricItem(),
 })
 
-const totalMetrics = ref({
+const totalMetrics = ref<CacheMetricsResponse>({
   metrics: createEmptyMetrics(),
   node_metrics: [],
 })
@@ -311,16 +373,22 @@ const nodeOpts = computed(() => getNodeOpts((nodeMetrics.value || []).map(({ nod
 const selectedNode = ref(CLUSTER)
 
 const nodeMetrics = computed(() => totalMetrics.value.node_metrics)
-const metrics = computed(() => {
+const metrics = computed<CacheMetrics>(() => {
   if (selectedNode.value === CLUSTER) {
     return totalMetrics.value.metrics
   }
-  return nodeMetrics.value.find(({ node }) => node === selectedNode.value)?.metrics
+  return (
+    nodeMetrics.value.find(({ node }) => node === selectedNode.value)?.metrics ??
+    createEmptyMetrics()
+  )
 })
 
 const { getSizeNum, getSizeUnit } = useSizeMetric()
 
-const requestCacheMetrics = () => (isAuthz.value ? loadAuthzCacheStatus() : loadAuthnCacheStatus())
+const requestCacheMetrics = async (): Promise<CacheMetricsResponse> =>
+  (await (isAuthz.value
+    ? loadAuthzCacheStatus()
+    : loadAuthnCacheStatus())) as unknown as CacheMetricsResponse
 const requestResetCacheMetrics = () =>
   isAuthz.value ? resetAuthzCacheStatus() : resetAuthnCacheStatus()
 

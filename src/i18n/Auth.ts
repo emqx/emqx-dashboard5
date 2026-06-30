@@ -103,6 +103,10 @@ export default {
     zh: '外部资源缓存设置',
     en: 'External Resource Cache Settings',
   },
+  authnSettings: {
+    zh: '认证设置',
+    en: 'Authentication Settings',
+  },
   enableNodeCache: {
     zh: '启用外部资源缓存',
     en: 'Enable External Resource Cache',
@@ -110,6 +114,14 @@ export default {
   enableNodeCacheDesc: {
     zh: '启用外部资源缓存后，EMQX 将缓存外部资源（如 MySQL、MongoDB 等）的查询结果，以提高效率；对于本地数据源，如内置数据库或文件等不进行缓存。',
     en: 'After enabling external resource cache, EMQX will cache the query results of external resources (such as MySQL, MongoDB, etc.), to improve efficiency; for local data sources, such as built-in databases or file, are not cached.',
+  },
+  ignoreBackendFailures: {
+    zh: '忽略认证数据源错误',
+    en: 'Ignore Backend Failures',
+  },
+  ignoreBackendFailuresDesc: {
+    zh: '启用后，当认证数据源不可用或返回错误时，EMQX 将跳过该认证器并继续认证链；禁用时将导致认证失败。',
+    en: 'When enabled, EMQX skips this authenticator and continues the authentication chain if the authentication backend is unavailable or returns an error. When disabled, backend failures cause authentication to fail.',
   },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
@@ -406,6 +418,14 @@ export default {
   from: {
     zh: 'JWT 来自于',
     en: 'JWT From',
+  },
+  on_missing_jwt: {
+    zh: '缺少 JWT 时执行',
+    en: 'On Missing JWT',
+  },
+  on_missing_jwt_desc: {
+    zh: '当配置的 JWT 来源字段缺失时执行的操作。选择 deny 将立即拒绝认证；选择 ignore 将跳过此认证器并继续认证链。留空时使用当前安全配置的默认策略。',
+    en: 'Action to take when the configured JWT credential field is missing. Use deny to reject authentication immediately, or ignore to skip this authenticator and let the authentication chain continue. Leave it empty to use the current security profile default.',
   },
   noMatch: {
     zh: '未匹配时执行',
