@@ -238,6 +238,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'messages.received'?: number
   /** @minimum 0 */
+  'messages.retained'?: number
+  /** @minimum 0 */
   'messages.sent'?: number
   /** @minimum 0 */
   'messages.transformation_failed'?: number

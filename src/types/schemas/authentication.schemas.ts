@@ -140,6 +140,10 @@ export type PostAuthenticationIdUsers400 = {
   message?: string
 }
 
+export type PostAuthenticationIdUsersParams = {
+  ns?: string
+}
+
 export type GetAuthenticationIdUsers404Code =
   (typeof GetAuthenticationIdUsers404Code)[keyof typeof GetAuthenticationIdUsers404Code]
 
@@ -649,7 +653,12 @@ export interface EmqxAuthnApiResponseAuthnSettings {
 
 export interface EmqxAuthnApiRequestUserUpdate {
   is_superuser?: boolean
+  namespace?: string
   password: string
+}
+
+export interface EmqxAuthnApiRequestUserDelete {
+  namespace?: string
 }
 
 export interface EmqxAuthnApiRequestUserCreate {
@@ -1442,6 +1451,15 @@ export interface AuthnKerberos {
 
 export type AuthnJwtPublicKeyVerifyClaims = { [key: string]: unknown }
 
+export type AuthnJwtPublicKeyOnMissingJwt =
+  (typeof AuthnJwtPublicKeyOnMissingJwt)[keyof typeof AuthnJwtPublicKeyOnMissingJwt]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwtPublicKeyOnMissingJwt = {
+  deny: 'deny',
+  ignore: 'ignore',
+} as const
+
 export type AuthnJwtPublicKeyMechanism =
   (typeof AuthnJwtPublicKeyMechanism)[keyof typeof AuthnJwtPublicKeyMechanism]
 
@@ -1474,6 +1492,7 @@ export interface AuthnJwtPublicKey {
   enable?: boolean
   from?: AuthnJwtPublicKeyFrom
   mechanism: AuthnJwtPublicKeyMechanism
+  on_missing_jwt?: AuthnJwtPublicKeyOnMissingJwt
   precondition?: string
   public_key: string
   verify_claims?: AuthnJwtPublicKeyVerifyClaims
@@ -1486,6 +1505,15 @@ export type AuthnJwtJwksUseJwks = (typeof AuthnJwtJwksUseJwks)[keyof typeof Auth
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwtJwksUseJwks = {
   true: true,
+} as const
+
+export type AuthnJwtJwksOnMissingJwt =
+  (typeof AuthnJwtJwksOnMissingJwt)[keyof typeof AuthnJwtJwksOnMissingJwt]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwtJwksOnMissingJwt = {
+  deny: 'deny',
+  ignore: 'ignore',
 } as const
 
 export type AuthnJwtJwksMechanism =
@@ -1514,16 +1542,27 @@ export interface AuthnJwtJwks {
   from?: AuthnJwtJwksFrom
   headers?: AuthnJwtJwksHeaders
   mechanism: AuthnJwtJwksMechanism
+  on_missing_jwt?: AuthnJwtJwksOnMissingJwt
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
+  /** @minimum 1 */
   refresh_interval?: number
-  ssl?: EmqxSslClientOpts
+  ssl?: AuthnJwksClientSslOpts
   use_jwks: AuthnJwtJwksUseJwks
   verify_claims?: AuthnJwtJwksVerifyClaims
 }
 
 export type AuthnJwtHmacVerifyClaims = { [key: string]: unknown }
+
+export type AuthnJwtHmacOnMissingJwt =
+  (typeof AuthnJwtHmacOnMissingJwt)[keyof typeof AuthnJwtHmacOnMissingJwt]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwtHmacOnMissingJwt = {
+  deny: 'deny',
+  ignore: 'ignore',
+} as const
 
 export type AuthnJwtHmacMechanism =
   (typeof AuthnJwtHmacMechanism)[keyof typeof AuthnJwtHmacMechanism]
@@ -1556,10 +1595,74 @@ export interface AuthnJwtHmac {
   enable?: boolean
   from?: AuthnJwtHmacFrom
   mechanism: AuthnJwtHmacMechanism
+  on_missing_jwt?: AuthnJwtHmacOnMissingJwt
   precondition?: string
   secret: string
   secret_base64_encoded?: boolean
   verify_claims?: AuthnJwtHmacVerifyClaims
+}
+
+export type AuthnJwksClientSslOptsVerify =
+  (typeof AuthnJwksClientSslOptsVerify)[keyof typeof AuthnJwksClientSslOptsVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwksClientSslOptsVerify = {
+  verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
+} as const
+
+export type AuthnJwksClientSslOptsServerNameIndication = string | 'disable'
+
+export type AuthnJwksClientSslOptsPartialChain =
+  (typeof AuthnJwksClientSslOptsPartialChain)[keyof typeof AuthnJwksClientSslOptsPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwksClientSslOptsPartialChain = {
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+  false: false,
+  true: true,
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+} as const
+
+export type AuthnJwksClientSslOptsLogLevel =
+  (typeof AuthnJwksClientSslOptsLogLevel)[keyof typeof AuthnJwksClientSslOptsLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwksClientSslOptsLogLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
+} as const
+
+export interface AuthnJwksClientSslOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: AuthnJwksClientSslOptsLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: AuthnJwksClientSslOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: AuthnJwksClientSslOptsServerNameIndication
+  verify?: AuthnJwksClientSslOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export type AuthnHttpPostMethod = (typeof AuthnHttpPostMethod)[keyof typeof AuthnHttpPostMethod]
