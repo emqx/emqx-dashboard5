@@ -120,8 +120,8 @@ export default {
     en: 'Ignore Backend Failures',
   },
   ignoreBackendFailuresDesc: {
-    zh: '启用后，当认证数据源不可用或返回错误时，EMQX 将跳过该认证器并继续认证链；禁用时将导致认证失败。',
-    en: 'When enabled, EMQX skips this authenticator and continues the authentication chain if the authentication backend is unavailable or returns an error. When disabled, backend failures cause authentication to fail.',
+    zh: '启用后，即使当前在 hardened security profile 下，EMQX 也会忽略认证后端错误，并继续认证链中的下一个认证器。',
+    en: 'When enabled, EMQX ignores authentication backend failures in a hardened security profile and continues with the next authenticator in the chain.',
   },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
