@@ -6,6 +6,7 @@ export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
   no_match: 'allow' | 'deny'
   include_mountpoint: boolean
+  ignore_backend_failures: boolean
   cache: {
     enable: boolean
     excludes: string[]

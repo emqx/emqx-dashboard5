@@ -5,6 +5,16 @@
         <el-card class="app-card with-border" shadow="never">
           <el-form :model="record" label-position="top">
             <section>
+              <el-form-item>
+                <template #label>
+                  <FormItemLabel
+                    :label="t('Auth.ignoreAuthzBackendFailures')"
+                    :desc="t('Auth.ignoreAuthzBackendFailuresDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-switch v-model="record.ignore_backend_failures" />
+              </el-form-item>
               <el-form-item :label="$t('Auth.enableCache')">
                 <el-switch v-model="record.cache.enable" />
               </el-form-item>
@@ -128,6 +138,9 @@ const loadData = async () => {
     const res: AuthzSetting = await listAuthzSetting()
     if (res.cache === undefined) {
       res.cache = { enable: false, excludes: [] }
+    }
+    if (res.ignore_backend_failures === undefined) {
+      res.ignore_backend_failures = false
     }
     record.value = res
   } catch (error) {
