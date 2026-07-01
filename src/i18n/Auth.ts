@@ -424,8 +424,8 @@ export default {
     en: 'On Missing JWT',
   },
   on_missing_jwt_desc: {
-    zh: '当配置的 JWT 来源字段缺失时执行的操作。选择 deny 将立即拒绝认证；选择 ignore 将跳过此认证器并继续认证链。留空时使用当前安全配置的默认策略。',
-    en: 'Action to take when the configured JWT credential field is missing. Use deny to reject authentication immediately, or ignore to skip this authenticator and let the authentication chain continue. Leave it empty to use the current security profile default.',
+    zh: '当配置的 JWT 来源字段缺失时执行的操作。选择 deny 将立即拒绝认证；选择 ignore 将跳过此认证器并继续认证链。',
+    en: 'Action to take when the configured JWT credential field is missing. Use deny to reject authentication immediately, or ignore to skip this authenticator and let the authentication chain continue. ',
   },
   noMatch: {
     zh: '未匹配时执行',
