@@ -123,6 +123,14 @@ export default {
     zh: '启用后，即使当前在 hardened security profile 下，EMQX 也会忽略认证后端错误，并继续认证链中的下一个认证器。',
     en: 'When enabled, EMQX ignores authentication backend failures in a hardened security profile and continues with the next authenticator in the chain.',
   },
+  ignoreAuthzBackendFailures: {
+    zh: '忽略授权数据源错误',
+    en: 'Ignore Authorization Backend Failures',
+  },
+  ignoreAuthzBackendFailuresDesc: {
+    zh: '启用后，即使当前在 hardened security profile 下，EMQX 也会忽略授权后端错误，并继续尝试下一个授权数据源。',
+    en: 'When enabled, EMQX ignores authorization backend failures in a hardened security profile and continues with the next authorization source.',
+  },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
     en: 'Maximum Number of Cached Items',
