@@ -31,11 +31,7 @@
                 desc-marked
               />
             </template>
-            <el-select
-              v-model="jwtConfig.on_missing_jwt"
-              clearable
-              :placeholder="$t('Base.default')"
-            >
+            <el-select v-model="jwtConfig.on_missing_jwt" clearable>
               <el-option :value="PublicKeyOnMissingJWT.ignore" />
               <el-option :value="PublicKeyOnMissingJWT.deny" />
             </el-select>

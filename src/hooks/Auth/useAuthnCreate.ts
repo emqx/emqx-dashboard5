@@ -1,5 +1,6 @@
 import { HTTP_POST_DEFAULT_HEADERS } from '@/common/constants'
 import { LDAPAuthMethod } from '@/types/enum'
+import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
@@ -126,6 +127,7 @@ export default function useAuthnCreate() {
       from: 'password',
       use_jwks: false,
       algorithm: 'hmac-based',
+      on_missing_jwt: PublicKeyOnMissingJWT.ignore,
       secret: 'emqxsecret',
       secret_base64_encoded: false,
       disconnect_after_expire: true,
