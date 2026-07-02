@@ -61,7 +61,7 @@ const check = async () => {
         method,
         path: pathItem,
         operation_label: { en: 'TODO', zh: 'TODO' },
-        operation_name_label: { en: info.description, zh: 'TODO 中文翻译' },
+        name_label: { en: info.description, zh: 'TODO 中文翻译' },
       })
     })
   })
