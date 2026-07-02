@@ -260,7 +260,7 @@ const resourceDict: Record<string, DictItem> = {}
 const langKey = state.lang === 'zh' ? 'zh' : 'en'
 const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
   value: key,
-  label: label[langKey],
+  label: label?.[langKey],
 }))
 
 const filterParams: Partial<GetAuditParams> = reactive({
