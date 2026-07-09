@@ -1025,6 +1025,22 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  // Topic Metrics Collections
+  {
+    path: '/topic-metrics-collections',
+    component: Layout,
+    meta: {
+      hideKey: 'topicMetricsCollections',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'topic-metrics-collections',
+        component: () => import('@/views/Diagnose/TopicMetricsCollections.vue'),
+      },
+    ],
+  },
   // Slow Sub
   {
     path: '/slow-sub',

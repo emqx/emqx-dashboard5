@@ -139,6 +139,46 @@ export default {
     zh: '添加主题',
     en: 'Add Topic',
   },
+  topicMetricsCollection: {
+    zh: '主题监控集合',
+    en: 'topic metrics collection',
+  },
+  createCollection: {
+    zh: '创建集合',
+    en: 'Create Collection',
+  },
+  collectionName: {
+    zh: '集合名称',
+    en: 'Collection Name',
+  },
+  collectionNameError: {
+    zh: '集合名称仅支持字母、数字、短横线和下划线，最长 64 个字符',
+    en: 'The collection name can contain only letters, digits, hyphens, and underscores, up to 64 characters.',
+  },
+  topicFilter: {
+    zh: '主题过滤器',
+    en: 'Topic Filter',
+  },
+  bytesIn: {
+    zh: '流入字节',
+    en: 'Bytes In',
+  },
+  bytesOut: {
+    zh: '流出字节',
+    en: 'Bytes Out',
+  },
+  resetCollectionTip: {
+    zh: '确定要重置集合 {name} 的指标吗？',
+    en: 'Are you sure you want to reset metrics for collection {name}?',
+  },
+  deleteCollectionTip: {
+    zh: '确定要删除集合 {name} 吗？',
+    en: 'Are you sure you want to delete collection {name}?',
+  },
+  topicFilterMountpointTip: {
+    zh: '当前用户属于命名空间 {namespace}。主题过滤器匹配的是应用 mountpoint 后的 topic，例如客户端发布 t/x 时，需要填写 {namespace}/t/x 或 {namespace}/#。',
+    en: 'The current user belongs to namespace {namespace}. The topic filter matches the topic after the mountpoint is applied. For example, when a client publishes t/x, use {namespace}/t/x or {namespace}/#.',
+  },
   msgIn: {
     en: 'Published Messages',
     zh: '消息发布',
