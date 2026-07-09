@@ -176,8 +176,8 @@ export default {
     en: 'Are you sure you want to delete collection {name}?',
   },
   topicFilterMountpointTip: {
-    zh: '当前用户属于命名空间 {namespace}。主题过滤器匹配的是应用 mountpoint 后的 topic，例如客户端发布 t/x 时，需要填写 {namespace}/t/x 或 {namespace}/#。',
-    en: 'The current user belongs to namespace {namespace}. The topic filter matches the topic after the mountpoint is applied. For example, when a client publishes t/x, use {namespace}/t/x or {namespace}/#.',
+    zh: '当前用户属于命名空间 {namespace}。该集合只统计命名空间 {namespace} 下的客户端消息。',
+    en: 'The current user belongs to namespace {namespace}. This collection only counts client messages under namespace {namespace}.',
   },
   msgIn: {
     en: 'Published Messages',
