@@ -958,6 +958,30 @@
         }
       },
       {
+        "method": "post",
+        "path": "/mqtt/topic_metrics2",
+        "name_label": {
+          "en": "Create topic metrics collection",
+          "zh": "创建主题监控集合"
+        }
+      },
+      {
+        "method": "put",
+        "path": "/mqtt/topic_metrics2/:name/reset",
+        "name_label": {
+          "en": "Reset topic metrics collection",
+          "zh": "重置主题监控集合"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/mqtt/topic_metrics2/:name",
+        "name_label": {
+          "en": "Delete topic metrics collection",
+          "zh": "删除主题监控集合"
+        }
+      },
+      {
         "method": "delete",
         "path": "/mqtt/delayed/messages/:node/:msgid",
         "name_label": {

@@ -111,6 +111,11 @@ import type {
   MqMessageQueueRegularApiPostDispatchStrategy,
   MqMqIndividualLimits,
 } from './schemas/messageQueue.schemas'
+import type {
+  TopicMetrics2CollectionCreate,
+  TopicMetrics2CollectionView,
+  TopicMetrics2Metrics,
+} from './schemas/mqtt.schemas'
 import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tlsManagement.schemas'
@@ -294,6 +299,11 @@ export type MessageQueueLimits = MqMqIndividualLimits
 /* LOG TRACE */
 export type GetTraceContentParams = GetTraceNameLogParams
 export type GetTraceContentResponse = GetTraceNameLog200
+
+/* TOPIC METRICS */
+export type TopicMetricCollection = TopicMetrics2CollectionView
+export type TopicMetricCollectionCreate = TopicMetrics2CollectionCreate
+export type TopicMetricCollectionMetrics = TopicMetrics2Metrics
 
 /* TLS MANAGEMENT */
 export type CertBundleOut = EmqxMgmtApiCertsBundleOut

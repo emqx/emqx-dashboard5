@@ -24,6 +24,73 @@ export type PutMqttTopicRewrite400 = {
   message?: string
 }
 
+export type PutMqttTopicMetrics2NameReset404Code =
+  (typeof PutMqttTopicMetrics2NameReset404Code)[keyof typeof PutMqttTopicMetrics2NameReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutMqttTopicMetrics2NameReset404Code = {
+  NAME_NOT_FOUND: 'NAME_NOT_FOUND',
+} as const
+
+export type PutMqttTopicMetrics2NameReset404 = {
+  code?: PutMqttTopicMetrics2NameReset404Code
+  message?: string
+}
+
+export type GetMqttTopicMetrics2Name404Code =
+  (typeof GetMqttTopicMetrics2Name404Code)[keyof typeof GetMqttTopicMetrics2Name404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMqttTopicMetrics2Name404Code = {
+  NAME_NOT_FOUND: 'NAME_NOT_FOUND',
+} as const
+
+export type GetMqttTopicMetrics2Name404 = {
+  code?: GetMqttTopicMetrics2Name404Code
+  message?: string
+}
+
+export type DeleteMqttTopicMetrics2Name404Code =
+  (typeof DeleteMqttTopicMetrics2Name404Code)[keyof typeof DeleteMqttTopicMetrics2Name404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteMqttTopicMetrics2Name404Code = {
+  NAME_NOT_FOUND: 'NAME_NOT_FOUND',
+} as const
+
+export type DeleteMqttTopicMetrics2Name404 = {
+  code?: DeleteMqttTopicMetrics2Name404Code
+  message?: string
+}
+
+export type PostMqttTopicMetrics2409Code =
+  (typeof PostMqttTopicMetrics2409Code)[keyof typeof PostMqttTopicMetrics2409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMqttTopicMetrics2409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+  EXCEED_LIMIT: 'EXCEED_LIMIT',
+} as const
+
+export type PostMqttTopicMetrics2409 = {
+  code?: PostMqttTopicMetrics2409Code
+  message?: string
+}
+
+export type PostMqttTopicMetrics2400Code =
+  (typeof PostMqttTopicMetrics2400Code)[keyof typeof PostMqttTopicMetrics2400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostMqttTopicMetrics2400Code = {
+  BAD_NAME: 'BAD_NAME',
+  BAD_TOPIC_FILTER: 'BAD_TOPIC_FILTER',
+} as const
+
+export type PostMqttTopicMetrics2400 = {
+  code?: PostMqttTopicMetrics2400Code
+  message?: string
+}
+
 export type GetMqttTopicMetricsTopic404Code =
   (typeof GetMqttTopicMetricsTopic404Code)[keyof typeof GetMqttTopicMetricsTopic404Code]
 
@@ -208,6 +275,29 @@ export type PublicLimitParameter = number
 export type GetMqttDelayedMessagesParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
+}
+
+export interface TopicMetrics2Metrics {
+  'bytes.in'?: number
+  'bytes.out'?: number
+  'messages.dropped.count'?: number
+  'messages.in.count'?: number
+  'messages.out.count'?: number
+}
+
+export type TopicMetrics2CollectionViewNamespace = string | null
+
+export interface TopicMetrics2CollectionView {
+  create_time?: string
+  metrics: TopicMetrics2Metrics
+  name: string
+  namespace?: TopicMetrics2CollectionViewNamespace
+  topic_filter: string
+}
+
+export interface TopicMetrics2CollectionCreate {
+  name: string
+  topic_filter: string
 }
 
 export type ModulesRewriteAction = (typeof ModulesRewriteAction)[keyof typeof ModulesRewriteAction]

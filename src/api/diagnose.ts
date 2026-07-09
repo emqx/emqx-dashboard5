@@ -1,5 +1,5 @@
 import http from '@/common/http'
-import {
+import type {
   SlowSubConfig,
   SlowSubStatistic,
   TopicMetricItem,
@@ -7,7 +7,12 @@ import {
   TraceItem,
 } from '@/types/diagnose'
 import { getLocalMessage } from '@/i18n'
-import { GetTraceContentParams, GetTraceContentResponse } from '@/types/typeAlias'
+import type {
+  GetTraceContentParams,
+  GetTraceContentResponse,
+  TopicMetricCollection,
+  TopicMetricCollectionCreate,
+} from '@/types/typeAlias'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
@@ -99,4 +104,26 @@ export function deleteTopicMetrics(topic: string): Promise<any> | undefined {
 export function resetTopicMetrics(topic: string): any {
   if (topic == null) return
   return http.put(`/mqtt/topic_metrics`, { action: 'reset', topic })
+}
+
+export function getTopicMetricCollections(): Promise<Array<TopicMetricCollection>> {
+  return http.get('/mqtt/topic_metrics2')
+}
+
+export function getTopicMetricCollection(name: string): Promise<TopicMetricCollection> {
+  return http.get('/mqtt/topic_metrics2/' + encodeURIComponent(name))
+}
+
+export function createTopicMetricCollection(
+  data: TopicMetricCollectionCreate,
+): Promise<TopicMetricCollection> {
+  return http.post('/mqtt/topic_metrics2', data)
+}
+
+export function deleteTopicMetricCollection(name: string): Promise<void> {
+  return http.delete('/mqtt/topic_metrics2/' + encodeURIComponent(name))
+}
+
+export function resetTopicMetricCollection(name: string): Promise<void> {
+  return http.put('/mqtt/topic_metrics2/' + encodeURIComponent(name) + '/reset')
 }
