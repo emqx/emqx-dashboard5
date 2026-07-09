@@ -1553,6 +1553,27 @@ export const ConfluentProducerKafkaOptsCompression = {
   snappy: 'snappy',
 } as const
 
+export interface ConfluentProducerKafkaOpts {
+  buffer?: BridgeKafkaProducerBuffer
+  compression?: ConfluentProducerKafkaOptsCompression
+  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
+  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
+  kafka_headers?: string
+  max_batch_bytes?: string
+  /** @minimum 1 */
+  max_inflight?: number
+  max_linger_bytes?: string
+  max_linger_time?: string
+  message?: ConfluentKafkaMessage
+  partition_count_refresh_interval?: string
+  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
+  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
+  query_mode?: ConfluentProducerKafkaOptsQueryMode
+  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
+  sync_query_timeout?: string
+  topic: string
+}
+
 export type ConfluentPostBridgeV2Type =
   (typeof ConfluentPostBridgeV2Type)[keyof typeof ConfluentPostBridgeV2Type]
 
@@ -1580,27 +1601,6 @@ export interface ConfluentPostBridgeV2 {
 export interface ConfluentKafkaMessage {
   key?: string
   value?: string
-}
-
-export interface ConfluentProducerKafkaOpts {
-  buffer?: BridgeKafkaProducerBuffer
-  compression?: ConfluentProducerKafkaOptsCompression
-  kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
-  kafka_header_value_encode_mode?: ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode
-  kafka_headers?: string
-  max_batch_bytes?: string
-  /** @minimum 1 */
-  max_inflight?: number
-  max_linger_bytes?: string
-  max_linger_time?: string
-  message?: ConfluentKafkaMessage
-  partition_count_refresh_interval?: string
-  partition_strategy?: ConfluentProducerKafkaOptsPartitionStrategy
-  partitions_limit?: ConfluentProducerKafkaOptsPartitionsLimit
-  query_mode?: ConfluentProducerKafkaOptsQueryMode
-  required_acks?: ConfluentProducerKafkaOptsRequiredAcks
-  sync_query_timeout?: string
-  topic: string
 }
 
 export type ConfluentGetBridgeV2Type =
@@ -5147,53 +5147,53 @@ export interface ActionsAndSourcesFallbackActionRepublish {
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ActionsAndSourcesFallbackActionReferenceType = {
-  snowflake_streaming: 'snowflake_streaming',
-  bigtable: 'bigtable',
-  mysql: 'mysql',
-  redshift: 'redshift',
-  bigquery: 'bigquery',
-  oracle: 'oracle',
-  alloydb: 'alloydb',
-  influxdb: 'influxdb',
   emqx_tables: 'emqx_tables',
-  mongodb: 'mongodb',
-  mqtt: 'mqtt',
   tdengine: 'tdengine',
-  timescale: 'timescale',
-  sqlserver: 'sqlserver',
-  http: 'http',
-  datalayers: 'datalayers',
-  gcp_pubsub_producer: 'gcp_pubsub_producer',
-  dynamo: 'dynamo',
-  couchbase: 'couchbase',
-  matrix: 'matrix',
-  disk_log: 'disk_log',
-  s3tables: 's3tables',
-  elasticsearch: 'elasticsearch',
-  kinesis: 'kinesis',
   iotdb: 'iotdb',
-  confluent_producer: 'confluent_producer',
-  syskeeper_forwarder: 'syskeeper_forwarder',
-  quasardb: 'quasardb',
-  azure_blob_storage: 'azure_blob_storage',
+  kafka_producer: 'kafka_producer',
+  rocketmq: 'rocketmq',
+  alloydb: 'alloydb',
+  tablestore: 'tablestore',
+  disk_log: 'disk_log',
+  snowflake: 'snowflake',
+  sqlserver: 'sqlserver',
+  mqtt: 'mqtt',
+  matrix: 'matrix',
+  bigtable: 'bigtable',
   greptimedb: 'greptimedb',
-  pgsql: 'pgsql',
-  azure_event_grid: 'azure_event_grid',
   cassandra: 'cassandra',
   cockroachdb: 'cockroachdb',
-  opents: 'opents',
-  rocketmq: 'rocketmq',
-  azure_event_hub_producer: 'azure_event_hub_producer',
-  tablestore: 'tablestore',
-  rabbitmq: 'rabbitmq',
-  redis: 'redis',
-  pulsar: 'pulsar',
-  snowflake: 'snowflake',
-  s3: 's3',
-  doris: 'doris',
-  kafka_producer: 'kafka_producer',
-  aws_timestream: 'aws_timestream',
+  mysql: 'mysql',
+  http: 'http',
+  oracle: 'oracle',
   clickhouse: 'clickhouse',
+  snowflake_streaming: 'snowflake_streaming',
+  redis: 'redis',
+  redshift: 'redshift',
+  opents: 'opents',
+  rabbitmq: 'rabbitmq',
+  azure_event_grid: 'azure_event_grid',
+  pulsar: 'pulsar',
+  kinesis: 'kinesis',
+  gcp_pubsub_producer: 'gcp_pubsub_producer',
+  couchbase: 'couchbase',
+  dynamo: 'dynamo',
+  s3: 's3',
+  datalayers: 'datalayers',
+  s3tables: 's3tables',
+  syskeeper_forwarder: 'syskeeper_forwarder',
+  bigquery: 'bigquery',
+  azure_event_hub_producer: 'azure_event_hub_producer',
+  doris: 'doris',
+  influxdb: 'influxdb',
+  pgsql: 'pgsql',
+  confluent_producer: 'confluent_producer',
+  elasticsearch: 'elasticsearch',
+  azure_blob_storage: 'azure_blob_storage',
+  quasardb: 'quasardb',
+  timescale: 'timescale',
+  mongodb: 'mongodb',
+  aws_timestream: 'aws_timestream',
 } as const
 
 export type ActionsAndSourcesFallbackActionReferenceKind =

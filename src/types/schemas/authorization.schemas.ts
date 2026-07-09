@@ -620,6 +620,7 @@ export const PutAuthorizationSettings200DenyAction = {
 export type PutAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettings200DenyAction
+  ignore_backend_failures?: boolean
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
@@ -645,6 +646,7 @@ export const PutAuthorizationSettingsBodyDenyAction = {
 export type PutAuthorizationSettingsBody = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettingsBodyDenyAction
+  ignore_backend_failures?: boolean
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
@@ -670,6 +672,7 @@ export const GetAuthorizationSettings200DenyAction = {
 export type GetAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: GetAuthorizationSettings200DenyAction
+  ignore_backend_failures?: boolean
   include_mountpoint?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }

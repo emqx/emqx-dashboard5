@@ -1,34 +1,3 @@
-export type GetPrometheusStats200One = { [key: string]: unknown }
-
-export type GetPrometheusStatsParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
-
-export type GetPrometheusNamespacedStats200One = { [key: string]: unknown }
-
-export type GetPrometheusNamespacedStatsParams = {
-  mode?: EmqxPrometheusApiModeParameter
-  ns?: EmqxPrometheusApiNsParameter
-}
-
-export type GetPrometheusMessageTransformation200One = { [key: string]: unknown }
-
-export type GetPrometheusMessageTransformationParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type GetPrometheusDataIntegration200One = { [key: string]: unknown }
-
-export type GetPrometheusDataIntegrationParams = {
-  mode?: EmqxPrometheusApiModeParameter
-  ns?: string
-  only_global?: boolean
-}
-
-export type GetPrometheusAuth200One = { [key: string]: unknown }
-
 export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
@@ -60,8 +29,31 @@ export const EmqxPrometheusApiModeParameter = {
   node: 'node',
 } as const
 
+export type GetPrometheusTopicMetricsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusNamespacedStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+  ns?: EmqxPrometheusApiNsParameter
+}
+
+export type GetPrometheusMessageTransformationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type GetPrometheusDataIntegrationParams = {
+  mode?: EmqxPrometheusApiModeParameter
+  ns?: string
+  only_global?: boolean
 }
 
 export type PrometheusPushGatewayMethod =

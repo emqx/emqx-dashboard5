@@ -11,6 +11,19 @@ export type GetA2aCardsList503 = {
   message?: string
 }
 
+export type GetA2aCardsList404Code =
+  (typeof GetA2aCardsList404Code)[keyof typeof GetA2aCardsList404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetA2aCardsList404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetA2aCardsList404 = {
+  code?: GetA2aCardsList404Code
+  message?: string
+}
+
 export type GetA2aCardsListParams = {
   only_global?: boolean
   ns?: string
@@ -42,6 +55,19 @@ export const PostA2aCardsCardOrgIdUnitIdAgentId500Code = {
 
 export type PostA2aCardsCardOrgIdUnitIdAgentId500 = {
   code?: PostA2aCardsCardOrgIdUnitIdAgentId500Code
+  message?: string
+}
+
+export type PostA2aCardsCardOrgIdUnitIdAgentId404Code =
+  (typeof PostA2aCardsCardOrgIdUnitIdAgentId404Code)[keyof typeof PostA2aCardsCardOrgIdUnitIdAgentId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostA2aCardsCardOrgIdUnitIdAgentId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostA2aCardsCardOrgIdUnitIdAgentId404 = {
+  code?: PostA2aCardsCardOrgIdUnitIdAgentId404Code
   message?: string
 }
 
@@ -102,6 +128,19 @@ export const DeleteA2aCardsCardOrgIdUnitIdAgentId503Code = {
 
 export type DeleteA2aCardsCardOrgIdUnitIdAgentId503 = {
   code?: DeleteA2aCardsCardOrgIdUnitIdAgentId503Code
+  message?: string
+}
+
+export type DeleteA2aCardsCardOrgIdUnitIdAgentId404Code =
+  (typeof DeleteA2aCardsCardOrgIdUnitIdAgentId404Code)[keyof typeof DeleteA2aCardsCardOrgIdUnitIdAgentId404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteA2aCardsCardOrgIdUnitIdAgentId404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteA2aCardsCardOrgIdUnitIdAgentId404 = {
+  code?: DeleteA2aCardsCardOrgIdUnitIdAgentId404Code
   message?: string
 }
 

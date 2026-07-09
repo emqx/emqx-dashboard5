@@ -47,6 +47,7 @@ export const GetDataFilesFilename200 = {
 
 export type GetDataFilesFilenameParams = {
   node?: string
+  namespace?: string
 }
 
 export type DeleteDataFilesFilename404Code =
@@ -77,6 +78,7 @@ export type DeleteDataFilesFilename400 = {
 
 export type DeleteDataFilesFilenameParams = {
   node?: string
+  namespace?: string
 }
 
 export type PostDataFiles400Code = (typeof PostDataFiles400Code)[keyof typeof PostDataFiles400Code]
@@ -128,6 +130,7 @@ export type PublicLimitParameter = number
 export type GetDataFilesParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
+  namespace?: string
 }
 
 export interface PublicMeta {
