@@ -1,8 +1,17 @@
 import { getUser, removeUser, setUser } from '@/common/auth'
+import { getFeatures } from '@/api/features'
+import {
+  createFullFallbackFeatureGateState,
+  createInitialFeatureGateState,
+  isFeatureEnabled as checkFeatureEnabled,
+  isPathFeatureEnabled as checkPathFeatureEnabled,
+  normalizeFeatureGateInfo,
+} from '@/common/featureGate'
 import type { SSOTokenExchangeResult } from '@/api/sso'
 import type { UserInfo, VersionInfo } from '@/types/common'
 import type { LicenseData } from '@/types/dashboard'
 import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
+import type { FeatureGateInfo, FeatureName } from '@/types/featureGate'
 import type { RuleEvent } from '@/types/rule'
 
 export type SSOmfaPending = Extract<SSOTokenExchangeResult, { action: string }>
@@ -103,6 +112,7 @@ export default createStore({
     emqxVersion: null as VersionInfo | null,
     ssoMfaPending: null as null | SSOmfaPending,
     clusterDesc: '',
+    featureGate: createInitialFeatureGateState(),
   },
   actions: {
     SET_ALERT_COUNT({ commit }, count = 0) {
@@ -129,6 +139,23 @@ export default createStore({
     UPDATE_EMQX_VERSION({ commit }, versionInfo: VersionInfo) {
       commit('SET_EMQX_VERSION', versionInfo)
     },
+    async LOAD_FEATURES({ commit, state }: any) {
+      const token = state.user?.token
+      if (!token) {
+        commit('RESET_FEATURE_GATE')
+        return
+      }
+      try {
+        const features = await getFeatures()
+        commit('SET_FEATURE_GATE', features)
+      } catch (error) {
+        if (!state.user?.token) {
+          commit('RESET_FEATURE_GATE')
+          throw error
+        }
+        commit('SET_FEATURE_GATE_FALLBACK')
+      }
+    },
   },
   mutations: {
     SET_ALERT_COUNT(state, count) {
@@ -136,12 +163,16 @@ export default createStore({
     },
     UPDATE_USER_INFO(state, userInfo) {
       const { logOut = false } = userInfo
+      const oldToken = state.user?.token
       if (logOut) {
         removeUser()
       } else {
         setUser(userInfo)
       }
       state.user = userInfo
+      if (logOut || oldToken !== userInfo.token) {
+        state.featureGate = createInitialFeatureGateState()
+      }
     },
     SET_LEFT_BAR_COLLAPSE(state, collapse) {
       localStorage.setItem('leftBarCollapse', !!collapse as any)
@@ -242,6 +273,15 @@ export default createStore({
     SET_CLUSTER_DESC(state, clusterDesc) {
       state.clusterDesc = clusterDesc
     },
+    RESET_FEATURE_GATE(state: any) {
+      state.featureGate = createInitialFeatureGateState()
+    },
+    SET_FEATURE_GATE(state: any, payload: FeatureGateInfo) {
+      state.featureGate = normalizeFeatureGateInfo(payload)
+    },
+    SET_FEATURE_GATE_FALLBACK(state: any) {
+      state.featureGate = createFullFallbackFeatureGateState()
+    },
   },
   getters: {
     isDev() {
@@ -271,6 +311,15 @@ export default createStore({
     },
     isNamespaceUser(state) {
       return !!state.user.namespace
+    },
+    isFeatureGateInitialized(state: any) {
+      return state.featureGate.initialized
+    },
+    isFeatureEnabled(state: any) {
+      return (feature: FeatureName) => checkFeatureEnabled(state.featureGate, feature)
+    },
+    isPathFeatureEnabled(state: any) {
+      return (path: string) => checkPathFeatureEnabled(path, state.featureGate)
     },
   },
 })

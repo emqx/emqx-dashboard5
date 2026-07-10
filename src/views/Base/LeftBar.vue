@@ -64,7 +64,6 @@
 export default defineComponent({
   name: 'Leftbar',
   setup() {
-    const menus = ref<Menu[]>([])
     const store = useStore()
     const route = useRoute()
     const leftBarCollapse = computed(() => {
@@ -91,12 +90,11 @@ export default defineComponent({
 
     const { menuList } = useMenus()
 
-    menus.value = menuList.value
     return {
       store,
       leftBarCollapse,
       defaultSelectedKeys,
-      menus,
+      menus: menuList,
       needFixedHeight,
     }
   },
