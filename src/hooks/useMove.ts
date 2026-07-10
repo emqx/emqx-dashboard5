@@ -7,8 +7,8 @@ type EventMap = {
 
 export default (
   eventMap: EventMap,
-  errorHandlerFunc?: () => void,
-  finallyAction?: () => void,
+  errorHandlerFunc?: () => void | Promise<void>,
+  finallyAction?: () => void | Promise<void>,
 ): {
   handleDragEvent: (
     newIndex: number,
@@ -45,11 +45,11 @@ export default (
       console.error(error)
       // empty the array first when an error occurs, otherwise the view will not be updated
       if (errorHandlerFunc) {
-        errorHandlerFunc()
+        await errorHandlerFunc()
       }
     } finally {
       if (finallyAction) {
-        finallyAction()
+        await finallyAction()
       }
     }
   }
