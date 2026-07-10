@@ -1,3 +1,4 @@
+import { isPathFeatureEnabled } from '@/common/featureGate'
 import store from '@/store'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
@@ -1188,29 +1189,64 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+const clearLoginState = () => {
+  store.commit('UPDATE_USER_INFO', { logOut: true })
+  store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
+  store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
+  document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`
+}
+
+const createLoginRoute = (path?: string) => ({
+  path: '/login',
+  query: { to: path },
+})
+
+const ensureFeatureGateLoaded = async () => {
+  if (!store.state.featureGate.initialized) {
+    await store.dispatch('LOAD_FEATURES')
+  }
+}
+
+router.beforeEach(async (to, from, next) => {
   const { fullPath, meta } = to
   const { authRequired = false } = meta
   const info = store.state.user
 
   if (authRequired && !info.token) {
-    toLogin(fullPath)
+    clearLoginState()
+    next(createLoginRoute(fullPath))
+    return
   }
+
+  if (authRequired) {
+    try {
+      await ensureFeatureGateLoaded()
+    } catch (error) {
+      next(false)
+      return
+    }
+
+    if (!store.state.user?.token) {
+      clearLoginState()
+      next(createLoginRoute(fullPath))
+      return
+    }
+
+    if (!isPathFeatureEnabled(to.path, store.state.featureGate)) {
+      next({ path: '/404', replace: true })
+      return
+    }
+  }
+
   next()
 })
 
 //Logout and go to Login page
 export async function toLogin(path?: string): Promise<void> {
-  store.commit('UPDATE_USER_INFO', { logOut: true })
-  store.commit('CLEAR_ABORT_CONTROLLERS') // Cenceled All pending request
-  store.commit('UPDATE_LOGIN_BACKEND', null) // Cenceled All pending request
-  document.cookie = `${EMQX_AUTH_COOKIE_NAME}=; path=/; SameSite=Lax`
+  clearLoginState()
   const currentPath = router.currentRoute.value.path
   if (currentPath !== '/login') {
-    await router.push({
-      path: '/login',
-      query: { to: path ? path : (currentPath ?? undefined) },
-    })
+    await router.push(createLoginRoute(path ? path : (currentPath ?? undefined)))
   }
 }
 

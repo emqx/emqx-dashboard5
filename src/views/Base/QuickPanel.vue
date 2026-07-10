@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import { filterRouteRecordsByFeatureGate, joinRoutePath } from '@/common/featureGate'
 import { usePathInMenu } from '@/hooks/useMenus'
 import { routes } from '@/router'
 import { ArrowRight, Search } from 'lucide-vue-next'
@@ -72,6 +73,7 @@ watch(showDialog, async (val) => {
 })
 
 const { tl } = useI18nTl('Base')
+const store = useStore()
 
 const { findPathParentAndBlock, getRouteLabel } = usePathInMenu()
 
@@ -85,10 +87,11 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
     }
     // ! just handle level 1
     if (level === 1) {
-      const path = `${parent?.path ? parent.path : ''}${parent?.path && route.path ? '/' : ''}${
-        route.path
-      }`
+      const path = joinRoutePath(parent?.path, route.path)
       const label = getRouteLabel(route)
+      if (!label) {
+        return
+      }
       const { parentLabel, blockTitle } = findPathParentAndBlock(path)
       ret.push({ path, name: route.name, label, parentLabel, blockTitle })
     }
@@ -104,17 +107,19 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
 /**
  * remove page with params
  */
-const neededMenuList = generateMenuItems(routes)
+const neededMenuList = computed(() =>
+  generateMenuItems(filterRouteRecordsByFeatureGate(routes, store.state.featureGate)),
+)
 
 const input = ref('')
 
 const defaultItemNames = ['overview', 'clients', 'authentication', 'rule']
 const querySearch = (query: string, cb: any) => {
   if (!query) {
-    cb(neededMenuList.filter(({ name }) => defaultItemNames.includes(name)))
+    cb(neededMenuList.value.filter(({ name }) => defaultItemNames.includes(name)))
   } else {
     const queryRegArr = query.split(' ').map((item) => new RegExp(`${escapeRegExp(item)}`, 'i'))
-    const ret = neededMenuList.filter(
+    const ret = neededMenuList.value.filter(
       ({ path, name, label }) =>
         queryRegArr.every((reg) => reg.test(path)) ||
         queryRegArr.every((reg) => reg.test(label)) ||

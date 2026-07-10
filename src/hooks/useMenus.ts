@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import { filterItemsByFeatureGate } from '@/common/featureGate'
 import {
   TextAlignCenter,
   Database,
@@ -23,6 +24,8 @@ export interface Menu {
 const useMenus = (): {
   menuList: Ref<Array<Menu>>
 } => {
+  const store = useStore()
+
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -168,7 +171,7 @@ const useMenus = (): {
     // if (isNamespaceUser.value) {
     //   return totalMenuList.filter((menu) => menu.title === 'ruleengine')
     // }
-    return totalMenuList
+    return filterItemsByFeatureGate(totalMenuList, store.state.featureGate)
   })
 
   return {

@@ -34,14 +34,14 @@
               class="top-submenu"
             >
               <template
-                v-for="route in topLvRoute.children"
+                v-for="route in enabledTopLvRouteChildren"
                 :key="topLvRoute.path + '/' + route.path"
               >
                 <el-menu-item
                   v-if="!route.meta?.hideInMenu"
                   :index="topLvRoute.path + '/' + route.path"
                 >
-                  {{ $t(`components.${route.name}`) }}
+                  {{ $t(`components.${String(route.name)}`) }}
                 </el-menu-item>
               </template>
             </el-menu>
@@ -67,6 +67,7 @@
 
 <script lang="ts" setup>
 import { loadLicenseInfo } from '@/api/common'
+import { getEnabledRouteChildren } from '@/common/featureGate'
 import { routes } from '@/router'
 import LeftBar from './LeftBar.vue'
 import LicenseTipDialog from './LicenseTipDialog.vue'
@@ -93,6 +94,9 @@ const topLvRoute: any = computed(() => {
   })
   return topLvRoute || {}
 })
+const enabledTopLvRouteChildren = computed(() =>
+  getEnabledRouteChildren(topLvRoute.value, store.state.featureGate),
+)
 const defaultSubMenu = computed(() => {
   const { path } = route
   const pathItem = path.split('/')
@@ -103,7 +107,7 @@ const defaultSubMenu = computed(() => {
 })
 const hasSubMenu = computed(() => {
   const { meta } = topLvRoute.value
-  return meta && meta.subMenu
+  return meta && meta.subMenu && enabledTopLvRouteChildren.value.length > 0
 })
 const showSubMenu = computed(() => {
   const { meta } = topLvRoute.value
