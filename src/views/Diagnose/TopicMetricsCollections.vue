@@ -39,7 +39,7 @@
               <div :class="isNamespaceUser ? 'col-start-4' : 'col-start-5'">
                 <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ t('Base.createdAt') }}</p>
                 <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
-                  {{ row.create_time ? dateFormat(row.create_time, '') : '-' }}
+                  {{ dateFormat(row.create_time, '-') }}
                 </p>
               </div>
               <div
@@ -235,14 +235,40 @@ const getMetric = ({ metrics }: TopicMetricCollectionRow, key: MetricKey) => met
 const formatCount = (value?: number) => Number(value ?? 0).toLocaleString()
 const formatBytes = (value?: number) => transMemorySizeNumToStr(Number(value ?? 0), 2)
 
+let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined
+const getSortValue = (row: TopicMetricCollectionRow, key?: string) => {
+  if (!key) {
+    return ''
+  }
+  if (key in (row.metrics || {})) {
+    return row.metrics[key as MetricKey] ?? 0
+  }
+  return (row as Record<string, any>)[key] ?? ''
+}
+const sortCollections = (rows: Array<TopicMetricCollectionRow>) => {
+  if (!sortFrom) {
+    return rows
+  }
+  return [...rows].sort((a, b) => {
+    const aVal = getSortValue(a, sortFrom?.key)
+    const bVal = getSortValue(b, sortFrom?.key)
+    if (aVal === bVal) {
+      return 0
+    }
+    const ret = aVal > bVal ? 1 : -1
+    return sortFrom?.type === 'desc' ? -ret : ret
+  })
+}
+
 const loadCollections = async () => {
   isLoading.value = true
   try {
-    collections.value = (await getTopicMetricCollections()).map((item) => ({
+    const rows = (await getTopicMetricCollections()).map((item) => ({
       ...item,
       _expand: false,
       _loading: false,
     }))
+    collections.value = sortCollections(rows)
   } catch (error) {
     collections.value = []
   } finally {
@@ -309,32 +335,10 @@ const deleteCollection = async (row: TopicMetricCollectionRow) => {
   }
 }
 
-let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined
 const handleSortChange = ({ prop, order }: { prop: string; order: string | null }) => {
   sortFrom =
     prop && order ? { key: prop, type: order === 'descending' ? 'desc' : 'asc' } : undefined
-  if (!sortFrom) {
-    return
-  }
-  collections.value = [...collections.value].sort((a, b) => {
-    const aVal = getSortValue(a, sortFrom?.key)
-    const bVal = getSortValue(b, sortFrom?.key)
-    if (aVal === bVal) {
-      return 0
-    }
-    const ret = aVal > bVal ? 1 : -1
-    return sortFrom?.type === 'desc' ? -ret : ret
-  })
-}
-
-const getSortValue = (row: TopicMetricCollectionRow, key?: string) => {
-  if (!key) {
-    return ''
-  }
-  if (key in (row.metrics || {})) {
-    return row.metrics[key as MetricKey] ?? 0
-  }
-  return (row as Record<string, any>)[key] ?? ''
+  collections.value = sortCollections(collections.value)
 }
 
 const createFormRef = ref<FormInstance>()

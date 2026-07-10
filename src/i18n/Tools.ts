@@ -141,7 +141,7 @@ export default {
   },
   topicMetricsCollection: {
     zh: '主题监控集合',
-    en: 'topic metrics collection',
+    en: 'Topic Metrics Collection',
   },
   createCollection: {
     zh: '创建集合',
