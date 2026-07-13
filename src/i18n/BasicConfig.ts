@@ -370,10 +370,6 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '启用队列',
     en: 'Enable Queues',
   },
-  disableMessageQueueTip: {
-    zh: '不支持通过热配置禁用队列，请在配置文件中修改。',
-    en: 'Cannot disable queues through hot configuration, please modify it in the configuration file.',
-  },
   maxQueueCount: {
     zh: '最大队列数',
     en: 'Max Queue Count',
@@ -417,10 +413,6 @@ These clients must be manually kicked out if one wants them to abide to the new 
   enableMessageStream: {
     zh: '启用流',
     en: 'Enable Streams',
-  },
-  disableMessageStreamTip: {
-    zh: '不支持通过热配置禁用流，请在配置文件中修改。',
-    en: 'Cannot disable streams through hot configuration, please modify it in the configuration file.',
   },
   maxStreamCount: {
     zh: '最大流数',

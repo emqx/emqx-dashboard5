@@ -16,15 +16,7 @@
           <el-row>
             <el-col :span="21" class="custom-col">
               <el-form-item prop="enable" :label="tl('enableMessageStream')">
-                <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  placement="top"
-                  :disabled="!isEnabled"
-                  :content="tl('disableMessageStreamTip')"
-                >
-                  <el-switch v-model="streamConfig.enable" :disabled="isEnabled" />
-                </el-tooltip>
+                <el-switch v-model="streamConfig.enable" />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -174,7 +166,6 @@ const saveLoading = ref(false)
 const store = useStore()
 let rawData: any = undefined
 
-const isEnabled = ref(true)
 const createDefaultLimits = (): { limits: MessageStreamLimits } => ({
   limits: {
     max_shard_message_bytes: 'infinity',
@@ -273,7 +264,6 @@ const loadData = async () => {
       res.enable = await getStreamEnabledFromList()
     }
     streamConfig.value = res
-    isEnabled.value = res.enable ?? false
     rawData = cloneDeep(streamConfig.value)
   } catch (error) {
     //
@@ -292,7 +282,6 @@ const updateConfigData = async () => {
     if (streamConfig.value.enable === 'auto') {
       streamConfig.value.enable = await getStreamEnabledFromList()
     }
-    isEnabled.value = streamConfig.value.enable ?? false
   } catch (err) {
     loadData()
   } finally {

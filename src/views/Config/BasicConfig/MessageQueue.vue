@@ -16,15 +16,7 @@
           <el-row>
             <el-col :span="21" class="custom-col">
               <el-form-item prop="enable" :label="tl('enableMessageQueue')">
-                <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  placement="top"
-                  :disabled="!isEnabled"
-                  :content="tl('disableMessageQueueTip')"
-                >
-                  <el-switch v-model="queueConfig.enable" :disabled="isEnabled" />
-                </el-tooltip>
+                <el-switch v-model="queueConfig.enable" />
               </el-form-item>
             </el-col>
             <el-col :span="21" class="custom-col">
@@ -205,7 +197,6 @@ const saveLoading = ref(false)
 const store = useStore()
 let rawData: any = undefined
 
-const isEnabled = ref(true)
 const createDefaultLimits = (): { limits: MessageQueueLimits } => ({
   limits: {
     max_shard_message_bytes: 'infinity',
@@ -307,7 +298,6 @@ const loadData = async () => {
       res.enable = await getQueueEnabledFromList()
     }
     queueConfig.value = res
-    isEnabled.value = res.enable
     rawData = cloneDeep(queueConfig.value)
   } catch (error) {
     //
@@ -326,7 +316,6 @@ const updateConfigData = async () => {
     if (queueConfig.value.enable === 'auto') {
       queueConfig.value.enable = await getQueueEnabledFromList()
     }
-    isEnabled.value = queueConfig.value.enable
   } catch (err) {
     loadData()
   } finally {
