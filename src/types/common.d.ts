@@ -67,6 +67,7 @@ export interface SSL {
   certfile?: string
   keyfile?: string
   cacertfile?: string
+  ciphers?: string[]
   middlebox_comp_mode?: boolean
   /**
    * TLS 1.3 session resumption using stateless session tickets.

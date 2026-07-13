@@ -1836,6 +1836,38 @@
           "en": "OIDC authorization server callback request",
           "zh": "OIDC 授权服务器回调请求"
         }
+      },
+      {
+        "method": "post",
+        "path": "/sso/mfa/verify",
+        "name_label": {
+          "en": "Verify SSO MFA TOTP code and issue a JWT session token",
+          "zh": "验证 SSO MFA TOTP 代码并颁发 JWT 会话令牌"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sso/token_exchange",
+        "name_label": {
+          "en": "Exchange a one-time SSO code for the actual login result (JWT token or MFA metadata)",
+          "zh": "使用一次性 SSO 代码交换实际登录结果（JWT 令牌或 MFA 元数据）"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sso/mfa/setup",
+        "name_label": {
+          "en": "Complete SSO MFA TOTP setup",
+          "zh": "完成 SSO MFA TOTP 设置"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/sso/mfa/setup_info",
+        "name_label": {
+          "en": "Retrieve TOTP setup info (secret, mechanism) for QR code display",
+          "zh": "检索 TOTP 设置信息（密钥、机制）以显示二维码"
+        }
       }
     ]
   },

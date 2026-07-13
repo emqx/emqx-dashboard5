@@ -622,6 +622,7 @@ export type PutAuthorizationSettings200 = {
   deny_action: PutAuthorizationSettings200DenyAction
   ignore_backend_failures?: boolean
   include_mountpoint?: boolean
+  ignore_backend_failures?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
 
@@ -648,6 +649,7 @@ export type PutAuthorizationSettingsBody = {
   deny_action: PutAuthorizationSettingsBodyDenyAction
   ignore_backend_failures?: boolean
   include_mountpoint?: boolean
+  ignore_backend_failures?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
 
@@ -674,6 +676,7 @@ export type GetAuthorizationSettings200 = {
   deny_action: GetAuthorizationSettings200DenyAction
   ignore_backend_failures?: boolean
   include_mountpoint?: boolean
+  ignore_backend_failures?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }
 

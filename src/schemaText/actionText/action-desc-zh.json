@@ -23,5 +23,8 @@
   },
   "influxdb": {
     "ping_with_auth": "控制 EMQX 在发送 /ping 健康检查请求时是否附带连接器认证信息。如果你的 InfluxDB 服务要求 /ping 也进行认证，请启用此项。默认值为 false，即保持原有行为，不在 /ping 请求中附带认证信息。"
+  },
+  "emqx_tables": {
+    "ciphers": "此配置保存由逗号分隔的 TLS 密码套件名称。支持的套件如下<br/>- TLS_AES_256_GCM_SHA384<br/>- TLS_AES_128_GCM_SHA256<br/>- TLS_CHACHA20_POLY1305_SHA256<br/>- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256<br/>- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
   }
 }
