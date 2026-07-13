@@ -110,9 +110,6 @@ export const getNamespaceClientCount = (namespace: string): Promise<{ count: num
 export const bulkImportNamespaces = (data: Array<NamespaceItem>): Promise<void> =>
   http.post('/mt/bulk_import_configs', data)
 
-export const getNamespaceConfig = (namespace: string): Promise<NamespaceConfig> =>
-  http.get(`/mt/ns/${encodeURIComponent(namespace)}/config`)
-
 export const updateNamespaceConfig = (
   namespace: string,
   data: NamespaceConfig,
