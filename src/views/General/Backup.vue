@@ -1,7 +1,15 @@
 <template>
   <div class="backup app-wrapper">
     <div class="section-header">
-      <div></div>
+      <div>
+        <NamespaceSelect
+          v-if="isGlobalAdmin"
+          v-model="selectedNamespace"
+          :clearable="false"
+          :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+          @change="handleNamespaceChanged"
+        />
+      </div>
       <el-upload
         ref="UploadRef"
         class="upload-container"
@@ -12,13 +20,29 @@
         :on-error="handleUploadError"
         :http-request="customUploadRequest"
       >
-        <el-button plain :disabled="!$hasPermission('post')" :loading="uploading">
+        <el-button
+          plain
+          :disabled="!$hasPermission('post') || isNamespaceBackupView"
+          :loading="uploading"
+        >
           <Upload class="mr-2" />
           {{ tl('upload') }}
         </el-button>
       </el-upload>
-      <CreateButton :loading="createLoading" @click="handleCreateBackup" />
+      <CreateButton
+        :disabled="!$hasPermission('post') || isNamespaceBackupView"
+        :loading="createLoading"
+        @click="handleCreateBackup"
+      />
     </div>
+    <el-alert
+      v-if="isNamespaceBackupView"
+      class="!mb-4"
+      show-icon
+      type="info"
+      :closable="false"
+      :title="tl('namespaceBackupOperationTip', { namespace: selectedNamespace })"
+    />
     <el-table class="backup-table" :data="backupList" v-loading.lock="isTableLoading">
       <el-table-column prop="filename" min-width="125" :label="tl('filename')" />
       <el-table-column prop="node" min-width="128" :label="t('Dashboard.nodeName')" />
@@ -40,7 +64,10 @@
           <TableButton :disabled="!$hasPermission('delete')" @click="handleDeleteBackup(row)">
             {{ $t('Base.delete') }}
           </TableButton>
-          <TableButton :disabled="!$hasPermission('post')" @click="handleRestoreBackup(row)">
+          <TableButton
+            :disabled="!$hasPermission('post') || isNamespaceBackupView"
+            @click="handleRestoreBackup(row)"
+          >
             {{ tl('restore') }}
           </TableButton>
         </template>
@@ -62,6 +89,7 @@ import {
   uploadBackup,
 } from '@/api/systemModule'
 import { PageData } from '@/types/common'
+import { UserRole } from '@/types/enum'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import dayjs from 'dayjs'
@@ -83,13 +111,26 @@ const createLoading = ref(false)
 const uploading = ref(false)
 const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
+const selectedNamespace = ref(GLOBAL_NAMESPACE)
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const isGlobalAdmin = computed(
+  () => !isNamespaceUser.value && store.state.user.role === UserRole.Admin,
+)
+const namespaceParam = computed(() =>
+  selectedNamespace.value === GLOBAL_NAMESPACE ? undefined : selectedNamespace.value,
+)
+const isNamespaceBackupView = computed(
+  () => isGlobalAdmin.value && namespaceParam.value !== undefined,
+)
 
 const { pageParams, pageMeta, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { t, tl } = useI18nTl('General')
 
 const loadBackupFiles = async (params = {}) => {
   isTableLoading.value = true
-  const sendParams = { ...pageParams.value, ...params }
+  const sendParams = { ...pageParams.value, ...params, namespace: namespaceParam.value }
   try {
     const { data, meta } = await getBackups(sendParams)
     backupList.value = data as BackupItem[]
@@ -110,6 +151,10 @@ const refreshListData = () => {
   loadBackupFiles()
 }
 
+const handleNamespaceChanged = () => {
+  refreshListData()
+}
+
 const handleCreateBackup = async () => {
   createLoading.value = true
   try {
@@ -123,7 +168,6 @@ const handleCreateBackup = async () => {
   }
 }
 
-const store = useStore()
 const handleRestoreBackup = async (backup: BackupItem) => {
   ElMessageBox.confirm(tl('confirmRestore'), {
     confirmButtonText: t('Base.confirm'),
@@ -158,7 +202,7 @@ const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         try {
-          await deleteBackup(filename, node)
+          await deleteBackup(filename, { node, namespace: namespaceParam.value })
           ElMessage.success(t('Base.deleteSuccess'))
           refreshListData()
           done()
@@ -173,7 +217,7 @@ const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
 }
 
 const handleDownloadBackup = async ({ filename, node }: BackupItem) => {
-  const res = await downloadBackup(filename, node)
+  const res = await downloadBackup(filename, { node, namespace: namespaceParam.value })
   if (res.data) {
     createDownloadBlobLink(res.data, filename)
   }
