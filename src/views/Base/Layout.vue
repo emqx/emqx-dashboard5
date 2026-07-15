@@ -218,9 +218,9 @@ bindKeyupListener()
     box-sizing: border-box;
     bottom: 0;
     width: calc(var(--menu-normal-width) - 1px);
-    height: var(--left-menu-footer-height);
+    height: calc(var(--left-menu-footer-height) + 16px);
     background-color: var(--color-bg);
-    border-top: 1px solid #ffffff24;
+    border-top: 1px solid var(--color-border-card);
     transition: all 0.3s;
     &.is-collapse {
       width: calc(var(--menu-collapse-width) - 1px);
@@ -231,7 +231,6 @@ bindKeyupListener()
       justify-content: space-between;
       height: 100%;
       padding: 0 16px;
-      padding-bottom: 29px;
       .iconfont {
         flex-shrink: 0;
         width: 32px;
