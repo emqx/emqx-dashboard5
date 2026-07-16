@@ -142,7 +142,15 @@ export default (
     ]),
   }
   const pgSqlOrderMap = createOrderObj(
-    ['server', 'database', 'username', 'password', 'ssl', 'disable_prepared_statements'],
+    [
+      'server',
+      'database',
+      'username',
+      'password',
+      'ssl',
+      'application_name',
+      'disable_prepared_statements',
+    ],
     fieldStartIndex,
   )
   const IoTDBOrderMap = createOrderObj(
@@ -481,7 +489,7 @@ export default (
     [BridgeType.Confluent]: getKafkaProducerColClass,
   }
 
-  const pgSqlAdvancedFields = ['disable_prepared_statements']
+  const pgSqlAdvancedFields = ['application_name', 'disable_prepared_statements']
   const greptimeDBAdvancedFields = ['ttl', 'ts_column']
   const mqttAdvancedFields = [
     'retry_interval',
