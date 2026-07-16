@@ -15,37 +15,29 @@
     >
       <el-table-column type="expand" width="1">
         <template #default="{ row, $index }">
-          <div v-loading="row._loading" class="mx-[10px]">
+          <div v-loading="row._loading">
             <div
-              class="grid items-center gap-x-5"
-              :class="
-                isNamespaceUser
-                  ? 'grid-cols-[minmax(150px,1fr)_minmax(180px,1.2fr)_minmax(150px,1fr)_minmax(150px,1fr)_minmax(150px,1fr)_minmax(210px,1.4fr)]'
-                  : 'grid-cols-[minmax(150px,1fr)_minmax(180px,1.2fr)_minmax(128px,0.85fr)_minmax(150px,1fr)_minmax(150px,1fr)_minmax(150px,1fr)_minmax(210px,1.4fr)]'
-              "
+              class="grid items-center gap-x-5 grid-cols-[minmax(150px,1fr)_minmax(150px,1fr)_minmax(150px,1fr)_220px]"
             >
-              <div class="col-start-1">
+              <div class="col-start-1 px-4">
                 <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ tl('bytesIn') }}</p>
                 <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
                   {{ formatBytes(getMetric(row, 'bytes.in')) }}
                 </p>
               </div>
-              <div :class="isNamespaceUser ? 'col-start-2' : 'col-start-3'">
+              <div class="col-start-2">
                 <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ tl('bytesOut') }}</p>
                 <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
                   {{ formatBytes(getMetric(row, 'bytes.out')) }}
                 </p>
               </div>
-              <div :class="isNamespaceUser ? 'col-start-4' : 'col-start-5'">
+              <div class="col-start-3">
                 <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ t('Base.createdAt') }}</p>
                 <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
                   {{ dateFormat(row.create_time, '-') }}
                 </p>
               </div>
-              <div
-                class="flex min-h-[52px] items-center self-stretch"
-                :class="isNamespaceUser ? 'col-start-6' : 'col-start-7'"
-              >
+              <div class="flex min-h-[52px] items-center self-stretch px-4 col-start-4">
                 <RefreshButton
                   size="small"
                   :disabled="!$hasPermission('get') || row._loading"
@@ -56,7 +48,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('collectionName')" prop="name" sortable="custom" min-width="150">
+      <el-table-column :label="tl('collectionName')" prop="name" sortable="custom" min-width="162">
         <template #default="{ row }">
           <CommonOverflowTooltip :content="row.name" />
         </template>
@@ -65,7 +57,7 @@
         :label="tl('topicFilter')"
         prop="topic_filter"
         sortable="custom"
-        min-width="180"
+        min-width="128"
       >
         <template #default="{ row }">
           <CommonOverflowTooltip :content="row.topic_filter" />
@@ -76,7 +68,7 @@
         :label="t('BasicConfig.namespace')"
         prop="namespace"
         sortable="custom"
-        min-width="128"
+        min-width="132"
       >
         <template #default="{ row }">
           {{ getNamespaceLabel(row.namespace) }}
@@ -86,7 +78,7 @@
         :label="tl('msgIn')"
         sortable="custom"
         prop="messages.in.count"
-        min-width="150"
+        min-width="188"
       >
         <template #default="{ row }">
           {{ formatCount(getMetric(row, 'messages.in.count')) }}
@@ -96,7 +88,7 @@
         :label="tl('msgOut')"
         sortable="custom"
         prop="messages.out.count"
-        min-width="150"
+        min-width="184"
       >
         <template #default="{ row }">
           {{ formatCount(getMetric(row, 'messages.out.count')) }}
@@ -106,13 +98,13 @@
         :label="tl('msgDrop')"
         sortable="custom"
         prop="messages.dropped.count"
-        min-width="150"
+        min-width="180"
       >
         <template #default="{ row }">
           {{ formatCount(getMetric(row, 'messages.dropped.count')) }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.operation')" min-width="210">
+      <el-table-column :label="t('Base.operation')" width="220">
         <template #default="{ row, $index }">
           <TableButton
             :disabled="!$hasPermission('get')"
