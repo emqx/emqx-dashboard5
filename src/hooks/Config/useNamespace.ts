@@ -4,7 +4,6 @@ import {
   getDetailNamespaceList,
   getManagedDetailNamespaceList,
   getManagedNamespaceList,
-  getNamespaceConfig,
   updateNamespaceConfig as requestUpdateNamespaceConfig,
 } from '@/api/config'
 import type { LinkPaginatedResult } from '@/api/config'
@@ -16,46 +15,37 @@ export default () => {
   const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
   const currentUserNamespace = computed(() => store.getters.userNamespace)
 
-  let totalManagedNamespaceList: Array<string> = []
-  let hasFetchedAllManagedNamespaces = false
-  const fetchAllManagedNamespaces = async (): Promise<void> => {
+  const fetchAllManagedNamespaceConfigs = async (): Promise<
+    Map<string, NamespaceItem['config']>
+  > => {
     try {
-      const managedNamespaceList = await getManagedNamespaceList({ limit: 10000 })
-      totalManagedNamespaceList = managedNamespaceList.data
-      hasFetchedAllManagedNamespaces = true
-      return Promise.resolve()
+      const managedNamespacePage = await getManagedDetailNamespaceList({ limit: 10000 })
+      return new Map(
+        managedNamespacePage.data.flatMap(({ name, config }) =>
+          name ? [[name, config ?? {}] as const] : [],
+        ),
+      )
     } catch (error) {
       return Promise.reject(error)
     }
-  }
-  const fillManagedNamespaceConfig = async (namespaceList: Array<NamespaceItem>) => {
-    return Promise.allSettled(
-      namespaceList.map(async (namespace) => {
-        if (namespace.not_explicit_created) {
-          return Promise.resolve()
-        }
-        const config = await getNamespaceConfig(namespace.ns)
-        namespace.config = config
-      }),
-    )
   }
   const queryAllTypeNamespaceList = async (
     params: GetNamespaceListParams,
   ): Promise<LinkPaginatedResult<Array<NamespaceItem>>> => {
     try {
-      if (!hasFetchedAllManagedNamespaces) {
-        await fetchAllManagedNamespaces()
-      }
+      const managedNamespaceConfigs = await fetchAllManagedNamespaceConfigs()
       const namespacePage = await getDetailNamespaceList(params)
       const namespaceList: Array<NamespaceItem> = namespacePage.data.map(
-        ({ name: ns, created_at }) => ({
-          ns: ns || '',
-          created_at,
-          config: {},
-          not_explicit_created: !ns || !totalManagedNamespaceList.includes(ns),
-        }),
+        ({ name: ns, created_at }) => {
+          const notExplicitCreated = !ns || !managedNamespaceConfigs.has(ns)
+          return {
+            ns: ns || '',
+            created_at,
+            config: ns ? (managedNamespaceConfigs.get(ns) ?? {}) : {},
+            not_explicit_created: notExplicitCreated,
+          }
+        },
       )
-      await fillManagedNamespaceConfig(namespaceList)
       return Promise.resolve({ ...namespacePage, data: namespaceList })
     } catch (error) {
       return Promise.reject(error)
@@ -72,13 +62,12 @@ export default () => {
           ({ name }) => name === currentUserNamespace.value,
         )
       }
-      const namespaceList = managedNamespacePage.data.map(({ name: ns, created_at }) => ({
+      const namespaceList = managedNamespacePage.data.map(({ name: ns, created_at, config }) => ({
         ns: ns || '',
         created_at,
-        config: {},
+        config: config ?? {},
         not_explicit_created: false,
       }))
-      await fillManagedNamespaceConfig(namespaceList)
       return Promise.resolve({ ...managedNamespacePage, data: namespaceList })
     } catch (error) {
       return Promise.reject(error)

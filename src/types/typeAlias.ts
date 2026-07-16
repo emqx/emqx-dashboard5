@@ -284,6 +284,7 @@ export type NamespaceDetailItem = Merge<
   MtNsWithDetailsOut,
   {
     created_at: number
+    config?: NamespaceConfig
   }
 >
 

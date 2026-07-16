@@ -106,7 +106,7 @@ export default defineComponent({
   transition: all 0.3s;
   height: 100%;
   width: var(--menu-normal-width);
-  padding: 16px 0 calc(var(--left-menu-footer-height) + 16px);
+  padding: 16px 0 var(--left-menu-footer-height);
   background-color: var(--color-bg);
   &.is-collapse {
     width: var(--menu-collapse-width);

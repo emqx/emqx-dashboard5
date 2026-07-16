@@ -218,7 +218,7 @@ bindKeyupListener()
     box-sizing: border-box;
     bottom: 0;
     width: calc(var(--menu-normal-width) - 1px);
-    height: calc(var(--left-menu-footer-height) + 16px);
+    height: calc(var(--left-menu-footer-height));
     background-color: var(--color-bg);
     border-top: 1px solid var(--color-border-card);
     transition: all 0.3s;
