@@ -12,14 +12,16 @@ export default (): {
   tableCom: Ref<Component>
   getAuthzList: (isInit?: boolean) => void
   updateAuthzItemMetrics: (authz: AuthzItemInTable) => void
-  moveAuthzUp: (index: number) => Promise<undefined>
-  moveAuthzDown: (index: number) => Promise<undefined>
+  moveAuthzUp: (index: number) => Promise<void>
+  moveAuthzDown: (index: number) => Promise<void>
   moveAuthzToTop: (row: AuthzItemInTable) => Promise<void>
   moveAuthzToBottom: (row: AuthzItemInTable) => Promise<void>
 } => {
   const isDataLoading = ref(false)
   const authzList = ref<AuthzItemInTable[]>([])
   const metricsMap: Ref<Record<string, Metrics>> = ref({})
+  const { tl } = useI18nTl('Auth')
+  const { operationWarning } = useOperationConfirm()
 
   /**
    * for disable added type
@@ -89,23 +91,29 @@ export default (): {
   const {
     moveAuthzBeforeAnotherAuthz,
     moveAuthzAfterAnotherAuthz,
-    moveAuthzToTop: requestMoveAuthzToTop,
-    moveAuthzToBottom: requestMoveAuthzToBottom,
+    moveAuthzToTop: moveAuthzToTopApi,
+    moveAuthzToBottom: moveAuthzToBottomApi,
   } = useHandleAuthzItem()
-  const moveAuthzUp = (index: number) => handleDragEvent(index - 1, index, authzList.value)
-  const moveAuthzDown = (index: number) => handleDragEvent(index + 1, index, authzList.value)
-  const moveAuthzToTop = async (row: AuthzItemInTable) => {
+
+  const clearAuthzList = async () => {
+    authzList.value = []
+    await nextTick()
+  }
+
+  const confirmOrderChange = () => operationWarning(tl('confirmOrderChange'))
+
+  const requestMoveAuthzToTop = async (row: AuthzItemInTable) => {
     try {
-      await requestMoveAuthzToTop(row)
+      await moveAuthzToTopApi(row)
     } catch (error) {
       authzList.value = []
     } finally {
       getAuthzList()
     }
   }
-  const moveAuthzToBottom = async (row: AuthzItemInTable) => {
+  const requestMoveAuthzToBottom = async (row: AuthzItemInTable) => {
     try {
-      await requestMoveAuthzToBottom(row)
+      await moveAuthzToBottomApi(row)
     } catch (error) {
       authzList.value = []
     } finally {
@@ -113,14 +121,47 @@ export default (): {
     }
   }
 
+  const moveAuthzUp = async (index: number) => {
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(index - 1, index, authzList.value)
+    } catch (error) {
+      // canceled
+    }
+  }
+  const moveAuthzDown = async (index: number) => {
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(index + 1, index, authzList.value)
+    } catch (error) {
+      // canceled
+    }
+  }
+  const moveAuthzToTop = async (row: AuthzItemInTable) => {
+    try {
+      await confirmOrderChange()
+      await requestMoveAuthzToTop(row)
+    } catch (error) {
+      // canceled
+    }
+  }
+  const moveAuthzToBottom = async (row: AuthzItemInTable) => {
+    try {
+      await confirmOrderChange()
+      await requestMoveAuthzToBottom(row)
+    } catch (error) {
+      // canceled
+    }
+  }
+
   const { handleDragEvent } = useMove(
     {
-      moveToBottom: moveAuthzToBottom,
-      moveToTop: moveAuthzToTop,
+      moveToBottom: requestMoveAuthzToBottom,
+      moveToTop: requestMoveAuthzToTop,
       moveBeforeAnotherTarget: moveAuthzBeforeAnotherAuthz,
       moveAfterAnotherTarget: moveAuthzAfterAnotherAuthz,
     },
-    undefined,
+    clearAuthzList,
     getAuthzList,
   )
   const handleOrderChanged = async (evt: SortableEvent) => {
@@ -128,7 +169,13 @@ export default (): {
     if (newIndex === undefined || oldIndex === undefined) {
       return
     }
-    handleDragEvent(newIndex, oldIndex, authzList.value)
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(newIndex, oldIndex, authzList.value)
+    } catch (error) {
+      await clearAuthzList()
+      await getAuthzList()
+    }
   }
 
   const { tableCom, initSortable } = useSortableTable(handleOrderChanged)

@@ -226,8 +226,7 @@ bindKeyupListener()
       align-items: center;
       justify-content: space-between;
       height: 100%;
-      padding: 0 16px;
-      padding-bottom: 29px;
+      padding: 8px 16px;
       .iconfont {
         flex-shrink: 0;
         width: 32px;

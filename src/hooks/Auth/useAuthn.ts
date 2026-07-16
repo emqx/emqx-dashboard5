@@ -23,6 +23,8 @@ export default (): {
   const authnList: Ref<Array<AuthnItemInTable>> = ref([])
   const metricsMap: Ref<Record<string, Metrics>> = ref({})
   const { titleMap } = useAuth()
+  const { tl } = useI18nTl('Auth')
+  const { operationWarning } = useOperationConfirm()
 
   /**
    * for disable added type
@@ -111,39 +113,79 @@ export default (): {
   const {
     moveAuthnBeforeAnotherAuthn,
     moveAuthnAfterAnotherAuthn,
-    moveAuthnToTop: requestMoveAuthnToTop,
-    moveAuthnToBottom: requestMoveAuthnToBottom,
+    moveAuthnToTop: moveAuthnToTopApi,
+    moveAuthnToBottom: moveAuthnToBottomApi,
   } = useHandleAuthnItem()
-  const moveAuthnUp = async (index: number) => handleDragEvent(index - 1, index, authnList.value)
-  const moveAuthnDown = async (index: number) => handleDragEvent(index + 1, index, authnList.value)
-  const moveAuthnToTop = async (row: AuthnItem) => {
+
+  const clearAuthnList = async () => {
+    authnList.value = []
+    await nextTick()
+  }
+
+  const confirmOrderChange = () => operationWarning(tl('confirmOrderChange'))
+
+  const requestMoveAuthnToTop = async (row: AuthnItem) => {
     try {
-      await requestMoveAuthnToTop(row)
+      await moveAuthnToTopApi(row)
     } catch (error) {
       // empty the array first when an error occurs, otherwise the view will not be updated
       authnList.value = []
     } finally {
       getAuthnList()
+    }
+  }
+  const requestMoveAuthnToBottom = async (row: AuthnItem) => {
+    try {
+      await moveAuthnToBottomApi(row)
+    } catch (error) {
+      // empty the array first when an error occurs, otherwise the view will not be updated
+      authnList.value = []
+    } finally {
+      getAuthnList()
+    }
+  }
+
+  const moveAuthnUp = async (index: number) => {
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(index - 1, index, authnList.value)
+    } catch (error) {
+      // canceled
+    }
+  }
+  const moveAuthnDown = async (index: number) => {
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(index + 1, index, authnList.value)
+    } catch (error) {
+      // canceled
+    }
+  }
+  const moveAuthnToTop = async (row: AuthnItem) => {
+    try {
+      await confirmOrderChange()
+      await requestMoveAuthnToTop(row)
+    } catch (error) {
+      // canceled
     }
   }
   const moveAuthnToBottom = async (row: AuthnItem) => {
     try {
+      await confirmOrderChange()
       await requestMoveAuthnToBottom(row)
     } catch (error) {
-      // empty the array first when an error occurs, otherwise the view will not be updated
-      authnList.value = []
-    } finally {
-      getAuthnList()
+      // canceled
     }
   }
+
   const { handleDragEvent } = useMove(
     {
-      moveToBottom: moveAuthnToBottom,
-      moveToTop: moveAuthnToTop,
+      moveToBottom: requestMoveAuthnToBottom,
+      moveToTop: requestMoveAuthnToTop,
       moveBeforeAnotherTarget: moveAuthnBeforeAnotherAuthn,
       moveAfterAnotherTarget: moveAuthnAfterAnotherAuthn,
     },
-    undefined,
+    clearAuthnList,
     getAuthnList,
   )
 
@@ -152,7 +194,13 @@ export default (): {
     if (newIndex === undefined || oldIndex === undefined) {
       return
     }
-    handleDragEvent(newIndex, oldIndex, authnList.value)
+    try {
+      await confirmOrderChange()
+      await handleDragEvent(newIndex, oldIndex, authnList.value)
+    } catch (error) {
+      await clearAuthnList()
+      await getAuthnList()
+    }
   }
 
   const { tableCom, initSortable } = useSortableTable(handleOrderChanged)

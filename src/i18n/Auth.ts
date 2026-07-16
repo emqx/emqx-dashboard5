@@ -475,6 +475,10 @@ export default {
     zh: '删除该授权后，可能影响客户端发布和订阅操作的权限控制，{additionalTip}是否确认删除？',
     en: 'Deleting this authorization may affect the permission control of client publish and subscribe operations, {additionalTip}continue?',
   },
+  confirmOrderChange: {
+    zh: '确认修改顺序？',
+    en: 'Confirm changing the order?',
+  },
   deleteBuiltInTip: {
     zh: '且已添加的数据将被删除，',
     en: 'and the added data will be deleted, ',
