@@ -104,11 +104,8 @@ const getErrorMessage = (data: AxiosResponse['data'], status: number): string | 
       if (!code && !message) {
         bodyVNode = <div>{stringifyObjSafely(data)}</div>
       } else if (typeof message === 'object') {
-        bodyVNode = (
-          <>
-            <div class="font-mono break-all">{message.toString()}</div>
-          </>
-        )
+        const display = stringifyObjSafely(message, 2)
+        bodyVNode = <CodeView code={display} lang="json" maxHeight={300} />
       } else {
         if (isJSONString(message)) {
           const structuredBodyVNode = getStructuredErrorBody(data, status)
