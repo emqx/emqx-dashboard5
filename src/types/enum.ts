@@ -44,6 +44,25 @@ export enum ConnectionStatus {
   Stopped = 'stopped',
 }
 
+export enum FeatureName {
+  AI = 'ai',
+  ClusterLink = 'cluster_link',
+  Dashboard = 'dashboard',
+  DataIntegration = 'data_integration',
+  Exhook = 'exhook',
+  FileTransfer = 'file_transfer',
+  Gateways = 'gateways',
+  GCPDevice = 'gcp_device',
+  MessageTransformation = 'message_transformation',
+  Metrics = 'metrics',
+  MQTTExtensions = 'mqtt_extensions',
+  MultiTenancy = 'multi_tenancy',
+  OpenTelemetry = 'opentelemetry',
+  Plugins = 'plugins',
+  SchemaRegistry = 'schema_registry',
+  SchemaValidation = 'schema_validation',
+}
+
 // [ top, bottom, before, after ]
 export enum TargetPosition {
   Top = 'front',

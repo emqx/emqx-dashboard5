@@ -2,7 +2,12 @@
   <div class="alarm app-wrapper">
     <div class="section-header">
       <div></div>
-      <el-tooltip link :content="tl('setupWebhookDesc')" placement="top">
+      <el-tooltip
+        v-if="isDataIntegrationEnabled"
+        link
+        :content="tl('setupWebhookDesc')"
+        placement="top"
+      >
         <LinkButton :to="alarmWebhookRoute" :disabled="!$hasPermission('post')">
           <el-icon :size="14">
             <i class="iconfont icon-webhook"></i>
@@ -73,6 +78,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { deactivateAlarm, loadAlarm } from '@/api/common'
+import { FeatureName } from '@/types/enum'
 import { Settings } from 'lucide-vue-next'
 import commonPagination from '../../components/commonPagination.vue'
 
@@ -81,6 +87,9 @@ const { tl } = useI18nTl('Alarm')
 const currentLockTable = ref(false)
 const currentAlarmData = ref<any[]>([])
 const store = useStore()
+const isDataIntegrationEnabled = computed<boolean>(() =>
+  store.getters.isFeatureEnabled(FeatureName.DataIntegration),
+)
 
 const alarmWebhookRoute = {
   name: 'webhook-create',
