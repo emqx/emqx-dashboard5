@@ -28,7 +28,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="node" :label="$t('Clients.node')" />
-        <el-table-column :label="$t('Base.operation')">
+        <el-table-column v-if="isMetricsEnabled" :label="$t('Base.operation')">
           <template #default="{ row }">
             <el-tooltip
               v-if="!isTopicCanCreateMetrics(row.topic)"
@@ -65,11 +65,16 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
+import { FeatureName } from '@/types/enum'
 import CommonPagination from '../../components/commonPagination.vue'
 import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 
 const router = useRouter()
+const store = useStore()
 const { tl } = useI18nTl('Subs')
+const isMetricsEnabled = computed<boolean>(() =>
+  store.getters.isFeatureEnabled(FeatureName.Metrics),
+)
 
 const tableData = ref([])
 const searchValue = ref('')

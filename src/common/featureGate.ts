@@ -1,19 +1,29 @@
 import type { RouteRecordRaw } from 'vue-router'
-import type { FeatureGateInfo, FeatureGateState, FeatureName } from '@/types/featureGate'
+import { FeatureName } from '@/types/enum'
+import type { FeatureGateInfo, FeatureGateState } from '@/types/featureGate'
 
 export const FEATURE_ROUTE_MAP: Record<FeatureName, string[]> = {
-  dashboard: [],
-  data_integration: ['/webhook', '/flow', '/rule', '/connector', '/rule-engine-security'],
-  message_transformation: ['/message-transform'],
-  schema_validation: ['/schema-validation'],
-  schema_registry: ['/schema'],
-  gateways: ['/gateway'],
-  cluster_link: ['/cluster-linking'],
-  multi_tenancy: ['/namespace', '/namespace-metrics'],
-  plugins: ['/plugins'],
-  ai: ['/a2a-registry'],
-  metrics: ['/topic-metrics', '/topic-metrics-collections', '/monitoring/integration'],
-  mqtt_extensions: [
+  [FeatureName.AI]: ['/a2a-registry'],
+  [FeatureName.ClusterLink]: ['/cluster-linking'],
+  [FeatureName.Dashboard]: [],
+  [FeatureName.DataIntegration]: [
+    '/webhook',
+    '/flow',
+    '/rule',
+    '/connector',
+    '/rule-engine-security',
+  ],
+  [FeatureName.Exhook]: ['/exhook'],
+  [FeatureName.FileTransfer]: ['/file-transfer'],
+  [FeatureName.Gateways]: ['/gateway'],
+  [FeatureName.GCPDevice]: [],
+  [FeatureName.MessageTransformation]: ['/message-transform'],
+  [FeatureName.Metrics]: [
+    '/topic-metrics',
+    '/topic-metrics-collections',
+    '/monitoring/integration',
+  ],
+  [FeatureName.MQTTExtensions]: [
     '/delayed-pub',
     '/delayed-pub-configuration',
     '/topic-rewrite',
@@ -24,10 +34,11 @@ export const FEATURE_ROUTE_MAP: Record<FeatureName, string[]> = {
     '/mqtt/queues',
     '/mqtt/streams',
   ],
-  file_transfer: ['/file-transfer'],
-  gcp_device: [],
-  exhook: ['/exhook'],
-  opentelemetry: ['/monitoring/integration'],
+  [FeatureName.MultiTenancy]: ['/namespace', '/namespace-metrics'],
+  [FeatureName.OpenTelemetry]: ['/monitoring/integration'],
+  [FeatureName.Plugins]: ['/plugins'],
+  [FeatureName.SchemaRegistry]: ['/schema'],
+  [FeatureName.SchemaValidation]: ['/schema-validation'],
 }
 
 export const createInitialFeatureGateState = (): FeatureGateState => ({

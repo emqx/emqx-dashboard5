@@ -10,8 +10,8 @@ import {
 import type { SSOTokenExchangeResult } from '@/api/sso'
 import type { UserInfo, VersionInfo } from '@/types/common'
 import type { LicenseData } from '@/types/dashboard'
-import { TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
-import type { FeatureGateInfo, FeatureName } from '@/types/featureGate'
+import { FeatureName, TestRuleTarget, LicenseCustomerType, LicenseType } from '@/types/enum'
+import type { FeatureGateInfo } from '@/types/featureGate'
 import type { RuleEvent } from '@/types/rule'
 
 export type SSOmfaPending = Extract<SSOTokenExchangeResult, { action: string }>
