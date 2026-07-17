@@ -47,10 +47,6 @@ export default {
     zh: '速率限制',
     en: 'Rate Limit',
   },
-  limiter: {
-    zh: '速率限制器',
-    en: 'Limiter',
-  },
   invaiteNode: {
     zh: '邀请节点',
     en: 'Invite nodes',

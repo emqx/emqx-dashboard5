@@ -56,7 +56,6 @@ const useMenus = (): {
         { title: 'monitoring', path: '/monitoring' },
         { title: 'cluster-linking', path: '/cluster-linking' },
         { title: 'certificates', path: '/certificates' },
-        // { title: 'limiter', path: '/limiter' },
       ],
     },
     {

@@ -3,7 +3,6 @@ import store from '@/store'
 
 const Layout = (): Promise<Component> => import('@/views/Base/Layout.vue')
 // const Dashboard =()=> import('@/views/Config/BasicConfig/Dashboard.vue')
-// const Limiter =()=> import('@/views/Config/BasicConfig/Limiter.vue')
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -813,22 +812,6 @@ export const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  // limiter config
-  // {
-  //   path: '/limiter',
-  //   component: Layout,
-  //   meta: {
-  //     hideKey: 'limiter',
-  //     authRequired: true,
-  //   },
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'limiter',
-  //       component: () => import('@/views/Config/BasicConfig/Limiter.vue'),
-  //     },
-  //   ],
-  // },
   // Monitoring integration
   {
     path: '/monitoring',

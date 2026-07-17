@@ -316,14 +316,6 @@ interface VM {
   busy_dist_port: boolean
   busy_port: boolean
 }
-export interface Limiter {
-  bytes_rate: string
-  max_conn_rate: string
-  messages_rate: string
-  delivery_bytes_rate: string
-  delivery_messages_rate: string
-}
-
 export interface DurableSessions {
   enable: boolean
   batch_size: number
