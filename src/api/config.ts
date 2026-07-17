@@ -4,7 +4,6 @@ import {
   AlarmSettings,
   Cluster,
   Dashboard,
-  Limiter,
   Log,
   NamespaceItem,
   NamespaceMetrics,
@@ -82,11 +81,6 @@ export const updateDefaultZoneConfigs = (data: Zone): Promise<Zone> =>
 export const getZoneConfigs = (): Promise<Zones> => http.get('/configs/zones')
 
 export const updateZoneConfigs = (data: Zones): Promise<Zones> => http.put('/configs/zones', data)
-
-export const getLimiters = (): Promise<Limiter> => http.get('/configs/limiter')
-
-export const updateLimiters = (data: Limiter): Promise<Limiter> =>
-  http.put('/configs/limiter', data)
 
 export const getSysMon = (): Promise<AlarmSettings> => http.get('/configs/sysmon')
 
