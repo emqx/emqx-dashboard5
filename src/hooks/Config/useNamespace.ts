@@ -9,6 +9,7 @@ import {
 import type { LinkPaginatedResult } from '@/api/config'
 import { NamespaceItem } from '@/types/config'
 import { GetNamespaceListParams } from '@/types/typeAlias'
+import useMultiTenancyEnabled from './useMultiTenancyEnabled'
 
 export default () => {
   const store = useStore()
@@ -101,6 +102,7 @@ export default () => {
 export const useManagedNamespaceOptions = () => {
   const { t } = useI18n()
   const store = useStore()
+  const isMultiTenancyEnabled = useMultiTenancyEnabled()
   const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
   const currentUserNamespace = computed(() => store.getters.userNamespace)
   const globalNamespaceOption = {
@@ -108,6 +110,9 @@ export const useManagedNamespaceOptions = () => {
     value: 'global',
   }
   const getNamespaceOptions = async () => {
+    if (!isMultiTenancyEnabled.value) {
+      return []
+    }
     try {
       const namespaceList = await getManagedNamespaceList({ limit: 10000 })
       if (isNamespaceUser.value) {

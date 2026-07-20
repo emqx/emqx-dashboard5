@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 items-center gap-2">
+  <div v-if="isMultiTenancyEnabled" class="flex flex-1 items-center gap-2">
     <el-switch v-model="isNamespaceEnabled" :disabled="disabled" />
     <NamespaceSelect
       v-if="isNamespaceEnabled"
@@ -12,6 +12,10 @@
 </template>
 
 <script setup lang="ts">
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
+
 const props = defineProps<{
   modelValue?: string
   disabled?: boolean

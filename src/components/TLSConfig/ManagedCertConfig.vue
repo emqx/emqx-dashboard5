@@ -1,7 +1,7 @@
 <template>
   <div class="managed-cert-config flex-1">
     <div class="grid" :class="gridColsClass">
-      <el-form-item :label="t('BasicConfig.namespace')">
+      <el-form-item v-if="isMultiTenancyEnabled" :label="t('BasicConfig.namespace')">
         <el-select
           v-model="namespace"
           filterable
@@ -51,7 +51,7 @@
     <CreateCertBundleDrawer
       v-model="isCreateDrawerVisible"
       :namespace="selectedNamespace"
-      :global-only="globalOnly || !userNamespace"
+      :global-only="globalOnly || !userNamespace || !isMultiTenancyEnabled"
       @submit="handleSubmit"
     />
   </div>
@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 import CertBundleInfo from '@/components/TLSConfig/CertBundleInfo.vue'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { OptionList } from '@/types/common'
 import { ManagedCerts, ManagedCertsServer } from '@/types/typeAlias'
 import CreateCertBundleDrawer from './CertBundleDrawer.vue'
@@ -95,6 +96,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { createEmptyManagedCertConf } = useManagedCertConf()
 const record = computed<ManagedCerts>({
   get() {
@@ -120,9 +122,12 @@ const namespace = computed({
     }
   },
 })
-const selectedNamespace = computed(() =>
-  namespace.value === GLOBAL_NAMESPACE ? undefined : namespace.value,
-)
+const selectedNamespace = computed(() => {
+  if (!isMultiTenancyEnabled.value || namespace.value === GLOBAL_NAMESPACE) {
+    return undefined
+  }
+  return namespace.value
+})
 
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
@@ -130,7 +135,7 @@ const namespaceOptions = ref<OptionList<string>>([globalNamespaceOption])
 
 const getNamespaceOptions = async () => {
   namespaceOptions.value = [globalNamespaceOption]
-  if (props.userNamespace && !props.globalOnly) {
+  if (isMultiTenancyEnabled.value && props.userNamespace && !props.globalOnly) {
     const res = await requestNamespaceOptions()
     if (res.includes(props.userNamespace)) {
       namespaceOptions.value.push({ label: props.userNamespace, value: props.userNamespace })

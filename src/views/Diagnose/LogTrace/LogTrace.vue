@@ -150,7 +150,7 @@
             </el-form-item>
           </el-col>
           <template v-if="record.type === LogTraceType.RuleID">
-            <el-col :span="12" v-if="!isNamespaceUser">
+            <el-col :span="12" v-if="isMultiTenancyEnabled && !isNamespaceUser">
               <el-form-item :label="t('BasicConfig.namespace')" :error="nsErrorMsg">
                 <NamespaceSelectSwitch v-model="recordNamespace" />
               </el-form-item>
@@ -235,6 +235,7 @@
 <script lang="ts">
 import { addTrace, deleteTrace, downloadTrace, getTraceList, stopTrace } from '@/api/diagnose'
 import { TraceFormRecord, TraceItem, TraceRecord } from '@/types/diagnose'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { CheckStatus, LogTraceFormatter, LogTraceType, TraceEncodeType } from '@/types/enum'
 import { ElForm, FormRules, ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import dayjs from 'dayjs'
@@ -264,6 +265,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const store = useStore()
+    const isMultiTenancyEnabled = useMultiTenancyEnabled()
     const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
     const traceTbLoading = ref(false)
     const traceTable: Ref<Array<TraceItemInTable>> = ref([])
@@ -461,6 +463,7 @@ export default defineComponent({
       t,
       tl: (key: string) => t('LogTrace.' + key),
       isNamespaceUser,
+      isMultiTenancyEnabled,
       traceTbLoading,
       traceTable,
       CheckStatus,

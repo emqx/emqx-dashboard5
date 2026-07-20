@@ -48,7 +48,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        v-if="!isNamespaceUser"
+        v-if="isMultiTenancyEnabled && !isNamespaceUser"
         prop="namespace"
         :label="t('BasicConfig.namespace')"
         sortable
@@ -97,12 +97,14 @@ import dayjs from 'dayjs'
 import { UserRole } from '@/types/enum'
 import { hasSelectedScopes, isLegacyUnsetScopes } from '@/common/scopes'
 import { Warning } from '@element-plus/icons-vue'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 
 const { t, te } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
   return t(collection + '.' + key)
 }
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 
 const isTableLoading = ref(false)
 const keyList: Ref<Array<APIKey>> = ref([])

@@ -62,7 +62,7 @@
         </el-form-item>
       </el-col>
       <template v-if="showMoreQuery">
-        <el-col v-if="!isNamespaceUser" v-bind="colProps">
+        <el-col v-if="isMultiTenancyEnabled && !isNamespaceUser" v-bind="colProps">
           <el-form-item>
             <NamespaceSelect
               v-model="filterParams.namespace"
@@ -84,7 +84,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col v-bind="colProps" v-if="isNamespaceUser" />
+        <el-col v-bind="colProps" v-if="isNamespaceUser || !isMultiTenancyEnabled" />
       </template>
       <el-col v-bind="showMoreQuery ? { span: 18 } : colProps" class="col-oper">
         <SearchButton @click="search" />
@@ -97,6 +97,7 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { ConnectionStatus } from '@/types/enum'
 
 interface ActionAndSourceFilterParams {
@@ -116,6 +117,7 @@ const emit = defineEmits<{
 }>()
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const NOT_SPECIFIC_TYPE = 'not_specific'

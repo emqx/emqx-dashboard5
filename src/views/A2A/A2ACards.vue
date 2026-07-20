@@ -27,7 +27,7 @@
           />
         </el-col>
         <template v-if="showMoreQuery">
-          <el-col v-if="!isNamespaceUser" v-bind="SEARCH_FORM_RES_PROPS">
+          <el-col v-if="isMultiTenancyEnabled && !isNamespaceUser" v-bind="SEARCH_FORM_RES_PROPS">
             <NamespaceSelect
               v-model="namespaceFilter"
               :global="{ enable: true, value: GLOBAL_NAMESPACE }"
@@ -72,7 +72,11 @@
           show-overflow-tooltip
         />
         <el-table-column :label="tl('version')" prop="version" min-width="100" />
-        <el-table-column v-if="!isNamespaceUser" :label="tl('namespace')" min-width="140">
+        <el-table-column
+          v-if="isMultiTenancyEnabled && !isNamespaceUser"
+          :label="tl('namespace')"
+          min-width="140"
+        >
           <template #default="{ row }">
             {{ getNamespaceLabel(row.namespace) }}
           </template>
@@ -142,7 +146,10 @@
   <el-dialog v-model="deleteDialogVisible" :title="t('Base.confirmDelete')" width="600px">
     <p class="mb-4">{{ tl('deleteConfirm') }}</p>
     <el-descriptions :column="1" :label-width="150" border>
-      <el-descriptions-item v-if="!isNamespaceUser" :label="tl('namespace')">
+      <el-descriptions-item
+        v-if="isMultiTenancyEnabled && !isNamespaceUser"
+        :label="tl('namespace')"
+      >
         {{ getNamespaceLabel(deletingRow?.namespace) }}
       </el-descriptions-item>
       <el-descriptions-item :label="tl('orgId')"> {{ deletingRow?.org_id }}</el-descriptions-item>
@@ -167,6 +174,7 @@
 <script lang="ts" setup>
 import { deleteA2ACard, getA2ARegistryConfig, listA2ACards } from '@/api/a2a'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type { A2ACardListParams, A2ACardOut } from '@/types/typeAlias'
 import { Settings } from 'lucide-vue-next'
 import NamespaceResourcePopover from '../RuleEngine/components/NamespaceResourcePopover.vue'
@@ -174,6 +182,7 @@ import A2AGuidance from './components/A2AGuidance.vue'
 
 const router = useRouter()
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
@@ -203,7 +212,9 @@ const { getNsParams } = useNsParams()
 
 const buildParams = (): A2ACardListParams => {
   const p: A2ACardListParams = {
-    ...(!isNamespaceUser.value ? getListNamespaceParams(namespaceFilter.value) : {}),
+    ...(isMultiTenancyEnabled.value && !isNamespaceUser.value
+      ? getListNamespaceParams(namespaceFilter.value)
+      : {}),
   }
   if (filterParams.value.org_id) p.org_id = filterParams.value.org_id
   if (filterParams.value.unit_id) p.unit_id = filterParams.value.unit_id

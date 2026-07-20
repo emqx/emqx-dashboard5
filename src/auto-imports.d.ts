@@ -439,6 +439,7 @@ declare global {
   const useMockData: typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
+  const useMultiTenancyEnabled: typeof import('./hooks/Config/useMultiTenancyEnabled')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
   const useNamespaceAuthzConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']
   const useNamespaceMqttConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']
@@ -1050,6 +1051,7 @@ declare module 'vue' {
     readonly useMockData: UnwrapRef<typeof import('./hooks/Rule/rule/useDebugRule')['useMockData']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
+    readonly useMultiTenancyEnabled: UnwrapRef<typeof import('./hooks/Config/useMultiTenancyEnabled')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
     readonly useNamespaceAuthzConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']>
     readonly useNamespaceMqttConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']>

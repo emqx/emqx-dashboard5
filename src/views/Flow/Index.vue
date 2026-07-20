@@ -4,7 +4,7 @@
       <el-row :gutter="20" class="flex-1" justify="space-between">
         <el-col v-bind="colProps">
           <NamespaceSelect
-            v-if="!isNamespaceUser"
+            v-if="isMultiTenancyEnabled && !isNamespaceUser"
             v-model="selectedNamespace"
             :global="{ enable: true, value: GLOBAL_NAMESPACE }"
             @change="handleNamespaceChange"
@@ -39,11 +39,13 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import FlowView from './components/FlowView.vue'
 
 const router = useRouter()
 const { tl, t } = useI18nTl('components')
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 
 const theme = computed(() => {
   return store.state.theme
