@@ -313,6 +313,7 @@ export const CER_FILE_ACCEPTS = ['crt', 'key', 'pem', 'jks', 'der', 'cer', 'pfx'
  * for listener, maybe will be used elsewhere as well
  */
 export const INFINITY_VALUE = 'infinity'
+export const NO_BURST_VALUE = '0/1s'
 
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
@@ -465,7 +466,10 @@ export const SPECIAL_INVALID_SUB_TOPIC_REG = /^(\$exclusive|\$share\/[^/]*)$/
 
 export const INVALID_PUB_TOPIC_REG = /\+|#/
 
-export const LIMITER_REG = /^(\d+)(kb|mb|gb|b|)(?:\/(\d*)(ms|s|m|h|d)?)?$/i
+export const LIMITER_RATE_REG = /^(?:\d+(?:\/\d*(?:ms|s|m|h|d))?|infinity)$/i
+export const LIMITER_BYTES_RATE_REG = /^(?:\d+(?:kb|mb|gb|b)?(?:\/\d*(?:ms|s|m|h|d))?|infinity)$/i
+export const LIMITER_BURST_REG = /^\d+(?:\/\d*(?:ms|s|m|h|d))?$/i
+export const LIMITER_BYTES_BURST_REG = /^\d+(?:kb|mb|gb|b)?(?:\/\d*(?:ms|s|m|h|d))?$/i
 
 export const BATCH_UPLOAD_CSV_MAX_ROWS = 2048
 

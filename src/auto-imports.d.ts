@@ -69,7 +69,10 @@ declare global {
   const IoTDBDrivers: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']
   const IoTDBKeyField: typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']
   const KeysInRule: typeof import('./hooks/Rule/KeysInRule')['default']
-  const LIMITER_REG: typeof import('./common/constants')['LIMITER_REG']
+  const LIMITER_BURST_REG: typeof import('./common/constants')['LIMITER_BURST_REG']
+  const LIMITER_BYTES_BURST_REG: typeof import('./common/constants')['LIMITER_BYTES_BURST_REG']
+  const LIMITER_BYTES_RATE_REG: typeof import('./common/constants')['LIMITER_BYTES_RATE_REG']
+  const LIMITER_RATE_REG: typeof import('./common/constants')['LIMITER_RATE_REG']
   const LS_KEY_COMMUNITY_PROMO_DISMISSED: typeof import('./common/constants')['LS_KEY_COMMUNITY_PROMO_DISMISSED']
   const LS_KEY_DO_NOT_SHOW_LICENSE_TIP: typeof import('./common/constants')['LS_KEY_DO_NOT_SHOW_LICENSE_TIP']
   const LogMsg: typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']
@@ -85,6 +88,7 @@ declare global {
   const MetricKey: typeof import('./hooks/useDroppedDetail')['MetricKey']
   const MetricType: typeof import('./hooks/useMetrics')['MetricType']
   const MsgKey: typeof import('./hooks/Flow/useFlowEditor')['MsgKey']
+  const NO_BURST_VALUE: typeof import('./common/constants')['NO_BURST_VALUE']
   const NO_CHINESE_REG: typeof import('./hooks/useFormRules')['NO_CHINESE_REG']
   const NUM_REG: typeof import('./common/constants')['NUM_REG']
   const NodeType: typeof import('./hooks/Flow/useFlowNode')['NodeType']
@@ -676,7 +680,10 @@ declare module 'vue' {
     readonly IoTDBDrivers: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBDrivers']>
     readonly IoTDBKeyField: UnwrapRef<typeof import('./hooks/Rule/connector/useSecondRefControl')['IoTDBKeyField']>
     readonly KeysInRule: UnwrapRef<typeof import('./hooks/Rule/KeysInRule')['default']>
-    readonly LIMITER_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_REG']>
+    readonly LIMITER_BURST_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_BURST_REG']>
+    readonly LIMITER_BYTES_BURST_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_BYTES_BURST_REG']>
+    readonly LIMITER_BYTES_RATE_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_BYTES_RATE_REG']>
+    readonly LIMITER_RATE_REG: UnwrapRef<typeof import('./common/constants')['LIMITER_RATE_REG']>
     readonly LS_KEY_COMMUNITY_PROMO_DISMISSED: UnwrapRef<typeof import('./common/constants')['LS_KEY_COMMUNITY_PROMO_DISMISSED']>
     readonly LS_KEY_DO_NOT_SHOW_LICENSE_TIP: UnwrapRef<typeof import('./common/constants')['LS_KEY_DO_NOT_SHOW_LICENSE_TIP']>
     readonly LogMsg: UnwrapRef<typeof import('./hooks/Rule/rule/useFormatDebugLog')['LogMsg']>
@@ -692,6 +699,7 @@ declare module 'vue' {
     readonly MetricKey: UnwrapRef<typeof import('./hooks/useDroppedDetail')['MetricKey']>
     readonly MetricType: UnwrapRef<typeof import('./hooks/useMetrics')['MetricType']>
     readonly MsgKey: UnwrapRef<typeof import('./hooks/Flow/useFlowEditor')['MsgKey']>
+    readonly NO_BURST_VALUE: UnwrapRef<typeof import('./common/constants')['NO_BURST_VALUE']>
     readonly NO_CHINESE_REG: UnwrapRef<typeof import('./hooks/useFormRules')['NO_CHINESE_REG']>
     readonly NUM_REG: UnwrapRef<typeof import('./common/constants')['NUM_REG']>
     readonly NodeType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['NodeType']>

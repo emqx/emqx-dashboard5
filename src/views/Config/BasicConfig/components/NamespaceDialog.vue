@@ -69,7 +69,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="tenantBytes.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="tenantBytes.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -81,7 +86,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="tenantBytes.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="tenantBytes.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -97,7 +107,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="tenantMessages.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="tenantMessages.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -109,7 +124,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="tenantMessages.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="tenantMessages.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -152,7 +172,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientBytes.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientBytes.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -164,7 +189,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientBytes.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientBytes.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -180,7 +210,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientMessages.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientMessages.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -192,7 +227,50 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientMessages.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientMessages.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
+            <!-- Client Subscribe Limiter -->
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.subscribes.rate">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('subscribes_rate.label')"
+                    :desc="getClientConfigDesc('subscribes_rate')"
+                    desc-marked
+                  />
+                </template>
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientSubscribes.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="config.limiter.client.subscribes.burst">
+                <template #label>
+                  <FormItemLabel
+                    :label="getSchemaText('subscribes_burst.label')"
+                    :desc="getClientConfigDesc('subscribes_burst')"
+                    desc-marked
+                  />
+                </template>
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientSubscribes.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -208,7 +286,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientDeliveryBytes.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientDeliveryBytes.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -220,7 +303,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientDeliveryBytes.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientDeliveryBytes.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -236,7 +324,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientDeliveryMessages.rate" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientDeliveryMessages.rate"
+                  :items="[{ type: 'string' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.infinite')"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -248,7 +341,12 @@
                     desc-marked
                   />
                 </template>
-                <el-input v-model="clientDeliveryMessages.burst" />
+                <Oneof
+                  class="in-one-row"
+                  v-model="clientDeliveryMessages.burst"
+                  :items="[{ type: 'string' }, { symbols: [NO_BURST_VALUE], type: 'enum' }]"
+                  :disabled-label="t('Base.noBursting')"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -272,6 +370,12 @@
 </template>
 
 <script setup lang="ts">
+import {
+  LIMITER_BURST_REG,
+  LIMITER_BYTES_BURST_REG,
+  LIMITER_BYTES_RATE_REG,
+  LIMITER_RATE_REG,
+} from '@/common/constants'
 import CommonOverflowTooltip from '@/components/CommonOverflowTooltip.vue'
 import useNamespace from '@/hooks/Config/useNamespace'
 import { NamespaceItem } from '@/types/config'
@@ -285,10 +389,7 @@ const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('BasicConfig')
 const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
-const emptyMeaningDesc = / If empty, it means no limit\.|；为空时表示不限制/
-const getClientConfigDesc = (key: string) => {
-  return getSchemaText(`${key}.desc`).replace(emptyMeaningDesc, '')
-}
+const getClientConfigDesc = (key: string) => getSchemaText(`${key}.desc`)
 const clientText = /a single client|单个客户端/
 const getTenantConfigDesc = (key: string) => {
   const desc = getClientConfigDesc(key)
@@ -303,6 +404,7 @@ const createEmptyTenantLimiterConfig = () => ({
 const createEmptyClientLimiterConfig = () => ({
   bytes: createEmptyRateConfig(),
   messages: createEmptyRateConfig(),
+  subscribes: createEmptyRateConfig(),
   delivery_bytes: createEmptyRateConfig(),
   delivery_messages: createEmptyRateConfig(),
 })
@@ -317,9 +419,12 @@ const generateRawRecord = (): NamespaceItem => ({
 const submitLoading = ref(false)
 const record = ref(generateRawRecord())
 const { createRequiredRule } = useFormRules()
-const createLimiterRule = (label: string) => [
-  ...createRequiredRule(label),
-  { pattern: LIMITER_REG, message: t('Rule.formatError'), trigger: 'blur' },
+const createLimiterRule = (pattern: RegExp) => [
+  {
+    pattern,
+    message: t('Rule.formatError'),
+    trigger: 'blur',
+  },
 ]
 const rules = {
   ns: createRequiredRule(tl('namespace')),
@@ -334,26 +439,20 @@ const rules = {
       },
     },
   ],
-  'config.limiter.tenant.bytes.rate': createLimiterRule(getSchemaText('bytes_rate.label')),
-  'config.limiter.tenant.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
-  'config.limiter.tenant.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
-  'config.limiter.tenant.messages.burst': createLimiterRule(getSchemaText('messages_burst.label')),
-  'config.limiter.client.bytes.rate': createLimiterRule(getSchemaText('bytes_rate.label')),
-  'config.limiter.client.bytes.burst': createLimiterRule(getSchemaText('bytes_burst.label')),
-  'config.limiter.client.messages.rate': createLimiterRule(getSchemaText('messages_rate.label')),
-  'config.limiter.client.messages.burst': createLimiterRule(getSchemaText('messages_burst.label')),
-  'config.limiter.client.delivery_bytes.rate': createLimiterRule(
-    getSchemaText('delivery_bytes_rate.label'),
-  ),
-  'config.limiter.client.delivery_bytes.burst': createLimiterRule(
-    getSchemaText('delivery_bytes_burst.label'),
-  ),
-  'config.limiter.client.delivery_messages.rate': createLimiterRule(
-    getSchemaText('delivery_messages_rate.label'),
-  ),
-  'config.limiter.client.delivery_messages.burst': createLimiterRule(
-    getSchemaText('delivery_messages_burst.label'),
-  ),
+  'config.limiter.tenant.bytes.rate': createLimiterRule(LIMITER_BYTES_RATE_REG),
+  'config.limiter.tenant.bytes.burst': createLimiterRule(LIMITER_BYTES_BURST_REG),
+  'config.limiter.tenant.messages.rate': createLimiterRule(LIMITER_RATE_REG),
+  'config.limiter.tenant.messages.burst': createLimiterRule(LIMITER_BURST_REG),
+  'config.limiter.client.bytes.rate': createLimiterRule(LIMITER_BYTES_RATE_REG),
+  'config.limiter.client.bytes.burst': createLimiterRule(LIMITER_BYTES_BURST_REG),
+  'config.limiter.client.messages.rate': createLimiterRule(LIMITER_RATE_REG),
+  'config.limiter.client.messages.burst': createLimiterRule(LIMITER_BURST_REG),
+  'config.limiter.client.subscribes.rate': createLimiterRule(LIMITER_RATE_REG),
+  'config.limiter.client.subscribes.burst': createLimiterRule(LIMITER_BURST_REG),
+  'config.limiter.client.delivery_bytes.rate': createLimiterRule(LIMITER_BYTES_RATE_REG),
+  'config.limiter.client.delivery_bytes.burst': createLimiterRule(LIMITER_BYTES_BURST_REG),
+  'config.limiter.client.delivery_messages.rate': createLimiterRule(LIMITER_RATE_REG),
+  'config.limiter.client.delivery_messages.burst': createLimiterRule(LIMITER_BURST_REG),
 }
 const FormCom = ref()
 
@@ -471,6 +570,24 @@ const clientMessages = computed({
   },
 })
 
+const clientSubscribes = computed({
+  get: () => {
+    const limiter = clientLimiter.value
+    if (isActiveClientLimiter.value && limiter && typeof limiter !== 'string') {
+      if (!limiter.subscribes) {
+        limiter.subscribes = createEmptyRateConfig()
+      }
+      return limiter.subscribes
+    }
+    return createEmptyRateConfig()
+  },
+  set: (val) => {
+    if (clientLimiter.value !== 'disabled' && clientLimiter.value) {
+      clientLimiter.value.subscribes = val
+    }
+  },
+})
+
 const clientDeliveryBytes = computed({
   get: () => {
     if (isActiveClientLimiter.value && typeof clientLimiter.value !== 'string') {
@@ -526,10 +643,45 @@ const toggleClientLimiter = (enabled: boolean) => {
 
 const { createNamespace, updateNamespaceConfig } = useNamespace()
 
+type LimiterOptions = { rate?: string; burst?: string }
+type LimiterConfig = Record<string, LimiterOptions>
+
+const omitEmptyLimiterFields = (data: NamespaceItem) => {
+  const limiterConfig = data.config.limiter
+  if (!limiterConfig) {
+    return
+  }
+
+  const configs = [limiterConfig.tenant, limiterConfig.client]
+  configs.forEach((config) => {
+    if (!config || config === 'disabled') {
+      return
+    }
+
+    const configRecord = config as LimiterConfig
+    Object.entries(configRecord).forEach(([name, options]) => {
+      if (!options) {
+        delete configRecord[name]
+        return
+      }
+      if (!options.rate) {
+        delete options.rate
+      }
+      if (!options.burst) {
+        delete options.burst
+      }
+      if (Object.keys(options).length === 0) {
+        delete configRecord[name]
+      }
+    })
+  })
+}
+
 const save = async () => {
   try {
     await FormCom.value.validate()
     const data = cloneDeep(record.value)
+    omitEmptyLimiterFields(data)
     submitLoading.value = true
     try {
       const request = props.namespace ? updateNamespaceConfig : createNamespace

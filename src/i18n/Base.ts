@@ -796,6 +796,10 @@ The number of tickets sent after a full handshake is controlled by the config no
     zh: '无限制',
     en: 'Infinite',
   },
+  noBursting: {
+    zh: '不允许突发',
+    en: 'No Bursting',
+  },
   configurationMethod: {
     zh: '配置方式',
     en: 'Configuration Method',

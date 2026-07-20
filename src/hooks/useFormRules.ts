@@ -1,6 +1,11 @@
 import { InternalRuleItem } from 'async-validator'
 import { FormItemRule } from 'element-plus'
-import { COMMON_ID_REG, LIMITER_REG, MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
+import {
+  COMMON_ID_REG,
+  LIMITER_BURST_REG,
+  LIMITER_BYTES_BURST_REG,
+  MESSAGE_QUEUE_NAME_REG,
+} from '@/common/constants'
 
 export const NO_CHINESE_REG = /^[^\u4e00-\u9fa5]+$/
 
@@ -15,7 +20,7 @@ export default (): {
   createMessageQueueNameRule: () => Array<FormItemRule>
   createLetterStartRule: () => Array<FormItemRule>
   createNoChineseRule: () => Array<FormItemRule>
-  createLimiterRule: () => Array<FormItemRule>
+  createLimiterRule: (isBytesLimiter?: boolean) => Array<FormItemRule>
   createStringWithUnitFieldRule: (
     units: Array<string>,
     min?: number | undefined,
@@ -42,8 +47,12 @@ export default (): {
     { pattern: NO_CHINESE_REG, message: t('Base.notSupportedChinese') },
   ]
 
-  const createLimiterRule = (): Array<FormItemRule> => [
-    { pattern: LIMITER_REG, message: t('Rule.formatError'), trigger: 'blur' },
+  const createLimiterRule = (isBytesLimiter = false): Array<FormItemRule> => [
+    {
+      pattern: isBytesLimiter ? LIMITER_BYTES_BURST_REG : LIMITER_BURST_REG,
+      message: t('Rule.formatError'),
+      trigger: 'blur',
+    },
   ]
 
   const createRequiredRule = (
