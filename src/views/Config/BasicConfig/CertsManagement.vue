@@ -4,6 +4,7 @@
       <div class="section-header">
         <div>
           <NamespaceSelect
+            v-if="isMultiTenancyEnabled"
             v-model="namespace"
             :clearable="false"
             :global="{ enable: true, value: GLOBAL_NAMESPACE }"
@@ -39,6 +40,7 @@
     v-model="isDrawerShow"
     :bundle-name="currentBundleName"
     :namespace="selectedNamespace"
+    :global-only="!isMultiTenancyEnabled"
     @submit="handleSubmit"
   />
   <CertBundleInUseDialog
@@ -56,8 +58,10 @@ import CertBundleInUseDialog, {
 } from '@/components/TLSConfig/CertBundleInUseDialog.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
 import CustomMessage from '@/common/CustomMessage'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 
 const { t } = useI18n()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 
 const isLoading = ref(false)
 

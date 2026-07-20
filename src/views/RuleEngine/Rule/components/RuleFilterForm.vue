@@ -54,7 +54,7 @@
         </el-form-item>
       </el-col>
       <template v-if="showMoreQuery">
-        <el-col v-if="!isNamespaceUser" v-bind="colProps">
+        <el-col v-if="isMultiTenancyEnabled && !isNamespaceUser" v-bind="colProps">
           <el-form-item>
             <NamespaceSelect
               v-model="filterParams.ns"
@@ -113,7 +113,7 @@
           </el-form-item>
         </el-col>
         <el-col v-bind="colProps" />
-        <el-col v-bind="colProps" v-if="isNamespaceUser" />
+        <el-col v-bind="colProps" v-if="isNamespaceUser || !isMultiTenancyEnabled" />
       </template>
       <el-col v-bind="colProps" class="col-oper">
         <SearchButton @click="searchRule" />
@@ -126,6 +126,7 @@
 
 <script setup lang="ts">
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { FilterParamsForQueryRules } from '@/types/rule'
 
 const props = defineProps({
@@ -136,6 +137,7 @@ const props = defineProps({
 })
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const createRawFilterParams = () => ({

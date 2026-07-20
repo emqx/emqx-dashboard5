@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        v-if="!isNamespaceUser"
+        v-if="isMultiTenancyEnabled && !isNamespaceUser"
         prop="namespace"
         sortable
         :min-width="132"
@@ -184,7 +184,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          v-if="accessType !== 'chPass'"
+          v-if="isMultiTenancyEnabled && accessType !== 'chPass'"
           :label="t('BasicConfig.namespace')"
           prop="namespace"
         >
@@ -256,12 +256,14 @@ import {
   sanitizeScopesForSubmit,
 } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 import { Warning } from '@element-plus/icons-vue'
 
 const SOURCE_LOCAL = 'local'
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { tl, t, te } = useI18nTl('General')
 
 const dialogVisible = ref(false)

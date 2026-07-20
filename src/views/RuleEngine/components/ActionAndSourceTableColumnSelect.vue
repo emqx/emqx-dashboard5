@@ -8,18 +8,23 @@
 </template>
 
 <script setup lang="ts">
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+
 defineProps<{ selected: Array<string> }>()
 
 const emit = defineEmits<{ (e: 'change', value: Array<string>): void }>()
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const columns = [
   ...DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS,
   'description',
   'last_modified_at',
-].filter((item) => !(isNamespaceUser.value && item === 'namespace'))
+].filter(
+  (item) => !(item === 'namespace' && (isNamespaceUser.value || !isMultiTenancyEnabled.value)),
+)
 const customFieldIndexMap = DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS.reduce(
   (map: Map<string, number>, item: string, index: number) => {
     map.set(item, index)

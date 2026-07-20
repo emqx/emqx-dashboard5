@@ -64,7 +64,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        v-if="!isNamespaceUser"
+        v-if="isMultiTenancyEnabled && !isNamespaceUser"
         :label="t('BasicConfig.namespace')"
         prop="namespace"
         sortable="custom"
@@ -186,6 +186,7 @@ import {
   resetTopicMetricCollection,
 } from '@/api/diagnose'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type {
   TopicMetricCollection,
   TopicMetricCollectionCreate,
@@ -202,6 +203,7 @@ type TopicMetricCollectionRow = TopicMetricCollection & {
 
 const { t, tl } = useI18nTl('Tools')
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentNamespace = computed(() => store.getters.userNamespace)
 const { isOpNsResourceDisabled } = useNsResource()

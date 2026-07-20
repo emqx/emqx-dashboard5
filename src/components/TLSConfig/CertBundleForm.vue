@@ -10,7 +10,7 @@
     <el-form-item :label="t('Base.name')" prop="name">
       <el-input v-model.trim="record.name" autocomplete="one-time-code" :disabled="isEditing" />
     </el-form-item>
-    <el-form-item prop="namespace" :label="t('BasicConfig.namespace')">
+    <el-form-item v-if="isMultiTenancyEnabled" prop="namespace" :label="t('BasicConfig.namespace')">
       <div class="flex flex-1 items-center gap-2">
         <el-switch
           v-model="isNamespaceEnabled"
@@ -92,6 +92,7 @@
 
 <script setup lang="ts">
 import { CertBundleForm, CertBundleType } from '@/hooks/useCertBundle'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type { FormInstance } from 'element-plus'
 
 const props = defineProps<{
@@ -107,6 +108,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 
 const record = computed({
   get() {
@@ -189,7 +191,7 @@ const namespaceOptions = ref<Array<string>>([])
 const { getNamespaceOptions: requestNamespaceOptions } = useManagedNamespaceOptions()
 const queryNamespaceList = async () => {
   try {
-    if (props.globalOnly) {
+    if (props.globalOnly || !isMultiTenancyEnabled.value) {
       return
     }
     isLoading.value = true

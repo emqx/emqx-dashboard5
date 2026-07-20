@@ -7,7 +7,7 @@
     </el-radio-group>
     <div class="section-searchbar" :gutter="20">
       <el-row :gutter="20">
-        <el-col :span="6" v-if="!isNamespaceUser">
+        <el-col :span="6" v-if="isMultiTenancyEnabled && !isNamespaceUser">
           <NamespaceSelect v-model="namespace" class="flex-0" @change="resetPageAndLoadData" />
         </el-col>
         <template v-if="!isTypeAll">
@@ -26,7 +26,7 @@
           </el-col>
         </template>
         <!-- placeholder for namespace user -->
-        <el-col :span="6" v-if="isNamespaceUser" />
+        <el-col :span="6" v-if="isNamespaceUser || !isMultiTenancyEnabled" />
         <el-col :span="!isTypeAll ? 6 : 18">
           <div class="flex justify-end">
             <CreateButton @click="handleAdd">{{ t('Base.add') }}</CreateButton>
@@ -146,7 +146,7 @@
       destroy-on-close
     >
       <template v-if="isTypeAll">
-        <el-row :gutter="20" v-if="!isNamespaceUser">
+        <el-row :gutter="20" v-if="isMultiTenancyEnabled && !isNamespaceUser">
           <el-col :span="12">
             <el-form-item :label="t('BasicConfig.namespace')" label-position="top">
               <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
@@ -188,7 +188,7 @@
               <el-input v-model="record.username" :disabled="isEdit" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="!isNamespaceUser">
+          <el-col :span="12" v-if="isMultiTenancyEnabled && !isNamespaceUser">
             <el-form-item :label="t('BasicConfig.namespace')">
               <NamespaceSelectSwitch v-model="recordNamespace" :disabled="isEdit" />
             </el-form-item>
@@ -259,6 +259,7 @@ import {
   updateBuiltInDatabaseData,
 } from '@/api/auth'
 import useAuthzDataHandler from '@/hooks/Auth/useAuthzDataHandler'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { BuiltInDBItem, BuiltInDBRule } from '@/types/auth'
 import { BuiltInDBType, QoSLevel } from '@/types/enum'
 import { AuthzRuleAction, AuthzRulePermission } from '@/types/typeAlias'
@@ -281,6 +282,7 @@ interface RecordData extends BuiltInDBRule {
 
 const { t, tl } = useI18nTl('Auth')
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const type = ref<BuiltInDBType>(BuiltInDBType.Client)

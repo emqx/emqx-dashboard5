@@ -5,7 +5,7 @@
         <el-row :gutter="20" justify="space-between">
           <el-col v-bind="colProps">
             <NamespaceSelect
-              v-if="!isNamespaceUser"
+              v-if="isMultiTenancyEnabled && !isNamespaceUser"
               v-model="namespaceFilter"
               :placeholder="t('BasicConfig.namespace')"
               :global="{ enable: true, value: GLOBAL_NAMESPACE }"
@@ -58,7 +58,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          v-if="!isNamespaceUser"
+          v-if="isMultiTenancyEnabled && !isNamespaceUser"
           prop="rule.namespace"
           :label="t('BasicConfig.namespace')"
           :min-width="108"
@@ -104,6 +104,7 @@
 import placeholderImgDark from '@/assets/img/webhook-placeholder-dark.png'
 import placeholderImgLight from '@/assets/img/webhook-placeholder-light.png'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { DetailTab } from '@/types/enum'
 import { WebhookItem } from '@/types/webhook'
 import OperationDisabledPopover from '../RuleEngine/components/OperationDisabledPopover.vue'
@@ -111,6 +112,7 @@ import OperationDisabledPopover from '../RuleEngine/components/OperationDisabled
 const router = useRouter()
 const { t, tl } = useI18nTl('RuleEngine')
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 
 const theme = computed(() => store.state.theme)
 

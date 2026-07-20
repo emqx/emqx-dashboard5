@@ -6,7 +6,7 @@
           <el-row :gutter="20" justify="space-between">
             <el-col v-bind="colProps">
               <NamespaceSelect
-                v-if="!isNamespaceUser"
+                v-if="isMultiTenancyEnabled && !isNamespaceUser"
                 v-model="namespaceFilter"
                 :placeholder="t('BasicConfig.namespace')"
                 :global="{ enable: true, value: GLOBAL_NAMESPACE }"
@@ -85,7 +85,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            v-if="!isNamespaceUser"
+            v-if="isMultiTenancyEnabled && !isNamespaceUser"
             prop="namespace"
             :label="t('BasicConfig.namespace')"
             :min-width="108"
@@ -166,6 +166,7 @@
 <script setup lang="ts">
 import { BridgeType, ConnectionStatus } from '@/types/enum'
 import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Setting } from '@element-plus/icons-vue'
 import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
@@ -179,6 +180,7 @@ import ConnectorTypeCards from './components/ConnectorTypeCards.vue'
 const router = useRouter()
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const isLoading = ref<boolean>(false)

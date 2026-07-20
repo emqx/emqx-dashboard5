@@ -1,6 +1,7 @@
 <!-- Mainly used for table -->
 <template>
   <el-select
+    v-if="isMultiTenancyEnabled"
     v-model="namespace"
     clearable
     class="namespace-select"
@@ -16,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { OptionList } from '@/types/common'
 
 const props = withDefaults(
@@ -55,6 +57,7 @@ const namespace = computed({
 const { t } = useI18n()
 
 const namespaceOptions = ref<OptionList<string>>([])
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
 
@@ -62,6 +65,9 @@ const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentUserNamespace = computed(() => store.getters.userNamespace)
 const getNamespaceOptions = async () => {
+  if (!isMultiTenancyEnabled.value) {
+    return
+  }
   try {
     const res = await requestNamespaceOptions()
     if (!isNamespaceUser.value) {

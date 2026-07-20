@@ -62,7 +62,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col v-if="isMultiTenancyEnabled" :span="12">
           <el-form-item :label="t('BasicConfig.namespace')" prop="namespace">
             <div class="vertical-align-center">
               <el-switch
@@ -183,6 +183,7 @@ import {
 import { isLegacyUnsetScopes, normalizeScopes, sanitizeScopesForSubmit } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 import { Warning } from '@element-plus/icons-vue'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 
 export type OperationType = 'create' | 'view' | 'edit'
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
@@ -212,6 +213,7 @@ const emit = defineEmits<{
 }>()
 
 const { t, te } = useI18n()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
@@ -265,6 +267,9 @@ const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const { getNamespaceOptions } = useManagedNamespaceOptions()
 const queryNamespaceList = async () => {
+  if (!isMultiTenancyEnabled.value) {
+    return
+  }
   try {
     const res = await getNamespaceOptions()
     namespaceOptions.value = res

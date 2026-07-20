@@ -143,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { BridgeDirection, ConnectionStatus } from '@/types/enum'
 import { Action, BridgeItem, Source } from '@/types/rule'
 import DeleteBridgeSecondConfirm from '../Bridge/Components/DeleteBridgeSecondConfirm.vue'
@@ -162,6 +163,7 @@ const isSource = computed(() => props.type === 'source')
 const { t, tl } = useI18nTl('RuleEngine')
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 let totalData: Array<BridgeItem> = []
@@ -186,7 +188,10 @@ const filterArr = computed(() => getFilterArr(filters.value))
 let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined = undefined
 
 const filterNamespace = (columns: Array<string>) =>
-  columns.filter((item: string) => !(isNamespaceUser.value && item === 'namespace'))
+  columns.filter(
+    (item: string) =>
+      !(item === 'namespace' && (isNamespaceUser.value || !isMultiTenancyEnabled.value)),
+  )
 const tableColumnFields = computed({
   get() {
     const columns = isSource.value ? store.state.sourceTableColumns : store.state.actionTableColumns

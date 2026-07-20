@@ -97,7 +97,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          v-if="!isNamespaceUser"
+          v-if="isMultiTenancyEnabled && !isNamespaceUser"
           prop="namespace"
           :label="t('BasicConfig.namespace')"
           :min-width="108"
@@ -167,6 +167,7 @@
 </template>
 
 <script lang="ts" setup>
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { getRules } from '@/api/ruleengine'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
@@ -208,6 +209,7 @@ const getDisplayFromList = (row: RuleItem) => {
 }
 
 const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const { getNsParams } = useNsParams()
 
