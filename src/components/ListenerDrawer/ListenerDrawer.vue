@@ -183,6 +183,34 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item prop="subscribes_rate">
+            <template #label>
+              <FormItemLabel
+                :label="t('ConfigSchema.subscribes_rate.label')"
+                :desc="t('ConfigSchema.subscribes_rate.desc')"
+                desc-marked
+              />
+            </template>
+            <Oneof
+              class="in-one-row"
+              v-model="listenerRecord.subscribes_rate"
+              :items="[{ type: 'rate' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="subscribes_burst">
+            <template #label>
+              <FormItemLabel
+                :label="t('ConfigSchema.subscribes_burst.label')"
+                :desc="t('ConfigSchema.subscribes_burst.desc')"
+                desc-marked
+              />
+            </template>
+            <el-input v-model="listenerRecord.subscribes_burst" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="t('Gateway.maxMsgPubTraffic')" prop="bytes_rate">
             <Oneof
               class="in-one-row"

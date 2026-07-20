@@ -139,9 +139,10 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
     ...SSLCertfileRules,
     max_conn_burst: createLimiterRule(),
     messages_burst: createLimiterRule(),
-    bytes_burst: createLimiterRule(),
+    bytes_burst: createLimiterRule(true),
     delivery_messages_burst: createLimiterRule(),
-    delivery_bytes_burst: createLimiterRule(),
+    delivery_bytes_burst: createLimiterRule(true),
+    subscribes_burst: createLimiterRule(),
   }
 
   const createRawSSLParams = () => ({
