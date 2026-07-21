@@ -30,18 +30,7 @@
         <el-table-column prop="node" :label="$t('Clients.node')" />
         <el-table-column v-if="isMetricsEnabled" :label="$t('Base.operation')">
           <template #default="{ row }">
-            <el-tooltip
-              v-if="!isTopicCanCreateMetrics(row.topic)"
-              class="box-item"
-              effect="dark"
-              :content="tl('wildcardNotSupport')"
-            >
-              <span>
-                <TableButton disabled>{{ tl('addMetric') }}</TableButton>
-              </span>
-            </el-tooltip>
             <TableButton
-              v-else
               :disabled="!$hasPermission('post')"
               @click="createMetricForTopic(row.topic)"
             >
@@ -67,7 +56,6 @@ export default defineComponent({
 import { listTopics } from '@/api/common'
 import { FeatureName } from '@/types/enum'
 import CommonPagination from '../../components/commonPagination.vue'
-import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 
 const router = useRouter()
 const store = useStore()
@@ -109,8 +97,6 @@ const loadTopics = async (_params = {}) => {
     lockTable.value = false
   }
 }
-
-const { isTopicCanCreateMetrics } = useTopicMetrics()
 
 const createMetricForTopic = (topic: string) => {
   router.push({ name: 'topic-metrics', query: { topic } })

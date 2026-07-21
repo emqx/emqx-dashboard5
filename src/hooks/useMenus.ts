@@ -92,7 +92,6 @@ const useMenus = (): {
   const diagnose = [
     { title: 'websocket', path: '/websocket' },
     { title: 'topic-metrics', path: '/topic-metrics' },
-    { title: 'topic-metrics-collections', path: '/topic-metrics-collections' },
     { title: 'slow-sub', path: '/slow-sub' },
     { title: 'log-trace', path: '/log-trace' },
     { title: 'dropped-analysis', path: '/dropped-analysis' },

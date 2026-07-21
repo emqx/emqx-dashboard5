@@ -187,10 +187,6 @@ export default {
     zh: '主题监控',
     en: 'Topic Metrics',
   },
-  'topic-metrics-collections': {
-    zh: '主题监控集合',
-    en: 'Topic Metrics Collections',
-  },
   'slow-sub': {
     zh: '慢订阅',
     en: 'Slow Subscriptions',
