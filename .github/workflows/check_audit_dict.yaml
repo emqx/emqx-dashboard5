@@ -8,7 +8,7 @@ on:
         type: string
 
 env:
-  IS_CI: "true"
+  IS_CI: 'true'
   EMQX_NAME: ${{ inputs.emqx-name }}
 
 jobs:
@@ -20,33 +20,104 @@ jobs:
         with:
           name: ${{ env.EMQX_NAME }}-docker
           path: /tmp
+
       - name: load docker image
+        shell: bash
         run: |
+          set -euo pipefail
           EMQX_IMAGE_TAG=$(docker load < /tmp/${EMQX_NAME}-docker.tar.gz 2>/dev/null | sed 's/Loaded image: //g')
-          echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> $GITHUB_ENV
-      - name: run docker
-        run: |
-          CID=$(docker run -d --rm -P $EMQX_IMAGE_TAG)
-          HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' $CID)
-          echo "HTTP_PORT=$HTTP_PORT" >> $GITHUB_ENV
-          echo "CID=$CID" >> $GITHUB_ENV
-          echo "HOST_URL=http://localhost:$HTTP_PORT" >> $GITHUB_ENV
+          echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> "$GITHUB_ENV"
 
       - name: checkout dashboard code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: install dep
+      - name: run EMQX
+        shell: bash
         run: |
-          yarn
+          set -euo pipefail
+
+          EMQX_ADMIN_PASSWORD=$(openssl rand -hex 24)
+          echo "::add-mask::$EMQX_ADMIN_PASSWORD"
+
+          CID=$(docker run -d --rm -P \
+            -e EMQX_DASHBOARD__DEFAULT_PASSWORD="$EMQX_ADMIN_PASSWORD" \
+            "$EMQX_IMAGE_TAG")
+          echo "CID=$CID" >> "$GITHUB_ENV"
+
+          HTTP_PORT=$(docker inspect --format='{{(index (index .NetworkSettings.Ports "18083/tcp") 0).HostPort}}' "$CID")
+          HOST_URL="http://localhost:$HTTP_PORT"
+
+          echo "HOST_URL=$HOST_URL" >> "$GITHUB_ENV"
+          echo "EMQX_ADMIN_PASSWORD=$EMQX_ADMIN_PASSWORD" >> "$GITHUB_ENV"
+
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent "$HOST_URL/status" > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+
+          docker logs "$CID"
+          exit 1
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.17'
+          cache: pnpm
+
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: download authenticated Swagger schema
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          LOGIN_BODY=$(jq -nc \
+            --arg username admin \
+            --arg password "$EMQX_ADMIN_PASSWORD" \
+            '{username: $username, password: $password}')
+          TOKEN=''
+          for attempt in $(seq 1 30); do
+            if TOKEN=$(curl --fail-with-body --silent --show-error \
+              -X POST "$HOST_URL/api/v5/login" \
+              -H 'Content-Type: application/json' \
+              --data "$LOGIN_BODY" | jq -er '.token'); then
+              break
+            fi
+            sleep 2
+          done
+          if [ -z "$TOKEN" ]; then
+            echo "Failed to log in to EMQX."
+            docker logs "$CID"
+            exit 1
+          fi
+          echo "::add-mask::$TOKEN"
+
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $TOKEN" \
+            "$HOST_URL/api-docs/swagger.json" \
+            -o swagger.json
+
+          jq -e '
+            .openapi and
+            ((.paths | type) == "object") and
+            ((.paths | length) > 2) and
+            ((.components.schemas | type) == "object")
+          ' swagger.json > /dev/null
 
       - name: run script that checks the audit dict
-        run: |
-          node ./scripts/checkAuditDict.cjs
+        run: SWAGGER_FILE=./swagger.json node ./scripts/checkAuditDict.cjs
 
-      - name: check for script errors
-        if: ${{ failure() }}
-        run: exit 1
-
-      - name: stop docker
+      - name: stop EMQX
+        if: always()
         run: |
-          docker stop ${CID}
+          if [ -n "${CID:-}" ]; then
+            docker stop "$CID" || true
+          fi

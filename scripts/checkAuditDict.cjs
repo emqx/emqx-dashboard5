@@ -1,6 +1,8 @@
 const rawDict = require('../src/views/General/resource_dict.json')
+const { readFile } = require('node:fs/promises')
 const axios = require('axios')
 const baseURL = process.env.HOST_URL || 'http://mac:18084'
+const swaggerFile = process.env.SWAGGER_FILE
 
 const WILDCARD_MARKER = '[...]'
 
@@ -46,8 +48,16 @@ const replacePlaceholder = (path) =>
   path.replace(reg, ($0, $1) => {
     return `:${$1}`
   })
+const loadSwagger = async () => {
+  if (swaggerFile) {
+    return JSON.parse(await readFile(swaggerFile, 'utf8'))
+  }
+
+  const { data } = await axios.get(`${baseURL}/api-docs/swagger.json`)
+  return data
+}
 const check = async () => {
-  const { data: swaggerJSON } = await axios.get(`${baseURL}/api-docs/swagger.json`)
+  const swaggerJSON = await loadSwagger()
   const { paths } = swaggerJSON
   Object.entries(paths).forEach(([rawPathItem, requestMap]) => {
     const pathItem = replacePlaceholder(rawPathItem)
