@@ -208,6 +208,12 @@ const FormCom = ref()
 
 const { schemaTypeOpts } = useSchemaType()
 
+const JSONSchemaDraft = {
+  Draft03: 'http://json-schema.org/draft-03/schema#',
+  Draft04: 'http://json-schema.org/draft-04/schema#',
+  Draft06: 'http://json-schema.org/draft-06/schema#',
+} as const
+
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
@@ -223,25 +229,30 @@ const rules = ref({
         try {
           const schemaObj = JSON.parse(value)
           const { $schema } = schemaObj
-          // do not support validate 03
-          // now the default version is 06
-          if (/03/.test($schema)) {
+          // The backend defaults to draft-06 when `$schema` is absent.
+          const schemaDraft = $schema ?? JSONSchemaDraft.Draft06
+          if (schemaDraft === JSONSchemaDraft.Draft03) {
             callback()
             return
           }
-          const isVersion06 = /06/.test($schema)
-          const ajvInstance = isVersion06
+          if (schemaDraft !== JSONSchemaDraft.Draft04 && schemaDraft !== JSONSchemaDraft.Draft06) {
+            callback(new Error(tl('unsupportedJSONSchemaVersion')))
+            return
+          }
+
+          const isDraft06 = schemaDraft === JSONSchemaDraft.Draft06
+          const ajvInstance = isDraft06
             ? new ajv({ validateSchema: false })
             : new Ajv04({ validateSchema: false })
           addFormats(ajvInstance)
 
-          if (isVersion06) {
+          if (isDraft06) {
             ajvInstance.addMetaSchema(draft6MetaSchema)
           }
           // remove all existed schemas..
           // otherwise it throws the magical `existed` error
           Object.keys(ajvInstance.schemas).forEach((key) => ajvInstance.removeSchema(key))
-          ajvInstance.compile(JSON.parse(value))
+          ajvInstance.compile(schemaObj)
           callback()
         } catch (e: any) {
           callback(new Error(e.toString()))
