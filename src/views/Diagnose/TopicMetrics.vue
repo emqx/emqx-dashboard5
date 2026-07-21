@@ -1,159 +1,186 @@
 <template>
-  <div class="topicMetrics app-wrapper">
+  <div class="topic-metrics app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton @click="openAdd()">
-        {{ tl('addTopic') }}
-      </CreateButton>
+      <CreateButton @click="openCreateDialog()" />
     </div>
 
     <el-table
-      :data="topicMetricsTb"
-      v-loading="tbLoading"
-      ref="tbRef"
-      row-key="topic"
+      ref="tableRef"
+      :data="topicMetricsList"
+      v-loading="isLoading"
+      :row-key="getRowKey"
       :expand-row-keys="tableExpandRowKeys"
-      :row-class-name="({ rowIndex }) => getTopicClassName(rowIndex)"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="expand" width="1">
         <template #default="{ row, $index }">
-          <div v-loading="row._loading" class="topic-detail" :class="getTopicClassName($index)">
-            <el-row class="topic-detail-header">
-              <div>{{ $t('Base.detail') }}</div>
-              <el-radio-group v-model="row.topicQoS" size="small">
-                <el-radio-button :value="DEFAULT_QOS">{{ $t('Base.all') }}</el-radio-button>
-                <el-radio-button value="qos0">QoS 0</el-radio-button>
-                <el-radio-button value="qos1">QoS 1</el-radio-button>
-                <el-radio-button value="qos2">QoS 2</el-radio-button>
-              </el-radio-group>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="8">
-                <div class="message-card in">
-                  <div>
-                    {{ tl('msgIn') }}
-                    <span class="message-rate">
-                      {{ `${row.metrics[getKey(row.topicQoS, 'in.rate')]} ${tl('rate')}` }}
-                    </span>
-                  </div>
-                  <div class="message-card--body">
-                    {{ row.metrics[getKey(row.topicQoS, 'in.count')] }}
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div class="message-card out">
-                  <div>
-                    {{ tl('msgOut') }}
-                    <span class="message-rate">
-                      {{ `${row.metrics[getKey(row.topicQoS, 'out.rate')]} ${tl('rate')}` }}
-                    </span>
-                  </div>
-                  <div class="message-card--body">
-                    {{ row.metrics[getKey(row.topicQoS, 'out.count')] }}
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div class="message-card drop">
-                  <div>
-                    {{ tl('msgDrop') }}
-                    <span class="message-rate">
-                      {{ `${row.metrics[`messages.dropped.rate`]} ${tl('rate')}` }}
-                    </span>
-                  </div>
-                  <div class="message-card--body">
-                    {{ row.metrics[`messages.dropped.count`] }}
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
+          <div v-loading="row._loading">
+            <div
+              class="grid items-center gap-x-5 grid-cols-[minmax(150px,1fr)_minmax(150px,1fr)_minmax(150px,1fr)_220px]"
+            >
+              <div class="col-start-1 px-4">
+                <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ tl('bytesIn') }}</p>
+                <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
+                  {{ formatBytes(getMetric(row, 'bytes.in')) }}
+                </p>
+              </div>
+              <div class="col-start-2">
+                <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ tl('bytesOut') }}</p>
+                <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
+                  {{ formatBytes(getMetric(row, 'bytes.out')) }}
+                </p>
+              </div>
+              <div class="col-start-3">
+                <p class="m-0 mb-2 text-[var(--color-text-secondary)]">{{ t('Base.createdAt') }}</p>
+                <p class="m-0 text-base font-normal text-[var(--color-text-primary)]">
+                  {{ dateFormat(row.create_time, '-') }}
+                </p>
+              </div>
+              <div class="flex min-h-[52px] items-center self-stretch px-4 col-start-4">
+                <RefreshButton
+                  size="small"
+                  :disabled="!$hasPermission('get') || row._loading"
+                  @click="loadTopicMetricsDetail(row, $index, false)"
+                />
+              </div>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.topic')" prop="topic" :min-width="120">
+      <el-table-column
+        :label="tl('topicMetricsName')"
+        prop="name"
+        sortable="custom"
+        min-width="162"
+      >
         <template #default="{ row }">
-          <CommonOverflowTooltip :content="row.topic" />
+          <CommonOverflowTooltip :content="row.name" />
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="tl('topicFilter')"
+        prop="topic_filter"
+        sortable="custom"
+        min-width="128"
+      >
+        <template #default="{ row }">
+          <CommonOverflowTooltip :content="row.topic_filter" />
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="isMultiTenancyEnabled && !isNamespaceUser"
+        :label="t('BasicConfig.namespace')"
+        prop="namespace"
+        sortable="custom"
+        min-width="132"
+      >
+        <template #default="{ row }">
+          {{ getNamespaceLabel(row.namespace) }}
         </template>
       </el-table-column>
       <el-table-column
         :label="tl('msgIn')"
-        sortable
-        :sort-by="({ metrics }) => metrics['messages.in.count']"
-        :min-width="184"
+        sortable="custom"
+        prop="messages.in.count"
+        min-width="188"
       >
         <template #default="{ row }">
-          {{ row.metrics['messages.in.count'] }}
+          {{ formatCount(getMetric(row, 'messages.in.count')) }}
         </template>
       </el-table-column>
       <el-table-column
         :label="tl('msgOut')"
-        sortable
-        :sort-by="({ metrics }) => metrics['messages.out.count']"
-        :min-width="184"
+        sortable="custom"
+        prop="messages.out.count"
+        min-width="184"
       >
         <template #default="{ row }">
-          {{ row.metrics['messages.out.count'] }}
+          {{ formatCount(getMetric(row, 'messages.out.count')) }}
         </template>
       </el-table-column>
       <el-table-column
         :label="tl('msgDrop')"
-        sortable
-        :sort-by="({ metrics }) => metrics['messages.dropped.count']"
-        :min-width="180"
+        sortable="custom"
+        prop="messages.dropped.count"
+        min-width="180"
       >
         <template #default="{ row }">
-          {{ row.metrics['messages.dropped.count'] }}
+          {{ formatCount(getMetric(row, 'messages.dropped.count')) }}
         </template>
       </el-table-column>
-      <el-table-column
-        :label="tl('startTime')"
-        sortable
-        :sort-by="({ create_time }) => new Date(create_time).getTime()"
-        :min-width="164"
-      >
-        <template #default="{ row }">
-          {{ (row.reset_at && df(row.reset_at)) || (row.create_time && df(row.create_time)) }}
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="220">
+      <el-table-column :label="t('Base.operation')" width="220">
         <template #default="{ row, $index }">
-          <TableButton :class="BTN_VIEW_CLASS" @click="loadMetricsFromTopic(row, $index)">
-            {{ $t('Base.view') }}
+          <TableButton
+            :disabled="!$hasPermission('get')"
+            @click="loadTopicMetricsDetail(row, $index)"
+          >
+            {{ t('Base.view') }}
           </TableButton>
-          <TableButton :disabled="!$hasPermission('put')" @click="resetTopic(row, $index)">
-            {{ $t('Base.reset') }}
-          </TableButton>
-          <TableButton :disabled="!$hasPermission('delete')" @click="deleteTopic(row)">
-            {{ $t('Base.delete') }}
-          </TableButton>
+          <NamespaceResourcePopover
+            v-if="isOpNsDisabled(row)"
+            :namespace="row.namespace || undefined"
+            :target-label="tl('topicMetrics')"
+          >
+            <template #default>
+              <span class="inline-flex items-center gap-2">
+                <TableButton disabled>{{ t('Base.reset') }}</TableButton>
+                <TableButton disabled>{{ t('Base.delete') }}</TableButton>
+              </span>
+            </template>
+          </NamespaceResourcePopover>
+          <template v-else>
+            <TableButton
+              :disabled="!$hasPermission('put')"
+              @click="handleResetTopicMetrics(row, $index)"
+            >
+              {{ t('Base.reset') }}
+            </TableButton>
+            <TableButton
+              :disabled="!$hasPermission('delete')"
+              @click="handleDeleteTopicMetrics(row)"
+            >
+              {{ t('Base.delete') }}
+            </TableButton>
+          </template>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="tl('addTopic')" v-model="addVisible" width="400px">
+    <el-dialog :title="tl('createTopicMetrics')" v-model="createDialogVisible" width="460px">
       <el-form
-        ref="record"
-        :model="topicInput"
+        ref="createFormRef"
+        :model="createForm"
+        :rules="createRules"
         label-position="top"
         require-asterisk-position="right"
-        :rules="topicRules"
-        @submit.prevent="addTopic()"
+        @submit.prevent="submitCreate"
       >
-        <el-form-item prop="topic" :label="$t('Base.topic')">
-          <el-input v-model="topicInput.topic"></el-input>
+        <el-form-item prop="name" :label="tl('topicMetricsName')">
+          <el-input v-model="createForm.name" />
         </el-form-item>
+        <el-form-item prop="topic_filter" :label="tl('topicFilter')">
+          <el-input v-model="createForm.topic_filter" />
+        </el-form-item>
+        <el-alert
+          v-if="isNamespaceUser"
+          class="mt-1"
+          type="info"
+          show-icon
+          :closable="false"
+          :description="tl('topicFilterMountpointTip', { namespace: currentNamespace || '-' })"
+        />
       </el-form>
       <template #footer>
         <div class="dialog-align-footer">
-          <CancelButton @click="addVisible = false" />
+          <CancelButton @click="createDialogVisible = false" />
           <el-button
             type="primary"
             :disabled="!$hasPermission('post')"
-            @click="addTopic()"
-            :loading="addLoading"
+            :loading="createLoading"
+            @click="submitCreate"
           >
-            {{ $t('Base.add') }}
+            {{ t('Base.create') }}
           </el-button>
         </div>
       </template>
@@ -161,269 +188,225 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import {
-  getTopicMetrics,
-  addTopicMetrics,
-  deleteTopicMetrics,
-  resetTopicMetrics,
+  createTopicMetricCollection,
+  deleteTopicMetricCollection,
+  getTopicMetricCollection,
+  getTopicMetricCollections,
+  resetTopicMetricCollection,
 } from '@/api/diagnose'
-import { ElMessageBox as MB, ElMessage } from 'element-plus'
-import { useI18n } from 'vue-i18n'
-import { waitAMoment } from '@/common/tools.ts'
-import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
+import { GLOBAL_NAMESPACE } from '@/common/constants'
+import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+import type {
+  TopicMetricCollection,
+  TopicMetricCollectionCreate,
+  TopicMetricCollectionMetrics,
+} from '@/types/typeAlias'
+import type { FormInstance, FormRules } from 'element-plus'
+import NamespaceResourcePopover from '../RuleEngine/components/NamespaceResourcePopover.vue'
 
-const DEFAULT_QOS = 'all'
+type MetricKey = keyof TopicMetricCollectionMetrics
+type TopicMetricsRow = TopicMetricCollection & {
+  _expand?: boolean
+  _loading?: boolean
+}
 
-export default defineComponent({
-  name: 'TopicMetrics',
+const { t, tl } = useI18nTl('Tools')
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
+const isMultiTenancyEnabled = useMultiTenancyEnabled()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const currentNamespace = computed(() => store.getters.userNamespace)
+const { isOpNsResourceDisabled } = useNsResource()
 
-  setup() {
-    const BTN_VIEW_CLASS = 'btn-view'
-    const { t } = useI18n()
+const tableRef = ref()
+const topicMetricsList = ref<Array<TopicMetricsRow>>([])
+const isLoading = ref(false)
+const createDialogVisible = ref(false)
+const createLoading = ref(false)
 
-    const route = useRoute()
-    const router = useRouter()
+const getNamespaceLabel = (namespace?: string | null) =>
+  !namespace || namespace === GLOBAL_NAMESPACE ? t('BasicConfig.global') : namespace
 
-    const addVisible = ref(false)
-    const topicInput = reactive({
-      topic: '',
+const getRowKey = ({ namespace, name }: TopicMetricsRow) =>
+  `${namespace || GLOBAL_NAMESPACE}::${name}`
+
+const tableExpandRowKeys = computed(() =>
+  topicMetricsList.value.filter(({ _expand }) => _expand).map(getRowKey),
+)
+
+const isOpNsDisabled = (row: TopicMetricsRow) => isOpNsResourceDisabled(row)
+const getMetric = ({ metrics }: TopicMetricsRow, key: MetricKey) => metrics?.[key] ?? 0
+const formatCount = (value?: number) => Number(value ?? 0).toLocaleString()
+const formatBytes = (value?: number) => transMemorySizeNumToStr(Number(value ?? 0), 2)
+
+let sortFrom: { key: string; type: 'asc' | 'desc' } | undefined
+const getSortValue = (row: TopicMetricsRow, key?: string) => {
+  if (!key) {
+    return ''
+  }
+  if (key in (row.metrics || {})) {
+    return row.metrics[key as MetricKey] ?? 0
+  }
+  return (row as Record<string, any>)[key] ?? ''
+}
+const sortTopicMetrics = (rows: Array<TopicMetricsRow>) => {
+  if (!sortFrom) {
+    return rows
+  }
+  return [...rows].sort((a, b) => {
+    const aVal = getSortValue(a, sortFrom?.key)
+    const bVal = getSortValue(b, sortFrom?.key)
+    if (aVal === bVal) {
+      return 0
+    }
+    const ret = aVal > bVal ? 1 : -1
+    return sortFrom?.type === 'desc' ? -ret : ret
+  })
+}
+
+const loadTopicMetricsList = async () => {
+  isLoading.value = true
+  try {
+    const rows = (await getTopicMetricCollections()).map((item) => ({
+      ...item,
+      _expand: false,
+      _loading: false,
+    }))
+    topicMetricsList.value = sortTopicMetrics(rows)
+  } catch (error) {
+    topicMetricsList.value = []
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const loadTopicMetricsDetail = async (row: TopicMetricsRow, index: number, toggleExpand = true) => {
+  const rowExpand = toggleExpand ? !row._expand : row._expand
+  if (toggleExpand) {
+    tableRef.value?.toggleRowExpansion(row, rowExpand)
+    if (!rowExpand && topicMetricsList.value[index]?._expand) {
+      topicMetricsList.value[index]._expand = rowExpand
+      return
+    }
+  }
+
+  row._loading = true
+  try {
+    const data = await getTopicMetricCollection(row.name)
+    topicMetricsList.value.splice(index, 1, {
+      ...data,
+      _expand: rowExpand,
+      _loading: false,
     })
-    const record = ref(null)
-    const topicMetricsTb = ref([])
-    const tbLoading = ref(false)
-    const tbRef = ref(null)
-    const addLoading = ref(false)
+  } catch (error) {
+    row._loading = false
+    //
+  }
+}
 
-    const { isTopicCanCreateMetrics } = useTopicMetrics()
-    const topicRules = {
-      topic: [
-        {
-          required: true,
-          message: t('Clients.topicRequired'),
-          trigger: 'blur',
-        },
-        {
-          validator: (_rule, value, callback) => {
-            let error = undefined
-            if (!isTopicCanCreateMetrics(value)) {
-              error = new Error(t('Subs.wildcardNotSupport'))
-            }
-            callback(error)
-          },
-        },
-      ],
-    }
-
-    const tableExpandRowKeys = computed(() => {
-      return topicMetricsTb.value.filter(({ _expand }) => _expand).map(({ topic }) => topic)
+const handleResetTopicMetrics = async (row: TopicMetricsRow, index: number) => {
+  try {
+    await ElMessageBox.confirm(tl('resetTopicMetricsTip', { name: row.name }), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
     })
+    await resetTopicMetricCollection(row.name)
+    ElMessage.success(t('Base.resetSuccess'))
+    await loadTopicMetricsDetail(row, index, false)
+  } catch (error) {
+    //
+  }
+}
 
-    const translate = function (key, collection = 'Tools') {
-      return t(collection + '.' + key)
-    }
-
-    const getTopicClassName = (topicIndex) => `is-${topicIndex}`
-
-    const openAdd = () => {
-      addVisible.value = true
-      record.value?.resetFields()
-      addLoading.value = false
-    }
-
-    const loadTopicMetrics = async function () {
-      tbLoading.value = true
-      try {
-        const res = await getTopicMetrics()
-        const reconRes = Array.prototype.map.call(res, (v) => {
-          return Object.assign(v, { _loading: false, topicQoS: DEFAULT_QOS })
-        })
-        topicMetricsTb.value = reconRes
-      } catch (error) {
-        //
-      } finally {
-        tbLoading.value = false
-      }
-    }
-
-    const viewTopicDetail = async (topicIndex) => {
-      ElMessage({ message: translate('topicExistedTip'), type: 'info', duration: 5000 })
-      await waitAMoment(1024)
-      const ele = document.querySelector(`tr.${getTopicClassName(topicIndex)}`)
-      const btn = ele ? ele.querySelector(`.${BTN_VIEW_CLASS}`) : null
-      if (btn) {
-        btn.click()
-        await waitAMoment(200)
-        const detailEle = document.querySelector(`.topic-detail.${getTopicClassName(topicIndex)}`)
-        detailEle?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
-    }
-
-    const checkTopicInQuery = () => {
-      const { topic = '' } = route.query || {}
-      if (topic) {
-        const topicIndex = topicMetricsTb.value.findIndex(({ topic: t }) => t === topic)
-        if (topicIndex > -1) {
-          viewTopicDetail(topicIndex)
-        } else {
-          topicInput.topic = topic
-          addVisible.value = true
-        }
-      }
-      router.replace({ name: 'topic-metrics' })
-    }
-
-    const addTopic = async function () {
-      try {
-        await record.value?.validate()
-        addLoading.value = true
-        const { topic } = topicInput
-        await addTopicMetrics(topic)
-        ElMessage.success(t('Base.createSuccess'))
-        addVisible.value = false
-        loadTopicMetrics()
-      } catch (error) {
-        //
-      } finally {
-        addLoading.value = false
-      }
-    }
-
-    const deleteTopic = async function ({ topic }) {
-      try {
-        await MB.confirm(t('Base.confirmDelete'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          confirmButtonClass: 'confirm-danger',
-          type: 'warning',
-        })
-        await deleteTopicMetrics(topic)
-        ElMessage.success(t('Base.deleteSuccess'))
-        loadTopicMetrics()
-      } catch (error) {
-        //
-      }
-    }
-
-    const resetTopic = async function (row, index) {
-      try {
-        await MB.confirm(t('General.confirmReset'), {
-          confirmButtonText: t('Base.confirm'),
-          cancelButtonText: t('Base.cancel'),
-          type: 'warning',
-        })
-        await resetTopicMetrics(row.topic)
-        ElMessage.success(t('Base.resetSuccess'))
-        loadMetricsFromTopic(row, index, false)
-      } catch (error) {
-        //
-      }
-    }
-
-    const loadMetricsFromTopic = async function (row, index, toggleExpand = true) {
-      const { topic, _expand } = row
-      const rowExpand = toggleExpand ? !(_expand ?? false) : _expand
-      if (toggleExpand) {
-        tbRef.value.toggleRowExpansion(row, rowExpand)
-        // do not need request when collapse, just change _expand variable
-        if (!rowExpand && topicMetricsTb.value[index]._expand) {
-          topicMetricsTb.value[index]._expand = rowExpand
-          return
-        }
-      }
-
-      try {
-        row._loading = true
-        const res = await getTopicMetrics(topic)
-        topicMetricsTb.value.splice(index, 1, {
-          ...res,
-          _expand: rowExpand,
-          _loading: false,
-          topicQoS: DEFAULT_QOS,
-        })
-      } catch (error) {
-        //
-        row._loading = false
-      }
-    }
-
-    const getStrForConcat = (qos) => (qos === DEFAULT_QOS ? '' : `${qos}.`)
-
-    const getKey = (qos, subPath) => `messages.${getStrForConcat(qos)}${subPath}`
-
-    onMounted(async () => {
-      await loadTopicMetrics()
-      checkTopicInQuery()
+const handleDeleteTopicMetrics = async (row: TopicMetricsRow) => {
+  try {
+    await ElMessageBox.confirm(tl('deleteTopicMetricsTip', { name: row.name }), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
+      type: 'warning',
     })
+    await deleteTopicMetricCollection(row.name)
+    ElMessage.success(t('Base.deleteSuccess'))
+    await loadTopicMetricsList()
+  } catch (error) {
+    //
+  }
+}
 
-    return {
-      BTN_VIEW_CLASS,
-      df: dateFormat,
-      tl: translate,
-      DEFAULT_QOS,
-      addVisible,
-      openAdd,
-      record,
-      topicRules,
-      topicInput,
-      addTopic,
-      topicMetricsTb,
-      tbLoading,
-      deleteTopic,
-      resetTopic,
-      tbRef,
-      tableExpandRowKeys,
-      loadMetricsFromTopic,
-      addLoading,
-      getStrForConcat,
-      getKey,
-      getTopicClassName,
-    }
-  },
+const handleSortChange = ({ prop, order }: { prop: string; order: string | null }) => {
+  sortFrom =
+    prop && order ? { key: prop, type: order === 'descending' ? 'desc' : 'asc' } : undefined
+  topicMetricsList.value = sortTopicMetrics(topicMetricsList.value)
+}
+
+const createFormRef = ref<FormInstance>()
+const createForm = reactive<TopicMetricCollectionCreate>({
+  name: '',
+  topic_filter: '',
 })
+
+const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
+const createRules: FormRules = {
+  name: [
+    ...createRequiredRule(tl('topicMetricsName')),
+    {
+      pattern: /^[A-Za-z0-9_-]{1,64}$/,
+      message: tl('topicMetricsNameError'),
+      trigger: 'blur',
+    },
+  ],
+  topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
+}
+
+const openCreateDialog = (topicFilter = '') => {
+  createForm.name = ''
+  createForm.topic_filter = topicFilter
+  createDialogVisible.value = true
+  nextTick(() => createFormRef.value?.clearValidate())
+}
+
+const openCreateDialogFromQuery = () => {
+  const { topic } = route.query
+  if (typeof topic !== 'string' || !topic) {
+    return
+  }
+  openCreateDialog(topic)
+  router.replace({ name: 'topic-metrics' })
+}
+
+const submitCreate = async () => {
+  try {
+    await createFormRef.value?.validate()
+  } catch (error) {
+    return
+  }
+  createLoading.value = true
+  try {
+    await createTopicMetricCollection({
+      name: createForm.name.trim(),
+      topic_filter: createForm.topic_filter.trim(),
+    })
+    ElMessage.success(t('Base.createSuccess'))
+    createDialogVisible.value = false
+    await loadTopicMetricsList()
+  } catch (error) {
+    //
+  } finally {
+    createLoading.value = false
+  }
+}
+
+loadTopicMetricsList()
+onMounted(openCreateDialogFromQuery)
 </script>
 
 <style lang="scss" scoped>
-.message-card {
-  height: 112px;
-  border-radius: 4px;
-  padding: 6px 12px;
-  color: #fff;
-  &.in {
-    background: linear-gradient(0.25turn, #3e3ab4, #4c5ae0);
-  }
-  &.out {
-    background: linear-gradient(0.25turn, #0c7cd1, #19bcc2);
-  }
-  &.drop {
-    background: linear-gradient(0.25turn, #00ac70, #34c388);
-  }
-  .message-card--body {
-    font-size: 28px;
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-  }
-  .message-rate {
-    float: right;
-  }
-}
-
 .el-table :deep(.el-table__expand-icon) {
   display: none;
-}
-
-.topic-detail-header {
-  padding-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  & > :first-child {
-    font-size: 16px;
-    font-weight: 700;
-  }
-}
-
-.topic-detail {
-  margin: 0 10px;
 }
 </style>

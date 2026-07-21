@@ -135,25 +135,21 @@ export default {
     zh: '{name}',
     en: '{name} is ',
   },
-  addTopic: {
-    zh: '添加主题',
-    en: 'Add Topic',
+  topicMetrics: {
+    zh: '主题监控',
+    en: 'Topic Metrics',
   },
-  topicMetricsCollection: {
-    zh: '主题监控集合',
-    en: 'Topic Metrics Collection',
+  createTopicMetrics: {
+    zh: '创建主题监控',
+    en: 'Create Topic Metrics',
   },
-  createCollection: {
-    zh: '创建集合',
-    en: 'Create Collection',
+  topicMetricsName: {
+    zh: '名称',
+    en: 'Name',
   },
-  collectionName: {
-    zh: '集合名称',
-    en: 'Collection Name',
-  },
-  collectionNameError: {
-    zh: '集合名称仅支持字母、数字、短横线和下划线，最长 64 个字符',
-    en: 'The collection name can contain only letters, digits, hyphens, and underscores, up to 64 characters.',
+  topicMetricsNameError: {
+    zh: '名称仅支持字母、数字、短横线和下划线，最长 64 个字符',
+    en: 'The name can contain only letters, digits, hyphens, and underscores, up to 64 characters.',
   },
   topicFilter: {
     zh: '主题过滤器',
@@ -167,17 +163,17 @@ export default {
     zh: '流出字节',
     en: 'Bytes Out',
   },
-  resetCollectionTip: {
-    zh: '确定要重置集合 {name} 的指标吗？',
-    en: 'Are you sure you want to reset metrics for collection {name}?',
+  resetTopicMetricsTip: {
+    zh: '确定要重置主题监控 {name} 的指标吗？',
+    en: 'Are you sure you want to reset the metrics for {name}?',
   },
-  deleteCollectionTip: {
-    zh: '确定要删除集合 {name} 吗？',
-    en: 'Are you sure you want to delete collection {name}?',
+  deleteTopicMetricsTip: {
+    zh: '确定要删除主题监控 {name} 吗？',
+    en: 'Are you sure you want to delete {name}?',
   },
   topicFilterMountpointTip: {
-    zh: '当前用户属于命名空间 {namespace}。该集合只统计命名空间 {namespace} 下的客户端消息。',
-    en: 'The current user belongs to namespace {namespace}. This collection only counts client messages under namespace {namespace}.',
+    zh: '当前用户属于命名空间 {namespace}。该主题监控只统计命名空间 {namespace} 下的客户端消息。',
+    en: 'The current user belongs to namespace {namespace}. This topic metrics entry only counts client messages under namespace {namespace}.',
   },
   msgIn: {
     en: 'Published Messages',
@@ -191,14 +187,6 @@ export default {
     en: 'Dropped Messages',
     zh: '消息丢弃',
   },
-  startTime: {
-    en: 'Start At',
-    zh: '起始时间',
-  },
-  rate: {
-    zh: '条/秒',
-    en: 'message(s)/sec',
-  },
   errorOccurred: {
     zh: '发生错误',
     en: 'Error occurred',
@@ -210,9 +198,5 @@ export default {
   neverExpire: {
     zh: '永不过期',
     en: 'Never Expire',
-  },
-  topicExistedTip: {
-    zh: '该主题已添加，自动跳转至该主题下查看监控数据',
-    en: 'Topic already registered, automatically redirecting to the topic to view the monitoring data',
   },
 }
