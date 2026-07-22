@@ -1128,24 +1128,27 @@ const SchemaForm = defineComponent({
     }
 
     const handleComponentsData = async () => {
-      handlePromise = new Promise((resolve, reject) => {
-        const doWork = async () => {
-          if (props.dataHandler && _.isFunction(props.dataHandler)) {
-            const data = await props.dataHandler({
-              components: components.value,
-              rules: rules.value,
-            })
-            components.value = data.components
-            rules.value = data.rules
-            resolve(true)
-            handlePromise = undefined
-          }
-        }
-        doWork().catch(() => {
-          reject()
-          handlePromise = undefined
+      const dataHandler = props.dataHandler
+      if (typeof dataHandler !== 'function') {
+        return
+      }
+
+      const task = (async () => {
+        const data = await dataHandler({
+          components: components.value,
+          rules: rules.value,
         })
-      })
+        components.value = data.components
+        rules.value = data.rules
+      })()
+      handlePromise = task
+      try {
+        await task
+      } finally {
+        if (handlePromise === task) {
+          handlePromise = undefined
+        }
+      }
     }
 
     const getInitRecord = () => {
