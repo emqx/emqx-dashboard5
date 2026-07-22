@@ -983,6 +983,14 @@
       },
       {
         "method": "delete",
+        "path": "/mqtt/topic_metrics2",
+        "name_label": {
+          "en": "Delete every topic-metric collection visible to the caller",
+          "zh": "删除调用方可见的所有主题监控集合"
+        }
+      },
+      {
+        "method": "delete",
         "path": "/mqtt/delayed/messages/:node/:msgid",
         "name_label": {
           "en": "Delete delayed message",
