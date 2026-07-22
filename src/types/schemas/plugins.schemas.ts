@@ -1,47 +1,26 @@
-export type PostPluginsInstall400Code =
-  (typeof PostPluginsInstall400Code)[keyof typeof PostPluginsInstall400Code]
+export type PutPluginsNameAction404Code =
+  (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsInstall400Code = {
-  ALREADY_INSTALLED: 'ALREADY_INSTALLED',
-  BAD_FORM_DATA: 'BAD_FORM_DATA',
-  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
-  FORBIDDEN: 'FORBIDDEN',
-  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
-} as const
-
-export type PostPluginsInstall400 = {
-  code?: PostPluginsInstall400Code
-  message?: string
-}
-
-export type PostPluginsInstallBody = {
-  plugin?: Blob
-}
-
-export type PostPluginsClusterSync404Code =
-  (typeof PostPluginsClusterSync404Code)[keyof typeof PostPluginsClusterSync404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsClusterSync404Code = {
+export const PutPluginsNameAction404Code = {
   NOT_FOUND: 'NOT_FOUND',
 } as const
 
-export type PostPluginsClusterSync404 = {
-  code?: PostPluginsClusterSync404Code
+export type PutPluginsNameAction404 = {
+  code?: PutPluginsNameAction404Code
   message?: string
 }
 
-export type PostPluginsClusterSync400Code =
-  (typeof PostPluginsClusterSync400Code)[keyof typeof PostPluginsClusterSync400Code]
+export type PutPluginsNameAction400Code =
+  (typeof PutPluginsNameAction400Code)[keyof typeof PutPluginsNameAction400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostPluginsClusterSync400Code = {
-  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+export const PutPluginsNameAction400Code = {
+  PARAM_ERROR: 'PARAM_ERROR',
 } as const
 
-export type PostPluginsClusterSync400 = {
-  code?: PostPluginsClusterSync400Code
+export type PutPluginsNameAction400 = {
+  code?: PutPluginsNameAction400Code
   message?: string
 }
 
@@ -223,32 +202,6 @@ export type GetPluginsNameConfig400 = {
   message?: string
 }
 
-export type PutPluginsNameAction404Code =
-  (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutPluginsNameAction404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutPluginsNameAction404 = {
-  code?: PutPluginsNameAction404Code
-  message?: string
-}
-
-export type PutPluginsNameAction400Code =
-  (typeof PutPluginsNameAction400Code)[keyof typeof PutPluginsNameAction400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutPluginsNameAction400Code = {
-  PARAM_ERROR: 'PARAM_ERROR',
-} as const
-
-export type PutPluginsNameAction400 = {
-  code?: PutPluginsNameAction400Code
-  message?: string
-}
-
 export type GetPluginsName404Code =
   (typeof GetPluginsName404Code)[keyof typeof GetPluginsName404Code]
 
@@ -285,6 +238,53 @@ export const DeletePluginsName400Code = {
 
 export type DeletePluginsName400 = {
   code?: DeletePluginsName400Code
+  message?: string
+}
+
+export type PostPluginsInstall400Code =
+  (typeof PostPluginsInstall400Code)[keyof typeof PostPluginsInstall400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsInstall400Code = {
+  ALREADY_INSTALLED: 'ALREADY_INSTALLED',
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
+  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+  FORBIDDEN: 'FORBIDDEN',
+  UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
+} as const
+
+export type PostPluginsInstall400 = {
+  code?: PostPluginsInstall400Code
+  message?: string
+}
+
+export type PostPluginsInstallBody = {
+  plugin?: Blob
+}
+
+export type PostPluginsClusterSync404Code =
+  (typeof PostPluginsClusterSync404Code)[keyof typeof PostPluginsClusterSync404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsClusterSync404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostPluginsClusterSync404 = {
+  code?: PostPluginsClusterSync404Code
+  message?: string
+}
+
+export type PostPluginsClusterSync400Code =
+  (typeof PostPluginsClusterSync400Code)[keyof typeof PostPluginsClusterSync400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsClusterSync400Code = {
+  BAD_PLUGIN_INFO: 'BAD_PLUGIN_INFO',
+} as const
+
+export type PostPluginsClusterSync400 = {
+  code?: PostPluginsClusterSync400Code
   message?: string
 }
 
@@ -372,7 +372,7 @@ export interface PluginsRunningStatus {
   status?: PluginsRunningStatusStatus
 }
 
-export type PluginsPositionPosition = string | 'rear' | 'front'
+export type PluginsPositionPosition = 'front' | 'rear' | string
 
 export interface PluginsPosition {
   position?: PluginsPositionPosition

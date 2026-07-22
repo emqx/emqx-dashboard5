@@ -1,55 +1,3 @@
-export type PutAuthenticationSettings400Code =
-  (typeof PutAuthenticationSettings400Code)[keyof typeof PutAuthenticationSettings400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutAuthenticationSettings400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutAuthenticationSettings400 = {
-  code?: PutAuthenticationSettings400Code
-  message?: string
-}
-
-export type PutAuthenticationOrder400Code =
-  (typeof PutAuthenticationOrder400Code)[keyof typeof PutAuthenticationOrder400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutAuthenticationOrder400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutAuthenticationOrder400 = {
-  code?: PutAuthenticationOrder400Code
-  message?: string
-}
-
-export type GetAuthenticationNodeCacheStatus500Code =
-  (typeof GetAuthenticationNodeCacheStatus500Code)[keyof typeof GetAuthenticationNodeCacheStatus500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthenticationNodeCacheStatus500Code = {
-  INTERNAL_ERROR: 'INTERNAL_ERROR',
-} as const
-
-export type GetAuthenticationNodeCacheStatus500 = {
-  code?: GetAuthenticationNodeCacheStatus500Code
-  message?: string
-}
-
-export type PostAuthenticationNodeCacheReset500Code =
-  (typeof PostAuthenticationNodeCacheReset500Code)[keyof typeof PostAuthenticationNodeCacheReset500Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostAuthenticationNodeCacheReset500Code = {
-  INTERNAL_ERROR: 'INTERNAL_ERROR',
-} as const
-
-export type PostAuthenticationNodeCacheReset500 = {
-  code?: PostAuthenticationNodeCacheReset500Code
-  message?: string
-}
-
 export type PutAuthenticationIdUsersUserId404Code =
   (typeof PutAuthenticationIdUsersUserId404Code)[keyof typeof PutAuthenticationIdUsersUserId404Code]
 
@@ -158,11 +106,11 @@ export type GetAuthenticationIdUsers404 = {
 }
 
 export type GetAuthenticationIdUsersParams = {
-  ns?: string
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
-  like_user_id?: string
+  page?: PublicPageParameter
   is_superuser?: boolean
+  like_user_id?: string
+  ns?: string
 }
 
 export type GetAuthenticationIdStatus500Code =
@@ -381,6 +329,58 @@ export type GetAuthenticationId200 =
   | AuthnScramRestapiGet
   | AuthnScramRestapiPost
 
+export type PutAuthenticationSettings400Code =
+  (typeof PutAuthenticationSettings400Code)[keyof typeof PutAuthenticationSettings400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthenticationSettings400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthenticationSettings400 = {
+  code?: PutAuthenticationSettings400Code
+  message?: string
+}
+
+export type PutAuthenticationOrder400Code =
+  (typeof PutAuthenticationOrder400Code)[keyof typeof PutAuthenticationOrder400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthenticationOrder400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthenticationOrder400 = {
+  code?: PutAuthenticationOrder400Code
+  message?: string
+}
+
+export type GetAuthenticationNodeCacheStatus500Code =
+  (typeof GetAuthenticationNodeCacheStatus500Code)[keyof typeof GetAuthenticationNodeCacheStatus500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthenticationNodeCacheStatus500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type GetAuthenticationNodeCacheStatus500 = {
+  code?: GetAuthenticationNodeCacheStatus500Code
+  message?: string
+}
+
+export type PostAuthenticationNodeCacheReset500Code =
+  (typeof PostAuthenticationNodeCacheReset500Code)[keyof typeof PostAuthenticationNodeCacheReset500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthenticationNodeCacheReset500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostAuthenticationNodeCacheReset500 = {
+  code?: PostAuthenticationNodeCacheReset500Code
+  message?: string
+}
+
 export type PostAuthentication409Code =
   (typeof PostAuthentication409Code)[keyof typeof PostAuthentication409Code]
 
@@ -454,27 +454,27 @@ export type PostAuthenticationBody =
   | AuthnScramRestapiPost
 
 export type GetAuthentication200Item =
+  | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnKerberos
-  | AuthnScramRestapiPost
-  | AuthnScramRestapiGet
   | AuthnGcpDevice
-  | AuthnLdap
-  | AuthnScram
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
   | AuthnJwtJwks
   | AuthnJwtPublicKey
-  | AuthnJwtHmac
-  | AuthnHttpPost
-  | AuthnHttpGet
-  | AuthnRedisSentinel
-  | AuthnRedisCluster
-  | AuthnRedisSingle
-  | AuthnMongoSharded
+  | AuthnKerberos
+  | AuthnLdap
   | AuthnMongoRs
+  | AuthnMongoSharded
   | AuthnMongoSingle
-  | AuthnPostgresql
   | AuthnMysql
-  | AuthnBuiltinDb
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type PublicPageParameter = number
 
@@ -515,15 +515,15 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -567,6 +567,48 @@ export interface LdapSsl {
   versions?: string[]
 }
 
+export interface EmqxAuthnApiResponseUser {
+  is_superuser?: boolean
+  namespace?: string
+  user_id: string
+}
+
+export interface EmqxAuthnApiResponseUsers {
+  data?: EmqxAuthnApiResponseUser[]
+  meta?: PublicMeta
+}
+
+export interface EmqxAuthnApiResponseAuthnSettings {
+  ignore_backend_failures?: boolean
+  node_cache?: AuthCacheConfig
+}
+
+export interface EmqxAuthnApiRequestUserUpdate {
+  is_superuser?: boolean
+  namespace?: string
+  password: string
+}
+
+export interface EmqxAuthnApiRequestUserDelete {
+  namespace?: string
+}
+
+export interface EmqxAuthnApiRequestUserCreate {
+  is_superuser?: boolean
+  namespace?: string
+  password: string
+  user_id: string
+}
+
+export interface EmqxAuthnApiRequestAuthnSettings {
+  ignore_backend_failures?: boolean
+  node_cache?: AuthCacheConfig
+}
+
+export interface EmqxAuthnApiRequestAuthnOrder {
+  id: string
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -576,16 +618,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -635,48 +677,6 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
-export interface EmqxAuthnApiResponseUser {
-  is_superuser?: boolean
-  namespace?: string
-  user_id: string
-}
-
-export interface EmqxAuthnApiResponseUsers {
-  data?: EmqxAuthnApiResponseUser[]
-  meta?: PublicMeta
-}
-
-export interface EmqxAuthnApiResponseAuthnSettings {
-  ignore_backend_failures?: boolean
-  node_cache?: AuthCacheConfig
-}
-
-export interface EmqxAuthnApiRequestUserUpdate {
-  is_superuser?: boolean
-  namespace?: string
-  password: string
-}
-
-export interface EmqxAuthnApiRequestUserDelete {
-  namespace?: string
-}
-
-export interface EmqxAuthnApiRequestUserCreate {
-  is_superuser?: boolean
-  namespace?: string
-  password: string
-  user_id: string
-}
-
-export interface EmqxAuthnApiRequestAuthnSettings {
-  ignore_backend_failures?: boolean
-  node_cache?: AuthCacheConfig
-}
-
-export interface EmqxAuthnApiRequestAuthnOrder {
-  id: string
-}
-
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
 
 export interface ConnectorHttpRequest {
@@ -687,6 +687,108 @@ export interface ConnectorHttpRequest {
   method?: string
   path?: string
   request_timeout?: string
+}
+
+export type AuthnHashSimpleSaltPosition =
+  (typeof AuthnHashSimpleSaltPosition)[keyof typeof AuthnHashSimpleSaltPosition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashSimpleSaltPosition = {
+  disable: 'disable',
+  prefix: 'prefix',
+  suffix: 'suffix',
+} as const
+
+export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof AuthnHashSimpleName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashSimpleName = {
+  md5: 'md5',
+  plain: 'plain',
+  sha: 'sha',
+  sha256: 'sha256',
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashSimple {
+  name: AuthnHashSimpleName
+  salt_position?: AuthnHashSimpleSaltPosition
+}
+
+export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashPbkdf2Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashPbkdf2MacFun =
+  (typeof AuthnHashPbkdf2MacFun)[keyof typeof AuthnHashPbkdf2MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashPbkdf2MacFun = {
+  md4: 'md4',
+  md5: 'md5',
+  ripemd160: 'ripemd160',
+  sha: 'sha',
+  sha224: 'sha224',
+  sha256: 'sha256',
+  sha384: 'sha384',
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashPbkdf2 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashPbkdf2MacFun
+  name: AuthnHashPbkdf2Name
+}
+
+export type AuthnHashBcryptRwApiName =
+  (typeof AuthnHashBcryptRwApiName)[keyof typeof AuthnHashBcryptRwApiName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptRwApiName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcryptRwApi {
+  name: AuthnHashBcryptRwApiName
+  /**
+   * @minimum 5
+   * @maximum 10
+   */
+  salt_rounds?: number
+}
+
+export type AuthnHashBcryptRwName =
+  (typeof AuthnHashBcryptRwName)[keyof typeof AuthnHashBcryptRwName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptRwName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcryptRw {
+  name: AuthnHashBcryptRwName
+  /**
+   * @minimum 5
+   * @maximum 10
+   */
+  salt_rounds?: number
+}
+
+export type AuthnHashBcryptName = (typeof AuthnHashBcryptName)[keyof typeof AuthnHashBcryptName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcrypt {
+  name: AuthnHashBcryptName
 }
 
 export type AuthnScramRestapiPostMethod =
@@ -873,9 +975,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -922,9 +1024,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -974,9 +1076,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -1013,9 +1115,9 @@ export interface AuthnRedisCluster {
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -1083,7 +1185,7 @@ export interface AuthnNodeError {
   node?: string
 }
 
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
 
 export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
 
@@ -1134,15 +1236,15 @@ export type AuthnMongoSingleUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -1211,15 +1313,15 @@ export type AuthnMongoShardedUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1287,9 +1389,9 @@ export type AuthnMongoRsUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoRsRMode = (typeof AuthnMongoRsRMode)[keyof typeof AuthnMongoRsRMode]
@@ -1300,7 +1402,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1611,16 +1713,16 @@ export const AuthnJwksClientSslOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type AuthnJwksClientSslOptsServerNameIndication = string | 'disable'
+export type AuthnJwksClientSslOptsServerNameIndication = 'disable' | string
 
 export type AuthnJwksClientSslOptsPartialChain =
   (typeof AuthnJwksClientSslOptsPartialChain)[keyof typeof AuthnJwksClientSslOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwksClientSslOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -1840,9 +1942,9 @@ export const AuthnBuiltinDbApiUserIdType = {
 } as const
 
 export type AuthnBuiltinDbApiPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcryptRwApi
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnBuiltinDbApiMechanism =
   (typeof AuthnBuiltinDbApiMechanism)[keyof typeof AuthnBuiltinDbApiMechanism]
@@ -1890,9 +1992,9 @@ export const AuthnBuiltinDbUserIdType = {
 } as const
 
 export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcryptRw
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnBuiltinDbMechanism =
   (typeof AuthnBuiltinDbMechanism)[keyof typeof AuthnBuiltinDbMechanism]
@@ -1944,108 +2046,6 @@ export interface AuthnBindMethod {
   type?: AuthnBindMethodType
 }
 
-export type AuthnHashSimpleSaltPosition =
-  (typeof AuthnHashSimpleSaltPosition)[keyof typeof AuthnHashSimpleSaltPosition]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashSimpleSaltPosition = {
-  disable: 'disable',
-  prefix: 'prefix',
-  suffix: 'suffix',
-} as const
-
-export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof AuthnHashSimpleName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashSimpleName = {
-  md5: 'md5',
-  plain: 'plain',
-  sha: 'sha',
-  sha256: 'sha256',
-  sha512: 'sha512',
-} as const
-
-export interface AuthnHashSimple {
-  name: AuthnHashSimpleName
-  salt_position?: AuthnHashSimpleSaltPosition
-}
-
-export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashPbkdf2Name = {
-  pbkdf2: 'pbkdf2',
-} as const
-
-export type AuthnHashPbkdf2MacFun =
-  (typeof AuthnHashPbkdf2MacFun)[keyof typeof AuthnHashPbkdf2MacFun]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashPbkdf2MacFun = {
-  md4: 'md4',
-  md5: 'md5',
-  ripemd160: 'ripemd160',
-  sha: 'sha',
-  sha224: 'sha224',
-  sha256: 'sha256',
-  sha384: 'sha384',
-  sha512: 'sha512',
-} as const
-
-export interface AuthnHashPbkdf2 {
-  /** @minimum 1 */
-  dk_length?: number
-  /** @minimum 1 */
-  iterations: number
-  mac_fun: AuthnHashPbkdf2MacFun
-  name: AuthnHashPbkdf2Name
-}
-
-export type AuthnHashBcryptRwApiName =
-  (typeof AuthnHashBcryptRwApiName)[keyof typeof AuthnHashBcryptRwApiName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptRwApiName = {
-  bcrypt: 'bcrypt',
-} as const
-
-export interface AuthnHashBcryptRwApi {
-  name: AuthnHashBcryptRwApiName
-  /**
-   * @minimum 5
-   * @maximum 10
-   */
-  salt_rounds?: number
-}
-
-export type AuthnHashBcryptRwName =
-  (typeof AuthnHashBcryptRwName)[keyof typeof AuthnHashBcryptRwName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptRwName = {
-  bcrypt: 'bcrypt',
-} as const
-
-export interface AuthnHashBcryptRw {
-  name: AuthnHashBcryptRwName
-  /**
-   * @minimum 5
-   * @maximum 10
-   */
-  salt_rounds?: number
-}
-
-export type AuthnHashBcryptName = (typeof AuthnHashBcryptName)[keyof typeof AuthnHashBcryptName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptName = {
-  bcrypt: 'bcrypt',
-} as const
-
-export interface AuthnHashBcrypt {
-  name: AuthnHashBcryptName
-}
-
 export interface AuthCacheRate {
   rate?: number
   rate_last5m?: number
@@ -2075,9 +2075,9 @@ export interface AuthCacheStatus {
   node_metrics?: AuthCacheNodeMetrics[]
 }
 
-export type AuthCacheConfigMaxMemory = string | 'unlimited'
+export type AuthCacheConfigMaxMemory = 'unlimited' | string
 
-export type AuthCacheConfigMaxCount = number | 'unlimited'
+export type AuthCacheConfigMaxCount = 'unlimited' | number
 
 export interface AuthCacheConfig {
   cache_ttl?: string

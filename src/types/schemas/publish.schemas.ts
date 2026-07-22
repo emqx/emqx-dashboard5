@@ -31,7 +31,7 @@ export interface EmqxMgmtApiPublishPublishError {
   reason_code?: number
 }
 
-export type PostPublishBulk400 = EmqxMgmtApiPublishPublishError[] | EmqxMgmtApiPublishBadRequest
+export type PostPublishBulk400 = EmqxMgmtApiPublishBadRequest | EmqxMgmtApiPublishPublishError[]
 
 export type EmqxMgmtApiPublishMessagePropertiesUserProperties = { [key: string]: unknown }
 

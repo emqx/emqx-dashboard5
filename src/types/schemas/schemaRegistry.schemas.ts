@@ -1,60 +1,3 @@
-export type PutSchemaRegistryName404Code =
-  (typeof PutSchemaRegistryName404Code)[keyof typeof PutSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PutSchemaRegistryName404 = {
-  code?: PutSchemaRegistryName404Code
-  message?: string
-}
-
-export type PutSchemaRegistryName200 =
-  | SchemaRegistryPutAvro
-  | SchemaRegistryPutExternalHttp
-  | SchemaRegistryPutJson
-  | SchemaRegistryPutProtobuf
-
-export type PutSchemaRegistryNameBody =
-  | SchemaRegistryPutAvro
-  | SchemaRegistryPutExternalHttp
-  | SchemaRegistryPutJson
-  | SchemaRegistryPutProtobuf
-
-export type GetSchemaRegistryName404Code =
-  (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetSchemaRegistryName404 = {
-  code?: GetSchemaRegistryName404Code
-  message?: string
-}
-
-export type GetSchemaRegistryName200 =
-  | SchemaRegistryGetAvro
-  | SchemaRegistryGetExternalHttp
-  | SchemaRegistryGetJson
-  | SchemaRegistryGetProtobuf
-
-export type DeleteSchemaRegistryName404Code =
-  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryName404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteSchemaRegistryName404 = {
-  code?: DeleteSchemaRegistryName404Code
-  message?: string
-}
-
 export type PutSchemaRegistryProtobufBundle404Code =
   (typeof PutSchemaRegistryProtobufBundle404Code)[keyof typeof PutSchemaRegistryProtobufBundle404Code]
 
@@ -156,6 +99,63 @@ export type GetSchemaRegistryExternal200 = {
   $name?: GetSchemaRegistryExternal200Name
 }
 
+export type PutSchemaRegistryName404Code =
+  (typeof PutSchemaRegistryName404Code)[keyof typeof PutSchemaRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PutSchemaRegistryName404 = {
+  code?: PutSchemaRegistryName404Code
+  message?: string
+}
+
+export type PutSchemaRegistryName200 =
+  | SchemaRegistryPutAvro
+  | SchemaRegistryPutExternalHttp
+  | SchemaRegistryPutJson
+  | SchemaRegistryPutProtobuf
+
+export type PutSchemaRegistryNameBody =
+  | SchemaRegistryPutAvro
+  | SchemaRegistryPutExternalHttp
+  | SchemaRegistryPutJson
+  | SchemaRegistryPutProtobuf
+
+export type GetSchemaRegistryName404Code =
+  (typeof GetSchemaRegistryName404Code)[keyof typeof GetSchemaRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetSchemaRegistryName404 = {
+  code?: GetSchemaRegistryName404Code
+  message?: string
+}
+
+export type GetSchemaRegistryName200 =
+  | SchemaRegistryGetAvro
+  | SchemaRegistryGetExternalHttp
+  | SchemaRegistryGetJson
+  | SchemaRegistryGetProtobuf
+
+export type DeleteSchemaRegistryName404Code =
+  (typeof DeleteSchemaRegistryName404Code)[keyof typeof DeleteSchemaRegistryName404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSchemaRegistryName404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteSchemaRegistryName404 = {
+  code?: DeleteSchemaRegistryName404Code
+  message?: string
+}
+
 export type PostSchemaRegistry400Code =
   (typeof PostSchemaRegistry400Code)[keyof typeof PostSchemaRegistry400Code]
 
@@ -182,10 +182,10 @@ export type PostSchemaRegistryBody =
   | SchemaRegistryPostProtobuf
 
 export type GetSchemaRegistry200Item =
+  | SchemaRegistryGetAvro
   | SchemaRegistryGetExternalHttp
   | SchemaRegistryGetJson
   | SchemaRegistryGetProtobuf
-  | SchemaRegistryGetAvro
 
 export type SchemaRegistryPutProtobufType =
   (typeof SchemaRegistryPutProtobufType)[keyof typeof SchemaRegistryPutProtobufType]
@@ -474,16 +474,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 

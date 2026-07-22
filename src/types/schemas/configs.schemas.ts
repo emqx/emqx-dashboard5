@@ -1,3 +1,34 @@
+export type PostConfigsResetRootname403Code =
+  (typeof PostConfigsResetRootname403Code)[keyof typeof PostConfigsResetRootname403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostConfigsResetRootname403Code = {
+  RESET_FAILED: 'RESET_FAILED',
+} as const
+
+export type PostConfigsResetRootname403 = {
+  code?: PostConfigsResetRootname403Code
+  message?: string
+}
+
+export type PostConfigsResetRootname400Code =
+  (typeof PostConfigsResetRootname400Code)[keyof typeof PostConfigsResetRootname400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostConfigsResetRootname400Code = {
+  NO_DEFAULT_VALUE: 'NO_DEFAULT_VALUE',
+  RESET_FAILED: 'RESET_FAILED',
+} as const
+
+export type PostConfigsResetRootname400 = {
+  code?: PostConfigsResetRootname400Code
+  message?: string
+}
+
+export type PostConfigsResetRootnameParams = {
+  conf_path?: string
+}
+
 export type PutConfigsSysmon403Code =
   (typeof PutConfigsSysmon403Code)[keyof typeof PutConfigsSysmon403Code]
 
@@ -357,37 +388,6 @@ export type GetConfigsA2aRegistry404 = {
   message?: string
 }
 
-export type PostConfigsResetRootname403Code =
-  (typeof PostConfigsResetRootname403Code)[keyof typeof PostConfigsResetRootname403Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostConfigsResetRootname403Code = {
-  RESET_FAILED: 'RESET_FAILED',
-} as const
-
-export type PostConfigsResetRootname403 = {
-  code?: PostConfigsResetRootname403Code
-  message?: string
-}
-
-export type PostConfigsResetRootname400Code =
-  (typeof PostConfigsResetRootname400Code)[keyof typeof PostConfigsResetRootname400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostConfigsResetRootname400Code = {
-  NO_DEFAULT_VALUE: 'NO_DEFAULT_VALUE',
-  RESET_FAILED: 'RESET_FAILED',
-} as const
-
-export type PostConfigsResetRootname400 = {
-  code?: PostConfigsResetRootname400Code
-  message?: string
-}
-
-export type PostConfigsResetRootnameParams = {
-  conf_path?: string
-}
-
 export type PutConfigs400Code = (typeof PutConfigs400Code)[keyof typeof PutConfigs400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -409,8 +409,8 @@ export const PutConfigsMode = {
 } as const
 
 export type PutConfigsParams = {
-  mode?: PutConfigsMode
   ignore_readonly?: boolean
+  mode?: PutConfigsMode
 }
 
 export type GetConfigs500Code = (typeof GetConfigs500Code)[keyof typeof GetConfigs500Code]
@@ -663,15 +663,15 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -792,11 +792,11 @@ export interface FileTransferFileTransfer {
   store_segment_timeout?: string
 }
 
-export type EmqxSysmonVmLongSchedule = string | 'disabled'
+export type EmqxSysmonVmLongSchedule = 'disabled' | string
 
-export type EmqxSysmonVmLongGc = string | 'disabled'
+export type EmqxSysmonVmLongGc = 'disabled' | string
 
-export type EmqxSysmonVmLargeHeap = string | 'disabled'
+export type EmqxSysmonVmLargeHeap = 'disabled' | string
 
 export interface EmqxSysmonVm {
   busy_dist_port?: boolean
@@ -813,7 +813,7 @@ export interface EmqxSysmonSession {
   total_payload_bytes_high_watermark?: string
 }
 
-export type EmqxSysmonOsMemCheckInterval = string | 'disabled'
+export type EmqxSysmonOsMemCheckInterval = 'disabled' | string
 
 export interface EmqxSysmonOs {
   cpu_check_interval?: string
@@ -834,9 +834,9 @@ export interface EmqxSysmon {
   vm?: EmqxSysmonVm
 }
 
-export type EmqxSysTopicsSysMsgInterval = string | 'disabled'
+export type EmqxSysTopicsSysMsgInterval = 'disabled' | string
 
-export type EmqxSysTopicsSysHeartbeatInterval = string | 'disabled'
+export type EmqxSysTopicsSysHeartbeatInterval = 'disabled' | string
 
 export interface EmqxSysTopics {
   sys_event_messages?: EmqxEventNames
@@ -853,16 +853,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -943,7 +943,7 @@ export const EmqxMqttSharedSubscriptionInitialStickyPick = {
 
 export type EmqxMqttServerKeepalive = 'disabled' | number
 
-export type EmqxMqttRetryInterval = string | 'infinity'
+export type EmqxMqttRetryInterval = 'infinity' | string
 
 export type EmqxMqttPeerCertAsUsername =
   (typeof EmqxMqttPeerCertAsUsername)[keyof typeof EmqxMqttPeerCertAsUsername]
@@ -973,7 +973,7 @@ export const EmqxMqttPeerCertAsClientid = {
 
 export type EmqxMqttMqueuePrioritiesOneOf = { [key: string]: unknown }
 
-export type EmqxMqttMqueuePriorities = EmqxMqttMqueuePrioritiesOneOf | 'disabled'
+export type EmqxMqttMqueuePriorities = 'disabled' | EmqxMqttMqueuePrioritiesOneOf
 
 export type EmqxMqttMqueueDefaultPriority =
   (typeof EmqxMqttMqueueDefaultPriority)[keyof typeof EmqxMqttMqueueDefaultPriority]
@@ -994,9 +994,9 @@ export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
 export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
-export type EmqxMqttIdleTimeout = string | 'infinity'
+export type EmqxMqttIdleTimeout = 'infinity' | string
 
-export type EmqxMqttClientidOverride = string | 'disabled'
+export type EmqxMqttClientidOverride = 'disabled' | string
 
 export interface EmqxMqtt {
   await_rel_timeout?: string
@@ -1085,7 +1085,7 @@ export const EmqxLogFileHandlerTimestampFormat = {
   rfc3339: 'rfc3339',
 } as const
 
-export type EmqxLogFileHandlerRotationSize = string | 'infinity'
+export type EmqxLogFileHandlerRotationSize = 'infinity' | string
 
 export type EmqxLogFileHandlerPayloadEncode =
   (typeof EmqxLogFileHandlerPayloadEncode)[keyof typeof EmqxLogFileHandlerPayloadEncode]
@@ -1148,7 +1148,7 @@ export const EmqxLogAuditHandlerTimestampFormat = {
   rfc3339: 'rfc3339',
 } as const
 
-export type EmqxLogAuditHandlerRotationSize = string | 'infinity'
+export type EmqxLogAuditHandlerRotationSize = 'infinity' | string
 
 export type EmqxLogAuditHandlerPayloadEncode =
   (typeof EmqxLogAuditHandlerPayloadEncode)[keyof typeof EmqxLogAuditHandlerPayloadEncode]
@@ -1184,7 +1184,7 @@ export type EmqxLogFileOneOf = {
   $handler_name?: EmqxLogFileHandler
 }
 
-export type EmqxLogFile = EmqxLogFileOneOf | EmqxLogFileHandler
+export type EmqxLogFile = EmqxLogFileHandler | EmqxLogFileOneOf
 
 export interface EmqxLog {
   audit?: EmqxLogAuditHandler
@@ -1349,13 +1349,13 @@ export type DashboardSslOptionsPartialChain =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DashboardSslOptionsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
-export type DashboardSslOptionsManagedCerts = EmqxManagedCertsServer[] | EmqxManagedCertsServer
+export type DashboardSslOptionsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
 
 export type DashboardSslOptionsLogLevel =
   (typeof DashboardSslOptionsLogLevel)[keyof typeof DashboardSslOptionsLogLevel]

@@ -1,3 +1,46 @@
+export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type PutSsoBackend404 = {
+  code?: PutSsoBackend404Code
+  message?: string
+}
+
+export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+
+export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
+
+export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type GetSsoBackend404 = {
+  code?: GetSsoBackend404Code
+  message?: string
+}
+
+export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
+
+export type DeleteSsoBackend404Code =
+  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteSsoBackend404Code = {
+  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
+} as const
+
+export type DeleteSsoBackend404 = {
+  code?: DeleteSsoBackend404Code
+  message?: string
+}
+
 export type PostSsoTokenExchange400Code =
   (typeof PostSsoTokenExchange400Code)[keyof typeof PostSsoTokenExchange400Code]
 
@@ -265,49 +308,6 @@ export type PostSsoLoginBackend200 =
 
 export type PostSsoLoginBackendBody = DashboardLogin | SsoLogin | SsoLogin
 
-export type PutSsoBackend404Code = (typeof PutSsoBackend404Code)[keyof typeof PutSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type PutSsoBackend404 = {
-  code?: PutSsoBackend404Code
-  message?: string
-}
-
-export type PutSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
-
-export type PutSsoBackendBody = DashboardSaml | SsoLdap | SsoOidc
-
-export type GetSsoBackend404Code = (typeof GetSsoBackend404Code)[keyof typeof GetSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type GetSsoBackend404 = {
-  code?: GetSsoBackend404Code
-  message?: string
-}
-
-export type GetSsoBackend200 = DashboardSaml | SsoLdap | SsoOidc
-
-export type DeleteSsoBackend404Code =
-  (typeof DeleteSsoBackend404Code)[keyof typeof DeleteSsoBackend404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSsoBackend404Code = {
-  BACKEND_NOT_FOUND: 'BACKEND_NOT_FOUND',
-} as const
-
-export type DeleteSsoBackend404 = {
-  code?: DeleteSsoBackend404Code
-  message?: string
-}
-
 export type SsoOidcRoleSource = (typeof SsoOidcRoleSource)[keyof typeof SsoOidcRoleSource]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -425,15 +425,15 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -502,16 +502,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -561,36 +561,29 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
-export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DashboardSamlBackend = {
-  saml: 'saml',
-} as const
-
-export interface DashboardSaml {
-  backend: DashboardSamlBackend
-  dashboard_addr?: string
-  enable?: boolean
-  force_mfa?: boolean
-  idp_metadata_url?: string
-  idp_signs_assertions?: boolean
-  idp_signs_envelopes?: boolean
-  sp_private_key?: string
-  sp_public_key?: string
-  sp_sign_request?: boolean
+export interface DashboardSsoMfaMfaVerifyRequest {
+  backend: string
+  totp_code: string
+  username: string
+  verify_token: string
 }
 
-export type DashboardLoginBackend =
-  (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
+export interface DashboardSsoMfaMfaSetupRequest {
+  backend: string
+  setup_token: string
+  totp_code: string
+  username: string
+}
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DashboardLoginBackend = {
-  saml: 'saml',
-} as const
+export interface DashboardSsoMfaMfaSetupInfoResponse {
+  mechanism: string
+  secret: string
+}
 
-export interface DashboardLogin {
-  backend: DashboardLoginBackend
+export interface DashboardSsoMfaMfaSetupInfoRequest {
+  backend: string
+  setup_token: string
+  username: string
 }
 
 export interface DashboardSsoTokenExchangeRequest {
@@ -654,27 +647,34 @@ export interface DashboardSsoBackendStatus {
   running?: boolean
 }
 
-export interface DashboardSsoMfaMfaVerifyRequest {
-  backend: string
-  totp_code: string
-  username: string
-  verify_token: string
+export type DashboardSamlBackend = (typeof DashboardSamlBackend)[keyof typeof DashboardSamlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardSamlBackend = {
+  saml: 'saml',
+} as const
+
+export interface DashboardSaml {
+  backend: DashboardSamlBackend
+  dashboard_addr?: string
+  enable?: boolean
+  force_mfa?: boolean
+  idp_metadata_url?: string
+  idp_signs_assertions?: boolean
+  idp_signs_envelopes?: boolean
+  sp_private_key?: string
+  sp_public_key?: string
+  sp_sign_request?: boolean
 }
 
-export interface DashboardSsoMfaMfaSetupRequest {
-  backend: string
-  setup_token: string
-  totp_code: string
-  username: string
-}
+export type DashboardLoginBackend =
+  (typeof DashboardLoginBackend)[keyof typeof DashboardLoginBackend]
 
-export interface DashboardSsoMfaMfaSetupInfoResponse {
-  mechanism: string
-  secret: string
-}
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardLoginBackend = {
+  saml: 'saml',
+} as const
 
-export interface DashboardSsoMfaMfaSetupInfoRequest {
-  backend: string
-  setup_token: string
-  username: string
+export interface DashboardLogin {
+  backend: DashboardLoginBackend
 }

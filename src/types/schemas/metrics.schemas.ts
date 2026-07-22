@@ -4,6 +4,19 @@ export type GetStatsParams = {
   aggregate?: EmqxMgmtApiStatsAggregateParameter
 }
 
+export type GetMonitorCurrentNodesNode404Code =
+  (typeof GetMonitorCurrentNodesNode404Code)[keyof typeof GetMonitorCurrentNodesNode404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMonitorCurrentNodesNode404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetMonitorCurrentNodesNode404 = {
+  code?: GetMonitorCurrentNodesNode404Code
+  message?: string
+}
+
 export type GetMonitorNodesNode404Code =
   (typeof GetMonitorNodesNode404Code)[keyof typeof GetMonitorNodesNode404Code]
 
@@ -19,19 +32,6 @@ export type GetMonitorNodesNode404 = {
 
 export type GetMonitorNodesNodeParams = {
   latest?: number
-}
-
-export type GetMonitorCurrentNodesNode404Code =
-  (typeof GetMonitorCurrentNodesNode404Code)[keyof typeof GetMonitorCurrentNodesNode404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMonitorCurrentNodesNode404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetMonitorCurrentNodesNode404 = {
-  code?: GetMonitorCurrentNodesNode404Code
-  message?: string
 }
 
 export type GetMonitor400Code = (typeof GetMonitor400Code)[keyof typeof GetMonitor400Code]
@@ -50,7 +50,7 @@ export type GetMonitorParams = {
   latest?: number
 }
 
-export type GetMetrics200 = EmqxMgmtApiMetricsNodeMetrics[] | EmqxMgmtApiMetricsAggregatedMetrics
+export type GetMetrics200 = EmqxMgmtApiMetricsAggregatedMetrics | EmqxMgmtApiMetricsNodeMetrics[]
 
 export type GetMetricsParams = {
   aggregate?: boolean

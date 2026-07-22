@@ -1,3 +1,88 @@
+export type GetSourcesSummaryParams = {
+  ns?: string
+  only_global?: boolean
+}
+
+export type PostSourcesProbe400Code =
+  (typeof PostSourcesProbe400Code)[keyof typeof PostSourcesProbe400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesProbe400Code = {
+  TEST_FAILED: 'TEST_FAILED',
+} as const
+
+export type PostSourcesProbe400 = {
+  code?: PostSourcesProbe400Code
+  message?: string
+}
+
+export type PostSourcesProbeBody =
+  | ActionSourceAzureEventGridPostSource
+  | BridgeMqttPublisherPostSource
+  | BridgeRabbitmqPostSource
+  | GcpPubsubConsumerPostSource
+  | KafkaConsumerPostSource
+
+export type PostSourcesProbeParams = {
+  ns?: string
+}
+
+export type PostSourcesIdOperation503Code =
+  (typeof PostSourcesIdOperation503Code)[keyof typeof PostSourcesIdOperation503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesIdOperation503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostSourcesIdOperation503 = {
+  code?: PostSourcesIdOperation503Code
+  message?: string
+}
+
+export type PostSourcesIdOperation501Code =
+  (typeof PostSourcesIdOperation501Code)[keyof typeof PostSourcesIdOperation501Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesIdOperation501Code = {
+  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
+} as const
+
+export type PostSourcesIdOperation501 = {
+  code?: PostSourcesIdOperation501Code
+  message?: string
+}
+
+export type PostSourcesIdOperation404Code =
+  (typeof PostSourcesIdOperation404Code)[keyof typeof PostSourcesIdOperation404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesIdOperation404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostSourcesIdOperation404 = {
+  code?: PostSourcesIdOperation404Code
+  message?: string
+}
+
+export type PostSourcesIdOperation400Code =
+  (typeof PostSourcesIdOperation400Code)[keyof typeof PostSourcesIdOperation400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostSourcesIdOperation400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostSourcesIdOperation400 = {
+  code?: PostSourcesIdOperation400Code
+  message?: string
+}
+
+export type PostSourcesIdOperationParams = {
+  ns?: string
+}
+
 export type PutSourcesIdMetricsReset404Code =
   (typeof PutSourcesIdMetricsReset404Code)[keyof typeof PutSourcesIdMetricsReset404Code]
 
@@ -64,62 +149,6 @@ export type PutSourcesIdEnableEnable404 = {
 }
 
 export type PutSourcesIdEnableEnableParams = {
-  ns?: string
-}
-
-export type PostSourcesIdOperation503Code =
-  (typeof PostSourcesIdOperation503Code)[keyof typeof PostSourcesIdOperation503Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesIdOperation503Code = {
-  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
-} as const
-
-export type PostSourcesIdOperation503 = {
-  code?: PostSourcesIdOperation503Code
-  message?: string
-}
-
-export type PostSourcesIdOperation501Code =
-  (typeof PostSourcesIdOperation501Code)[keyof typeof PostSourcesIdOperation501Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesIdOperation501Code = {
-  NOT_IMPLEMENTED: 'NOT_IMPLEMENTED',
-} as const
-
-export type PostSourcesIdOperation501 = {
-  code?: PostSourcesIdOperation501Code
-  message?: string
-}
-
-export type PostSourcesIdOperation404Code =
-  (typeof PostSourcesIdOperation404Code)[keyof typeof PostSourcesIdOperation404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesIdOperation404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PostSourcesIdOperation404 = {
-  code?: PostSourcesIdOperation404Code
-  message?: string
-}
-
-export type PostSourcesIdOperation400Code =
-  (typeof PostSourcesIdOperation400Code)[keyof typeof PostSourcesIdOperation400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesIdOperation400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostSourcesIdOperation400 = {
-  code?: PostSourcesIdOperation400Code
-  message?: string
-}
-
-export type PostSourcesIdOperationParams = {
   ns?: string
 }
 
@@ -245,35 +274,6 @@ export type DeleteSourcesIdParams = {
   ns?: string
 }
 
-export type GetSourcesSummaryParams = {
-  ns?: string
-  only_global?: boolean
-}
-
-export type PostSourcesProbe400Code =
-  (typeof PostSourcesProbe400Code)[keyof typeof PostSourcesProbe400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSourcesProbe400Code = {
-  TEST_FAILED: 'TEST_FAILED',
-} as const
-
-export type PostSourcesProbe400 = {
-  code?: PostSourcesProbe400Code
-  message?: string
-}
-
-export type PostSourcesProbeBody =
-  | ActionSourceAzureEventGridPostSource
-  | BridgeMqttPublisherPostSource
-  | BridgeRabbitmqPostSource
-  | GcpPubsubConsumerPostSource
-  | KafkaConsumerPostSource
-
-export type PostSourcesProbeParams = {
-  ns?: string
-}
-
 export type PostSources400Code = (typeof PostSources400Code)[keyof typeof PostSources400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -305,11 +305,11 @@ export type PostSourcesParams = {
 }
 
 export type GetSources200Item =
-  | BridgeRabbitmqGetSource
-  | BridgeMqttPublisherGetSource
-  | KafkaConsumerGetSource
-  | GcpPubsubConsumerGetSource
   | ActionSourceAzureEventGridGetSource
+  | BridgeMqttPublisherGetSource
+  | BridgeRabbitmqGetSource
+  | GcpPubsubConsumerGetSource
+  | KafkaConsumerGetSource
 
 export type GetSourcesParams = {
   ns?: string

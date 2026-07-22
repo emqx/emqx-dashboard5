@@ -21,10 +21,10 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetTopicsParams = {
+  limit?: PublicLimitParameter
+  page?: PublicPageParameter
   topic?: string
   node?: string
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
 }
 
 export interface PublicMeta {

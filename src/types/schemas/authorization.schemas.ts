@@ -1,3 +1,137 @@
+export type GetAuthorizationSourcesTypeStatus404Code =
+  (typeof GetAuthorizationSourcesTypeStatus404Code)[keyof typeof GetAuthorizationSourcesTypeStatus404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesTypeStatus404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetAuthorizationSourcesTypeStatus404 = {
+  code?: GetAuthorizationSourcesTypeStatus404Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesTypeStatus400Code =
+  (typeof GetAuthorizationSourcesTypeStatus400Code)[keyof typeof GetAuthorizationSourcesTypeStatus400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesTypeStatus400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetAuthorizationSourcesTypeStatus400 = {
+  code?: GetAuthorizationSourcesTypeStatus400Code
+  message?: string
+}
+
+export type PostAuthorizationSourcesTypeMove404Code =
+  (typeof PostAuthorizationSourcesTypeMove404Code)[keyof typeof PostAuthorizationSourcesTypeMove404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesTypeMove404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostAuthorizationSourcesTypeMove404 = {
+  code?: PostAuthorizationSourcesTypeMove404Code
+  message?: string
+}
+
+export type PostAuthorizationSourcesTypeMove400Code =
+  (typeof PostAuthorizationSourcesTypeMove400Code)[keyof typeof PostAuthorizationSourcesTypeMove400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesTypeMove400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostAuthorizationSourcesTypeMove400 = {
+  code?: PostAuthorizationSourcesTypeMove400Code
+  message?: string
+}
+
+export type PostAuthorizationSourcesTypeMetricsReset404Code =
+  (typeof PostAuthorizationSourcesTypeMetricsReset404Code)[keyof typeof PostAuthorizationSourcesTypeMetricsReset404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesTypeMetricsReset404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostAuthorizationSourcesTypeMetricsReset404 = {
+  code?: PostAuthorizationSourcesTypeMetricsReset404Code
+  message?: string
+}
+
+export type PutAuthorizationSourcesType400Code =
+  (typeof PutAuthorizationSourcesType400Code)[keyof typeof PutAuthorizationSourcesType400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesType400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutAuthorizationSourcesType400 = {
+  code?: PutAuthorizationSourcesType400Code
+  message?: string
+}
+
+export type PutAuthorizationSourcesTypeBody =
+  | AuthzApiFile
+  | AuthzBuiltinDb
+  | AuthzHttpGet
+  | AuthzHttpPost
+  | AuthzLdap
+  | AuthzMongoRs
+  | AuthzMongoSharded
+  | AuthzMongoSingle
+  | AuthzMysql
+  | AuthzPostgresql
+  | AuthzRedisCluster
+  | AuthzRedisSentinel
+  | AuthzRedisSingle
+
+export type GetAuthorizationSourcesType404Code =
+  (typeof GetAuthorizationSourcesType404Code)[keyof typeof GetAuthorizationSourcesType404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSourcesType404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type GetAuthorizationSourcesType404 = {
+  code?: GetAuthorizationSourcesType404Code
+  message?: string
+}
+
+export type GetAuthorizationSourcesType200 =
+  | AuthzApiFile
+  | AuthzBuiltinDb
+  | AuthzHttpGet
+  | AuthzHttpPost
+  | AuthzLdap
+  | AuthzMongoRs
+  | AuthzMongoSharded
+  | AuthzMongoSingle
+  | AuthzMysql
+  | AuthzPostgresql
+  | AuthzRedisCluster
+  | AuthzRedisSentinel
+  | AuthzRedisSingle
+
+export type DeleteAuthorizationSourcesType400Code =
+  (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteAuthorizationSourcesType400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteAuthorizationSourcesType400 = {
+  code?: DeleteAuthorizationSourcesType400Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesOrder400Code =
   (typeof PutAuthorizationSourcesOrder400Code)[keyof typeof PutAuthorizationSourcesOrder400Code]
 
@@ -171,8 +305,8 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesUsers403 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
   like_username?: string
   ns?: string
 }
@@ -324,8 +458,8 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesClients403 = {
 }
 
 export type GetAuthorizationSourcesBuiltInDatabaseRulesClientsParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
   like_clientid?: string
   ns?: string
 }
@@ -422,140 +556,6 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRules400 = {
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesParams = {
   ns?: string
-}
-
-export type GetAuthorizationSourcesTypeStatus404Code =
-  (typeof GetAuthorizationSourcesTypeStatus404Code)[keyof typeof GetAuthorizationSourcesTypeStatus404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthorizationSourcesTypeStatus404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetAuthorizationSourcesTypeStatus404 = {
-  code?: GetAuthorizationSourcesTypeStatus404Code
-  message?: string
-}
-
-export type GetAuthorizationSourcesTypeStatus400Code =
-  (typeof GetAuthorizationSourcesTypeStatus400Code)[keyof typeof GetAuthorizationSourcesTypeStatus400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthorizationSourcesTypeStatus400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetAuthorizationSourcesTypeStatus400 = {
-  code?: GetAuthorizationSourcesTypeStatus400Code
-  message?: string
-}
-
-export type PostAuthorizationSourcesTypeMove404Code =
-  (typeof PostAuthorizationSourcesTypeMove404Code)[keyof typeof PostAuthorizationSourcesTypeMove404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostAuthorizationSourcesTypeMove404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PostAuthorizationSourcesTypeMove404 = {
-  code?: PostAuthorizationSourcesTypeMove404Code
-  message?: string
-}
-
-export type PostAuthorizationSourcesTypeMove400Code =
-  (typeof PostAuthorizationSourcesTypeMove400Code)[keyof typeof PostAuthorizationSourcesTypeMove400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostAuthorizationSourcesTypeMove400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PostAuthorizationSourcesTypeMove400 = {
-  code?: PostAuthorizationSourcesTypeMove400Code
-  message?: string
-}
-
-export type PostAuthorizationSourcesTypeMetricsReset404Code =
-  (typeof PostAuthorizationSourcesTypeMetricsReset404Code)[keyof typeof PostAuthorizationSourcesTypeMetricsReset404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostAuthorizationSourcesTypeMetricsReset404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type PostAuthorizationSourcesTypeMetricsReset404 = {
-  code?: PostAuthorizationSourcesTypeMetricsReset404Code
-  message?: string
-}
-
-export type PutAuthorizationSourcesType400Code =
-  (typeof PutAuthorizationSourcesType400Code)[keyof typeof PutAuthorizationSourcesType400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutAuthorizationSourcesType400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutAuthorizationSourcesType400 = {
-  code?: PutAuthorizationSourcesType400Code
-  message?: string
-}
-
-export type PutAuthorizationSourcesTypeBody =
-  | AuthzApiFile
-  | AuthzBuiltinDb
-  | AuthzHttpGet
-  | AuthzHttpPost
-  | AuthzLdap
-  | AuthzMongoRs
-  | AuthzMongoSharded
-  | AuthzMongoSingle
-  | AuthzMysql
-  | AuthzPostgresql
-  | AuthzRedisCluster
-  | AuthzRedisSentinel
-  | AuthzRedisSingle
-
-export type GetAuthorizationSourcesType404Code =
-  (typeof GetAuthorizationSourcesType404Code)[keyof typeof GetAuthorizationSourcesType404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetAuthorizationSourcesType404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type GetAuthorizationSourcesType404 = {
-  code?: GetAuthorizationSourcesType404Code
-  message?: string
-}
-
-export type GetAuthorizationSourcesType200 =
-  | AuthzApiFile
-  | AuthzBuiltinDb
-  | AuthzHttpGet
-  | AuthzHttpPost
-  | AuthzLdap
-  | AuthzMongoRs
-  | AuthzMongoSharded
-  | AuthzMongoSingle
-  | AuthzMysql
-  | AuthzPostgresql
-  | AuthzRedisCluster
-  | AuthzRedisSentinel
-  | AuthzRedisSingle
-
-export type DeleteAuthorizationSourcesType400Code =
-  (typeof DeleteAuthorizationSourcesType400Code)[keyof typeof DeleteAuthorizationSourcesType400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteAuthorizationSourcesType400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteAuthorizationSourcesType400 = {
-  code?: DeleteAuthorizationSourcesType400Code
-  message?: string
 }
 
 export type PostAuthorizationSources400Code =
@@ -768,15 +768,15 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -820,6 +820,190 @@ export interface LdapSsl {
   versions?: string[]
 }
 
+export interface EmqxAuthzSchemaResourceMetrics {
+  failed?: number
+  matched?: number
+  rate?: number
+  rate_last5m?: number
+  rate_max?: number
+  success?: number
+}
+
+export type EmqxAuthzSchemaNodeStatusStatus =
+  (typeof EmqxAuthzSchemaNodeStatusStatus)[keyof typeof EmqxAuthzSchemaNodeStatusStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzSchemaNodeStatusStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+} as const
+
+export interface EmqxAuthzSchemaNodeStatus {
+  node?: string
+  status?: EmqxAuthzSchemaNodeStatusStatus
+}
+
+export interface EmqxAuthzSchemaNodeResourceMetrics {
+  metrics?: EmqxAuthzSchemaResourceMetrics
+  node?: string
+}
+
+export interface EmqxAuthzSchemaNodeError {
+  error?: string
+  node?: string
+}
+
+export type EmqxAuthzSchemaMetricsStatusFieldsStatus =
+  (typeof EmqxAuthzSchemaMetricsStatusFieldsStatus)[keyof typeof EmqxAuthzSchemaMetricsStatusFieldsStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface EmqxAuthzSchemaMetrics {
+  allow?: number
+  deny?: number
+  ignore?: number
+  nomatch?: number
+  rate?: number
+  rate_last5m?: number
+  rate_max?: number
+  total?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  metrics?: EmqxAuthzSchemaMetrics
+  node?: string
+}
+
+export interface EmqxAuthzSchemaMetricsStatusFields {
+  metrics?: EmqxAuthzSchemaMetrics
+  node_error?: EmqxAuthzSchemaNodeError[]
+  node_metrics?: EmqxAuthzSchemaNodeMetrics[]
+  node_resource_metrics?: EmqxAuthzSchemaNodeResourceMetrics[]
+  node_status?: EmqxAuthzSchemaNodeStatus[]
+  resource_metrics?: EmqxAuthzSchemaResourceMetrics
+  status?: EmqxAuthzSchemaMetricsStatusFieldsStatus
+}
+
+export type EmqxAuthzApiSourcesSourcesSourcesItem =
+  | AuthzBuiltinDb
+  | AuthzFile
+  | AuthzHttpGet
+  | AuthzHttpPost
+  | AuthzLdap
+  | AuthzMongoRs
+  | AuthzMongoSharded
+  | AuthzMongoSingle
+  | AuthzMysql
+  | AuthzPostgresql
+  | AuthzRedisCluster
+  | AuthzRedisSentinel
+  | AuthzRedisSingle
+
+export interface EmqxAuthzApiSourcesSources {
+  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
+}
+
+export type EmqxAuthzApiSourcesRequestSourcesOrderType =
+  (typeof EmqxAuthzApiSourcesRequestSourcesOrderType)[keyof typeof EmqxAuthzApiSourcesRequestSourcesOrderType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiSourcesRequestSourcesOrderType = {
+  built_in_database: 'built_in_database',
+  file: 'file',
+  http: 'http',
+  ldap: 'ldap',
+  mongodb: 'mongodb',
+  mysql: 'mysql',
+  postgresql: 'postgresql',
+  redis: 'redis',
+} as const
+
+export interface EmqxAuthzApiSourcesRequestSourcesOrder {
+  type: EmqxAuthzApiSourcesRequestSourcesOrderType
+}
+
+export interface EmqxAuthzApiSourcesPosition {
+  position: string
+}
+
+export interface EmqxAuthzApiMnesiaRulesForUsername {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  username: string
+}
+
+export interface EmqxAuthzApiMnesiaUsernameResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForUsername[]
+  meta?: PublicMeta
+}
+
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  clientid: string
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+}
+
+export interface EmqxAuthzApiMnesiaRules {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+}
+
+export type EmqxAuthzApiMnesiaRuleItemRetain = 'all' | boolean
+
+export type EmqxAuthzApiMnesiaRuleItemPermission =
+  (typeof EmqxAuthzApiMnesiaRuleItemPermission)[keyof typeof EmqxAuthzApiMnesiaRuleItemPermission]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiMnesiaRuleItemPermission = {
+  allow: 'allow',
+  deny: 'deny',
+} as const
+
+export type EmqxAuthzApiMnesiaRuleItemAction =
+  (typeof EmqxAuthzApiMnesiaRuleItemAction)[keyof typeof EmqxAuthzApiMnesiaRuleItemAction]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthzApiMnesiaRuleItemAction = {
+  all: 'all',
+  publish: 'publish',
+  subscribe: 'subscribe',
+} as const
+
+export interface EmqxAuthzApiMnesiaRuleItem {
+  action: EmqxAuthzApiMnesiaRuleItemAction
+  clientid_re?: string
+  ipaddr?: string
+  listener?: string
+  listener_re?: string
+  permission: EmqxAuthzApiMnesiaRuleItemPermission
+  qos?: number[]
+  retain?: EmqxAuthzApiMnesiaRuleItemRetain
+  topic: string
+  username_re?: string
+  zone?: string
+  zone_re?: string
+}
+
+export interface EmqxAuthzApiMnesiaClientidResponseData {
+  data?: EmqxAuthzApiMnesiaRulesForClientid[]
+  meta?: PublicMeta
+}
+
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = 'unlimited' | string
+
+export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = 'unlimited' | number
+
+export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
+  cache_ttl?: string
+  enable?: boolean
+  max_count?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount
+  max_memory?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -829,16 +1013,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -897,190 +1081,6 @@ export interface EmqxAuthzCache {
    */
   max_size?: number
   ttl?: string
-}
-
-export interface EmqxAuthzSchemaResourceMetrics {
-  failed?: number
-  matched?: number
-  rate?: number
-  rate_last5m?: number
-  rate_max?: number
-  success?: number
-}
-
-export type EmqxAuthzSchemaNodeStatusStatus =
-  (typeof EmqxAuthzSchemaNodeStatusStatus)[keyof typeof EmqxAuthzSchemaNodeStatusStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzSchemaNodeStatusStatus = {
-  connected: 'connected',
-  connecting: 'connecting',
-  disconnected: 'disconnected',
-} as const
-
-export interface EmqxAuthzSchemaNodeStatus {
-  node?: string
-  status?: EmqxAuthzSchemaNodeStatusStatus
-}
-
-export interface EmqxAuthzSchemaNodeResourceMetrics {
-  metrics?: EmqxAuthzSchemaResourceMetrics
-  node?: string
-}
-
-export interface EmqxAuthzSchemaNodeMetrics {
-  metrics?: EmqxAuthzSchemaMetrics
-  node?: string
-}
-
-export interface EmqxAuthzSchemaNodeError {
-  error?: string
-  node?: string
-}
-
-export type EmqxAuthzSchemaMetricsStatusFieldsStatus =
-  (typeof EmqxAuthzSchemaMetricsStatusFieldsStatus)[keyof typeof EmqxAuthzSchemaMetricsStatusFieldsStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzSchemaMetricsStatusFieldsStatus = {
-  connected: 'connected',
-  connecting: 'connecting',
-  disconnected: 'disconnected',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface EmqxAuthzSchemaMetrics {
-  allow?: number
-  deny?: number
-  ignore?: number
-  nomatch?: number
-  rate?: number
-  rate_last5m?: number
-  rate_max?: number
-  total?: number
-}
-
-export interface EmqxAuthzSchemaMetricsStatusFields {
-  metrics?: EmqxAuthzSchemaMetrics
-  node_error?: EmqxAuthzSchemaNodeError[]
-  node_metrics?: EmqxAuthzSchemaNodeMetrics[]
-  node_resource_metrics?: EmqxAuthzSchemaNodeResourceMetrics[]
-  node_status?: EmqxAuthzSchemaNodeStatus[]
-  resource_metrics?: EmqxAuthzSchemaResourceMetrics
-  status?: EmqxAuthzSchemaMetricsStatusFieldsStatus
-}
-
-export type EmqxAuthzApiSourcesSourcesSourcesItem =
-  | AuthzLdap
-  | AuthzMongoSharded
-  | AuthzMongoRs
-  | AuthzMongoSingle
-  | AuthzPostgresql
-  | AuthzMysql
-  | AuthzRedisCluster
-  | AuthzRedisSentinel
-  | AuthzRedisSingle
-  | AuthzHttpPost
-  | AuthzHttpGet
-  | AuthzBuiltinDb
-  | AuthzFile
-
-export interface EmqxAuthzApiSourcesSources {
-  sources?: EmqxAuthzApiSourcesSourcesSourcesItem[]
-}
-
-export type EmqxAuthzApiSourcesRequestSourcesOrderType =
-  (typeof EmqxAuthzApiSourcesRequestSourcesOrderType)[keyof typeof EmqxAuthzApiSourcesRequestSourcesOrderType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiSourcesRequestSourcesOrderType = {
-  built_in_database: 'built_in_database',
-  file: 'file',
-  http: 'http',
-  ldap: 'ldap',
-  mongodb: 'mongodb',
-  mysql: 'mysql',
-  postgresql: 'postgresql',
-  redis: 'redis',
-} as const
-
-export interface EmqxAuthzApiSourcesRequestSourcesOrder {
-  type: EmqxAuthzApiSourcesRequestSourcesOrderType
-}
-
-export interface EmqxAuthzApiSourcesPosition {
-  position: string
-}
-
-export interface EmqxAuthzApiMnesiaUsernameResponseData {
-  data?: EmqxAuthzApiMnesiaRulesForUsername[]
-  meta?: PublicMeta
-}
-
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  clientid: string
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-}
-
-export type EmqxAuthzApiMnesiaRuleItemRetain = boolean | 'all'
-
-export type EmqxAuthzApiMnesiaRuleItemPermission =
-  (typeof EmqxAuthzApiMnesiaRuleItemPermission)[keyof typeof EmqxAuthzApiMnesiaRuleItemPermission]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiMnesiaRuleItemPermission = {
-  allow: 'allow',
-  deny: 'deny',
-} as const
-
-export type EmqxAuthzApiMnesiaRuleItemAction =
-  (typeof EmqxAuthzApiMnesiaRuleItemAction)[keyof typeof EmqxAuthzApiMnesiaRuleItemAction]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxAuthzApiMnesiaRuleItemAction = {
-  all: 'all',
-  publish: 'publish',
-  subscribe: 'subscribe',
-} as const
-
-export interface EmqxAuthzApiMnesiaRuleItem {
-  action: EmqxAuthzApiMnesiaRuleItemAction
-  clientid_re?: string
-  ipaddr?: string
-  listener?: string
-  listener_re?: string
-  permission: EmqxAuthzApiMnesiaRuleItemPermission
-  qos?: number[]
-  retain?: EmqxAuthzApiMnesiaRuleItemRetain
-  topic: string
-  username_re?: string
-  zone?: string
-  zone_re?: string
-}
-
-export interface EmqxAuthzApiMnesiaRulesForUsername {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  username: string
-}
-
-export interface EmqxAuthzApiMnesiaRules {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-}
-
-export interface EmqxAuthzApiMnesiaClientidResponseData {
-  data?: EmqxAuthzApiMnesiaRulesForClientid[]
-  meta?: PublicMeta
-}
-
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory = string | 'unlimited'
-
-export type EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount = number | 'unlimited'
-
-export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
-  cache_ttl?: string
-  enable?: boolean
-  max_count?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount
-  max_memory?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
@@ -1299,9 +1299,9 @@ export type AuthzMongoSingleUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoSingleUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthzMongoSingleType = (typeof AuthzMongoSingleType)[keyof typeof AuthzMongoSingleType]
@@ -1360,9 +1360,9 @@ export type AuthzMongoShardedUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoShardedUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthzMongoShardedType =
@@ -1421,9 +1421,9 @@ export type AuthzMongoRsUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzMongoRsUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthzMongoRsType = (typeof AuthzMongoRsType)[keyof typeof AuthzMongoRsType]
