@@ -809,6 +809,10 @@ export interface EmqxSysmonVm {
   process_low_watermark?: string
 }
 
+export interface EmqxSysmonSession {
+  total_payload_bytes_high_watermark?: string
+}
+
 export type EmqxSysmonOsMemCheckInterval = string | 'disabled'
 
 export interface EmqxSysmonOs {
@@ -826,6 +830,7 @@ export interface EmqxSysmon {
   /** @minimum 1 */
   mnesia_tm_mailbox_size_alarm_threshold?: number
   os?: EmqxSysmonOs
+  session?: EmqxSysmonSession
   vm?: EmqxSysmonVm
 }
 

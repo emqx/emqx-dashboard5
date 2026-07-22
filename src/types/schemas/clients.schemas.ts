@@ -355,6 +355,7 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   seqno_q2_rec: 'seqno_q2_rec',
   subscriptions_cnt: 'subscriptions_cnt',
   subscriptions_max: 'subscriptions_max',
+  total_payload_bytes: 'total_payload_bytes',
   username: 'username',
 } as const
 
@@ -530,6 +531,7 @@ export interface EmqxMgmtApiClientsClient {
   seqno_q2_rec?: number
   subscriptions_cnt?: number
   subscriptions_max?: number
+  total_payload_bytes?: number
   username?: string
 }
 
