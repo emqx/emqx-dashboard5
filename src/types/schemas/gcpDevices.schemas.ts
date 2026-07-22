@@ -47,8 +47,8 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetGcpDevicesParams = {
-  page?: PublicPageParameter
   limit?: PublicLimitParameter
+  page?: PublicPageParameter
 }
 
 export interface PublicMeta {

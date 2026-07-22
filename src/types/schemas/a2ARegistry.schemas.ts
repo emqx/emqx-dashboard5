@@ -25,11 +25,11 @@ export type GetA2aCardsList404 = {
 }
 
 export type GetA2aCardsListParams = {
-  only_global?: boolean
-  ns?: string
+  agent_id?: string
   org_id?: string
   unit_id?: string
-  agent_id?: string
+  ns?: string
+  only_global?: boolean
 }
 
 export type PostA2aCardsCardOrgIdUnitIdAgentId503Code =

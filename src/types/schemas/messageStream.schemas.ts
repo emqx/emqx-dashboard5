@@ -64,7 +64,7 @@ export type GetStreams400 = {
   message?: string
 }
 
-export type GetStreams200Item = StreamsStreamRegularApiGet | StreamsStreamLastvalueApiGet
+export type GetStreams200Item = StreamsStreamLastvalueApiGet | StreamsStreamRegularApiGet
 
 export type GetStreamsParams = {
   cursor?: PublicCursorParameter
@@ -253,9 +253,9 @@ export const StreamsStreamLastvalueApiGetIsLastvalue = {
   true: true,
 } as const
 
-export type StreamsStreamIndividualLimitsMaxShardMessageCount = number | 'infinity'
+export type StreamsStreamIndividualLimitsMaxShardMessageCount = 'infinity' | number
 
-export type StreamsStreamIndividualLimitsMaxShardMessageBytes = string | 'infinity'
+export type StreamsStreamIndividualLimitsMaxShardMessageBytes = 'infinity' | string
 
 export interface StreamsStreamIndividualLimits {
   max_shard_message_bytes: StreamsStreamIndividualLimitsMaxShardMessageBytes

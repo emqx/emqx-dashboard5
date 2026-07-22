@@ -144,71 +144,6 @@ export type PostMessageTransformations400 = {
   message?: string
 }
 
-export type MessageTransformationTransformationTopics = string[] | string
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MessageTransformationTransformationPayloadEncoder = {
-  payload_serde_external_http: 'payload_serde_external_http',
-  payload_serde_protobuf: 'payload_serde_protobuf',
-  payload_serde_avro: 'payload_serde_avro',
-  payload_serde_json: 'payload_serde_json',
-  payload_serde_none: 'payload_serde_none',
-} as const
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MessageTransformationTransformationPayloadDecoder = {
-  payload_serde_external_http: 'payload_serde_external_http',
-  payload_serde_protobuf: 'payload_serde_protobuf',
-  payload_serde_avro: 'payload_serde_avro',
-  payload_serde_json: 'payload_serde_json',
-  payload_serde_none: 'payload_serde_none',
-} as const
-
-export type MessageTransformationTransformationFailureAction =
-  (typeof MessageTransformationTransformationFailureAction)[keyof typeof MessageTransformationTransformationFailureAction]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MessageTransformationTransformationFailureAction = {
-  disconnect: 'disconnect',
-  drop: 'drop',
-  ignore: 'ignore',
-} as const
-
-export interface MessageTransformationOperation {
-  key: string
-  value: string
-}
-
-export type MessageTransformationLogFailureLevel =
-  (typeof MessageTransformationLogFailureLevel)[keyof typeof MessageTransformationLogFailureLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MessageTransformationLogFailureLevel = {
-  debug: 'debug',
-  error: 'error',
-  info: 'info',
-  none: 'none',
-  notice: 'notice',
-  warning: 'warning',
-} as const
-
-export interface MessageTransformationLogFailure {
-  level?: MessageTransformationLogFailureLevel
-}
-
-export interface MessageTransformationTransformation {
-  description?: string
-  enable?: boolean
-  failure_action: MessageTransformationTransformationFailureAction
-  log_failure?: MessageTransformationLogFailure
-  name: string
-  operations?: MessageTransformationOperation[]
-  payload_decoder?: (typeof MessageTransformationTransformationPayloadDecoder)[keyof typeof MessageTransformationTransformationPayloadDecoder]
-  payload_encoder?: (typeof MessageTransformationTransformationPayloadEncoder)[keyof typeof MessageTransformationTransformationPayloadEncoder]
-  tags?: string[]
-  topics: MessageTransformationTransformationTopics
-}
-
 export interface MessageTransformationHttpApiReorder {
   order: string[]
 }
@@ -237,11 +172,6 @@ export interface MessageTransformationHttpApiGetMetrics {
   node_metrics?: MessageTransformationHttpApiNodeMetrics
 }
 
-export interface MessageTransformationHttpApiDryrunTransformation {
-  message: MessageTransformationHttpApiDryrunInputMessage
-  transformation: MessageTransformationTransformation
-}
-
 export type MessageTransformationHttpApiDryrunInputMessageUserProperty = { [key: string]: unknown }
 
 export type MessageTransformationHttpApiDryrunInputMessagePubProps = { [key: string]: unknown }
@@ -263,4 +193,74 @@ export interface MessageTransformationHttpApiDryrunInputMessage {
   topic: string
   user_property?: MessageTransformationHttpApiDryrunInputMessageUserProperty
   username?: string
+}
+
+export interface MessageTransformationHttpApiDryrunTransformation {
+  message: MessageTransformationHttpApiDryrunInputMessage
+  transformation: MessageTransformationTransformation
+}
+
+export type MessageTransformationTransformationTopics = string[] | string
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MessageTransformationTransformationPayloadEncoder = {
+  payload_serde_avro: 'payload_serde_avro',
+  payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_json: 'payload_serde_json',
+  payload_serde_none: 'payload_serde_none',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+} as const
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MessageTransformationTransformationPayloadDecoder = {
+  payload_serde_avro: 'payload_serde_avro',
+  payload_serde_external_http: 'payload_serde_external_http',
+  payload_serde_json: 'payload_serde_json',
+  payload_serde_none: 'payload_serde_none',
+  payload_serde_protobuf: 'payload_serde_protobuf',
+} as const
+
+export type MessageTransformationTransformationFailureAction =
+  (typeof MessageTransformationTransformationFailureAction)[keyof typeof MessageTransformationTransformationFailureAction]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MessageTransformationTransformationFailureAction = {
+  disconnect: 'disconnect',
+  drop: 'drop',
+  ignore: 'ignore',
+} as const
+
+export interface MessageTransformationOperation {
+  key: string
+  value: string
+}
+
+export interface MessageTransformationTransformation {
+  description?: string
+  enable?: boolean
+  failure_action: MessageTransformationTransformationFailureAction
+  log_failure?: MessageTransformationLogFailure
+  name: string
+  operations?: MessageTransformationOperation[]
+  payload_decoder?: (typeof MessageTransformationTransformationPayloadDecoder)[keyof typeof MessageTransformationTransformationPayloadDecoder]
+  payload_encoder?: (typeof MessageTransformationTransformationPayloadEncoder)[keyof typeof MessageTransformationTransformationPayloadEncoder]
+  tags?: string[]
+  topics: MessageTransformationTransformationTopics
+}
+
+export type MessageTransformationLogFailureLevel =
+  (typeof MessageTransformationLogFailureLevel)[keyof typeof MessageTransformationLogFailureLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MessageTransformationLogFailureLevel = {
+  debug: 'debug',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
+} as const
+
+export interface MessageTransformationLogFailure {
+  level?: MessageTransformationLogFailureLevel
 }

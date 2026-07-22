@@ -125,7 +125,7 @@ export type PutUsersUsername400 = {
   message?: string
 }
 
-export type PutUsersUsername200Scopes = string[] | 'unset'
+export type PutUsersUsername200Scopes = 'unset' | string[]
 
 export type PutUsersUsername200Mfa =
   (typeof PutUsersUsername200Mfa)[keyof typeof PutUsersUsername200Mfa]
@@ -210,7 +210,7 @@ export type DeleteUsersUsernameParams = {
   backend?: DeleteUsersUsernameBackend
 }
 
-export type PostUsers200Scopes = string[] | 'unset'
+export type PostUsers200Scopes = 'unset' | string[]
 
 export type PostUsers200Mfa = (typeof PostUsers200Mfa)[keyof typeof PostUsers200Mfa]
 
@@ -318,7 +318,7 @@ export type PostLoginBody = {
   username?: string
 }
 
-export type DashboardUserScopes = string[] | 'unset'
+export type DashboardUserScopes = 'unset' | string[]
 
 export type DashboardUserMfa = (typeof DashboardUserMfa)[keyof typeof DashboardUserMfa]
 

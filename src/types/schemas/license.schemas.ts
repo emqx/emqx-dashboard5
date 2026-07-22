@@ -11,7 +11,7 @@ export type PutLicenseSetting400 = {
   message?: string
 }
 
-export type PutLicenseSetting200HighWatermarkTimezone = string | 'system'
+export type PutLicenseSetting200HighWatermarkTimezone = 'system' | string
 
 export type PutLicenseSetting200 = {
   connection_high_watermark?: string
@@ -19,7 +19,7 @@ export type PutLicenseSetting200 = {
   high_watermark_timezone?: PutLicenseSetting200HighWatermarkTimezone
 }
 
-export type PutLicenseSettingBodyHighWatermarkTimezone = string | 'system'
+export type PutLicenseSettingBodyHighWatermarkTimezone = 'system' | string
 
 export type PutLicenseSettingBody = {
   connection_high_watermark?: string
@@ -27,7 +27,7 @@ export type PutLicenseSettingBody = {
   high_watermark_timezone?: PutLicenseSettingBodyHighWatermarkTimezone
 }
 
-export type GetLicenseSetting200HighWatermarkTimezone = string | 'system'
+export type GetLicenseSetting200HighWatermarkTimezone = 'system' | string
 
 export type GetLicenseSetting200 = {
   connection_high_watermark?: string
@@ -45,8 +45,8 @@ export const GetLicenseSessionHwmHistoryPeriod = {
 } as const
 
 export type GetLicenseSessionHwmHistoryParams = {
-  period?: GetLicenseSessionHwmHistoryPeriod
   limit?: number
+  period?: GetLicenseSessionHwmHistoryPeriod
 }
 
 export type PostLicense400Code = (typeof PostLicense400Code)[keyof typeof PostLicense400Code]
@@ -88,7 +88,7 @@ export interface LicenseHttpApiSessionHwmHistory {
   period?: LicenseHttpApiSessionHwmHistoryPeriod
 }
 
-export type LicenseHttpApiKeyLicenseKey = string | 'evaluation' | 'default'
+export type LicenseHttpApiKeyLicenseKey = 'default' | 'evaluation' | string
 
 export interface LicenseHttpApiKeyLicense {
   key: LicenseHttpApiKeyLicenseKey

@@ -80,8 +80,8 @@ export const DeleteCertsNsNamespaceNameNameKind = {
 } as const
 
 export type DeleteCertsNsNamespaceNameNameParams = {
-  kind?: DeleteCertsNsNamespaceNameNameKind
   force_delete?: boolean
+  kind?: DeleteCertsNsNamespaceNameNameKind
 }
 
 export type GetCertsNsNamespaceList500Code =
@@ -179,8 +179,8 @@ export const DeleteCertsGlobalNameNameKind = {
 } as const
 
 export type DeleteCertsGlobalNameNameParams = {
-  kind?: DeleteCertsGlobalNameNameKind
   force_delete?: boolean
+  kind?: DeleteCertsGlobalNameNameKind
 }
 
 export type GetCertsGlobalList500Code =

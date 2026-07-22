@@ -180,9 +180,9 @@ export type GetAiProviders503 = {
 }
 
 export type GetAiProviders200Item =
-  | AiOpenaiResponseProviderApiGet
-  | AiOpenaiProviderApiGet
   | AiAnthropicProviderApiGet
+  | AiOpenaiProviderApiGet
+  | AiOpenaiResponseProviderApiGet
 
 export type PostAiModels503Code = (typeof PostAiModels503Code)[keyof typeof PostAiModels503Code]
 
@@ -463,9 +463,9 @@ export interface AiOpenaiResponseCompletionProfileApiGet {
 }
 
 export type GetAiCompletionProfiles200Item =
-  | AiOpenaiResponseCompletionProfileApiGet
-  | AiOpenaiCompletionProfileApiGet
   | AiAnthropicCompletionProfileApiGet
+  | AiOpenaiCompletionProfileApiGet
+  | AiOpenaiResponseCompletionProfileApiGet
 
 export type AiOpenaiResponseCompletionProfileType =
   (typeof AiOpenaiResponseCompletionProfileType)[keyof typeof AiOpenaiResponseCompletionProfileType]

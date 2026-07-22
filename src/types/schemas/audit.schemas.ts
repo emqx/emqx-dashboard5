@@ -43,21 +43,21 @@ export type PublicPageParameter = number
 export type PublicLimitParameter = number
 
 export type GetAuditParams = {
-  node?: string
-  from?: GetAuditFrom
-  source?: string
-  source_ip?: string
+  limit?: PublicLimitParameter
+  page?: PublicPageParameter
   operation_id?: string
-  operation_type?: string
+  source_ip?: string
+  gte_created_at?: string | number
+  lte_created_at?: string | number
+  source?: string
+  from?: GetAuditFrom
+  node?: string
   operation_result?: GetAuditOperationResult
-  http_status_code?: number
   http_method?: GetAuditHttpMethod
+  operation_type?: string
   gte_duration_ms?: number
   lte_duration_ms?: number
-  gte_created_at?: number | string
-  lte_created_at?: number | string
-  page?: PublicPageParameter
-  limit?: PublicLimitParameter
+  http_status_code?: number
 }
 
 export interface PublicMeta {
@@ -129,7 +129,7 @@ export const AuditAuditFrom = {
   rest_api: 'rest_api',
 } as const
 
-export type AuditAuditCreatedAt = number | string
+export type AuditAuditCreatedAt = string | number
 
 export interface AuditAudit {
   args?: string[]

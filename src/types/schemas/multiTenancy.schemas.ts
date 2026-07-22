@@ -1,3 +1,40 @@
+export type GetMtNsListDetails400Code =
+  (typeof GetMtNsListDetails400Code)[keyof typeof GetMtNsListDetails400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsListDetails400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtNsListDetails400 = {
+  code?: GetMtNsListDetails400Code
+  message?: string
+}
+
+export type GetMtNsListDetailsParams = {
+  first_ns?: string
+  last_ns?: string
+  limit?: number
+}
+
+export type GetMtNsList400Code = (typeof GetMtNsList400Code)[keyof typeof GetMtNsList400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMtNsList400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetMtNsList400 = {
+  code?: GetMtNsList400Code
+  message?: string
+}
+
+export type GetMtNsListParams = {
+  first_ns?: string
+  last_ns?: string
+  limit?: number
+}
+
 export type GetMtNsNsMetrics404Code =
   (typeof GetMtNsNsMetrics404Code)[keyof typeof GetMtNsNsMetrics404Code]
 
@@ -103,8 +140,8 @@ export type GetMtNsNsClientList400 = {
 }
 
 export type GetMtNsNsClientListParams = {
-  last_clientid?: string
   first_clientid?: string
+  last_clientid?: string
   limit?: number
 }
 
@@ -150,43 +187,6 @@ export type PostMtNsNs400 = {
   message?: string
 }
 
-export type GetMtNsListDetails400Code =
-  (typeof GetMtNsListDetails400Code)[keyof typeof GetMtNsListDetails400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMtNsListDetails400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetMtNsListDetails400 = {
-  code?: GetMtNsListDetails400Code
-  message?: string
-}
-
-export type GetMtNsListDetailsParams = {
-  last_ns?: string
-  first_ns?: string
-  limit?: number
-}
-
-export type GetMtNsList400Code = (typeof GetMtNsList400Code)[keyof typeof GetMtNsList400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetMtNsList400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type GetMtNsList400 = {
-  code?: GetMtNsList400Code
-  message?: string
-}
-
-export type GetMtNsListParams = {
-  last_ns?: string
-  first_ns?: string
-  limit?: number
-}
-
 export type GetMtManagedNsListDetails400Code =
   (typeof GetMtManagedNsListDetails400Code)[keyof typeof GetMtManagedNsListDetails400Code]
 
@@ -201,8 +201,8 @@ export type GetMtManagedNsListDetails400 = {
 }
 
 export type GetMtManagedNsListDetailsParams = {
-  last_ns?: string
   first_ns?: string
+  last_ns?: string
   limit?: number
 }
 
@@ -220,8 +220,8 @@ export type GetMtManagedNsList400 = {
 }
 
 export type GetMtManagedNsListParams = {
-  last_ns?: string
   first_ns?: string
+  last_ns?: string
   limit?: number
 }
 
@@ -299,7 +299,7 @@ export interface MtTenantLimiterIn {
   messages?: MtLimiterOptions
 }
 
-export type MtSessionConfigInMaxSessions = number | 'infinity'
+export type MtSessionConfigInMaxSessions = 'infinity' | number
 
 export interface MtSessionConfigIn {
   max_sessions?: MtSessionConfigInMaxSessions

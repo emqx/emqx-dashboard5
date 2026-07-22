@@ -131,6 +131,34 @@ export type PostSchemaValidations400 = {
   message?: string
 }
 
+export interface SchemaValidationHttpApiReorder {
+  order: string[]
+}
+
+export interface SchemaValidationHttpApiNodeMetrics {
+  /** @minimum 0 */
+  failed?: number
+  /** @minimum 0 */
+  matched?: number
+  node?: string
+  /** @minimum 0 */
+  succeeded?: number
+}
+
+export interface SchemaValidationHttpApiMetrics {
+  /** @minimum 0 */
+  failed?: number
+  /** @minimum 0 */
+  matched?: number
+  /** @minimum 0 */
+  succeeded?: number
+}
+
+export interface SchemaValidationHttpApiGetMetrics {
+  metrics?: SchemaValidationHttpApiMetrics
+  node_metrics?: SchemaValidationHttpApiNodeMetrics
+}
+
 export type SchemaValidationValidationTopics = string[] | string
 
 export type SchemaValidationValidationStrategy =
@@ -151,13 +179,6 @@ export const SchemaValidationValidationFailureAction = {
   drop: 'drop',
   ignore: 'ignore',
 } as const
-
-export type SchemaValidationValidationChecksItem =
-  | SchemaValidationCheckExternalHttp
-  | SchemaValidationCheckProtobuf
-  | SchemaValidationCheckAvro
-  | SchemaValidationCheckJson
-  | SchemaValidationCheckSql
 
 export type SchemaValidationLogFailureLevel =
   (typeof SchemaValidationLogFailureLevel)[keyof typeof SchemaValidationLogFailureLevel]
@@ -215,6 +236,13 @@ export interface SchemaValidationCheckProtobuf {
   type?: SchemaValidationCheckProtobufType
 }
 
+export type SchemaValidationValidationChecksItem =
+  | SchemaValidationCheckAvro
+  | SchemaValidationCheckExternalHttp
+  | SchemaValidationCheckJson
+  | SchemaValidationCheckProtobuf
+  | SchemaValidationCheckSql
+
 export type SchemaValidationCheckJsonType =
   (typeof SchemaValidationCheckJsonType)[keyof typeof SchemaValidationCheckJsonType]
 
@@ -252,32 +280,4 @@ export const SchemaValidationCheckAvroType = {
 export interface SchemaValidationCheckAvro {
   schema: string
   type?: SchemaValidationCheckAvroType
-}
-
-export interface SchemaValidationHttpApiReorder {
-  order: string[]
-}
-
-export interface SchemaValidationHttpApiNodeMetrics {
-  /** @minimum 0 */
-  failed?: number
-  /** @minimum 0 */
-  matched?: number
-  node?: string
-  /** @minimum 0 */
-  succeeded?: number
-}
-
-export interface SchemaValidationHttpApiMetrics {
-  /** @minimum 0 */
-  failed?: number
-  /** @minimum 0 */
-  matched?: number
-  /** @minimum 0 */
-  succeeded?: number
-}
-
-export interface SchemaValidationHttpApiGetMetrics {
-  metrics?: SchemaValidationHttpApiMetrics
-  node_metrics?: SchemaValidationHttpApiNodeMetrics
 }

@@ -1,3 +1,42 @@
+export type PutClusterNodeInviteAsync400Code =
+  (typeof PutClusterNodeInviteAsync400Code)[keyof typeof PutClusterNodeInviteAsync400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutClusterNodeInviteAsync400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutClusterNodeInviteAsync400 = {
+  code?: PutClusterNodeInviteAsync400Code
+  message?: string
+}
+
+export type PutClusterNodeInvite400Code =
+  (typeof PutClusterNodeInvite400Code)[keyof typeof PutClusterNodeInvite400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutClusterNodeInvite400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutClusterNodeInvite400 = {
+  code?: PutClusterNodeInvite400Code
+  message?: string
+}
+
+export type DeleteClusterNodeForceLeave404Code =
+  (typeof DeleteClusterNodeForceLeave404Code)[keyof typeof DeleteClusterNodeForceLeave404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteClusterNodeForceLeave404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteClusterNodeForceLeave404 = {
+  code?: DeleteClusterNodeForceLeave404Code
+  message?: string
+}
+
 export type PutClusterLinksLinkNameMetricsReset404Code =
   (typeof PutClusterLinksLinkNameMetricsReset404Code)[keyof typeof PutClusterLinksLinkNameMetricsReset404Code]
 
@@ -50,6 +89,23 @@ export type PutClusterLinksLinkName400 = {
   message?: string
 }
 
+export type PutClusterLinksLinkNameBody = {
+  clientid?: string
+  enable?: boolean
+  /** @minimum 0 */
+  max_inflight?: number
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: ClusterCreationOpts
+  retry_interval?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  tcp_opts?: EmqxClientTcpOpts
+  topics: string[]
+  username?: string
+}
+
 export type GetClusterLinksLinkName404Code =
   (typeof GetClusterLinksLinkName404Code)[keyof typeof GetClusterLinksLinkName404Code]
 
@@ -90,45 +146,6 @@ export type PostClusterLinks400 = {
   message?: string
 }
 
-export type PutClusterNodeInviteAsync400Code =
-  (typeof PutClusterNodeInviteAsync400Code)[keyof typeof PutClusterNodeInviteAsync400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutClusterNodeInviteAsync400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutClusterNodeInviteAsync400 = {
-  code?: PutClusterNodeInviteAsync400Code
-  message?: string
-}
-
-export type PutClusterNodeInvite400Code =
-  (typeof PutClusterNodeInvite400Code)[keyof typeof PutClusterNodeInvite400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutClusterNodeInvite400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutClusterNodeInvite400 = {
-  code?: PutClusterNodeInvite400Code
-  message?: string
-}
-
-export type DeleteClusterNodeForceLeave404Code =
-  (typeof DeleteClusterNodeForceLeave404Code)[keyof typeof DeleteClusterNodeForceLeave404Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteClusterNodeForceLeave404Code = {
-  NOT_FOUND: 'NOT_FOUND',
-} as const
-
-export type DeleteClusterNodeForceLeave404 = {
-  code?: DeleteClusterNodeForceLeave404Code
-  message?: string
-}
-
 export type PutCluster400Code = (typeof PutCluster400Code)[keyof typeof PutCluster400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -164,16 +181,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -234,11 +251,38 @@ export interface EmqxClientTcpOpts {
   sndbuf?: string
 }
 
-export type PutClusterLinksLinkNameBody = {
+export type ClusterLinkNodeMetricsMetrics = { [key: string]: unknown }
+
+export interface ClusterLinkNodeMetrics {
+  metrics?: ClusterLinkNodeMetricsMetrics
+  node?: string
+}
+
+export type ClusterLinkLinkMetricsResponseMetrics = { [key: string]: unknown }
+
+export interface ClusterLinkLinkMetricsResponse {
+  metrics?: ClusterLinkLinkMetricsResponseMetrics
+  node_metrics?: ClusterLinkNodeMetrics[]
+}
+
+export type ClusterLinkLinkConfigResponseStatus =
+  (typeof ClusterLinkLinkConfigResponseStatus)[keyof typeof ClusterLinkLinkConfigResponseStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ClusterLinkLinkConfigResponseStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface ClusterLinkLinkConfigResponse {
   clientid?: string
   enable?: boolean
   /** @minimum 0 */
   max_inflight?: number
+  name: string
+  node?: string
   password?: string
   /** @minimum 1 */
   pool_size?: number
@@ -246,6 +290,7 @@ export type PutClusterLinksLinkNameBody = {
   retry_interval?: string
   server: string
   ssl?: EmqxSslClientOpts
+  status?: ClusterLinkLinkConfigResponseStatus
   tcp_opts?: EmqxClientTcpOpts
   topics: string[]
   username?: string
@@ -320,7 +365,7 @@ export const ClusterCreationOptsDispatchStrategy = {
 /**
  * @deprecated
  */
-export type ClusterCreationOptsAutoRestartInterval = string | 'infinity'
+export type ClusterCreationOptsAutoRestartInterval = 'infinity' | string
 
 export interface ClusterCreationOpts {
   /** @deprecated */
@@ -350,49 +395,4 @@ export interface ClusterCoreReplicants {
 
 export interface ClusterClusterInfoRequest {
   description?: string
-}
-
-export type ClusterLinkNodeMetricsMetrics = { [key: string]: unknown }
-
-export interface ClusterLinkNodeMetrics {
-  metrics?: ClusterLinkNodeMetricsMetrics
-  node?: string
-}
-
-export type ClusterLinkLinkMetricsResponseMetrics = { [key: string]: unknown }
-
-export interface ClusterLinkLinkMetricsResponse {
-  metrics?: ClusterLinkLinkMetricsResponseMetrics
-  node_metrics?: ClusterLinkNodeMetrics[]
-}
-
-export type ClusterLinkLinkConfigResponseStatus =
-  (typeof ClusterLinkLinkConfigResponseStatus)[keyof typeof ClusterLinkLinkConfigResponseStatus]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ClusterLinkLinkConfigResponseStatus = {
-  connected: 'connected',
-  connecting: 'connecting',
-  disconnected: 'disconnected',
-  inconsistent: 'inconsistent',
-} as const
-
-export interface ClusterLinkLinkConfigResponse {
-  clientid?: string
-  enable?: boolean
-  /** @minimum 0 */
-  max_inflight?: number
-  name: string
-  node?: string
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: ClusterCreationOpts
-  retry_interval?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  status?: ClusterLinkLinkConfigResponseStatus
-  tcp_opts?: EmqxClientTcpOpts
-  topics: string[]
-  username?: string
 }

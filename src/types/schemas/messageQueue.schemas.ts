@@ -64,7 +64,7 @@ export type GetQueues400 = {
   message?: string
 }
 
-export type GetQueues200Item = MqMessageQueueRegularApiGet | MqMessageQueueLastvalueApiGet
+export type GetQueues200Item = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
 
 export type GetQueuesParams = {
   cursor?: PublicCursorParameter
@@ -180,9 +180,9 @@ export type PublicLimitParameter = number
 
 export type PublicCursorParameter = string
 
-export type MqMqIndividualLimitsMaxShardMessageCount = number | 'infinity'
+export type MqMqIndividualLimitsMaxShardMessageCount = 'infinity' | number
 
-export type MqMqIndividualLimitsMaxShardMessageBytes = string | 'infinity'
+export type MqMqIndividualLimitsMaxShardMessageBytes = 'infinity' | string
 
 export interface MqMqIndividualLimits {
   max_shard_message_bytes: MqMqIndividualLimitsMaxShardMessageBytes

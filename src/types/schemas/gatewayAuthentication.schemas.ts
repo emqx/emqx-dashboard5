@@ -173,9 +173,9 @@ export type GetGatewaysNameAuthenticationUsers400 = {
 }
 
 export type GetGatewaysNameAuthenticationUsersParams = {
+  like_user_id?: string
   page?: number
   limit?: number
-  like_user_id?: string
   is_superuser?: boolean
 }
 
@@ -461,15 +461,15 @@ export const LdapSslVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type LdapSslServerNameIndication = string | 'disable'
+export type LdapSslServerNameIndication = 'disable' | string
 
 export type LdapSslPartialChain = (typeof LdapSslPartialChain)[keyof typeof LdapSslPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LdapSslPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -513,6 +513,30 @@ export interface LdapSsl {
   versions?: string[]
 }
 
+export interface EmqxAuthnApiResponseUser {
+  is_superuser?: boolean
+  namespace?: string
+  user_id: string
+}
+
+export interface EmqxAuthnApiResponseUsers {
+  data?: EmqxAuthnApiResponseUser[]
+  meta?: PublicMeta
+}
+
+export interface EmqxAuthnApiRequestUserUpdate {
+  is_superuser?: boolean
+  namespace?: string
+  password: string
+}
+
+export interface EmqxAuthnApiRequestUserCreate {
+  is_superuser?: boolean
+  namespace?: string
+  password: string
+  user_id: string
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -522,16 +546,16 @@ export const EmqxSslClientOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type EmqxSslClientOptsServerNameIndication = string | 'disable'
+export type EmqxSslClientOptsServerNameIndication = 'disable' | string
 
 export type EmqxSslClientOptsPartialChain =
   (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxSslClientOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -581,30 +605,6 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
-export interface EmqxAuthnApiResponseUser {
-  is_superuser?: boolean
-  namespace?: string
-  user_id: string
-}
-
-export interface EmqxAuthnApiResponseUsers {
-  data?: EmqxAuthnApiResponseUser[]
-  meta?: PublicMeta
-}
-
-export interface EmqxAuthnApiRequestUserUpdate {
-  is_superuser?: boolean
-  namespace?: string
-  password: string
-}
-
-export interface EmqxAuthnApiRequestUserCreate {
-  is_superuser?: boolean
-  namespace?: string
-  password: string
-  user_id: string
-}
-
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
 
 export interface ConnectorHttpRequest {
@@ -617,6 +617,91 @@ export interface ConnectorHttpRequest {
   request_timeout?: string
 }
 
+export type AuthnHashSimpleSaltPosition =
+  (typeof AuthnHashSimpleSaltPosition)[keyof typeof AuthnHashSimpleSaltPosition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashSimpleSaltPosition = {
+  disable: 'disable',
+  prefix: 'prefix',
+  suffix: 'suffix',
+} as const
+
+export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof AuthnHashSimpleName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashSimpleName = {
+  md5: 'md5',
+  plain: 'plain',
+  sha: 'sha',
+  sha256: 'sha256',
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashSimple {
+  name: AuthnHashSimpleName
+  salt_position?: AuthnHashSimpleSaltPosition
+}
+
+export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashPbkdf2Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashPbkdf2MacFun =
+  (typeof AuthnHashPbkdf2MacFun)[keyof typeof AuthnHashPbkdf2MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashPbkdf2MacFun = {
+  md4: 'md4',
+  md5: 'md5',
+  ripemd160: 'ripemd160',
+  sha: 'sha',
+  sha224: 'sha224',
+  sha256: 'sha256',
+  sha384: 'sha384',
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashPbkdf2 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashPbkdf2MacFun
+  name: AuthnHashPbkdf2Name
+}
+
+export type AuthnHashBcryptRwName =
+  (typeof AuthnHashBcryptRwName)[keyof typeof AuthnHashBcryptRwName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptRwName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcryptRw {
+  name: AuthnHashBcryptRwName
+  /**
+   * @minimum 5
+   * @maximum 10
+   */
+  salt_rounds?: number
+}
+
+export type AuthnHashBcryptName = (typeof AuthnHashBcryptName)[keyof typeof AuthnHashBcryptName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBcryptName = {
+  bcrypt: 'bcrypt',
+} as const
+
+export interface AuthnHashBcrypt {
+  name: AuthnHashBcryptName
+}
+
 export type AuthnRedisSingleRedisType =
   (typeof AuthnRedisSingleRedisType)[keyof typeof AuthnRedisSingleRedisType]
 
@@ -626,9 +711,9 @@ export const AuthnRedisSingleRedisType = {
 } as const
 
 export type AuthnRedisSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisSingleMechanism =
   (typeof AuthnRedisSingleMechanism)[keyof typeof AuthnRedisSingleMechanism]
@@ -675,9 +760,9 @@ export const AuthnRedisSentinelRedisType = {
 } as const
 
 export type AuthnRedisSentinelPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisSentinelMechanism =
   (typeof AuthnRedisSentinelMechanism)[keyof typeof AuthnRedisSentinelMechanism]
@@ -727,9 +812,9 @@ export const AuthnRedisClusterRedisType = {
 } as const
 
 export type AuthnRedisClusterPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnRedisClusterMechanism =
   (typeof AuthnRedisClusterMechanism)[keyof typeof AuthnRedisClusterMechanism]
@@ -766,9 +851,9 @@ export interface AuthnRedisCluster {
 }
 
 export type AuthnPostgresqlPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnPostgresqlMechanism =
   (typeof AuthnPostgresqlMechanism)[keyof typeof AuthnPostgresqlMechanism]
@@ -806,7 +891,7 @@ export interface AuthnPostgresql {
   username: string
 }
 
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
 
 export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
 
@@ -857,15 +942,15 @@ export type AuthnMongoSingleUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoSingleUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoSinglePasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnMongoSingleMongoType =
   (typeof AuthnMongoSingleMongoType)[keyof typeof AuthnMongoSingleMongoType]
@@ -934,15 +1019,15 @@ export type AuthnMongoShardedUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoShardedUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoShardedPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
   | AuthnHashBcrypt
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
 
 export type AuthnMongoShardedMongoType =
   (typeof AuthnMongoShardedMongoType)[keyof typeof AuthnMongoShardedMongoType]
@@ -1010,9 +1095,9 @@ export type AuthnMongoRsUseLegacyProtocol =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnMongoRsUseLegacyProtocol = {
-  auto: 'auto',
   false: false,
   true: true,
+  auto: 'auto',
 } as const
 
 export type AuthnMongoRsRMode = (typeof AuthnMongoRsRMode)[keyof typeof AuthnMongoRsRMode]
@@ -1023,7 +1108,7 @@ export const AuthnMongoRsRMode = {
   slave_ok: 'slave_ok',
 } as const
 
-export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+export type AuthnMongoRsPasswordHashAlgorithm = AuthnHashBcrypt | AuthnHashPbkdf2 | AuthnHashSimple
 
 export type AuthnMongoRsMongoType =
   (typeof AuthnMongoRsMongoType)[keyof typeof AuthnMongoRsMongoType]
@@ -1303,16 +1388,16 @@ export const AuthnJwksClientSslOptsVerify = {
   verify_peer: 'verify_peer',
 } as const
 
-export type AuthnJwksClientSslOptsServerNameIndication = string | 'disable'
+export type AuthnJwksClientSslOptsServerNameIndication = 'disable' | string
 
 export type AuthnJwksClientSslOptsPartialChain =
   (typeof AuthnJwksClientSslOptsPartialChain)[keyof typeof AuthnJwksClientSslOptsPartialChain]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthnJwksClientSslOptsPartialChain = {
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
   false: false,
   true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
   two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
 } as const
 
@@ -1531,6 +1616,11 @@ export const AuthnBuiltinDbUserIdType = {
   username: 'username',
 } as const
 
+export type AuthnBuiltinDbPasswordHashAlgorithm =
+  | AuthnHashBcryptRw
+  | AuthnHashPbkdf2
+  | AuthnHashSimple
+
 export type AuthnBuiltinDbMechanism =
   (typeof AuthnBuiltinDbMechanism)[keyof typeof AuthnBuiltinDbMechanism]
 
@@ -1579,94 +1669,4 @@ export interface AuthnBindMethod {
   clientid_override_attribute?: string
   is_superuser_attribute?: string
   type?: AuthnBindMethodType
-}
-
-export type AuthnHashSimpleSaltPosition =
-  (typeof AuthnHashSimpleSaltPosition)[keyof typeof AuthnHashSimpleSaltPosition]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashSimpleSaltPosition = {
-  disable: 'disable',
-  prefix: 'prefix',
-  suffix: 'suffix',
-} as const
-
-export type AuthnHashSimpleName = (typeof AuthnHashSimpleName)[keyof typeof AuthnHashSimpleName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashSimpleName = {
-  md5: 'md5',
-  plain: 'plain',
-  sha: 'sha',
-  sha256: 'sha256',
-  sha512: 'sha512',
-} as const
-
-export interface AuthnHashSimple {
-  name: AuthnHashSimpleName
-  salt_position?: AuthnHashSimpleSaltPosition
-}
-
-export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashSimple
-  | AuthnHashPbkdf2
-  | AuthnHashBcryptRw
-
-export type AuthnHashPbkdf2Name = (typeof AuthnHashPbkdf2Name)[keyof typeof AuthnHashPbkdf2Name]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashPbkdf2Name = {
-  pbkdf2: 'pbkdf2',
-} as const
-
-export type AuthnHashPbkdf2MacFun =
-  (typeof AuthnHashPbkdf2MacFun)[keyof typeof AuthnHashPbkdf2MacFun]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashPbkdf2MacFun = {
-  md4: 'md4',
-  md5: 'md5',
-  ripemd160: 'ripemd160',
-  sha: 'sha',
-  sha224: 'sha224',
-  sha256: 'sha256',
-  sha384: 'sha384',
-  sha512: 'sha512',
-} as const
-
-export interface AuthnHashPbkdf2 {
-  /** @minimum 1 */
-  dk_length?: number
-  /** @minimum 1 */
-  iterations: number
-  mac_fun: AuthnHashPbkdf2MacFun
-  name: AuthnHashPbkdf2Name
-}
-
-export type AuthnHashBcryptRwName =
-  (typeof AuthnHashBcryptRwName)[keyof typeof AuthnHashBcryptRwName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptRwName = {
-  bcrypt: 'bcrypt',
-} as const
-
-export interface AuthnHashBcryptRw {
-  name: AuthnHashBcryptRwName
-  /**
-   * @minimum 5
-   * @maximum 10
-   */
-  salt_rounds?: number
-}
-
-export type AuthnHashBcryptName = (typeof AuthnHashBcryptName)[keyof typeof AuthnHashBcryptName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptName = {
-  bcrypt: 'bcrypt',
-} as const
-
-export interface AuthnHashBcrypt {
-  name: AuthnHashBcryptName
 }
