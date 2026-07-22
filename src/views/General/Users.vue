@@ -18,14 +18,18 @@
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('userScopes')" :min-width="220">
+      <el-table-column :label="tl('userScopes')" :min-width="200">
+        <template #header>
+          <FormItemLabel
+            :label="tl('userScopes')"
+            :desc="userScopesColumnDesc"
+            desc-marked
+            :max-height="400"
+            popper-class="role-default-scopes-tooltip"
+          />
+        </template>
         <template #default="{ row }">
-          <template v-if="isLegacyUnsetScopes(row.scopes)">
-            <span>{{ t('APIKey.allScopes') }}</span>
-            <el-tooltip :content="tl('legacyUserScopesTip')" placement="top">
-              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-            </el-tooltip>
-          </template>
+          <span v-if="usesRoleDefaultScopes(row.scopes)">{{ tl('roleDefaultScopes') }}</span>
           <template v-else-if="hasSelectedScopes(row.scopes)">
             <el-tag
               v-for="scope in row.scopes"
@@ -37,11 +41,10 @@
               {{ getScopeLabel(scope) }}
             </el-tag>
           </template>
-          <span v-else-if="row.scopes === null"> {{ t('APIKey.allScopes') }}</span>
-          <span v-else>-</span>
+          <span v-else>{{ tl('noUserScopes') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('mfa')" :min-width="280">
+      <el-table-column prop="mfa" :label="tl('mfa')" :min-width="isZh ? 128 : 230" sortable>
         <template #default="{ row }">
           <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
             {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
@@ -56,7 +59,7 @@
           {{ row.namespace }}
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="386">
+      <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
@@ -137,17 +140,23 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" prop="scopes">
+        <el-form-item v-if="accessType !== 'chPass'">
           <template #label>
-            <span>{{ tl('userScopes') }}</span>
-            <el-tooltip
-              v-if="record.scopesNeedUpdate"
-              :content="tl('legacyUserScopesTip')"
-              placement="top"
-            >
-              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-            </el-tooltip>
+            <FormItemLabel
+              :label="tl('useRoleDefaultScopes')"
+              :desc="roleDefaultScopesFormDesc"
+              desc-marked
+              :max-height="400"
+              popper-class="role-default-scopes-tooltip"
+            />
           </template>
+          <el-switch v-model="record.useRoleDefaultScopes" />
+        </el-form-item>
+        <el-form-item
+          v-if="accessType !== 'chPass' && !record.useRoleDefaultScopes"
+          :label="tl('userScopes')"
+          prop="scopes"
+        >
           <el-select
             v-model="record.scopes"
             multiple
@@ -240,20 +249,22 @@
 import { getManagedNamespaceList } from '@/api/config'
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
-import {
-  hasSelectedScopes,
-  isLegacyUnsetScopes,
-  normalizeScopes,
-  sanitizeScopesForSubmit,
-} from '@/common/scopes'
+import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
-import { Warning } from '@element-plus/icons-vue'
 
 const SOURCE_LOCAL = 'local'
 
 const store = useStore()
 const { tl, t, te } = useI18nTl('General')
+const isZh = computed(() => /zh/.test(store.state.lang))
+
+const buildRoleDefaultScopesDesc = (intro) =>
+  [intro, tl('roleDefaultScopesByRoleDesc'), tl('roleDefaultScopesRestrictionDesc')].join('\n\n')
+const roleDefaultScopesFormDesc = computed(() =>
+  buildRoleDefaultScopesDesc(tl('roleDefaultScopesFormDesc')),
+)
+const userScopesColumnDesc = computed(() => buildRoleDefaultScopesDesc(tl('userScopesColumnDesc')))
 
 const dialogVisible = ref(false)
 const tableData = ref([])
@@ -289,6 +300,8 @@ const toggleNamespaceEnabled = () => {
 const { userRoleOptions } = useRole()
 
 const isAdminRole = computed(() => record.value.role === UserRole.Admin)
+
+const usesRoleDefaultScopes = (scopes) => scopes == null || isUnsetScopes(scopes)
 
 const getScopeLabel = (name) => {
   const key = `APIKey.scopeLabel_${name}`
@@ -418,6 +431,7 @@ const generateRawForm = () => ({
   password: '',
   namespace: '',
   scopes: [],
+  useRoleDefaultScopes: true,
 })
 
 const isCurrentUser = (user) => user === currentUser.value.username
@@ -433,7 +447,7 @@ const showDialog = (type = 'create', item = {}) => {
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
       scopes: normalizeScopes(item.scopes) ?? [],
-      scopesNeedUpdate: isLegacyUnsetScopes(item.scopes),
+      useRoleDefaultScopes: usesRoleDefaultScopes(item.scopes),
     })
   } else if (type === 'chPass') {
     record.value = {
@@ -470,23 +484,13 @@ const getRecordForUpdating = () => {
   const ret = processUserRecordForSubmit(record.value)
   return buildUserPayload(ret, ['description', 'role', 'scopes'])
 }
-// Build the payload sent to POST/PUT /users.
-//
-// The backend distinguishes three states for the `scopes` field:
-//   - field absent / undefined → fall back to the user's role default
-//     (administrator, viewer, and SSO users all get the default scope list
-//     that belongs to their role).
-//   - explicit []              → reject every mapped path (rarely the
-//     intended meaning of "leave it empty" in the UI).
-//   - explicit [..names..]     → only those scopes are granted.
-//
-// The form's empty multi-select therefore must NOT be submitted as `[]`,
-// or the user would be silently locked out of every scope-mapped path.
-// Strip the field entirely when no scope is selected so the backend
-// applies the role default.
+// The role-default switch maps to the backend's `unset` sentinel. When the
+// switch is off, preserve the explicit array, including [] (deny all mapped
+// paths), so the two states are never conflated.
 const buildUserPayload = (rec, fields) => {
   const payload = pick(rec, fields)
-  return sanitizeScopesForSubmit(payload)
+  payload.scopes = rec.useRoleDefaultScopes ? UNSET_SCOPES : (normalizeScopes(rec.scopes) ?? [])
+  return payload
 }
 
 const save = async () => {
@@ -559,15 +563,13 @@ onBeforeMount(async () => {
   .el-tag {
     margin-right: 4px;
   }
-  .legacy-scopes-icon {
-    margin-left: 4px;
-    color: var(--el-color-warning);
-    cursor: help;
-    vertical-align: -2px;
-  }
   .mfa-label {
     text-wrap: nowrap;
   }
+}
+
+.role-default-scopes-tooltip {
+  max-width: 720px;
 }
 </style>
 
