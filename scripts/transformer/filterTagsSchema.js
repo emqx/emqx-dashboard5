@@ -1,7 +1,26 @@
-const { isObject, get, set, isArray, isPlainObject } = require('lodash')
+import lodash from 'lodash'
+
+const { isObject, get, set, isArray, isPlainObject } = lodash
 
 const paramRefReg = /^#\/components\/parameters\//
 const schemaRefReg = /^#\/components\/schemas\//
+
+const compareStrings = (a, b) => {
+  if (a === b) {
+    return 0
+  }
+  return a < b ? -1 : 1
+}
+
+const getSortKey = (value) => {
+  if (isPlainObject(value)) {
+    return `2:object:${JSON.stringify(value)}`
+  }
+  if (isArray(value)) {
+    return `1:array:${JSON.stringify(value)}`
+  }
+  return `0:${typeof value}:${String(value)}`
+}
 
 const removeAllDesc = (swaggerJSON) => {
   const walk = (target) => {
@@ -126,7 +145,7 @@ const getAllRefsByRefArr = (swaggerJSON, refArr) => {
 }
 
 const keepTargetParam = (swaggerJSON, refs) => {
-  const sortedRefs = refs.sort((a, b) => a.localeCompare(b))
+  const sortedRefs = refs.sort(compareStrings)
   const params = sortedRefs.reduce((obj, ref) => {
     const path = getPathByRef(ref)
     const key = path[path.length - 1]
@@ -138,7 +157,7 @@ const keepTargetParam = (swaggerJSON, refs) => {
 }
 
 const keepTargetSchema = (swaggerJSON, refs) => {
-  const sortedRefs = refs.sort((a, b) => a.localeCompare(b))
+  const sortedRefs = refs.sort(compareStrings)
   const schemas = sortedRefs.reduce((obj, ref) => {
     const path = getPathByRef(ref)
     const key = path[path.length - 1]
@@ -164,7 +183,7 @@ const handleActionJSON = (swaggerJSON) => {
   ]
   const enums = get(swaggerJSON, path)
   if (enums) {
-    set(swaggerJSON, path, enums.sort())
+    set(swaggerJSON, path, enums.sort(compareStrings))
   }
   return swaggerJSON
 }
@@ -184,13 +203,13 @@ const handleSourceJSON = (swaggerJSON) => {
   ]
   const enums = get(swaggerJSON, path)
   if (enums) {
-    set(swaggerJSON, path, enums.sort())
+    set(swaggerJSON, path, enums.sort(compareStrings))
   }
   return swaggerJSON
 }
 
 const sortMetricsKey = (metrics) => {
-  const sortedMetrics = Object.keys(metrics).sort((a, b) => a.localeCompare(b))
+  const sortedMetrics = Object.keys(metrics).sort(compareStrings)
   const sortedMetricsObj = sortedMetrics.reduce((obj, key) => {
     obj[key] = metrics[key]
     return obj
@@ -222,21 +241,7 @@ const sortObj = (rawObj) => {
         rawObj[index] = item
       }
     })
-    return rawObj.sort((a, b) => {
-      if (isPlainObject(a)) {
-        return 2
-      }
-      if (isPlainObject(b)) {
-        return -2
-      }
-      if (isArray(a)) {
-        return 1
-      }
-      if (isArray(b)) {
-        return -1
-      }
-      return a.toString().localeCompare(b.toString())
-    })
+    return rawObj.sort((a, b) => compareStrings(getSortKey(a), getSortKey(b)))
   }
   Object.entries(rawObj).forEach(([key, value]) => {
     if (isPlainObject(value) || isArray(value)) {
@@ -245,9 +250,7 @@ const sortObj = (rawObj) => {
       rawObj[key] = value
     }
   })
-  const sortedKeys = Object.keys(rawObj).sort((pK, nK) => {
-    return pK.localeCompare(nK.toString())
-  })
+  const sortedKeys = Object.keys(rawObj).sort(compareStrings)
   const sortedObj = sortedKeys.reduce((obj, key) => {
     obj[key] = rawObj[key]
     return obj
@@ -260,9 +263,9 @@ const sortOneofRefs = (oneofRefs) => {
     const aValue = a.$ref || (a.enum && a.enum[0])
     const bValue = b.$ref || (b.enum && b.enum[0])
     if (aValue && bValue) {
-      return aValue.localeCompare(bValue)
+      return compareStrings(String(aValue), String(bValue))
     }
-    return 0
+    return compareStrings(getSortKey(a), getSortKey(b))
   })
   return sortedRefs
 }
