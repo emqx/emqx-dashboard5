@@ -33,6 +33,9 @@ export default (): {
     if (ret.headers && typeof ret.headers === 'object') {
       ret.headers = pick(ret.headers, 'content-type')
     }
+    if (!ret.oauth2 || typeof ret.oauth2 !== 'object') {
+      ret.oauth2 = { enable: false }
+    }
     return ret
   }
   const createRawHTTPAction = () => {

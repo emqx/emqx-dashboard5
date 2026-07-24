@@ -74,6 +74,9 @@ export default function useAuthzCreate() {
       max_inactive: '10s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
+      oauth2: {
+        enable: false,
+      },
     }
   }
   const getMongodbConfig = () => {

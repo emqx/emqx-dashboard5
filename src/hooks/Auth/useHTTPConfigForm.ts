@@ -6,11 +6,11 @@ export default (): {
   rules: ComputedRef<FormRules>
   validate: () => any
 } => {
-  const { tl } = useI18nTl('Auth')
+  const { t, tl } = useI18nTl('Auth')
   const { createRequiredRule } = useFormRules()
   const formCom = ref()
   const rules: ComputedRef<FormRules> = computed(() => {
-    return {
+    const ret: FormRules = {
       method: createRequiredRule(tl('method'), 'select'),
       url: createRequiredRule('URL'),
       body: [
@@ -23,7 +23,13 @@ export default (): {
           },
         },
       ],
+      'oauth2.token_endpoint': createRequiredRule(
+        t('BridgeSchema.http.oauth2_token_endpoint.label'),
+      ),
+      'oauth2.client_id': createRequiredRule(t('BridgeSchema.http.oauth2_client_id.label')),
+      'oauth2.client_secret': createRequiredRule(t('BridgeSchema.http.oauth2_client_secret.label')),
     }
+    return ret
   })
 
   const validate = () => {
