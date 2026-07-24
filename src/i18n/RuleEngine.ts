@@ -1509,6 +1509,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     zh: '无效的 JSON Schema',
     en: 'Invalid JSON Schema',
   },
+  unsupportedJSONSchemaVersion: {
+    zh: '当前仅支持 JSON Schema draft-03、draft-04 和 draft-06 版本',
+    en: 'EMQX currently supports JSON Schema draft-03, draft-04, and draft-06 only',
+  },
   generateJSONSchemaTip: {
     zh: '输入 JSON 以生成 JSON Schema',
     en: 'Enter JSON to generate JSON Schema',
