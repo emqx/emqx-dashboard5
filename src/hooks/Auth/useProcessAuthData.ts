@@ -6,6 +6,7 @@ import { CInfoConfig } from '@/types/auth'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useProcessAuthData() {
+  const { handleSSLDataBeforeSubmit } = useSSL()
   const createResourceOpt = () => ({
     // resource_opts: {
     //   auto_restart_interval: AUTO_RESTART_INTERVAL_DEFAULT,
@@ -23,6 +24,13 @@ export default function useProcessAuthData() {
         tempData.body = parseJSONSelectively(body)
       } else {
         tempData.body = undefined
+      }
+      if (tempData.oauth2?.enable) {
+        if (tempData.oauth2.ssl) {
+          tempData.oauth2.ssl = handleSSLDataBeforeSubmit(tempData.oauth2.ssl)
+        }
+      } else {
+        tempData.oauth2 = { enable: false }
       }
       return tempData
     } catch (error: any) {

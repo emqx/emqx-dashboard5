@@ -204,7 +204,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Webhook]: {
-      ...createOrderObj(['url', 'headers'], fieldStartIndex),
+      ...createOrderObj(['url', 'headers', 'oauth2'], fieldStartIndex),
       ...createOrderObj(httpAdvancedProps, 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,

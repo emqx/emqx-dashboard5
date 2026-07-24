@@ -56,16 +56,50 @@ export default {
     en: 'Scopes',
   },
   userScopesPlaceholder: {
-    zh: '未选择时按角色默认权限授权',
-    en: 'When empty, fall back to the role default',
+    zh: '未选择时，不授予任何权限范围',
+    en: 'When empty, grant no scopes',
+  },
+  useRoleDefaultScopes: {
+    zh: '使用角色默认权限',
+    en: 'Use Role Default Scopes',
+  },
+  roleDefaultScopes: {
+    zh: '角色默认权限',
+    en: 'Role Default Scopes',
+  },
+  noUserScopes: {
+    zh: '无权限范围',
+    en: 'No Scopes',
+  },
+  roleDefaultScopesFormDesc: {
+    zh: '开启后，用户会自动获得其角色和所属范围（全局或命名空间）的默认权限。以后角色的默认权限发生变化时，新权限也会自动生效，无需再次编辑用户。',
+    en: 'When enabled, the user automatically receives the default permissions for its role and scope (Global or Namespace). If the role defaults change later, the updated permissions take effect automatically without editing the user again.',
+  },
+  userScopesColumnDesc: {
+    zh: '权限范围用于限定用户可以访问的功能类别。显示“角色默认权限”表示用户会自动继承当前角色的默认设置；显示具体权限标签表示用户使用显式配置。',
+    en: 'Scopes limit which feature areas a user can access. “Role Default Scopes” means the user automatically inherits the defaults of its current role; individual scope tags indicate an explicit configuration.',
+  },
+  roleDefaultScopesByRoleDesc: {
+    zh: `**各角色的默认权限**
+
+- **全局管理员**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License、用户管理、MFA 管理、SSO 管理、API 密钥管理
+- **全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
+- **命名空间管理员**：连接、监控、数据集成、访问控制、系统设置、集群管理、License、用户管理、API 密钥管理
+- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License`,
+    en: `**Default permissions by role**
+
+- **Global Administrator**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, License, User Management, MFA Management, SSO Management, and API Key Management
+- **Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
+- **Namespace Administrator**: Connections, Monitoring, Data Integration, Access Control, System, Cluster, License, User Management, and API Key Management
+- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License`,
+  },
+  roleDefaultScopesRestrictionDesc: {
+    zh: '上述权限范围决定用户可访问的功能类别；具体可执行的操作和可查看的数据，仍受角色和命名空间限制。',
+    en: "These permissions determine which feature areas the user can access. The allowed operations and visible data are still restricted by the user's role and Namespace.",
   },
   userScopesAdminOnlyTip: {
     zh: '仅管理员可持有此权限范围',
     en: 'Only administrators may hold this scope',
-  },
-  legacyUserScopesTip: {
-    zh: '该用户的权限范围未设置，请编辑并保存权限范围。',
-    en: 'This user has no scopes set. Edit and save the scopes.',
   },
   source: {
     zh: '来源',
