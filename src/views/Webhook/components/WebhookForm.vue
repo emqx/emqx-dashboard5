@@ -54,6 +54,14 @@
     <el-form-item :label="tl('headers')" class="item-headers">
       <KeyAndValueEditor v-model="formData.connector.headers" type="list" />
     </el-form-item>
+    <el-row>
+      <HttpOAuth2Config
+        v-model="formData.connector.oauth2"
+        prop-prefix="connector.oauth2"
+        :col-span="24"
+        :is-edit="isEdit"
+      />
+    </el-row>
     <el-collapse-transition>
       <div v-if="isAdvancedShow">
         <el-form-item prop="connector.resource_opts.start_timeout">
@@ -105,6 +113,7 @@
 import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
+import HttpOAuth2Config from '@/components/HttpOAuth2Config.vue'
 import Trigger from './Trigger.vue'
 
 const props = defineProps({
@@ -154,8 +163,10 @@ const rules: FormRules = {
       trigger: 'blur',
     },
   ],
-
   'connector.pool_size': [...createIntFieldRule(1)],
+  'connector.oauth2.token_endpoint': createRequiredRule(getLabel('oauth2_token_endpoint')),
+  'connector.oauth2.client_id': createRequiredRule(getLabel('oauth2_client_id')),
+  'connector.oauth2.client_secret': createRequiredRule(getLabel('oauth2_client_secret')),
 }
 
 watch(

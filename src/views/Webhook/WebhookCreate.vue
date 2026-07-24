@@ -41,6 +41,7 @@ const {
 } = useWebhookForm()
 const { getEventList } = useRuleEvents()
 const { transFromDataArrToStr, replaceTargetPartInSQL } = useRuleUtils()
+const { handleConnectorDataBeforeSubmit } = useConnectorDataHandler()
 
 const checkTriggerInQuery = () => {
   const trigger = query.trigger
@@ -95,7 +96,8 @@ const submit = async () => {
     // Because it is easier to report errors when creating bridge, put it in the front..
     syncHeaders(data)
     normalizeActionPathForSubmit(data)
-    await postConnector(data.connector)
+    const connectorData = await handleConnectorDataBeforeSubmit(data.connector)
+    await postConnector(connectorData)
     await postAction(data.action)
     await createRules(data.rule)
     ElMessage.success(tl('createSuccess'))

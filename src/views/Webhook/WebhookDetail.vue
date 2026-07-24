@@ -122,7 +122,10 @@ const getWebhookData = async () => {
       name: getWebhookName(fullName.value),
       rule: ruleData,
       action,
-      connector: connectorData,
+      connector: {
+        ...connectorData,
+        oauth2: connectorData.oauth2 ?? { enable: false },
+      },
       enable: getEnableStatus(action, ruleData),
     }
     normalizeActionPathForDisplay(webhookData.value)
