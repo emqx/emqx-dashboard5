@@ -72,6 +72,7 @@ const moduleToPath: Record<string, string> = {
   gateway: '/gateway',
   exhook: '/exhook',
   connectors: '/connector',
+  cluster_linking: '/cluster-linking',
   schema_registry: '/schema/external',
   listeners: '/listener',
   sso: '/sso',
@@ -87,6 +88,7 @@ const labelKeyMap: Record<string, string> = {
   gateway: 'refModuleGateway',
   exhook: 'refModuleExhook',
   connectors: 'refModuleConnector',
+  cluster_linking: 'refModuleClusterLinking',
   schema_registry: 'refModuleSchemaRegistry',
   listeners: 'refModuleListener',
   sso: 'refModuleSSO',
@@ -109,6 +111,8 @@ const getModule = (path: (string | number)[]) => {
   let m = String(path[0])
   if (m === 'dashboard') {
     m = String(path[1])
+  } else if (m === 'cluster' && path[1] === 'links') {
+    m = 'cluster_linking'
   }
   return m
 }
