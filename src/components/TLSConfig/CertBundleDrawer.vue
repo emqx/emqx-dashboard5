@@ -170,6 +170,7 @@ const submit = async () => {
           isInUseDialogShow.value = true
           return
         }
+        throw removeError
       }
     }
     finishSubmit()
