@@ -562,6 +562,10 @@ See EMQX documentation for expression syntax.`,
     zh: '连接器',
     en: 'Connector',
   },
+  refModuleClusterLinking: {
+    zh: '集群连接',
+    en: 'Cluster Linking',
+  },
   refModuleSchemaRegistry: {
     zh: 'Schema 注册中心',
     en: 'Schema Registry',
