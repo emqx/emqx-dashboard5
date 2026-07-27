@@ -473,7 +473,7 @@ export default (
     [BridgeType.RabbitMQ]: ['parameters.publish_confirmation_timeout'],
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
-    [BridgeType.GCPConsumer]: ['pipelining'],
+    [BridgeType.GCPConsumer]: ['pipelining', getPathInParameters('ack_deadline')],
     [BridgeType.KafkaProducer]: kafkaProducerAdvancedProps,
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,
