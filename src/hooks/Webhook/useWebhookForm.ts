@@ -39,6 +39,9 @@ export default (): {
     if (ret.ssl.managed_certs) {
       delete ret.ssl.managed_certs
     }
+    if (!ret.oauth2 || typeof ret.oauth2 !== 'object') {
+      ret.oauth2 = { enable: false }
+    }
     return ret
   }
   const createRawHTTPAction = () => {

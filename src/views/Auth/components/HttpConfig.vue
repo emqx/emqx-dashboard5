@@ -36,6 +36,7 @@
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
+          <HttpOAuth2Config v-model="httpConfig.oauth2" :is-edit="isEdit" />
           <el-col :span="12" v-if="type === 'scram'">
             <el-form-item :label="tl('passwordHash')">
               <el-select v-model="httpConfig.algorithm" clearable>
@@ -129,11 +130,13 @@
 <script lang="ts">
 import HelpBlock from './HelpBlock.vue'
 import PreconditionFormItem from './PreconditionFormItem.vue'
+import HttpOAuth2Config from '@/components/HttpOAuth2Config.vue'
 
 export default defineComponent({
   name: 'HttpConfig',
   components: {
     HelpBlock,
+    HttpOAuth2Config,
     PreconditionFormItem,
   },
 
@@ -168,6 +171,9 @@ export default defineComponent({
     }
     const defaultContent = JSON.stringify(httpJSON, null, 2)
     const httpConfig = ref(props.modelValue)
+    if (!httpConfig.value.oauth2) {
+      httpConfig.value.oauth2 = { enable: false }
+    }
     const { formCom, rules, validate } = useHTTPConfigForm()
     watch(httpConfig.value, (value) => {
       ctx.emit('update:modelValue', value)

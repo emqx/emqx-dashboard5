@@ -177,6 +177,7 @@ import DelConnectorTip from './components/DelConnectorTip.vue'
 import DisableConnectorConfirm from './components/DisableConnectorConfirm.vue'
 import ConnectorTypeCards from './components/ConnectorTypeCards.vue'
 
+const route = useRoute()
 const router = useRouter()
 
 const store = useStore()
@@ -186,7 +187,10 @@ const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector | BridgeItem>>([])
 
-const namespaceFilter = ref<string | undefined>(undefined)
+const namespaceFromRoute = route.query.ns
+const namespaceFilter = ref<string | undefined>(
+  typeof namespaceFromRoute === 'string' ? namespaceFromRoute : undefined,
+)
 
 const reconnectingMap = ref<Map<string, boolean>>(new Map())
 

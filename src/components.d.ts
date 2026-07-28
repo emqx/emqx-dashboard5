@@ -44,6 +44,7 @@ declare module 'vue' {
     FormItemLabel: typeof import('./components/FormItemLabel.vue')['default']
     GuideBar: typeof import('./components/GuideBar.vue')['default']
     IconButton: typeof import('./components/Buttons/IconButton.vue')['default']
+    HttpOAuth2Config: typeof import('./components/HttpOAuth2Config.vue')['default']
     InfoTooltip: typeof import('./components/InfoTooltip.vue')['default']
     InputWithOptions: typeof import('./components/InputWithOptions.vue')['default']
     InputWithPlaceholderSelect: typeof import('./components/InputWithPlaceholderSelect.vue')['default']

@@ -1,9 +1,11 @@
-import type { DashboardScopes, LegacyUnsetScopes } from '@/types/systemModule'
+import type { DashboardScopes, UnsetScopes } from '@/types/systemModule'
 
-export const LEGACY_UNSET_SCOPES = 'unset'
+export const UNSET_SCOPES: UnsetScopes = 'unset'
+export const LEGACY_UNSET_SCOPES = UNSET_SCOPES
 
-export const isLegacyUnsetScopes = (scopes: unknown): scopes is LegacyUnsetScopes =>
-  scopes === LEGACY_UNSET_SCOPES
+export const isUnsetScopes = (scopes: unknown): scopes is UnsetScopes => scopes === UNSET_SCOPES
+
+export const isLegacyUnsetScopes = isUnsetScopes
 
 export const normalizeScopes = (scopes: DashboardScopes): string[] | undefined =>
   Array.isArray(scopes) ? scopes : undefined

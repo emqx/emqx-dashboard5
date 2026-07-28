@@ -20,19 +20,11 @@ export default (): {
     return ret
   }
 
-  const tryToViewPwdInput = () => {
-    const jumpSuc = jumpToErrorFormItem('input[type="password"]')
-    if (!jumpSuc) {
-      const el = (
-        Array.from(
-          document.querySelectorAll('input[autocomplete="one-time-code"]'),
-        ) as Array<HTMLInputElement>
-      ).find((item) => {
-        return item.value && ENCRYPTED_PWD_REG.test(item.value)
-      })
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
+  const scrollAlertIntoView = async () => {
+    await waitAMoment(100)
+    const el = document.querySelector('.el-alert--error')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
   const checkLikePwdField = async (bridge: any, errorMsg?: string) => {
@@ -44,7 +36,7 @@ export default (): {
       pwdValues.some((item) => ENCRYPTED_PWD_REG.test(item))
     ) {
       pwdErrorWhenCoping.value = errorMsg || tl('pwdWarningWhenCoping')
-      tryToViewPwdInput()
+      scrollAlertIntoView()
       return Promise.reject()
     }
     return Promise.resolve()

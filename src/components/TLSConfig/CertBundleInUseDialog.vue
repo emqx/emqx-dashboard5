@@ -21,7 +21,7 @@
           <span class="ref-config-label">{{ group.label }}</span>
           <el-tag size="small" type="info">{{ tl('refItemCount', { count: group.count }) }}</el-tag>
         </div>
-        <router-link class="ref-config-link" :to="group.path" target="_blank">
+        <router-link class="ref-config-link" :to="group.to" target="_blank">
           {{ tl('viewPage') }}
           <el-icon><Right /></el-icon>
         </router-link>
@@ -39,6 +39,7 @@
 <script lang="ts" setup>
 import { Right, WarningFilled } from '@element-plus/icons-vue'
 import type { ReferencingConfigs } from '@/hooks/useCertBundle'
+import type { RouteLocationRaw } from 'vue-router'
 
 export type { ReferencingConfigs }
 
@@ -46,7 +47,7 @@ interface RefGroup {
   key: string
   label: string
   count: number
-  path: string
+  to: RouteLocationRaw
 }
 
 const props = defineProps<{
@@ -72,6 +73,7 @@ const moduleToPath: Record<string, string> = {
   gateway: '/gateway',
   exhook: '/exhook',
   connectors: '/connector',
+  cluster_linking: '/cluster-linking',
   schema_registry: '/schema/external',
   listeners: '/listener',
   sso: '/sso',
@@ -87,6 +89,7 @@ const labelKeyMap: Record<string, string> = {
   gateway: 'refModuleGateway',
   exhook: 'refModuleExhook',
   connectors: 'refModuleConnector',
+  cluster_linking: 'refModuleClusterLinking',
   schema_registry: 'refModuleSchemaRegistry',
   listeners: 'refModuleListener',
   sso: 'refModuleSSO',
@@ -109,18 +112,36 @@ const getModule = (path: (string | number)[]) => {
   let m = String(path[0])
   if (m === 'dashboard') {
     m = String(path[1])
+  } else if (m === 'cluster' && path[1] === 'links') {
+    m = 'cluster_linking'
   }
   return m
 }
 
+const getRouteLocation = (path: string, namespace: string): RouteLocationRaw => {
+  if (namespace === GLOBAL_NAMESPACE) {
+    return path
+  }
+  return { path, query: { ns: namespace } }
+}
+
 const moduleGroups = computed((): RefGroup[] => {
-  const entries = props.referencingConfigs?.global ?? []
+  const entries = Object.entries(props.referencingConfigs ?? {}).flatMap(([namespace, paths]) =>
+    (paths ?? []).map((path) => ({ namespace, path })),
+  )
   const data = new Map<
     string,
-    { count: number; types: Set<string>; path: string; moduleKey: string; labelSuffix?: string }
+    {
+      count: number
+      types: Set<string>
+      path: string
+      moduleKey: string
+      namespace: string
+      labelSuffix?: string
+    }
   >()
 
-  for (const entry of entries) {
+  for (const { namespace, path: entry } of entries) {
     const m = getModule(entry)
     const second = typeof entry[1] === 'string' ? entry[1] : undefined
 
@@ -131,13 +152,15 @@ const moduleGroups = computed((): RefGroup[] => {
     if (m === 'gateway' && second) {
       const isListeners = entry[2] === 'listeners'
       // Group key includes sub-type so listener and settings entries are separate rows
-      groupKey = isListeners ? `gateway:${second}:listeners` : `gateway:${second}`
+      groupKey = isListeners
+        ? `${namespace}:gateway:${second}:listeners`
+        : `${namespace}:gateway:${second}`
       path = isListeners
         ? `/gateway/detail/${second}/listeners`
         : `/gateway/detail/${second}/settings`
       labelSuffix = isListeners ? tl('refModuleListener') : undefined
     } else {
-      groupKey = m
+      groupKey = `${namespace}:${m}`
       path = moduleToPath[m] ?? '/'
     }
 
@@ -154,19 +177,21 @@ const moduleGroups = computed((): RefGroup[] => {
         types: new Set(type ? [type] : []),
         path,
         moduleKey: m,
+        namespace,
         labelSuffix,
       })
     }
   }
 
   return Array.from(data.entries()).map(
-    ([groupKey, { count, types, path, moduleKey, labelSuffix }]) => {
+    ([groupKey, { count, types, path, moduleKey, namespace, labelSuffix }]) => {
       const base = getModuleLabel(moduleKey, Array.from(types))
+      const moduleLabel = labelSuffix ? `${base} · ${labelSuffix}` : base
       return {
         key: groupKey,
-        label: labelSuffix ? `${base} · ${labelSuffix}` : base,
+        label: namespace === GLOBAL_NAMESPACE ? moduleLabel : `${moduleLabel} · ${namespace}`,
         count,
-        path,
+        to: getRouteLocation(path, namespace),
       }
     },
   )

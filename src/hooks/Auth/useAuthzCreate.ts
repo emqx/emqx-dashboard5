@@ -82,6 +82,9 @@ export default function useAuthzCreate() {
       enable_pipelining: 100,
       precondition: '',
       ssl: createSSLForm(),
+      oauth2: {
+        enable: false,
+      },
     }
   }
   const getMongodbConfig = () => {
