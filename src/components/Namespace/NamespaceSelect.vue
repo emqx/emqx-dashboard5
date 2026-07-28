@@ -2,9 +2,12 @@
 <template>
   <el-select
     v-model="namespace"
-    clearable
     class="namespace-select"
-    :placeholder="t('BasicConfig.namespace')"
+    :clearable="clearable"
+    :disabled="disabled"
+    :loading="loading"
+    :placeholder="placeholder ?? t('BasicConfig.namespace')"
+    @change="handleChange"
   >
     <el-option
       v-for="{ label, value } in namespaceOptions"
@@ -25,15 +28,24 @@ const props = withDefaults(
       enable?: boolean
       value?: string
     }
+    placeholder?: string
+    clearable?: boolean
+    disabled?: boolean
   }>(),
   {
     global: () => ({ enable: true, value: undefined }),
+    clearable: true,
+    disabled: false,
   },
 )
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | undefined): void
+  (e: 'change', val: string | undefined): void
   (e: 'loaded'): void
 }>()
+
+const toModelValue = (val: string | undefined) =>
+  val === GLOBAL_NAMESPACE ? props.global.value : val
 
 const namespace = computed({
   get() {
@@ -43,46 +55,35 @@ const namespace = computed({
     return props.modelValue
   },
   set(val) {
-    if (val === GLOBAL_NAMESPACE) {
-      emit('update:modelValue', props.global.value)
-    } else {
-      emit('update:modelValue', val)
-    }
+    emit('update:modelValue', toModelValue(val))
   },
 })
 
 const { t } = useI18n()
-
+const loading = ref(false)
 const namespaceOptions = ref<OptionList<string>>([])
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
 
-const store = useStore()
-const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
-const currentUserNamespace = computed(() => store.getters.userNamespace)
-const getNamespaceOptions = async () => {
+const loadNamespaceOptions = async () => {
+  loading.value = true
   try {
     const res = await requestNamespaceOptions()
-    if (!isNamespaceUser.value) {
-      namespaceOptions.value = [
-        ...(props.global.enable ? [globalNamespaceOption] : []),
-        ...res.map((i) => ({ label: i, value: i })),
-      ]
-    } else {
-      namespaceOptions.value = res.reduce(
-        (arr, item) => {
-          if (item === currentUserNamespace.value) {
-            arr.push({ label: item, value: item })
-          }
-          return arr
-        },
-        props.global.enable ? [globalNamespaceOption] : [],
-      )
-    }
+    namespaceOptions.value = [
+      ...(props.global.enable ? [globalNamespaceOption] : []),
+      ...res.map((item) => ({ label: item, value: item })),
+    ]
   } catch (error) {
-    //
+    namespaceOptions.value = props.global.enable ? [globalNamespaceOption] : []
+  } finally {
+    loading.value = false
+    emit('loaded')
   }
 }
 
-getNamespaceOptions()
+const handleChange = (val: string | undefined) => {
+  emit('change', toModelValue(val))
+}
+
+loadNamespaceOptions()
 </script>

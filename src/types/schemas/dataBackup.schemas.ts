@@ -11,6 +11,10 @@ export type PostDataImport400 = {
   message?: string
 }
 
+export type PostDataImportParams = {
+  namespace?: string
+}
+
 export type GetDataFilesFilename404Code =
   (typeof GetDataFilesFilename404Code)[keyof typeof GetDataFilesFilename404Code]
 
@@ -47,6 +51,7 @@ export const GetDataFilesFilename200 = {
 
 export type GetDataFilesFilenameParams = {
   node?: string
+  namespace?: string
 }
 
 export type DeleteDataFilesFilename404Code =
@@ -77,6 +82,7 @@ export type DeleteDataFilesFilename400 = {
 
 export type DeleteDataFilesFilenameParams = {
   node?: string
+  namespace?: string
 }
 
 export type PostDataFiles400Code = (typeof PostDataFiles400Code)[keyof typeof PostDataFiles400Code]
@@ -93,6 +99,10 @@ export type PostDataFiles400 = {
 
 export type PostDataFilesBody = {
   filename?: Blob
+}
+
+export type PostDataFilesParams = {
+  namespace?: string
 }
 
 export type PostDataExport500Code =
@@ -128,6 +138,7 @@ export type PublicLimitParameter = number
 export type GetDataFilesParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
+  namespace?: string
 }
 
 export interface PublicMeta {

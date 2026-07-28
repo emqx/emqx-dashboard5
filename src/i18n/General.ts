@@ -525,9 +525,25 @@ export default {
     zh: '确认使用当前备份恢复?',
     en: 'Confirm to restore with current backup?',
   },
+  confirmNamespaceRestore: {
+    zh: '确认使用当前备份恢复命名空间 {namespace}？',
+    en: 'Restore namespace {namespace} from this backup?',
+  },
   restoreSuccess: {
     zh: '恢复成功',
     en: 'Restore successfully',
+  },
+  namespaceRestoreSuccess: {
+    zh: '备份已成功恢复至命名空间 {namespace}。',
+    en: 'Backup restored to namespace {namespace} successfully.',
+  },
+  namespaceUploadSuccess: {
+    zh: '备份已成功上传至命名空间 {namespace}。',
+    en: 'Backup uploaded to namespace {namespace} successfully.',
+  },
+  namespaceBackupOperationTip: {
+    zh: '当前正在管理命名空间 {namespace} 的备份。上传、下载、删除和恢复操作将作用于此命名空间。',
+    en: 'You are managing backups for namespace {namespace}. Upload, download, delete, and restore operations apply to this namespace.',
   },
   clearAllRetainedConfirm: {
     zh: '是否确定要清除全部保留消息？',
