@@ -18,8 +18,8 @@ importers:
         specifier: ~0.0.8
         version: 0.0.8
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.73
-        version: 0.0.73
+        specifier: ~0.0.74
+        version: 0.0.74
       '@emqx/shared-ui-utils':
         specifier: ~0.0.24
         version: 0.0.24(typescript@5.5.4)
@@ -414,8 +414,8 @@ packages:
   '@emqx/shared-ui-constants@0.0.8':
     resolution: {integrity: sha512-hUIPzN4qGbwQ6T+ZjEMofrRxM0iv46xnkylzSXVuxh9kUiBirYRLER/0HhyPxSozjfSV7ecyISizUckQ9xL8vg==}
 
-  '@emqx/shared-ui-i18n@0.0.73':
-    resolution: {integrity: sha512-+V6OnZOhzKGtHOxsY1zbLdJD48oq+UAEZ+n5u4ZVEzvchU3Nq6Lk+u7eEpvfWBT9Kq6MBFkUfMFN0HqSbLz26g==}
+  '@emqx/shared-ui-i18n@0.0.74':
+    resolution: {integrity: sha512-qPMUeSDha5oJe3vbKIg7xMBFhLmUb/1A0/ZCmygHv6p5PtQHOMB+kifvJ8XPFKrq2MsMe3Zw1m+tjR0M9PYkjA==}
 
   '@emqx/shared-ui-utils@0.0.24':
     resolution: {integrity: sha512-8Hq4ljQQUI5aPRMfS3jfifRZB2ym41GINmvXnO7tZ+UWrBE7haqMusb6blatbdDjRHZk1GZ7d3GabMgJxTrfhQ==}
@@ -4160,7 +4160,7 @@ snapshots:
 
   '@emqx/shared-ui-constants@0.0.8': {}
 
-  '@emqx/shared-ui-i18n@0.0.73': {}
+  '@emqx/shared-ui-i18n@0.0.74': {}
 
   '@emqx/shared-ui-utils@0.0.24(typescript@5.5.4)':
     dependencies:

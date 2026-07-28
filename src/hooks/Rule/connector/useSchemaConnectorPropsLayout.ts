@@ -318,7 +318,17 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RabbitMQ]: createOrderObj(
-      ['server', 'port', 'username', 'password', 'virtual_host', 'heartbeat', 'timeout', 'ssl'],
+      [
+        'server',
+        'servers',
+        'port',
+        'username',
+        'password',
+        'virtual_host',
+        'heartbeat',
+        'timeout',
+        'ssl',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
