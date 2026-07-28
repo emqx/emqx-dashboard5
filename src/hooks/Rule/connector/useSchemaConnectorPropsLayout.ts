@@ -222,7 +222,7 @@ export default (
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
     [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
-      ...createOrderObj(['url', 'headers'], fieldStartIndex),
+      ...createOrderObj(['url', 'headers', 'oauth2'], fieldStartIndex),
       ...createOrderObj(httpAdvancedProps, 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
@@ -334,7 +334,17 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RabbitMQ]: createOrderObj(
-      ['server', 'port', 'username', 'password', 'virtual_host', 'heartbeat', 'timeout', 'ssl'],
+      [
+        'server',
+        'servers',
+        'port',
+        'username',
+        'password',
+        'virtual_host',
+        'heartbeat',
+        'timeout',
+        'ssl',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(

@@ -7,6 +7,7 @@ import { compare } from 'compare-versions'
 import useSchemaHandlers from '../useSchemaHandlers'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
 import { FILE_STR_REG } from '@/common/constants'
+import HttpOAuth2Config from '@/components/HttpOAuth2Config.vue'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
   components: Properties
@@ -57,7 +58,7 @@ export default (
   const { t, tl, te } = useI18nTl('RuleEngine')
   const { getI18nPrefix, setLabelAndDesc } = useI18nPrefix(t, te)
   const { ruleWhenEditing } = useSpecialRuleForPassword(props)
-  const { createCommonIdRule } = useFormRules()
+  const { createCommonIdRule, createRequiredRule } = useFormRules()
   const addRuleForPassword = (rules: any) => {
     // TODO:consider the path
     if (!rules.password) {
@@ -224,6 +225,25 @@ export default (
     }
     if (comRet?.ssl?.properties?.verify) {
       comRet.ssl.properties.verify.default = SSL_VERIFY_VALUE_MAP.get(false)
+    }
+    if (comRet.oauth2) {
+      comRet.oauth2.default = { enable: false }
+      comRet.oauth2.customComponent = markRaw(HttpOAuth2Config)
+      comRet.oauth2.componentProps = {
+        isEdit: props.edit,
+      }
+      addRules(
+        {
+          'oauth2.token_endpoint': createRequiredRule(
+            t('BridgeSchema.http.oauth2_token_endpoint.label'),
+          ),
+          'oauth2.client_id': createRequiredRule(t('BridgeSchema.http.oauth2_client_id.label')),
+          'oauth2.client_secret': createRequiredRule(
+            t('BridgeSchema.http.oauth2_client_secret.label'),
+          ),
+        },
+        rules,
+      )
     }
     return { components: comRet, rules }
   }

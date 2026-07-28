@@ -16,9 +16,8 @@ export interface CertBundleForm extends CertBundleIn {
   namespace?: string
 }
 
-export interface ReferencingConfigs {
-  global?: Array<Array<string | number>>
-}
+type ReferencingConfigPath = Array<string | number>
+export type ReferencingConfigs = Record<string, ReferencingConfigPath[] | undefined>
 
 export interface CertInUseError {
   referencingConfigs: ReferencingConfigs
@@ -91,19 +90,41 @@ const useCertBundle = () => {
       keysNeedRemove.map((kind: CertKind) => deleteCertFile(currentForm, kind)),
     )
     const failedKinds: CertKind[] = []
-    const allReferencingEntries: Array<Array<string | number>> = []
+    const allReferencingConfigs: ReferencingConfigs = {}
+    let firstUnhandledError: unknown
     results.forEach((result, i) => {
       if (result.status === 'rejected') {
-        const refGlobal = (result.reason as any)?.response?.data?.referencing_configs?.global
-        if (refGlobal) {
+        const referencingConfigs = (result.reason as any)?.response?.data?.referencing_configs
+        if (referencingConfigs && typeof referencingConfigs === 'object') {
           failedKinds.push(keysNeedRemove[i])
-          allReferencingEntries.push(...refGlobal)
+          Object.entries(referencingConfigs as ReferencingConfigs).forEach(
+            ([namespace, entries]) => {
+              if (!Array.isArray(entries)) {
+                return
+              }
+              const currentEntries = allReferencingConfigs[namespace] ?? []
+              const entryKeys = new Set(currentEntries.map((entry) => JSON.stringify(entry)))
+              entries.forEach((entry) => {
+                const entryKey = JSON.stringify(entry)
+                if (!entryKeys.has(entryKey)) {
+                  currentEntries.push(entry)
+                  entryKeys.add(entryKey)
+                }
+              })
+              allReferencingConfigs[namespace] = currentEntries
+            },
+          )
+        } else if (!firstUnhandledError) {
+          firstUnhandledError = result.reason
         }
       }
     })
+    if (firstUnhandledError) {
+      return Promise.reject(firstUnhandledError)
+    }
     if (failedKinds.length > 0) {
       const error: CertInUseError = {
-        referencingConfigs: { global: allReferencingEntries },
+        referencingConfigs: allReferencingConfigs,
         failedKinds,
       }
       return Promise.reject(error)

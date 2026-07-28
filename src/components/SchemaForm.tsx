@@ -369,12 +369,7 @@ const SchemaForm = defineComponent({
       if (property.customComponent) {
         const customComponent = property.customComponent as Component
         return (
-          <customComponent
-            is={property.customComponent}
-            modelValue={modelValue}
-            {...handleUpdateModelValue}
-            {...customProps}
-          />
+          <customComponent modelValue={modelValue} {...handleUpdateModelValue} {...customProps} />
         )
       }
       // TODO: use SchemaFormItem

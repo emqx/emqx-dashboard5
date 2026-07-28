@@ -35,6 +35,13 @@ export const useCommonDataHandler = () => {
     if (ret.ssl) {
       ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
     }
+    if (ret.oauth2?.enable) {
+      if (ret.oauth2.ssl) {
+        ret.oauth2.ssl = handleSSLDataBeforeSubmit(ret.oauth2.ssl)
+      }
+    } else if (ret.oauth2) {
+      ret.oauth2 = { enable: false }
+    }
     return checkNOmitFromObj(omit(ret, keysNeedDel.update))
   }
 
@@ -54,6 +61,7 @@ export const useCommonDataHandler = () => {
     'sentinel_password',
     'private_key_password',
     'authentication.initial_token.client_secret',
+    'oauth2.client_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
   const getLikePasswordFieldKeys = (data: any) => {
     const ret: Array<string> = []
@@ -189,6 +197,15 @@ export const useConnectorDataHandler = (): {
   const specialHandlerAfterLoaded = new Map([
     [BridgeType.GCPProducer, handleGCPDataAfterLoaded],
     [BridgeType.GCPConsumer, handleGCPDataAfterLoaded],
+    [
+      BridgeType.Webhook,
+      (data: Connector) => {
+        if (!data.oauth2) {
+          data.oauth2 = { enable: false }
+        }
+        return data
+      },
+    ],
   ])
 
   const handleConnectorDataAfterLoaded = (data: Connector): Connector => {
