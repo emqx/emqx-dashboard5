@@ -11,6 +11,10 @@ export type PostDataImport400 = {
   message?: string
 }
 
+export type PostDataImportParams = {
+  namespace?: string
+}
+
 export type GetDataFilesFilename404Code =
   (typeof GetDataFilesFilename404Code)[keyof typeof GetDataFilesFilename404Code]
 
@@ -95,6 +99,10 @@ export type PostDataFiles400 = {
 
 export type PostDataFilesBody = {
   filename?: Blob
+}
+
+export type PostDataFilesParams = {
+  namespace?: string
 }
 
 export type PostDataExport500Code =
