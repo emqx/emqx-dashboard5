@@ -9,9 +9,12 @@ import {
 } from '@/types/systemModule'
 import { AuditLogItem, GetAuditParams } from '@/types/typeAlias'
 import {
+  DeleteDataFilesFilenameParams,
   EmqxMgmtApiDataBackupFilesResponse,
   EmqxMgmtApiDataBackupBackupFileInfo,
   EmqxMgmtApiDataBackupImportRequestBody,
+  GetDataFilesFilenameParams,
+  GetDataFilesParams,
 } from '@/types/schemas/dataBackup.schemas'
 
 // API key
@@ -63,15 +66,17 @@ export const queryAuditLogs = (
 
 // Data Backup
 export const getBackups = (
-  params = { page: 1, limit: 1000 },
+  params: GetDataFilesParams = { page: 1, limit: 1000 },
 ): Promise<EmqxMgmtApiDataBackupFilesResponse> => {
   return http.get('/data/files', { params })
 }
 export const createBackup = (): Promise<EmqxMgmtApiDataBackupBackupFileInfo> => {
   return http.post('/data/export')
 }
-export const deleteBackup = (fileName: string, node?: string): Promise<void> => {
-  const params = node ? { node } : undefined
+export const deleteBackup = (
+  fileName: string,
+  params?: DeleteDataFilesFilenameParams,
+): Promise<void> => {
   return http.delete(`/data/files/${fileName}`, { params })
 }
 export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): Promise<void> => {
@@ -79,11 +84,10 @@ export const restoreBackup = (payload: EmqxMgmtApiDataBackupImportRequestBody): 
 }
 export const downloadBackup = (
   fileName: string,
-  node?: string,
+  params?: GetDataFilesFilenameParams,
 ): Promise<{
   data: Blob
 }> => {
-  const params = node ? { node } : undefined
   return http.get(`/data/files/${fileName}`, { responseType: 'blob', params })
 }
 export const uploadBackup = (fileName: string, file: File): Promise<unknown> => {

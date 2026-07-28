@@ -569,6 +569,10 @@ export default {
     zh: '恢复成功',
     en: 'Restore successfully',
   },
+  namespaceBackupOperationTip: {
+    zh: '当前正在查看命名空间 {namespace} 的备份。全局管理员只能下载或删除这些文件；创建、上传和恢复仅支持 Global 备份。',
+    en: 'You are viewing backups for namespace {namespace}. Global administrators can only download or delete these files; create, upload, and restore are available only for Global backups.',
+  },
   clearAllRetainedConfirm: {
     zh: '是否确定要清除全部保留消息？',
     en: 'Confirm to clear all retained messages?',
