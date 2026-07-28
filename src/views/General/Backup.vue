@@ -1,7 +1,16 @@
 <template>
   <div class="backup app-wrapper">
     <div class="section-header">
-      <div></div>
+      <div>
+        <NamespaceSelect
+          v-if="isGlobalAdmin"
+          v-model="selectedNamespace"
+          class="namespace-select"
+          :clearable="false"
+          :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+          @change="handleNamespaceChanged"
+        />
+      </div>
       <el-upload
         ref="UploadRef"
         class="upload-container"
@@ -16,8 +25,20 @@
           {{ tl('upload') }}
         </el-button>
       </el-upload>
-      <CreateButton :loading="createLoading" @click="handleCreateBackup" />
+      <CreateButton
+        :disabled="!$hasPermission('post') || isNamespaceBackupView"
+        :loading="createLoading"
+        @click="handleCreateBackup"
+      />
     </div>
+    <el-alert
+      v-if="isNamespaceBackupView"
+      class="ns-alert"
+      show-icon
+      type="info"
+      :closable="false"
+      :title="tl('namespaceBackupOperationTip', { namespace: namespaceParam ?? '' })"
+    />
     <el-table class="backup-table" :data="backupList" v-loading.lock="isTableLoading">
       <el-table-column prop="filename" min-width="125" :label="tl('filename')" />
       <el-table-column prop="node" min-width="128" :label="t('Dashboard.nodeName')" />
@@ -61,7 +82,9 @@ import {
   uploadBackup,
 } from '@/api/systemModule'
 import { PageData } from '@/types/common'
+import { UserRole } from '@/types/enum'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
+import NamespaceSelect from '@/components/Namespace/NamespaceSelect.vue'
 import { Upload } from '@element-plus/icons-vue'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import {
@@ -82,13 +105,27 @@ const createLoading = ref(false)
 const uploading = ref(false)
 const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
+const selectedNamespace = ref<string | undefined>(GLOBAL_NAMESPACE)
+const uploadingNamespace = ref<string | undefined>()
+
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
+const isGlobalAdmin = computed(
+  () => !isNamespaceUser.value && store.state.user.role === UserRole.Admin,
+)
+const namespaceParam = computed(() =>
+  selectedNamespace.value === GLOBAL_NAMESPACE ? undefined : selectedNamespace.value,
+)
+const isNamespaceBackupView = computed(
+  () => isGlobalAdmin.value && namespaceParam.value !== undefined,
+)
 
 const { pageParams, pageMeta, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 const { t, tl } = useI18nTl('General')
 
 const loadBackupFiles = async (params = {}) => {
   isTableLoading.value = true
-  const sendParams = { ...pageParams.value, ...params }
+  const sendParams = { ...pageParams.value, ...params, namespace: namespaceParam.value }
   try {
     const { data, meta } = await getBackups(sendParams)
     backupList.value = data as BackupItem[]
@@ -109,6 +146,10 @@ const refreshListData = () => {
   loadBackupFiles()
 }
 
+const handleNamespaceChanged = () => {
+  refreshListData()
+}
+
 const handleCreateBackup = async () => {
   createLoading.value = true
   try {
@@ -122,9 +163,12 @@ const handleCreateBackup = async () => {
   }
 }
 
-const store = useStore()
 const handleRestoreBackup = async (backup: BackupItem) => {
-  ElMessageBox.confirm(tl('confirmRestore'), {
+  const targetNamespace = namespaceParam.value
+  const confirmMessage = targetNamespace
+    ? tl('confirmNamespaceRestore', { namespace: targetNamespace })
+    : tl('confirmRestore')
+  ElMessageBox.confirm(confirmMessage, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
     type: 'info',
@@ -133,8 +177,15 @@ const handleRestoreBackup = async (backup: BackupItem) => {
         instance.confirmButtonLoading = true
         try {
           const { filename, node } = backup
-          await restoreBackup({ filename, node })
-          ElMessage.success(tl('restoreSuccess'))
+          await restoreBackup(
+            { filename, node },
+            targetNamespace ? { namespace: targetNamespace } : undefined,
+          )
+          ElMessage.success(
+            targetNamespace
+              ? tl('namespaceRestoreSuccess', { namespace: targetNamespace })
+              : tl('restoreSuccess'),
+          )
           done()
         } catch (error) {
           done()
@@ -148,6 +199,7 @@ const handleRestoreBackup = async (backup: BackupItem) => {
 }
 
 const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
+  const targetNamespace = namespaceParam.value
   ElMessageBox.confirm(t('Base.confirmDelete'), {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
@@ -157,7 +209,7 @@ const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true
         try {
-          await deleteBackup(filename, node)
+          await deleteBackup(filename, { node, namespace: targetNamespace })
           ElMessage.success(t('Base.deleteSuccess'))
           refreshListData()
           done()
@@ -172,7 +224,8 @@ const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
 }
 
 const handleDownloadBackup = async ({ filename, node }: BackupItem) => {
-  const res = await downloadBackup(filename, node)
+  const targetNamespace = namespaceParam.value
+  const res = await downloadBackup(filename, { node, namespace: targetNamespace })
   if (res.data) {
     createDownloadBlobLink(res.data, filename)
   }
@@ -180,13 +233,20 @@ const handleDownloadBackup = async ({ filename, node }: BackupItem) => {
 
 const handleUploadSuccess = () => {
   uploading.value = false
-  ElMessage.success(t('Dashboard.uploadedSuccessfully'))
+  const targetNamespace = uploadingNamespace.value
+  ElMessage.success(
+    targetNamespace
+      ? tl('namespaceUploadSuccess', { namespace: targetNamespace })
+      : t('Dashboard.uploadedSuccessfully'),
+  )
+  uploadingNamespace.value = undefined
   loadBackupFiles()
   UploadRef.value?.clearFiles()
 }
 
 const handleUploadError = () => {
   uploading.value = false
+  uploadingNamespace.value = undefined
   loadBackupFiles()
   UploadRef.value?.clearFiles()
 }
@@ -196,7 +256,13 @@ const customUploadRequest: UploadRequestHandler = async (
 ): Promise<unknown> => {
   uploading.value = true
   const { filename, file } = options
-  return await uploadBackup(filename, file)
+  const targetNamespace = namespaceParam.value
+  uploadingNamespace.value = targetNamespace
+  return await uploadBackup(
+    filename,
+    file,
+    targetNamespace ? { namespace: targetNamespace } : undefined,
+  )
 }
 </script>
 
@@ -207,5 +273,13 @@ const customUploadRequest: UploadRequestHandler = async (
   align-items: center;
   justify-content: space-around;
   gap: 12px;
+}
+
+.namespace-select {
+  width: 240px;
+}
+
+.ns-alert {
+  margin-bottom: 16px;
 }
 </style>
