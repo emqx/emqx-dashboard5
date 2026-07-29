@@ -23,11 +23,11 @@ export const getGlobalCertBundleInfo = (name: string): Promise<CertBundleInfo> =
 
 export const deleteGlobalCertBundle = (
   name: string,
-  options?: { kind?: CertKind; forceDelete?: boolean },
+  options?: { kind?: CertKind },
 ): Promise<void> => {
-  const { kind, forceDelete } = options ?? {}
+  const { kind } = options ?? {}
   return http.delete(`/certs/global/name/${encodeURIComponent(name)}`, {
-    params: { kind, ...(forceDelete ? { force_delete: true } : {}) },
+    params: { kind },
     errorsHandleCustom: CERT_CUSTOM_ERRORS,
   })
 }
@@ -57,13 +57,13 @@ export const getNamespaceCertBundleInfo = (
 export const deleteNamespaceCertBundle = (
   namespace: string,
   name: string,
-  options?: { kind?: CertKind; forceDelete?: boolean },
+  options?: { kind?: CertKind },
 ): Promise<void> => {
-  const { kind, forceDelete } = options ?? {}
+  const { kind } = options ?? {}
   return http.delete(
     `/certs/ns/${encodeURIComponent(namespace)}/name/${encodeURIComponent(name)}`,
     {
-      params: { kind, ...(forceDelete ? { force_delete: true } : {}) },
+      params: { kind },
       errorsHandleCustom: CERT_CUSTOM_ERRORS,
     },
   )

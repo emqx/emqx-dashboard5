@@ -37,7 +37,6 @@
     <template v-if="confMethod === CertBundleType.Regular">
       <el-form-item prop="chain" label="TLS Cert">
         <CertFileInput
-          class="TLS-input"
           v-model="record.chain"
           :is-edit="isEditing"
           :placeholder="t('Base.certPlaceholder')"
@@ -45,7 +44,6 @@
       </el-form-item>
       <el-form-item prop="key" label="TLS Key">
         <CertFileInput
-          class="TLS-input"
           v-model="record.key"
           :is-edit="isEditing"
           :placeholder="t('Base.keyFilePlaceholder')"
@@ -53,7 +51,6 @@
       </el-form-item>
       <el-form-item prop="key_password" :label="t('Base.keyPassword')">
         <CertFileInput
-          class="TLS-input"
           v-model="record.key_password"
           :is-edit="isEditing"
           :placeholder="t('Base.keyFilePlaceholder')"
@@ -72,7 +69,6 @@
 
     <el-form-item v-else prop="acc_key" :label="t('Base.acmeKey')">
       <CertFileInput
-        class="TLS-input"
         v-model="record.acc_key"
         :is-edit="isEditing"
         :accept="`${CER_FILE_ACCEPTS},.json`"
@@ -81,7 +77,6 @@
 
     <el-form-item prop="ca" label="CA Cert">
       <CertFileInput
-        class="TLS-input"
         v-model="record.ca"
         :is-edit="isEditing"
         :placeholder="t('Base.certPlaceholder')"
