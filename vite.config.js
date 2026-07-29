@@ -14,7 +14,7 @@ const getVersion = (packageVersion) => {
 }
 const version = getVersion(packageVersion)
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const { HOST_URL } = env
   const target = HOST_URL || 'http://localhost:18083/'
@@ -48,6 +48,7 @@ export default defineConfig(({ mode }) => {
     define: {
       __EMQX_VERSION__: JSON.stringify(version),
     },
+    esbuild: command === 'build' ? { drop: ['debugger'] } : undefined,
     css: {
       modules: {
         localsConvention: 'camelCaseOnly',
