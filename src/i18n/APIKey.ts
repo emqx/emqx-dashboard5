@@ -68,16 +68,44 @@ export default {
     en: 'Scopes',
   },
   scopesPlaceholder: {
-    zh: '未选择时按角色默认权限授权',
-    en: 'When empty, fall back to the role default',
+    zh: '未选择时，不授予任何权限范围',
+    en: 'When empty, grant no scopes',
   },
-  allScopes: {
-    zh: '全部',
-    en: 'All',
+  useRoleDefaultScopes: {
+    zh: '使用角色默认权限',
+    en: 'Use Role Default Scopes',
   },
-  legacyScopesTip: {
-    zh: '该 API 密钥的权限范围未设置，请编辑并保存权限范围。',
-    en: 'This API key has no scopes set. Edit and save its scopes.',
+  roleDefaultScopes: {
+    zh: '角色默认权限',
+    en: 'Role Default Scopes',
+  },
+  noScopes: {
+    zh: '无权限范围',
+    en: 'No Scopes',
+  },
+  roleDefaultScopesFormDesc: {
+    zh: '开启后，API 密钥会自动使用当前角色的默认权限。以后角色的默认权限发生变化时，新权限也会自动生效。',
+    en: "When enabled, the API key automatically uses its role's default scopes. If the role defaults change later, the updated permissions take effect automatically.",
+  },
+  scopesColumnDesc: {
+    zh: '权限范围用于限定 API 密钥可以访问的功能类别。显示“角色默认权限”表示自动继承当前角色的默认设置；具体权限标签表示使用显式配置；“无权限范围”表示该密钥不能访问受权限范围保护的接口。具体可执行的操作仍受角色和命名空间限制。',
+    en: 'Scopes limit which feature areas an API key can access. “Role Default Scopes” means the key automatically inherits the defaults of its current role; individual scope tags indicate an explicit configuration; “No Scopes” means the key cannot access scope-protected APIs. Allowed operations are still restricted by the role and Namespace.',
+  },
+  roleDefaultScopesByRoleDesc: {
+    zh: `**各角色的默认权限**
+
+- **全局管理员 / 全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
+- **命名空间管理员 / 命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
+- **发布者**：消息发布`,
+    en: `**Default permissions by role**
+
+- **Global Administrator / Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
+- **Namespace Administrator / Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
+- **Publisher**: Publish`,
+  },
+  roleDefaultScopesRestrictionDesc: {
+    zh: '上述权限范围决定 API 密钥可访问的功能类别；具体可执行的操作和可查看的数据仍受角色和命名空间限制。发布者只能使用消息发布权限。',
+    en: 'These scopes determine which feature areas the API key can access. Allowed operations and visible data are still restricted by its role and Namespace. Publishers can only use the Publish scope.',
   },
   scopeLabel_connections: {
     zh: '连接',
