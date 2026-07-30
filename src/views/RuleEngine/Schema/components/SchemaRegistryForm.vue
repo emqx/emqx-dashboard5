@@ -253,17 +253,17 @@ const rules = ref({
           let ajvInstance
           switch (schemaDraft) {
             case JSONSchemaDraft.Draft04:
-              ajvInstance = new Ajv04({ validateSchema: false })
+              ajvInstance = new Ajv04()
               break
             case JSONSchemaDraft.Draft06:
-              ajvInstance = new Ajv({ validateSchema: false })
+              ajvInstance = new Ajv({ defaultMeta: JSONSchemaDraft.Draft06 })
               ajvInstance.addMetaSchema(draft6MetaSchema)
               break
             case JSONSchemaDraft.Draft201909:
-              ajvInstance = new Ajv2019({ validateSchema: false })
+              ajvInstance = new Ajv2019()
               break
             case JSONSchemaDraft.Draft202012:
-              ajvInstance = new Ajv2020({ validateSchema: false })
+              ajvInstance = new Ajv2020()
               break
             default:
               callback(new Error(tl('unsupportedJSONSchemaVersion')))
@@ -271,13 +271,11 @@ const rules = ref({
           }
 
           addFormats(ajvInstance)
-          // remove all existed schemas..
-          // otherwise it throws the magical `existed` error
-          Object.keys(ajvInstance.schemas).forEach((key) => ajvInstance.removeSchema(key))
           ajvInstance.compile(schemaObj)
           callback()
         } catch (e: any) {
-          callback(new Error(e.toString()))
+          const errorMessage = e instanceof Error ? e.message : String(e)
+          callback(new Error(`${tl('invalidJSONSchema')}: ${errorMessage}`))
         }
       },
     },
