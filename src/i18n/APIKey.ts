@@ -71,9 +71,25 @@ export default {
     zh: '未选择时，不授予任何权限范围',
     en: 'When empty, grant no scopes',
   },
-  useRoleDefaultScopes: {
-    zh: '使用角色默认权限',
-    en: 'Use Role Default Scopes',
+  scopeMode: {
+    zh: '权限模式',
+    en: 'Permission Mode',
+  },
+  scopeModeDesc: {
+    zh: `选择 API 密钥的权限配置方式：
+
+- **角色默认权限**：自动使用当前角色的默认权限。管理员和查看者可访问全部管理功能类别，发布者仅可发布消息；以后角色默认权限发生变化时，新权限会自动生效。
+- **系统级权限**：仅授予“系统设置”权限范围，可访问核心配置、监听器、插件、数据备份与恢复、OpenTelemetry 等系统功能。
+- **自定义受限权限**：从连接、消息发布、数据集成、监控等非系统权限范围中按需选择。未选择任何权限时，API 密钥不能访问受权限范围保护的接口。
+
+无论选择哪种模式，具体可执行的操作和可查看的数据仍受角色和命名空间限制。各角色的默认权限如下。`,
+    en: `Choose how permissions are assigned to the API key:
+
+- **Role Default Scopes**: Automatically use the current role's defaults. Administrators and viewers can access all management feature areas, while publishers can only publish messages. Future changes to the role defaults take effect automatically.
+- **System-level Permissions**: Grant only the System scope, covering core configuration, listeners, plugins, data backup and restore, OpenTelemetry, and other system functions. 
+- **Custom Restricted Permissions**: Select non-system scopes such as Connections, Publish, Data Integration, and Monitoring. When no scope is selected, the API key cannot access scope-protected APIs.
+
+In every mode, available operations and visible data remain restricted by the role and Namespace. The default scopes for each role are listed below.`,
   },
   roleDefaultScopes: {
     zh: '角色默认权限',
@@ -83,9 +99,21 @@ export default {
     zh: '无权限范围',
     en: 'No Scopes',
   },
-  roleDefaultScopesFormDesc: {
-    zh: '开启后，API 密钥会自动使用当前角色的默认权限。以后角色的默认权限发生变化时，新权限也会自动生效。',
-    en: "When enabled, the API key automatically uses its role's default scopes. If the role defaults change later, the updated permissions take effect automatically.",
+  scopeModeSystem: {
+    zh: '系统级权限',
+    en: 'System-level Permissions',
+  },
+  scopeModeCustom: {
+    zh: '自定义受限权限',
+    en: 'Custom Restricted Permissions',
+  },
+  customScopesSystemError: {
+    zh: '自定义受限权限不能包含“系统设置”权限范围，请移除该权限或选择“系统级权限”。',
+    en: 'Custom restricted permissions cannot include the System scope. Remove it or select System-level Permissions.',
+  },
+  mixedScopesMigrationDesc: {
+    zh: '此 API 密钥保存了旧版的混合权限配置。请移除“系统设置”后继续使用自定义受限权限，或改选“系统级权限”或“角色默认权限”。',
+    en: 'This API key contains a legacy mixed-scope configuration. Remove System to keep custom restricted permissions, or select System-level Permissions or Role Default Scopes.',
   },
   scopesColumnDesc: {
     zh: '权限范围用于限定 API 密钥可以访问的功能类别。显示“角色默认权限”表示自动继承当前角色的默认设置；具体权限标签表示使用显式配置；“无权限范围”表示该密钥不能访问受权限范围保护的接口。具体可执行的操作仍受角色和命名空间限制。',
