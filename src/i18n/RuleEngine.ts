@@ -1510,16 +1510,16 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
     en: 'Invalid JSON Schema',
   },
   unsupportedJSONSchemaVersion: {
-    zh: '当前仅支持 JSON Schema draft-03、draft-04 和 draft-06 版本',
-    en: 'EMQX currently supports JSON Schema draft-03, draft-04, and draft-06 only',
+    zh: '当前仅支持 JSON Schema draft-03、draft-04、draft-06、draft 2019-09 和 draft 2020-12 版本',
+    en: 'EMQX currently supports JSON Schema draft-03, draft-04, draft-06, draft 2019-09, and draft 2020-12 only',
   },
   generateJSONSchemaTip: {
     zh: '输入 JSON 以生成 JSON Schema',
     en: 'Enter JSON to generate JSON Schema',
   },
   JSONSchemaVersionTip: {
-    zh: `当前支持 JSON Schema \`draft-03\`、\`draft-04\` 和 \`draft-06\` 版本。`,
-    en: `JSON Schema versions \`draft-03\`, \`draft-04\`, and \`draft-06\` are supported.`,
+    zh: `当前支持 JSON Schema \`draft-03\`、\`draft-04\`、\`draft-06\`、\`draft 2019-09\` 和 \`draft 2020-12\` 版本。`,
+    en: `JSON Schema versions \`draft-03\`, \`draft-04\`, \`draft-06\`, \`draft 2019-09\`, and \`draft 2020-12\` are supported.`,
   },
   sourceTopic: {
     zh: '来源主题',
