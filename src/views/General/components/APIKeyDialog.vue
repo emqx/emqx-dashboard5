@@ -106,23 +106,34 @@
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="!isPublisherRole">
-          <el-form-item>
+          <el-form-item prop="scopeMode">
             <template #label>
               <FormItemLabel
-                :label="tl('useRoleDefaultScopes')"
-                :desc="roleDefaultScopesFormDesc"
+                :label="tl('scopeMode')"
+                :desc="scopeModeDesc"
                 desc-marked
                 :max-height="400"
-                popper-class="role-default-scopes-tooltip"
+                popper-class="scope-mode-tooltip"
               />
             </template>
-            <el-switch
-              v-model="formData.useRoleDefaultScopes"
+            <el-radio-group
+              v-model="formData.scopeMode"
               :disabled="operationType === 'view'"
-            />
+              @change="handleScopeModeChanged"
+            >
+              <el-radio :value="ScopeMode.RoleDefault">
+                {{ tl('roleDefaultScopes') }}
+              </el-radio>
+              <el-radio :value="ScopeMode.System">
+                {{ tl('scopeModeSystem') }}
+              </el-radio>
+              <el-radio :value="ScopeMode.Custom">
+                {{ tl('scopeModeCustom') }}
+              </el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="24" v-if="!isPublisherRole && !formData.useRoleDefaultScopes">
+        <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
           <el-form-item :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
@@ -133,7 +144,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="scope in availableScopes"
+                v-for="scope in customScopeOptions"
                 :key="scope.name"
                 :value="scope.name"
                 :label="getScopeLabel(scope.name)"
@@ -145,6 +156,14 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-alert
+            v-if="hasLegacyMixedScopes"
+            class="mixed-scopes-alert"
+            type="warning"
+            :title="tl('mixedScopesMigrationDesc')"
+            :closable="false"
+            show-icon
+          />
         </el-col>
         <el-col :span="24">
           <el-form-item :label="t('Base.note')" prop="description">
@@ -187,10 +206,19 @@ import { isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
+enum ScopeMode {
+  RoleDefault = 'role_default',
+  System = 'system',
+  Custom = 'custom',
+}
+
+const SYSTEM_SCOPE = 'system'
+const PUBLISH_SCOPE = 'publish'
+
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
   Partial<Omit<APIKey, 'scopes'>> & {
     scopes: string[]
-    useRoleDefaultScopes: boolean
+    scopeMode: ScopeMode
   }
 
 const props = defineProps({
@@ -216,10 +244,8 @@ const { t, te } = useI18n()
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
-const buildRoleDefaultScopesDesc = (intro: string) =>
-  [intro, tl('roleDefaultScopesByRoleDesc'), tl('roleDefaultScopesRestrictionDesc')].join('\n\n')
-const roleDefaultScopesFormDesc = computed(() =>
-  buildRoleDefaultScopesDesc(tl('roleDefaultScopesFormDesc')),
+const scopeModeDesc = computed(() =>
+  [tl('scopeModeDesc'), tl('roleDefaultScopesByRoleDesc')].join('\n\n'),
 )
 
 const createRawFormData = () => ({
@@ -229,7 +255,7 @@ const createRawFormData = () => ({
   enable: true,
   role: 'administrator',
   scopes: [] as string[],
-  useRoleDefaultScopes: true,
+  scopeMode: ScopeMode.RoleDefault,
 })
 
 const formCom = ref()
@@ -237,6 +263,17 @@ const formData: Ref<APIKeyFormData> = ref(createRawFormData())
 const availableScopes: Ref<APIKeyScope[]> = ref([])
 const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
+const validateCustomScopes = (
+  _rule: unknown,
+  value: string[],
+  callback: (error?: Error) => void,
+) => {
+  if (formData.value.scopeMode === ScopeMode.Custom && value.includes(SYSTEM_SCOPE)) {
+    callback(new Error(tl('customScopesSystemError')))
+    return
+  }
+  callback()
+}
 const rules = {
   name: [
     {
@@ -245,6 +282,7 @@ const rules = {
     },
     ...createLetterStartRule(),
   ],
+  scopes: [{ validator: validateCustomScopes, trigger: 'change' }],
 }
 const isEnableOptions = [
   {
@@ -298,15 +336,43 @@ const loadAvailableScopes = () =>
     return scopes
   })
 
+const isSameScopeSet = (left: string[], right: string[]) => {
+  const leftSet = new Set(left)
+  const rightSet = new Set(right)
+  return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
+}
+
+const getRoleDefaultScopes = (role: string, scopes: APIKeyScope[]) =>
+  role === UserRole.Publisher ? [PUBLISH_SCOPE] : scopes.map(({ name }) => name)
+
+const resolveScopeMode = (
+  scopes: APIKey['scopes'],
+  role: string,
+  availableScopeList: APIKeyScope[],
+) => {
+  if (scopes == null || isUnsetScopes(scopes)) {
+    return ScopeMode.RoleDefault
+  }
+  const normalizedScopes = normalizeScopes(scopes) ?? []
+  if (isSameScopeSet(normalizedScopes, getRoleDefaultScopes(role, availableScopeList))) {
+    return ScopeMode.RoleDefault
+  }
+  if (normalizedScopes.length === 1 && normalizedScopes[0] === SYSTEM_SCOPE) {
+    return ScopeMode.System
+  }
+  return ScopeMode.Custom
+}
+
 watch(showDialog, async (val) => {
   if (val) {
-    loadAvailableScopes()
+    const availableScopesPromise = loadAvailableScopes().catch(() => [])
     if (props.operationType !== 'create') {
       const data = props.APIKeyData as APIKey
+      const loadedScopes = await availableScopesPromise
       formData.value = {
         ...data,
         scopes: normalizeScopes(data.scopes) ?? [],
-        useRoleDefaultScopes: data.scopes == null || isUnsetScopes(data.scopes),
+        scopeMode: resolveScopeMode(data.scopes, data.role, loadedScopes),
       }
       lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
@@ -329,10 +395,24 @@ const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+const customScopeOptions = computed(() =>
+  availableScopes.value.filter(({ name }) => name !== SYSTEM_SCOPE),
+)
+const hasLegacyMixedScopes = computed(
+  () =>
+    formData.value.scopeMode === ScopeMode.Custom && formData.value.scopes.includes(SYSTEM_SCOPE),
+)
+
+const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
+  if (mode === ScopeMode.Custom) {
+    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== SYSTEM_SCOPE)
+  }
+  nextTick(() => formCom.value?.clearValidate('scopes'))
+}
 
 const handleRoleChanged = () => {
   if (formData.value.role === UserRole.Publisher || lastRole.value === UserRole.Publisher) {
-    formData.value.useRoleDefaultScopes = true
+    formData.value.scopeMode = ScopeMode.RoleDefault
     formData.value.scopes = []
   }
   lastRole.value = formData.value.role as UserRole
@@ -356,10 +436,16 @@ type APIKeyFormDataWithoutName = Omit<APIKeyFormData, 'name'>
 const handleDataForSubmitting = <T extends APIKeyFormData | APIKeyFormDataWithoutName>(
   formData: T,
 ) => {
-  const { useRoleDefaultScopes, ...data } = formData
+  const { scopeMode, ...data } = formData
+  const scopes =
+    scopeMode === ScopeMode.RoleDefault
+      ? UNSET_SCOPES
+      : scopeMode === ScopeMode.System
+        ? [SYSTEM_SCOPE]
+        : data.scopes
   const ret = {
     ...data,
-    scopes: useRoleDefaultScopes ? UNSET_SCOPES : data.scopes,
+    scopes,
   }
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
@@ -432,6 +518,13 @@ const submit = async () => {
       margin-left: 8px;
     }
   }
+  .mixed-scopes-alert {
+    margin-top: -8px;
+    margin-bottom: 18px;
+  }
+}
+.scope-mode-tooltip {
+  max-width: 720px;
 }
 .scope-desc {
   color: var(--el-text-color-secondary);
