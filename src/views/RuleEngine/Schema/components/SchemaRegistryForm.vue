@@ -167,9 +167,11 @@ import {
 } from '@/types/rule'
 import { ProtobufBundleSourceType, SchemaRegistryExternalHttp } from '@/types/typeAlias'
 import { DocumentCopy } from '@element-plus/icons-vue'
-import ajv from 'ajv'
+import Ajv from 'ajv'
 import Ajv04 from 'ajv-draft-04'
 import addFormats from 'ajv-formats'
+import Ajv2019 from 'ajv/dist/2019'
+import Ajv2020 from 'ajv/dist/2020'
 import draft6MetaSchema from 'ajv/dist/refs/json-schema-draft-06.json'
 import { UploadRawFile } from 'element-plus'
 import HTTPSchemaRegistryParameters from './HTTPSchemaRegistryParameters.vue'
@@ -212,7 +214,19 @@ const JSONSchemaDraft = {
   Draft03: 'http://json-schema.org/draft-03/schema#',
   Draft04: 'http://json-schema.org/draft-04/schema#',
   Draft06: 'http://json-schema.org/draft-06/schema#',
+  Draft201909: 'https://json-schema.org/draft/2019-09/schema',
+  Draft202012: 'https://json-schema.org/draft/2020-12/schema',
 } as const
+
+const normalizeJSONSchemaDraft = (schemaDraft: unknown) => {
+  if (
+    schemaDraft === `${JSONSchemaDraft.Draft201909}#` ||
+    schemaDraft === `${JSONSchemaDraft.Draft202012}#`
+  ) {
+    return schemaDraft.slice(0, -1)
+  }
+  return schemaDraft
+}
 
 const { createRequiredRule, createCommonIdRule } = useFormRules()
 const rules = ref({
@@ -230,25 +244,33 @@ const rules = ref({
           const schemaObj = JSON.parse(value)
           const { $schema } = schemaObj
           // The backend defaults to draft-06 when `$schema` is absent.
-          const schemaDraft = $schema ?? JSONSchemaDraft.Draft06
+          const schemaDraft = normalizeJSONSchemaDraft($schema ?? JSONSchemaDraft.Draft06)
           if (schemaDraft === JSONSchemaDraft.Draft03) {
             callback()
             return
           }
-          if (schemaDraft !== JSONSchemaDraft.Draft04 && schemaDraft !== JSONSchemaDraft.Draft06) {
-            callback(new Error(tl('unsupportedJSONSchemaVersion')))
-            return
+
+          let ajvInstance
+          switch (schemaDraft) {
+            case JSONSchemaDraft.Draft04:
+              ajvInstance = new Ajv04({ validateSchema: false })
+              break
+            case JSONSchemaDraft.Draft06:
+              ajvInstance = new Ajv({ validateSchema: false })
+              ajvInstance.addMetaSchema(draft6MetaSchema)
+              break
+            case JSONSchemaDraft.Draft201909:
+              ajvInstance = new Ajv2019({ validateSchema: false })
+              break
+            case JSONSchemaDraft.Draft202012:
+              ajvInstance = new Ajv2020({ validateSchema: false })
+              break
+            default:
+              callback(new Error(tl('unsupportedJSONSchemaVersion')))
+              return
           }
 
-          const isDraft06 = schemaDraft === JSONSchemaDraft.Draft06
-          const ajvInstance = isDraft06
-            ? new ajv({ validateSchema: false })
-            : new Ajv04({ validateSchema: false })
           addFormats(ajvInstance)
-
-          if (isDraft06) {
-            ajvInstance.addMetaSchema(draft6MetaSchema)
-          }
           // remove all existed schemas..
           // otherwise it throws the magical `existed` error
           Object.keys(ajvInstance.schemas).forEach((key) => ajvInstance.removeSchema(key))
