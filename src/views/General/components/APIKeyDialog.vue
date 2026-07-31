@@ -134,7 +134,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
-          <el-form-item :label="tl('scopes')" prop="scopes">
+          <el-form-item class="scopes-form-item" :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
               multiple
@@ -521,6 +521,12 @@ const submit = async () => {
   .mixed-scopes-alert {
     margin-top: -8px;
     margin-bottom: 18px;
+  }
+  .scopes-form-item {
+    .el-form-item__error {
+      position: static;
+      width: 100%;
+    }
   }
 }
 .scope-mode-tooltip {
