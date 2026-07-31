@@ -63,6 +63,46 @@ export default {
     zh: '使用角色默认权限',
     en: 'Use Role Default Scopes',
   },
+  scopeMode: {
+    zh: '权限模式',
+    en: 'Permission Mode',
+  },
+  scopeModeDesc: {
+    zh: `选择全局用户的权限配置方式：
+
+- **角色默认权限**：自动使用当前角色的默认权限；以后角色默认权限发生变化时，新权限会自动生效。
+- **管理权限范围**：从系统设置、用户管理、API 密钥管理和 SSO 管理中按需选择。
+- **自定义受限权限**：从连接、消息发布、数据集成、监控和 MFA 管理等非管理权限范围中按需选择。未选择任何权限时，用户不能访问受权限范围保护的接口。
+
+具体可选择的权限仍受用户角色限制。各角色和所属范围的默认权限如下。`,
+    en: `Choose how permissions are assigned to the global user:
+
+- **Role Default Scopes**: Automatically use the current role's defaults. Future changes to the role defaults take effect automatically.
+- **Privilege Scopes**: Select System, User Management, API Key Management, and SSO Management scopes as needed. 
+- **Custom Restricted Permissions**: Select non-privilege scopes such as Connections, Publish, Data Integration, Monitoring, and MFA Management. When no scope is selected, the user cannot access scope-protected APIs.
+
+Available scopes are still restricted by the user's role. The default scopes for each role and scope are listed below.`,
+  },
+  scopeModePrivilege: {
+    zh: '管理权限范围',
+    en: 'Privilege Scopes',
+  },
+  scopeModeCustom: {
+    zh: '自定义受限权限',
+    en: 'Custom Restricted Permissions',
+  },
+  mixedGlobalScopesDesc: {
+    zh: '当前权限同时包含管理权限范围和自定义受限权限，全局用户不能使用这种组合。请选择“管理权限范围”“自定义受限权限”或“角色默认权限”后再保存。',
+    en: 'The current selection combines privilege and restricted scopes, which is not allowed for global users. Select Privilege Scopes, Custom Restricted Permissions, or Role Default Scopes before saving.',
+  },
+  mixedGlobalScopesError: {
+    zh: '全局用户不能同时选择管理权限范围和自定义受限权限，请重新选择权限模式。',
+    en: 'Global users cannot combine privilege and restricted scopes. Select a permission mode again.',
+  },
+  incompatibleScopesRemoved: {
+    zh: '已移除当前角色或所属范围不支持的权限：{scopes}',
+    en: 'Removed scopes that are not supported by the current role or Namespace: {scopes}',
+  },
   roleDefaultScopes: {
     zh: '角色默认权限',
     en: 'Role Default Scopes',
@@ -72,8 +112,8 @@ export default {
     en: 'No Scopes',
   },
   roleDefaultScopesFormDesc: {
-    zh: '开启后，用户会自动获得其角色和所属范围（全局或命名空间）的默认权限。以后角色的默认权限发生变化时，新权限也会自动生效，无需再次编辑用户。',
-    en: 'When enabled, the user automatically receives the default permissions for its role and scope (Global or Namespace). If the role defaults change later, the updated permissions take effect automatically without editing the user again.',
+    zh: '开启后，命名空间用户会自动获得当前角色的默认权限，以后默认权限发生变化时也会自动生效。关闭后，可以从该角色在命名空间内允许持有的所有权限范围中直接选择。',
+    en: "When enabled, the namespace user automatically receives its role's default permissions, including future changes to those defaults. When disabled, select directly from all scopes that the role may hold within a Namespace.",
   },
   userScopesColumnDesc: {
     zh: '权限范围用于限定用户可以访问的功能类别。显示“角色默认权限”表示用户会自动继承当前角色的默认设置；显示具体权限标签表示用户使用显式配置。',
