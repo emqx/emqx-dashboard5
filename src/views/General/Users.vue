@@ -100,6 +100,7 @@
         ref="formCom"
         :model="record"
         :rules="rules"
+        :validate-on-rule-change="false"
         label-position="top"
         require-asterisk-position="right"
         @keyup.enter="save()"
