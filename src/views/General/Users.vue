@@ -44,14 +44,18 @@
           <span v-else>{{ tl('noUserScopes') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mfa" :label="tl('mfa')" :min-width="isZh ? 128 : 230" sortable>
+      <el-table-column prop="mfa" :label="tl('mfa')" :min-width="230" sortable>
         <template #default="{ row }">
-          <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
-            {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
-          </el-tag>
-          <span class="mfa-label" v-if="isMFAEnabled(row.mfa)">
-            ( {{ getMFAMethodLabel(row.mfa) }} )
-          </span>
+          <div class="mfa-cell">
+            <el-tag
+              v-if="row.mfa"
+              :type="isMFAEnabled(row.mfa) ? 'success' : 'info'"
+              effect="light"
+            >
+              {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
+            </el-tag>
+            <span v-if="isMFAEnabled(row.mfa)"> ( {{ getMFAMethodLabel(row.mfa) }} ) </span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="t('BasicConfig.namespace')" :min-width="120">
@@ -795,8 +799,10 @@ onBeforeMount(async () => {
   .el-tag {
     margin-right: 4px;
   }
-  .mfa-label {
-    text-wrap: nowrap;
+  .mfa-cell {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
   }
 }
 
