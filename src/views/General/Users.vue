@@ -69,7 +69,7 @@
         :sort-by="({ namespace }) => namespace || ''"
       >
         <template #default="{ row }">
-          {{ row.namespace }}
+          {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
@@ -153,45 +153,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'">
-          <template #label>
-            <FormItemLabel
-              :label="tl('useRoleDefaultScopes')"
-              :desc="roleDefaultScopesFormDesc"
-              desc-marked
-              :max-height="400"
-              popper-class="role-default-scopes-tooltip"
-            />
-          </template>
-          <el-switch v-model="record.useRoleDefaultScopes" />
-        </el-form-item>
-        <el-form-item
-          v-if="accessType !== 'chPass' && !record.useRoleDefaultScopes"
-          :label="tl('userScopes')"
-          prop="scopes"
-        >
-          <el-select
-            v-model="record.scopes"
-            multiple
-            clearable
-            :placeholder="tl('userScopesPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="scope in availableUserScopes"
-              :key="scope.name"
-              :value="scope.name"
-              :label="getScopeLabel(scope.name)"
-              :disabled="scope.admin_only && !isAdminRole"
-            >
-              <span>{{ getScopeLabel(scope.name) }}</span>
-              <span class="scope-desc">
-                {{ getScopeDesc(scope.name) }}
-                <template v-if="scope.admin_only"> ({{ tl('userScopesAdminOnlyTip') }}) </template>
-              </span>
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item
           v-if="accessType !== 'chPass'"
           :label="t('BasicConfig.namespace')"
@@ -208,9 +169,81 @@
               v-model="record.namespace"
               :disabled="accessType === 'edit'"
               :global="{ enable: false }"
+              @change="handleNamespaceChanged"
             />
           </div>
         </el-form-item>
+        <el-form-item v-if="accessType !== 'chPass' && !isNamespaceEnabled" prop="scopeMode">
+          <template #label>
+            <FormItemLabel
+              :label="tl('scopeMode')"
+              :desc="scopeModeDesc"
+              desc-marked
+              :max-height="400"
+              popper-class="scope-mode-tooltip"
+            />
+          </template>
+          <el-radio-group v-model="record.scopeMode" @change="handleScopeModeChanged">
+            <el-radio :value="ScopeMode.RoleDefault">
+              {{ tl('roleDefaultScopes') }}
+            </el-radio>
+            <el-radio :value="ScopeMode.Privilege">
+              {{ tl('scopeModePrivilege') }}
+            </el-radio>
+            <el-radio :value="ScopeMode.Custom">
+              {{ tl('scopeModeCustom') }}
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-if="accessType !== 'chPass' && isNamespaceEnabled">
+          <template #label>
+            <FormItemLabel
+              :label="tl('useRoleDefaultScopes')"
+              :desc="roleDefaultScopesFormDesc"
+              desc-marked
+              :max-height="400"
+              popper-class="role-default-scopes-tooltip"
+            />
+          </template>
+          <el-switch
+            v-model="record.useRoleDefaultScopes"
+            @change="handleRoleDefaultScopesChanged"
+          />
+        </el-form-item>
+        <el-form-item
+          v-if="accessType !== 'chPass' && shouldShowScopesSelect"
+          :label="scopeSelectLabel"
+          prop="scopes"
+        >
+          <el-select
+            v-model="record.scopes"
+            multiple
+            clearable
+            :placeholder="tl('userScopesPlaceholder')"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="scope in currentScopeOptions"
+              :key="scope.name"
+              :value="scope.name"
+              :label="getScopeLabel(scope.name)"
+            >
+              <span>{{ getScopeLabel(scope.name) }}</span>
+              <span class="scope-desc">
+                {{ getScopeDesc(scope.name) }}
+                <template v-if="scope.admin_only"> ({{ tl('userScopesAdminOnlyTip') }}) </template>
+              </span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-alert
+          v-if="accessType !== 'chPass' && hasMixedGlobalScopes"
+          class="mixed-scopes-alert"
+          type="warning"
+          :title="tl('mixedGlobalScopesDesc')"
+          :closable="false"
+          show-icon
+        />
         <div v-if="accessType === 'chPass'">
           <el-input class="username-placeholder" v-model="record.username" disabled />
           <el-form-item prop="newPassword" :label="tl('newPassword')">
@@ -258,11 +291,41 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
+import { GLOBAL_NAMESPACE } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
 const SOURCE_LOCAL = 'local'
+const ScopeMode = {
+  RoleDefault: 'role_default',
+  Privilege: 'privilege',
+  Custom: 'custom',
+  Mixed: 'mixed',
+}
+const PRIVILEGE_SCOPES = new Set([
+  'system',
+  'user_management',
+  'api_key_management',
+  'sso_management',
+])
+const LOGIN_ONLY_SCOPES = new Set([
+  'user_management',
+  'mfa_management',
+  'sso_management',
+  'api_key_management',
+])
+const NS_ADMIN_ALLOWED_SCOPES = new Set([
+  'connections',
+  'monitoring',
+  'data_integration',
+  'access_control',
+  'system',
+  'cluster_operations',
+  'license',
+  'user_management',
+  'api_key_management',
+])
 
 const store = useStore()
 const { tl, t, te } = useI18nTl('General')
@@ -273,6 +336,7 @@ const buildRoleDefaultScopesDesc = (intro) =>
 const roleDefaultScopesFormDesc = computed(() =>
   buildRoleDefaultScopesDesc(tl('roleDefaultScopesFormDesc')),
 )
+const scopeModeDesc = computed(() => buildRoleDefaultScopesDesc(tl('scopeModeDesc')))
 const userScopesColumnDesc = computed(() => buildRoleDefaultScopesDesc(tl('userScopesColumnDesc')))
 
 const dialogVisible = ref(false)
@@ -283,14 +347,27 @@ const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
 const availableUserScopes = ref([])
+const shouldResolveRoleDefaultScopes = ref(false)
 
 const { processUserRecordForSubmit } = useNamespaceUser()
 
 const isNamespaceEnabled = ref(false)
-const toggleNamespaceEnabled = () => {
-  if (!isNamespaceEnabled.value && record.value.namespace) {
+const toggleNamespaceEnabled = (enabled) => {
+  isNamespaceEnabled.value = enabled
+  if (enabled) {
+    record.value.useRoleDefaultScopes = record.value.scopeMode === ScopeMode.RoleDefault
+  } else {
     record.value.namespace = ''
+    record.value.scopeMode = record.value.useRoleDefaultScopes
+      ? ScopeMode.RoleDefault
+      : resolveExplicitGlobalScopeMode(record.value.scopes)
   }
+  nextTick(() => {
+    if (enabled && !record.value.useRoleDefaultScopes) {
+      filterSelectedScopes()
+    }
+    formCom.value?.clearValidate(['namespace', 'scopeMode', 'scopes'])
+  })
 }
 
 const { userRoleOptions } = useRole()
@@ -308,20 +385,146 @@ const getScopeDesc = (name) => {
   return te(key) ? t(key) : ''
 }
 
-const handleRoleChanged = () => {
-  // When switching to a non-admin role, drop any admin-only scopes the
-  // user picked while on admin (server-side schema would reject them).
-  if (!isAdminRole.value && Array.isArray(record.value.scopes)) {
-    const adminOnly = new Set(
-      availableUserScopes.value.filter((s) => s.admin_only).map((s) => s.name),
+const roleCompatibleScopeOptions = computed(() =>
+  availableUserScopes.value.filter((scope) => {
+    if (!isAdminRole.value && scope.admin_only) {
+      return false
+    }
+    return !(
+      isNamespaceEnabled.value &&
+      isAdminRole.value &&
+      !NS_ADMIN_ALLOWED_SCOPES.has(scope.name)
     )
-    record.value.scopes = record.value.scopes.filter((name) => !adminOnly.has(name))
+  }),
+)
+
+const currentScopeOptions = computed(() => {
+  if (isNamespaceEnabled.value || record.value.scopeMode === ScopeMode.Mixed) {
+    return roleCompatibleScopeOptions.value
   }
+  if (record.value.scopeMode === ScopeMode.Privilege) {
+    return roleCompatibleScopeOptions.value.filter(({ name }) => PRIVILEGE_SCOPES.has(name))
+  }
+  return roleCompatibleScopeOptions.value.filter(({ name }) => !PRIVILEGE_SCOPES.has(name))
+})
+
+const shouldShowScopesSelect = computed(
+  () =>
+    (isNamespaceEnabled.value && !record.value.useRoleDefaultScopes) ||
+    (!isNamespaceEnabled.value && record.value.scopeMode !== ScopeMode.RoleDefault),
+)
+
+const scopeSelectLabel = computed(() => {
+  if (isNamespaceEnabled.value || record.value.scopeMode === ScopeMode.Mixed) {
+    return tl('userScopes')
+  }
+  return record.value.scopeMode === ScopeMode.Privilege
+    ? tl('scopeModePrivilege')
+    : tl('scopeModeCustom')
+})
+
+const partitionScopes = (scopes) =>
+  (normalizeScopes(scopes) ?? []).reduce(
+    (result, scope) => {
+      result[PRIVILEGE_SCOPES.has(scope) ? 'privilege' : 'restricted'].push(scope)
+      return result
+    },
+    { privilege: [], restricted: [] },
+  )
+
+const resolveExplicitGlobalScopeMode = (scopes) => {
+  const { privilege, restricted } = partitionScopes(scopes)
+  if (privilege.length && restricted.length) {
+    return ScopeMode.Mixed
+  }
+  return privilege.length ? ScopeMode.Privilege : ScopeMode.Custom
+}
+
+const isSameScopeSet = (left, right) => {
+  const leftSet = new Set(left)
+  const rightSet = new Set(right)
+  return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
+}
+
+const getRoleDefaultScopes = () => {
+  if (isNamespaceEnabled.value && isAdminRole.value) {
+    return availableUserScopes.value
+      .filter(({ name }) => NS_ADMIN_ALLOWED_SCOPES.has(name))
+      .map(({ name }) => name)
+  }
+  if (isAdminRole.value) {
+    return availableUserScopes.value.map(({ name }) => name)
+  }
+  return availableUserScopes.value
+    .filter(({ name }) => !LOGIN_ONLY_SCOPES.has(name))
+    .map(({ name }) => name)
+}
+
+const resolveRoleDefaultScopeState = () => {
+  const isRoleDefault =
+    record.value.useRoleDefaultScopes ||
+    isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes())
+  record.value.useRoleDefaultScopes = isRoleDefault
+  if (!isNamespaceEnabled.value) {
+    record.value.scopeMode = isRoleDefault
+      ? ScopeMode.RoleDefault
+      : resolveExplicitGlobalScopeMode(record.value.scopes)
+  }
+}
+
+const hasMixedGlobalScopes = computed(
+  () => !isNamespaceEnabled.value && record.value.scopeMode === ScopeMode.Mixed,
+)
+
+const filterSelectedScopes = (showMessage = true) => {
+  if (
+    !shouldShowScopesSelect.value ||
+    !Array.isArray(record.value.scopes) ||
+    availableUserScopes.value.length === 0
+  ) {
+    return
+  }
+  const allowedScopes = new Set(currentScopeOptions.value.map(({ name }) => name))
+  const removedScopes = record.value.scopes.filter((scope) => !allowedScopes.has(scope))
+  if (removedScopes.length === 0) {
+    return
+  }
+  record.value.scopes = record.value.scopes.filter((scope) => allowedScopes.has(scope))
+  if (showMessage) {
+    ElMessage.warning(
+      tl('incompatibleScopesRemoved', {
+        scopes: removedScopes.map(getScopeLabel).join(', '),
+      }),
+    )
+  }
+}
+
+const handleScopeModeChanged = () => {
+  shouldResolveRoleDefaultScopes.value = false
+  filterSelectedScopes()
+  nextTick(() => formCom.value?.clearValidate(['scopeMode', 'scopes']))
+}
+
+const handleRoleDefaultScopesChanged = () => {
+  shouldResolveRoleDefaultScopes.value = false
+}
+
+const handleRoleChanged = () => {
+  filterSelectedScopes()
+}
+
+const handleNamespaceChanged = () => {
+  filterSelectedScopes()
 }
 
 const loadUserScopes = async () => {
   try {
     availableUserScopes.value = await getLoginUserScopes()
+    if (shouldResolveRoleDefaultScopes.value) {
+      resolveRoleDefaultScopeState()
+      shouldResolveRoleDefaultScopes.value = false
+    }
+    filterSelectedScopes(false)
   } catch (e) {
     availableUserScopes.value = []
   }
@@ -358,9 +561,17 @@ const { createNoChineseRule, createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
+  const validateScopeMode = (_rule, value, callback) => {
+    if (!isNamespaceEnabled.value && value === ScopeMode.Mixed) {
+      callback(new Error(tl('mixedGlobalScopesError')))
+      return
+    }
+    callback()
+  }
   const ret = {
     username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
     role: createRequiredRule(t('Dashboard.role'), 'select'),
+    scopeMode: [{ validator: validateScopeMode, trigger: 'change' }],
     password: [
       {
         required: true,
@@ -398,6 +609,9 @@ const rules = computed(() => {
       message: pwdMismatchMsg,
       trigger: ['blur'],
     })
+    if (isNamespaceEnabled.value) {
+      ret.namespace = createRequiredRule(t('BasicConfig.namespace'), 'select')
+    }
   }
   return ret
 })
@@ -435,6 +649,7 @@ const generateRawForm = () => ({
   namespace: '',
   scopes: [],
   useRoleDefaultScopes: true,
+  scopeMode: ScopeMode.RoleDefault,
 })
 
 const isCurrentUser = (user) => user === currentUser.value.username
@@ -443,14 +658,13 @@ const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
 
-  if (type !== 'chPass' && availableUserScopes.value.length === 0) {
-    loadUserScopes()
-  }
-
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
       scopes: normalizeScopes(item.scopes) ?? [],
       useRoleDefaultScopes: usesRoleDefaultScopes(item.scopes),
+      scopeMode: usesRoleDefaultScopes(item.scopes)
+        ? ScopeMode.RoleDefault
+        : resolveExplicitGlobalScopeMode(item.scopes),
     })
   } else if (type === 'chPass') {
     record.value = {
@@ -462,7 +676,19 @@ const showDialog = (type = 'create', item = {}) => {
   } else {
     record.value = generateRawForm()
   }
-  isNamespaceEnabled.value = !!record.value.namespace
+  isNamespaceEnabled.value = !!record.value.namespace && record.value.namespace !== GLOBAL_NAMESPACE
+  if (type === 'edit') {
+    if (availableUserScopes.value.length > 0) {
+      resolveRoleDefaultScopeState()
+    } else {
+      shouldResolveRoleDefaultScopes.value = true
+    }
+  } else {
+    shouldResolveRoleDefaultScopes.value = false
+  }
+  if (type !== 'chPass' && availableUserScopes.value.length === 0) {
+    loadUserScopes()
+  }
   accessType.value = type
 }
 
@@ -484,15 +710,22 @@ const trimUserName = () => {
 const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
 const getRecordForUpdating = () => {
-  const ret = processUserRecordForSubmit(record.value)
+  const normalizedRecord = {
+    ...record.value,
+    namespace: record.value.namespace === GLOBAL_NAMESPACE ? '' : record.value.namespace,
+  }
+  const ret = processUserRecordForSubmit(normalizedRecord)
   return buildUserPayload(ret, ['description', 'role', 'scopes'])
 }
-// The role-default switch maps to the backend's `unset` sentinel. When the
-// switch is off, preserve the explicit array, including [] (deny all mapped
-// paths), so the two states are never conflated.
+// Both the global role-default radio and the namespace role-default switch
+// map to the backend's `unset` sentinel. Explicit mode preserves the array,
+// including [] (deny all mapped paths), so the states are never conflated.
 const buildUserPayload = (rec, fields) => {
   const payload = pick(rec, fields)
-  payload.scopes = rec.useRoleDefaultScopes ? UNSET_SCOPES : (normalizeScopes(rec.scopes) ?? [])
+  const useRoleDefaultScopes = isNamespaceEnabled.value
+    ? rec.useRoleDefaultScopes
+    : rec.scopeMode === ScopeMode.RoleDefault
+  payload.scopes = useRoleDefaultScopes ? UNSET_SCOPES : (normalizeScopes(rec.scopes) ?? [])
   return payload
 }
 
@@ -574,6 +807,10 @@ onBeforeMount(async () => {
 .role-default-scopes-tooltip {
   max-width: 720px;
 }
+
+.scope-mode-tooltip {
+  max-width: 720px;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -586,5 +823,14 @@ onBeforeMount(async () => {
     flex-grow: 1;
     margin-left: 8px;
   }
+}
+.mixed-scopes-alert {
+  margin-bottom: 18px;
+}
+.scope-desc {
+  color: var(--el-text-color-secondary);
+  float: right;
+  font-size: 12px;
+  margin-left: 20px;
 }
 </style>
