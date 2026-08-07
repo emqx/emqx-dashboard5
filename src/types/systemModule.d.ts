@@ -2,7 +2,6 @@ import { ExhookFailedAction, ExhookStatus, UserRole } from './enum'
 import { SSL } from './common'
 
 export type UnsetScopes = 'unset'
-export type LegacyUnsetScopes = UnsetScopes
 
 export type DashboardScopes = string[] | UnsetScopes | null | undefined
 

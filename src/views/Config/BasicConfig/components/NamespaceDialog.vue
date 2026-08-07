@@ -533,7 +533,6 @@ const save = async () => {
     submitLoading.value = true
     try {
       const request = props.namespace ? updateNamespaceConfig : createNamespace
-      debugger
       await request(checkNOmitFromObj(data) as NamespaceItem)
       ElMessage.success(props.namespace ? t('Base.updateSuccess') : t('Base.createSuccess'))
       showDialog.value = false

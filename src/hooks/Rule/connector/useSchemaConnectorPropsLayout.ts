@@ -65,6 +65,7 @@ export default (
     'allow_auto_topic_creation',
     'min_metadata_refresh_interval',
     'metadata_request_timeout',
+    'request_timeout',
     'socket_opts.sndbuf',
     'socket_opts.recbuf',
     'socket_opts.tcp_keepalive',

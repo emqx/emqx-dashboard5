@@ -29,9 +29,6 @@
     </ul>
     <template #footer>
       <CancelButton @click="isVisible = false" />
-      <el-button type="danger" @click="handleForceDelete">
-        {{ tl('forceDelete') }}
-      </el-button>
     </template>
   </el-dialog>
 </template>
@@ -58,7 +55,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
-  (e: 'forceDelete'): void
 }>()
 
 const { tl } = useI18nTl('BasicConfig')
@@ -196,11 +192,6 @@ const moduleGroups = computed((): RefGroup[] => {
     },
   )
 })
-
-const handleForceDelete = () => {
-  isVisible.value = false
-  emit('forceDelete')
-}
 </script>
 
 <style lang="scss">

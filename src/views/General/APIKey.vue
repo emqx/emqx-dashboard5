@@ -24,16 +24,18 @@
         </template>
       </el-table-column>
       <el-table-column prop="scopes" :label="tl('scopes')">
+        <template #header>
+          <FormItemLabel
+            :label="tl('scopes')"
+            :desc="scopesColumnDesc"
+            desc-marked
+            :max-height="400"
+            popper-class="role-default-scopes-tooltip"
+          />
+        </template>
         <template #default="{ row }">
-          <span v-if="row.role === UserRole.Publisher">-</span>
-          <template v-else-if="isLegacyUnsetScopes(row.scopes)">
-            <span>{{ tl('allScopes') }}</span>
-            <el-tooltip :content="tl('legacyScopesTip')" placement="top">
-              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-            </el-tooltip>
-          </template>
-          <span v-else-if="!hasSelectedScopes(row.scopes)">{{ tl('allScopes') }}</span>
-          <template v-else>
+          <span v-if="isUnsetScopes(row.scopes)">{{ tl('roleDefaultScopes') }}</span>
+          <template v-else-if="hasSelectedScopes(row.scopes)">
             <el-tag
               v-for="scope in row.scopes"
               :key="scope"
@@ -45,6 +47,7 @@
               {{ getScopeLabel(scope) }}
             </el-tag>
           </template>
+          <span v-else>{{ tl('noScopes') }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -94,15 +97,17 @@ import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
 import dayjs from 'dayjs'
-import { UserRole } from '@/types/enum'
-import { hasSelectedScopes, isLegacyUnsetScopes } from '@/common/scopes'
-import { Warning } from '@element-plus/icons-vue'
+import { hasSelectedScopes, isUnsetScopes } from '@/common/scopes'
 
 const { t, te } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
   return t(collection + '.' + key)
 }
 const store = useStore()
+
+const buildRoleDefaultScopesDesc = (intro: string) =>
+  [intro, tl('roleDefaultScopesByRoleDesc'), tl('roleDefaultScopesRestrictionDesc')].join('\n\n')
+const scopesColumnDesc = computed(() => buildRoleDefaultScopesDesc(tl('scopesColumnDesc')))
 
 const isTableLoading = ref(false)
 const keyList: Ref<Array<APIKey>> = ref([])
@@ -197,11 +202,9 @@ getList()
     cursor: pointer;
     color: var(--el-color-primary);
   }
-  .legacy-scopes-icon {
-    margin-left: 4px;
-    color: var(--el-color-warning);
-    cursor: help;
-    vertical-align: -2px;
-  }
+}
+
+.role-default-scopes-tooltip {
+  max-width: 720px;
 }
 </style>

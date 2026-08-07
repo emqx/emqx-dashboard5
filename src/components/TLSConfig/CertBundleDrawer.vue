@@ -32,7 +32,6 @@
     v-model="isInUseDialogShow"
     :referencing-configs="certInUseError?.referencingConfigs"
     is-cert-file
-    @force-delete="handleForceDelete"
   />
 </template>
 
@@ -147,7 +146,7 @@ const isSubmitting = ref(false)
 const isInUseDialogShow = ref(false)
 const certInUseError = ref<CertInUseError | null>(null)
 
-const { submitCertBundle, removeUselessCerts, forceRemoveCerts } = useCertBundle()
+const { submitCertBundle, removeUselessCerts } = useCertBundle()
 
 const finishSubmit = () => {
   const message = isEditing.value ? t('Base.updateSuccess') : t('Base.createSuccess')
@@ -165,7 +164,7 @@ const submit = async () => {
       try {
         await removeUselessCerts(formData.value, initialFormData)
       } catch (removeError: any) {
-        if (removeError?.failedKinds) {
+        if (removeError?.referencingConfigs) {
           certInUseError.value = removeError
           isInUseDialogShow.value = true
           return
@@ -178,18 +177,6 @@ const submit = async () => {
     //
   } finally {
     isSubmitting.value = false
-  }
-}
-
-const handleForceDelete = async () => {
-  if (!certInUseError.value) {
-    return
-  }
-  try {
-    await forceRemoveCerts(formData.value, certInUseError.value.failedKinds)
-    finishSubmit()
-  } catch (error) {
-    //
   }
 }
 </script>
