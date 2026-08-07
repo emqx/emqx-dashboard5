@@ -174,6 +174,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   /** @minimum 0 */
   'client.authorize'?: number
   /** @minimum 0 */
+  'client.banned'?: number
+  /** @minimum 0 */
   'client.connack'?: number
   /** @minimum 0 */
   'client.connect'?: number
@@ -201,6 +203,12 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'delivery.dropped.queue_full'?: number
   /** @minimum 0 */
   'delivery.dropped.too_large'?: number
+  /** @minimum 0 */
+  'flapping.detected.clientid'?: number
+  /** @minimum 0 */
+  'flapping.detected.peerhost'?: number
+  /** @minimum 0 */
+  'flapping.detected.username'?: number
   /** @minimum 0 */
   'messages.acked'?: number
   /** @minimum 0 */

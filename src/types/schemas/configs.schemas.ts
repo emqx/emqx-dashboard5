@@ -1207,12 +1207,23 @@ export interface EmqxForceGc {
   enable?: boolean
 }
 
-export interface EmqxFlappingDetect {
+export interface EmqxFlappingDetectDimension {
   ban_time?: string
-  enable?: boolean
   /** @minimum 0 */
   max_count?: number
   window_time?: string
+}
+
+export type EmqxFlappingDetectByUsername = EmqxFlappingDetectDimension | 'none'
+
+export type EmqxFlappingDetectByPeerhost = EmqxFlappingDetectDimension | 'none'
+
+export type EmqxFlappingDetectByClientid = EmqxFlappingDetectDimension | 'none'
+
+export interface EmqxFlappingDetect {
+  by_clientid?: EmqxFlappingDetectByClientid
+  by_peerhost?: EmqxFlappingDetectByPeerhost
+  by_username?: EmqxFlappingDetectByUsername
 }
 
 export interface EmqxEventNames {

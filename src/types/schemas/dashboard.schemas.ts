@@ -147,10 +147,12 @@ export type PutUsersUsername200 = {
   username?: string
 }
 
+export type PutUsersUsernameBodyScopes = 'unset' | string[]
+
 export type PutUsersUsernameBody = {
   description?: string
   role?: string
-  scopes?: string[] | 'unset'
+  scopes?: PutUsersUsernameBodyScopes
 }
 
 export type PutUsersUsernameBackend =
@@ -231,12 +233,14 @@ export type PostUsers200 = {
   username?: string
 }
 
+export type PostUsersBodyScopes = 'unset' | string[]
+
 export type PostUsersBody = {
   description?: string
   /** @maxLength 100 */
   password?: string
   role?: string
-  scopes?: string[] | 'unset'
+  scopes?: PostUsersBodyScopes
   /** @maxLength 100 */
   username?: string
 }

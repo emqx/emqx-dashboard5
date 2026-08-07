@@ -1,3 +1,16 @@
+export type PutPluginsNameAction500Code =
+  (typeof PutPluginsNameAction500Code)[keyof typeof PutPluginsNameAction500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameAction500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PutPluginsNameAction500 = {
+  code?: PutPluginsNameAction500Code
+  message?: string
+}
+
 export type PutPluginsNameAction404Code =
   (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
 
@@ -16,6 +29,7 @@ export type PutPluginsNameAction400Code =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutPluginsNameAction400Code = {
+  BAD_CONFIG: 'BAD_CONFIG',
   PARAM_ERROR: 'PARAM_ERROR',
 } as const
 
@@ -212,6 +226,19 @@ export const GetPluginsName404Code = {
 
 export type GetPluginsName404 = {
   code?: GetPluginsName404Code
+  message?: string
+}
+
+export type DeletePluginsName500Code =
+  (typeof DeletePluginsName500Code)[keyof typeof DeletePluginsName500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeletePluginsName500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type DeletePluginsName500 = {
+  code?: DeletePluginsName500Code
   message?: string
 }
 

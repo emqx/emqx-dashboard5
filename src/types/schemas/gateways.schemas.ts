@@ -41,7 +41,6 @@ export type PutGatewaysName400 = {
 
 export type PutGatewaysNameBody =
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiExproto
   | EmqxGatewayApiGbt32960
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
@@ -66,7 +65,6 @@ export type GetGatewaysName404 = {
 
 export type GetGatewaysName200 =
   | EmqxGatewayApiCoap
-  | EmqxGatewayApiExproto
   | EmqxGatewayApiGbt32960
   | EmqxGatewayApiJt808
   | EmqxGatewayApiLwm2m
@@ -171,82 +169,6 @@ export interface GatewayStompFrame {
   max_headers?: number
   /** @minimum 0 */
   max_headers_length?: number
-}
-
-export type GatewaySslServerOptsVerify =
-  (typeof GatewaySslServerOptsVerify)[keyof typeof GatewaySslServerOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewaySslServerOptsVerify = {
-  verify_none: 'verify_none',
-  verify_peer: 'verify_peer',
-} as const
-
-export type GatewaySslServerOptsSessionTickets =
-  (typeof GatewaySslServerOptsSessionTickets)[keyof typeof GatewaySslServerOptsSessionTickets]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewaySslServerOptsSessionTickets = {
-  disabled: 'disabled',
-  stateless: 'stateless',
-  stateless_with_cert: 'stateless_with_cert',
-} as const
-
-export type GatewaySslServerOptsPartialChain =
-  (typeof GatewaySslServerOptsPartialChain)[keyof typeof GatewaySslServerOptsPartialChain]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewaySslServerOptsPartialChain = {
-  false: false,
-  true: true,
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
-} as const
-
-export type GatewaySslServerOptsManagedCerts = EmqxManagedCertsServer | EmqxManagedCertsServer[]
-
-export type GatewaySslServerOptsLogLevel =
-  (typeof GatewaySslServerOptsLogLevel)[keyof typeof GatewaySslServerOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewaySslServerOptsLogLevel = {
-  alert: 'alert',
-  all: 'all',
-  critical: 'critical',
-  debug: 'debug',
-  emergency: 'emergency',
-  error: 'error',
-  info: 'info',
-  none: 'none',
-  notice: 'notice',
-  warning: 'warning',
-} as const
-
-export interface GatewaySslServerOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  fail_if_no_peer_cert?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewaySslServerOptsLogLevel
-  managed_certs?: GatewaySslServerOptsManagedCerts
-  partial_chain?: GatewaySslServerOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  session_tickets?: GatewaySslServerOptsSessionTickets
-  verify?: GatewaySslServerOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export interface GatewayProtocol {
@@ -365,23 +287,6 @@ export interface GatewayInternalAuthnJwt {
   resolver?: GatewayInternalAuthnJwtResolver
   trusted_operators?: string[]
   type: GatewayInternalAuthnJwtType
-}
-
-export interface GatewayExprotoGrpcServer {
-  bind: string
-  ssl_options?: GatewaySslServerOpts
-}
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewayExprotoGrpcHandlerServiceName = {
-  ConnectionHandler: 'ConnectionHandler',
-  ConnectionUnaryHandler: 'ConnectionUnaryHandler',
-} as const
-
-export interface GatewayExprotoGrpcHandler {
-  address: string
-  service_name: (typeof GatewayExprotoGrpcHandlerServiceName)[keyof typeof GatewayExprotoGrpcHandlerServiceName]
-  ssl_options?: EmqxSslClientOpts
 }
 
 export type GatewayDtlsOptsVerify =
@@ -613,6 +518,19 @@ export const EmqxGatewayApiStompName = {
   stomp: 'stomp',
 } as const
 
+export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
+
+export interface EmqxGatewayApiStomp {
+  clientinfo_override?: GatewayClientinfoOverride
+  enable?: boolean
+  enable_stats?: boolean
+  frame?: GatewayStompFrame
+  idle_timeout?: string
+  listeners?: EmqxGatewayApiStompListenersItem[]
+  mountpoint?: string
+  name?: EmqxGatewayApiStompName
+}
+
 export type EmqxGatewayApiSslListenerType =
   (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
 
@@ -640,19 +558,6 @@ export interface EmqxGatewayApiSslListener {
   ssl_options?: EmqxListenerSslOpts
   tcp_options?: EmqxTcpOpts
   type?: EmqxGatewayApiSslListenerType
-}
-
-export type EmqxGatewayApiStompListenersItem = EmqxGatewayApiSslListener | EmqxGatewayApiTcpListener
-
-export interface EmqxGatewayApiStomp {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  frame?: GatewayStompFrame
-  idle_timeout?: string
-  listeners?: EmqxGatewayApiStompListenersItem[]
-  mountpoint?: string
-  name?: EmqxGatewayApiStompName
 }
 
 export type EmqxGatewayApiOcppName =
@@ -857,6 +762,20 @@ export const EmqxGatewayApiGatewayOverviewStatus = {
   unloaded: 'unloaded',
 } as const
 
+export interface EmqxGatewayApiGatewayOverview {
+  created_at?: string
+  /** @minimum 0 */
+  current_connections?: number
+  listeners?: EmqxGatewayApiGatewayListenerOverview[]
+  /** @minimum 1 */
+  max_connections?: number
+  name?: string
+  node_status?: EmqxGatewayApiGatewayNodeStatus[]
+  started_at?: string
+  status?: EmqxGatewayApiGatewayOverviewStatus
+  stopped_at?: string
+}
+
 export type EmqxGatewayApiGatewayNodeStatusStatus =
   (typeof EmqxGatewayApiGatewayNodeStatusStatus)[keyof typeof EmqxGatewayApiGatewayNodeStatusStatus]
 
@@ -872,7 +791,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@1721702': 'emqx@172.17.0.2',
+  'emqx@1721703': 'emqx@172.17.0.3',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {
@@ -899,40 +818,6 @@ export interface EmqxGatewayApiGatewayListenerOverview {
   id?: string
   running?: boolean
   type?: EmqxGatewayApiGatewayListenerOverviewType
-}
-
-export interface EmqxGatewayApiGatewayOverview {
-  created_at?: string
-  /** @minimum 0 */
-  current_connections?: number
-  listeners?: EmqxGatewayApiGatewayListenerOverview[]
-  /** @minimum 1 */
-  max_connections?: number
-  name?: string
-  node_status?: EmqxGatewayApiGatewayNodeStatus[]
-  started_at?: string
-  status?: EmqxGatewayApiGatewayOverviewStatus
-  stopped_at?: string
-}
-
-export type EmqxGatewayApiExprotoName =
-  (typeof EmqxGatewayApiExprotoName)[keyof typeof EmqxGatewayApiExprotoName]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiExprotoName = {
-  exproto: 'exproto',
-} as const
-
-export interface EmqxGatewayApiExproto {
-  clientinfo_override?: GatewayClientinfoOverride
-  enable?: boolean
-  enable_stats?: boolean
-  handler: GatewayExprotoGrpcHandler
-  idle_timeout?: string
-  listeners?: EmqxGatewayApiExprotoListenersItem[]
-  mountpoint?: string
-  name?: EmqxGatewayApiExprotoName
-  server: GatewayExprotoGrpcServer
 }
 
 export type EmqxGatewayApiDtlsListenerType =
@@ -962,12 +847,6 @@ export interface EmqxGatewayApiDtlsListener {
   type?: EmqxGatewayApiDtlsListenerType
   udp_options?: GatewayUdpOpts
 }
-
-export type EmqxGatewayApiExprotoListenersItem =
-  | EmqxGatewayApiDtlsListener
-  | EmqxGatewayApiSslListener
-  | EmqxGatewayApiTcpListener
-  | EmqxGatewayApiUdpListener
 
 export type EmqxGatewayApiCoapSubscribeQos =
   (typeof EmqxGatewayApiCoapSubscribeQos)[keyof typeof EmqxGatewayApiCoapSubscribeQos]
@@ -1044,45 +923,6 @@ export interface EmqxTcpOpts {
   sndbuf?: string
 }
 
-export type EmqxSslClientOptsVerify =
-  (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsVerify = {
-  verify_none: 'verify_none',
-  verify_peer: 'verify_peer',
-} as const
-
-export type EmqxSslClientOptsServerNameIndication = 'disable' | string
-
-export type EmqxSslClientOptsPartialChain =
-  (typeof EmqxSslClientOptsPartialChain)[keyof typeof EmqxSslClientOptsPartialChain]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsPartialChain = {
-  false: false,
-  true: true,
-  cacert_from_cacertfile: 'cacert_from_cacertfile',
-  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
-} as const
-
-export type EmqxSslClientOptsLogLevel =
-  (typeof EmqxSslClientOptsLogLevel)[keyof typeof EmqxSslClientOptsLogLevel]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxSslClientOptsLogLevel = {
-  alert: 'alert',
-  all: 'all',
-  critical: 'critical',
-  debug: 'debug',
-  emergency: 'emergency',
-  error: 'error',
-  info: 'info',
-  none: 'none',
-  notice: 'notice',
-  warning: 'warning',
-} as const
-
 export interface EmqxOcsp {
   enable_ocsp_stapling?: boolean
   issuer_pem?: string
@@ -1095,35 +935,6 @@ export interface EmqxManagedCertsServer {
   bundle_name: string
   namespace?: string
   sni?: string
-}
-
-export interface EmqxManagedCerts {
-  bundle_name: string
-  namespace?: string
-}
-
-export interface EmqxSslClientOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  /** @minimum 0 */
-  depth?: number
-  enable?: boolean
-  hibernate_after?: string
-  keyfile?: string
-  log_level?: EmqxSslClientOptsLogLevel
-  managed_certs?: EmqxManagedCerts
-  middlebox_comp_mode?: boolean
-  partial_chain?: EmqxSslClientOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  server_name_indication?: EmqxSslClientOptsServerNameIndication
-  verify?: EmqxSslClientOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export type EmqxListenerWssOptsVerify =

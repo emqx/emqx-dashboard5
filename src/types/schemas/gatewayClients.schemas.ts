@@ -106,13 +106,6 @@ export type GetGatewaysNameClientsClientid400 = {
   message?: string
 }
 
-export type GetGatewaysNameClientsClientid200 =
-  | EmqxGatewayApiClientsCoapClient
-  | EmqxGatewayApiClientsExprotoClient
-  | EmqxGatewayApiClientsLwm2mClient
-  | EmqxGatewayApiClientsMqttsnClient
-  | EmqxGatewayApiClientsStompClient
-
 export type DeleteGatewaysNameClientsClientid404Code =
   (typeof DeleteGatewaysNameClientsClientid404Code)[keyof typeof DeleteGatewaysNameClientsClientid404Code]
 
@@ -261,13 +254,6 @@ export interface EmqxGatewayApiClientsStompClient {
   username?: string
 }
 
-export type GetGatewaysNameClients200Data =
-  | EmqxGatewayApiClientsCoapClient[]
-  | EmqxGatewayApiClientsExprotoClient[]
-  | EmqxGatewayApiClientsLwm2mClient[]
-  | EmqxGatewayApiClientsMqttsnClient[]
-  | EmqxGatewayApiClientsStompClient[]
-
 export type EmqxGatewayApiClientsMqttsnClientDisconnectedAt = string | number
 
 export type EmqxGatewayApiClientsMqttsnClientCreatedAt = string | number
@@ -312,6 +298,18 @@ export interface EmqxGatewayApiClientsMqttsnClient {
   subscriptions_max?: number
   username?: string
 }
+
+export type GetGatewaysNameClientsClientid200 =
+  | EmqxGatewayApiClientsCoapClient
+  | EmqxGatewayApiClientsLwm2mClient
+  | EmqxGatewayApiClientsMqttsnClient
+  | EmqxGatewayApiClientsStompClient
+
+export type GetGatewaysNameClients200Data =
+  | EmqxGatewayApiClientsCoapClient[]
+  | EmqxGatewayApiClientsLwm2mClient[]
+  | EmqxGatewayApiClientsMqttsnClient[]
+  | EmqxGatewayApiClientsStompClient[]
 
 export type EmqxGatewayApiClientsLwm2mClientDisconnectedAt = string | number
 
@@ -362,51 +360,6 @@ export interface EmqxGatewayApiClientsLwm2mClient {
 
 export interface EmqxGatewayApiClientsExtraSubProps {
   subid?: string
-}
-
-export type EmqxGatewayApiClientsExprotoClientDisconnectedAt = string | number
-
-export type EmqxGatewayApiClientsExprotoClientCreatedAt = string | number
-
-export type EmqxGatewayApiClientsExprotoClientConnectedAt = string | number
-
-export interface EmqxGatewayApiClientsExprotoClient {
-  awaiting_rel_cnt?: number
-  awaiting_rel_max?: number
-  clean_start?: boolean
-  clientid?: string
-  connected?: boolean
-  connected_at?: EmqxGatewayApiClientsExprotoClientConnectedAt
-  created_at?: EmqxGatewayApiClientsExprotoClientCreatedAt
-  disconnected_at?: EmqxGatewayApiClientsExprotoClientDisconnectedAt
-  expiry_interval?: number
-  heap_size?: number
-  inflight_cnt?: number
-  inflight_max?: number
-  ip_address?: string
-  is_bridge?: boolean
-  keepalive?: number
-  mailbox_len?: number
-  mountpoint?: string
-  mqueue_dropped?: number
-  mqueue_len?: number
-  mqueue_max?: number
-  node?: string
-  port?: number
-  proto_name?: string
-  proto_ver?: string
-  recv_cnt?: number
-  recv_msg?: number
-  recv_oct?: number
-  recv_pkt?: number
-  reductions?: number
-  send_cnt?: number
-  send_msg?: number
-  send_oct?: number
-  send_pkt?: number
-  subscriptions_cnt?: number
-  subscriptions_max?: number
-  username?: string
 }
 
 export type EmqxGatewayApiClientsCoapClientDisconnectedAt = string | number

@@ -605,6 +605,36 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
+export type ConnectorOauth2Oauth2DisabledEnable =
+  (typeof ConnectorOauth2Oauth2DisabledEnable)[keyof typeof ConnectorOauth2Oauth2DisabledEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2Oauth2DisabledEnable = {
+  false: false,
+} as const
+
+export interface ConnectorOauth2Oauth2Disabled {
+  enable?: ConnectorOauth2Oauth2DisabledEnable
+}
+
+export type ConnectorOauth2ClientCredentialsEnable =
+  (typeof ConnectorOauth2ClientCredentialsEnable)[keyof typeof ConnectorOauth2ClientCredentialsEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2ClientCredentialsEnable = {
+  true: true,
+} as const
+
+export interface ConnectorOauth2ClientCredentials {
+  client_id: string
+  client_secret: string
+  enable: ConnectorOauth2ClientCredentialsEnable
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
+}
+
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
 
 export interface ConnectorHttpRequest {
@@ -1442,6 +1472,8 @@ export interface AuthnJwksClientSslOpts {
   versions?: string[]
 }
 
+export type AuthnHttpPostOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthnHttpPostMethod = (typeof AuthnHttpPostMethod)[keyof typeof AuthnHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1457,6 +1489,15 @@ export const AuthnHttpPostMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnHttpPostHostnameResolution =
+  (typeof AuthnHttpPostHostnameResolution)[keyof typeof AuthnHttpPostHostnameResolution]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHttpPostHostnameResolution = {
+  dynamic: 'dynamic',
+  static: 'static',
+} as const
+
 export type AuthnHttpPostHeaders = { [key: string]: unknown }
 
 export type AuthnHttpPostBody = { [key: string]: unknown }
@@ -1469,6 +1510,7 @@ export const AuthnHttpPostBackend = {
 } as const
 
 export interface AuthnHttpPost {
+  allowed_hosts?: string[]
   backend: AuthnHttpPostBackend
   body?: AuthnHttpPostBody
   connect_timeout?: string
@@ -1476,6 +1518,7 @@ export interface AuthnHttpPost {
   /** @minimum 1 */
   enable_pipelining?: number
   headers?: AuthnHttpPostHeaders
+  hostname_resolution?: AuthnHttpPostHostnameResolution
   max_inactive?: string
   /**
    * @deprecated
@@ -1484,7 +1527,8 @@ export interface AuthnHttpPost {
   max_retries?: number
   mechanism: AuthnHttpPostMechanism
   method: AuthnHttpPostMethod
-  /** @minimum 1 */
+  oauth2?: AuthnHttpPostOauth2
+  /** @minimum 0 */
   pool_size?: number
   precondition?: string
   request?: ConnectorHttpRequest
@@ -1494,6 +1538,8 @@ export interface AuthnHttpPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type AuthnHttpGetOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
 
 export type AuthnHttpGetMethod = (typeof AuthnHttpGetMethod)[keyof typeof AuthnHttpGetMethod]
 
@@ -1510,6 +1556,15 @@ export const AuthnHttpGetMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnHttpGetHostnameResolution =
+  (typeof AuthnHttpGetHostnameResolution)[keyof typeof AuthnHttpGetHostnameResolution]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHttpGetHostnameResolution = {
+  dynamic: 'dynamic',
+  static: 'static',
+} as const
+
 export type AuthnHttpGetHeaders = { [key: string]: unknown }
 
 export type AuthnHttpGetBody = { [key: string]: unknown }
@@ -1522,6 +1577,7 @@ export const AuthnHttpGetBackend = {
 } as const
 
 export interface AuthnHttpGet {
+  allowed_hosts?: string[]
   backend: AuthnHttpGetBackend
   body?: AuthnHttpGetBody
   connect_timeout?: string
@@ -1529,6 +1585,7 @@ export interface AuthnHttpGet {
   /** @minimum 1 */
   enable_pipelining?: number
   headers?: AuthnHttpGetHeaders
+  hostname_resolution?: AuthnHttpGetHostnameResolution
   max_inactive?: string
   /**
    * @deprecated
@@ -1537,7 +1594,8 @@ export interface AuthnHttpGet {
   max_retries?: number
   mechanism: AuthnHttpGetMechanism
   method: AuthnHttpGetMethod
-  /** @minimum 1 */
+  oauth2?: AuthnHttpGetOauth2
+  /** @minimum 0 */
   pool_size?: number
   precondition?: string
   request?: ConnectorHttpRequest
