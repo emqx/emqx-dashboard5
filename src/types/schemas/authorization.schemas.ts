@@ -933,23 +933,9 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
-export interface EmqxAuthzApiMnesiaRulesForUsername {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-  username: string
-}
-
 export interface EmqxAuthzApiMnesiaUsernameResponseData {
   data?: EmqxAuthzApiMnesiaRulesForUsername[]
   meta?: PublicMeta
-}
-
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  clientid: string
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-}
-
-export interface EmqxAuthzApiMnesiaRules {
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
 export type EmqxAuthzApiMnesiaRuleItemRetain = 'all' | boolean
@@ -986,6 +972,20 @@ export interface EmqxAuthzApiMnesiaRuleItem {
   username_re?: string
   zone?: string
   zone_re?: string
+}
+
+export interface EmqxAuthzApiMnesiaRulesForUsername {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+  username: string
+}
+
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  clientid: string
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+}
+
+export interface EmqxAuthzApiMnesiaRules {
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
 
 export interface EmqxAuthzApiMnesiaClientidResponseData {
@@ -1081,6 +1081,36 @@ export interface EmqxAuthzCache {
    */
   max_size?: number
   ttl?: string
+}
+
+export type ConnectorOauth2Oauth2DisabledEnable =
+  (typeof ConnectorOauth2Oauth2DisabledEnable)[keyof typeof ConnectorOauth2Oauth2DisabledEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2Oauth2DisabledEnable = {
+  false: false,
+} as const
+
+export interface ConnectorOauth2Oauth2Disabled {
+  enable?: ConnectorOauth2Oauth2DisabledEnable
+}
+
+export type ConnectorOauth2ClientCredentialsEnable =
+  (typeof ConnectorOauth2ClientCredentialsEnable)[keyof typeof ConnectorOauth2ClientCredentialsEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2ClientCredentialsEnable = {
+  true: true,
+} as const
+
+export interface ConnectorOauth2ClientCredentials {
+  client_id: string
+  client_secret: string
+  enable: ConnectorOauth2ClientCredentialsEnable
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
@@ -1512,11 +1542,22 @@ export const AuthzHttpPostType = {
   http: 'http',
 } as const
 
+export type AuthzHttpPostOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthzHttpPostMethod = (typeof AuthzHttpPostMethod)[keyof typeof AuthzHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzHttpPostMethod = {
   post: 'post',
+} as const
+
+export type AuthzHttpPostHostnameResolution =
+  (typeof AuthzHttpPostHostnameResolution)[keyof typeof AuthzHttpPostHostnameResolution]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzHttpPostHostnameResolution = {
+  dynamic: 'dynamic',
+  static: 'static',
 } as const
 
 export type AuthzHttpPostHeaders = { [key: string]: unknown }
@@ -1526,12 +1567,14 @@ export type AuthzHttpPostBody = {
 }
 
 export interface AuthzHttpPost {
+  allowed_hosts?: string[]
   body?: AuthzHttpPostBody
   connect_timeout?: string
   enable?: boolean
   /** @minimum 1 */
   enable_pipelining?: number
   headers?: AuthzHttpPostHeaders
+  hostname_resolution?: AuthzHttpPostHostnameResolution
   max_inactive?: string
   /**
    * @deprecated
@@ -1539,7 +1582,8 @@ export interface AuthzHttpPost {
    */
   max_retries?: number
   method: AuthzHttpPostMethod
-  /** @minimum 1 */
+  oauth2?: AuthzHttpPostOauth2
+  /** @minimum 0 */
   pool_size?: number
   precondition?: string
   request?: ConnectorHttpRequest
@@ -1558,11 +1602,22 @@ export const AuthzHttpGetType = {
   http: 'http',
 } as const
 
+export type AuthzHttpGetOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthzHttpGetMethod = (typeof AuthzHttpGetMethod)[keyof typeof AuthzHttpGetMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AuthzHttpGetMethod = {
   get: 'get',
+} as const
+
+export type AuthzHttpGetHostnameResolution =
+  (typeof AuthzHttpGetHostnameResolution)[keyof typeof AuthzHttpGetHostnameResolution]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthzHttpGetHostnameResolution = {
+  dynamic: 'dynamic',
+  static: 'static',
 } as const
 
 export type AuthzHttpGetHeaders = { [key: string]: unknown }
@@ -1572,12 +1627,14 @@ export type AuthzHttpGetBody = {
 }
 
 export interface AuthzHttpGet {
+  allowed_hosts?: string[]
   body?: AuthzHttpGetBody
   connect_timeout?: string
   enable?: boolean
   /** @minimum 1 */
   enable_pipelining?: number
   headers?: AuthzHttpGetHeaders
+  hostname_resolution?: AuthzHttpGetHostnameResolution
   max_inactive?: string
   /**
    * @deprecated
@@ -1585,7 +1642,8 @@ export interface AuthzHttpGet {
    */
   max_retries?: number
   method: AuthzHttpGetMethod
-  /** @minimum 1 */
+  oauth2?: AuthzHttpGetOauth2
+  /** @minimum 0 */
   pool_size?: number
   precondition?: string
   request?: ConnectorHttpRequest

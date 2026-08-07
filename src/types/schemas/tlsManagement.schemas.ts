@@ -67,6 +67,19 @@ export type DeleteCertsNsNamespaceNameName500 = {
   message?: string
 }
 
+export type DeleteCertsNsNamespaceNameName400Code =
+  (typeof DeleteCertsNsNamespaceNameName400Code)[keyof typeof DeleteCertsNsNamespaceNameName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCertsNsNamespaceNameName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteCertsNsNamespaceNameName400 = {
+  code?: DeleteCertsNsNamespaceNameName400Code
+  message?: string
+}
+
 export type DeleteCertsNsNamespaceNameNameKind =
   (typeof DeleteCertsNsNamespaceNameNameKind)[keyof typeof DeleteCertsNsNamespaceNameNameKind]
 
@@ -80,7 +93,6 @@ export const DeleteCertsNsNamespaceNameNameKind = {
 } as const
 
 export type DeleteCertsNsNamespaceNameNameParams = {
-  force_delete?: boolean
   kind?: DeleteCertsNsNamespaceNameNameKind
 }
 
@@ -166,6 +178,19 @@ export type DeleteCertsGlobalNameName500 = {
   message?: string
 }
 
+export type DeleteCertsGlobalNameName400Code =
+  (typeof DeleteCertsGlobalNameName400Code)[keyof typeof DeleteCertsGlobalNameName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCertsGlobalNameName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteCertsGlobalNameName400 = {
+  code?: DeleteCertsGlobalNameName400Code
+  message?: string
+}
+
 export type DeleteCertsGlobalNameNameKind =
   (typeof DeleteCertsGlobalNameNameKind)[keyof typeof DeleteCertsGlobalNameNameKind]
 
@@ -179,7 +204,6 @@ export const DeleteCertsGlobalNameNameKind = {
 } as const
 
 export type DeleteCertsGlobalNameNameParams = {
-  force_delete?: boolean
   kind?: DeleteCertsGlobalNameNameKind
 }
 

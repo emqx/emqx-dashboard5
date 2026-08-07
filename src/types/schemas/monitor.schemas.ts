@@ -1,3 +1,7 @@
+export type GetPrometheusTopicMetricsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusAuthParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
@@ -28,10 +32,6 @@ export const EmqxPrometheusApiModeParameter = {
   all_nodes_unaggregated: 'all_nodes_unaggregated',
   node: 'node',
 } as const
-
-export type GetPrometheusTopicMetricsParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
 
 export type GetPrometheusStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
@@ -78,14 +78,6 @@ export interface PrometheusPushGateway {
 
 export interface PrometheusNamespacedMetricsLimiter {
   rate?: string
-}
-
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
-  push_gateway?: PrometheusPushGateway
 }
 
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
@@ -221,6 +213,14 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
 }
 
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
+  push_gateway?: PrometheusPushGateway
+}
+
 export type OpentelemetryTraceFilterTraceMode =
   (typeof OpentelemetryTraceFilterTraceMode)[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -279,11 +279,20 @@ export interface OpentelemetryOtelExporter {
   ssl_options?: EmqxSslClientOpts
 }
 
+export type OpentelemetryOpentelemetryType =
+  (typeof OpentelemetryOpentelemetryType)[keyof typeof OpentelemetryOpentelemetryType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOpentelemetryType = {
+  generic: 'generic',
+} as const
+
 export interface OpentelemetryOpentelemetry {
   exporter?: OpentelemetryOtelExporter
   logs?: OpentelemetryOtelLogs
   metrics?: OpentelemetryOtelMetrics
   traces?: OpentelemetryOtelTraces
+  type?: OpentelemetryOpentelemetryType
 }
 
 export interface OpentelemetryE2eTracingOptions {
