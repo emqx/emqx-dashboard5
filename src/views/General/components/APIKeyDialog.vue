@@ -164,6 +164,14 @@
             :closable="false"
             show-icon
           />
+          <el-alert
+            v-if="hasLegacyNamespacedPublishScopes"
+            class="mixed-scopes-alert"
+            type="warning"
+            :title="tl('namespacedPublishMigrationDesc')"
+            :closable="false"
+            show-icon
+          />
         </el-col>
         <el-col :span="24">
           <el-form-item :label="t('Base.note')" prop="description">
@@ -213,6 +221,7 @@ enum ScopeMode {
 
 const SYSTEM_SCOPE = 'system'
 const PUBLISH_SCOPE = 'publish'
+const isNamespacedNamespace = (namespace?: string) => !!namespace && namespace !== GLOBAL_NAMESPACE
 
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
   Partial<Omit<APIKey, 'scopes'>> & {
@@ -259,6 +268,11 @@ const createRawFormData = () => ({
 
 const formCom = ref()
 const formData: Ref<APIKeyFormData> = ref(createRawFormData())
+const originalAPIKeyScopeState = ref<{
+  namespace?: string
+  role: string
+  scopes: string[]
+}>()
 const availableScopes: Ref<APIKeyScope[]> = ref([])
 const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
@@ -269,6 +283,15 @@ const validateCustomScopes = (
 ) => {
   if (formData.value.scopeMode === ScopeMode.Custom && value.includes(SYSTEM_SCOPE)) {
     callback(new Error(tl('customScopesSystemError')))
+    return
+  }
+  if (
+    formData.value.scopeMode === ScopeMode.Custom &&
+    isNamespacedKey.value &&
+    value.includes(PUBLISH_SCOPE) &&
+    !isUnchangedLegacyNamespacedScopes.value
+  ) {
+    callback(new Error(tl('namespacedPublishError')))
     return
   }
   callback()
@@ -303,6 +326,9 @@ const showResultDialog: Ref<boolean> = ref(false)
 const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const isNamespaceEnabled = ref(false)
+const isNamespacedKey = computed(
+  () => isNamespaceEnabled.value || isNamespacedNamespace(formData.value.namespace),
+)
 const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const { getNamespaceOptions } = useManagedNamespaceOptions()
@@ -316,8 +342,11 @@ const queryNamespaceList = async () => {
   }
 }
 const toggleNamespaceEnabled = () => {
-  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
-    queryNamespaceList()
+  if (isNamespaceEnabled.value) {
+    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== PUBLISH_SCOPE)
+    if (!isNamespaceOptionsLoaded.value) {
+      queryNamespaceList()
+    }
   } else if (!isNamespaceEnabled.value && formData.value.namespace) {
     formData.value.namespace = ''
   }
@@ -342,6 +371,24 @@ const isSameScopeSet = (left: string[], right: string[]) => {
   return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
 }
 
+const isUnchangedLegacyNamespacedScopes = computed(() => {
+  const original = originalAPIKeyScopeState.value
+  if (
+    props.operationType === 'create' ||
+    !original ||
+    !isNamespacedNamespace(original.namespace) ||
+    !original.scopes.includes(PUBLISH_SCOPE) ||
+    isSameScopeSet(original.scopes, [PUBLISH_SCOPE])
+  ) {
+    return false
+  }
+  return (
+    formData.value.namespace === original.namespace &&
+    formData.value.role === original.role &&
+    isSameScopeSet(formData.value.scopes, original.scopes)
+  )
+})
+
 const getRoleDefaultScopes = (role: string, scopes: APIKeyScope[]) =>
   role === UserRole.Publisher ? [PUBLISH_SCOPE] : scopes.map(({ name }) => name)
 
@@ -349,11 +396,19 @@ const resolveScopeMode = (
   scopes: APIKey['scopes'],
   role: string,
   availableScopeList: APIKeyScope[],
+  namespace?: string,
 ) => {
   if (scopes == null || isUnsetScopes(scopes)) {
     return ScopeMode.RoleDefault
   }
   const normalizedScopes = normalizeScopes(scopes) ?? []
+  if (
+    role !== UserRole.Publisher &&
+    isNamespacedNamespace(namespace) &&
+    normalizedScopes.includes(PUBLISH_SCOPE)
+  ) {
+    return ScopeMode.Custom
+  }
   if (isSameScopeSet(normalizedScopes, getRoleDefaultScopes(role, availableScopeList))) {
     return ScopeMode.RoleDefault
   }
@@ -369,16 +424,23 @@ watch(showDialog, async (val) => {
     if (props.operationType !== 'create') {
       const data = props.APIKeyData as APIKey
       const loadedScopes = await availableScopesPromise
+      const normalizedScopes = normalizeScopes(data.scopes) ?? []
+      originalAPIKeyScopeState.value = {
+        namespace: data.namespace,
+        role: data.role,
+        scopes: [...normalizedScopes],
+      }
       formData.value = {
         ...data,
-        scopes: normalizeScopes(data.scopes) ?? [],
-        scopeMode: resolveScopeMode(data.scopes, data.role, loadedScopes),
+        scopes: [...normalizedScopes],
+        scopeMode: resolveScopeMode(data.scopes, data.role, loadedScopes, data.namespace),
       }
       lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
         await nextTick()
       }
     } else {
+      originalAPIKeyScopeState.value = undefined
       await nextTick()
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
@@ -387,6 +449,7 @@ watch(showDialog, async (val) => {
       !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
   } else {
     formData.value = createRawFormData()
+    originalAPIKeyScopeState.value = undefined
     lastRole.value = UserRole.Admin
   }
 })
@@ -396,11 +459,16 @@ const { copyText } = useCopy()
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
 const customScopeOptions = computed(() =>
-  availableScopes.value.filter(({ name }) => name !== SYSTEM_SCOPE),
+  availableScopes.value.filter(
+    ({ name }) => name !== SYSTEM_SCOPE && !(isNamespacedKey.value && name === PUBLISH_SCOPE),
+  ),
 )
 const hasLegacyMixedScopes = computed(
   () =>
     formData.value.scopeMode === ScopeMode.Custom && formData.value.scopes.includes(SYSTEM_SCOPE),
+)
+const hasLegacyNamespacedPublishScopes = computed(
+  () => isNamespacedKey.value && formData.value.scopes.includes(PUBLISH_SCOPE),
 )
 
 const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
