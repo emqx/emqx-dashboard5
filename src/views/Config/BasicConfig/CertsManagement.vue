@@ -110,7 +110,7 @@ const handleDelete = async (row: CertBundleOut) => {
     if (refConfigs) {
       referencingConfigs.value = refConfigs
       isInUseDialogShow.value = true
-    } else if (error.response) {
+    } else if (error.response?.status === 400) {
       CustomMessage.error(getErrorMessage(error.response.data, error.response.status))
     }
   }
