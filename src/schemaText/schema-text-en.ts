@@ -606,6 +606,20 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   access_method: {
     label: 'Access Method',
   },
+  /* FLAPPING DETECTION START */
+  flapping_detect_window_time: {
+    label: 'Detection Time Window',
+    desc: 'The time window for flapping detection. Default: `1m`.',
+  },
+  flapping_detect_max_count: {
+    label: 'Max Connection Count',
+    desc: 'The maximum number of connection attempts allowed within the detection time window before the corresponding value is banned. Default: `15`.',
+  },
+  flapping_detect_ban_time: {
+    label: 'Ban Duration',
+    desc: 'How long the corresponding client ID, username, or source IP address will be banned. Default: `5m`.',
+  },
+  /* FLAPPING DETECTION END */
   /* A2A REGISTRY START */
   a2a_registry_enable: {
     label: 'Enable A2A Registry',

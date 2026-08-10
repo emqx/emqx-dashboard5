@@ -2,74 +2,55 @@
   <div class="flapping-detect app-wrapper with-padding-top">
     <el-card class="allow-overflow">
       <el-skeleton v-if="configLoading" :rows="12" animated />
-      <div class="schema-form" v-else>
-        <el-form
-          ref="flappingDetectForm"
-          class="configuration-form"
-          label-position="right"
-          require-asterisk-position="left"
-          hide-required-asterisk
-          :label-width="store.state.lang === 'zh' ? 170 : 230"
-          :model="flappingDetectConfig"
-          :validate-on-rule-change="false"
-          @keyup.enter="updateConfigData()"
-        >
-          <el-row>
-            <el-col :span="21" class="custom-col">
-              <el-form-item prop="enable">
-                <template #label>
-                  <FormItemLabel :label="tl('enableFlapping')" :desc="tl('enableFlappingDesc')" />
-                </template>
-                <el-switch v-model="flappingDetectConfig.enable" />
-              </el-form-item>
-              <el-form-item prop="window_time">
-                <template #label>
-                  <FormItemLabel :label="tl('windowTime')" :desc="tl('windowTimeDesc')" />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="flappingDetectConfig.window_time"
-                  number-placeholder="1"
-                  :enabled-units="['m']"
-                  :disabled="!flappingDetectConfig.enable"
-                />
-              </el-form-item>
-              <el-form-item prop="max_count">
-                <template #label>
-                  <FormItemLabel :label="tl('maxCount')" :desc="tl('maxCountDesc')" />
-                </template>
-                <CustomInputNumber
-                  v-model.number="flappingDetectConfig.max_count"
-                  placeholder="15"
-                  :min="0"
-                  :disabled="!flappingDetectConfig.enable"
-                />
-              </el-form-item>
-              <el-form-item prop="ban_time">
-                <template #label>
-                  <FormItemLabel :label="tl('banTime')" :desc="tl('banTimeDesc')" />
-                </template>
-                <TimeInputWithUnitSelect
-                  v-model="flappingDetectConfig.ban_time"
-                  number-placeholder="5"
-                  :enabled-units="['m']"
-                  :disabled="!flappingDetectConfig.enable"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24" class="btn-col">
-              <el-button
-                type="primary"
-                :disabled="!$hasPermission('put')"
-                :loading="saveLoading"
-                @click="updateConfigData()"
-              >
-                {{ $t('Base.saveChanges') }}
-              </el-button>
-            </el-col>
-          </el-row>
-        </el-form>
+      <div v-else class="schema-form flapping-detect-form" @keyup.enter="updateConfigData()">
+        <template v-for="(dimension, index) in dimensions" :key="dimension.key">
+          <el-form
+            class="configuration-form dimension-switch-form"
+            label-position="right"
+            require-asterisk-position="left"
+            hide-required-asterisk
+            :label-width="labelWidth"
+            :model="dimensionConfig[dimension.key]"
+            :validate-on-rule-change="false"
+          >
+            <el-row>
+              <el-col :span="21" class="custom-col">
+                <el-form-item prop="enabled">
+                  <template #label>
+                    <FormItemLabel :label="tl(dimension.label)" :desc="tl(dimension.desc)" />
+                  </template>
+                  <el-switch v-model="dimensionConfig[dimension.key].enabled" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <schema-form
+            v-if="dimensionConfig[dimension.key].enabled"
+            :ref="(form) => setPolicyFormRef(dimension.key, form)"
+            class="dimension-policy-form"
+            type="flapping_detect"
+            :according-to="policySchemaRef"
+            :form="dimensionConfig[dimension.key].policy"
+            :form-props="{ labelWidth }"
+            :form-item-span="21"
+            :need-record="dimensionConfig[dimension.key].initWithDefaults"
+            :need-footer="false"
+            @update="(policy) => updateDimensionPolicy(dimension.key, policy)"
+          />
+          <el-divider v-if="index < dimensions.length - 1" class="!my-1" />
+        </template>
+        <el-row>
+          <el-col :span="24" class="btn-col">
+            <el-button
+              type="primary"
+              :disabled="!$hasPermission('put')"
+              :loading="saveLoading"
+              @click="updateConfigData()"
+            >
+              {{ $t('Base.saveChanges') }}
+            </el-button>
+          </el-col>
+        </el-row>
       </div>
     </el-card>
   </div>
@@ -77,8 +58,38 @@
 
 <script setup lang="ts">
 import { getDefaultZoneConfigs, updateDefaultZoneConfigs } from '@/api/config'
-import { Zone } from '@/types/config'
+import { FlappingDetect, FlappingDetectPolicy, Zone } from '@/types/config'
 import { usePerms } from '@/plugins/permissionsPlugin'
+
+const dimensions = [
+  {
+    key: 'by_clientid',
+    label: 'flappingByClientId',
+    desc: 'flappingByClientIdDesc',
+  },
+  {
+    key: 'by_username',
+    label: 'flappingByUsername',
+    desc: 'flappingByUsernameDesc',
+  },
+  {
+    key: 'by_peerhost',
+    label: 'flappingByPeerhost',
+    desc: 'flappingByPeerhostDesc',
+  },
+] as const
+
+type DimensionKey = (typeof dimensions)[number]['key']
+type PolicyFormInstance = {
+  configForm: PolicyFormRecord
+  validate: () => Promise<void>
+}
+type PolicyFormRecord = FlappingDetectPolicy & Record<string, any>
+type DimensionFormState = {
+  enabled: boolean
+  policy: PolicyFormRecord
+  initWithDefaults: boolean
+}
 
 const { hasPermission } = usePerms()
 const { t, tl } = useI18nTl('General')
@@ -86,18 +97,58 @@ const { t, tl } = useI18nTl('General')
 const configLoading = ref(false)
 const saveLoading = ref(false)
 const store = useStore()
-const flappingDetectConfig = ref<Zone['flapping_detect']>({
-  enable: false,
-  window_time: '1m',
-  max_count: 15,
-  ban_time: '5m',
+const labelWidth = computed(() => (store.state.lang === 'zh' ? 170 : 230))
+const policySchemaRef = { ref: '#/components/schemas/emqx.flapping_detect_dimension' }
+const policyFormRefs: Partial<Record<DimensionKey, PolicyFormInstance>> = {}
+const dimensionConfig = reactive<Record<DimensionKey, DimensionFormState>>({
+  by_clientid: { enabled: false, policy: {}, initWithDefaults: true },
+  by_username: { enabled: false, policy: {}, initWithDefaults: true },
+  by_peerhost: { enabled: false, policy: {}, initWithDefaults: true },
 })
+
+const setPolicyFormRef = (key: DimensionKey, form: unknown) => {
+  if (form) {
+    policyFormRefs[key] = form as PolicyFormInstance
+  } else {
+    delete policyFormRefs[key]
+  }
+}
+
+const updateDimensionPolicy = (key: DimensionKey, policy: FlappingDetectPolicy) => {
+  dimensionConfig[key].policy = cloneDeep(policy) as PolicyFormRecord
+  if (Object.keys(policy).length > 0) {
+    dimensionConfig[key].initWithDefaults = false
+  }
+}
+
+const setDimensionConfig = (config: FlappingDetect) => {
+  dimensions.forEach(({ key }) => {
+    const value = config[key]
+    if (value !== undefined && value !== 'none') {
+      dimensionConfig[key].enabled = true
+      dimensionConfig[key].policy = cloneDeep(value) as PolicyFormRecord
+      dimensionConfig[key].initWithDefaults = false
+    } else {
+      dimensionConfig[key].enabled = false
+      dimensionConfig[key].policy = {}
+      dimensionConfig[key].initWithDefaults = true
+    }
+  })
+}
+
+const getFlappingDetectConfig = (): FlappingDetect =>
+  dimensions.reduce<FlappingDetect>((config, { key }) => {
+    const { enabled, policy } = dimensionConfig[key]
+    const currentPolicy = policyFormRefs[key]?.configForm ?? policy
+    config[key] = enabled ? cloneDeep(currentPolicy) : 'none'
+    return config
+  }, {})
 
 const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getDefaultZoneConfigs()
-    flappingDetectConfig.value = res.flapping_detect
+    setDimensionConfig(res.flapping_detect)
   } catch (error) {
     //
   } finally {
@@ -105,27 +156,48 @@ const loadData = async () => {
   }
 }
 
+const handleDataForSubmitting = (data: any) => {
+  const ret = checkNOmitFromObj(data)
+  for (const block in ret) {
+    if (_.isPlainObject(ret[block])) {
+      ret[block] = _.omitBy(ret[block], _.isNull)
+    }
+  }
+  return ret
+}
+
 const updateConfigData = async () => {
   if (!hasPermission('put')) {
     return
   }
-  saveLoading.value = true
   try {
+    for (const { key } of dimensions) {
+      if (dimensionConfig[key].enabled && policyFormRefs[key]) {
+        await customValidate(policyFormRefs[key])
+      }
+    }
+    saveLoading.value = true
     const zoneData: Zone = await getDefaultZoneConfigs()
-    zoneData.flapping_detect = flappingDetectConfig.value
+    zoneData.flapping_detect = handleDataForSubmitting(getFlappingDetectConfig())
     await updateDefaultZoneConfigs(zoneData)
     ElMessage.success(t('Base.updateSuccess'))
-  } catch (err) {
-    loadData()
+    await loadData()
+  } catch (error) {
+    //
   } finally {
     saveLoading.value = false
   }
 }
 
 const { addObserverToFooter } = useConfFooterStyle()
+watch(configLoading, async (isConfigLoading) => {
+  if (!isConfigLoading) {
+    await nextTick()
+    addObserverToFooter()
+  }
+})
 // Fetch data
 onMounted(async () => {
   await loadData()
-  addObserverToFooter()
 })
 </script>
