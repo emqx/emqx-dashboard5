@@ -1,4 +1,8 @@
 import { EmqxForceShutdown, EmqxMqttMaxSessionExpiryInterval } from '@/types/typeAlias'
+import type {
+  EmqxFlappingDetect,
+  EmqxFlappingDetectDimension,
+} from '@/types/schemas/configs.schemas'
 import { LogConf, NamespaceConfig } from './typeAlias'
 
 export interface SubTabComponent extends ComponentPublicInstance {
@@ -216,12 +220,9 @@ export interface Stats {
   enable: boolean
 }
 
-export interface FlappingDetect {
-  enable: boolean
-  max_count: number
-  window_time: string
-  ban_time: string
-}
+export type FlappingDetectPolicy = EmqxFlappingDetectDimension
+
+export type FlappingDetect = EmqxFlappingDetect
 
 export interface ConnCongestion {
   enable_alarm: boolean

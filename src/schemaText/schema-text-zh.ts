@@ -601,6 +601,20 @@ export default {
   access_method: {
     label: '访问模式',
   },
+  /* FLAPPING DETECTION START */
+  flapping_detect_window_time: {
+    label: '检测时间窗口',
+    desc: '用于检测连接抖动的时间窗口。默认值：`1m`。',
+  },
+  flapping_detect_max_count: {
+    label: '最大连接次数',
+    desc: '在检测时间窗口内允许的最大连接次数，超过后将封禁对应的客户端 ID、用户名或源 IP 地址。默认值：`15`。',
+  },
+  flapping_detect_ban_time: {
+    label: '封禁时长',
+    desc: '对应客户端 ID、用户名或源 IP 地址的封禁时长。默认值：`5m`。',
+  },
+  /* FLAPPING DETECTION END */
   /* A2A REGISTRY START */
   a2a_registry_enable: {
     label: '启用 A2A Registry',

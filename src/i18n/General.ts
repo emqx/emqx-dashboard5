@@ -257,37 +257,29 @@ export default {
     zh: '所选时间不能早于当前时间',
     en: 'The selected time cannot be earlier than the current time',
   },
-  enableFlapping: {
-    zh: '启用抖动检测',
-    en: 'Enable Flapping Detection',
+  flappingByClientId: {
+    zh: '按客户端 ID 检测',
+    en: 'Detect by Client ID',
   },
-  enableFlappingDesc: {
-    zh: '启用连接抖动的检测功能',
-    en: 'Enable connection flapping detection feature',
+  flappingByClientIdDesc: {
+    zh: '按客户端 ID 独立检测连接抖动并临时封禁异常客户端 ID',
+    en: 'Detect flapping by client ID and temporarily ban offending client IDs.',
   },
-  windowTime: {
-    zh: '检测时间窗口',
-    en: 'Detection Time Window',
+  flappingByUsername: {
+    zh: '按用户名检测',
+    en: 'Detect by Username',
   },
-  windowTimeDesc: {
-    zh: '进行连接抖动检测时的时间窗口长度',
-    en: 'The length of time window for flapping detection',
+  flappingByUsernameDesc: {
+    zh: '按用户名独立检测连接抖动并临时封禁异常用户名',
+    en: 'Detect flapping by username and temporarily ban offending usernames.',
   },
-  maxCount: {
-    zh: '最大断连次数',
-    en: 'Max Disconnection Count',
+  flappingByPeerhost: {
+    zh: '按源 IP 地址检测',
+    en: 'Detect by Source IP Address',
   },
-  maxCountDesc: {
-    zh: '在一个检测时间窗口内，MQTT 连接客户端被允许的最大断连次数',
-    en: 'Maximum allowed number of disconnections for an MQTT client within a specified detection time window.',
-  },
-  banTime: {
-    zh: '封禁时长',
-    en: 'Ban Duration',
-  },
-  banTimeDesc: {
-    zh: '抖动的连接客户端 ID 将被封禁的时长',
-    en: 'The duration for which the flapping Client ID will be banned',
+  flappingByPeerhostDesc: {
+    zh: '按源 IP 地址独立检测连接抖动并临时封禁异常源 IP 地址',
+    en: 'Detect flapping by source IP address and temporarily ban offending addresses.',
   },
   clearAll: {
     zh: '清除全部',
