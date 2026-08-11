@@ -21,6 +21,9 @@ export default function useProcessAuthData() {
     try {
       const tempData = cloneDeep(data)
       const { body } = data
+      if (tempData.hostname_resolution === 'static') {
+        delete tempData.allowed_hosts
+      }
       if (body !== '' && body !== undefined) {
         tempData.body = parseJSONSelectively(body)
       } else {
