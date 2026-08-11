@@ -917,6 +917,30 @@ export default {
     zh: 'SHA256 值',
     en: 'SHA256 value',
   },
+  hashToRangeDesc: {
+    zh: '将数据的 SHA256 哈希值映射为指定闭区间内的整数',
+    en: 'Map the SHA256 hash of a value to an integer in the specified inclusive range',
+  },
+  hashToRangeParams: {
+    zh: '1. 数据<br />2. 最小值<br />3. 最大值',
+    en: '1. Value<br />2. Minimum value<br />3. Maximum value',
+  },
+  hashToRangeReturns: {
+    zh: '指定闭区间内的整数',
+    en: 'An integer in the specified inclusive range',
+  },
+  mapToRangeDesc: {
+    zh: '将整数、二进制或原子值映射为指定闭区间内的整数',
+    en: 'Map an integer, binary, or atom value to an integer in the specified inclusive range',
+  },
+  mapToRangeParams: {
+    zh: '1. 数据<br />2. 最小值<br />3. 最大值',
+    en: '1. Value<br />2. Minimum value<br />3. Maximum value',
+  },
+  mapToRangeReturns: {
+    zh: '指定闭区间内的整数',
+    en: 'An integer in the specified inclusive range',
+  },
   gzipDesc: {
     zh: '压缩数据，结果包含 gz 数据头和校验和',
     en: 'Compresses data with gz headers and checksum.',
