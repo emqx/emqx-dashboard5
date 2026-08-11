@@ -319,6 +319,54 @@ export default {
     zh: 'HTTP 管道',
     en: 'HTTP Pipelining',
   },
+  hostnameResolution: {
+    zh: '主机名解析方式',
+    en: 'Hostname Resolution',
+  },
+  hostnameResolutionDesc: {
+    zh: '静态模式使用固定主机名和持久连接池；动态模式会在每次请求时解析主机名，并支持 URL 主机中的模板变量。',
+    en: 'Static mode uses a fixed hostname and persistent connection pool. Dynamic mode resolves the hostname for each request and supports template variables in the URL host.',
+  },
+  hostnameResolutionStatic: {
+    zh: '静态',
+    en: 'Static',
+  },
+  hostnameResolutionDynamic: {
+    zh: '动态',
+    en: 'Dynamic',
+  },
+  allowedHosts: {
+    zh: '允许的主机',
+    en: 'Allowed Hosts',
+  },
+  allowedHostsDesc: {
+    zh: 'URL 主机包含模板变量时必须配置。多个条目使用英文逗号分隔；每项可以是精确主机名（如 auth.example.com）或以 *. 开头的通配符模式（如 *.auth.example.com），不能包含端口、路径或空格。',
+    en: 'Required when the URL host contains template variables. Separate multiple entries with commas. Each entry must be an exact hostname (such as auth.example.com) or a wildcard pattern starting with *. (such as *.auth.example.com); ports, paths, and spaces are not allowed.',
+  },
+  httpURLDesc: {
+    zh: "动态解析模式下，主机部分可以包含模板变量，例如 https://${'{'}client_attrs.tns{'}'}.auth.example.com/auth。",
+    en: "In dynamic resolution mode, the host may contain template variables, for example https://${'{'}client_attrs.tns{'}'}.auth.example.com/auth.",
+  },
+  templatedHostnameNotSupported: {
+    zh: '当前认证方式不支持 URL 主机模板变量。',
+    en: 'The current authentication mechanism does not support template variables in the URL host.',
+  },
+  templatedHostnameRequiresDynamic: {
+    zh: 'URL 主机包含模板变量时，主机名解析方式必须选择动态。',
+    en: 'Dynamic hostname resolution is required when the URL host contains template variables.',
+  },
+  templatedHostnameRequiresAllowedHosts: {
+    zh: 'URL 主机包含模板变量时，必须至少配置一个允许的主机。',
+    en: 'At least one allowed host is required when the URL host contains template variables.',
+  },
+  dynamicHostnameOAuth2Conflict: {
+    zh: '动态主机名解析不能与 OAuth2 同时启用。',
+    en: 'Dynamic hostname resolution cannot be used with OAuth2.',
+  },
+  invalidAllowedHost: {
+    zh: '请输入有效的主机名或以 *. 开头的通配符模式，不能包含端口、路径或空格。',
+    en: 'Enter a valid hostname or a wildcard pattern starting with *.; ports, paths, and spaces are not allowed.',
+  },
   isSuperuser: {
     zh: '是否为超级用户',
     en: 'Is superuser',

@@ -51,6 +51,12 @@ export default function useAuthnCreate() {
       oauth2: {
         enable: false,
       },
+      ...(type === 'password_based'
+        ? {
+            hostname_resolution: 'static',
+            allowed_hosts: [],
+          }
+        : {}),
       ...(type === 'scram'
         ? {
             algorithm: 'sha256',
