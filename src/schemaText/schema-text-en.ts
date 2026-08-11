@@ -375,6 +375,10 @@ If subscriber fails to reply in time, it's kicked from the group and all its wor
     desc: 'The threshold, as percentage of system memory,\n for how much system memory can be allocated before the corresponding alarm is raised.',
     label: 'SysMem high wartermark',
   },
+  total_payload_bytes_high_watermark: {
+    desc: 'When an in-memory session retains more MQTT payload data in its message queue and inflight window than this threshold, a throttled warning log is emitted. Set to <code>0</code> to disable the warning. This setting does not limit the session buffer size.',
+    label: 'Total Payload Bytes High Watermark',
+  },
   busy_dist_port: {
     desc: 'When the RPC connection used to communicate with other nodes in the cluster is overloaded,\nthere will be a <code>busy_dist_port</code> warning log,\nand an MQTT message is published to system topic <code>$SYS/sysmon/busy_dist_port</code>.',
     label: 'Enable Busy Distribution Port monitoring',

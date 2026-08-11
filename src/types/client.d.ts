@@ -48,6 +48,7 @@ export interface Client {
   send_pkt: number
   subscriptions_cnt: number
   subscriptions_max: number
+  total_payload_bytes: number
   username: string
   will_msg: string
   zone: string

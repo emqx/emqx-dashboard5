@@ -19,6 +19,10 @@ const useSessionInfoItem = () => {
         return msg.mqueue_len + '/' + msg.mqueue_max
       case 'inflight':
         return msg.inflight_cnt + '/' + msg.inflight_max
+      case 'total_payload_bytes':
+        return msg.total_payload_bytes === undefined
+          ? '-'
+          : transMemorySizeNumToStr(msg.total_payload_bytes, 2)
       case 'awaiting_rel':
         return msg.awaiting_rel_cnt + '/' + msg.awaiting_rel_max
       case 'created_at':

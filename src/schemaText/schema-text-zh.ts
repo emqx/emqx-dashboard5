@@ -372,6 +372,10 @@ export default {
     desc: '在发出相应报警之前可以分配多少系统内存的阈值，以系统内存的百分比表示。',
     label: '系统内存高水位线',
   },
+  total_payload_bytes_high_watermark: {
+    desc: '当内存会话的消息队列和飞行窗口中保留的 MQTT 消息负载总大小超过此阈值时，将产生一条限流的 warning 级别日志。设置为 <code>0</code> 可关闭该警告。此设置不会限制会话缓冲区大小。',
+    label: '会话消息负载高水位线',
+  },
   busy_dist_port: {
     desc: '启用后，当用于集群接点之间 RPC 的连接过忙时，会触发一条带有 <code>busy_dist_port</code> 关键字的 warning 级别日志。\n同时还会发布一条主题为 <code>$SYS/sysmon/busy_dist_port</code> 的 MQTT 系统消息。',
     label: '启用分布式端口过忙监控',

@@ -284,7 +284,12 @@ export interface PerClient {
 export interface AlarmSettings {
   vm: VM
   os: OS
+  session?: SysmonSession
   top: Top
+}
+
+interface SysmonSession {
+  total_payload_bytes_high_watermark: string
 }
 
 interface Top {

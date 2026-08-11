@@ -192,7 +192,7 @@ const SchemaForm = defineComponent({
     const customGroups: Record<string, Array<string>> = {
       mqtt: ['mqtt'],
       session: ['mqtt'],
-      sysmon: ['vm', 'os'],
+      sysmon: ['vm', 'os', 'session'],
       durable_sessions: ['basic', 'shared_subs'],
     }
     const groups = computed(() => {
