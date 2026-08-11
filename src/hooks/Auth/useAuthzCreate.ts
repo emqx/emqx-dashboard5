@@ -85,6 +85,8 @@ export default function useAuthzCreate() {
       oauth2: {
         enable: false,
       },
+      hostname_resolution: 'static',
+      allowed_hosts: [],
     }
   }
   const getMongodbConfig = () => {

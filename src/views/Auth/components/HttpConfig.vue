@@ -20,10 +20,42 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="URL" required prop="url">
+            <el-form-item required prop="url">
+              <template #label>
+                <FormItemLabel label="URL" :desc="tl('httpURLDesc')" desc-marked />
+              </template>
               <el-input v-model="httpConfig.url" />
             </el-form-item>
           </el-col>
+          <template v-if="supportsDynamicHostname">
+            <el-col :span="12">
+              <el-form-item prop="hostname_resolution" required>
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('hostnameResolution')"
+                    :desc="tl('hostnameResolutionDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-select v-model="httpConfig.hostname_resolution">
+                  <el-option value="static" :label="tl('hostnameResolutionStatic')" />
+                  <el-option value="dynamic" :label="tl('hostnameResolutionDynamic')" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col v-if="isDynamicHostname" :span="12">
+              <el-form-item prop="allowed_hosts" :required="requiresAllowedHosts">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('allowedHosts')"
+                    :desc="tl('allowedHostsDesc')"
+                    desc-marked
+                  />
+                </template>
+                <ArrayEditorInput v-model="httpConfig.allowed_hosts" />
+              </el-form-item>
+            </el-col>
+          </template>
           <PreconditionFormItem v-model="httpConfig.precondition" :auth-type="authType" />
 
           <el-col :span="24">
@@ -85,8 +117,8 @@
         <AdvancedSettingContainer>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('RuleEngine.connectionPoolSize')">
-                <el-input v-model.number="httpConfig.pool_size" />
+              <el-form-item :label="$t('RuleEngine.connectionPoolSize')" prop="pool_size">
+                <CustomInputNumber v-model="httpConfig.pool_size" :min="minPoolSize" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -171,10 +203,24 @@ export default defineComponent({
     }
     const defaultContent = JSON.stringify(httpJSON, null, 2)
     const httpConfig = ref(props.modelValue)
+    const supportsDynamicHostname = computed(() => props.type !== 'scram')
+    const ensureHostnameResolutionFields = () => {
+      if (!supportsDynamicHostname.value) {
+        return
+      }
+      httpConfig.value.hostname_resolution ??= 'static'
+      if (!Array.isArray(httpConfig.value.allowed_hosts)) {
+        httpConfig.value.allowed_hosts = []
+      }
+    }
+    ensureHostnameResolutionFields()
     if (!httpConfig.value.oauth2) {
       httpConfig.value.oauth2 = { enable: false }
     }
-    const { formCom, rules, validate } = useHTTPConfigForm()
+    const { formCom, rules, validate } = useHTTPConfigForm(
+      httpConfig,
+      () => supportsDynamicHostname.value,
+    )
     watch(httpConfig.value, (value) => {
       ctx.emit('update:modelValue', value)
     })
@@ -184,6 +230,7 @@ export default defineComponent({
       (val) => {
         if (!isEqual(val, httpConfig.value)) {
           httpConfig.value = val
+          ensureHostnameResolutionFields()
           stringifyBody()
         }
       },
@@ -192,6 +239,14 @@ export default defineComponent({
     const needHelp = ref(false)
 
     const isMethodGet = computed(() => httpConfig.value.method === 'get')
+    const isDynamicHostname = computed(
+      () => supportsDynamicHostname.value && httpConfig.value.hostname_resolution === 'dynamic',
+    )
+    const requiresAllowedHosts = computed(() => {
+      const authority = httpConfig.value.url?.match(/^[a-z][a-z\d+.-]*:\/\/([^/?#]*)/i)?.[1]
+      return isDynamicHostname.value && (authority?.includes('${') ?? false)
+    })
+    const minPoolSize = computed(() => (isDynamicHostname.value ? 0 : 1))
     const { factory } = useAuthnCreate()
     const { headers: defaultHeaders } = factory('password_based', 'http')
     const handleMethodChanged = () => {
@@ -234,6 +289,10 @@ export default defineComponent({
       formCom,
       rules,
       isMethodGet,
+      supportsDynamicHostname,
+      isDynamicHostname,
+      requiresAllowedHosts,
+      minPoolSize,
       handleMethodChanged,
       validate,
       toggleNeedHelp,
