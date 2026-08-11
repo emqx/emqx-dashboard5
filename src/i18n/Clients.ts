@@ -199,6 +199,10 @@ export default {
     zh: '消息队列',
     en: 'Message Queue',
   },
+  totalPayloadBytes: {
+    zh: '消息负载总大小',
+    en: 'Total Payload Bytes',
+  },
   heapSize: {
     zh: '进程堆栈',
     en: 'Heap Size',

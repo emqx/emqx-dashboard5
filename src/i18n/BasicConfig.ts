@@ -108,6 +108,10 @@ export default {
     zh: '操作系统',
     en: 'Operating System',
   },
+  session: {
+    zh: '会话',
+    en: 'Session',
+  },
   console: {
     zh: '控制台日志',
     en: 'Console Logs',

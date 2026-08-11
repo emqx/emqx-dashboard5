@@ -30,6 +30,7 @@ export default (): {
       'subscriptions',
       'mqueue',
       'inflight',
+      'total_payload_bytes',
       'awaiting_rel',
       'heap_size',
       'mailbox_len',
