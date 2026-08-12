@@ -15,7 +15,13 @@
         >
           <el-row>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="enable" :label="tl('enableMessageStream')">
+              <el-form-item prop="enable">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('enableMessageStream')"
+                    :desc="tl('enableMessageStreamDesc')"
+                  />
+                </template>
                 <el-switch v-model="streamConfig.enable" />
               </el-form-item>
             </el-col>
