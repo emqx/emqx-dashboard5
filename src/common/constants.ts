@@ -343,6 +343,7 @@ export const SEARCH_FORM_RES_PROPS = { sm: 12, md: 12, lg: 6 }
 const defaultUnexposedConfig = {
   zone: 'default',
   access_rules: ['allow all'],
+  allow_log_packet_data_from: '',
   enable_authn: true,
 }
 
