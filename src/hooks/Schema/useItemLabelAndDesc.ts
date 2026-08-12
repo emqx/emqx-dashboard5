@@ -23,10 +23,14 @@ const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
 ])
 
 export const useSymbolLabel = (): {
-  getOptLabel: (key: string) => string
+  getOptLabel: (key: string, path?: string) => string
 } => {
   const { t, te } = useI18n()
-  const getOptLabel = (key: string) => {
+  const getOptLabel = (key: string, path?: string) => {
+    const specificTextKey = path ? `SchemaSymbolLabel.${snakeCase(path)}_${key}` : ''
+    if (specificTextKey && te(specificTextKey)) {
+      return t(specificTextKey)
+    }
     const textKey = `SchemaSymbolLabel.${key}`
     return te(textKey) ? t(textKey) : key?.toString()
   }
@@ -44,7 +48,7 @@ export default (
     label: any
     desc?: string
   }
-  getOptLabel: (key: string) => string
+  getOptLabel: (key: string, path?: string) => string
 } => {
   const CONFIG_TEXT_BASE = 'ConfigSchema.'
   const { t, te } = useI18n()
@@ -181,7 +185,11 @@ export default (
     return { label: '' }
   }
 
-  const getOptLabel = (key: string) => {
+  const getOptLabel = (key: string, path?: string) => {
+    const specificTextKey = path ? `SchemaSymbolLabel.${snakeCase(path)}_${key}` : ''
+    if (specificTextKey && te(specificTextKey)) {
+      return t(specificTextKey)
+    }
     const textKey = `SchemaSymbolLabel.${key}`
     return te(textKey) ? t(textKey) : key?.toString()
   }

@@ -90,6 +90,12 @@ export default (
     'request_timeout',
   )
 
+  const diskLogRotationFields = [
+    'rotation.period',
+    'rotation.retention_period',
+    'rotation.timezone',
+  ]
+
   const azureOrderMap = {
     ...createOrderObj(
       [
@@ -424,6 +430,10 @@ export default (
       ['endpoint', 'instance_name', 'access_key_id', 'access_key_secret', 'storage_model_type'],
       fieldStartIndex,
     ),
+    [BridgeType.DiskLog]: createOrderObj(
+      ['filepath', 'max_file_size', 'max_file_number', ...diskLogRotationFields],
+      fieldStartIndex,
+    ),
     [BridgeType.S3Tables]: createOrderObj(
       [
         's3tables_arn',
@@ -527,6 +537,7 @@ export default (
     [BridgeType.MatrixDB]: pgSqlAdvancedFields,
     [BridgeType.GreptimeDB]: greptimeDBAdvancedFields,
     [BridgeType.EMQXTables]: greptimeDBAdvancedFields,
+    [BridgeType.DiskLog]: diskLogRotationFields,
     [BridgeType.AlloyDB]: pgSqlAdvancedFields,
     [BridgeType.CockroachDB]: pgSqlAdvancedFields,
     [BridgeType.Redshift]: pgSqlAdvancedFields,

@@ -458,7 +458,7 @@ const SchemaForm = defineComponent({
               {...customProps}
             >
               {property.symbols?.map((opt) => (
-                <el-option value={opt} label={getOptLabel(opt.toString())} />
+                <el-option value={opt} label={getOptLabel(opt.toString(), property.path)} />
               ))}
             </el-select>
           )
@@ -513,7 +513,10 @@ const SchemaForm = defineComponent({
                 multiple
               >
                 {property.symbols?.map((opt) => (
-                  <el-option value={opt} label={getOptLabel(opt.toString())} />
+                  <el-option
+                    value={opt}
+                    label={getOptLabel(opt.toString(), property.symbolLabelPrefix)}
+                  />
                 ))}
               </el-select>
             )
@@ -697,7 +700,7 @@ const SchemaForm = defineComponent({
 
       switch (type) {
         case 'enum':
-          return <p class="value">{getOptLabel(modelValue)}</p>
+          return <p class="value">{getOptLabel(modelValue, property.path)}</p>
         case 'boolean':
           return switchComponent({ ...property, readOnly: true })
         case 'sql':

@@ -202,7 +202,7 @@ export default defineComponent({
               {...customProps}
             >
               {(props.symbols as any)?.map((opt: any) => (
-                <el-option value={opt} label={getOptLabel(opt.toString())} />
+                <el-option value={opt} label={getOptLabel(opt.toString(), props.property?.path)} />
               ))}
             </el-select>
           )
