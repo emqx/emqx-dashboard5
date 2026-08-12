@@ -379,14 +379,13 @@ queryListData()
   }
   .plugin-info-hd {
     position: relative;
-    top: -4px;
     display: inline-block;
     vertical-align: top;
 
     a {
       display: block;
       line-height: 18px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .version-info {
       margin-right: 8px;
