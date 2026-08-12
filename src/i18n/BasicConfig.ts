@@ -370,6 +370,10 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '启用队列',
     en: 'Enable Queues',
   },
+  enableMessageQueueDesc: {
+    zh: '存在队列时无法禁用此功能，请先删除所有队列。',
+    en: 'This feature cannot be disabled while queues exist. Delete all queues first.',
+  },
   maxQueueCount: {
     zh: '最大队列数',
     en: 'Max Queue Count',
@@ -413,6 +417,10 @@ These clients must be manually kicked out if one wants them to abide to the new 
   enableMessageStream: {
     zh: '启用流',
     en: 'Enable Streams',
+  },
+  enableMessageStreamDesc: {
+    zh: '存在流时无法禁用此功能，请先删除所有流。',
+    en: 'This feature cannot be disabled while streams exist. Delete all streams first.',
   },
   maxStreamCount: {
     zh: '最大流数',

@@ -15,7 +15,13 @@
         >
           <el-row>
             <el-col :span="21" class="custom-col">
-              <el-form-item prop="enable" :label="tl('enableMessageQueue')">
+              <el-form-item prop="enable">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('enableMessageQueue')"
+                    :desc="tl('enableMessageQueueDesc')"
+                  />
+                </template>
                 <el-switch v-model="queueConfig.enable" />
               </el-form-item>
             </el-col>
