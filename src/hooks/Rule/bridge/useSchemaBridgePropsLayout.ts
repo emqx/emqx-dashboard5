@@ -386,7 +386,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.BigQuery]: createOrderObj(
-      getPathArrInParameters(['dataset', 'table']),
+      getPathArrInParameters(['project_id', 'dataset', 'table']),
       fieldStartIndex,
     ),
     [BridgeType.AzureEventGrid]: mqttOrderMap,
