@@ -147,7 +147,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="tl('createTopicMetrics')" v-model="createDialogVisible" width="460px">
+    <el-dialog :title="tl('createTopicMetrics')" v-model="createDialogVisible" width="500px">
       <el-form
         ref="createFormRef"
         :model="createForm"
