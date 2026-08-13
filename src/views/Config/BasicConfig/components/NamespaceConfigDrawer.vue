@@ -139,7 +139,6 @@
 
 <script lang="ts" setup>
 import { getConfigs, putConfigs } from '@/api/config'
-import { hoconToObject } from '@emqx/shared-ui-utils'
 import { FormInstance } from 'element-plus'
 
 const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
@@ -158,6 +157,10 @@ const createDefaultRecord = () => ({
   allow_only_managed_namespaces: false,
   post_auth_tns_expression: '',
 })
+type MultiTenancyConfig = ReturnType<typeof createDefaultRecord>
+type MultiTenancyConfigsResponse = Partial<
+  Record<typeof MULTI_TENANCY_KEY, Partial<MultiTenancyConfig>>
+>
 const record = ref(createDefaultRecord())
 const namespaceSourceTiming = ref<NamespaceSourceTiming>(NamespaceSourceTiming.BeforeAuth)
 
@@ -197,10 +200,10 @@ const isLoading = ref(false)
 const getNamespaceConfigs = async () => {
   try {
     isLoading.value = true
-    const temp = await getConfigs(MULTI_TENANCY_KEY)
+    const temp = await getConfigs<MultiTenancyConfigsResponse>(MULTI_TENANCY_KEY)
     const nextRecord = {
       ...createDefaultRecord(),
-      ...(hoconToObject(temp)?.[MULTI_TENANCY_KEY] ?? {}),
+      ...(temp[MULTI_TENANCY_KEY] ?? {}),
     }
     record.value = nextRecord
     namespaceSourceTiming.value = nextRecord.post_auth_tns_expression
