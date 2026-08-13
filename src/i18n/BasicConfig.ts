@@ -527,16 +527,12 @@ See EMQX documentation for expression syntax.`,
     en: 'Bundle In Use',
   },
   certBundleInUseDesc: {
-    zh: '以下配置正在使用该证书包，强制删除后可能导致相关配置失效',
-    en: 'The following configurations are currently using this bundle. Force deleting it may cause dependent configurations to fail.',
+    zh: '以下配置正在使用该证书包，请先移除引用后再删除',
+    en: 'The following configurations are currently using this bundle. Remove the references before deleting it.',
   },
   certBundleFileInUseDesc: {
-    zh: '以下配置正在使用该证书包，强制删除证书文件后可能导致相关配置失效',
-    en: 'The following configurations are currently using this bundle. Force deleting the cert file may cause dependent configurations to fail.',
-  },
-  forceDelete: {
-    zh: '强制删除',
-    en: 'Force Delete',
+    zh: '以下配置正在使用该证书包，请先移除引用后再删除证书文件',
+    en: 'The following configurations are currently using this bundle. Remove the references before deleting the certificate file.',
   },
   viewPage: {
     zh: '前往页面',

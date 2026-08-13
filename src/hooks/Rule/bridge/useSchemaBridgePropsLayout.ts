@@ -78,6 +78,9 @@ export default (
     'required_acks',
     'partition_count_refresh_interval',
     'max_inflight',
+    'max_batch_age',
+    'max_retries',
+    'reconnect_delay',
     'query_mode',
     'sync_query_timeout',
     'buffer',
@@ -383,7 +386,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.BigQuery]: createOrderObj(
-      getPathArrInParameters(['dataset', 'table']),
+      getPathArrInParameters(['project_id', 'dataset', 'table']),
       fieldStartIndex,
     ),
     [BridgeType.Bigtable]: createOrderObj(

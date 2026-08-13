@@ -106,17 +106,35 @@
           </el-form-item>
         </el-col>
         <el-col :span="24" v-if="!isPublisherRole">
-          <el-form-item prop="scopes">
+          <el-form-item prop="scopeMode">
             <template #label>
-              <span>{{ tl('scopes') }}</span>
-              <el-tooltip
-                v-if="formData.scopesNeedUpdate"
-                :content="tl('legacyScopesTip')"
-                placement="top"
-              >
-                <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-              </el-tooltip>
+              <FormItemLabel
+                :label="tl('scopeMode')"
+                :desc="scopeModeDesc"
+                desc-marked
+                :max-height="400"
+                popper-class="scope-mode-tooltip"
+              />
             </template>
+            <el-radio-group
+              v-model="formData.scopeMode"
+              :disabled="operationType === 'view'"
+              @change="handleScopeModeChanged"
+            >
+              <el-radio :value="ScopeMode.RoleDefault">
+                {{ tl('roleDefaultScopes') }}
+              </el-radio>
+              <el-radio :value="ScopeMode.System">
+                {{ tl('scopeModeSystem') }}
+              </el-radio>
+              <el-radio :value="ScopeMode.Custom">
+                {{ tl('scopeModeCustom') }}
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
+          <el-form-item class="scopes-form-item" :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
               multiple
@@ -126,7 +144,7 @@
               style="width: 100%"
             >
               <el-option
-                v-for="scope in availableScopes"
+                v-for="scope in customScopeOptions"
                 :key="scope.name"
                 :value="scope.name"
                 :label="getScopeLabel(scope.name)"
@@ -138,6 +156,22 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-alert
+            v-if="hasLegacyMixedScopes"
+            class="mixed-scopes-alert"
+            type="warning"
+            :title="tl('mixedScopesMigrationDesc')"
+            :closable="false"
+            show-icon
+          />
+          <el-alert
+            v-if="hasLegacyNamespacedPublishScopes"
+            class="mixed-scopes-alert"
+            type="warning"
+            :title="tl('namespacedPublishMigrationDesc')"
+            :closable="false"
+            show-icon
+          />
         </el-col>
         <el-col :span="24">
           <el-form-item :label="t('Base.note')" prop="description">
@@ -174,24 +208,27 @@
 import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
 import { UserRole } from '@/types/enum'
 import { GLOBAL_NAMESPACE } from '@/common/constants'
-import {
-  APIKey,
-  APIKeyFormWhenCreating,
-  APIKeyFormWhenEditing,
-  APIKeyScope,
-} from '@/types/systemModule'
-import { isLegacyUnsetScopes, normalizeScopes, sanitizeScopesForSubmit } from '@/common/scopes'
+import { APIKey, APIKeyFormWhenCreating, APIKeyScope } from '@/types/systemModule'
+import { isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
-import { Warning } from '@element-plus/icons-vue'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 
 export type OperationType = 'create' | 'view' | 'edit'
+enum ScopeMode {
+  RoleDefault = 'role_default',
+  System = 'system',
+  Custom = 'custom',
+}
+
+const SYSTEM_SCOPE = 'system'
+const PUBLISH_SCOPE = 'publish'
+const isNamespacedNamespace = (namespace?: string) => !!namespace && namespace !== GLOBAL_NAMESPACE
+
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
   Partial<Omit<APIKey, 'scopes'>> & {
-    scopes?: string[]
-    scopesNeedUpdate?: boolean
+    scopes: string[]
+    scopeMode: ScopeMode
   }
-const PUBLISHER_SCOPES = ['publish']
 
 const props = defineProps({
   modelValue: {
@@ -217,6 +254,9 @@ const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
+const scopeModeDesc = computed(() =>
+  [tl('scopeModeDesc'), tl('roleDefaultScopesByRoleDesc')].join('\n\n'),
+)
 
 const createRawFormData = () => ({
   name: '',
@@ -224,16 +264,40 @@ const createRawFormData = () => ({
   desc: '',
   enable: true,
   role: 'administrator',
-  scopes: undefined as string[] | undefined,
+  scopes: [] as string[],
+  scopeMode: ScopeMode.RoleDefault,
 })
 
 const formCom = ref()
 const formData: Ref<APIKeyFormData> = ref(createRawFormData())
+const originalAPIKeyScopeState = ref<{
+  namespace?: string
+  role: string
+  scopes: string[]
+}>()
 const availableScopes: Ref<APIKeyScope[]> = ref([])
-const availableScopesPromise: Ref<Promise<APIKeyScope[]> | undefined> = ref(undefined)
-const initialRole = ref<UserRole>(UserRole.Admin)
 const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
+const validateCustomScopes = (
+  _rule: unknown,
+  value: string[],
+  callback: (error?: Error) => void,
+) => {
+  if (formData.value.scopeMode === ScopeMode.Custom && value.includes(SYSTEM_SCOPE)) {
+    callback(new Error(tl('customScopesSystemError')))
+    return
+  }
+  if (
+    formData.value.scopeMode === ScopeMode.Custom &&
+    isNamespacedKey.value &&
+    value.includes(PUBLISH_SCOPE) &&
+    !isUnchangedLegacyNamespacedScopes.value
+  ) {
+    callback(new Error(tl('namespacedPublishError')))
+    return
+  }
+  callback()
+}
 const rules = {
   name: [
     {
@@ -242,6 +306,7 @@ const rules = {
     },
     ...createLetterStartRule(),
   ],
+  scopes: [{ validator: validateCustomScopes, trigger: 'change' }],
 }
 const isEnableOptions = [
   {
@@ -263,6 +328,9 @@ const showResultDialog: Ref<boolean> = ref(false)
 const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const isNamespaceEnabled = ref(false)
+const isNamespacedKey = computed(
+  () => isNamespaceEnabled.value || isNamespacedNamespace(formData.value.namespace),
+)
 const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const { getNamespaceOptions } = useManagedNamespaceOptions()
@@ -279,8 +347,11 @@ const queryNamespaceList = async () => {
   }
 }
 const toggleNamespaceEnabled = () => {
-  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
-    queryNamespaceList()
+  if (isNamespaceEnabled.value) {
+    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== PUBLISH_SCOPE)
+    if (!isNamespaceOptionsLoaded.value) {
+      queryNamespaceList()
+    }
   } else if (!isNamespaceEnabled.value && formData.value.namespace) {
     formData.value.namespace = ''
   }
@@ -293,32 +364,89 @@ const showDialog = computed({
   },
 })
 
-const loadAvailableScopes = () => {
-  availableScopesPromise.value = getAPIKeyScopes().then((scopes) => {
+const loadAvailableScopes = () =>
+  getAPIKeyScopes().then((scopes) => {
     availableScopes.value = scopes
     return scopes
   })
-  return availableScopesPromise.value
+
+const isSameScopeSet = (left: string[], right: string[]) => {
+  const leftSet = new Set(left)
+  const rightSet = new Set(right)
+  return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
+}
+
+const isUnchangedLegacyNamespacedScopes = computed(() => {
+  const original = originalAPIKeyScopeState.value
+  if (
+    props.operationType === 'create' ||
+    !original ||
+    !isNamespacedNamespace(original.namespace) ||
+    !original.scopes.includes(PUBLISH_SCOPE) ||
+    isSameScopeSet(original.scopes, [PUBLISH_SCOPE])
+  ) {
+    return false
+  }
+  return (
+    formData.value.namespace === original.namespace &&
+    formData.value.role === original.role &&
+    isSameScopeSet(formData.value.scopes, original.scopes)
+  )
+})
+
+const getRoleDefaultScopes = (role: string, scopes: APIKeyScope[]) =>
+  role === UserRole.Publisher ? [PUBLISH_SCOPE] : scopes.map(({ name }) => name)
+
+const resolveScopeMode = (
+  scopes: APIKey['scopes'],
+  role: string,
+  availableScopeList: APIKeyScope[],
+  namespace?: string,
+) => {
+  if (scopes == null || isUnsetScopes(scopes)) {
+    return ScopeMode.RoleDefault
+  }
+  const normalizedScopes = normalizeScopes(scopes) ?? []
+  if (
+    role !== UserRole.Publisher &&
+    isNamespacedNamespace(namespace) &&
+    normalizedScopes.includes(PUBLISH_SCOPE)
+  ) {
+    return ScopeMode.Custom
+  }
+  if (isSameScopeSet(normalizedScopes, getRoleDefaultScopes(role, availableScopeList))) {
+    return ScopeMode.RoleDefault
+  }
+  if (normalizedScopes.length === 1 && normalizedScopes[0] === SYSTEM_SCOPE) {
+    return ScopeMode.System
+  }
+  return ScopeMode.Custom
 }
 
 watch(showDialog, async (val) => {
   if (val) {
-    loadAvailableScopes()
+    const availableScopesPromise = loadAvailableScopes().catch(() => [])
     if (props.operationType !== 'create') {
       const data = props.APIKeyData as APIKey
+      const loadedScopes = await availableScopesPromise
+      const normalizedScopes = normalizeScopes(data.scopes) ?? []
+      originalAPIKeyScopeState.value = {
+        namespace: data.namespace,
+        role: data.role,
+        scopes: [...normalizedScopes],
+      }
       formData.value = {
         ...data,
-        scopes: normalizeScopes(data.scopes),
-        scopesNeedUpdate: isLegacyUnsetScopes(data.scopes),
+        scopes: [...normalizedScopes],
+        scopeMode: resolveScopeMode(data.scopes, data.role, loadedScopes, data.namespace),
       }
-      initialRole.value = formData.value.role as UserRole
       lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
         await nextTick()
       }
     } else {
+      originalAPIKeyScopeState.value = undefined
       await nextTick()
-      initialRole.value = formData.value.role as UserRole
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
@@ -326,7 +454,7 @@ watch(showDialog, async (val) => {
       !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
   } else {
     formData.value = createRawFormData()
-    initialRole.value = UserRole.Admin
+    originalAPIKeyScopeState.value = undefined
     lastRole.value = UserRole.Admin
   }
 })
@@ -335,21 +463,29 @@ const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+const customScopeOptions = computed(() =>
+  availableScopes.value.filter(
+    ({ name }) => name !== SYSTEM_SCOPE && !(isNamespacedKey.value && name === PUBLISH_SCOPE),
+  ),
+)
+const hasLegacyMixedScopes = computed(
+  () =>
+    formData.value.scopeMode === ScopeMode.Custom && formData.value.scopes.includes(SYSTEM_SCOPE),
+)
+const hasLegacyNamespacedPublishScopes = computed(
+  () => isNamespacedKey.value && formData.value.scopes.includes(PUBLISH_SCOPE),
+)
 
-const isOnlyPublisherScope = (scopes: APIKeyFormData['scopes']) =>
-  Array.isArray(scopes) && scopes.length === 1 && scopes[0] === PUBLISHER_SCOPES[0]
-
-const getAllScopeNames = () => availableScopes.value.map(({ name }) => name)
-
-const isChangingFromPublisher = (role?: string) =>
-  initialRole.value === UserRole.Publisher && role !== UserRole.Publisher
+const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
+  if (mode === ScopeMode.Custom) {
+    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== SYSTEM_SCOPE)
+  }
+  nextTick(() => formCom.value?.clearValidate('scopes'))
+}
 
 const handleRoleChanged = () => {
-  if (formData.value.role === UserRole.Publisher) {
-    formData.value.scopes = [...PUBLISHER_SCOPES]
-  } else if (lastRole.value === UserRole.Publisher && formData.value.role === UserRole.Admin) {
-    formData.value.scopes = getAllScopeNames()
-  } else if (lastRole.value === UserRole.Publisher && isOnlyPublisherScope(formData.value.scopes)) {
+  if (formData.value.role === UserRole.Publisher || lastRole.value === UserRole.Publisher) {
+    formData.value.scopeMode = ScopeMode.RoleDefault
     formData.value.scopes = []
   }
   lastRole.value = formData.value.role as UserRole
@@ -368,21 +504,22 @@ const getScopeDesc = (name: string): string => {
 const todayStartTime = new Date().setHours(0, 0, 0, 0)
 const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
-const handleDataForSubmitting = <T extends APIKeyFormData | Omit<APIKeyFormData, 'name'>>(
+type APIKeyFormDataWithoutName = Omit<APIKeyFormData, 'name'>
+
+const handleDataForSubmitting = <T extends APIKeyFormData | APIKeyFormDataWithoutName>(
   formData: T,
 ) => {
-  const ret = { ...formData }
-  delete ret.scopesNeedUpdate
-  if (ret.role === UserRole.Publisher) {
-    ret.scopes = [...PUBLISHER_SCOPES]
+  const { scopeMode, ...data } = formData
+  const scopes =
+    scopeMode === ScopeMode.RoleDefault
+      ? UNSET_SCOPES
+      : scopeMode === ScopeMode.System
+        ? [SYSTEM_SCOPE]
+        : data.scopes
+  const ret = {
+    ...data,
+    scopes,
   }
-  if (
-    isChangingFromPublisher(ret.role) &&
-    (!Array.isArray(ret.scopes) || ret.scopes.length === 0)
-  ) {
-    ret.scopes = getAllScopeNames()
-  }
-  sanitizeScopesForSubmit(ret)
   // The interface convention is that when the api key is never expired,
   // do not submit expired_at
   if (!ret.expired_at) {
@@ -398,15 +535,9 @@ const { processUserRecordForSubmit, processAPIKeyRecordForUpdating } = useNamesp
 const submitAddedData = () =>
   createAPIKey(processUserRecordForSubmit(handleDataForSubmitting(formData.value)))
 
-const submitUpdatedData = async () => {
-  const { name, ...data } = formData.value as APIKeyFormWhenEditing
-  if (isChangingFromPublisher(data.role) && availableScopes.value.length === 0) {
-    await (availableScopesPromise.value ?? loadAvailableScopes())
-  }
-  return updateAPIKey(
-    name,
-    processAPIKeyRecordForUpdating(handleDataForSubmitting(data as APIKeyFormData)),
-  )
+const submitUpdatedData = () => {
+  const { name, ...data } = formData.value
+  return updateAPIKey(name, processAPIKeyRecordForUpdating(handleDataForSubmitting(data)))
 }
 
 const submit = async () => {
@@ -460,17 +591,24 @@ const submit = async () => {
       margin-left: 8px;
     }
   }
+  .mixed-scopes-alert {
+    margin-top: -8px;
+    margin-bottom: 18px;
+  }
+  .scopes-form-item {
+    .el-form-item__error {
+      position: static;
+      width: 100%;
+    }
+  }
+}
+.scope-mode-tooltip {
+  max-width: 720px;
 }
 .scope-desc {
   color: var(--el-text-color-secondary);
   margin-left: 8px;
   font-size: 12px;
   font-weight: normal;
-}
-.legacy-scopes-icon {
-  margin-left: 4px;
-  color: var(--el-color-warning);
-  cursor: help;
-  vertical-align: -2px;
 }
 </style>

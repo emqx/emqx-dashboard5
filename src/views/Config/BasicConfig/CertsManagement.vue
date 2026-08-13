@@ -43,11 +43,7 @@
     :global-only="!isMultiTenancyEnabled"
     @submit="handleSubmit"
   />
-  <CertBundleInUseDialog
-    v-model="isInUseDialogShow"
-    :referencing-configs="referencingConfigs"
-    @force-delete="handleForceDelete"
-  />
+  <CertBundleInUseDialog v-model="isInUseDialogShow" :referencing-configs="referencingConfigs" />
 </template>
 
 <script setup lang="ts">
@@ -103,7 +99,6 @@ const handleSubmit = async ({ namespace: ns }: ManagedCerts) => {
 
 const isInUseDialogShow = ref(false)
 const referencingConfigs = ref<ReferencingConfigs>({})
-const pendingDeleteName = ref('')
 
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (row: CertBundleOut) => {
@@ -118,21 +113,10 @@ const handleDelete = async (row: CertBundleOut) => {
     const refConfigs = error?.response?.data?.referencing_configs
     if (refConfigs) {
       referencingConfigs.value = refConfigs
-      pendingDeleteName.value = name
       isInUseDialogShow.value = true
-    } else if (error.response) {
+    } else if (error.response?.status === 400) {
       CustomMessage.error(getErrorMessage(error.response.data, error.response.status))
     }
-  }
-}
-
-const handleForceDelete = async () => {
-  try {
-    await deleteCertBundle(pendingDeleteName.value, selectedNamespace.value, true)
-    ElMessage.success(t('Base.deleteSuccess'))
-    getCertBundleList()
-  } catch (error) {
-    //
   }
 }
 
