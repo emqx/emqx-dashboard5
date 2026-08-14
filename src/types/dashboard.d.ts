@@ -1,5 +1,5 @@
 import { NodeStatus } from './enum'
-import { OpentelemetryOpentelemetry } from './schemas/monitor.schemas'
+import type { OpenTelemetryLogs, OpenTelemetryMetrics, OpenTelemetryTraces } from './typeAlias'
 import { SSL } from './common'
 
 export interface CounterItem {
@@ -78,13 +78,46 @@ export interface StatsD {
   server: string
 }
 
-export type OpenTelemetry = Omit<OpentelemetryOpentelemetry, 'exporter'> & {
-  exporter?: {
-    endpoint?: string
-    ssl_options?: SSL
-    headers?: Record<string, string>
-  }
+export type OpenTelemetryType = 'generic' | 'dynatrace'
+
+export interface OpenTelemetryExporter {
+  endpoint?: string
+  ssl_options?: SSL
+  headers?: Record<string, string>
 }
+
+export interface DynatraceOAuth2 {
+  kind: 'dynatrace_oauth2'
+  enable: true
+  grant_type: 'client_credentials'
+  token_endpoint: string
+  client_id: string
+  client_secret: string
+  resource: string
+  scope?: string
+  timeout?: string
+  ssl?: SSL
+}
+
+export interface GenericOpenTelemetry {
+  type: 'generic'
+  exporter?: OpenTelemetryExporter
+  logs?: OpenTelemetryLogs
+  metrics?: OpenTelemetryMetrics
+  traces?: OpenTelemetryTraces
+}
+
+export interface DynatraceOpenTelemetry {
+  type: 'dynatrace'
+  exporter?: {
+    auth: DynatraceOAuth2
+  } & OpenTelemetryExporter
+  logs?: OpenTelemetryLogs
+  metrics?: never
+  traces?: OpenTelemetryTraces
+}
+
+export type OpenTelemetry = GenericOpenTelemetry | DynatraceOpenTelemetry
 
 export interface Alarm {
   node: string

@@ -370,7 +370,7 @@ const submit = async () => {
     if (isConfigChanged()) {
       const data = cloneDeep(props.configs)
       set(data, 'traces.filter.e2e_tracing_options', traceConf.value)
-      const res = await setOpenTelemetry(checkNOmitFromObj(data))
+      const res = await setOpenTelemetry(checkNOmitFromObj(data) as OpenTelemetry)
       emit('update', res)
     }
     if (isClientIdWhiteListChanged()) {
