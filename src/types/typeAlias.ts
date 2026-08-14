@@ -83,7 +83,12 @@ import type {
   SchemaRegistryGetProtobuf,
   SchemaRegistryPostExternalHttp,
 } from './schemas/schemaRegistry.schemas'
-import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
+import type {
+  OpentelemetryE2eTracingOptions,
+  OpentelemetryOtelLogs,
+  OpentelemetryOtelMetrics,
+  OpentelemetryOtelTraces,
+} from './schemas/monitor.schemas'
 import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
 import {
   GetMtManagedNsListParams,
@@ -245,6 +250,9 @@ export type SchemaRegistryProtobufDetail = SchemaRegistryGetProtobuf
 
 /* MONITOR */
 export type OpenTelemetryE2EConfigs = OpentelemetryE2eTracingOptions
+export type OpenTelemetryLogs = OpentelemetryOtelLogs
+export type OpenTelemetryMetrics = OpentelemetryOtelMetrics
+export type OpenTelemetryTraces = OpentelemetryOtelTraces
 
 /* DASHBOARD */
 export type User = DashboardUser

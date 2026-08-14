@@ -9,6 +9,7 @@
           require-asterisk-position="left"
           :rules="rules"
           :model="opentelemetryFormData"
+          :validate-on-rule-change="false"
           :label-width="store.state.lang === 'zh' ? 236 : 308"
         >
           <el-row>
@@ -149,9 +150,17 @@
           <template v-if="selectedPlatform === 'OpenTelemetry'">
             <el-row>
               <el-col :span="21" class="custom-col">
+                <el-form-item :label="tl('openTelemetryType')">
+                  <el-radio-group :model-value="opentelemetryType" @change="handleTypeChange">
+                    <el-radio-button value="generic">{{ tl('generic') }}</el-radio-button>
+                    <el-radio-button value="dynatrace">Dynatrace</el-radio-button>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="21" class="custom-col">
                 <el-form-item :label="tl('featureSelection')">
                   <el-checkbox
-                    v-if="opentelemetryFormData.metrics"
+                    v-if="opentelemetryType === 'generic' && opentelemetryFormData.metrics"
                     v-model="opentelemetryFormData.metrics.enable"
                     :label="tl('metricsEnable')"
                     size="large"
@@ -175,13 +184,19 @@
               </el-col>
               <template v-if="opentelemetryFormData.exporter">
                 <el-col :span="21" class="custom-col">
-                  <el-form-item :label="tl('endpoint')">
+                  <el-form-item
+                    :label="tl('endpoint')"
+                    :prop="opentelemetryType === 'dynatrace' ? 'exporter.endpoint' : undefined"
+                  >
                     <el-input v-model="opentelemetryFormData.exporter.endpoint" />
                   </el-form-item>
                 </el-col>
                 <!-- Exporter -->
                 <el-col :span="21" class="custom-col">
-                  <el-form-item :label="t('RuleEngine.headers')">
+                  <el-form-item
+                    :label="t('RuleEngine.headers')"
+                    :prop="opentelemetryType === 'dynatrace' ? 'exporter.headers' : undefined"
+                  >
                     <KeyAndValueEditor v-model="opentelemetryFormData.exporter.headers" />
                   </el-form-item>
                 </el-col>
@@ -198,8 +213,52 @@
                 </el-col>
               </template>
 
+              <!-- Dynatrace OAuth2 -->
+              <el-col v-if="dynatraceAuth" :span="21" class="custom-col oauth2-card-col">
+                <el-card class="oauth2-card" shadow="never">
+                  <template #header>
+                    <span
+                      class="inline-block text-right pr-8"
+                      :class="store.state.lang === 'zh' ? 'w-[236px]' : 'w-[308px]'"
+                    >
+                      {{ tl('oauth2Authentication') }}
+                    </span>
+                  </template>
+                  <el-form-item :label="tl('tokenEndpoint')" prop="exporter.auth.token_endpoint">
+                    <el-input v-model="dynatraceAuth.token_endpoint" />
+                  </el-form-item>
+                  <el-form-item :label="tl('clientID')" prop="exporter.auth.client_id">
+                    <el-input v-model="dynatraceAuth.client_id" />
+                  </el-form-item>
+                  <el-form-item :label="tl('clientSecret')" prop="exporter.auth.client_secret">
+                    <CustomInputPassword v-model="dynatraceAuth.client_secret" />
+                  </el-form-item>
+                  <el-form-item :label="tl('resource')" prop="exporter.auth.resource">
+                    <el-input v-model="dynatraceAuth.resource" />
+                  </el-form-item>
+                  <el-form-item :label="tl('scope')">
+                    <el-input v-model="dynatraceAuth.scope" />
+                  </el-form-item>
+                  <el-form-item :label="tl('timeout')">
+                    <TimeInputWithUnitSelect v-model="dynatraceAuth.timeout" />
+                  </el-form-item>
+                  <div class="col-ssl">
+                    <CommonTLSConfig
+                      v-model="dynatraceAuth.ssl"
+                      base-path="exporter.auth.ssl"
+                      is-edit
+                      :show-sni="false"
+                      :managed-cert-conf-columns="1"
+                    />
+                  </div>
+                </el-card>
+              </el-col>
+
               <!-- Metrics -->
-              <el-col :span="21" v-if="opentelemetryFormData.metrics?.enable">
+              <el-col
+                v-if="opentelemetryType === 'generic' && opentelemetryFormData.metrics?.enable"
+                :span="21"
+              >
                 <el-form-item :label="`${tl('metricsEnable')}${tl('exportInterval')}`">
                   <TimeInputWithUnitSelect v-model="opentelemetryFormData.metrics.interval" />
                 </el-form-item>
@@ -354,7 +413,7 @@
     <OpenTelemetrySampleDrawer
       ref="OpenTelemetrySampleDrawerCom"
       v-model="isOpenTelemetrySampleDrawerShow"
-      :configs="opentelemetryFormData"
+      :configs="currentOpenTelemetryConfig"
       @update="handleOpenTelemetryConfigUpdated"
     />
   </div>
@@ -365,7 +424,15 @@ import { getOpenTelemetry, getPrometheus, setOpenTelemetry, setPrometheus } from
 import dataDogImg from '@/assets/img/datadog.png'
 import opentelemetryImg from '@/assets/img/opentelemetry.png'
 import promImg from '@/assets/img/prom.png'
-import { OpenTelemetry, Prometheus } from '@/types/dashboard'
+import {
+  DynatraceOAuth2,
+  DynatraceOpenTelemetry,
+  GenericOpenTelemetry,
+  OpenTelemetry,
+  OpenTelemetryExporter,
+  OpenTelemetryType,
+  Prometheus,
+} from '@/types/dashboard'
 import HelpDrawer from './components/HelpDrawer.vue'
 import OpenTelemetrySampleDrawer from './components/OpenTelemetrySampleDrawer.vue'
 
@@ -420,7 +487,29 @@ const prometheusFormData: Ref<Prometheus> = ref({
     enable: false,
   },
 })
-const opentelemetryFormData = ref<OpenTelemetry>({
+type OpenTelemetryFormData = {
+  type: OpenTelemetryType
+  metrics: NonNullable<GenericOpenTelemetry['metrics']>
+  logs: NonNullable<GenericOpenTelemetry['logs']>
+  traces: NonNullable<GenericOpenTelemetry['traces']>
+  exporter: OpenTelemetryExporter & { auth: DynatraceOAuth2 }
+}
+
+const createDynatraceAuth = (): DynatraceOAuth2 => ({
+  kind: 'dynatrace_oauth2',
+  enable: true,
+  grant_type: 'client_credentials',
+  token_endpoint: '',
+  client_id: '',
+  client_secret: '',
+  resource: '',
+  scope: '',
+  timeout: '5s',
+  ssl: createSSLForm(),
+})
+
+const createOpenTelemetryFormData = (): OpenTelemetryFormData => ({
+  type: 'generic',
   metrics: {
     enable: false,
     interval: '10s',
@@ -445,8 +534,47 @@ const opentelemetryFormData = ref<OpenTelemetry>({
     endpoint: 'http://localhost:4317',
     ssl_options: createSSLForm(),
     headers: {},
+    auth: createDynatraceAuth(),
   },
 })
+
+const normalizeOpenTelemetry = (
+  config: OpenTelemetry,
+  currentFormData: OpenTelemetryFormData,
+): OpenTelemetryFormData =>
+  merge(createOpenTelemetryFormData(), currentFormData, config, {
+    type: config.type === 'dynatrace' ? 'dynatrace' : 'generic',
+  })
+
+const opentelemetryFormData = ref<OpenTelemetryFormData>(createOpenTelemetryFormData())
+const opentelemetryType = computed<OpenTelemetryType>({
+  get() {
+    return opentelemetryFormData.value.type
+  },
+  set(value) {
+    opentelemetryFormData.value.type = value
+  },
+})
+const createCurrentOpenTelemetryConfig = (): OpenTelemetry => {
+  const config = cloneDeep(opentelemetryFormData.value)
+  if (config.type === 'dynatrace') {
+    return omit(config, 'metrics') as DynatraceOpenTelemetry
+  }
+  return omit(config, 'exporter.auth') as GenericOpenTelemetry
+}
+const currentOpenTelemetryConfig = computed(createCurrentOpenTelemetryConfig)
+const dynatraceAuth = computed(() =>
+  opentelemetryType.value === 'dynatrace' ? opentelemetryFormData.value.exporter.auth : undefined,
+)
+
+const handleTypeChange = async (value: string | number | boolean | undefined) => {
+  if (value !== 'generic' && value !== 'dynatrace') {
+    return
+  }
+  opentelemetryType.value = value
+  await nextTick()
+  FormCom.value?.clearValidate()
+}
 
 const openTelemetryLogLevels = [
   'debug',
@@ -470,7 +598,14 @@ const openTelemetryTracesModes = [
 ]
 
 const isOpenTelemetrySampleDrawerShow = ref(false)
-const openAdvancedSettings = () => (isOpenTelemetrySampleDrawerShow.value = true)
+const openAdvancedSettings = async () => {
+  try {
+    await FormCom.value.validate()
+    isOpenTelemetrySampleDrawerShow.value = true
+  } catch (error) {
+    // Keep the drawer closed until the current OpenTelemetry form is valid.
+  }
+}
 const handleOpenTelemetryConfigUpdated = (config: OpenTelemetry) => {
   const e2eConfig = config.traces?.filter?.e2e_tracing_options
   if (e2eConfig) {
@@ -483,7 +618,7 @@ const isDataLoading = ref(false)
 let rawData: any = undefined
 const nowRecordData = computed(() => ({
   prometheus: prometheusFormData.value,
-  openTelemetry: opentelemetryFormData.value,
+  openTelemetry: currentOpenTelemetryConfig.value,
 }))
 const OpenTelemetrySampleDrawerCom = ref()
 const checkDataIsChanged = () => {
@@ -528,7 +663,8 @@ const updatePrometheus = async function () {
 const loadOpentelemetry = async function () {
   try {
     isDataLoading.value = true
-    opentelemetryFormData.value = await getOpenTelemetry()
+    const config = await getOpenTelemetry()
+    opentelemetryFormData.value = normalizeOpenTelemetry(config, opentelemetryFormData.value)
   } catch (error) {
     //
   } finally {
@@ -538,10 +674,26 @@ const loadOpentelemetry = async function () {
 
 const FormCom = ref()
 const { createRequiredRule } = useFormRules()
+const validateDynatraceHeaders = (
+  _rule: unknown,
+  headers: Record<string, string> | undefined,
+  callback: (error?: Error) => void,
+) => {
+  const hasAuthorizationHeader = Object.keys(headers ?? {}).some(
+    (key) => key.toLowerCase() === 'authorization',
+  )
+  callback(hasAuthorizationHeader ? new Error(tl('authorizationHeaderConflict')) : undefined)
+}
 const rules = {
   'traces.filter.e2e_tracing_options.cluster_identifier': createRequiredRule(
     tl('clusterIdentifier'),
   ),
+  'exporter.endpoint': createRequiredRule(tl('endpoint')),
+  'exporter.auth.token_endpoint': createRequiredRule(tl('tokenEndpoint')),
+  'exporter.auth.client_id': createRequiredRule(tl('clientID')),
+  'exporter.auth.client_secret': createRequiredRule(tl('clientSecret')),
+  'exporter.auth.resource': createRequiredRule(tl('resource')),
+  'exporter.headers': [{ validator: validateDynatraceHeaders }],
 }
 const updateOpentelemetry = async function () {
   try {
@@ -551,13 +703,14 @@ const updateOpentelemetry = async function () {
   }
   try {
     isSubmitting.value = true
-    await setOpenTelemetry(checkNOmitFromObj(opentelemetryFormData.value))
+    const data = checkNOmitFromObj(createCurrentOpenTelemetryConfig()) as OpenTelemetry
+    await setOpenTelemetry(data)
+    await loadOpentelemetry()
     updateRawDataForCompare()
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     //
   } finally {
-    loadOpentelemetry()
     isSubmitting.value = false
   }
 }
@@ -632,6 +785,21 @@ const { addObserverToFooter } = useConfFooterStyle()
   }
   .button-advanced {
     margin-left: 8px;
+  }
+  .oauth2-card-col {
+    padding: 8px;
+  }
+  .oauth2-card {
+    margin: 8px 0;
+    border-color: var(--color-border-card);
+    .el-card__header {
+      color: var(--el-text-color-primary);
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .el-card__body {
+      padding: 12px 0 4px;
+    }
   }
 }
 </style>

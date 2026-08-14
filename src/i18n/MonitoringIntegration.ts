@@ -143,6 +143,46 @@ For example, <code> {'{'} Authorization = "some-authz-tokens"{'}'}</code>`,
     zh: '服务地址',
     en: 'Endpoint',
   },
+  openTelemetryType: {
+    zh: 'OpenTelemetry 类型',
+    en: 'OpenTelemetry Type',
+  },
+  generic: {
+    zh: '通用',
+    en: 'Generic',
+  },
+  oauth2Authentication: {
+    zh: 'OAuth2 认证',
+    en: 'OAuth2 Authentication',
+  },
+  tokenEndpoint: {
+    zh: '令牌端点',
+    en: 'Token Endpoint',
+  },
+  clientID: {
+    zh: '客户端 ID',
+    en: 'Client ID',
+  },
+  clientSecret: {
+    zh: '客户端密钥',
+    en: 'Client Secret',
+  },
+  authorizationHeaderConflict: {
+    zh: 'OAuth2 会自动设置 Authorization 请求头，请删除手动配置的 Authorization 请求头',
+    en: 'OAuth2 sets the Authorization header automatically. Remove the manually configured Authorization header.',
+  },
+  resource: {
+    zh: '资源',
+    en: 'Resource',
+  },
+  scope: {
+    zh: '作用域',
+    en: 'Scope',
+  },
+  timeout: {
+    zh: '超时时间',
+    en: 'Timeout',
+  },
   exportInterval: {
     zh: '导出间隔',
     // Must have a space at the beginning
