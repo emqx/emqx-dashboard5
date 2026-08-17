@@ -1,3 +1,16 @@
+export type PostDataImport500Code =
+  (typeof PostDataImport500Code)[keyof typeof PostDataImport500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataImport500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostDataImport500 = {
+  code?: PostDataImport500Code
+  message?: string
+}
+
 export type PostDataImport400Code =
   (typeof PostDataImport400Code)[keyof typeof PostDataImport400Code]
 
@@ -13,6 +26,19 @@ export type PostDataImport400 = {
 
 export type PostDataImportParams = {
   namespace?: string
+}
+
+export type GetDataFilesFilename500Code =
+  (typeof GetDataFilesFilename500Code)[keyof typeof GetDataFilesFilename500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetDataFilesFilename500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetDataFilesFilename500 = {
+  code?: GetDataFilesFilename500Code
+  message?: string
 }
 
 export type GetDataFilesFilename404Code =
@@ -52,6 +78,19 @@ export const GetDataFilesFilename200 = {
 export type GetDataFilesFilenameParams = {
   namespace?: string
   node?: string
+}
+
+export type DeleteDataFilesFilename500Code =
+  (typeof DeleteDataFilesFilename500Code)[keyof typeof DeleteDataFilesFilename500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteDataFilesFilename500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteDataFilesFilename500 = {
+  code?: DeleteDataFilesFilename500Code
+  message?: string
 }
 
 export type DeleteDataFilesFilename404Code =
