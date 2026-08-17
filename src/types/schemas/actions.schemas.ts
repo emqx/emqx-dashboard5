@@ -6852,6 +6852,7 @@ export interface ActionBigqueryActionResourceOpts {
 
 export interface ActionBigqueryActionParameters {
   dataset: string
+  project_id?: string
   table: string
 }
 

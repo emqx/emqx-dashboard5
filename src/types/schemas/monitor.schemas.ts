@@ -2,37 +2,6 @@ export type GetPrometheusTopicMetricsParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
 
-export type GetPrometheusAuthParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
-export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
-
-export type PutOpentelemetry400Code =
-  (typeof PutOpentelemetry400Code)[keyof typeof PutOpentelemetry400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutOpentelemetry400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutOpentelemetry400 = {
-  code?: PutOpentelemetry400Code
-  message?: string
-}
-
-export type EmqxPrometheusApiNsParameter = string
-
-export type EmqxPrometheusApiModeParameter =
-  (typeof EmqxPrometheusApiModeParameter)[keyof typeof EmqxPrometheusApiModeParameter]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxPrometheusApiModeParameter = {
-  all_nodes_aggregated: 'all_nodes_aggregated',
-  all_nodes_unaggregated: 'all_nodes_unaggregated',
-  node: 'node',
-} as const
-
 export type GetPrometheusStatsParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
@@ -56,6 +25,43 @@ export type GetPrometheusDataIntegrationParams = {
   only_global?: boolean
 }
 
+export type GetPrometheusAuthParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
+export type PutPrometheusBody = PrometheusLegacyDeprecatedSetting | PrometheusRecommendSetting
+
+export type PutOpentelemetry400Code =
+  (typeof PutOpentelemetry400Code)[keyof typeof PutOpentelemetry400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutOpentelemetry400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutOpentelemetry400 = {
+  code?: PutOpentelemetry400Code
+  message?: string
+}
+
+export type PutOpentelemetry200 = OpentelemetryOpentelemetry | OpentelemetryOpentelemetryDynatrace
+
+export type PutOpentelemetryBody = OpentelemetryOpentelemetry | OpentelemetryOpentelemetryDynatrace
+
+export type GetOpentelemetry200 = OpentelemetryOpentelemetry | OpentelemetryOpentelemetryDynatrace
+
+export type EmqxPrometheusApiNsParameter = string
+
+export type EmqxPrometheusApiModeParameter =
+  (typeof EmqxPrometheusApiModeParameter)[keyof typeof EmqxPrometheusApiModeParameter]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxPrometheusApiModeParameter = {
+  all_nodes_aggregated: 'all_nodes_aggregated',
+  all_nodes_unaggregated: 'all_nodes_unaggregated',
+  node: 'node',
+} as const
+
 export type PrometheusPushGatewayMethod =
   (typeof PrometheusPushGatewayMethod)[keyof typeof PrometheusPushGatewayMethod]
 
@@ -78,6 +84,14 @@ export interface PrometheusPushGateway {
 
 export interface PrometheusNamespacedMetricsLimiter {
   rate?: string
+}
+
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
+  push_gateway?: PrometheusPushGateway
 }
 
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
@@ -213,14 +227,6 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
 }
 
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
-  push_gateway?: PrometheusPushGateway
-}
-
 export type OpentelemetryTraceFilterTraceMode =
   (typeof OpentelemetryTraceFilterTraceMode)[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -271,12 +277,36 @@ export interface OpentelemetryOtelLogs {
   scheduled_delay?: string
 }
 
+export type OpentelemetryOtelExporterDynatraceHeaders = { [key: string]: unknown }
+
+export interface OpentelemetryOtelExporterDynatrace {
+  auth: OpentelemetryDynatraceOauth2
+  endpoint: string
+  headers?: OpentelemetryOtelExporterDynatraceHeaders
+  ssl_options?: EmqxSslClientOpts
+}
+
 export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
   headers?: OpentelemetryOtelExporterHeaders
   ssl_options?: EmqxSslClientOpts
+}
+
+export type OpentelemetryOpentelemetryDynatraceType =
+  (typeof OpentelemetryOpentelemetryDynatraceType)[keyof typeof OpentelemetryOpentelemetryDynatraceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOpentelemetryDynatraceType = {
+  dynatrace: 'dynatrace',
+} as const
+
+export interface OpentelemetryOpentelemetryDynatrace {
+  exporter?: OpentelemetryOtelExporterDynatrace
+  logs?: OpentelemetryOtelLogs
+  traces?: OpentelemetryOtelTraces
+  type?: OpentelemetryOpentelemetryDynatraceType
 }
 
 export type OpentelemetryOpentelemetryType =
@@ -312,6 +342,34 @@ export interface OpentelemetryE2eTracingOptions {
   /** @minimum 1 */
   topic_match_rules_max?: number
   trace_rule_engine?: boolean
+}
+
+export type OpentelemetryDynatraceOauth2Kind =
+  (typeof OpentelemetryDynatraceOauth2Kind)[keyof typeof OpentelemetryDynatraceOauth2Kind]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryDynatraceOauth2Kind = {
+  dynatrace_oauth2: 'dynatrace_oauth2',
+} as const
+
+export type OpentelemetryDynatraceOauth2Enable =
+  (typeof OpentelemetryDynatraceOauth2Enable)[keyof typeof OpentelemetryDynatraceOauth2Enable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryDynatraceOauth2Enable = {
+  true: true,
+} as const
+
+export interface OpentelemetryDynatraceOauth2 {
+  client_id: string
+  client_secret: string
+  enable: OpentelemetryDynatraceOauth2Enable
+  kind?: OpentelemetryDynatraceOauth2Kind
+  resource: string
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
 }
 
 export type EmqxSslClientOptsVerify =
