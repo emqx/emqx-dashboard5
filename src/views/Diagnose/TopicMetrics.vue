@@ -109,7 +109,7 @@
           {{ formatCount(getMetric(row, 'messages.dropped.count')) }}
         </template>
       </el-table-column>
-      <el-table-column :label="t('Base.operation')" width="220">
+      <el-table-column :label="t('Base.operation')" width="232">
         <template #default="{ row, $index }">
           <TableButton
             :disabled="!$hasPermission('get')"
@@ -220,6 +220,7 @@ const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentNamespace = computed(() => store.getters.userNamespace)
 const { isOpNsResourceDisabled } = useNsResource()
+const { getNsParams } = useNsParams()
 
 const tableRef = ref()
 const topicMetricsList = ref<Array<TopicMetricsRow>>([])
@@ -295,7 +296,7 @@ const loadTopicMetricsDetail = async (row: TopicMetricsRow, index: number, toggl
 
   row._loading = true
   try {
-    const data = await getTopicMetricCollection(row.name)
+    const data = await getTopicMetricCollection(row.name, getNsParams(row.namespace))
     topicMetricsList.value.splice(index, 1, {
       ...data,
       _expand: rowExpand,
