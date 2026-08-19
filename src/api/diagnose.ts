@@ -13,6 +13,7 @@ import type {
   TopicMetricCollection,
   TopicMetricCollectionCreate,
 } from '@/types/typeAlias'
+import type { NsParams } from '@/types/rule'
 
 export const querySlowSubConfig = (): Promise<SlowSubConfig> => {
   return http.get('/slow_subscriptions/settings')
@@ -110,8 +111,11 @@ export function getTopicMetricCollections(): Promise<Array<TopicMetricCollection
   return http.get('/mqtt/topic_metrics2')
 }
 
-export function getTopicMetricCollection(name: string): Promise<TopicMetricCollection> {
-  return http.get('/mqtt/topic_metrics2/' + encodeURIComponent(name))
+export function getTopicMetricCollection(
+  name: string,
+  params?: NsParams,
+): Promise<TopicMetricCollection> {
+  return http.get('/mqtt/topic_metrics2/' + encodeURIComponent(name), { params })
 }
 
 export function createTopicMetricCollection(
