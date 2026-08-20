@@ -117,32 +117,15 @@
           >
             {{ t('Base.view') }}
           </TableButton>
-          <NamespaceResourcePopover
-            v-if="isOpNsDisabled(row)"
-            :namespace="row.namespace || undefined"
-            :target-label="tl('topicMetrics')"
+          <TableButton
+            :disabled="!$hasPermission('put')"
+            @click="handleResetTopicMetrics(row, $index)"
           >
-            <template #default>
-              <span class="inline-flex items-center gap-2">
-                <TableButton disabled>{{ t('Base.reset') }}</TableButton>
-                <TableButton disabled>{{ t('Base.delete') }}</TableButton>
-              </span>
-            </template>
-          </NamespaceResourcePopover>
-          <template v-else>
-            <TableButton
-              :disabled="!$hasPermission('put')"
-              @click="handleResetTopicMetrics(row, $index)"
-            >
-              {{ t('Base.reset') }}
-            </TableButton>
-            <TableButton
-              :disabled="!$hasPermission('delete')"
-              @click="handleDeleteTopicMetrics(row)"
-            >
-              {{ t('Base.delete') }}
-            </TableButton>
-          </template>
+            {{ t('Base.reset') }}
+          </TableButton>
+          <TableButton :disabled="!$hasPermission('delete')" @click="handleDeleteTopicMetrics(row)">
+            {{ t('Base.delete') }}
+          </TableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -204,7 +187,6 @@ import type {
   TopicMetricCollectionMetrics,
 } from '@/types/typeAlias'
 import type { FormInstance, FormRules } from 'element-plus'
-import NamespaceResourcePopover from '../RuleEngine/components/NamespaceResourcePopover.vue'
 
 type MetricKey = keyof TopicMetricCollectionMetrics
 type TopicMetricsRow = TopicMetricCollection & {
@@ -219,7 +201,6 @@ const store = useStore()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentNamespace = computed(() => store.getters.userNamespace)
-const { isOpNsResourceDisabled } = useNsResource()
 const { getNsParams } = useNsParams()
 
 const tableRef = ref()
@@ -238,7 +219,6 @@ const tableExpandRowKeys = computed(() =>
   topicMetricsList.value.filter(({ _expand }) => _expand).map(getRowKey),
 )
 
-const isOpNsDisabled = (row: TopicMetricsRow) => isOpNsResourceDisabled(row)
 const getMetric = ({ metrics }: TopicMetricsRow, key: MetricKey) => metrics?.[key] ?? 0
 const formatCount = (value?: number) => Number(value ?? 0).toLocaleString()
 const formatBytes = (value?: number) => transMemorySizeNumToStr(Number(value ?? 0), 2)
@@ -315,7 +295,7 @@ const handleResetTopicMetrics = async (row: TopicMetricsRow, index: number) => {
       cancelButtonText: t('Base.cancel'),
       type: 'warning',
     })
-    await resetTopicMetricCollection(row.name)
+    await resetTopicMetricCollection(row.name, getNsParams(row.namespace))
     ElMessage.success(t('Base.resetSuccess'))
     await loadTopicMetricsDetail(row, index, false)
   } catch (error) {
@@ -331,7 +311,7 @@ const handleDeleteTopicMetrics = async (row: TopicMetricsRow) => {
       confirmButtonClass: 'confirm-danger',
       type: 'warning',
     })
-    await deleteTopicMetricCollection(row.name)
+    await deleteTopicMetricCollection(row.name, getNsParams(row.namespace))
     ElMessage.success(t('Base.deleteSuccess'))
     await loadTopicMetricsList()
   } catch (error) {

@@ -124,10 +124,12 @@ export function createTopicMetricCollection(
   return http.post('/mqtt/topic_metrics2', data)
 }
 
-export function deleteTopicMetricCollection(name: string): Promise<void> {
-  return http.delete('/mqtt/topic_metrics2/' + encodeURIComponent(name))
+export function deleteTopicMetricCollection(name: string, params?: NsParams): Promise<void> {
+  return http.delete('/mqtt/topic_metrics2/' + encodeURIComponent(name), { params })
 }
 
-export function resetTopicMetricCollection(name: string): Promise<void> {
-  return http.put('/mqtt/topic_metrics2/' + encodeURIComponent(name) + '/reset')
+export function resetTopicMetricCollection(name: string, params?: NsParams): Promise<void> {
+  return http.put('/mqtt/topic_metrics2/' + encodeURIComponent(name) + '/reset', undefined, {
+    params,
+  })
 }
