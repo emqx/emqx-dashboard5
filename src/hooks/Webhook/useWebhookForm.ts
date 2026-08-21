@@ -1,5 +1,4 @@
 import { WEBHOOK_SUFFIX } from '@/common/constants'
-import { getAPIPath } from '@/common/tools'
 import useRuleForm from '@/hooks/Rule/rule/useRuleForm'
 import { BridgeType } from '@/types/enum'
 import { ConnectorForm, HTTPBridge } from '@/types/rule'
@@ -22,13 +21,13 @@ export default (): {
   const { initRecordByComponents } = useSchemaRecord()
   const { components: httpConnectorComponents, schemaLoadPromise: connectorSchemaLoadPromise } =
     useSchemaForm(
-      getAPIPath(`/schemas/connectors`),
+      '/schemas/connectors',
       { ref: `#/components/schemas/bridge_http.post_connector` },
       false,
     )
   const { components: httpActionComponents, schemaLoadPromise: actionSchemaLoadPromise } =
     useSchemaForm(
-      getAPIPath(`/schemas/actions`),
+      '/schemas/actions',
       { ref: `#/components/schemas/${getActionTypeRefKey(BridgeType.Webhook)}` },
       false,
     )
