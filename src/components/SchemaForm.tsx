@@ -1,5 +1,5 @@
 import { INTEGRATION_SCHEMA_TYPES, SESSION_FIELDS } from '@/common/constants'
-import { createRandomString, getAPIPath, waitAMoment } from '@/common/tools'
+import { createRandomString, waitAMoment } from '@/common/tools'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ArrayEditorTable from '@/components/ArrayEditorTable.vue'
 import CustomInputNumber from '@/components/CustomInputNumber.vue'
@@ -179,7 +179,7 @@ const SchemaForm = defineComponent({
   setup(props, ctx) {
     const { hasPermission } = usePerms()
     const configForm = ref<{ [key: string]: any }>({})
-    const schemaLoadPath = props.schemaFilePath || getAPIPath('/schemas/hotconf')
+    const schemaLoadPath = props.schemaFilePath || '/schemas/hotconf'
     const { components, rules, setTypeForProperty, resetObjForGetComponent } = useSchemaForm(
       schemaLoadPath,
       props.accordingTo,
