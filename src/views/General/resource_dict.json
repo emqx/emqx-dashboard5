@@ -191,14 +191,6 @@
     "operations": [
       {
         "method": "post",
-        "path": "/gcp_devices",
-        "name_label": {
-          "en": "Import GCP IoT Core data",
-          "zh": "从 GCP IoT Core 导入认证和配置数据"
-        }
-      },
-      {
-        "method": "post",
         "path": "/authentication",
         "name_label": {
           "en": "Create authenticator",
@@ -227,22 +219,6 @@
         "name_label": {
           "en": "Reorder all authenticators in global authentication chain",
           "zh": "重新排序全局认证链中的所有认证器"
-        }
-      },
-      {
-        "method": "put",
-        "path": "/gcp_devices/:deviceid",
-        "name_label": {
-          "en": "Update GCP IoT Core device",
-          "zh": "更新 GCP IoT Core 设备"
-        }
-      },
-      {
-        "method": "delete",
-        "path": "/gcp_devices/:deviceid",
-        "name_label": {
-          "en": "Remove GCP IoT Core device",
-          "zh": "删除 GCP IoT Core 设备"
         }
       },
       {
