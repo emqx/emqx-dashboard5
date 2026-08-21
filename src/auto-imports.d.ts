@@ -186,7 +186,6 @@ declare global {
   const formatNumber: typeof import('./common/tools')['formatNumber']
   const formatSQL: typeof import('./common/tools')['formatSQL']
   const get: typeof import('lodash')['get']
-  const getAPIPath: typeof import('./common/tools')['getAPIPath']
   const getAllListData: typeof import('./common/tools')['getAllListData']
   const getBridgeKey: typeof import('./common/tools')['getBridgeKey']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -797,7 +796,6 @@ declare module 'vue' {
     readonly formatNumber: UnwrapRef<typeof import('./common/tools')['formatNumber']>
     readonly formatSQL: UnwrapRef<typeof import('./common/tools')['formatSQL']>
     readonly get: UnwrapRef<typeof import('lodash')['get']>
-    readonly getAPIPath: UnwrapRef<typeof import('./common/tools')['getAPIPath']>
     readonly getAllListData: UnwrapRef<typeof import('./common/tools')['getAllListData']>
     readonly getBridgeKey: UnwrapRef<typeof import('./common/tools')['getBridgeKey']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
