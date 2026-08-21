@@ -248,7 +248,6 @@ export type PutGatewaysNameAuthentication400 = {
 export type PutGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -268,7 +267,6 @@ export type PutGatewaysNameAuthentication200 =
 export type PutGatewaysNameAuthenticationBody =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -315,7 +313,6 @@ export type PostGatewaysNameAuthentication400 = {
 export type PostGatewaysNameAuthentication201 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -335,7 +332,6 @@ export type PostGatewaysNameAuthentication201 =
 export type PostGatewaysNameAuthenticationBody =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -382,7 +378,6 @@ export type GetGatewaysNameAuthentication400 = {
 export type GetGatewaysNameAuthentication200 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -1618,20 +1613,6 @@ export interface AuthnHashMethod {
   is_superuser_attribute?: string
   password_attribute?: string
   type?: AuthnHashMethodType
-}
-
-export type AuthnGcpDeviceMechanism =
-  (typeof AuthnGcpDeviceMechanism)[keyof typeof AuthnGcpDeviceMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnGcpDeviceMechanism = {
-  gcp_device: 'gcp_device',
-} as const
-
-export interface AuthnGcpDevice {
-  enable?: boolean
-  mechanism: AuthnGcpDeviceMechanism
-  precondition?: string
 }
 
 export type AuthnCinfoCheckResult =

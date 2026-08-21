@@ -4784,6 +4784,7 @@ export interface BridgeTablestorePutConnector {
   endpoint: string
   instance_name: string
   pool_size?: number
+  probe_table_name?: string
   resource_opts?: BridgeTablestoreConnectorResourceOpts
   ssl?: EmqxSslClientOpts
   storage_model_type?: BridgeTablestorePutConnectorStorageModelType
@@ -4844,6 +4845,7 @@ export interface BridgeTablestoreGetConnector {
   name: string
   node_status?: ConnectorNodeStatus[]
   pool_size?: number
+  probe_table_name?: string
   resource_opts?: BridgeTablestoreConnectorResourceOpts
   ssl?: EmqxSslClientOpts
   status?: BridgeTablestoreGetConnectorStatus
@@ -4871,6 +4873,7 @@ export interface BridgeTablestorePostConnector {
   instance_name: string
   name: string
   pool_size?: number
+  probe_table_name?: string
   resource_opts?: BridgeTablestoreConnectorResourceOpts
   ssl?: EmqxSslClientOpts
   storage_model_type?: BridgeTablestorePostConnectorStorageModelType
