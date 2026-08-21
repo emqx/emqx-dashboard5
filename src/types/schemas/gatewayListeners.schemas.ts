@@ -168,7 +168,6 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -188,7 +187,6 @@ export type PutGatewaysNameListenersIdAuthentication200 =
 export type PutGatewaysNameListenersIdAuthenticationBody =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -235,7 +233,6 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -255,7 +252,6 @@ export type PostGatewaysNameListenersIdAuthentication201 =
 export type PostGatewaysNameListenersIdAuthenticationBody =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -302,7 +298,6 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 export type GetGatewaysNameListenersIdAuthentication200 =
   | AuthnBuiltinDb
   | AuthnCinfo
-  | AuthnGcpDevice
   | AuthnHttpGet
   | AuthnHttpPost
   | AuthnJwtHmac
@@ -950,24 +945,6 @@ export const EmqxGatewayApiTcpListenerType = {
 
 export type EmqxGatewayApiTcpListenerMaxConnections = 'infinity' | number
 
-export interface EmqxGatewayApiTcpListener {
-  acceptors?: number
-  access_rules?: string[]
-  bind?: string
-  enable?: boolean
-  enable_authn?: boolean
-  id?: string
-  max_conn_rate?: number
-  max_connections?: EmqxGatewayApiTcpListenerMaxConnections
-  mountpoint?: string
-  name?: string
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  running?: boolean
-  tcp_options?: EmqxTcpOpts
-  type?: EmqxGatewayApiTcpListenerType
-}
-
 export type EmqxGatewayApiSslListenerType =
   (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
 
@@ -1061,6 +1038,24 @@ export interface EmqxTcpOpts {
   sndbuf?: string
 }
 
+export interface EmqxGatewayApiTcpListener {
+  acceptors?: number
+  access_rules?: string[]
+  bind?: string
+  enable?: boolean
+  enable_authn?: boolean
+  id?: string
+  max_conn_rate?: number
+  max_connections?: EmqxGatewayApiTcpListenerMaxConnections
+  mountpoint?: string
+  name?: string
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  running?: boolean
+  tcp_options?: EmqxTcpOpts
+  type?: EmqxGatewayApiTcpListenerType
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -1100,25 +1095,6 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
-export interface EmqxOcsp {
-  enable_ocsp_stapling?: boolean
-  issuer_pem?: string
-  refresh_http_timeout?: string
-  refresh_interval?: string
-  responder_url?: string
-}
-
-export interface EmqxManagedCertsServer {
-  bundle_name: string
-  namespace?: string
-  sni?: string
-}
-
-export interface EmqxManagedCerts {
-  bundle_name: string
-  namespace?: string
-}
-
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -1141,6 +1117,25 @@ export interface EmqxSslClientOpts {
   verify?: EmqxSslClientOptsVerify
   verify_peer_ext_key_usage?: string
   versions?: string[]
+}
+
+export interface EmqxOcsp {
+  enable_ocsp_stapling?: boolean
+  issuer_pem?: string
+  refresh_http_timeout?: string
+  refresh_interval?: string
+  responder_url?: string
+}
+
+export interface EmqxManagedCertsServer {
+  bundle_name: string
+  namespace?: string
+  sni?: string
+}
+
+export interface EmqxManagedCerts {
+  bundle_name: string
+  namespace?: string
 }
 
 export type EmqxListenerWssOptsVerify =
@@ -2372,20 +2367,6 @@ export interface AuthnHashMethod {
   is_superuser_attribute?: string
   password_attribute?: string
   type?: AuthnHashMethodType
-}
-
-export type AuthnGcpDeviceMechanism =
-  (typeof AuthnGcpDeviceMechanism)[keyof typeof AuthnGcpDeviceMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnGcpDeviceMechanism = {
-  gcp_device: 'gcp_device',
-} as const
-
-export interface AuthnGcpDevice {
-  enable?: boolean
-  mechanism: AuthnGcpDeviceMechanism
-  precondition?: string
 }
 
 export type AuthnCinfoCheckResult =
