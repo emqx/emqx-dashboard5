@@ -16,7 +16,6 @@ export const FEATURE_ROUTE_MAP: Record<FeatureName, string[]> = {
   [FeatureName.Exhook]: ['/exhook'],
   [FeatureName.FileTransfer]: ['/file-transfer'],
   [FeatureName.Gateways]: ['/gateway'],
-  [FeatureName.GCPDevice]: [],
   [FeatureName.MessageTransformation]: ['/message-transform'],
   [FeatureName.Metrics]: ['/topic-metrics', '/monitoring/integration'],
   [FeatureName.MQTTExtensions]: [

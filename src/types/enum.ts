@@ -52,7 +52,6 @@ export enum FeatureName {
   Exhook = 'exhook',
   FileTransfer = 'file_transfer',
   Gateways = 'gateways',
-  GCPDevice = 'gcp_device',
   MessageTransformation = 'message_transformation',
   Metrics = 'metrics',
   MQTTExtensions = 'mqtt_extensions',

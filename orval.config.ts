@@ -47,7 +47,6 @@ const tagArr = [
   'File Transfer',
   'License',
   'Schema Registry',
-  'GCP Devices',
   'Dashboard Single Sign-On',
   'Audit',
   'Data Backup',
