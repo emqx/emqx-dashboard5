@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { useActionSchema, useSourceSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useComponentsHandlers from '@/hooks/Rule/bridge/useComponentsHandlers'
@@ -78,7 +77,7 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const schemaFilePath = computed(() => getAPIPath(`/schemas/actions`))
+const schemaFilePath = computed(() => '/schemas/actions')
 
 const schemaType = computed(() => {
   return props.isSource ? 'source' : 'action'

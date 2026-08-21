@@ -5,7 +5,7 @@
       ref="formCom"
       type="connector"
       need-rules
-      :schema-file-path="getAPIPath(`/schemas/connectors`)"
+      schema-file-path="/schemas/connectors"
       :need-footer="false"
       :need-record="!edit && !copy"
       :form="connectorRecord"
@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { getAPIPath } from '@/common/tools'
 import SchemaForm from '@/components/SchemaForm'
 import { useConnectorSchema } from '@/hooks/Rule/bridge/useBridgeTypeValue'
 import useSyncConfiguration from '@/hooks/Rule/bridge/useSyncConfiguration'
