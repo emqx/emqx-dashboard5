@@ -307,11 +307,11 @@ export default {
   /* DURABLE SESSIONS END */
   /* LOG START */
   enable: {
-    desc: '启用此日志处理进程。',
-    label: '启用日志处理进程',
+    desc: '启用此日志输出。',
+    label: '启用日志输出',
   },
   level: {
-    desc: '当前日志处理进程的日志级别。\n默认为 warning 级别。',
+    desc: '当前日志输出的日志级别。\n默认为 warning 级别。',
     label: '日志级别',
   },
   log_file_default_path: {
