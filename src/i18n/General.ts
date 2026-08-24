@@ -302,7 +302,7 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Detect by Client ID',
   },
   flappingByClientIdDesc: {
-    zh: '按客户端 ID 独立检测连接抖动并临时封禁异常客户端 ID',
+    zh: '按客户端 ID 检测连接抖动，并临时封禁达到检测阈值的客户端 ID。',
     en: 'Detect flapping by client ID and temporarily ban offending client IDs.',
   },
   flappingByUsername: {
@@ -310,7 +310,7 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Detect by Username',
   },
   flappingByUsernameDesc: {
-    zh: '按用户名独立检测连接抖动并临时封禁异常用户名',
+    zh: '按用户名检测连接抖动，并临时封禁达到检测阈值的用户名。',
     en: 'Detect flapping by username and temporarily ban offending usernames.',
   },
   flappingByPeerhost: {
@@ -318,7 +318,7 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Detect by Source IP Address',
   },
   flappingByPeerhostDesc: {
-    zh: '按源 IP 地址独立检测连接抖动并临时封禁异常源 IP 地址',
+    zh: '按源 IP 地址检测连接抖动，并临时封禁达到检测阈值的源 IP 地址。',
     en: 'Detect flapping by source IP address and temporarily ban offending addresses.',
   },
   clearAll: {
