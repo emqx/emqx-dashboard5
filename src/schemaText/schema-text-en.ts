@@ -310,11 +310,11 @@ If subscriber fails to reply in time, it's kicked from the group and all its wor
   /* DURABLE SESSIONS END */
   /* LOG START */
   enable: {
-    desc: 'Enable this log handler.',
-    label: 'Enable Log Handler',
+    desc: 'Enable this log output.',
+    label: 'Enable Log Output',
   },
   level: {
-    desc: 'The log level for the current log handler.\nDefaults to warning.',
+    desc: 'The log level for the current log output.\nDefaults to warning.',
     label: 'Log Level',
   },
   log_file_default_path: {
