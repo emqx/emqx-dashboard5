@@ -317,6 +317,8 @@ export const NO_BURST_VALUE = '0/1s'
 
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
+export const DASHBOARD_USERNAME_REG = /^[A-Za-z0-9_]+$/
+
 /**
  * for message queue and stream name
  */
