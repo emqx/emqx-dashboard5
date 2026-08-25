@@ -296,7 +296,7 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
+import { DASHBOARD_USERNAME_REG, GLOBAL_NAMESPACE } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
@@ -564,7 +564,7 @@ const newPwdSameConfirm = (rule, value, callback) => {
   }
 }
 
-const { createNoChineseRule, createRequiredRule } = useFormRules()
+const { createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
@@ -576,7 +576,14 @@ const rules = computed(() => {
     callback()
   }
   const ret = {
-    username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
+    username: [
+      { required: true, message: tl('enterOneUserName') },
+      {
+        pattern: DASHBOARD_USERNAME_REG,
+        message: tl('usernameFormatError'),
+        trigger: ['blur', 'change'],
+      },
+    ],
     role: createRequiredRule(t('Dashboard.role'), 'select'),
     scopeMode: [{ validator: validateScopeMode, trigger: 'change' }],
     password: [

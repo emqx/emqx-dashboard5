@@ -193,6 +193,10 @@ Available scopes are still restricted by the user's role. The default scopes for
     zh: '请输入用户名',
     en: 'Please enter username',
   },
+  usernameFormatError: {
+    zh: '用户名仅支持字母、数字和下划线',
+    en: 'Only letters, numbers, and underscores are allowed',
+  },
   pleaseEnterPassword: {
     zh: '请输入密码',
     en: 'Password is required',
