@@ -191,6 +191,10 @@ export default {
     zh: '连接',
     en: 'Connections',
   },
+  flappingDetection: {
+    zh: '连接抖动检测',
+    en: 'Flapping Detection',
+  },
   allConnections: {
     zh: '总会话数',
     en: 'All Sessions',
@@ -634,6 +638,22 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
   client_auth_anonymous: {
     zh: '匿名登录的用户数',
     en: 'Number of clients who log in anonymously',
+  },
+  client_banned: {
+    zh: '因匹配有效封禁条目而被拒绝的连接尝试次数',
+    en: 'Number of connection attempts rejected because the client matched an active ban entry',
+  },
+  flapping_detected_clientid: {
+    zh: '按客户端 ID 检测到连接抖动并触发临时封禁的次数',
+    en: 'Number of times flapping was detected for a client ID, resulting in a temporary ban',
+  },
+  flapping_detected_username: {
+    zh: '按用户名检测到连接抖动并触发临时封禁的次数',
+    en: 'Number of times flapping was detected for a username, resulting in a temporary ban',
+  },
+  flapping_detected_peerhost: {
+    zh: '按源 IP 地址检测到连接抖动并触发临时封禁的次数',
+    en: 'Number of times flapping was detected for a source IP address, resulting in a temporary ban',
   },
   authorization_superuser: {
     zh: '超级用户',
