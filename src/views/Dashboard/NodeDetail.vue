@@ -34,6 +34,12 @@
               </a>
             </el-descriptions-item>
             <el-descriptions-item :label="tl('role')">{{ node.role }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('securityProfile')">
+              {{ formatNodeStartupSetting(node.security_profile) }}
+            </el-descriptions-item>
+            <el-descriptions-item :label="tl('featurePreset')">
+              {{ formatNodeStartupSetting(node.feature_preset) }}
+            </el-descriptions-item>
             <el-descriptions-item :label="tl('maxFds')">{{ node.max_fds }}</el-descriptions-item>
             <el-descriptions-item :label="tl('osCpuLoad')">
               <el-tooltip
@@ -137,6 +143,7 @@ const { tl } = useI18nTl('Dashboard')
 const { locale } = useI18n()
 
 const { transMsNumToSimpleStr } = useDurationStr()
+const { formatNodeStartupSetting } = useNodeStartupSettings()
 
 const releaseNoteLink = (version: string) => {
   const lang = locale.value === 'zh' ? 'zh' : 'en'

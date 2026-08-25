@@ -67,6 +67,38 @@ export default {
     zh: '节点角色',
     en: 'Node Role',
   },
+  securityProfile: {
+    zh: '安全配置模式',
+    en: 'Security Profile',
+  },
+  featurePreset: {
+    zh: '功能预设',
+    en: 'Feature Preset',
+  },
+  legacySecurityProfile: {
+    zh: '兼容模式',
+    en: 'Legacy',
+  },
+  hardenedSecurityProfile: {
+    zh: '加固模式',
+    en: 'Hardened',
+  },
+  fullFeaturePreset: {
+    zh: '完整功能',
+    en: 'Full',
+  },
+  essentialFeaturePreset: {
+    zh: '基础功能',
+    en: 'Essential',
+  },
+  customFeaturePreset: {
+    zh: '自定义',
+    en: 'Custom',
+  },
+  nodeStartupSettingValue: {
+    zh: '{label}（{value}）',
+    en: '{label} ({value})',
+  },
   name: {
     zh: '名称',
     en: 'Name',

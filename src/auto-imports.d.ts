@@ -448,6 +448,7 @@ declare global {
   const useNodeDrawer: typeof import('./hooks/Flow/useNodeDrawer')['default']
   const useNodeForm: typeof import('./hooks/Flow/useNodeForm')['default']
   const useNodeOpts: typeof import('./hooks/useMetrics')['useNodeOpts']
+  const useNodeStartupSettings: typeof import('./hooks/useNodeStartupSettings')['default']
   const useNodesGraph: typeof import('./hooks/Overview/useNodesGraph')['default']
   const useNsParams: typeof import('./hooks/Rule/useNsParams')['useNsParams']
   const useNsResource: typeof import('./hooks/Rule/useNsResource')['default']
@@ -1058,6 +1059,7 @@ declare module 'vue' {
     readonly useNodeDrawer: UnwrapRef<typeof import('./hooks/Flow/useNodeDrawer')['default']>
     readonly useNodeForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['default']>
     readonly useNodeOpts: UnwrapRef<typeof import('./hooks/useMetrics')['useNodeOpts']>
+    readonly useNodeStartupSettings: UnwrapRef<typeof import('./hooks/useNodeStartupSettings')['default']>
     readonly useNodesGraph: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['default']>
     readonly useNsParams: UnwrapRef<typeof import('./hooks/Rule/useNsParams')['useNsParams']>
     readonly useNsResource: UnwrapRef<typeof import('./hooks/Rule/useNsResource')['default']>

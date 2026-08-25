@@ -30,6 +30,22 @@
       </el-table-column>
       <el-table-column prop="connections" :label="t('Clients.connect')" min-width="120" />
       <el-table-column prop="role" :label="t('Dashboard.role')" width="90" />
+      <el-table-column :label="tl('securityProfile')" min-width="132">
+        <template #default="{ row }">
+          <span class="node-startup-setting">
+            {{ getNodeStartupSettingLabel(row.security_profile) }}
+            <InfoTooltip v-if="row.security_profile" :content="row.security_profile" />
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('featurePreset')" min-width="100">
+        <template #default="{ row }">
+          <span class="node-startup-setting">
+            {{ getNodeStartupSettingLabel(row.feature_preset) }}
+            <InfoTooltip v-if="row.feature_preset" :content="row.feature_preset" />
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column :label="`Erlang ${tl('process')}`" min-width="160">
         <template #default="{ row }">
           <el-tooltip
@@ -83,12 +99,19 @@ export default defineComponent({
 const { t, tl } = useI18nTl('Dashboard')
 
 const { transMsNumToSimpleStr } = useDurationStr()
+const { getNodeStartupSettingLabel } = useNodeStartupSettings()
 
 const { nodes, lockTable: nodesLockTable, hasMemory, loadData: loadAllNodes } = useClusterNodes()
 </script>
 
 <style lang="scss">
 .nodes {
+  .node-startup-setting {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
   .el-progress {
     width: 100%;
   }

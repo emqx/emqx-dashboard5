@@ -23,9 +23,14 @@ export type NodeStatisticalData = { node: string } & {
   [fieldName: string]: number
 }
 
+export type SecurityProfile = 'legacy' | 'hardened'
+
+export type FeaturePreset = 'full' | 'essential' | 'custom'
+
 export interface NodeInfo {
   connections: number
   edition: string
+  feature_preset?: FeaturePreset
   load1: string
   load15: string
   load5: string
@@ -38,6 +43,7 @@ export interface NodeInfo {
   otp_release: string
   process_available: number
   process_used: number
+  security_profile?: SecurityProfile
   sys_path: string
   uptime: number
   version: string
