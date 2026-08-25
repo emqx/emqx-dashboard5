@@ -115,8 +115,8 @@ const setPolicyFormRef = (key: DimensionKey, form: unknown) => {
 }
 
 const updateDimensionPolicy = (key: DimensionKey, policy: FlappingDetectPolicy) => {
-  dimensionConfig[key].policy = cloneDeep(policy) as PolicyFormRecord
   if (Object.keys(policy).length > 0) {
+    dimensionConfig[key].policy = cloneDeep(policy) as PolicyFormRecord
     dimensionConfig[key].initWithDefaults = false
   }
 }
@@ -127,7 +127,7 @@ const setDimensionConfig = (config: FlappingDetect) => {
     if (value !== undefined && value !== 'none') {
       dimensionConfig[key].enabled = true
       dimensionConfig[key].policy = cloneDeep(value) as PolicyFormRecord
-      dimensionConfig[key].initWithDefaults = false
+      dimensionConfig[key].initWithDefaults = true
     } else {
       dimensionConfig[key].enabled = false
       dimensionConfig[key].policy = {}
