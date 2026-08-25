@@ -44,6 +44,14 @@
                   </label>
                   <el-card class="test-result">
                     <div class="result-hd">
+                      <el-radio-group v-model="resultDisplayMode" size="small">
+                        <el-radio-button :value="ResultDisplayMode.Formatted">
+                          {{ tl('formattedJSON') }}
+                        </el-radio-button>
+                        <el-radio-button :value="ResultDisplayMode.Raw">
+                          {{ tl('rawOutput') }}
+                        </el-radio-button>
+                      </el-radio-group>
                       <el-tooltip effect="dark" placement="top" :content="t('Base.copy')">
                         <el-button type="primary" class="btn-copy" link>
                           <el-icon class="icon-copy" :size="18" @click="copyText(resultData)">
@@ -127,8 +135,32 @@ const namespaceFromInject = inject<string | undefined>('ns', undefined)
 const { isTesting, testTarget } = useStatusController()
 testTarget.value = TestRuleTarget.SQL
 
+enum ResultDisplayMode {
+  Formatted = 'formatted',
+  Raw = 'raw',
+}
+
 const testLoading = ref(false)
+const rawResultData = ref<string>('')
 const resultData = ref<string>('')
+const resultDisplayMode = ref(ResultDisplayMode.Formatted)
+
+const formatResultData = (data: string) => {
+  try {
+    return jsonBigIntStringify(jsonBigIntParse(data), undefined, 2)
+  } catch {
+    return data
+  }
+}
+
+const updateResultData = () => {
+  resultData.value =
+    resultDisplayMode.value === ResultDisplayMode.Formatted
+      ? formatResultData(rawResultData.value)
+      : rawResultData.value
+}
+
+watch(resultDisplayMode, updateResultData)
 
 // const showTest = ref(true)
 
@@ -155,7 +187,8 @@ const submitTestSQL = async () => {
       getNsParams(namespaceFromInject),
     )
     if (res) {
-      resultData.value = jsonBigIntStringify(jsonBigIntParse(res))
+      rawResultData.value = res
+      updateResultData()
       ElMessage.success(tl('testPassed'))
     }
   } catch (error) {
@@ -230,7 +263,8 @@ defineExpose({ stopTest })
     }
     .result-hd {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
       padding: 8px 0;
     }
   }

@@ -203,6 +203,14 @@ export default {
     zh: '输出结果',
     en: 'Output Result',
   },
+  formattedJSON: {
+    zh: '格式化 JSON',
+    en: 'Formatted JSON',
+  },
+  rawOutput: {
+    zh: '原始输出',
+    en: 'Raw Output',
+  },
   outputResultDesc: {
     zh: '运行测试后，根据测试数据输出规则 SQL 的处理结果。',
     en: 'After executing the test, output the result of processing the rule SQL using the test data.',
