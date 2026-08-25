@@ -172,6 +172,7 @@ const handleRestoreBackup = async (backup: BackupItem) => {
   ElMessageBox.confirm(confirmMessage, {
     confirmButtonText: t('Base.confirm'),
     cancelButtonText: t('Base.cancel'),
+    customClass: 'backup-restore-confirm',
     type: 'info',
     beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {

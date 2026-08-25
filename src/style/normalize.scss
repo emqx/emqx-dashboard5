@@ -788,6 +788,10 @@
 .el-message-box__status + .el-message-box__message {
   line-height: 1.4;
 }
+.backup-restore-confirm .el-message-box__message {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 
 /* Notification */
 .el-notification {
