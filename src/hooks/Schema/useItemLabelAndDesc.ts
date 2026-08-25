@@ -49,6 +49,8 @@ export default (
   const CONFIG_TEXT_BASE = 'ConfigSchema.'
   const { t, te } = useI18n()
   const testConfigTextKey = (key: string) => te(`${CONFIG_TEXT_BASE}${key}.label`)
+  const getLabelWithFallback = (textPath: string, prop: Property) =>
+    textPath && te(textPath) ? t(textPath) : startCase(prop.key)
 
   const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
@@ -91,10 +93,11 @@ export default (
 
   const getHotConfText = (prop: Property) => {
     const textKey = CONFIG_TEXT_BASE + getConfigurationItemTextKey(prop)
+    const labelKey = `${textKey}.label`
     const descKey = `${textKey}.desc`
     if (textKey) {
       return {
-        label: t(`${textKey}.label`),
+        label: getLabelWithFallback(labelKey, prop),
         desc: te(descKey) ? t(descKey) : '',
       }
     }
@@ -174,11 +177,11 @@ export default (
     const { labelPath, descPath } = getActionTextPath(prop)
     if (labelPath) {
       return {
-        label: t(labelPath),
+        label: getLabelWithFallback(labelPath, prop),
         desc: te(descPath) ? t(descPath) : '',
       }
     }
-    return { label: '' }
+    return { label: startCase(prop.key) }
   }
 
   const getOptLabel = (key: string) => {
