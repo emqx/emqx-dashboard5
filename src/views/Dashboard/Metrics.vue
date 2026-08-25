@@ -34,6 +34,21 @@
             <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
           </el-table>
         </el-card>
+        <el-card class="top-border table-card client">
+          <el-table
+            stripe
+            :data="filterMetrics(currentMetrics, 'flapping')"
+            v-loading.lock="isDataLoading"
+          >
+            <el-table-column prop="m" min-width="160" :label="tl('flappingDetection')">
+              <template #default="{ row }">
+                <p class="raw-key">{{ row.rawKey }}</p>
+                <span class="desc">{{ row.m ? tl(row.m) : '' }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="v" sortable class-name="sortable-without-header-text" />
+          </el-table>
+        </el-card>
         <el-card class="top-border table-card bytes">
           <el-table
             stripe
