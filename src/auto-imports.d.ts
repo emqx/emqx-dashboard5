@@ -31,6 +31,7 @@ declare global {
   const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
   const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
   const CertBundleType: typeof import('./hooks/useCertBundle')['CertBundleType']
+  const DASHBOARD_USERNAME_REG: typeof import('./common/constants')['DASHBOARD_USERNAME_REG']
   const DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS']
   const DEFAULT_CLIENT_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']
   const DEFAULT_FROM: typeof import('./common/constants')['DEFAULT_FROM']
@@ -642,6 +643,7 @@ declare module 'vue' {
     readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
     readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
     readonly CertBundleType: UnwrapRef<typeof import('./hooks/useCertBundle')['CertBundleType']>
+    readonly DASHBOARD_USERNAME_REG: UnwrapRef<typeof import('./common/constants')['DASHBOARD_USERNAME_REG']>
     readonly DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_ACTION_AND_SOURCE_TABLE_COLUMNS']>
     readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']>
     readonly DEFAULT_FROM: UnwrapRef<typeof import('./common/constants')['DEFAULT_FROM']>

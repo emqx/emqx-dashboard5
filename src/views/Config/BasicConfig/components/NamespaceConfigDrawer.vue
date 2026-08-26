@@ -34,6 +34,17 @@
             :items="[{ type: 'number' }, { symbols: [INFINITY_VALUE], type: 'enum' }]"
           />
         </el-form-item>
+        <el-form-item prop="deny_namespaces">
+          <template #label>
+            <FormItemLabel
+              :max-height="360"
+              :label="tl('deniedNamespaceNames')"
+              :desc="tl('deniedNamespaceNamesDesc')"
+              desc-marked
+            />
+          </template>
+          <ArrayEditor v-model="record.deny_namespaces" />
+        </el-form-item>
       </el-form>
       <el-divider>
         <span class="text-nowrap">{{ t('BasicConfig.namespaceRelatedConfig') }}</span>
@@ -143,6 +154,7 @@ import { FormInstance } from 'element-plus'
 
 const CLIENT_ID_OVERRIDE_DISABLED = 'disabled'
 const DEFAULT_OVERRIDE_EXP = `concat([client_attrs.tns, '-', clientid])`
+const DEFAULT_DENY_NAMESPACES = ['global', 'undefined', 'null', 'none']
 
 const MULTI_TENANCY_KEY = 'multi_tenancy'
 enum NamespaceSourceTiming {
@@ -152,10 +164,18 @@ enum NamespaceSourceTiming {
 
 const { t } = useI18n()
 
-const createDefaultRecord = () => ({
+type MultiTenancyConfig = {
+  default_max_sessions: number | string
+  allow_only_managed_namespaces: boolean
+  post_auth_tns_expression: string
+  deny_namespaces: string[]
+}
+
+const createDefaultRecord = (): MultiTenancyConfig => ({
   default_max_sessions: 1000,
   allow_only_managed_namespaces: false,
   post_auth_tns_expression: '',
+  deny_namespaces: [...DEFAULT_DENY_NAMESPACES],
 })
 type MultiTenancyConfig = ReturnType<typeof createDefaultRecord>
 type MultiTenancyConfigsResponse = Partial<
@@ -230,7 +250,8 @@ const updateNamespaceConfig = async () => {
     const data = `multi_tenancy {
     allow_only_managed_namespaces = ${record.value.allow_only_managed_namespaces}, 
     default_max_sessions = ${record.value.default_max_sessions},
-    post_auth_tns_expression = ${JSON.stringify(record.value.post_auth_tns_expression ?? '')}
+    post_auth_tns_expression = ${JSON.stringify(record.value.post_auth_tns_expression ?? '')},
+    deny_namespaces = ${JSON.stringify(record.value.deny_namespaces ?? [])}
 }`
     await putConfigs(data)
     return Promise.resolve()
