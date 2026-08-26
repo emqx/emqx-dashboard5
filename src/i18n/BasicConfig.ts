@@ -366,6 +366,16 @@ These clients must be manually kicked out if one wants them to abide to the new 
     zh: '如果启用，属于非显式创建的命名空间的客户端将被拒绝连接。无法解析其命名空间的客户端也将被拒绝连接。',
     en: "If enabled, clients that belong to a non-explicitly created namespace will be denied connection. Clients that can't have their namespace resolved will also be denied connection.",
   },
+  deniedNamespaceNames: {
+    zh: '禁止使用的命名空间名称',
+    en: 'Denied Namespace Names',
+  },
+  deniedNamespaceNamesDesc: {
+    zh: `不能用作命名空间标识符的名称。该限制适用于 Dashboard 用户角色、API 密钥、多租户管理 API 和客户端 \`client_attrs.tns\`。<br />
+默认值为 \`global\`、\`undefined\`、\`null\` 和 \`none\`。清空列表可禁用此限制。`,
+    en: `Namespace names that cannot be used by Dashboard user roles, API keys, the multi-tenancy management API, or client \`client_attrs.tns\`.<br />
+The defaults are \`global\`, \`undefined\`, \`null\`, and \`none\`. Clear the list to disable this restriction.`,
+  },
   enableMessageQueue: {
     zh: '启用队列',
     en: 'Enable Queues',
