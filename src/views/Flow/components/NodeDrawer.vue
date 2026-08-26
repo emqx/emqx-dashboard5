@@ -221,7 +221,7 @@ const bridgeFormProps = {
 }
 const schemaProps = {
   formProps: {
-    labelWidth: '180px',
+    labelWidth: '192px',
     labelPosition: 'right',
     requireAsteriskPosition: 'left',
   },
