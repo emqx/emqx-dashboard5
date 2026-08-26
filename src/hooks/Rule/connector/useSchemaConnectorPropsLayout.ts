@@ -422,7 +422,14 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.Tablestore]: createOrderObj(
-      ['endpoint', 'instance_name', 'access_key_id', 'access_key_secret', 'storage_model_type'],
+      [
+        'endpoint',
+        'instance_name',
+        'access_key_id',
+        'access_key_secret',
+        'storage_model_type',
+        'probe_table_name',
+      ],
       fieldStartIndex,
     ),
     [BridgeType.S3Tables]: createOrderObj(

@@ -144,7 +144,11 @@ export const getDetailNamespaceList = (
 export const getNamespaceMetrics = (namespace: string): Promise<NamespaceMetrics> =>
   http.get(`/mt/ns/${encodeURIComponent(namespace)}/metrics`)
 
-export const getConfigs = (key?: string) => http.get('/configs', { params: { key } })
+export const getConfigs = <T = Record<string, unknown>>(key?: string): Promise<T> =>
+  http.get('/configs', {
+    params: { key },
+    headers: { Accept: 'application/json' },
+  })
 
 export const putConfigs = (configs: any) => http.put('/configs', configs)
 

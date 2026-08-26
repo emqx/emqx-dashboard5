@@ -1013,6 +1013,30 @@ export default {
     zh: '原始的二进制数据',
     en: 'Raw binary data',
   },
+  lz4CompressDesc: {
+    zh: '使用 LZ4 Frame 格式压缩二进制数据',
+    en: 'Compresses binary data using the LZ4 Frame format.',
+  },
+  lz4CompressParams: {
+    zh: '原始的二进制数据',
+    en: 'Raw binary data',
+  },
+  lz4CompressReturns: {
+    zh: 'LZ4 Frame 格式的压缩二进制数据',
+    en: 'Compressed binary data in the LZ4 Frame format',
+  },
+  lz4UncompressDesc: {
+    zh: '解压缩 LZ4 Frame 格式的二进制数据',
+    en: 'Decompresses binary data in the LZ4 Frame format.',
+  },
+  lz4UncompressParams: {
+    zh: 'LZ4 Frame 格式的压缩二进制数据',
+    en: 'Compressed binary data in the LZ4 Frame format',
+  },
+  lz4UncompressReturns: {
+    zh: '原始的二进制数据',
+    en: 'Raw binary data',
+  },
   // TODO: desc
   subbitsDesc: {
     zh: '从二进制数据的指定下标位置获取指定长度的比特位，然后按照给定的参数转换为想要的数据类型',

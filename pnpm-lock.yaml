@@ -13,16 +13,16 @@ importers:
         version: 1.1.4(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-components':
         specifier: ~0.0.17
-        version: 0.0.17(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-i18n@0.0.78)(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
+        version: 0.0.17(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-i18n@0.0.80)(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))
       '@emqx/shared-ui-constants':
-        specifier: ~0.0.11
-        version: 0.0.11
+        specifier: ~0.0.12
+        version: 0.0.12
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.78
-        version: 0.0.78
+        specifier: ~0.0.80
+        version: 0.0.80
       '@emqx/shared-ui-utils':
         specifier: ~0.0.26
-        version: 0.0.26(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-i18n@0.0.78)(typescript@5.5.4)
+        version: 0.0.26(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-i18n@0.0.80)(typescript@5.5.4)
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@10.7.3)(vue@3.5.4(typescript@5.5.4))
@@ -408,11 +408,11 @@ packages:
       tailwindcss: ^3.4
       vue: ^3.2.0
 
-  '@emqx/shared-ui-constants@0.0.11':
-    resolution: {integrity: sha512-e5J591GIFlAvP2fvXhaQmVW2OOBcMzyPmIZGa5LadYo16m6LklJQ9fgFeqcLw5Mt8FI1j9sxpfDPo1TH+1hyYg==}
+  '@emqx/shared-ui-constants@0.0.12':
+    resolution: {integrity: sha512-FKudA1giH12rSTbxHXG6p8Vvc86+8K0KJ7mKAlIbHK5KzYTXYg8woRSQYs8cQX7z2TNQq9tBf8BJO6SMRD6hLg==}
 
-  '@emqx/shared-ui-i18n@0.0.78':
-    resolution: {integrity: sha512-h8DBhb1DQxqSY0cAmUbikr8ySx9gSfY06rwZRgDDY8tNlDZFqr67iki5YMV7/kuEy3ioPlsvEDwHALtf3xAY/Q==}
+  '@emqx/shared-ui-i18n@0.0.80':
+    resolution: {integrity: sha512-5wS9g9zhuPT58Kas9Le/i2U/MgDRRuSPTvE+uEUKEdpyFhBzeUCINGzQLtiXiGmtMU6NKFkedBqJYftQtHkSIQ==}
 
   '@emqx/shared-ui-utils@0.0.26':
     resolution: {integrity: sha512-4WBaSyqKHn5C1SV0MQSMlu25WRcsecQCsLO5evneSMU3aRvhk6MiN784ctuGrp75MyXSScfdM+8bxP7AeSiNcg==}
@@ -4146,11 +4146,11 @@ snapshots:
     dependencies:
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-components@0.0.17(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-i18n@0.0.78)(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
+  '@emqx/shared-ui-components@0.0.17(@element-plus/icons-vue@1.1.4(vue@3.5.4(typescript@5.5.4)))(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-i18n@0.0.80)(typescript@5.5.4))(@vue-flow/core@1.41.1(vue@3.5.4(typescript@5.5.4)))(element-plus@2.9.4(vue@3.5.4(typescript@5.5.4)))(elkjs@0.10.0)(sortablejs@1.15.3)(tailwindcss@3.4.17)(vue@3.5.4(typescript@5.5.4))':
     dependencies:
       '@element-plus/icons-vue': 1.1.4(vue@3.5.4(typescript@5.5.4))
-      '@emqx/shared-ui-constants': 0.0.11
-      '@emqx/shared-ui-utils': 0.0.26(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-i18n@0.0.78)(typescript@5.5.4)
+      '@emqx/shared-ui-constants': 0.0.12
+      '@emqx/shared-ui-utils': 0.0.26(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-i18n@0.0.80)(typescript@5.5.4)
       '@vue-flow/core': 1.41.1(vue@3.5.4(typescript@5.5.4))
       async-validator: 4.2.5
       element-plus: 2.9.4(vue@3.5.4(typescript@5.5.4))
@@ -4160,14 +4160,14 @@ snapshots:
       tailwindcss: 3.4.17
       vue: 3.5.4(typescript@5.5.4)
 
-  '@emqx/shared-ui-constants@0.0.11': {}
+  '@emqx/shared-ui-constants@0.0.12': {}
 
-  '@emqx/shared-ui-i18n@0.0.78': {}
+  '@emqx/shared-ui-i18n@0.0.80': {}
 
-  '@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.11)(@emqx/shared-ui-i18n@0.0.78)(typescript@5.5.4)':
+  '@emqx/shared-ui-utils@0.0.26(@emqx/shared-ui-constants@0.0.12)(@emqx/shared-ui-i18n@0.0.80)(typescript@5.5.4)':
     dependencies:
-      '@emqx/shared-ui-constants': 0.0.11
-      '@emqx/shared-ui-i18n': 0.0.78
+      '@emqx/shared-ui-constants': 0.0.12
+      '@emqx/shared-ui-i18n': 0.0.80
       hocon-parser: 1.0.1
       json-bigint: 1.0.0
       papaparse: 5.4.1
