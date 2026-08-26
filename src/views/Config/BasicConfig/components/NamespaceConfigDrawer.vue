@@ -177,7 +177,6 @@ const createDefaultRecord = (): MultiTenancyConfig => ({
   post_auth_tns_expression: '',
   deny_namespaces: [...DEFAULT_DENY_NAMESPACES],
 })
-type MultiTenancyConfig = ReturnType<typeof createDefaultRecord>
 type MultiTenancyConfigsResponse = Partial<
   Record<typeof MULTI_TENANCY_KEY, Partial<MultiTenancyConfig>>
 >
