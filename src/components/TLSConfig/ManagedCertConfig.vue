@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
 import CertBundleInfo from '@/components/TLSConfig/CertBundleInfo.vue'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { OptionList } from '@/types/common'
@@ -110,12 +111,12 @@ const record = computed<ManagedCerts>({
 const namespace = computed({
   get() {
     if (!record.value.namespace) {
-      return GLOBAL_NAMESPACE
+      return GLOBAL_NAMESPACE_VALUE
     }
     return record.value.namespace
   },
   set(val) {
-    if (val === GLOBAL_NAMESPACE) {
+    if (val === GLOBAL_NAMESPACE_VALUE) {
       delete record.value.namespace
     } else {
       record.value.namespace = val
@@ -123,7 +124,7 @@ const namespace = computed({
   },
 })
 const selectedNamespace = computed(() => {
-  if (!isMultiTenancyEnabled.value || namespace.value === GLOBAL_NAMESPACE) {
+  if (!isMultiTenancyEnabled.value || namespace.value === GLOBAL_NAMESPACE_VALUE) {
     return undefined
   }
   return namespace.value
@@ -131,7 +132,7 @@ const selectedNamespace = computed(() => {
 
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
-const namespaceOptions = ref<OptionList<string>>([globalNamespaceOption])
+const namespaceOptions = ref<OptionList<NamespaceSelection>>([globalNamespaceOption])
 
 const getNamespaceOptions = async () => {
   namespaceOptions.value = [globalNamespaceOption]
@@ -153,8 +154,8 @@ const setOptionsDisabled = () => {
     props.allManagedCerts.forEach((cert, index) => {
       // Exclude current index and only add bundle names in the same namespace
       if (index !== props.currentIndex && cert.bundle_name) {
-        const certNamespace = cert.namespace || GLOBAL_NAMESPACE
-        const currentNamespace = namespace.value || GLOBAL_NAMESPACE
+        const certNamespace = cert.namespace || GLOBAL_NAMESPACE_VALUE
+        const currentNamespace = namespace.value || GLOBAL_NAMESPACE_VALUE
         if (certNamespace === currentNamespace) {
           usedBundleNames.add(cert.bundle_name)
         }
@@ -202,7 +203,7 @@ const createNewCertBundle = () => {
   isCreateDrawerVisible.value = true
 }
 const handleSubmit = ({ namespace: ns, bundle_name: name }: ManagedCerts) => {
-  const newNs = ns ?? GLOBAL_NAMESPACE
+  const newNs = ns ?? GLOBAL_NAMESPACE_VALUE
   if (newNs !== namespace.value) {
     namespace.value = newNs
   }

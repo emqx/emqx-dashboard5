@@ -108,7 +108,7 @@ const { isOpNsResourceDisabled } = useNsResource()
 const isEdit = computed(() => route.name === 'a2a-registry-edit')
 const routeNamespace = computed(() => {
   const namespace = route.query.ns
-  return typeof namespace === 'string' && namespace !== GLOBAL_NAMESPACE ? namespace : undefined
+  return typeof namespace === 'string' ? namespace : undefined
 })
 const isOpNsDisabled = computed(
   () => isEdit.value && isOpNsResourceDisabled({ namespace: routeNamespace.value }),

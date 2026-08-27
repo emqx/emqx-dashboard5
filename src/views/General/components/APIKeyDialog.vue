@@ -207,7 +207,6 @@
 <script lang="ts" setup>
 import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
 import { UserRole } from '@/types/enum'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
 import { APIKey, APIKeyFormWhenCreating, APIKeyScope } from '@/types/systemModule'
 import { isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
@@ -222,7 +221,7 @@ enum ScopeMode {
 
 const SYSTEM_SCOPE = 'system'
 const PUBLISH_SCOPE = 'publish'
-const isNamespacedNamespace = (namespace?: string) => !!namespace && namespace !== GLOBAL_NAMESPACE
+const isNamespacedNamespace = (namespace?: string) => !!namespace
 
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
   Partial<Omit<APIKey, 'scopes'>> & {
@@ -450,8 +449,7 @@ watch(showDialog, async (val) => {
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
-    isNamespaceEnabled.value =
-      !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
+    isNamespaceEnabled.value = !!formData.value.namespace
   } else {
     formData.value = createRawFormData()
     originalAPIKeyScopeState.value = undefined

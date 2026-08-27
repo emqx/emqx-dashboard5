@@ -20,15 +20,16 @@
 </template>
 
 <script setup lang="ts">
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { OptionList } from '@/types/common'
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: string
+    modelValue?: NamespaceSelection
     global?: {
       enable?: boolean
-      value?: string
+      value?: NamespaceSelection
     }
     placeholder?: string
     clearable?: boolean
@@ -41,18 +42,18 @@ const props = withDefaults(
   },
 )
 const emit = defineEmits<{
-  (e: 'update:modelValue', val: string | undefined): void
-  (e: 'change', val: string | undefined): void
+  (e: 'update:modelValue', val: NamespaceSelection | undefined): void
+  (e: 'change', val: NamespaceSelection | undefined): void
   (e: 'loaded'): void
 }>()
 
-const toModelValue = (val: string | undefined) =>
-  val === GLOBAL_NAMESPACE ? props.global.value : val
+const toModelValue = (val: NamespaceSelection | undefined) =>
+  val === GLOBAL_NAMESPACE_VALUE ? props.global.value : val
 
 const namespace = computed({
   get() {
     if (props.global.enable && props.modelValue === props.global.value) {
-      return GLOBAL_NAMESPACE
+      return GLOBAL_NAMESPACE_VALUE
     }
     return props.modelValue
   },
@@ -63,7 +64,7 @@ const namespace = computed({
 
 const { t } = useI18n()
 const loading = ref(false)
-const namespaceOptions = ref<OptionList<string>>([])
+const namespaceOptions = ref<OptionList<NamespaceSelection>>([])
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
   useManagedNamespaceOptions()
@@ -88,7 +89,7 @@ const loadNamespaceOptions = async () => {
   }
 }
 
-const handleChange = (val: string | undefined) => {
+const handleChange = (val: NamespaceSelection | undefined) => {
   emit('change', toModelValue(val))
 }
 

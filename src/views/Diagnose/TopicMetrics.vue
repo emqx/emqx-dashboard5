@@ -184,7 +184,6 @@ import {
   getTopicMetricCollections,
   resetTopicMetricCollection,
 } from '@/api/diagnose'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type {
   TopicMetricCollection,
@@ -215,10 +214,10 @@ const createDialogVisible = ref(false)
 const createLoading = ref(false)
 
 const getNamespaceLabel = (namespace?: string | null) =>
-  !namespace || namespace === GLOBAL_NAMESPACE ? t('BasicConfig.global') : namespace
+  namespace ? namespace : t('BasicConfig.global')
 
 const getRowKey = ({ namespace, name }: TopicMetricsRow) =>
-  `${namespace || GLOBAL_NAMESPACE}::${name}`
+  namespace ? `namespace:${namespace}::${name}` : `global::${name}`
 
 const tableExpandRowKeys = computed(() =>
   topicMetricsList.value.filter(({ _expand }) => _expand).map(getRowKey),

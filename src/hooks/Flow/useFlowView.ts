@@ -8,11 +8,12 @@ import useActionList from '../Rule/action/useActionList'
 import useSourceList from '../Rule/action/useSourceList'
 import useFlowNode, { FlowData, NodeType, ProcessingType } from './useFlowNode'
 import { ConnectionStatus } from '@/types/enum'
+import type { NamespaceSelection } from '@/common/constants'
 
 export default (): {
   isLoading: Ref<boolean>
   flowData: Ref<FlowData>
-  getFlowData: (ns: string) => Promise<void>
+  getFlowData: (ns: NamespaceSelection | undefined) => Promise<void>
 } => {
   let ruleList: Array<RuleItem> = []
   let bridgeData: Map<string, BridgeItem> = new Map()
@@ -36,7 +37,7 @@ export default (): {
   const flowData: Ref<FlowData> = ref([])
 
   const { getListNamespaceParams } = useListNsParams()
-  const getRuleData = async (namespace: string) => {
+  const getRuleData = async (namespace: NamespaceSelection | undefined) => {
     try {
       ruleList = await getAllListData((params) => {
         return getRules({ ...params, ...getListNamespaceParams(namespace) })
@@ -50,7 +51,7 @@ export default (): {
   const { getActionList } = useActionList()
   const { getSourceList } = useSourceList()
   const { getActionDetail, handleActionDataAfterLoaded } = useHandleActionItem()
-  const getBridgeData = async (namespace: string) => {
+  const getBridgeData = async (namespace: NamespaceSelection | undefined) => {
     try {
       const nsParams = getListNamespaceParams(namespace)
       const sourceList = await getSourceList(nsParams)
@@ -377,7 +378,7 @@ export default (): {
     }
   }
 
-  const getData = async (namespace: string) => {
+  const getData = async (namespace: NamespaceSelection | undefined) => {
     return await Promise.all([
       getRuleData(namespace),
       getBridgeData(namespace),
@@ -387,7 +388,7 @@ export default (): {
   }
 
   const { getEventList } = useRuleEvents()
-  const getFlowData = async (namespace: string) => {
+  const getFlowData = async (namespace: NamespaceSelection | undefined) => {
     try {
       isLoading.value = true
       await getData(namespace)

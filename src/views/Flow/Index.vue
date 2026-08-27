@@ -6,7 +6,7 @@
           <NamespaceSelect
             v-if="isMultiTenancyEnabled && !isNamespaceUser"
             v-model="selectedNamespace"
-            :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+            :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
             @change="handleNamespaceChange"
           />
         </el-col>
@@ -38,7 +38,11 @@
 </template>
 
 <script setup lang="ts">
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  GLOBAL_NAMESPACE_VALUE,
+  SEARCH_FORM_RES_PROPS as colProps,
+  type NamespaceSelection,
+} from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import FlowView from './components/FlowView.vue'
 
@@ -62,19 +66,14 @@ const getImgSrc = () => {
 const isLoading = ref(true)
 const hasFlowData = ref(true)
 
-const selectedNamespace = ref<string | undefined>(undefined)
+const selectedNamespace = ref<NamespaceSelection | undefined>(undefined)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const showHeader = computed(() => {
   return !isNamespaceUser.value || (isNamespaceUser.value && hasFlowData.value)
 })
 const showEmpty = computed(() => {
-  return (
-    !isNamespaceUser.value &&
-    selectedNamespace.value &&
-    selectedNamespace.value !== GLOBAL_NAMESPACE &&
-    !hasFlowData.value
-  )
+  return !isNamespaceUser.value && typeof selectedNamespace.value === 'string' && !hasFlowData.value
 })
 
 const handleNamespaceChange = () => {

@@ -67,7 +67,7 @@
             <NamespaceSelect
               v-model="filterParams.namespace"
               :placeholder="t('BasicConfig.namespace')"
-              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
               @clear="search"
               @change="search"
             />
@@ -96,7 +96,11 @@
 </template>
 
 <script setup lang="ts">
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  GLOBAL_NAMESPACE_VALUE,
+  SEARCH_FORM_RES_PROPS as colProps,
+  type NamespaceSelection,
+} from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { ConnectionStatus } from '@/types/enum'
 
@@ -106,7 +110,7 @@ interface ActionAndSourceFilterParams {
   status?: ConnectionStatus
   rules?: string
   enable?: boolean
-  namespace?: string
+  namespace?: NamespaceSelection
 }
 
 const props = defineProps<{
@@ -157,7 +161,7 @@ const getFilterParams = (): Record<string, string | boolean> => {
           return { ...obj, [currentKey]: new RegExp(`^${escapeRegExp(currentVal as string)}$`) }
         }
         if (currentKey === 'namespace') {
-          if (currentVal === GLOBAL_NAMESPACE) {
+          if (currentVal === GLOBAL_NAMESPACE_VALUE) {
             return { ...obj, namespace: null }
           } else if (currentVal) {
             return { ...obj, namespace: currentVal }
