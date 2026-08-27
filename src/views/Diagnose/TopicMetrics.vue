@@ -152,7 +152,7 @@
         </el-form-item>
         <el-alert
           v-if="isNamespaceUser"
-          class="mt-1"
+          class="namespace-tip mt-1"
           type="info"
           show-icon
           :closable="false"
@@ -394,5 +394,15 @@ onMounted(openCreateDialogFromQuery)
 <style lang="scss" scoped>
 .el-table :deep(.el-table__expand-icon) {
   display: none;
+}
+
+.namespace-tip {
+  :deep(.el-alert__content) {
+    min-width: 0;
+  }
+
+  :deep(.el-alert__description) {
+    word-break: break-all;
+  }
 }
 </style>
