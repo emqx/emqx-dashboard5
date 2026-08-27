@@ -1,9 +1,7 @@
 <template>
-  <CustomInputNumber v-if="showNumInput" class="time-input-with-unit-select" v-model="inputValue" />
   <InputWithUnit
-    v-else
     class="time-input-with-unit-select"
-    :modelValue="String(inputValue)"
+    :modelValue="inputValue"
     :units="unitList"
     :disabled="disabled"
     :default-unit="defaultUnitValue"
@@ -64,13 +62,6 @@ export default defineComponent({
       return totalUnitList.filter(({ value }) => props.enabledUnits.includes(value))
     })
 
-    /**
-     * Make sure the config can be displayed
-     */
-    const showNumInput = computed(() => {
-      return inputValue.value !== undefined && typeof inputValue.value === 'number'
-    })
-
     const defaultUnitValue = computed(() => {
       if (!isUndefined(props.defaultUnit)) {
         return props.defaultUnit
@@ -78,7 +69,7 @@ export default defineComponent({
       return props.enabledUnits.includes('s') ? 's' : props.enabledUnits[0]
     })
 
-    return { inputValue, unitList, showNumInput, defaultUnitValue, handleInputUpdated }
+    return { inputValue, unitList, defaultUnitValue, handleInputUpdated }
   },
 })
 </script>

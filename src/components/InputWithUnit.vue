@@ -1,5 +1,16 @@
 <template>
+  <CustomInputNumber
+    v-if="showNumInput"
+    v-model="inputValue"
+    class="input-with-unit"
+    :disabled="disabled"
+    :max="max"
+    :min="min"
+    :placeholder="numberPlaceholder"
+    @change="$emit('change')"
+  />
   <el-input
+    v-else
     class="input-with-unit"
     v-model="numPart"
     :disabled="disabled"
@@ -38,7 +49,7 @@ export default defineComponent({
 <script setup lang="ts">
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number] as PropType<string | number>,
   },
   units: {
     type: Array as PropType<Array<{ label: string; value: string } | string>>,
@@ -72,6 +83,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
+
+const showNumInput = computed(() => typeof props.modelValue === 'number')
 
 const units = props.units?.map((unit) => {
   if (typeof unit === 'string') {
@@ -149,7 +162,7 @@ const unit: WritableComputedRef<string> = computed({
   get() {
     const { disabledOpt } = props
     if (disabledOpt && props.modelValue === disabledOpt.value) {
-      return disabledOpt.value
+      return disabledOpt.value.toString()
     }
 
     const { unit = '' } =
@@ -199,9 +212,9 @@ const unit: WritableComputedRef<string> = computed({
   },
 })
 
-const inputValue: WritableComputedRef<string> = computed({
+const inputValue: WritableComputedRef<string | number> = computed({
   get() {
-    return props.modelValue || ''
+    return props.modelValue ?? ''
   },
   set(val) {
     emit('update:modelValue', val)
