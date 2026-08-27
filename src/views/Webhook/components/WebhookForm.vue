@@ -60,6 +60,7 @@
         prop-prefix="connector.oauth2"
         :col-span="24"
         :is-edit="isEdit"
+        :managed-cert-conf-columns="1"
       />
     </el-row>
     <AdvancedSettingContainer>
