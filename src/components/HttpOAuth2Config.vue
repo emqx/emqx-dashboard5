@@ -72,7 +72,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <CommonTLSConfig v-model="record.ssl" :is-edit="isEdit" :base-path="getProp('ssl')" />
+          <CommonTLSConfig
+            v-model="record.ssl"
+            :is-edit="isEdit"
+            :base-path="getProp('ssl')"
+            :managed-cert-conf-columns="managedCertConfColumns"
+          />
         </el-col>
       </el-row>
     </div>
@@ -98,6 +103,7 @@ const props = withDefaults(
     propPrefix?: string
     colSpan?: number
     isEdit?: boolean
+    managedCertConfColumns?: number
   }>(),
   {
     propPrefix: 'oauth2',
