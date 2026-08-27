@@ -102,6 +102,7 @@
 </template>
 
 <script lang="ts" setup>
+import { formItemContextKey } from 'element-plus'
 import { Plus, Trash2 } from 'lucide-vue-next'
 import InputWithPlaceholderSelect from './InputWithPlaceholderSelect.vue'
 
@@ -148,6 +149,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+const formItem = inject(formItemContextKey, undefined)
 
 const rowData: kvRow = {
   key: '',
@@ -232,9 +234,11 @@ function atInputChange() {
   lastTimeObjData = cloneDeep(data)
   emit('update:modelValue', data)
 }
-function deleteItem(row: kvRow) {
+async function deleteItem(row: kvRow) {
   tableData.value = tableData.value.filter(($) => $ !== row)
   atInputChange()
+  await nextTick()
+  formItem?.validate('change').catch(() => undefined)
 }
 function addColumn() {
   tableData.value.push({ ...rowData })
