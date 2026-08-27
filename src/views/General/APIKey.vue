@@ -58,7 +58,7 @@
         :sort-by="({ namespace }) => namespace || ''"
       >
         <template #default="{ row }">
-          {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
+          {{ row.namespace || '' }}
         </template>
       </el-table-column>
       <el-table-column prop="desc" :label="t('Base.note')" />
@@ -95,7 +95,6 @@
 import { APIKey, APIKeyFormWhenEditing } from '@/types/systemModule'
 import APIKeyDialog, { OperationType } from './components/APIKeyDialog.vue'
 import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
 import dayjs from 'dayjs'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { hasSelectedScopes, isUnsetScopes } from '@/common/scopes'

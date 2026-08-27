@@ -107,7 +107,7 @@ export const useManagedNamespaceOptions = () => {
   const currentUserNamespace = computed(() => store.getters.userNamespace)
   const globalNamespaceOption = {
     label: t('BasicConfig.global'),
-    value: 'global',
+    value: GLOBAL_NAMESPACE_VALUE,
   }
   const getNamespaceOptions = async () => {
     if (!isMultiTenancyEnabled.value) {

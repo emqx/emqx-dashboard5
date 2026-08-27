@@ -30,7 +30,7 @@
           <el-col v-if="isMultiTenancyEnabled && !isNamespaceUser" v-bind="SEARCH_FORM_RES_PROPS">
             <NamespaceSelect
               v-model="namespaceFilter"
-              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
               @clear="handleSearch"
               @change="handleSearch"
             />
@@ -173,7 +173,7 @@
 
 <script lang="ts" setup>
 import { deleteA2ACard, getA2ARegistryConfig, listA2ACards } from '@/api/a2a'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type { A2ACardListParams, A2ACardOut } from '@/types/typeAlias'
 import { Settings } from 'lucide-vue-next'
@@ -186,8 +186,7 @@ const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const { t } = useI18n()
 const tl = (key: string) => t(`A2A.${key}`)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
-const getNamespaceLabel = (namespace?: string) =>
-  !namespace || namespace === GLOBAL_NAMESPACE ? t('BasicConfig.global') : namespace
+const getNamespaceLabel = (namespace?: string) => (namespace ? namespace : t('BasicConfig.global'))
 const { isOpNsResourceDisabled } = useNsResource()
 const isOpNsDisabled = (row?: { namespace?: string | null }) => isOpNsResourceDisabled(row)
 
@@ -206,7 +205,7 @@ const filterParams = ref<A2ACardListParams>({
   unit_id: undefined,
   agent_id: undefined,
 })
-const namespaceFilter = ref<string | undefined>(undefined)
+const namespaceFilter = ref<NamespaceSelection | undefined>(undefined)
 const { getListNamespaceParams } = useListNsParams()
 const { getNsParams } = useNsParams()
 

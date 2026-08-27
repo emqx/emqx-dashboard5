@@ -4,7 +4,7 @@ const useNsResource = () => {
   const isOpNsResourceDisabled = ({
     namespace = undefined,
   }: { namespace?: string | null } & unknown = {}): boolean => {
-    return !!(!isNamespaceUser.value && namespace && namespace !== GLOBAL_NAMESPACE)
+    return !!(!isNamespaceUser.value && namespace)
   }
   return {
     isOpNsResourceDisabled,

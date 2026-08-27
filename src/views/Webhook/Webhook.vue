@@ -8,7 +8,7 @@
               v-if="isMultiTenancyEnabled && !isNamespaceUser"
               v-model="namespaceFilter"
               :placeholder="t('BasicConfig.namespace')"
-              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
               @change="getWebhookList"
             />
           </el-col>

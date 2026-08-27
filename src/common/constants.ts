@@ -495,6 +495,14 @@ export const GEMINI_DEFAULT_BASE_URL = 'https://generativelanguage.googleapis.co
 
 export const GLOBAL_NAMESPACE = 'global'
 
+/**
+ * Frontend-only value used by namespace selectors to represent global scope.
+ * Managed namespace names are strings, so this cannot collide with names such as
+ * `global` or `0`.
+ */
+export const GLOBAL_NAMESPACE_VALUE = 0 as const
+export type NamespaceSelection = string | typeof GLOBAL_NAMESPACE_VALUE
+
 export const EMQX_AUTH_COOKIE_NAME = 'emqx_auth'
 
 export const QUERY_TAB = 'tab'

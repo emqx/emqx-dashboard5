@@ -59,7 +59,7 @@
             <NamespaceSelect
               v-model="filterParams.ns"
               :placeholder="t('BasicConfig.namespace')"
-              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
               @clear="searchRule"
             />
           </el-form-item>
@@ -125,9 +125,17 @@
 </template>
 
 <script setup lang="ts">
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  GLOBAL_NAMESPACE_VALUE,
+  SEARCH_FORM_RES_PROPS as colProps,
+  type NamespaceSelection,
+} from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { FilterParamsForQueryRules } from '@/types/rule'
+
+type RuleFilterFormParams = Omit<FilterParamsForQueryRules, 'ns'> & {
+  ns?: NamespaceSelection
+}
 
 const props = defineProps({
   initialValue: {
@@ -172,7 +180,7 @@ const emit = defineEmits(['search', 'refresh'])
 
 const showMoreQuery = ref(false)
 
-const filterParams: Ref<FilterParamsForQueryRules> = ref(createRawFilterParams())
+const filterParams: Ref<RuleFilterFormParams> = ref(createRawFilterParams())
 const keyForSearchTopic: Ref<'like_from' | 'match_from'> = ref(KEYS_FOR_SEARCH_TOPIC[0].value)
 const keyForFilterActionOrSource: Ref<Endpoint> = ref(FILTER_ACTION_OR_SOURCE_OPTIONS[0].value)
 
@@ -221,7 +229,7 @@ const getFilterParams = () => {
   ).reduce((obj, currentKey) => {
     const currentVal = filterParamsData[currentKey]
     if (currentKey === 'ns') {
-      return { ...obj, ...getListNamespaceParams(currentVal as string | undefined) }
+      return { ...obj, ...getListNamespaceParams(currentVal as NamespaceSelection | undefined) }
     } else if (currentVal !== undefined && currentVal !== '') {
       return { ...obj, [currentKey]: currentVal }
     }

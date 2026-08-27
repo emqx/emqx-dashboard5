@@ -73,7 +73,7 @@
         :sort-by="({ namespace }) => namespace || ''"
       >
         <template #default="{ row }">
-          {{ row.namespace && row.namespace !== GLOBAL_NAMESPACE ? row.namespace : '' }}
+          {{ row.namespace || '' }}
         </template>
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
@@ -296,7 +296,7 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
-import { DASHBOARD_USERNAME_REG, GLOBAL_NAMESPACE } from '@/common/constants'
+import { DASHBOARD_USERNAME_REG } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
@@ -690,7 +690,7 @@ const showDialog = (type = 'create', item = {}) => {
   } else {
     record.value = generateRawForm()
   }
-  isNamespaceEnabled.value = !!record.value.namespace && record.value.namespace !== GLOBAL_NAMESPACE
+  isNamespaceEnabled.value = !!record.value.namespace
   if (type === 'edit') {
     if (availableUserScopes.value.length > 0) {
       resolveRoleDefaultScopeState()
@@ -724,11 +724,7 @@ const trimUserName = () => {
 const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
 const getRecordForUpdating = () => {
-  const normalizedRecord = {
-    ...record.value,
-    namespace: record.value.namespace === GLOBAL_NAMESPACE ? '' : record.value.namespace,
-  }
-  const ret = processUserRecordForSubmit(normalizedRecord)
+  const ret = processUserRecordForSubmit(record.value)
   return buildUserPayload(ret, ['description', 'role', 'scopes'])
 }
 // Both the global role-default radio and the namespace role-default switch
