@@ -26,7 +26,7 @@ export default (): {
       'server_name_indication',
     ]
     if (ret.enable === false) {
-      ret = omit(ret, checkFields)
+      return { enable: false } as SSL
     } else {
       checkFields.forEach((key) => {
         if (!ret[key]) {

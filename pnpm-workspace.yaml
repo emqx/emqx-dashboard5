@@ -2,3 +2,6 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   vue-demi: true
+
+minimumReleaseAgeExclude:
+  - '@emqx/shared-ui-i18n'

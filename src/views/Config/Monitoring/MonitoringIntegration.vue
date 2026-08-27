@@ -442,7 +442,7 @@ const DATADOG = 'Datadog'
 
 const { tl, t } = useI18nTl('MonitoringIntegration')
 const store = useStore()
-const { createSSLForm } = useSSL()
+const { createSSLForm, handleSSLDataBeforeSubmit } = useSSL()
 
 const { docMap } = useDocLink()
 
@@ -557,6 +557,12 @@ const opentelemetryType = computed<OpenTelemetryType>({
 })
 const createCurrentOpenTelemetryConfig = (): OpenTelemetry => {
   const config = cloneDeep(opentelemetryFormData.value)
+  if (config.exporter.ssl_options) {
+    config.exporter.ssl_options = handleSSLDataBeforeSubmit(config.exporter.ssl_options)
+  }
+  if (config.exporter.auth.ssl) {
+    config.exporter.auth.ssl = handleSSLDataBeforeSubmit(config.exporter.auth.ssl)
+  }
   if (config.type === 'dynatrace') {
     return omit(config, 'metrics') as DynatraceOpenTelemetry
   }
