@@ -541,10 +541,17 @@ const createOpenTelemetryFormData = (): OpenTelemetryFormData => ({
 const normalizeOpenTelemetry = (
   config: OpenTelemetry,
   currentFormData: OpenTelemetryFormData,
-): OpenTelemetryFormData =>
-  merge(createOpenTelemetryFormData(), currentFormData, config, {
-    type: config.type === 'dynatrace' ? 'dynatrace' : 'generic',
-  })
+): OpenTelemetryFormData => {
+  const type: OpenTelemetryType = config.type === 'dynatrace' ? 'dynatrace' : 'generic'
+  const incompatibleField = type === 'dynatrace' ? 'metrics' : 'exporter.auth'
+  // Once the server config is loaded, do not merge stale values from the previously selected type.
+  return merge(
+    createOpenTelemetryFormData(),
+    omit(currentFormData, incompatibleField),
+    omit(config, incompatibleField),
+    { type },
+  )
+}
 
 const opentelemetryFormData = ref<OpenTelemetryFormData>(createOpenTelemetryFormData())
 const opentelemetryType = computed<OpenTelemetryType>({
