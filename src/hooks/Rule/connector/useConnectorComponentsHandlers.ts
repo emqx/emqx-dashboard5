@@ -1,5 +1,6 @@
 import MQTTIds from '@/components/Connector/MQTTIds.vue'
 import MQTTNode from '@/components/Connector/MQTTNode.vue'
+import { ENCRYPTED_PWD_REG } from '@/common/constants'
 import { FormRules } from '@/types/common'
 import { BridgeType } from '@/types/enum'
 import { Properties, Property } from '@/types/schemaForm'
@@ -253,6 +254,10 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
+            if (props.edit && ENCRYPTED_PWD_REG.test(value)) {
+              resolve(true)
+              return
+            }
             try {
               JSON.parse(value)
               resolve(true)
