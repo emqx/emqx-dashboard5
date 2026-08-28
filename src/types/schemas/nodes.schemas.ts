@@ -87,6 +87,15 @@ export interface EmqxMgmtApiStatsAggregatedData {
   'topics.max'?: number
 }
 
+export type EmqxMgmtApiNodesNodeInfoSecurityProfile =
+  (typeof EmqxMgmtApiNodesNodeInfoSecurityProfile)[keyof typeof EmqxMgmtApiNodesNodeInfoSecurityProfile]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMgmtApiNodesNodeInfoSecurityProfile = {
+  hardened: 'hardened',
+  legacy: 'legacy',
+} as const
+
 export type EmqxMgmtApiNodesNodeInfoRole =
   (typeof EmqxMgmtApiNodesNodeInfoRole)[keyof typeof EmqxMgmtApiNodesNodeInfoRole]
 
@@ -105,6 +114,16 @@ export const EmqxMgmtApiNodesNodeInfoNodeStatus = {
   stopped: 'stopped',
 } as const
 
+export type EmqxMgmtApiNodesNodeInfoFeaturePreset =
+  (typeof EmqxMgmtApiNodesNodeInfoFeaturePreset)[keyof typeof EmqxMgmtApiNodesNodeInfoFeaturePreset]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxMgmtApiNodesNodeInfoFeaturePreset = {
+  custom: 'custom',
+  essential: 'essential',
+  full: 'full',
+} as const
+
 export type EmqxMgmtApiNodesNodeInfoEdition =
   (typeof EmqxMgmtApiNodesNodeInfoEdition)[keyof typeof EmqxMgmtApiNodesNodeInfoEdition]
 
@@ -120,6 +139,7 @@ export interface EmqxMgmtApiNodesNodeInfo {
   /** @minimum 0 */
   connections?: number
   edition?: EmqxMgmtApiNodesNodeInfoEdition
+  feature_preset?: EmqxMgmtApiNodesNodeInfoFeaturePreset
   /** @minimum 0 */
   live_connections?: number
   load1?: number
@@ -138,6 +158,7 @@ export interface EmqxMgmtApiNodesNodeInfo {
   /** @minimum 0 */
   process_used?: number
   role?: EmqxMgmtApiNodesNodeInfoRole
+  security_profile?: EmqxMgmtApiNodesNodeInfoSecurityProfile
   sys_path?: string
   /** @minimum 0 */
   uptime?: number
