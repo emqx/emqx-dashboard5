@@ -194,6 +194,7 @@ export interface PublicMeta {
 }
 
 export interface EmqxMgmtApiDataBackupImportRequestBody {
+  allow_security_profile_mismatch?: boolean
   filename: string
   node?: string
 }

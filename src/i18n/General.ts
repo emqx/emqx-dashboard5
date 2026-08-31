@@ -605,6 +605,14 @@ Available scopes are still restricted by the user's role. The default scopes for
     zh: '确认使用当前备份恢复命名空间 {namespace}？',
     en: 'Restore namespace {namespace} from this backup?',
   },
+  allowSecurityProfileMismatch: {
+    zh: '允许安全配置文件不匹配',
+    en: 'Allow Security Profile Mismatch',
+  },
+  securityProfileMismatchWarning: {
+    zh: '将 legacy 或旧版备份恢复到 hardened 节点后，监听器可访问性、客户端认证、Dashboard 登录以及认证或授权故障的处理方式可能发生变化。请仅在审查并接受这些风险后启用此选项。',
+    en: 'Restoring a legacy or older backup to a hardened node may change listener accessibility, client authentication, Dashboard login, and authentication or authorization failure handling. Enable this option only after reviewing and accepting these risks.',
+  },
   restoreSuccess: {
     zh: '恢复成功',
     en: 'Restore successfully',
