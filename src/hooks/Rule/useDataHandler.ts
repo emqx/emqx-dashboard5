@@ -54,6 +54,7 @@ export const useCommonDataHandler = () => {
     'secret_key',
     'aws_secret_access_key',
     'secret_access_key',
+    'account_key',
     'token',
     'security_token',
     'access_key_id',
