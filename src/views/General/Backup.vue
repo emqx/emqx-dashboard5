@@ -70,6 +70,13 @@
     <div class="emq-table-footer">
       <common-pagination @loadPage="loadBackupFiles" v-model:metaData="pageMeta" />
     </div>
+    <BackupRestoreDialog
+      v-model="restoreDialogVisible"
+      :namespace="restoringNamespace"
+      :loading="restoreLoading"
+      @confirm="confirmRestoreBackup"
+      @cancel="cancelRestoreBackup"
+    />
   </div>
 </template>
 
@@ -87,6 +94,7 @@ import { PageData } from '@/types/common'
 import { UserRole } from '@/types/enum'
 import { EmqxMgmtApiDataBackupBackupFileInfo } from '@/types/schemas/dataBackup.schemas'
 import NamespaceSelect from '@/components/Namespace/NamespaceSelect.vue'
+import BackupRestoreDialog from './components/BackupRestoreDialog.vue'
 import { createDownloadBlobLink, formatSizeUnit } from '@emqx/shared-ui-utils'
 import dayjs from 'dayjs'
 import {
@@ -109,6 +117,10 @@ const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
 const selectedNamespace = ref<NamespaceSelection | undefined>(GLOBAL_NAMESPACE_VALUE)
 const uploadingNamespace = ref<string | undefined>()
+const restoreDialogVisible = ref(false)
+const restoreLoading = ref(false)
+const backupToRestore = ref<BackupItem>()
+const restoringNamespace = ref<string | undefined>()
 
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
@@ -165,40 +177,41 @@ const handleCreateBackup = async () => {
   }
 }
 
-const handleRestoreBackup = async (backup: BackupItem) => {
-  const targetNamespace = namespaceParam.value
-  const confirmMessage = targetNamespace
-    ? tl('confirmNamespaceRestore', { namespace: targetNamespace })
-    : tl('confirmRestore')
-  ElMessageBox.confirm(confirmMessage, {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    customClass: 'backup-restore-confirm',
-    type: 'info',
-    beforeClose: async (action, instance, done) => {
-      if (action === 'confirm') {
-        instance.confirmButtonLoading = true
-        try {
-          const { filename, node } = backup
-          await restoreBackup(
-            { filename, node },
-            targetNamespace ? { namespace: targetNamespace } : undefined,
-          )
-          ElMessage.success(
-            targetNamespace
-              ? tl('namespaceRestoreSuccess', { namespace: targetNamespace })
-              : tl('restoreSuccess'),
-          )
-          done()
-        } catch (error) {
-          done()
-        }
-      } else {
-        store.commit('CLEAR_ABORT_CONTROLLERS')
-        done()
-      }
-    },
-  })
+const handleRestoreBackup = (backup: BackupItem) => {
+  backupToRestore.value = backup
+  restoringNamespace.value = namespaceParam.value
+  restoreDialogVisible.value = true
+}
+
+const confirmRestoreBackup = async (allowSecurityProfileMismatch: boolean) => {
+  if (!backupToRestore.value) {
+    return
+  }
+  const { filename, node } = backupToRestore.value
+  const payload = allowSecurityProfileMismatch
+    ? { filename, node, allow_security_profile_mismatch: true }
+    : { filename, node }
+  try {
+    restoreLoading.value = true
+    await restoreBackup(
+      payload,
+      restoringNamespace.value ? { namespace: restoringNamespace.value } : undefined,
+    )
+    ElMessage.success(
+      restoringNamespace.value
+        ? tl('namespaceRestoreSuccess', { namespace: restoringNamespace.value })
+        : tl('restoreSuccess'),
+    )
+    restoreDialogVisible.value = false
+  } catch (error) {
+    // Keep the dialog open so the operator can review and retry.
+  } finally {
+    restoreLoading.value = false
+  }
+}
+
+const cancelRestoreBackup = () => {
+  store.commit('CLEAR_ABORT_CONTROLLERS')
 }
 
 const handleDeleteBackup = async ({ filename, node }: BackupItem) => {
