@@ -1,33 +1,39 @@
 <template>
   <div class="connectors">
     <div class="app-wrapper">
-      <template v-if="!isEmpty || namespaceFilter || isLoading">
-        <div class="section-header">
-          <el-row :gutter="20" justify="space-between">
-            <el-col v-bind="colProps">
-              <NamespaceSelect
-                v-if="isMultiTenancyEnabled && !isNamespaceUser"
-                v-model="namespaceFilter"
-                :placeholder="t('BasicConfig.namespace')"
-                :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
-                @clear="getList"
-                @change="getList"
+      <div
+        class="section-header"
+        :class="{ 'is-empty-state': isEmpty && !namespaceFilter && !isLoading }"
+      >
+        <el-row :gutter="20" justify="space-between">
+          <el-col v-bind="colProps">
+            <NamespaceSelect
+              v-if="isMultiTenancyEnabled && !isNamespaceUser"
+              v-model="namespaceFilter"
+              :placeholder="t('BasicConfig.namespace')"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
+              @clear="getList"
+              @change="getList"
+            />
+          </el-col>
+          <el-col v-bind="colProps">
+            <div class="flex justify-end">
+              <LinkButton
+                :icon="Setting"
+                :to="{ name: 'rule-engine-security' }"
+                :disabled="!$hasPermission('post')"
+              >
+                <span> {{ t('BasicConfig.ssrfPolicy') }}</span>
+              </LinkButton>
+              <CreateButton
+                v-if="!isEmpty || namespaceFilter || isLoading"
+                @click="$router.push({ name: 'connector-create' })"
               />
-            </el-col>
-            <el-col v-bind="colProps">
-              <div class="flex justify-end">
-                <LinkButton
-                  :icon="Setting"
-                  :to="{ name: 'rule-engine-security' }"
-                  :disabled="!$hasPermission('post')"
-                >
-                  <span> {{ t('BasicConfig.ssrfPolicy') }}</span>
-                </LinkButton>
-                <CreateButton @click="$router.push({ name: 'connector-create' })" />
-              </div>
-            </el-col>
-          </el-row>
-        </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <template v-if="!isEmpty || namespaceFilter || isLoading">
         <el-table :data="tableData" ref="TableCom" row-key="id" v-loading.lock="isLoading">
           <el-table-column :label="tl('name')" :min-width="120">
             <template #default="{ row }">
@@ -290,6 +296,14 @@ getList()
 
 <style lang="scss">
 .connectors {
+  .section-header.is-empty-state {
+    max-width: 1400px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
   .tooltip-content {
     width: -webkit-fit-content;
     width: fit-content;
