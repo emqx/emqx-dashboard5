@@ -58,7 +58,7 @@
                 <div class="node-item">
                   <label class="node-item-label">{{ tl('version') }}: </label>
                   <span class="node-item-content">
-                    <a :href="releaseNoteLink" target="_blank">
+                    <a :href="releaseNoteLink" target="_blank" rel="noopener noreferrer">
                       {{ currentInfo.node['version'] }} ({{ $t(edition.title) }})
                     </a>
                   </span>

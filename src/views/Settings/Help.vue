@@ -8,7 +8,7 @@
   >
     <el-row class="website-links" :gutter="16">
       <el-col :span="8" v-for="{ link, icon, title } in platformList" :key="link">
-        <a :href="link" target="_blank">
+        <a :href="link" target="_blank" rel="noopener noreferrer">
           <el-card class="card-link" shadow="never">
             <img :src="icon" />
             <p class="text-title">{{ title }}</p>
@@ -20,7 +20,12 @@
       <el-col :span="24" class="flex-column">
         <template v-for="({ link, title }, $index) in emqxDocumentList" :key="link">
           <div class="text-large">
-            <a :href="link" target="_blank" class="vertical-align-center space-between">
+            <a
+              :href="link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="vertical-align-center space-between"
+            >
               <span>{{ title }}</span>
               <el-icon :size="20"><Right /></el-icon>
             </a>
@@ -40,7 +45,7 @@
           <div class="card-product-bd">
             <p class="card-product-name text-title">{{ item.title }}</p>
             <p class="card-product-desc tip">{{ item.desc }}</p>
-            <a :href="item.link" target="_blank" class="link-product">
+            <a :href="item.link" target="_blank" rel="noopener noreferrer" class="link-product">
               <span>{{ item.linkText }}</span>
               <el-icon><Right /></el-icon>
             </a>
@@ -60,6 +65,7 @@
             :key="link"
             :href="link"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <i class="iconfont" :class="icon"></i>
           </a>

@@ -19,7 +19,10 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { marked } from 'marked'
-import xss from 'xss'
+import xss, { getDefaultWhiteList } from 'xss'
+
+const xssWhiteList = getDefaultWhiteList()
+xssWhiteList.a = [...(xssWhiteList.a ?? []), 'rel']
 
 interface TocItem {
   title: string
@@ -96,7 +99,7 @@ const setEle = (val: string | undefined) => {
   if (!val) {
     containerEle.value.innerHTML = ''
   } else {
-    containerEle.value.innerHTML = xss(convertMarkdown(val))
+    containerEle.value.innerHTML = xss(convertMarkdown(val), { whiteList: xssWhiteList })
   }
 }
 

@@ -29,7 +29,9 @@
         </template>
       </template>
       <i18n-t v-else class="tip" keypath="Dashboard.licenseExpiryTip" tag="p" scope="global">
-        <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
+        <a :href="docMap.applyLicense" target="_blank" rel="noopener noreferrer">
+          {{ tl('updateLicense') }}
+        </a>
       </i18n-t>
     </div>
     <template #footer>
@@ -96,7 +98,7 @@ const isLicenseExpiry = computed(() => license.value.expiry)
 const licenseTipWidth = computed(() => (isLicenseExpiry.value ? 600 : 580))
 const isCommunityLicense = computed(() => store.getters.isCommunityLicense)
 
-const appleLicenseLink = `<a href="${docMap.applyLicense}" target="_blank">${tl('licenseApply')}</a>`
+const appleLicenseLink = `<a href="${docMap.applyLicense}" target="_blank" rel="noopener noreferrer">${tl('licenseApply')}</a>`
 
 const router = useRouter()
 const goLicense = () => {

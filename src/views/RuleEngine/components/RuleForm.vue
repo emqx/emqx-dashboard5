@@ -32,7 +32,9 @@
                   <InfoTooltip :content="tl('ruleSQLDesc')" />
                   <p class="sub-block-desc">
                     <span>{{ tl('sqlEdit') }}</span>
-                    <a :href="docMap.sqlGrammar" target="_blank">{{ tl('sqlSyntaxAndTem') }}</a>
+                    <a :href="docMap.sqlGrammar" target="_blank" rel="noopener noreferrer">
+                      {{ tl('sqlSyntaxAndTem') }}
+                    </a>
                   </p>
                   <el-alert
                     v-if="containsAIExpression"
