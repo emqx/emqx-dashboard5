@@ -570,10 +570,12 @@ const createCurrentOpenTelemetryConfig = (): OpenTelemetry => {
   if (config.exporter.auth.ssl) {
     config.exporter.auth.ssl = handleSSLDataBeforeSubmit(config.exporter.auth.ssl)
   }
+  // Protocol is not configurable in the Dashboard and has a different default for each type.
+  // Omit any value loaded for the previous type so the API can apply the correct default.
   if (config.type === 'dynatrace') {
-    return omit(config, 'metrics') as DynatraceOpenTelemetry
+    return omit(config, ['metrics', 'exporter.protocol']) as DynatraceOpenTelemetry
   }
-  return omit(config, 'exporter.auth') as GenericOpenTelemetry
+  return omit(config, ['exporter.auth', 'exporter.protocol']) as GenericOpenTelemetry
 }
 const currentOpenTelemetryConfig = computed(createCurrentOpenTelemetryConfig)
 const dynatraceAuth = computed(() =>
