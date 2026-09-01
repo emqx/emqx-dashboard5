@@ -76,6 +76,7 @@ const moduleToPath: Record<string, string> = {
   authorization: '/authorization',
   authentication: '/authentication',
   file_transfer: '/file-transfer',
+  opentelemetry: '/monitoring/integration',
 }
 
 // Modules where the second array element represents an object type
@@ -92,6 +93,7 @@ const labelKeyMap: Record<string, string> = {
   authorization: 'refModuleAuthorization',
   authentication: 'refModuleAuthentication',
   file_transfer: 'refModuleFileTransfer',
+  opentelemetry: 'refModuleOpenTelemetry',
 }
 
 const getModuleLabel = (module: string, types: string[]): string => {

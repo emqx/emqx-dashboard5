@@ -596,6 +596,10 @@ See EMQX documentation for expression syntax.`,
     zh: '文件传输',
     en: 'File Transfer',
   },
+  refModuleOpenTelemetry: {
+    zh: 'OpenTelemetry',
+    en: 'OpenTelemetry',
+  },
   refItemCount: {
     zh: '{count} 个',
     en: '{count}',
