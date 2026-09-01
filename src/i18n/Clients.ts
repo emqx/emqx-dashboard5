@@ -491,6 +491,14 @@ export default {
     zh: '消息队列消息列表',
     en: 'Message Queue Messages',
   },
+  loadMore: {
+    zh: '加载更多',
+    en: 'Load More',
+  },
+  allMessagesLoaded: {
+    zh: '已加载全部',
+    en: 'All messages loaded',
+  },
   priority: {
     zh: '优先级',
     en: 'Priority',

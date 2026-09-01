@@ -19,8 +19,13 @@
         :height="TABLE_HEIGHT"
         :row-height="TABLE_ROW_HEIGHT"
         scrollbar-always-on
-        @scroll="handleScroll"
       />
+    </div>
+    <div v-if="hasMore || msgList.length > 0" class="load-more">
+      <el-button v-if="hasMore" :loading="isLoading" @click="getList">
+        {{ tl('loadMore') }}
+      </el-button>
+      <span v-else class="load-more__finished">{{ tl('allMessagesLoaded') }}</span>
     </div>
     <PayloadDialog
       v-model="showPayloadDialog"
@@ -48,10 +53,16 @@ type MsgItem = MessageItem & {
   _id?: string
 }
 
+type MsgListResponse = {
+  data?: Array<MsgItem>
+  meta: {
+    start: string
+    position?: string | number
+  }
+}
+
 const TABLE_HEIGHT = 410
-const TABLE_HEADER_HEIGHT = 50
 const TABLE_ROW_HEIGHT = 60
-const tableBodyHeight = TABLE_HEIGHT - TABLE_HEADER_HEIGHT
 
 const props = defineProps<{
   modelValue: boolean
@@ -91,13 +102,7 @@ const isLoading = ref(false)
 const TableRef = ref()
 
 const msgList = ref<Array<MsgItem>>([])
-
-const totalLength = computed(() => msgList.value.length)
-
-const scrollTop = ref(0)
-const isScrollToBottom = computed(() => {
-  return totalLength.value * TABLE_ROW_HEIGHT - scrollTop.value <= tableBodyHeight
-})
+const hasMore = ref(true)
 
 const limit = 200
 
@@ -166,7 +171,8 @@ const columns = [
   },
 ]
 
-let lastPosition = 'none'
+let lastPosition: string | number = 'none'
+let requestVersion = 0
 
 const removeOutdatedData = (start: string, list: Array<MsgItem>): Array<MsgItem> => {
   // If start is none, there is no data in the list.
@@ -182,13 +188,21 @@ const removeOutdatedData = (start: string, list: Array<MsgItem>): Array<MsgItem>
 }
 
 const getList = async () => {
+  if (isLoading.value || !hasMore.value) {
+    return
+  }
+  const currentRequestVersion = requestVersion
   try {
     isLoading.value = true
     const request = isMsgQueue.value ? loadMsgQueue : loadInflightMsgs
-    const { data: rawData = [], meta } = await request(props.clientId, {
+    const requestPosition = lastPosition
+    const { data: rawData = [], meta } = (await request(props.clientId, {
       limit,
-      position: lastPosition,
-    })
+      position: requestPosition,
+    })) as unknown as MsgListResponse
+    if (currentRequestVersion !== requestVersion) {
+      return
+    }
     const data = rawData.map((item: MsgItem) => {
       const { inserted_at, mqueue_priority } = item
       const _id = isMsgQueue.value ? `${inserted_at}_${mqueue_priority}` : inserted_at
@@ -196,26 +210,43 @@ const getList = async () => {
     })
     msgList.value.push(...data)
     const lengthBeforeRemove = msgList.value.length
-    await waitAMoment(800)
+    await waitAMoment(100)
+    if (currentRequestVersion !== requestVersion) {
+      return
+    }
     // just remove outdated data from old data
     msgList.value = removeOutdatedData(meta.start, msgList.value)
     const lengthAfterRemove = msgList.value.length
-    if (lengthAfterRemove < lengthBeforeRemove) {
+    if (lengthAfterRemove < lengthBeforeRemove && data.length > 0) {
       const firstRow = msgList.value.findIndex((item) => item.msgid === data[0].msgid)
       if (firstRow > -1) {
         TableRef.value.scrollToRow(firstRow)
       }
     }
-    lastPosition = meta.position
+    const nextPosition = meta?.position
+    const canLoadMore =
+      rawData.length > 0 &&
+      !isUndefined(nextPosition) &&
+      nextPosition !== 'end_of_data' &&
+      nextPosition !== requestPosition
+    if (canLoadMore) {
+      lastPosition = nextPosition
+    }
+    hasMore.value = canLoadMore
   } catch (error) {
     //
   } finally {
-    isLoading.value = false
+    if (currentRequestVersion === requestVersion) {
+      isLoading.value = false
+    }
   }
 }
 
 const initPageMeta = () => {
+  requestVersion += 1
+  isLoading.value = false
   lastPosition = 'none'
+  hasMore.value = true
 }
 
 const refreshList = () => {
@@ -233,15 +264,6 @@ const showPayload = ({ topic, payload }: MsgItem) => {
   payloadContent.value = payload
   showPayloadDialog.value = true
 }
-
-const handleScroll = debounce(async (scrollArg: any) => {
-  if (!isUndefined(scrollArg?.scrollTop) && scrollArg.scrollTop > 0) {
-    scrollTop.value = scrollArg.scrollTop
-    if (totalLength.value && isScrollToBottom.value) {
-      getList()
-    }
-  }
-}, 300)
 </script>
 
 <style lang="scss">
@@ -265,6 +287,15 @@ const handleScroll = debounce(async (scrollArg: any) => {
   }
   .common-overflow-tooltip {
     width: 100%;
+  }
+  .load-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+
+    &__finished {
+      color: var(--el-text-color-secondary);
+    }
   }
 }
 </style>
