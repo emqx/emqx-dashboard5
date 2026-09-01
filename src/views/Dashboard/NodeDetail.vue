@@ -29,7 +29,7 @@
               {{ transMsNumToSimpleStr(node.uptime) }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('version')">
-              <a :href="releaseNoteLink(node.version)" target="_blank">
+              <a :href="releaseNoteLink(node.version)" target="_blank" rel="noopener noreferrer">
                 {{ node.version }}
               </a>
             </el-descriptions-item>

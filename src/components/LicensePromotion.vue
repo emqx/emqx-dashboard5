@@ -3,13 +3,23 @@
     <span class="promo-text">
       {{ t('Base.promoCommunityEdition') }}
       {{ t('Base.promoApplyFor') }}
-      <a :href="applyLicenseUrl" target="_blank" class="header-action-link">{{
-        t('Base.promoLicenseText')
-      }}</a>
+      <a
+        :href="applyLicenseUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="header-action-link"
+      >
+        {{ t('Base.promoLicenseText') }}
+      </a>
       {{ t('Base.promoOrTry') }}
-      <a :href="cloudServiceUrl" target="_blank" class="header-action-link">{{
-        t('Base.promoManagedServiceText')
-      }}</a>
+      <a
+        :href="cloudServiceUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="header-action-link"
+      >
+        {{ t('Base.promoManagedServiceText') }}
+      </a>
     </span>
     <el-icon class="close-promo-icon" @click="dismiss">
       <Close />
