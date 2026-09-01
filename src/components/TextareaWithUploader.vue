@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { UploadFile } from 'element-plus'
+import { formItemContextKey, UploadFile } from 'element-plus'
 
 const props = defineProps({
   modelValue: {
@@ -52,6 +52,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+const formItem = inject(formItemContextKey, undefined)
 
 const { tl } = useI18nTl('Base')
 
@@ -97,6 +98,8 @@ const handleChange = async (file: UploadFile) => {
       await confirmReplacement()
     }
     inputValue.value = content as string
+    await nextTick()
+    formItem?.validate('').catch(() => undefined)
   }
   reader.onerror = () => {
     ElMessage.error(tl('uploadFailed'))
