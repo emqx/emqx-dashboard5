@@ -32,6 +32,7 @@ type DocKey =
   | 'tdengineBatchSettings'
   | 'datalayersBatchSettings'
   | 'licenseFaq'
+  | 'acmePlugin'
 
 export type DocMap = Record<DocKey, string>
 
@@ -107,6 +108,7 @@ const createDocLinks = (lang: string): DocMap => {
       lang,
     )}`,
     licenseFaq: `https://www.emqx.com/${lang}/content/license-faq?${createQueryStr({})}`,
+    acmePlugin: `https://docs.emqx.com/${lang}/emqx/latest/extensions/plugin-catalog/6.1/emqx-acme.html#emqx-acme-plugin`,
   }
 }
 
