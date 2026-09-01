@@ -184,6 +184,7 @@ import {
   getTopicMetricCollections,
   resetTopicMetricCollection,
 } from '@/api/diagnose'
+import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type {
   TopicMetricCollection,
@@ -336,6 +337,7 @@ const createForm = reactive<TopicMetricCollectionCreate>({
 })
 
 const { createRequiredRule, createMqttSubscribeTopicRule } = useFormRules()
+const { isTopicCanCreateMetrics } = useTopicMetrics()
 const createRules: FormRules = {
   name: [
     ...createRequiredRule(tl('topicMetricsName')),
@@ -345,7 +347,19 @@ const createRules: FormRules = {
       trigger: 'blur',
     },
   ],
-  topic_filter: [...createRequiredRule(tl('topicFilter')), ...createMqttSubscribeTopicRule()],
+  topic_filter: [
+    ...createRequiredRule(tl('topicFilter')),
+    ...createMqttSubscribeTopicRule(),
+    {
+      validator(_rule, value: string) {
+        if (!value || isTopicCanCreateMetrics(value)) {
+          return []
+        }
+        return [new Error(t('Subs.topicMetricsFilterNotSupported'))]
+      },
+      trigger: 'blur',
+    },
+  ],
 }
 
 const openCreateDialog = (topicFilter = '') => {

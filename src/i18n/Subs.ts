@@ -15,4 +15,8 @@ export default {
     zh: '创建监控',
     en: 'Create Monitor',
   },
+  topicMetricsFilterNotSupported: {
+    zh: '主题监控不支持 `$share/` 或 `$queue/` 主题过滤器',
+    en: 'Topic Metrics does not support `$share/` or `$queue/` topic filters',
+  },
 }

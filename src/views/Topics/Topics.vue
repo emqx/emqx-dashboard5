@@ -30,7 +30,17 @@
         <el-table-column prop="node" :label="$t('Clients.node')" />
         <el-table-column v-if="isMetricsEnabled" :label="$t('Base.operation')">
           <template #default="{ row }">
+            <el-tooltip
+              v-if="!isTopicCanCreateMetrics(row.topic)"
+              effect="dark"
+              :content="tl('topicMetricsFilterNotSupported')"
+            >
+              <span>
+                <TableButton disabled>{{ tl('addMetric') }}</TableButton>
+              </span>
+            </el-tooltip>
             <TableButton
+              v-else
               :disabled="!$hasPermission('post')"
               @click="createMetricForTopic(row.topic)"
             >
@@ -54,6 +64,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
+import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 import { FeatureName } from '@/types/enum'
 import CommonPagination from '../../components/commonPagination.vue'
 
@@ -68,6 +79,7 @@ const tableData = ref([])
 const searchValue = ref('')
 const lockTable = ref(true)
 const params = ref<Record<string, any>>({})
+const { isTopicCanCreateMetrics } = useTopicMetrics()
 
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
 
