@@ -578,11 +578,15 @@ const rules = computed(() => {
   const ret = {
     username: [
       { required: true, message: tl('enterOneUserName') },
-      {
-        pattern: DASHBOARD_USERNAME_REG,
-        message: tl('usernameFormatError'),
-        trigger: ['blur', 'change'],
-      },
+      ...(accessType.value === 'create'
+        ? [
+            {
+              pattern: DASHBOARD_USERNAME_REG,
+              message: tl('usernameFormatError'),
+              trigger: ['blur', 'change'],
+            },
+          ]
+        : []),
     ],
     role: createRequiredRule(t('Dashboard.role'), 'select'),
     scopeMode: [{ validator: validateScopeMode, trigger: 'change' }],
