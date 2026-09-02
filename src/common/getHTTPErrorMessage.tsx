@@ -122,7 +122,7 @@ const getErrorMessage = (data: AxiosResponse['data'], status: number): string | 
         } else {
           bodyVNode = (
             <>
-              <div class="font-mono break-all">{message.toString()}</div>
+              <div class="font-mono break-words">{message.toString()}</div>
             </>
           )
         }

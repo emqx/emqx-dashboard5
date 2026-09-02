@@ -54,6 +54,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { installPlugin } from '@/api/plugins'
 import CustomMessage from '@/common/CustomMessage'
 import getErrorMessage from '@/common/getHTTPErrorMessage'
+import HTTPErrorMessage from '@/common/HTTPErrorMessage'
 import xss from 'xss'
 
 const router = useRouter()
@@ -131,7 +132,7 @@ const handleInstallError = (error: any) => {
     showHtmlError(xss(tl('pluginInstallUnsafePath')))
     return
   }
-  CustomMessage.error(getErrorMessage(data, status))
+  HTTPErrorMessage(getErrorMessage(data, status) as VNode)
 }
 
 const submit = async () => {

@@ -45,13 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import getErrorMessage from '@/common/getHTTPErrorMessage'
+import HTTPErrorMessage from '@/common/HTTPErrorMessage'
+import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import CertBundleInUseDialog, {
   type ReferencingConfigs,
 } from '@/components/TLSConfig/CertBundleInUseDialog.vue'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
-import CustomMessage from '@/common/CustomMessage'
 
 const { t } = useI18n()
 
@@ -111,7 +111,7 @@ const handleDelete = async (row: CertBundleOut) => {
       referencingConfigs.value = refConfigs
       isInUseDialogShow.value = true
     } else if (error.response?.status === 400) {
-      CustomMessage.error(getErrorMessage(error.response.data, error.response.status))
+      HTTPErrorMessage(getErrorMessage(error.response.data, error.response.status) as VNode)
     }
   }
 }
