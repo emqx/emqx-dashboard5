@@ -807,6 +807,26 @@ export default {
     zh: '插入后的 Map。支持嵌套的 Key，比如 "a.b.c"',
     en: 'The inserted Map. Support nested keys, such as "a.b.c"',
   },
+  maptabLookupDesc: {
+    zh: '从指定的命名映射表中查找一行或一个字段',
+    en: 'Look up a row or field in a named mapping table',
+  },
+  maptabLookupParams: {
+    zh: `支持以下调用形式：<br />
+1. <code>maptab_lookup(Table, Key)</code><br />
+2. <code>maptab_lookup(Table, Key, DefaultRow)</code><br />
+3. <code>maptab_lookup(Table, Key, Field)</code><br />
+4. <code>maptab_lookup(Table, Key, Field, Default)</code>`,
+    en: `Supported signatures:<br />
+1. <code>maptab_lookup(Table, Key)</code><br />
+2. <code>maptab_lookup(Table, Key, DefaultRow)</code><br />
+3. <code>maptab_lookup(Table, Key, Field)</code><br />
+4. <code>maptab_lookup(Table, Key, Field, Default)</code>`,
+  },
+  maptabLookupReturns: {
+    zh: '匹配的行或字段值；未匹配时返回指定的默认值，否则返回 undefined',
+    en: 'The matching row or field value; on a miss, returns the supplied default or undefined',
+  },
   nthDesc: {
     zh: '取第 n 个元素，下标从 1 开始',
     en: 'Take the nth element, and subscripts start at 1',
