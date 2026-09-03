@@ -37,7 +37,7 @@
               <div class="info-item">
                 <div class="info-label">{{ tl('version') }}</div>
                 <div class="info-value">
-                  <a :href="releaseNoteLink" target="_blank">
+                  <a :href="releaseNoteLink" target="_blank" rel="noopener noreferrer">
                     {{ currentInfo.node['version'] }} ({{ $t('Base.enterpriseEdition') }})
                   </a>
                 </div>

@@ -20,7 +20,9 @@
               <li>{{ $t('Base.batchSettingDownloadFirst') }}</li>
               <i18n-t keypath="Base.moreImportInstructions" tag="li">
                 <template #link>
-                  <a :href="checkDocMap[type]" target="_blank">{{ $t('Base.helpDocs') }}</a>
+                  <a :href="checkDocMap[type]" target="_blank" rel="noopener noreferrer">
+                    {{ $t('Base.helpDocs') }}
+                  </a>
                 </template>
               </i18n-t>
             </ul>

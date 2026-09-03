@@ -11,7 +11,7 @@
     <div class="sub-block-docs">
       <ul class="list-link">
         <li class="item-link" v-for="{ link, title } in docList" :key="link">
-          <a :href="link" target="_blank" class="vertical-align-center">
+          <a :href="link" target="_blank" rel="noopener noreferrer" class="vertical-align-center">
             <span>{{ title }}</span>
             <el-icon><Right /></el-icon>
           </a>

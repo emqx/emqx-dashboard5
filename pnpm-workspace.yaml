@@ -4,4 +4,5 @@ allowBuilds:
   vue-demi: true
 
 minimumReleaseAgeExclude:
+  - '@emqx/shared-ui-constants'
   - '@emqx/shared-ui-i18n'

@@ -104,7 +104,9 @@
             <el-alert v-else-if="licenseData.expiry" show-icon :closable="false" type="info">
               <template #title>
                 <i18n-t keypath="Dashboard.licenseExpiryTip" scope="global">
-                  <a :href="docMap.applyLicense" target="_blank">{{ tl('updateLicense') }}</a>
+                  <a :href="docMap.applyLicense" target="_blank" rel="noopener noreferrer">
+                    {{ tl('updateLicense') }}
+                  </a>
                 </i18n-t>
               </template>
             </el-alert>

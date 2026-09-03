@@ -87,7 +87,7 @@
                           <a
                             href="https://prometheus.io/docs/practices/pushing/#when-to-use-the-pushgateway"
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                           >
                             {{ tl('whenToUsePushgateway') }}
                           </a>
@@ -373,10 +373,12 @@
           <el-form-item v-if="selectedPlatform === DATADOG">
             <i18n-t keypath="MonitoringIntegration.dataDogTip" tag="p" class="tip">
               <template #docUse>
-                <a :href="docMap.documentation" target="_blank">{{ tl('thisDoc') }}</a>
+                <a :href="docMap.documentation" target="_blank" rel="noopener noreferrer">
+                  {{ tl('thisDoc') }}
+                </a>
               </template>
               <template #docIntegration>
-                <a :href="docMap.datadogIntegration" target="_blank">
+                <a :href="docMap.datadogIntegration" target="_blank" rel="noopener noreferrer">
                   {{ tl('datadogIntegration') }}
                 </a>
               </template>

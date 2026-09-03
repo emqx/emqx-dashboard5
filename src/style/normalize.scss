@@ -754,7 +754,8 @@
   .el-message__content {
     color: #343741;
     line-height: 1.5;
-    word-break: break-all;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
   .el-message__closeBtn {
     transform: translateY(3px);
