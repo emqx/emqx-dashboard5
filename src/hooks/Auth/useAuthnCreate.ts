@@ -47,9 +47,13 @@ export default function useAuthnCreate() {
       max_inactive: '10s',
       enable_pipelining: 100,
       ssl: createSSLForm(),
-      oauth2: {
-        enable: false,
-      },
+      ...(type === 'password_based'
+        ? {
+            oauth2: {
+              enable: false,
+            },
+          }
+        : {}),
       ...(type === 'scram'
         ? {
             algorithm: 'sha256',
@@ -213,6 +217,9 @@ export default function useAuthnCreate() {
       switch (backend) {
         case 'http':
           data = processHttpConfig(config)
+          if (mechanism === 'scram') {
+            delete data.oauth2
+          }
           break
         case 'redis':
           data = processRedisConfig(config)
