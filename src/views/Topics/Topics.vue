@@ -64,7 +64,6 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { listTopics } from '@/api/common'
-import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 import { FeatureName } from '@/types/enum'
 import CommonPagination from '../../components/commonPagination.vue'
 

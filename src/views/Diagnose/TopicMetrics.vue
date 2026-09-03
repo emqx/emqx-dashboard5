@@ -184,7 +184,6 @@ import {
   getTopicMetricCollections,
   resetTopicMetricCollection,
 } from '@/api/diagnose'
-import useTopicMetrics from '@/hooks/Diagnose/useTopicMetrics'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import type {
   TopicMetricCollection,
