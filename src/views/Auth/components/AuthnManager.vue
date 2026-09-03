@@ -82,7 +82,11 @@
           :label="t('BasicConfig.namespace')"
           label-position="top"
         >
-          <NamespaceSelectSwitch v-model="record.namespace" :disabled="isEdit" />
+          <NamespaceSelectSwitch
+            :model-value="record.namespace"
+            :disabled="isEdit"
+            @update:model-value="handleNamespaceChange"
+          />
         </el-form-item>
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input v-model="record.user_id" :disabled="isEdit" />
@@ -234,7 +238,9 @@ const getRules = function () {
         validator(_rules: any, value: string | undefined, callback: (error?: Error) => void) {
           let error = undefined
           if (!isUndefined(value) && !value) {
-            error = new Error(t('Rule.selectFieldRequiredError', t('BasicConfig.namespace')))
+            error = new Error(
+              t('Rule.selectFieldRequiredError', { name: lowerCase(t('BasicConfig.namespace')) }),
+            )
           }
           callback(error)
         },
@@ -246,6 +252,13 @@ const getRules = function () {
     Reflect.deleteProperty(rules, 'user_id')
   }
   return rules
+}
+
+const handleNamespaceChange = (value: string | undefined) => {
+  record.value.namespace = value
+  if (isUndefined(value) || value) {
+    nextTick(() => recordForm.value?.clearValidate('namespace'))
+  }
 }
 
 const addCommand = () => {
