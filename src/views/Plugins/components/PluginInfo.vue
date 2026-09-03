@@ -16,7 +16,12 @@
 
       <PluginInfoItem label="Repository">
         <!-- TODO:icon -->
-        <a :href="pluginData.repo" class="link-repository" target="_blank">
+        <a
+          :href="pluginData.repo"
+          class="link-repository"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {{ pluginData.repo }}
         </a>
       </PluginInfoItem>

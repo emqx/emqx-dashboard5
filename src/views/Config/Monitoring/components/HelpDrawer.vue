@@ -24,7 +24,7 @@
                     <a
                       href="https://prometheus.io/docs/guides/node-exporter/#installing-and-running-the-node-exporter"
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                     >
                       {{ tl('installNodeExporter') }}
                     </a>
@@ -117,7 +117,7 @@
                   <a
                     href="https://prometheus.io/docs/guides/node-exporter/#installing-and-running-the-node-exporter"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     {{ tl('installNodeExporter') }}
                   </a>

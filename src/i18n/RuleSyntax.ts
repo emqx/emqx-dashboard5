@@ -672,8 +672,8 @@ export default {
     en: 'Decomposed string array',
   },
   sprintfDesc: {
-    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
-    en: 'String formatting, see the Format section in <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank">https://erlang.org/doc/man/io.html#fwrite-1</a> for usage',
+    zh: '字符串格式化，格式字符串的用法详见 <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank" rel="noopener noreferrer">https://erlang.org/doc/man/io.html#fwrite-1</a> 里的 Format 部分',
+    en: 'String formatting, see the Format section in <a href="https://erlang.org/doc/man/io.html#fwrite-1" target="_blank" rel="noopener noreferrer">https://erlang.org/doc/man/io.html#fwrite-1</a> for usage',
   },
   sprintfParams: {
     zh: '1. 格式字符串 <br />2,3,4... 参数列表。参数个数不定',
