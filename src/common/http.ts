@@ -3,6 +3,7 @@ import {
   LOGIN_LOCKED,
   MFA_REQUIRED,
   NAME_PWD_ERROR,
+  SCRAM_CHALLENGE_INVALID,
   TOKEN_TIME_OUT,
   UNAUTHORIZED_ROLE,
 } from '@/common/customErrorCode'
@@ -98,7 +99,7 @@ const readBlobResponse = async (data: Blob) => {
   }
 }
 
-const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED]
+const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED, SCRAM_CHALLENGE_INVALID]
 
 /**
  * there are some custom configurations

@@ -2,9 +2,10 @@ import http from '@/common/http'
 import {
   createScramClientNonce,
   deriveScramProof,
-  ScramLoginError,
   verifyScramServerSignature,
 } from '@/common/scram'
+import { ScramLoginError } from '@/common/scramCore'
+import type { ScramLoginCredentials } from '@/types/scram'
 import type {
   ScramChallenge,
   ScramChallengeRequest,
@@ -12,27 +13,18 @@ import type {
   ScramVerifyRequest,
 } from '@/types/typeAlias'
 
-interface LoginCredentials {
-  password: string
-  username: string
-  mfa_token?: string
-}
-
-export const requestScramChallenge = (
-  username: string,
-  clientNonce: string,
-): Promise<ScramChallenge> => {
+const requestScramChallenge = (username: string, clientNonce: string): Promise<ScramChallenge> => {
   const request: ScramChallengeRequest = { username, client_nonce: clientNonce }
-  return http.post('/login/challenge', request, { keepSpaces: true })
+  return http.post('/login/challenge', request)
 }
 
-export const requestScramVerification = (
-  request: ScramVerifyRequest,
-): Promise<ScramLoginResponse> => http.post('/login/verify', request)
+const requestScramVerification = (request: ScramVerifyRequest): Promise<ScramLoginResponse> =>
+  http.post('/login/verify', request)
 
-export const scramLogin = async (credentials: LoginCredentials): Promise<ScramLoginResponse> => {
+export const scramLogin = async (
+  credentials: ScramLoginCredentials,
+): Promise<ScramLoginResponse> => {
   const { username, password } = credentials
-  const mfaToken = credentials.mfa_token || undefined
   const clientNonce = createScramClientNonce()
   const challenge = await requestScramChallenge(username, clientNonce)
 
@@ -41,7 +33,7 @@ export const scramLogin = async (credentials: LoginCredentials): Promise<ScramLo
     challenge_id: challenge.challenge_id,
     combined_nonce: proof.combinedNonce,
     client_proof: proof.clientProof,
-    ...(mfaToken ? { mfa_token: mfaToken } : {}),
+    ...(credentials.mfa_token ? { mfa_token: credentials.mfa_token } : {}),
   })
   if (!response.token || !response.server_signature) {
     throw new ScramLoginError('The SCRAM login response is incomplete.')

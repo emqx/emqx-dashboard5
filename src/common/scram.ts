@@ -1,8 +1,6 @@
 import type { ScramProof, ScramProofInput, ScramWorkerResponse } from '@/types/scram'
 import { base64ToBytes, bytesToBase64, prepareScramProof, ScramLoginError } from './scramCore'
 
-export { base64ToBytes, bytesToBase64, prepareScramProof, ScramLoginError } from './scramCore'
-
 const SCRAM_KEY_BYTES = 32
 const SCRAM_NONCE_BYTES = 24
 const CRYPTO_JS_TIMEOUT = 55_000
