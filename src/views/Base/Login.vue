@@ -322,9 +322,10 @@
 </template>
 
 <script lang="ts" setup>
-import { login as loginApi } from '@/api/common'
+import { scramLogin as loginApi } from '@/api/scram'
 import { changePassword } from '@/api/function'
 import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
+import { ScramLoginError } from '@/common/scram'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
@@ -538,6 +539,9 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
     const { code, message } = error?.response?.data || {}
     if (code === MFA_REQUIRED) {
       handleMFAMethod(message, username)
+    }
+    if (error instanceof ScramLoginError) {
+      ElNotification.error(t('Base.scramLoginError'))
     }
     isLoginLocked.value = code === LOGIN_LOCKED
     hideLoginLockedAlert()

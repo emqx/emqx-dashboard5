@@ -74,7 +74,14 @@ import type {
   SchemaRegistryPostExternalHttp,
 } from './schemas/schemaRegistry.schemas'
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
-import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
+import type {
+  DashboardUser,
+  PostLoginChallenge200,
+  PostLoginChallengeBody,
+  PostLoginVerify200,
+  PostLoginVerifyBody,
+} from './schemas/dashboard.schemas'
+import { DashboardUserMfa } from './schemas/dashboard.schemas'
 import {
   GetMtManagedNsListParams,
   MtConfigOut,
@@ -96,6 +103,12 @@ import {
   AiProviderType,
 } from './schemas/aiCompletion.schemas'
 import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
+
+/* BASE */
+export type ScramChallenge = PostLoginChallenge200
+export type ScramChallengeRequest = PostLoginChallengeBody
+export type ScramVerifyRequest = PostLoginVerifyBody
+export type ScramLoginResponse = PostLoginVerify200
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
