@@ -286,11 +286,20 @@ export interface OpentelemetryOtelExporterDynatrace {
   ssl_options?: EmqxSslClientOpts
 }
 
+export type OpentelemetryOtelExporterProtocol =
+  (typeof OpentelemetryOtelExporterProtocol)[keyof typeof OpentelemetryOtelExporterProtocol]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOtelExporterProtocol = {
+  grpc: 'grpc',
+} as const
+
 export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
   headers?: OpentelemetryOtelExporterHeaders
+  protocol?: OpentelemetryOtelExporterProtocol
   ssl_options?: EmqxSslClientOpts
 }
 

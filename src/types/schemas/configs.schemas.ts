@@ -1472,6 +1472,15 @@ export interface DashboardListeners {
   https?: DashboardHttps
 }
 
+export type DashboardDashboardPasswordLogin =
+  (typeof DashboardDashboardPasswordLogin)[keyof typeof DashboardDashboardPasswordLogin]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DashboardDashboardPasswordLogin = {
+  both: 'both',
+  scram_only: 'scram_only',
+} as const
+
 export type DashboardDashboardDefaultMfa = DashboardMfaSettings | 'none'
 
 export interface DashboardDashboard {
@@ -1481,6 +1490,7 @@ export interface DashboardDashboard {
   hwmark_expire_time?: string
   listeners?: DashboardListeners
   password_expired_time?: string
+  password_login?: DashboardDashboardPasswordLogin
   sso?: DashboardSso
   swagger_support?: boolean
   token_expired_time?: string
