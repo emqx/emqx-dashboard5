@@ -13,18 +13,9 @@ import {
   LicenseData,
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
-import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { ClusterInfo } from '@/types/typeAlias'
 
 //account
-export function login(user: {
-  password: string
-  username: string
-  mfa_token?: string
-}): Promise<PostLogin200> {
-  return http.post('/login', user, { keepSpaces: true })
-}
-
 export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
   return http.post(`/logout?backend=${backend}`, { username })
 }

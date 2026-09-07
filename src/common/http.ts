@@ -3,6 +3,7 @@ import {
   LOGIN_LOCKED,
   MFA_REQUIRED,
   NAME_PWD_ERROR,
+  SCRAM_CHALLENGE_INVALID,
   TOKEN_TIME_OUT,
 } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
@@ -101,7 +102,7 @@ export const getErrorMessage = (data: AxiosResponse['data'], status: number) => 
   return `${status}: ${stringifyObjSafely(data)}`
 }
 
-const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED]
+const ERROR_CODE_HANDLE_BY_PAGE = [MFA_REQUIRED, LOGIN_LOCKED, SCRAM_CHALLENGE_INVALID]
 
 /**
  * there are some custom configurations
