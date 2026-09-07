@@ -568,6 +568,10 @@ The number of tickets sent after a full handshake is controlled by the config no
     zh: '网络错误',
     en: 'Network Error',
   },
+  scramLoginError: {
+    zh: '无法完成安全登录，请重试或联系管理员。',
+    en: 'Unable to complete secure login. Try again or contact the administrator.',
+  },
   commonIdError: {
     zh: '以字母或数字开头，后续仅限字母、数字、-、_',
     en: 'Start with letter/number; only letters, numbers, -, _ afterwards',
