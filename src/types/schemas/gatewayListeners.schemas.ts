@@ -544,6 +544,8 @@ export interface ListenersStatus {
   /** @minimum 0 */
   current_connections?: number
   max_connections?: ListenersStatusMaxConnections
+  resolved_address?: string
+  resolved_address_from?: string
   running: ListenersStatusRunning
 }
 

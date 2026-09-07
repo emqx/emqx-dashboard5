@@ -278,6 +278,135 @@ export type PostLogoutParams = {
   backend?: PostLogoutBackend
 }
 
+export type PostLoginVerify503Code =
+  (typeof PostLoginVerify503Code)[keyof typeof PostLoginVerify503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostLoginVerify503 = {
+  code?: PostLoginVerify503Code
+  message?: string
+}
+
+export type PostLoginVerify401Code =
+  (typeof PostLoginVerify401Code)[keyof typeof PostLoginVerify401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify401Code = {
+  BAD_MFA_TOKEN: 'BAD_MFA_TOKEN',
+  BAD_USERNAME_OR_PWD: 'BAD_USERNAME_OR_PWD',
+  LOGIN_LOCKED: 'LOGIN_LOCKED',
+  SCRAM_CHALLENGE_INVALID: 'SCRAM_CHALLENGE_INVALID',
+} as const
+
+export type PostLoginVerify401 = {
+  code?: PostLoginVerify401Code
+  message?: string
+}
+
+export type PostLoginVerify400Code =
+  (typeof PostLoginVerify400Code)[keyof typeof PostLoginVerify400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostLoginVerify400 = {
+  code?: PostLoginVerify400Code
+  message?: string
+}
+
+export type PostLoginVerify200LicenseEdition =
+  (typeof PostLoginVerify200LicenseEdition)[keyof typeof PostLoginVerify200LicenseEdition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify200LicenseEdition = {
+  enterprise: 'enterprise',
+  opensource: 'opensource',
+} as const
+
+export type PostLoginVerify200License = {
+  edition?: PostLoginVerify200LicenseEdition
+}
+
+export type PostLoginVerify200 = {
+  license?: PostLoginVerify200License
+  password_expire_in_seconds?: number
+  role?: string
+  server_signature?: string
+  token?: string
+  version?: string
+}
+
+export type PostLoginVerifyBody = {
+  /** @maxLength 128 */
+  challenge_id: string
+  client_proof: string
+  /** @maxLength 160 */
+  combined_nonce: string
+  /** @maxLength 9 */
+  mfa_token?: string
+}
+
+export type PostLoginChallenge503Code =
+  (typeof PostLoginChallenge503Code)[keyof typeof PostLoginChallenge503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginChallenge503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostLoginChallenge503 = {
+  code?: PostLoginChallenge503Code
+  message?: string
+}
+
+export type PostLoginChallenge400Code =
+  (typeof PostLoginChallenge400Code)[keyof typeof PostLoginChallenge400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginChallenge400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostLoginChallenge400 = {
+  code?: PostLoginChallenge400Code
+  message?: string
+}
+
+export type PostLoginChallenge200 = {
+  /** @maxLength 128 */
+  challenge_id: string
+  /** @minimum 1 */
+  iterations?: number
+  mechanism?: string
+  salt?: string
+  server_nonce?: string
+}
+
+export type PostLoginChallengeBody = {
+  /** @maxLength 128 */
+  client_nonce: string
+  /** @maxLength 100 */
+  username?: string
+}
+
+export type PostLogin403Code = (typeof PostLogin403Code)[keyof typeof PostLogin403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogin403Code = {
+  PASSWORD_LOGIN_DISABLED: 'PASSWORD_LOGIN_DISABLED',
+} as const
+
+export type PostLogin403 = {
+  code?: PostLogin403Code
+  message?: string
+}
+
 export type PostLogin401Code = (typeof PostLogin401Code)[keyof typeof PostLogin401Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

@@ -73,6 +73,8 @@ export interface PublicMeta {
   page?: number
 }
 
+export type AuditHttpRequestQueryString = { [key: string]: unknown }
+
 export type AuditHttpRequestMethod =
   (typeof AuditHttpRequestMethod)[keyof typeof AuditHttpRequestMethod]
 
@@ -94,6 +96,8 @@ export interface AuditHttpRequest {
   body?: AuditHttpRequestBody
   headers?: AuditHttpRequestHeaders
   method?: AuditHttpRequestMethod
+  namespace?: string
+  query_string?: AuditHttpRequestQueryString
 }
 
 export interface AuditAuditList {
