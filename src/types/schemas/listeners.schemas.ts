@@ -230,6 +230,8 @@ export interface ListenersWssRequiredBind {
   mountpoint?: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
   subscribes_burst?: string
@@ -285,6 +287,8 @@ export interface ListenersWssNotRequiredBind {
   mountpoint?: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
   subscribes_burst?: string
@@ -340,6 +344,8 @@ export interface ListenersWsRequiredBind {
   mountpoint?: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -394,6 +400,8 @@ export interface ListenersWsNotRequiredBind {
   mountpoint?: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -448,6 +456,8 @@ export interface ListenersWithNameWssRequiredBind {
   name: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerWssOpts
   subscribes_burst?: string
@@ -503,6 +513,8 @@ export interface ListenersWithNameWsRequiredBind {
   name: string
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -576,6 +588,8 @@ export interface ListenersWithNameTcpRequiredBind {
   parse_unit?: ListenersWithNameTcpRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -640,6 +654,8 @@ export interface ListenersWithNameSslRequiredBind {
   parse_unit?: ListenersWithNameSslRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
   subscribes_burst?: string
@@ -733,6 +749,8 @@ export interface ListenersTcpRequiredBind {
   parse_unit?: ListenersTcpRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -806,6 +824,8 @@ export interface ListenersTcpNotRequiredBind {
   parse_unit?: ListenersTcpNotRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   subscribes_burst?: string
   subscribes_rate?: string
@@ -823,6 +843,8 @@ export interface ListenersStatus {
   /** @minimum 0 */
   current_connections?: number
   max_connections?: ListenersStatusMaxConnections
+  resolved_address?: string
+  resolved_address_from?: string
   running: ListenersStatusRunning
 }
 
@@ -881,6 +903,8 @@ export interface ListenersSslRequiredBind {
   parse_unit?: ListenersSslRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
   subscribes_burst?: string
@@ -945,6 +969,8 @@ export interface ListenersSslNotRequiredBind {
   parse_unit?: ListenersSslNotRequiredBindParseUnit
   proxy_protocol?: boolean
   proxy_protocol_timeout?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerSslOpts
   subscribes_burst?: string
@@ -997,6 +1023,8 @@ export interface ListenersQuicRequiredBind {
   messages_burst?: string
   messages_rate?: string
   mountpoint?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
   subscribes_burst?: string
@@ -1048,6 +1076,8 @@ export interface ListenersQuicNotRequiredBind {
   messages_burst?: string
   messages_rate?: string
   mountpoint?: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
   subscribes_burst?: string
@@ -1365,6 +1395,8 @@ export interface ListenersWithNameQuicRequiredBind {
   messages_rate?: string
   mountpoint?: string
   name: string
+  resolved_address?: string
+  resolved_address_from?: string
   running?: boolean
   ssl_options?: EmqxListenerQuicSslOpts
   subscribes_burst?: string

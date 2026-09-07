@@ -813,10 +813,10 @@ export interface RocketmqPutConnector {
   access_key?: string
   description?: string
   enable?: boolean
-  namespace?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: RocketmqConnectorResourceOpts
+  rocketmq_namespace?: string
   secret_key?: string
   security_token?: string
   servers: string
@@ -837,10 +837,10 @@ export interface RocketmqPostConnector {
   description?: string
   enable?: boolean
   name: string
-  namespace?: string
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: RocketmqConnectorResourceOpts
+  rocketmq_namespace?: string
   secret_key?: string
   security_token?: string
   servers: string
@@ -883,11 +883,11 @@ export interface RocketmqGetConnector {
   description?: string
   enable?: boolean
   name: string
-  namespace?: string
   node_status?: ConnectorNodeStatus[]
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: RocketmqConnectorResourceOpts
+  rocketmq_namespace?: string
   secret_key?: string
   security_token?: string
   servers: string
