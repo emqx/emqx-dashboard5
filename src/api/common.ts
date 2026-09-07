@@ -15,17 +15,9 @@ import {
   LicenseSessionHwmHistoryResponse,
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
-import { ClusterInfo, LoginResponse } from '@/types/typeAlias'
+import { ClusterInfo } from '@/types/typeAlias'
 
 //account
-export function login(user: {
-  password: string
-  username: string
-  mfa_token?: string
-}): Promise<LoginResponse> {
-  return http.post('/login', user, { keepSpaces: true })
-}
-
 export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
   return http.post(`/logout?backend=${backend}`, { username })
 }

@@ -98,7 +98,6 @@ export const prepareScramProof = ({
   return {
     password,
     salt: base64ToBytes(challenge.salt),
-    saltBase64: challenge.salt,
     iterations: challenge.iterations,
     combinedNonce,
     authMessage,

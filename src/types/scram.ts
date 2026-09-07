@@ -2,6 +2,12 @@ import type { ScramChallenge } from './typeAlias'
 
 export const SCRAM_SHA_256 = 'SCRAM-SHA-256' as const
 
+export interface ScramLoginCredentials {
+  username: string
+  password: string
+  mfa_token?: string
+}
+
 export interface ScramProofInput {
   username: string
   password: string
