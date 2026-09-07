@@ -89,7 +89,15 @@ import type {
   OpentelemetryOtelMetrics,
   OpentelemetryOtelTraces,
 } from './schemas/monitor.schemas'
-import { type DashboardUser, DashboardUserMfa } from './schemas/dashboard.schemas'
+import type {
+  DashboardUser,
+  PostLogin200,
+  PostLoginChallenge200,
+  PostLoginChallengeBody,
+  PostLoginVerify200,
+  PostLoginVerifyBody,
+} from './schemas/dashboard.schemas'
+import { DashboardUserMfa } from './schemas/dashboard.schemas'
 import {
   GetMtManagedNsListParams,
   MtConfigOut,
@@ -112,7 +120,6 @@ import {
   AiAnthropicProviderApiPutAnthropicVersion,
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
-import { PostLogin200 } from './schemas/dashboard.schemas'
 import type {
   MqApiConfigPut,
   MqMessageQueueRegularApiPost,
@@ -152,6 +159,10 @@ import {
 export interface LoginResponse extends PostLogin200 {
   namespace?: string | null
 }
+export type ScramChallenge = PostLoginChallenge200
+export type ScramChallengeRequest = PostLoginChallengeBody
+export type ScramVerifyRequest = PostLoginVerifyBody
+export type ScramLoginResponse = PostLoginVerify200
 
 /* GATEWAY */
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp

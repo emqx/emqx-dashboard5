@@ -519,6 +519,7 @@ declare global {
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useTestConnector: typeof import('./hooks/Rule/connector/useTestConnector')['default']
   const useToggleAuthStatus: typeof import('./hooks/Auth/useToggleAuthStatus')['default']
+  const useTopicMetrics: typeof import('./hooks/Diagnose/useTopicMetrics')['default']
   const useTransName: typeof import('./hooks/useTransName')['default']
   const useTransformFailureAction: typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']
   const useTwoWayBindingManually: typeof import('./hooks/useTwoWayBindingManually')['default']
@@ -1135,6 +1136,7 @@ declare module 'vue' {
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useTestConnector: UnwrapRef<typeof import('./hooks/Rule/connector/useTestConnector')['default']>
     readonly useToggleAuthStatus: UnwrapRef<typeof import('./hooks/Auth/useToggleAuthStatus')['default']>
+    readonly useTopicMetrics: UnwrapRef<typeof import('./hooks/Diagnose/useTopicMetrics')['default']>
     readonly useTransName: UnwrapRef<typeof import('./hooks/useTransName')['default']>
     readonly useTransformFailureAction: UnwrapRef<typeof import('./hooks/Rule/transform/useMessageTransform')['useTransformFailureAction']>
     readonly useTwoWayBindingManually: UnwrapRef<typeof import('./hooks/useTwoWayBindingManually')['default']>
