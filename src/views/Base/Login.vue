@@ -324,11 +324,12 @@
 <script lang="ts" setup>
 import { scramLogin as loginApi } from '@/api/scram'
 import { changePassword } from '@/api/function'
-import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
-import { ScramLoginError } from '@/common/scram'
+import { LOGIN_LOCKED, MFA_REQUIRED, SCRAM_CHALLENGE_INVALID } from '@/common/customErrorCode'
+import { ScramLoginError } from '@/common/scramCore'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
 import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { ScramLoginCredentials } from '@/types/scram'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
 
 interface MFAError {
@@ -518,12 +519,11 @@ const hideLoginLockedAlert = () => {
   )
 }
 
-const queryLogin = async (user: { username: string; password: string; mfa_token?: string }) => {
+const queryLogin = async (user: ScramLoginCredentials) => {
   isSubmitting.value = true
-  const { username, password } = user
-  const mfa_token = user.mfa_token || undefined
+  const { username } = user
   try {
-    const res = await loginApi({ username, password, mfa_token })
+    const res = await loginApi(user)
     resetMFAData()
 
     updatePasswordData(user, res.password_expire_in_seconds)
@@ -536,12 +536,18 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
     resetTimerForHideLoginLockedAlert()
     return Promise.resolve({ username, response: res })
   } catch (error: any) {
+    if (error instanceof ScramLoginError) {
+      console.error(error)
+      ElNotification.error(t('Base.scramLoginError'))
+      isSubmitting.value = false
+      return Promise.reject(error)
+    }
     const { code, message } = error?.response?.data || {}
     if (code === MFA_REQUIRED) {
       handleMFAMethod(message, username)
     }
-    if (error instanceof ScramLoginError) {
-      ElNotification.error(t('Base.scramLoginError'))
+    if (code === SCRAM_CHALLENGE_INVALID) {
+      ElNotification.error(t('Base.scramChallengeInvalid'))
     }
     isLoginLocked.value = code === LOGIN_LOCKED
     hideLoginLockedAlert()
