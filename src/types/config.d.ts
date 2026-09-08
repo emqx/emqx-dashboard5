@@ -115,13 +115,27 @@ export interface BurstLimit2 {
   window_time: string
 }
 
+export interface DashboardManagedCerts {
+  bundle_name: string
+}
+
+export interface DashboardHttpListener {
+  enable?: boolean
+  bind?: string | number
+}
+
+export interface DashboardHttpsListener extends DashboardHttpListener {
+  ssl_options?: {
+    managed_certs?: DashboardManagedCerts | DashboardManagedCerts[]
+  }
+}
+
 export interface Dashboard {
-  listeners: Listener[] | Listener
-  default_username: string
-  default_password: string
-  sample_interval: string
-  token_expired_time: string
-  cors: boolean
+  listeners?: {
+    http?: DashboardHttpListener
+    https?: DashboardHttpsListener
+  }
+  [key: string]: unknown
 }
 
 export interface RuleEngineSSRF {
