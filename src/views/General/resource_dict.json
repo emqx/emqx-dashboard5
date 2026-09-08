@@ -1727,6 +1727,22 @@
       },
       {
         "method": "post",
+        "path": "/login/challenge",
+        "name_label": {
+          "en": "Dashboard login challenge",
+          "zh": "Dashboard 登录挑战"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/login/verify",
+        "name_label": {
+          "en": "Dashboard login verification",
+          "zh": "Dashboard 登录验证"
+        }
+      },
+      {
+        "method": "post",
         "path": "/logout",
         "name_label": {
           "en": "Dashboard user logout",
