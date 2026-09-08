@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import http from '@/common/http'
 import { PropType } from '@/types/enum'
 import { Component, Properties, Property, Schema } from '@/types/schemaForm'
-import axios from 'axios'
 
 const CONNECTOR_CONF_KEYS = 'connector'
 
@@ -39,9 +39,6 @@ export default function useSchemaForm(
 } {
   const { getters, commit } = useStore()
 
-  const schemaRequest = axios.create({
-    baseURL: '',
-  })
   let schema: any = {}
   const { rules, setToRules, countRules } = useSchemaFormRules()
   const { initRecordByComponents } = useSchemaRecord()
@@ -59,9 +56,9 @@ export default function useSchemaForm(
       if (data) {
         schema = data
       } else {
-        const res = await schemaRequest.get(configPath)
-        if (res.data) {
-          schema = removeUselessKey(res.data)
+        const schemaData = await http.get(configPath, { doNotTriggerProgress: true })
+        if (schemaData) {
+          schema = removeUselessKey(schemaData)
           commit('SET_SCHEMA_DATA', { key: configPath, data: cloneDeep(schema) })
         }
       }
