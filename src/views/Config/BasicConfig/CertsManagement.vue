@@ -6,7 +6,7 @@
           <NamespaceSelect
             v-model="namespace"
             :clearable="false"
-            :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+            :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
             @change="getCertBundleList"
           />
         </div>
@@ -45,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
 import { getErrorMessage } from '@/common/http'
 import CertBundleDrawer from '@/components/TLSConfig/CertBundleDrawer.vue'
 import CertBundleInUseDialog, {
@@ -57,9 +58,9 @@ const { t } = useI18n()
 
 const isLoading = ref(false)
 
-const namespace = ref<string>(GLOBAL_NAMESPACE)
+const namespace = ref<NamespaceSelection>(GLOBAL_NAMESPACE_VALUE)
 const selectedNamespace = computed(() =>
-  namespace.value === GLOBAL_NAMESPACE ? undefined : namespace.value,
+  namespace.value === GLOBAL_NAMESPACE_VALUE ? undefined : namespace.value,
 )
 
 const isDrawerShow = ref(false)
@@ -89,7 +90,7 @@ const getCertBundleList = async () => {
 }
 
 const handleSubmit = async ({ namespace: ns }: ManagedCerts) => {
-  namespace.value = ns ?? GLOBAL_NAMESPACE
+  namespace.value = ns ?? GLOBAL_NAMESPACE_VALUE
   getCertBundleList()
 }
 

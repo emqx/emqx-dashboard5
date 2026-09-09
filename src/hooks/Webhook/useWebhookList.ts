@@ -3,15 +3,16 @@ import { getConnectors as queryConnectors } from '@/api/connector'
 import { getRules as queryRules } from '@/api/ruleengine'
 import { BridgeItem, Connector, HTTPBridge, RuleItem } from '@/types/rule'
 import { WebhookItem } from '@/types/webhook'
+import type { NamespaceSelection } from '@/common/constants'
 
 export default (): {
-  namespaceFilter: Ref<string | undefined, string | undefined>
+  namespaceFilter: Ref<NamespaceSelection | undefined, NamespaceSelection | undefined>
   webhookList: Ref<WebhookItem[]>
   isLoading: Ref<boolean>
   isEmpty: Ref<boolean>
   getWebhookList: () => Promise<void>
 } => {
-  const namespaceFilter = ref<string | undefined>(undefined)
+  const namespaceFilter = ref<NamespaceSelection | undefined>(undefined)
 
   let connectorList: Array<Connector> = []
   let actionList: Array<HTTPBridge> = []

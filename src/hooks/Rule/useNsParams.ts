@@ -1,6 +1,8 @@
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
+
 export const useListNsParams = () => {
-  const getListNamespaceParams = (selectedNamespace: string | undefined) => {
-    if (selectedNamespace === GLOBAL_NAMESPACE) {
+  const getListNamespaceParams = (selectedNamespace: NamespaceSelection | undefined) => {
+    if (selectedNamespace === GLOBAL_NAMESPACE_VALUE) {
       return { only_global: true }
     } else if (selectedNamespace) {
       return { ns: selectedNamespace }
