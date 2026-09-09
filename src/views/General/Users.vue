@@ -18,14 +18,18 @@
           {{ getSourceLabel(row.backend) }}
         </template>
       </el-table-column>
-      <el-table-column :label="tl('userScopes')" :min-width="220">
+      <el-table-column :label="tl('userScopes')" :min-width="200">
+        <template #header>
+          <FormItemLabel
+            :label="tl('userScopes')"
+            :desc="userScopesColumnDesc"
+            desc-marked
+            :max-height="400"
+            popper-class="role-default-scopes-tooltip"
+          />
+        </template>
         <template #default="{ row }">
-          <template v-if="isLegacyUnsetScopes(row.scopes)">
-            <span>{{ t('APIKey.allScopes') }}</span>
-            <el-tooltip :content="tl('legacyUserScopesTip')" placement="top">
-              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-            </el-tooltip>
-          </template>
+          <span v-if="usesRoleDefaultScopes(row.scopes)">{{ tl('roleDefaultScopes') }}</span>
           <template v-else-if="hasSelectedScopes(row.scopes)">
             <el-tag
               v-for="scope in row.scopes"
@@ -37,21 +41,24 @@
               {{ getScopeLabel(scope) }}
             </el-tag>
           </template>
-          <span v-else-if="row.scopes === null"> {{ t('APIKey.allScopes') }}</span>
-          <span v-else>-</span>
+          <span v-else>{{ tl('noUserScopes') }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="tl('mfa')" :min-width="280">
+      <el-table-column prop="mfa" :label="tl('mfa')" :min-width="230" sortable>
         <template #default="{ row }">
-          <el-tag v-if="row.mfa" :type="isMFAEnabled(row.mfa) ? 'success' : 'info'" effect="light">
-            {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
-          </el-tag>
-          <span class="mfa-label" v-if="isMFAEnabled(row.mfa)">
-            ( {{ getMFAMethodLabel(row.mfa) }} )
-          </span>
+          <div class="mfa-cell">
+            <el-tag
+              v-if="row.mfa"
+              :type="isMFAEnabled(row.mfa) ? 'success' : 'info'"
+              effect="light"
+            >
+              {{ isMFAEnabled(row.mfa) ? t('Base.enabled') : getMFAMethodLabel(row.mfa) }}
+            </el-tag>
+            <span v-if="isMFAEnabled(row.mfa)"> ( {{ getMFAMethodLabel(row.mfa) }} ) </span>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('Base.operation')" :min-width="386">
+      <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
         <template #default="{ row }">
           <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
             {{ $t('Base.edit') }}
@@ -97,6 +104,7 @@
         ref="formCom"
         :model="record"
         :rules="rules"
+        :validate-on-rule-change="false"
         label-position="top"
         require-asterisk-position="right"
         @keyup.enter="save()"
@@ -132,17 +140,33 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="accessType !== 'chPass'" prop="scopes">
+        <el-form-item v-if="accessType !== 'chPass'" prop="scopeMode">
           <template #label>
-            <span>{{ tl('userScopes') }}</span>
-            <el-tooltip
-              v-if="record.scopesNeedUpdate"
-              :content="tl('legacyUserScopesTip')"
-              placement="top"
-            >
-              <el-icon class="legacy-scopes-icon"><Warning /></el-icon>
-            </el-tooltip>
+            <FormItemLabel
+              :label="tl('scopeMode')"
+              :desc="scopeModeDesc"
+              desc-marked
+              :max-height="400"
+              popper-class="scope-mode-tooltip"
+            />
           </template>
+          <el-radio-group v-model="record.scopeMode" @change="handleScopeModeChanged">
+            <el-radio :value="ScopeMode.RoleDefault">
+              {{ tl('roleDefaultScopes') }}
+            </el-radio>
+            <el-radio :value="ScopeMode.Privilege">
+              {{ tl('scopeModePrivilege') }}
+            </el-radio>
+            <el-radio :value="ScopeMode.Custom">
+              {{ tl('scopeModeCustom') }}
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item
+          v-if="accessType !== 'chPass' && shouldShowScopesSelect"
+          :label="scopeSelectLabel"
+          prop="scopes"
+        >
           <el-select
             v-model="record.scopes"
             multiple
@@ -151,11 +175,10 @@
             style="width: 100%"
           >
             <el-option
-              v-for="scope in availableUserScopes"
+              v-for="scope in currentScopeOptions"
               :key="scope.name"
               :value="scope.name"
               :label="getScopeLabel(scope.name)"
-              :disabled="scope.admin_only && !isAdminRole"
             >
               <span>{{ getScopeLabel(scope.name) }}</span>
               <span class="scope-desc">
@@ -165,6 +188,14 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-alert
+          v-if="accessType !== 'chPass' && hasMixedGlobalScopes"
+          class="mixed-scopes-alert"
+          type="warning"
+          :title="tl('mixedGlobalScopesDesc')"
+          :closable="false"
+          show-icon
+        />
         <div v-if="accessType === 'chPass'">
           <el-input class="username-placeholder" v-model="record.username" disabled />
           <el-form-item prop="newPassword" :label="tl('newPassword')">
@@ -209,20 +240,37 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
-import {
-  hasSelectedScopes,
-  isLegacyUnsetScopes,
-  normalizeScopes,
-  sanitizeScopesForSubmit,
-} from '@/common/scopes'
+import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
-import { Warning } from '@element-plus/icons-vue'
 
 const SOURCE_LOCAL = 'local'
-
+const ScopeMode = {
+  RoleDefault: 'role_default',
+  Privilege: 'privilege',
+  Custom: 'custom',
+  Mixed: 'mixed',
+}
+const PRIVILEGE_SCOPES = new Set([
+  'system',
+  'user_management',
+  'api_key_management',
+  'sso_management',
+])
+const LOGIN_ONLY_SCOPES = new Set([
+  'user_management',
+  'mfa_management',
+  'sso_management',
+  'api_key_management',
+])
 const store = useStore()
 const { tl, t, te } = useI18nTl('General')
+const isZh = computed(() => /zh/.test(store.state.lang))
+
+const buildRoleDefaultScopesDesc = (intro) =>
+  [intro, tl('roleDefaultScopesByRoleDesc'), tl('roleDefaultScopesRestrictionDesc')].join('\n\n')
+const scopeModeDesc = computed(() => buildRoleDefaultScopesDesc(tl('scopeModeDesc')))
+const userScopesColumnDesc = computed(() => buildRoleDefaultScopesDesc(tl('userScopesColumnDesc')))
 
 const dialogVisible = ref(false)
 const tableData = ref([])
@@ -232,10 +280,13 @@ const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
 const availableUserScopes = ref([])
+const shouldResolveRoleDefaultScopes = ref(false)
 
 const { userRoleOptions } = useRole()
 
 const isAdminRole = computed(() => record.value.role === UserRole.Admin)
+
+const usesRoleDefaultScopes = (scopes) => scopes == null || isUnsetScopes(scopes)
 
 const getScopeLabel = (name) => {
   const key = `APIKey.scopeLabel_${name}`
@@ -246,20 +297,115 @@ const getScopeDesc = (name) => {
   return te(key) ? t(key) : ''
 }
 
-const handleRoleChanged = () => {
-  // When switching to a non-admin role, drop any admin-only scopes the
-  // user picked while on admin (server-side schema would reject them).
-  if (!isAdminRole.value && Array.isArray(record.value.scopes)) {
-    const adminOnly = new Set(
-      availableUserScopes.value.filter((s) => s.admin_only).map((s) => s.name),
-    )
-    record.value.scopes = record.value.scopes.filter((name) => !adminOnly.has(name))
+const roleCompatibleScopeOptions = computed(() =>
+  availableUserScopes.value.filter((scope) => isAdminRole.value || !scope.admin_only),
+)
+
+const currentScopeOptions = computed(() => {
+  if (record.value.scopeMode === ScopeMode.Mixed) {
+    return roleCompatibleScopeOptions.value
   }
+  if (record.value.scopeMode === ScopeMode.Privilege) {
+    return roleCompatibleScopeOptions.value.filter(({ name }) => PRIVILEGE_SCOPES.has(name))
+  }
+  return roleCompatibleScopeOptions.value.filter(({ name }) => !PRIVILEGE_SCOPES.has(name))
+})
+
+const shouldShowScopesSelect = computed(() => record.value.scopeMode !== ScopeMode.RoleDefault)
+
+const scopeSelectLabel = computed(() => {
+  if (record.value.scopeMode === ScopeMode.Mixed) {
+    return tl('userScopes')
+  }
+  return record.value.scopeMode === ScopeMode.Privilege
+    ? tl('scopeModePrivilege')
+    : tl('scopeModeCustom')
+})
+
+const partitionScopes = (scopes) =>
+  (normalizeScopes(scopes) ?? []).reduce(
+    (result, scope) => {
+      result[PRIVILEGE_SCOPES.has(scope) ? 'privilege' : 'restricted'].push(scope)
+      return result
+    },
+    { privilege: [], restricted: [] },
+  )
+
+const resolveExplicitGlobalScopeMode = (scopes) => {
+  const { privilege, restricted } = partitionScopes(scopes)
+  if (privilege.length && restricted.length) {
+    return ScopeMode.Mixed
+  }
+  return privilege.length ? ScopeMode.Privilege : ScopeMode.Custom
+}
+
+const isSameScopeSet = (left, right) => {
+  const leftSet = new Set(left)
+  const rightSet = new Set(right)
+  return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
+}
+
+const getRoleDefaultScopes = () => {
+  if (isAdminRole.value) {
+    return availableUserScopes.value.map(({ name }) => name)
+  }
+  return availableUserScopes.value
+    .filter(({ name }) => !LOGIN_ONLY_SCOPES.has(name))
+    .map(({ name }) => name)
+}
+
+const resolveRoleDefaultScopeState = () => {
+  const isRoleDefault =
+    record.value.scopeMode === ScopeMode.RoleDefault ||
+    isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes())
+  record.value.scopeMode = isRoleDefault
+    ? ScopeMode.RoleDefault
+    : resolveExplicitGlobalScopeMode(record.value.scopes)
+}
+
+const hasMixedGlobalScopes = computed(() => record.value.scopeMode === ScopeMode.Mixed)
+
+const filterSelectedScopes = (showMessage = true) => {
+  if (
+    !shouldShowScopesSelect.value ||
+    !Array.isArray(record.value.scopes) ||
+    availableUserScopes.value.length === 0
+  ) {
+    return
+  }
+  const allowedScopes = new Set(currentScopeOptions.value.map(({ name }) => name))
+  const removedScopes = record.value.scopes.filter((scope) => !allowedScopes.has(scope))
+  if (removedScopes.length === 0) {
+    return
+  }
+  record.value.scopes = record.value.scopes.filter((scope) => allowedScopes.has(scope))
+  if (showMessage) {
+    ElMessage.warning(
+      tl('incompatibleScopesRemoved', {
+        scopes: removedScopes.map(getScopeLabel).join(', '),
+      }),
+    )
+  }
+}
+
+const handleScopeModeChanged = () => {
+  shouldResolveRoleDefaultScopes.value = false
+  filterSelectedScopes()
+  nextTick(() => formCom.value?.clearValidate(['scopeMode', 'scopes']))
+}
+
+const handleRoleChanged = () => {
+  filterSelectedScopes()
 }
 
 const loadUserScopes = async () => {
   try {
     availableUserScopes.value = await getLoginUserScopes()
+    if (shouldResolveRoleDefaultScopes.value) {
+      resolveRoleDefaultScopeState()
+      shouldResolveRoleDefaultScopes.value = false
+    }
+    filterSelectedScopes(false)
   } catch (e) {
     availableUserScopes.value = []
   }
@@ -296,9 +442,17 @@ const { createNoChineseRule, createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
+  const validateScopeMode = (_rule, value, callback) => {
+    if (value === ScopeMode.Mixed) {
+      callback(new Error(tl('mixedGlobalScopesError')))
+      return
+    }
+    callback()
+  }
   const ret = {
     username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
     role: createRequiredRule(t('Dashboard.role'), 'select'),
+    scopeMode: [{ validator: validateScopeMode, trigger: 'change' }],
     password: [
       {
         required: true,
@@ -364,6 +518,7 @@ const generateRawForm = () => ({
   role: UserRole.Admin,
   password: '',
   scopes: [],
+  scopeMode: ScopeMode.RoleDefault,
 })
 
 const isCurrentUser = (user) => user === currentUser.value.username
@@ -372,14 +527,12 @@ const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
 
-  if (type !== 'chPass' && availableUserScopes.value.length === 0) {
-    loadUserScopes()
-  }
-
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
       scopes: normalizeScopes(item.scopes) ?? [],
-      scopesNeedUpdate: isLegacyUnsetScopes(item.scopes),
+      scopeMode: usesRoleDefaultScopes(item.scopes)
+        ? ScopeMode.RoleDefault
+        : resolveExplicitGlobalScopeMode(item.scopes),
     })
   } else if (type === 'chPass') {
     record.value = {
@@ -390,6 +543,18 @@ const showDialog = (type = 'create', item = {}) => {
     }
   } else {
     record.value = generateRawForm()
+  }
+  if (type === 'edit') {
+    if (availableUserScopes.value.length > 0) {
+      resolveRoleDefaultScopeState()
+    } else {
+      shouldResolveRoleDefaultScopes.value = true
+    }
+  } else {
+    shouldResolveRoleDefaultScopes.value = false
+  }
+  if (type !== 'chPass' && availableUserScopes.value.length === 0) {
+    loadUserScopes()
   }
   accessType.value = type
 }
@@ -411,23 +576,14 @@ const trimUserName = () => {
 
 const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
-// Build the payload sent to POST/PUT /users.
-//
-// The backend distinguishes three states for the `scopes` field:
-//   - field absent / undefined → fall back to the user's role default
-//     (administrator, viewer, and SSO users all get the default scope list
-//     that belongs to their role).
-//   - explicit []              → reject every mapped path (rarely the
-//     intended meaning of "leave it empty" in the UI).
-//   - explicit [..names..]     → only those scopes are granted.
-//
-// The form's empty multi-select therefore must NOT be submitted as `[]`,
-// or the user would be silently locked out of every scope-mapped path.
-// Strip the field entirely when no scope is selected so the backend
-// applies the role default.
+// The global role-default mode maps to the backend's `unset` sentinel.
+// Explicit modes preserve the array,
+// including [] (deny all mapped paths), so the states are never conflated.
 const buildUserPayload = (rec, fields) => {
   const payload = pick(rec, fields)
-  return sanitizeScopesForSubmit(payload)
+  const useRoleDefaultScopes = rec.scopeMode === ScopeMode.RoleDefault
+  payload.scopes = useRoleDefaultScopes ? UNSET_SCOPES : (normalizeScopes(rec.scopes) ?? [])
+  return payload
 }
 
 const save = async () => {
@@ -498,20 +654,33 @@ onBeforeMount(async () => {
   .el-tag {
     margin-right: 4px;
   }
-  .legacy-scopes-icon {
-    margin-left: 4px;
-    color: var(--el-color-warning);
-    cursor: help;
-    vertical-align: -2px;
+  .mfa-cell {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
   }
-  .mfa-label {
-    text-wrap: nowrap;
-  }
+}
+
+.role-default-scopes-tooltip {
+  max-width: 720px;
+}
+
+.scope-mode-tooltip {
+  max-width: 720px;
 }
 </style>
 
 <style lang="scss" scoped>
 .username-placeholder {
   display: none;
+}
+.mixed-scopes-alert {
+  margin-bottom: 18px;
+}
+.scope-desc {
+  color: var(--el-text-color-secondary);
+  float: right;
+  font-size: 12px;
+  margin-left: 20px;
 }
 </style>

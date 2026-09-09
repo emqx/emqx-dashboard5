@@ -1,9 +1,9 @@
 import { ExhookFailedAction, ExhookStatus } from './enum'
 import { SSL } from './common'
 
-export type LegacyUnsetScopes = 'unset'
+export type UnsetScopes = 'unset'
 
-export type DashboardScopes = string[] | LegacyUnsetScopes | null | undefined
+export type DashboardScopes = string[] | UnsetScopes | null | undefined
 
 export interface APIKeyScope {
   name: string
