@@ -74,14 +74,14 @@ export default {
 - **管理权限范围**：从系统设置、用户管理、API 密钥管理和 SSO 管理中按需选择。
 - **自定义受限权限**：从连接、消息发布、数据集成、监控和 MFA 管理等非管理权限范围中按需选择。未选择任何权限时，用户不能访问受权限范围保护的接口。
 
-具体可选择的权限仍受用户角色限制。各角色和所属范围的默认权限如下。`,
+具体可选择的权限仍受用户角色限制。各角色的默认权限如下。`,
     en: `Choose how permissions are assigned to the global user:
 
 - **Role Default Scopes**: Automatically use the current role's defaults. Future changes to the role defaults take effect automatically.
 - **Privilege Scopes**: Select System, User Management, API Key Management, and SSO Management scopes as needed. 
 - **Custom Restricted Permissions**: Select non-privilege scopes such as Connections, Publish, Data Integration, Monitoring, and MFA Management. When no scope is selected, the user cannot access scope-protected APIs.
 
-Available scopes are still restricted by the user's role. The default scopes for each role and scope are listed below.`,
+Available scopes are still restricted by the user's role. The default scopes for each role are listed below.`,
   },
   scopeModePrivilege: {
     zh: '管理权限范围',
@@ -100,8 +100,8 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Global users cannot combine privilege and restricted scopes. Select a permission mode again.',
   },
   incompatibleScopesRemoved: {
-    zh: '已移除当前角色或所属范围不支持的权限：{scopes}',
-    en: 'Removed scopes that are not supported by the current role or Namespace: {scopes}',
+    zh: '已移除当前角色不支持的权限：{scopes}',
+    en: 'Removed scopes that are not supported by the current role: {scopes}',
   },
   roleDefaultScopes: {
     zh: '角色默认权限',
@@ -111,10 +111,6 @@ Available scopes are still restricted by the user's role. The default scopes for
     zh: '无权限范围',
     en: 'No Scopes',
   },
-  roleDefaultScopesFormDesc: {
-    zh: '开启后，命名空间用户会自动获得当前角色的默认权限，以后默认权限发生变化时也会自动生效。关闭后，可以从该角色在命名空间内允许持有的所有权限范围中直接选择。',
-    en: "When enabled, the namespace user automatically receives its role's default permissions, including future changes to those defaults. When disabled, select directly from all scopes that the role may hold within a Namespace.",
-  },
   userScopesColumnDesc: {
     zh: '权限范围用于限定用户可以访问的功能类别。显示“角色默认权限”表示用户会自动继承当前角色的默认设置；显示具体权限标签表示用户使用显式配置。',
     en: 'Scopes limit which feature areas a user can access. “Role Default Scopes” means the user automatically inherits the defaults of its current role; individual scope tags indicate an explicit configuration.',
@@ -122,20 +118,16 @@ Available scopes are still restricted by the user's role. The default scopes for
   roleDefaultScopesByRoleDesc: {
     zh: `**各角色的默认权限**
 
-- **全局管理员**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License、用户管理、MFA 管理、SSO 管理、API 密钥管理
-- **全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
-- **命名空间管理员**：连接、监控、数据集成、访问控制、系统设置、集群管理、License、用户管理、API 密钥管理
-- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License`,
+- **管理员**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License、用户管理、MFA 管理、SSO 管理、API 密钥管理
+- **查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License`,
     en: `**Default permissions by role**
 
-- **Global Administrator**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, License, User Management, MFA Management, SSO Management, and API Key Management
-- **Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
-- **Namespace Administrator**: Connections, Monitoring, Data Integration, Access Control, System, Cluster, License, User Management, and API Key Management
-- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License`,
+- **Administrator**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, License, User Management, MFA Management, SSO Management, and API Key Management
+- **Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License`,
   },
   roleDefaultScopesRestrictionDesc: {
-    zh: '上述权限范围决定用户可访问的功能类别；具体可执行的操作和可查看的数据，仍受角色和命名空间限制。',
-    en: "These permissions determine which feature areas the user can access. The allowed operations and visible data are still restricted by the user's role and Namespace.",
+    zh: '上述权限范围决定用户可访问的功能类别；具体可执行的操作和可查看的数据仍受角色限制。',
+    en: "These permissions determine which feature areas the user can access. The allowed operations and visible data are still restricted by the user's role.",
   },
   userScopesAdminOnlyTip: {
     zh: '仅管理员可持有此权限范围',
