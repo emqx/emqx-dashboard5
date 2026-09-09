@@ -30,6 +30,7 @@ const useNamespaceUser = () => {
   const processAPIKeyRecordForUpdating = <T extends { namespace?: string; role: string }>(
     data: T,
   ): T => {
+    // API responses omit namespace for global keys; "global" can be a managed namespace name.
     return processUserRecordForSubmit({ ...data })
   }
 
