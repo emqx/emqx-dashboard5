@@ -44,6 +44,7 @@ export const useCommonDataHandler = () => {
     'authentication.password',
     'authentication.jwt',
     'authentication.service_account_json',
+    'service_account_json',
     'secret_key',
     'aws_secret_access_key',
     'secret_access_key',
