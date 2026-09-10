@@ -375,7 +375,7 @@ Available scopes are still restricted by the user's role. The default scopes for
   },
   idpSignsAssertions: {
     zh: 'IdP 签名断言（Assertion）',
-    en: 'Signed Assertions from IDP',
+    en: 'Signed Assertions from IdP',
   },
   idpSignsAssertionsDesc: {
     zh: '是否要求 IdP 对 SAML 断言进行签名。对于安全性考虑，生产环境中至少需要启用 IdP 签名断言（Assertion）或 IdP 签名响应（Envelope） 中的一个。',
