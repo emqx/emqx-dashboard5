@@ -1,7 +1,7 @@
 <template>
   <div class="audit-log" :class="{ 'is-loading': isInitializing }" v-loading.lock="isInitializing">
     <div v-if="!isInitializing && !isAuditEnabled" class="no-log-tip">
-      <img src="@/assets/img/log_disabled.png" alt="" width="375" />
+      <img src="@/assets/img/log_disabled.png" alt="" width="376" />
       <p>{{ tl('auditLogDesc') }}</p>
       <el-button
         class="confirm-btn"
