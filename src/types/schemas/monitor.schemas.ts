@@ -73,13 +73,6 @@ export interface PrometheusPushGateway {
   url?: string
 }
 
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  push_gateway?: PrometheusPushGateway
-}
-
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
   (typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector)[keyof typeof PrometheusLegacyDeprecatedSettingVmSystemInfoCollector]
 
@@ -213,6 +206,13 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
 }
 
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  push_gateway?: PrometheusPushGateway
+}
+
 export type OpentelemetryTraceFilterTraceMode =
   (typeof OpentelemetryTraceFilterTraceMode)[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -263,11 +263,20 @@ export interface OpentelemetryOtelLogs {
   scheduled_delay?: string
 }
 
+export type OpentelemetryOtelExporterProtocol =
+  (typeof OpentelemetryOtelExporterProtocol)[keyof typeof OpentelemetryOtelExporterProtocol]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOtelExporterProtocol = {
+  grpc: 'grpc',
+} as const
+
 export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
   headers?: OpentelemetryOtelExporterHeaders
+  protocol?: OpentelemetryOtelExporterProtocol
   ssl_options?: EmqxSslClientOpts
 }
 

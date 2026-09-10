@@ -202,6 +202,7 @@ export interface ListenersWssRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -257,6 +258,7 @@ export interface ListenersWssNotRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind?: string
   bytes_burst?: string
   bytes_rate?: string
@@ -305,6 +307,7 @@ export interface ListenersWsRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -352,6 +355,7 @@ export interface ListenersWsNotRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind?: string
   bytes_burst?: string
   bytes_rate?: string
@@ -399,6 +403,7 @@ export interface ListenersWithNameWssRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -447,6 +452,7 @@ export interface ListenersWithNameWsRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -512,6 +518,7 @@ export interface ListenersWithNameTcpRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -569,6 +576,7 @@ export interface ListenersWithNameSslRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -616,6 +624,7 @@ export const ListenersWithNameQuicRequiredBindEnableAuthn = {
 export interface ListenersWithNameQuicRequiredBind {
   /** @minimum 1 */
   acceptors?: number
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -679,6 +688,7 @@ export interface ListenersTcpRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -745,6 +755,7 @@ export interface ListenersTcpNotRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind?: string
   bytes_burst?: string
   bytes_rate?: string
@@ -813,6 +824,7 @@ export interface ListenersSslRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -870,6 +882,7 @@ export interface ListenersSslNotRequiredBind {
   /** @minimum 1 */
   acceptors?: number
   access_rules?: string[]
+  allow_log_packet_data_from?: string
   bind?: string
   bytes_burst?: string
   bytes_rate?: string
@@ -917,6 +930,7 @@ export const ListenersQuicRequiredBindEnableAuthn = {
 export interface ListenersQuicRequiredBind {
   /** @minimum 1 */
   acceptors?: number
+  allow_log_packet_data_from?: string
   bind: string
   bytes_burst?: string
   bytes_rate?: string
@@ -961,6 +975,7 @@ export const ListenersQuicNotRequiredBindEnableAuthn = {
 export interface ListenersQuicNotRequiredBind {
   /** @minimum 1 */
   acceptors?: number
+  allow_log_packet_data_from?: string
   bind?: string
   bytes_burst?: string
   bytes_rate?: string
