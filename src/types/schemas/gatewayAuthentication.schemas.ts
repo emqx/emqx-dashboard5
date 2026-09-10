@@ -449,6 +449,30 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export interface LdapSsl {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: LdapSslLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: LdapSslPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: LdapSslServerNameIndication
+  verify?: LdapSslVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
+
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
 
@@ -493,30 +517,6 @@ export interface EmqxManagedCerts {
   namespace?: string
 }
 
-export interface LdapSsl {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  /** @minimum 0 */
-  depth?: number
-  enable?: boolean
-  hibernate_after?: string
-  keyfile?: string
-  log_level?: LdapSslLogLevel
-  managed_certs?: EmqxManagedCerts
-  middlebox_comp_mode?: boolean
-  partial_chain?: LdapSslPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  server_name_indication?: LdapSslServerNameIndication
-  verify?: LdapSslVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
-}
-
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -554,6 +554,7 @@ export interface EmqxAuthnApiResponseUsers {
 
 export interface EmqxAuthnApiRequestUserUpdate {
   is_superuser?: boolean
+  namespace?: string
   password: string
 }
 
@@ -562,6 +563,36 @@ export interface EmqxAuthnApiRequestUserCreate {
   namespace?: string
   password: string
   user_id: string
+}
+
+export type ConnectorOauth2Oauth2DisabledEnable =
+  (typeof ConnectorOauth2Oauth2DisabledEnable)[keyof typeof ConnectorOauth2Oauth2DisabledEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2Oauth2DisabledEnable = {
+  false: false,
+} as const
+
+export interface ConnectorOauth2Oauth2Disabled {
+  enable?: ConnectorOauth2Oauth2DisabledEnable
+}
+
+export type ConnectorOauth2ClientCredentialsEnable =
+  (typeof ConnectorOauth2ClientCredentialsEnable)[keyof typeof ConnectorOauth2ClientCredentialsEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2ClientCredentialsEnable = {
+  true: true,
+} as const
+
+export interface ConnectorOauth2ClientCredentials {
+  client_id: string
+  client_secret: string
+  enable: ConnectorOauth2ClientCredentialsEnable
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
@@ -737,6 +768,14 @@ export const AuthnPostgresqlMechanism = {
   password_based: 'password_based',
 } as const
 
+export type AuthnPostgresqlBackend =
+  (typeof AuthnPostgresqlBackend)[keyof typeof AuthnPostgresqlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnPostgresqlBackend = {
+  postgresql: 'postgresql',
+} as const
+
 export interface AuthnPostgresql {
   /** @deprecated */
   auto_reconnect?: boolean
@@ -754,6 +793,41 @@ export interface AuthnPostgresql {
   server: string
   ssl?: EmqxSslClientOpts
   username: string
+}
+
+export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
+
+export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMysqlMechanism = {
+  password_based: 'password_based',
+} as const
+
+export type AuthnMysqlBackend = (typeof AuthnMysqlBackend)[keyof typeof AuthnMysqlBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnMysqlBackend = {
+  mysql: 'mysql',
+} as const
+
+export interface AuthnMysql {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  backend: AuthnMysqlBackend
+  database: string
+  enable?: boolean
+  mechanism: AuthnMysqlMechanism
+  password?: string
+  password_hash_algorithm?: AuthnMysqlPasswordHashAlgorithm
+  /** @minimum 1 */
+  pool_size?: number
+  precondition?: string
+  query: string
+  query_timeout?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  username?: string
 }
 
 export type PostGatewaysNameAuthentication201 =
@@ -795,49 +869,6 @@ export type PostGatewaysNameAuthenticationBody =
   | AuthnRedisCluster
   | AuthnRedisSentinel
   | AuthnRedisSingle
-
-export type AuthnPostgresqlBackend =
-  (typeof AuthnPostgresqlBackend)[keyof typeof AuthnPostgresqlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnPostgresqlBackend = {
-  postgresql: 'postgresql',
-} as const
-
-export type AuthnMysqlPasswordHashAlgorithm = AuthnHashSimple | AuthnHashPbkdf2 | AuthnHashBcrypt
-
-export type AuthnMysqlMechanism = (typeof AuthnMysqlMechanism)[keyof typeof AuthnMysqlMechanism]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMysqlMechanism = {
-  password_based: 'password_based',
-} as const
-
-export type AuthnMysqlBackend = (typeof AuthnMysqlBackend)[keyof typeof AuthnMysqlBackend]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnMysqlBackend = {
-  mysql: 'mysql',
-} as const
-
-export interface AuthnMysql {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  backend: AuthnMysqlBackend
-  database: string
-  enable?: boolean
-  mechanism: AuthnMysqlMechanism
-  password?: string
-  password_hash_algorithm?: AuthnMysqlPasswordHashAlgorithm
-  /** @minimum 1 */
-  pool_size?: number
-  precondition?: string
-  query: string
-  query_timeout?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  username?: string
-}
 
 export type AuthnMongoSingleWMode =
   (typeof AuthnMongoSingleWMode)[keyof typeof AuthnMongoSingleWMode]
@@ -1259,6 +1290,8 @@ export interface AuthnJwtHmac {
   verify_claims?: AuthnJwtHmacVerifyClaims
 }
 
+export type AuthnHttpPostOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthnHttpPostMethod = (typeof AuthnHttpPostMethod)[keyof typeof AuthnHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1301,6 +1334,7 @@ export interface AuthnHttpPost {
   max_retries?: number
   mechanism: AuthnHttpPostMechanism
   method: AuthnHttpPostMethod
+  oauth2?: AuthnHttpPostOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -1311,6 +1345,8 @@ export interface AuthnHttpPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type AuthnHttpGetOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
 
 export type AuthnHttpGetMethod = (typeof AuthnHttpGetMethod)[keyof typeof AuthnHttpGetMethod]
 
@@ -1354,6 +1390,7 @@ export interface AuthnHttpGet {
   max_retries?: number
   mechanism: AuthnHttpGetMechanism
   method: AuthnHttpGetMethod
+  oauth2?: AuthnHttpGetOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string

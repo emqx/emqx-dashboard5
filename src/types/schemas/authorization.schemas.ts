@@ -912,11 +912,6 @@ export interface EmqxAuthzSchemaNodeResourceMetrics {
   node?: string
 }
 
-export interface EmqxAuthzSchemaNodeMetrics {
-  metrics?: EmqxAuthzSchemaMetrics
-  node?: string
-}
-
 export interface EmqxAuthzSchemaNodeError {
   error?: string
   node?: string
@@ -942,6 +937,11 @@ export interface EmqxAuthzSchemaMetrics {
   rate_last5m?: number
   rate_max?: number
   total?: number
+}
+
+export interface EmqxAuthzSchemaNodeMetrics {
+  metrics?: EmqxAuthzSchemaMetrics
+  node?: string
 }
 
 export interface EmqxAuthzSchemaMetricsStatusFields {
@@ -996,6 +996,11 @@ export interface EmqxAuthzApiSourcesPosition {
   position: string
 }
 
+export interface EmqxAuthzApiMnesiaRulesForClientid {
+  clientid: string
+  rules?: EmqxAuthzApiMnesiaRuleItem[]
+}
+
 export interface EmqxAuthzApiMnesiaRules {
   rules?: EmqxAuthzApiMnesiaRuleItem[]
 }
@@ -1046,11 +1051,6 @@ export interface EmqxAuthzApiMnesiaUsernameResponseData {
   meta?: PublicMeta
 }
 
-export interface EmqxAuthzApiMnesiaRulesForClientid {
-  clientid: string
-  rules?: EmqxAuthzApiMnesiaRuleItem[]
-}
-
 export interface EmqxAuthzApiMnesiaClientidResponseData {
   data?: EmqxAuthzApiMnesiaRulesForClientid[]
   meta?: PublicMeta
@@ -1065,6 +1065,36 @@ export interface EmqxAuthzApiCacheResponseAuthzNodeCache {
   enable?: boolean
   max_count?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxCount
   max_memory?: EmqxAuthzApiCacheResponseAuthzNodeCacheMaxMemory
+}
+
+export type ConnectorOauth2Oauth2DisabledEnable =
+  (typeof ConnectorOauth2Oauth2DisabledEnable)[keyof typeof ConnectorOauth2Oauth2DisabledEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2Oauth2DisabledEnable = {
+  false: false,
+} as const
+
+export interface ConnectorOauth2Oauth2Disabled {
+  enable?: ConnectorOauth2Oauth2DisabledEnable
+}
+
+export type ConnectorOauth2ClientCredentialsEnable =
+  (typeof ConnectorOauth2ClientCredentialsEnable)[keyof typeof ConnectorOauth2ClientCredentialsEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2ClientCredentialsEnable = {
+  true: true,
+} as const
+
+export interface ConnectorOauth2ClientCredentials {
+  client_id: string
+  client_secret: string
+  enable: ConnectorOauth2ClientCredentialsEnable
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
@@ -1482,6 +1512,8 @@ export const AuthzHttpPostType = {
   http: 'http',
 } as const
 
+export type AuthzHttpPostOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthzHttpPostMethod = (typeof AuthzHttpPostMethod)[keyof typeof AuthzHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1509,6 +1541,7 @@ export interface AuthzHttpPost {
    */
   max_retries?: number
   method: AuthzHttpPostMethod
+  oauth2?: AuthzHttpPostOauth2
   /** @minimum 1 */
   pool_size?: number
   request?: ConnectorHttpRequest
@@ -1526,6 +1559,8 @@ export type AuthzHttpGetType = (typeof AuthzHttpGetType)[keyof typeof AuthzHttpG
 export const AuthzHttpGetType = {
   http: 'http',
 } as const
+
+export type AuthzHttpGetOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
 
 export type AuthzHttpGetMethod = (typeof AuthzHttpGetMethod)[keyof typeof AuthzHttpGetMethod]
 
@@ -1554,6 +1589,7 @@ export interface AuthzHttpGet {
    */
   max_retries?: number
   method: AuthzHttpGetMethod
+  oauth2?: AuthzHttpGetOauth2
   /** @minimum 1 */
   pool_size?: number
   request?: ConnectorHttpRequest

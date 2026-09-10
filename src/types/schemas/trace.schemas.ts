@@ -1,3 +1,15 @@
+export type PutTracing403Code = (typeof PutTracing403Code)[keyof typeof PutTracing403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutTracing403Code = {
+  UNAUTHORIZED_ROLE: 'UNAUTHORIZED_ROLE',
+} as const
+
+export type PutTracing403 = {
+  code?: PutTracing403Code
+  message?: string
+}
+
 export type PutTracing400Code = (typeof PutTracing400Code)[keyof typeof PutTracing400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
