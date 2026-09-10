@@ -282,7 +282,6 @@ export default (
     }
     if (components?.ssl) {
       components.ssl.properties = pick(components.ssl.properties, neededSSLConfig) as Properties
-      components.ssl.componentProps = { hideVerify: true }
     }
 
     return { components, rules }
