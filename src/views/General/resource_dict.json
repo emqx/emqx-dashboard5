@@ -2430,37 +2430,5 @@
         }
       }
     ]
-  },
-  {
-    "label": {
-      "en": "A2A Registry",
-      "zh": "A2A 注册"
-    },
-    "operations": [
-      {
-        "method": "put",
-        "path": "/configs/a2a_registry",
-        "name_label": {
-          "en": "Update A2A registry config",
-          "zh": "更新 A2A 注册配置"
-        }
-      },
-      {
-        "method": "delete",
-        "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
-        "name_label": {
-          "en": "Delete agent registration",
-          "zh": "删除 Agent 注册信息"
-        }
-      },
-      {
-        "method": "post",
-        "path": "/a2a/cards/card/:org_id/:unit_id/:agent_id",
-        "name_label": {
-          "en": "Register agent",
-          "zh": "注册 Agent"
-        }
-      }
-    ]
   }
 ]
