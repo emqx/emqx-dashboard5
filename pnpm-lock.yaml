@@ -18,8 +18,8 @@ importers:
         specifier: ~0.0.8
         version: 0.0.8
       '@emqx/shared-ui-i18n':
-        specifier: ~0.0.75
-        version: 0.0.75
+        specifier: ~0.0.82
+        version: 0.0.82
       '@emqx/shared-ui-utils':
         specifier: ~0.0.24
         version: 0.0.24(typescript@5.5.4)
@@ -414,8 +414,8 @@ packages:
   '@emqx/shared-ui-constants@0.0.8':
     resolution: {integrity: sha512-hUIPzN4qGbwQ6T+ZjEMofrRxM0iv46xnkylzSXVuxh9kUiBirYRLER/0HhyPxSozjfSV7ecyISizUckQ9xL8vg==}
 
-  '@emqx/shared-ui-i18n@0.0.75':
-    resolution: {integrity: sha512-ZVlIchGcXvbofKPM+GKJT33iq1HQSPZXmgF+eTt6ITPoFEHMeegZMXj2jR1bFXTenIr/iR+PObP4rxDa4jO9cg==}
+  '@emqx/shared-ui-i18n@0.0.82':
+    resolution: {integrity: sha512-Zb4o0AOU3SWcePueVcKcg54W2GlEslD0fyiZKO/o0nqHRZO/8QDlLw3XW8jrD6R9WR4uqR+TJqs1LzQOz5AQxw==}
 
   '@emqx/shared-ui-utils@0.0.24':
     resolution: {integrity: sha512-8Hq4ljQQUI5aPRMfS3jfifRZB2ym41GINmvXnO7tZ+UWrBE7haqMusb6blatbdDjRHZk1GZ7d3GabMgJxTrfhQ==}
@@ -1757,6 +1757,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
@@ -2742,6 +2743,7 @@ packages:
 
   lucide-vue-next@0.553.0:
     resolution: {integrity: sha512-0tg9XT+VCElTT+7EXXbBRhWe1nU7Doa32Xv/dHP5/LCleFVgV6cAqziM3C7AetqmsYIsfAtNwRYdtvs4Ds7aUg==}
+    deprecated: Package deprecated. Please use @lucide/vue instead.
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -4160,7 +4162,7 @@ snapshots:
 
   '@emqx/shared-ui-constants@0.0.8': {}
 
-  '@emqx/shared-ui-i18n@0.0.75': {}
+  '@emqx/shared-ui-i18n@0.0.82': {}
 
   '@emqx/shared-ui-utils@0.0.24(typescript@5.5.4)':
     dependencies:
