@@ -1,3 +1,16 @@
+export type PostDataImport500Code =
+  (typeof PostDataImport500Code)[keyof typeof PostDataImport500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostDataImport500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type PostDataImport500 = {
+  code?: PostDataImport500Code
+  message?: string
+}
+
 export type PostDataImport400Code =
   (typeof PostDataImport400Code)[keyof typeof PostDataImport400Code]
 
@@ -8,6 +21,23 @@ export const PostDataImport400Code = {
 
 export type PostDataImport400 = {
   code?: PostDataImport400Code
+  message?: string
+}
+
+export type PostDataImportParams = {
+  namespace?: string
+}
+
+export type GetDataFilesFilename500Code =
+  (typeof GetDataFilesFilename500Code)[keyof typeof GetDataFilesFilename500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetDataFilesFilename500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type GetDataFilesFilename500 = {
+  code?: GetDataFilesFilename500Code
   message?: string
 }
 
@@ -47,6 +77,20 @@ export const GetDataFilesFilename200 = {
 
 export type GetDataFilesFilenameParams = {
   node?: string
+  namespace?: string
+}
+
+export type DeleteDataFilesFilename500Code =
+  (typeof DeleteDataFilesFilename500Code)[keyof typeof DeleteDataFilesFilename500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteDataFilesFilename500Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteDataFilesFilename500 = {
+  code?: DeleteDataFilesFilename500Code
+  message?: string
 }
 
 export type DeleteDataFilesFilename404Code =
@@ -77,6 +121,7 @@ export type DeleteDataFilesFilename400 = {
 
 export type DeleteDataFilesFilenameParams = {
   node?: string
+  namespace?: string
 }
 
 export type PostDataFiles400Code = (typeof PostDataFiles400Code)[keyof typeof PostDataFiles400Code]
@@ -93,6 +138,10 @@ export type PostDataFiles400 = {
 
 export type PostDataFilesBody = {
   filename?: Blob
+}
+
+export type PostDataFilesParams = {
+  namespace?: string
 }
 
 export type PostDataExport500Code =
@@ -128,6 +177,7 @@ export type PublicLimitParameter = number
 export type GetDataFilesParams = {
   page?: PublicPageParameter
   limit?: PublicLimitParameter
+  namespace?: string
 }
 
 export interface PublicMeta {
