@@ -140,6 +140,10 @@ export type PostAuthenticationIdUsers400 = {
   message?: string
 }
 
+export type PostAuthenticationIdUsersParams = {
+  ns?: string
+}
+
 export type GetAuthenticationIdUsers404Code =
   (typeof GetAuthenticationIdUsers404Code)[keyof typeof GetAuthenticationIdUsers404Code]
 
@@ -390,29 +394,6 @@ export type PostAuthentication400 = {
   message?: string
 }
 
-export type PostAuthentication200 =
-  | AuthnBuiltinDb
-  | AuthnCinfo
-  | AuthnGcpDevice
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
-  | AuthnScram
-  | AuthnScramRestapiGet
-  | AuthnScramRestapiPost
-
 export type PostAuthenticationBody =
   | AuthnBuiltinDbApi
   | AuthnCinfo
@@ -635,7 +616,12 @@ export interface EmqxAuthnApiResponseAuthnSettings {
 
 export interface EmqxAuthnApiRequestUserUpdate {
   is_superuser?: boolean
+  namespace?: string
   password: string
+}
+
+export interface EmqxAuthnApiRequestUserDelete {
+  namespace?: string
 }
 
 export interface EmqxAuthnApiRequestUserCreate {
@@ -651,6 +637,36 @@ export interface EmqxAuthnApiRequestAuthnSettings {
 
 export interface EmqxAuthnApiRequestAuthnOrder {
   id: string
+}
+
+export type ConnectorOauth2Oauth2DisabledEnable =
+  (typeof ConnectorOauth2Oauth2DisabledEnable)[keyof typeof ConnectorOauth2Oauth2DisabledEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2Oauth2DisabledEnable = {
+  false: false,
+} as const
+
+export interface ConnectorOauth2Oauth2Disabled {
+  enable?: ConnectorOauth2Oauth2DisabledEnable
+}
+
+export type ConnectorOauth2ClientCredentialsEnable =
+  (typeof ConnectorOauth2ClientCredentialsEnable)[keyof typeof ConnectorOauth2ClientCredentialsEnable]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorOauth2ClientCredentialsEnable = {
+  true: true,
+} as const
+
+export interface ConnectorOauth2ClientCredentials {
+  client_id: string
+  client_secret: string
+  enable: ConnectorOauth2ClientCredentialsEnable
+  scope?: string
+  ssl?: EmqxSslClientOpts
+  timeout?: string
+  token_endpoint: string
 }
 
 export type ConnectorHttpRequestHeaders = { [key: string]: unknown }
@@ -1544,6 +1560,8 @@ export interface AuthnJwtHmac {
   verify_claims?: AuthnJwtHmacVerifyClaims
 }
 
+export type AuthnHttpPostOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
+
 export type AuthnHttpPostMethod = (typeof AuthnHttpPostMethod)[keyof typeof AuthnHttpPostMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1586,6 +1604,7 @@ export interface AuthnHttpPost {
   max_retries?: number
   mechanism: AuthnHttpPostMechanism
   method: AuthnHttpPostMethod
+  oauth2?: AuthnHttpPostOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -1596,6 +1615,8 @@ export interface AuthnHttpPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type AuthnHttpGetOauth2 = ConnectorOauth2ClientCredentials | ConnectorOauth2Oauth2Disabled
 
 export type AuthnHttpGetMethod = (typeof AuthnHttpGetMethod)[keyof typeof AuthnHttpGetMethod]
 
@@ -1639,6 +1660,7 @@ export interface AuthnHttpGet {
   max_retries?: number
   mechanism: AuthnHttpGetMechanism
   method: AuthnHttpGetMethod
+  oauth2?: AuthnHttpGetOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -1677,6 +1699,29 @@ export interface AuthnGcpDevice {
   mechanism: AuthnGcpDeviceMechanism
   precondition?: string
 }
+
+export type PostAuthentication200 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnGcpDevice
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export type AuthnCinfoCheckResult =
   (typeof AuthnCinfoCheckResult)[keyof typeof AuthnCinfoCheckResult]

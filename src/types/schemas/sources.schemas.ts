@@ -487,6 +487,7 @@ export interface GcpPubsubConsumerSourceResourceOpts {
 }
 
 export interface GcpPubsubConsumerSourceParameters {
+  ack_deadline?: string
   /** @minimum 1 */
   pull_max_messages?: number
   topic: string

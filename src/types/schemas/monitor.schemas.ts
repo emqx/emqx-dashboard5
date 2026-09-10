@@ -1,9 +1,5 @@
 export type GetPrometheusStats200One = { [key: string]: unknown }
 
-export type GetPrometheusStatsParams = {
-  mode?: EmqxPrometheusApiModeParameter
-}
-
 export type GetPrometheusSchemaValidation200One = { [key: string]: unknown }
 
 export type GetPrometheusNamespacedStats200One = { [key: string]: unknown }
@@ -58,6 +54,10 @@ export const EmqxPrometheusApiModeParameter = {
   node: 'node',
 } as const
 
+export type GetPrometheusStatsParams = {
+  mode?: EmqxPrometheusApiModeParameter
+}
+
 export type GetPrometheusSchemaValidationParams = {
   mode?: EmqxPrometheusApiModeParameter
 }
@@ -84,14 +84,6 @@ export interface PrometheusPushGateway {
 
 export interface PrometheusNamespacedMetricsLimiter {
   rate?: string
-}
-
-export interface PrometheusRecommendSetting {
-  collectors?: PrometheusCollectors
-  enable_basic_auth: boolean
-  latency_buckets: string
-  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
-  push_gateway?: PrometheusPushGateway
 }
 
 export type PrometheusLegacyDeprecatedSettingVmSystemInfoCollector =
@@ -227,6 +219,14 @@ export interface PrometheusCollectors {
   vm_system_info: PrometheusCollectorsVmSystemInfo
 }
 
+export interface PrometheusRecommendSetting {
+  collectors?: PrometheusCollectors
+  enable_basic_auth: boolean
+  latency_buckets: string
+  namespaced_metrics_limiter?: PrometheusNamespacedMetricsLimiter
+  push_gateway?: PrometheusPushGateway
+}
+
 export type OpentelemetryTraceFilterTraceMode =
   (typeof OpentelemetryTraceFilterTraceMode)[keyof typeof OpentelemetryTraceFilterTraceMode]
 
@@ -277,11 +277,20 @@ export interface OpentelemetryOtelLogs {
   scheduled_delay?: string
 }
 
+export type OpentelemetryOtelExporterProtocol =
+  (typeof OpentelemetryOtelExporterProtocol)[keyof typeof OpentelemetryOtelExporterProtocol]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OpentelemetryOtelExporterProtocol = {
+  grpc: 'grpc',
+} as const
+
 export type OpentelemetryOtelExporterHeaders = { [key: string]: unknown }
 
 export interface OpentelemetryOtelExporter {
   endpoint?: string
   headers?: OpentelemetryOtelExporterHeaders
+  protocol?: OpentelemetryOtelExporterProtocol
   ssl_options?: EmqxSslClientOpts
 }
 
