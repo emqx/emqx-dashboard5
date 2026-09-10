@@ -126,19 +126,32 @@
               </template>
               <template
                 v-if="
-                  row.http_request.bindings && Object.keys(row.http_request.bindings).length > 0
+                  row.http_request?.bindings && Object.keys(row.http_request.bindings).length > 0
                 "
               >
                 <InfoTooltip popper-class="code-popper">
                   <template #content>
                     <CodeView
                       lang="json"
-                      :code="stringifyObjSafely(row.http_request.bindings)"
+                      :code="stringifyObjSafely(row.http_request?.bindings)"
                       :show-copy-btn="false"
                     />
                   </template>
                 </InfoTooltip>
               </template>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="t('BasicConfig.namespace')"
+            :min-width="120"
+            show-overflow-tooltip
+          >
+            <template #default="{ row }">
+              {{
+                row.http_request?.namespace === GLOBAL_NAMESPACE
+                  ? t('BasicConfig.global')
+                  : (row.http_request?.namespace ?? '--')
+              }}
             </template>
           </el-table-column>
           <el-table-column :label="tl('opSource')">
@@ -170,7 +183,7 @@
 <script lang="ts" setup>
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
 import { queryAuditLogs } from '@/api/systemModule'
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import { GLOBAL_NAMESPACE, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import {
   getLabelFromValueInOptionList as getLabelFromOpts,
   stringifyObjSafely,
