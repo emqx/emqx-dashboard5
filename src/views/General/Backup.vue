@@ -7,7 +7,7 @@
           v-model="selectedNamespace"
           class="namespace-select"
           :clearable="false"
-          :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+          :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
           @change="handleNamespaceChanged"
         />
       </div>
@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { GLOBAL_NAMESPACE_VALUE, type NamespaceSelection } from '@/common/constants'
 import {
   createBackup,
   deleteBackup,
@@ -106,7 +107,7 @@ const createLoading = ref(false)
 const uploading = ref(false)
 const backupList = ref<BackupItem[]>([])
 const UploadRef = ref<UploadInstance>()
-const selectedNamespace = ref<string | undefined>(GLOBAL_NAMESPACE)
+const selectedNamespace = ref<NamespaceSelection | undefined>(GLOBAL_NAMESPACE_VALUE)
 const uploadingNamespace = ref<string | undefined>()
 
 const store = useStore()
@@ -115,7 +116,7 @@ const isGlobalAdmin = computed(
   () => !isNamespaceUser.value && store.state.user.role === UserRole.Admin,
 )
 const namespaceParam = computed(() =>
-  selectedNamespace.value === GLOBAL_NAMESPACE ? undefined : selectedNamespace.value,
+  selectedNamespace.value === GLOBAL_NAMESPACE_VALUE ? undefined : selectedNamespace.value,
 )
 const isNamespaceBackupView = computed(
   () => isGlobalAdmin.value && namespaceParam.value !== undefined,

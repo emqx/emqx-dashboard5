@@ -7,7 +7,7 @@
             v-if="!isNamespaceUser"
             v-model="selectedNamespace"
             :clearable="false"
-            :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+            :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
             @change="handleNamespaceChange"
           />
         </el-col>
@@ -39,7 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  GLOBAL_NAMESPACE_VALUE,
+  SEARCH_FORM_RES_PROPS as colProps,
+  type NamespaceSelection,
+} from '@/common/constants'
 import FlowView from './components/FlowView.vue'
 
 const router = useRouter()
@@ -61,19 +65,14 @@ const getImgSrc = () => {
 const isLoading = ref(true)
 const hasFlowData = ref(true)
 
-const selectedNamespace = ref<string>(GLOBAL_NAMESPACE)
+const selectedNamespace = ref<NamespaceSelection>(GLOBAL_NAMESPACE_VALUE)
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
 const showHeader = computed(() => {
   return !isNamespaceUser.value || (isNamespaceUser.value && hasFlowData.value)
 })
 const showEmpty = computed(() => {
-  return (
-    !isNamespaceUser.value &&
-    selectedNamespace.value &&
-    selectedNamespace.value !== GLOBAL_NAMESPACE &&
-    !hasFlowData.value
-  )
+  return !isNamespaceUser.value && typeof selectedNamespace.value === 'string' && !hasFlowData.value
 })
 
 const handleNamespaceChange = () => {

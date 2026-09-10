@@ -105,7 +105,7 @@
             <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
-        <el-col :span="24" v-if="!isPublisherRole">
+        <el-col :span="24" v-if="!isPublisherRole || isNamespacedKey">
           <el-form-item prop="scopeMode">
             <template #label>
               <FormItemLabel
@@ -133,7 +133,10 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
+        <el-col
+          :span="24"
+          v-if="(!isPublisherRole || isNamespacedKey) && formData.scopeMode === ScopeMode.Custom"
+        >
           <el-form-item class="scopes-form-item" :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
@@ -157,10 +160,18 @@
             </el-select>
           </el-form-item>
           <el-alert
-            v-if="hasLegacyMixedScopes"
+            v-if="hasLegacyMixedScopes && !isNamespacedKey"
             class="mixed-scopes-alert"
             type="warning"
             :title="tl('mixedScopesMigrationDesc')"
+            :closable="false"
+            show-icon
+          />
+          <el-alert
+            v-if="hasLegacyNamespacedScopes"
+            class="mixed-scopes-alert"
+            type="warning"
+            :title="tl('namespacedScopesMigrationDesc')"
             :closable="false"
             show-icon
           />
@@ -199,20 +210,21 @@
 <script lang="ts" setup>
 import { createAPIKey, updateAPIKey, getAPIKeyScopes } from '@/api/systemModule'
 import { UserRole } from '@/types/enum'
-import { GLOBAL_NAMESPACE } from '@/common/constants'
 import { APIKey, APIKeyFormWhenCreating, APIKeyScope } from '@/types/systemModule'
-import { isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
+import { normalizeScopes } from '@/common/scopes'
+import {
+  APIKeyScopeMode as ScopeMode,
+  type APIKeyScopeState,
+  getAPIKeyCustomScopeError,
+  getAPIKeyScopesForSubmit,
+  isAllowedNamespacedAPIKeyScope,
+  isNamespacedAPIKey,
+  resolveAPIKeyScopeMode,
+} from '@/common/apiKeyScopes'
 import APIKeyResultDialog from './APIKeyResultDialog.vue'
 
 export type OperationType = 'create' | 'view' | 'edit'
-enum ScopeMode {
-  RoleDefault = 'role_default',
-  System = 'system',
-  Custom = 'custom',
-}
-
 const SYSTEM_SCOPE = 'system'
-const PUBLISH_SCOPE = 'publish'
 
 type APIKeyFormData = Omit<APIKeyFormWhenCreating, 'scopes'> &
   Partial<Omit<APIKey, 'scopes'>> & {
@@ -259,6 +271,7 @@ const createRawFormData = () => ({
 
 const formCom = ref()
 const formData: Ref<APIKeyFormData> = ref(createRawFormData())
+const originalAPIKeyScopeState = ref<APIKeyScopeState>()
 const availableScopes: Ref<APIKeyScope[]> = ref([])
 const lastRole = ref<UserRole>(UserRole.Admin)
 const { createLetterStartRule } = useFormRules()
@@ -267,11 +280,14 @@ const validateCustomScopes = (
   value: string[],
   callback: (error?: Error) => void,
 ) => {
-  if (formData.value.scopeMode === ScopeMode.Custom && value.includes(SYSTEM_SCOPE)) {
-    callback(new Error(tl('customScopesSystemError')))
-    return
-  }
-  callback()
+  const error =
+    formData.value.scopeMode === ScopeMode.Custom
+      ? getAPIKeyCustomScopeError(
+          { ...formData.value, scopes: value },
+          props.operationType === 'edit' ? originalAPIKeyScopeState.value : undefined,
+        )
+      : undefined
+  callback(error ? new Error(tl(error)) : undefined)
 }
 const rules = {
   name: [
@@ -282,6 +298,18 @@ const rules = {
     ...createLetterStartRule(),
   ],
   scopes: [{ validator: validateCustomScopes, trigger: 'change' }],
+  namespace: [
+    {
+      validator: (_rule: unknown, value: string, callback: (error?: Error) => void) => {
+        callback(
+          isNamespaceEnabled.value && !value
+            ? new Error(t('Rule.selectFieldRequiredError', { name: t('BasicConfig.namespace') }))
+            : undefined,
+        )
+      },
+      trigger: 'change',
+    },
+  ],
 }
 const isEnableOptions = [
   {
@@ -303,6 +331,9 @@ const showResultDialog: Ref<boolean> = ref(false)
 const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const isNamespaceEnabled = ref(false)
+const isNamespacedKey = computed(
+  () => isNamespaceEnabled.value || isNamespacedAPIKey(formData.value.namespace),
+)
 const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const { getNamespaceOptions } = useManagedNamespaceOptions()
@@ -316,11 +347,15 @@ const queryNamespaceList = async () => {
   }
 }
 const toggleNamespaceEnabled = () => {
-  if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
-    queryNamespaceList()
+  if (isNamespaceEnabled.value) {
+    formData.value.scopes = formData.value.scopes.filter(isAllowedNamespacedAPIKeyScope)
+    if (!isNamespaceOptionsLoaded.value) {
+      queryNamespaceList()
+    }
   } else if (!isNamespaceEnabled.value && formData.value.namespace) {
     formData.value.namespace = ''
   }
+  nextTick(() => formCom.value?.clearValidate(['scopes', 'namespace']))
 }
 
 const showDialog = computed({
@@ -336,57 +371,40 @@ const loadAvailableScopes = () =>
     return scopes
   })
 
-const isSameScopeSet = (left: string[], right: string[]) => {
-  const leftSet = new Set(left)
-  const rightSet = new Set(right)
-  return leftSet.size === rightSet.size && [...leftSet].every((scope) => rightSet.has(scope))
-}
-
-const getRoleDefaultScopes = (role: string, scopes: APIKeyScope[]) =>
-  role === UserRole.Publisher ? [PUBLISH_SCOPE] : scopes.map(({ name }) => name)
-
-const resolveScopeMode = (
-  scopes: APIKey['scopes'],
-  role: string,
-  availableScopeList: APIKeyScope[],
-) => {
-  if (scopes == null || isUnsetScopes(scopes)) {
-    return ScopeMode.RoleDefault
-  }
-  const normalizedScopes = normalizeScopes(scopes) ?? []
-  if (isSameScopeSet(normalizedScopes, getRoleDefaultScopes(role, availableScopeList))) {
-    return ScopeMode.RoleDefault
-  }
-  if (normalizedScopes.length === 1 && normalizedScopes[0] === SYSTEM_SCOPE) {
-    return ScopeMode.System
-  }
-  return ScopeMode.Custom
-}
-
 watch(showDialog, async (val) => {
   if (val) {
     const availableScopesPromise = loadAvailableScopes().catch(() => [])
     if (props.operationType !== 'create') {
       const data = props.APIKeyData as APIKey
       const loadedScopes = await availableScopesPromise
+      const normalizedScopes = normalizeScopes(data.scopes) ?? []
+      originalAPIKeyScopeState.value = {
+        namespace: data.namespace,
+        role: data.role,
+        scopes: Array.isArray(data.scopes) ? [...data.scopes] : data.scopes,
+      }
       formData.value = {
         ...data,
-        scopes: normalizeScopes(data.scopes) ?? [],
-        scopeMode: resolveScopeMode(data.scopes, data.role, loadedScopes),
+        scopes: [...normalizedScopes],
+        scopeMode: resolveAPIKeyScopeMode(
+          data,
+          loadedScopes.map(({ name }) => name),
+        ),
       }
       lastRole.value = formData.value.role as UserRole
       if (props.operationType === 'view') {
         await nextTick()
       }
     } else {
+      originalAPIKeyScopeState.value = undefined
       await nextTick()
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
-    isNamespaceEnabled.value =
-      !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
+    isNamespaceEnabled.value = isNamespacedAPIKey(formData.value.namespace)
   } else {
     formData.value = createRawFormData()
+    originalAPIKeyScopeState.value = undefined
     lastRole.value = UserRole.Admin
   }
 })
@@ -396,16 +414,28 @@ const { copyText } = useCopy()
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
 const customScopeOptions = computed(() =>
-  availableScopes.value.filter(({ name }) => name !== SYSTEM_SCOPE),
+  availableScopes.value.filter(
+    ({ name }) =>
+      name !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(name)),
+  ),
 )
 const hasLegacyMixedScopes = computed(
   () =>
     formData.value.scopeMode === ScopeMode.Custom && formData.value.scopes.includes(SYSTEM_SCOPE),
 )
+const hasLegacyNamespacedScopes = computed(
+  () =>
+    isNamespacedKey.value &&
+    (hasLegacyMixedScopes.value ||
+      formData.value.scopes.some((scope) => !isAllowedNamespacedAPIKeyScope(scope))),
+)
 
 const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
   if (mode === ScopeMode.Custom) {
-    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== SYSTEM_SCOPE)
+    formData.value.scopes = formData.value.scopes.filter(
+      (scope) =>
+        scope !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(scope)),
+    )
   }
   nextTick(() => formCom.value?.clearValidate('scopes'))
 }
@@ -416,6 +446,7 @@ const handleRoleChanged = () => {
     formData.value.scopes = []
   }
   lastRole.value = formData.value.role as UserRole
+  nextTick(() => formCom.value?.clearValidate('scopes'))
 }
 
 const getScopeLabel = (name: string): string => {
@@ -437,12 +468,7 @@ const handleDataForSubmitting = <T extends APIKeyFormData | APIKeyFormDataWithou
   formData: T,
 ) => {
   const { scopeMode, ...data } = formData
-  const scopes =
-    scopeMode === ScopeMode.RoleDefault
-      ? UNSET_SCOPES
-      : scopeMode === ScopeMode.System
-        ? [SYSTEM_SCOPE]
-        : data.scopes
+  const scopes = getAPIKeyScopesForSubmit(scopeMode, data.scopes)
   const ret = {
     ...data,
     scopes,
