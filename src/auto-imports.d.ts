@@ -155,6 +155,7 @@ declare global {
   const createFilterFormData: typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']
   const createFilterItem: typeof import('./hooks/Flow/useNodeForm')['createFilterItem']
   const createOrderObj: typeof import('./common/tools')['createOrderObj']
+  const createPluginPasswordForm: typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']
   const createRandomString: typeof import('./common/tools')['createRandomString']
   const createRouter: typeof import('vue-router')['createRouter']
   const createStore: typeof import('vuex')['createStore']
@@ -736,6 +737,7 @@ declare module 'vue' {
     readonly createFilterFormData: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']>
     readonly createFilterItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterItem']>
     readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
+    readonly createPluginPasswordForm: UnwrapRef<typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']>
     readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
     readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>
     readonly createStore: UnwrapRef<typeof import('vuex')['createStore']>
