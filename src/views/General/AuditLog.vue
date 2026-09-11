@@ -124,21 +124,6 @@
               <template v-else>
                 {{ Array.isArray(row.args) ? row.args.join(' ') : row.args }}
               </template>
-              <template
-                v-if="
-                  row.http_request?.bindings && Object.keys(row.http_request.bindings).length > 0
-                "
-              >
-                <InfoTooltip popper-class="code-popper">
-                  <template #content>
-                    <CodeView
-                      lang="json"
-                      :code="stringifyObjSafely(row.http_request?.bindings)"
-                      :show-copy-btn="false"
-                    />
-                  </template>
-                </InfoTooltip>
-              </template>
             </template>
           </el-table-column>
           <el-table-column
@@ -171,12 +156,43 @@
               {{ getLabelFromOpts(row.operation_result, requestResultOpt) || '--' }}
             </template>
           </el-table-column>
+          <el-table-column :label="t('Base.operation')" width="120">
+            <template #default="{ row }">
+              <el-button
+                v-if="getRequestDetails(row).length"
+                size="small"
+                @click="openRequestDetails(row)"
+              >
+                {{ t('Base.detail') }}
+              </el-button>
+              <span v-else>--</span>
+            </template>
+          </el-table-column>
         </el-table>
         <div class="emq-table-footer">
           <common-pagination v-model:metaData="pageMeta" @loadPage="getData"></common-pagination>
         </div>
       </div>
     </template>
+    <el-dialog
+      v-model="showRequestDetails"
+      :title="t('Base.detail')"
+      width="500px"
+      class="audit-request-dialog"
+    >
+      <div class="request-details">
+        <div v-for="detail in requestDetails" :key="detail.label" class="request-detail">
+          <h3>{{ detail.label }}</h3>
+          <CodeView
+            lang="json"
+            :code="
+              typeof detail.value === 'string' ? detail.value : stringifyObjSafely(detail.value, 2)
+            "
+            :show-copy-btn="true"
+          />
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -297,6 +313,27 @@ const notSupportHTTPFilter = computed(() => {
 const isInitializing = ref(false)
 const isTableLoading = ref(false)
 const tableData: Ref<Array<AuditLogItem>> = ref([])
+const getRequestDetails = ({ http_request }: AuditLogItem) => {
+  return [
+    { label: tl('requestBindings'), value: http_request?.bindings },
+    { label: tl('requestBody'), value: http_request?.body },
+  ].filter(
+    (detail): detail is { label: string; value: Record<string, unknown> | string } =>
+      detail.value != null &&
+      (typeof detail.value === 'string'
+        ? detail.value.length > 0
+        : Object.keys(detail.value).length > 0),
+  )
+}
+const showRequestDetails = ref(false)
+const selectedLog = ref<AuditLogItem>()
+const requestDetails = computed(() =>
+  selectedLog.value ? getRequestDetails(selectedLog.value) : [],
+)
+const openRequestDetails = (row: AuditLogItem) => {
+  selectedLog.value = row
+  showRequestDetails.value = true
+}
 const { pageMeta, pageParams, setPageMeta } = usePaginationWithHasNext()
 
 const confirmAuditLogEnabled = async () => {
@@ -467,14 +504,25 @@ init()
     opacity: 0.8;
   }
 }
-.code-popper.el-popper {
-  padding: 0;
+.audit-request-dialog {
+  max-width: 90vw;
+  .request-details {
+    max-height: 60vh;
+    overflow: auto;
+  }
+  .request-detail + .request-detail {
+    margin-top: 24px;
+  }
+  h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
   .code-view {
     margin: 0;
-  }
-  .hljs {
-    padding: 12px;
-    border: none;
+    pre code {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
   }
 }
 </style>
