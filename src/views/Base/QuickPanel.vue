@@ -37,6 +37,7 @@
 import { filterRouteRecordsByFeatureGate, joinRoutePath } from '@/common/featureGate'
 import { usePathInMenu } from '@/hooks/useMenus'
 import { routes } from '@/router'
+import useNamespaceAccess from '@/hooks/useNamespaceAccess'
 import { ArrowRight, Search } from 'lucide-vue-next'
 
 interface MenuItem {
@@ -76,6 +77,7 @@ const { tl } = useI18nTl('Base')
 const store = useStore()
 
 const { findPathParentAndBlock, getRouteLabel } = usePathInMenu()
+const { filterAccessibleItems } = useNamespaceAccess()
 
 const withParamsPathReg = /:/
 const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> => {
@@ -108,7 +110,9 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
  * remove page with params
  */
 const neededMenuList = computed(() =>
-  generateMenuItems(filterRouteRecordsByFeatureGate(routes, store.state.featureGate)),
+  filterAccessibleItems(
+    generateMenuItems(filterRouteRecordsByFeatureGate(routes, store.state.featureGate)),
+  ),
 )
 
 const input = ref('')

@@ -443,6 +443,7 @@ declare global {
   const useMove: typeof import('./hooks/useMove')['default']
   const useMultiTenancyEnabled: typeof import('./hooks/Config/useMultiTenancyEnabled')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
+  const useNamespaceAccess: typeof import('./hooks/useNamespaceAccess')['default']
   const useNamespaceAuthzConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']
   const useNamespaceMqttConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
@@ -1061,6 +1062,7 @@ declare module 'vue' {
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useMultiTenancyEnabled: UnwrapRef<typeof import('./hooks/Config/useMultiTenancyEnabled')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
+    readonly useNamespaceAccess: UnwrapRef<typeof import('./hooks/useNamespaceAccess')['default']>
     readonly useNamespaceAuthzConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']>
     readonly useNamespaceMqttConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
