@@ -10,6 +10,7 @@ import {
   Stethoscope,
   Workflow,
 } from 'lucide-vue-next'
+import useNamespaceAccess from './useNamespaceAccess'
 
 export interface Menu {
   title: string
@@ -21,6 +22,7 @@ export interface Menu {
 const useMenus = (): {
   menuList: Ref<Array<Menu>>
 } => {
+  const { filterAccessibleItems } = useNamespaceAccess()
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -152,12 +154,7 @@ const useMenus = (): {
     },
   ]
 
-  const menuList = computed(() => {
-    // if (isNamespaceUser.value) {
-    //   return totalMenuList.filter((menu) => menu.title === 'ruleengine')
-    // }
-    return totalMenuList
-  })
+  const menuList = computed(() => filterAccessibleItems(totalMenuList))
 
   return {
     menuList,

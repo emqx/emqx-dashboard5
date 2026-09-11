@@ -1,4 +1,12 @@
 export default {
+  requestBindings: {
+    zh: '路径参数',
+    en: 'Path Parameters',
+  },
+  requestBody: {
+    zh: '请求体',
+    en: 'Request Body',
+  },
   expireAt: {
     zh: '到期时间',
     en: 'Expire At',
@@ -492,6 +500,10 @@ Available scopes are still restricted by the user's role. The default scopes for
   sourceType: {
     zh: '操作方式',
     en: 'Source Type',
+  },
+  auditLogGlobalUsersOnly: {
+    zh: '审计日志仅允许全局管理员和全局查看者访问。',
+    en: 'Audit logs are only available to global administrators and global viewers.',
   },
   auditLogDesc: {
     zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',

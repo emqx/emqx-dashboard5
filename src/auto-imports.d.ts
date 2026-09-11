@@ -162,6 +162,7 @@ declare global {
   const createFilterFormData: typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']
   const createFilterItem: typeof import('./hooks/Flow/useNodeForm')['createFilterItem']
   const createOrderObj: typeof import('./common/tools')['createOrderObj']
+  const createPluginPasswordForm: typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']
   const createRandomString: typeof import('./common/tools')['createRandomString']
   const createRouter: typeof import('vue-router')['createRouter']
   const createStore: typeof import('vuex')['createStore']
@@ -437,6 +438,7 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
+  const useNamespaceAccess: typeof import('./hooks/useNamespaceAccess')['default']
   const useNamespaceAuthzConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']
   const useNamespaceMqttConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
@@ -773,6 +775,7 @@ declare module 'vue' {
     readonly createFilterFormData: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']>
     readonly createFilterItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterItem']>
     readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
+    readonly createPluginPasswordForm: UnwrapRef<typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']>
     readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
     readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>
     readonly createStore: UnwrapRef<typeof import('vuex')['createStore']>
@@ -1048,6 +1051,7 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
+    readonly useNamespaceAccess: UnwrapRef<typeof import('./hooks/useNamespaceAccess')['default']>
     readonly useNamespaceAuthzConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']>
     readonly useNamespaceMqttConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>
