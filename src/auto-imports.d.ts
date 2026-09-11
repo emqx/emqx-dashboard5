@@ -154,6 +154,7 @@ declare global {
   const createFunctionItem: typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']
   const createMessageForm: typeof import('./hooks/Flow/useNodeForm')['createMessageForm']
   const createOrderObj: typeof import('./common/tools')['createOrderObj']
+  const createPluginPasswordForm: typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']
   const createRandomString: typeof import('./common/tools')['createRandomString']
   const createRePubForm: typeof import('./hooks/Flow/useNodeForm')['createRePubForm']
   const createRouter: typeof import('vue-router')['createRouter']
@@ -730,6 +731,7 @@ declare module 'vue' {
     readonly createFunctionItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFunctionItem']>
     readonly createMessageForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createMessageForm']>
     readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
+    readonly createPluginPasswordForm: UnwrapRef<typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']>
     readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
     readonly createRePubForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createRePubForm']>
     readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>

@@ -15,13 +15,11 @@
           type="number"
           v-model="bindValue"
         ></custom-input-number>
-        <el-input
+        <CustomInputPassword
           v-else-if="formConfigs.component === 'input-password'"
-          type="password"
           v-model="bindValue"
-          show-password
-          autocomplete="one-time-code"
-        ></el-input>
+          @input="emit('password-edited', name)"
+        ></CustomInputPassword>
         <el-input
           v-else-if="formConfigs.component === 'input-textarea'"
           type="textarea"
@@ -66,6 +64,7 @@
       :name="`${name}.${key}`"
       :form-configs="value"
       v-model="bindValue[key]"
+      @password-edited="emit('password-edited', $event)"
     />
   </template>
   <el-col v-if="formConfigs.divider" :span="24">
@@ -83,6 +82,7 @@ export default {
 import { ConfigField } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
 import CustomInputNumber from '../CustomInputNumber.vue'
+import CustomInputPassword from '@/components/CustomInputPassword.vue'
 
 const props = defineProps({
   modelValue: [String, Number, Array, Object, Boolean] as PropType<any>,
@@ -96,7 +96,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'password-edited'])
 
 const bindValue = ref(props.modelValue)
 
