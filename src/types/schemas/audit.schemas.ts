@@ -85,7 +85,7 @@ export const AuditHttpRequestMethod = {
 
 export type AuditHttpRequestHeaders = { [key: string]: unknown }
 
-export type AuditHttpRequestBody = { [key: string]: unknown }
+export type AuditHttpRequestBody = { [key: string]: unknown } | string
 
 export type AuditHttpRequestBindings = { [key: string]: unknown }
 
