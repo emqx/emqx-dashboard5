@@ -35,6 +35,7 @@
 
 <script lang="ts" setup>
 import { routes } from '@/router'
+import useNamespaceAccess from '@/hooks/useNamespaceAccess'
 import { ArrowRight, Search } from '@element-plus/icons-vue'
 
 interface MenuItem {
@@ -76,6 +77,7 @@ const { t, tl } = useI18nTl('Base')
 const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
 
 const { menuList } = useMenus()
+const { filterAccessibleItems } = useNamespaceAccess()
 const findParentAndBlock = (path: string) => {
   let parent: Menu | any = undefined
   const walk = (menuItem: Menu): boolean => {
@@ -131,17 +133,17 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
 /**
  * remove page with params
  */
-const neededMenuList = generateMenuItems(routes)
+const neededMenuList = computed(() => filterAccessibleItems(generateMenuItems(routes)))
 
 const input = ref('')
 
 const defaultItemNames = ['overview', 'clients', 'authentication', 'rule']
 const querySearch = (query: string, cb: any) => {
   if (!query) {
-    cb(neededMenuList.filter(({ name }) => defaultItemNames.includes(name)))
+    cb(neededMenuList.value.filter(({ name }) => defaultItemNames.includes(name)))
   } else {
     const queryRegArr = query.split(' ').map((item) => new RegExp(`${escapeRegExp(item)}`, 'i'))
-    const ret = neededMenuList.filter(
+    const ret = neededMenuList.value.filter(
       ({ path, name, label }) =>
         queryRegArr.every((reg) => reg.test(path)) ||
         queryRegArr.every((reg) => reg.test(label)) ||

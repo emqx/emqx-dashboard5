@@ -485,6 +485,10 @@ Available scopes are still restricted by the user's role. The default scopes for
     zh: '操作方式',
     en: 'Source Type',
   },
+  auditLogGlobalUsersOnly: {
+    zh: '审计日志仅允许全局管理员和全局查看者访问。',
+    en: 'Audit logs are only available to global administrators and global viewers.',
+  },
   auditLogDesc: {
     zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',
     en: 'The audit log feature records critical operations on the EMQX cluster to meet enterprise requirements for compliance and data security.',
