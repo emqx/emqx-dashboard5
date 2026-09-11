@@ -1,3 +1,5 @@
+import useNamespaceAccess from './useNamespaceAccess'
+
 export interface Menu {
   title: string
   path?: string
@@ -8,6 +10,7 @@ export interface Menu {
 export default (): {
   menuList: Ref<Array<Menu>>
 } => {
+  const { filterAccessibleItems } = useNamespaceAccess()
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -132,12 +135,7 @@ export default (): {
     },
   ]
 
-  const menuList = computed(() => {
-    // if (isNamespaceUser.value) {
-    //   return totalMenuList.filter((menu) => menu.title === 'ruleengine')
-    // }
-    return totalMenuList
-  })
+  const menuList = computed(() => filterAccessibleItems(totalMenuList))
 
   return {
     menuList,
