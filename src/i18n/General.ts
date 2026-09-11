@@ -1,4 +1,12 @@
 export default {
+  requestBindings: {
+    zh: '路径参数',
+    en: 'Path Parameters',
+  },
+  requestBody: {
+    zh: '请求体',
+    en: 'Request Body',
+  },
   expireAt: {
     zh: '到期时间',
     en: 'Expire At',
