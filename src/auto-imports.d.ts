@@ -31,6 +31,7 @@ declare global {
   const CONNECTOR_TYPES_WITH_SOURCE: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']
   const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']
   const COPY_SUFFIX: typeof import('./common/constants')['COPY_SUFFIX']
+  const DASHBOARD_USERNAME_REG: typeof import('./common/constants')['DASHBOARD_USERNAME_REG']
   const DEFAULT_CLIENT_TABLE_COLUMNS: typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']
   const DEFAULT_FROM: typeof import('./common/constants')['DEFAULT_FROM']
   const DEFAULT_PAGE_SIZE_OPT: typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']
@@ -608,6 +609,7 @@ declare module 'vue' {
     readonly CONNECTOR_TYPES_WITH_SOURCE: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_SOURCE']>
     readonly CONNECTOR_TYPES_WITH_TWO_DIRECTIONS: UnwrapRef<typeof import('./common/constants')['CONNECTOR_TYPES_WITH_TWO_DIRECTIONS']>
     readonly COPY_SUFFIX: UnwrapRef<typeof import('./common/constants')['COPY_SUFFIX']>
+    readonly DASHBOARD_USERNAME_REG: UnwrapRef<typeof import('./common/constants')['DASHBOARD_USERNAME_REG']>
     readonly DEFAULT_CLIENT_TABLE_COLUMNS: UnwrapRef<typeof import('./common/constants')['DEFAULT_CLIENT_TABLE_COLUMNS']>
     readonly DEFAULT_FROM: UnwrapRef<typeof import('./common/constants')['DEFAULT_FROM']>
     readonly DEFAULT_PAGE_SIZE_OPT: UnwrapRef<typeof import('./common/constants')['DEFAULT_PAGE_SIZE_OPT']>
