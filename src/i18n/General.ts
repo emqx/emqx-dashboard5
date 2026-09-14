@@ -78,14 +78,14 @@ export default {
   scopeModeDesc: {
     zh: `选择全局用户的权限配置方式：
 
-- **角色默认权限**：自动使用当前角色的默认权限；以后角色默认权限发生变化时，新权限会自动生效。
+- **角色默认权限**：创建用户时使用当前角色的默认权限；编辑时保留已有默认权限配置。当前版本不支持将已保存的显式权限重置为角色默认权限。
 - **管理权限范围**：从系统设置、用户管理、API 密钥管理和 SSO 管理中按需选择。
 - **自定义受限权限**：从连接、消息发布、数据集成、监控和 MFA 管理等非管理权限范围中按需选择。未选择任何权限时，用户不能访问受权限范围保护的接口。
 
 具体可选择的权限仍受用户角色限制。各角色的默认权限如下。`,
     en: `Choose how permissions are assigned to the global user:
 
-- **Role Default Scopes**: Automatically use the current role's defaults. Future changes to the role defaults take effect automatically.
+- **Role Default Scopes**: Use the role's defaults when creating a user, or preserve an existing default policy when editing. This version cannot reset a saved explicit policy to role defaults.
 - **Privilege Scopes**: Select System, User Management, API Key Management, and SSO Management scopes as needed. 
 - **Custom Restricted Permissions**: Select non-privilege scopes such as Connections, Publish, Data Integration, Monitoring, and MFA Management. When no scope is selected, the user cannot access scope-protected APIs.
 
@@ -100,8 +100,8 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Custom Restricted Permissions',
   },
   mixedGlobalScopesDesc: {
-    zh: '当前权限同时包含管理权限范围和自定义受限权限，全局用户不能使用这种组合。请选择“管理权限范围”“自定义受限权限”或“角色默认权限”后再保存。',
-    en: 'The current selection combines privilege and restricted scopes, which is not allowed for global users. Select Privilege Scopes, Custom Restricted Permissions, or Role Default Scopes before saving.',
+    zh: '当前权限同时包含管理权限范围和自定义受限权限，全局用户不能使用这种组合。请选择“管理权限范围”或“自定义受限权限”后再保存。',
+    en: 'The current selection combines privilege and restricted scopes, which is not allowed for global users. Select Privilege Scopes or Custom Restricted Permissions before saving.',
   },
   mixedGlobalScopesError: {
     zh: '全局用户不能同时选择管理权限范围和自定义受限权限，请重新选择权限模式。',
@@ -114,6 +114,10 @@ Available scopes are still restricted by the user's role. The default scopes for
   roleDefaultScopes: {
     zh: '角色默认权限',
     en: 'Role Default Scopes',
+  },
+  roleDefaultScopesUnavailable: {
+    zh: '当前版本无法将已保存的显式权限恢复为所选角色的默认权限。请选择管理权限范围或自定义受限权限；若仅修改备注，请保留原角色和权限配置。',
+    en: 'This version cannot reset saved explicit permissions to the selected role’s defaults. Select Privilege Scopes or Custom Restricted Permissions. To edit only the description, keep the original role and permissions.',
   },
   noUserScopes: {
     zh: '无权限范围',
