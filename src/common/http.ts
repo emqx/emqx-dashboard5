@@ -19,6 +19,11 @@ import HTTPErrorMessage from './HTTPErrorMessage'
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
+    doNotTriggerProgress?: boolean
+    errorsHandleCustom?: number[]
+    handleTimeoutSelf?: boolean
+    controller?: AbortController
+    keepSpaces?: boolean
     returnRawResponse?: boolean
   }
 }

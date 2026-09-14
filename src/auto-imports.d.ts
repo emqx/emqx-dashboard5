@@ -59,6 +59,7 @@ declare global {
   const GATEWAY_ENABLED_MECHANISM_MAP: typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']
   const GEMINI_DEFAULT_BASE_URL: typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']
   const GLOBAL_NAMESPACE: typeof import('./common/constants')['GLOBAL_NAMESPACE']
+  const GLOBAL_NAMESPACE_VALUE: typeof import('./common/constants')['GLOBAL_NAMESPACE_VALUE']
   const HTTP_POST_DEFAULT_HEADERS: typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']
   const INFINITY_VALUE: typeof import('./common/constants')['INFINITY_VALUE']
   const INGRESS_BRIDGE_TYPES: typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']
@@ -160,6 +161,7 @@ declare global {
   const createFilterFormData: typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']
   const createFilterItem: typeof import('./hooks/Flow/useNodeForm')['createFilterItem']
   const createOrderObj: typeof import('./common/tools')['createOrderObj']
+  const createPluginPasswordForm: typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']
   const createRandomString: typeof import('./common/tools')['createRandomString']
   const createRouter: typeof import('vue-router')['createRouter']
   const createStore: typeof import('vuex')['createStore']
@@ -182,7 +184,6 @@ declare global {
   const formatNumber: typeof import('./common/tools')['formatNumber']
   const formatSQL: typeof import('./common/tools')['formatSQL']
   const get: typeof import('lodash')['get']
-  const getAPIPath: typeof import('./common/tools')['getAPIPath']
   const getAllListData: typeof import('./common/tools')['getAllListData']
   const getBridgeKey: typeof import('./common/tools')['getBridgeKey']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -436,6 +437,7 @@ declare global {
   const useModel: typeof import('vue')['useModel']
   const useMove: typeof import('./hooks/useMove')['default']
   const useNamespace: typeof import('./hooks/Config/useNamespace')['default']
+  const useNamespaceAccess: typeof import('./hooks/useNamespaceAccess')['default']
   const useNamespaceAuthzConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']
   const useNamespaceMqttConfig: typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']
   const useNamespaceUser: typeof import('./hooks/Config/useNamespaceUser')['default']
@@ -606,6 +608,9 @@ declare global {
   // @ts-ignore
   export type { DataFilterItem } from './hooks/usePaging'
   import('./hooks/usePaging')
+  // @ts-ignore
+  export type { NamespaceSelection } from './common/constants'
+  import('./common/constants')
 }
 
 // for vue template auto import
@@ -666,6 +671,7 @@ declare module 'vue' {
     readonly GATEWAY_ENABLED_MECHANISM_MAP: UnwrapRef<typeof import('./common/constants')['GATEWAY_ENABLED_MECHANISM_MAP']>
     readonly GEMINI_DEFAULT_BASE_URL: UnwrapRef<typeof import('./common/constants')['GEMINI_DEFAULT_BASE_URL']>
     readonly GLOBAL_NAMESPACE: UnwrapRef<typeof import('./common/constants')['GLOBAL_NAMESPACE']>
+    readonly GLOBAL_NAMESPACE_VALUE: UnwrapRef<typeof import('./common/constants')['GLOBAL_NAMESPACE_VALUE']>
     readonly HTTP_POST_DEFAULT_HEADERS: UnwrapRef<typeof import('./common/constants')['HTTP_POST_DEFAULT_HEADERS']>
     readonly INFINITY_VALUE: UnwrapRef<typeof import('./common/constants')['INFINITY_VALUE']>
     readonly INGRESS_BRIDGE_TYPES: UnwrapRef<typeof import('./common/constants')['INGRESS_BRIDGE_TYPES']>
@@ -767,6 +773,7 @@ declare module 'vue' {
     readonly createFilterFormData: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterFormData']>
     readonly createFilterItem: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createFilterItem']>
     readonly createOrderObj: UnwrapRef<typeof import('./common/tools')['createOrderObj']>
+    readonly createPluginPasswordForm: UnwrapRef<typeof import('./hooks/Plugins/pluginPasswordForm')['createPluginPasswordForm']>
     readonly createRandomString: UnwrapRef<typeof import('./common/tools')['createRandomString']>
     readonly createRouter: UnwrapRef<typeof import('vue-router')['createRouter']>
     readonly createStore: UnwrapRef<typeof import('vuex')['createStore']>
@@ -789,7 +796,6 @@ declare module 'vue' {
     readonly formatNumber: UnwrapRef<typeof import('./common/tools')['formatNumber']>
     readonly formatSQL: UnwrapRef<typeof import('./common/tools')['formatSQL']>
     readonly get: UnwrapRef<typeof import('lodash')['get']>
-    readonly getAPIPath: UnwrapRef<typeof import('./common/tools')['getAPIPath']>
     readonly getAllListData: UnwrapRef<typeof import('./common/tools')['getAllListData']>
     readonly getBridgeKey: UnwrapRef<typeof import('./common/tools')['getBridgeKey']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -1043,6 +1049,7 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMove: UnwrapRef<typeof import('./hooks/useMove')['default']>
     readonly useNamespace: UnwrapRef<typeof import('./hooks/Config/useNamespace')['default']>
+    readonly useNamespaceAccess: UnwrapRef<typeof import('./hooks/useNamespaceAccess')['default']>
     readonly useNamespaceAuthzConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceAuthzConfig']>
     readonly useNamespaceMqttConfig: UnwrapRef<typeof import('./hooks/Namespace/useNamespaceRelatedConfig')['useNamespaceMqttConfig']>
     readonly useNamespaceUser: UnwrapRef<typeof import('./hooks/Config/useNamespaceUser')['default']>

@@ -10,6 +10,18 @@ export type PutApiKeyName404 = {
   message?: string
 }
 
+export type PutApiKeyName400Code = (typeof PutApiKeyName400Code)[keyof typeof PutApiKeyName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutApiKeyName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PutApiKeyName400 = {
+  code?: PutApiKeyName400Code
+  message?: string
+}
+
 export type PutApiKeyName200Scopes = string[] | 'unset'
 
 export type PutApiKeyName200ExpiredAtOneOf = number | string
@@ -26,9 +38,12 @@ export type PutApiKeyName200 = {
   expired?: boolean
   expired_at?: PutApiKeyName200ExpiredAt
   name?: string
+  namespace?: string
   role?: string
   scopes?: PutApiKeyName200Scopes
 }
+
+export type PutApiKeyNameBodyScopes = string[] | 'unset'
 
 export type PutApiKeyNameBodyExpiredAtOneOf = number | string
 
@@ -39,8 +54,9 @@ export type PutApiKeyNameBody = {
   enable?: boolean
   expired?: boolean
   expired_at?: PutApiKeyNameBodyExpiredAt
+  namespace?: string
   role?: string
-  scopes?: string[]
+  scopes?: PutApiKeyNameBodyScopes
 }
 
 export type GetApiKeyName404Code = (typeof GetApiKeyName404Code)[keyof typeof GetApiKeyName404Code]
@@ -71,6 +87,7 @@ export type GetApiKeyName200 = {
   expired?: boolean
   expired_at?: GetApiKeyName200ExpiredAt
   name?: string
+  namespace?: string
   role?: string
   scopes?: GetApiKeyName200Scopes
 }
@@ -88,6 +105,18 @@ export type DeleteApiKeyName404 = {
   message?: string
 }
 
+export type PostApiKey403Code = (typeof PostApiKey403Code)[keyof typeof PostApiKey403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostApiKey403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type PostApiKey403 = {
+  code?: PostApiKey403Code
+  message?: string
+}
+
 export type PostApiKey400Code = (typeof PostApiKey400Code)[keyof typeof PostApiKey400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -100,9 +129,7 @@ export type PostApiKey400 = {
   message?: string
 }
 
-export type PostApiKeyBodyExpiredAtOneOf = number | string
-
-export type PostApiKeyBodyExpiredAt = PostApiKeyBodyExpiredAtOneOf | 'infinity'
+export type PostApiKeyBodyScopes = string[] | 'unset'
 
 export type PostApiKeyBody = {
   desc?: string
@@ -110,9 +137,14 @@ export type PostApiKeyBody = {
   expired?: boolean
   expired_at?: PostApiKeyBodyExpiredAt
   name?: string
+  namespace?: string
   role?: string
-  scopes?: string[]
+  scopes?: PostApiKeyBodyScopes
 }
+
+export type PostApiKeyBodyExpiredAtOneOf = number | string
+
+export type PostApiKeyBodyExpiredAt = PostApiKeyBodyExpiredAtOneOf | 'infinity'
 
 export type GetApiKey200Scopes = string[] | 'unset'
 
@@ -130,6 +162,7 @@ export type GetApiKey200 = {
   expired?: boolean
   expired_at?: GetApiKey200ExpiredAt
   name?: string
+  namespace?: string
   role?: string
   scopes?: GetApiKey200Scopes
 }
@@ -160,6 +193,7 @@ export interface ApiKeyAppResponse {
   expired?: boolean
   expired_at?: ApiKeyAppResponseExpiredAt
   name?: string
+  namespace?: string
   role?: string
   scopes?: ApiKeyAppResponseScopes
 }

@@ -30,11 +30,8 @@ const useNamespaceUser = () => {
   const processAPIKeyRecordForUpdating = <T extends { namespace?: string; role: string }>(
     data: T,
   ): T => {
-    const ret = { ...data }
-    if (ret.namespace === GLOBAL_NAMESPACE) {
-      Reflect.deleteProperty(ret, 'namespace')
-    }
-    return processUserRecordForSubmit(ret)
+    // API responses omit namespace for global keys; "global" can be a managed namespace name.
+    return processUserRecordForSubmit({ ...data })
   }
 
   return {

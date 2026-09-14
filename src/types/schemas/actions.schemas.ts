@@ -716,16 +716,6 @@ export type SyskeeperPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface SyskeeperPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: SyskeeperPutBridgeV2FallbackActionsItem[]
-  parameters: SyskeeperParameters
-  resource_opts?: SyskeeperCreationOpts
-  tags?: string[]
-}
-
 export type SyskeeperPostBridgeV2Type =
   (typeof SyskeeperPostBridgeV2Type)[keyof typeof SyskeeperPostBridgeV2Type]
 
@@ -748,6 +738,16 @@ export interface SyskeeperParameters {
   template?: string
 }
 
+export interface SyskeeperPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: SyskeeperPutBridgeV2FallbackActionsItem[]
+  parameters: SyskeeperParameters
+  resource_opts?: SyskeeperCreationOpts
+  tags?: string[]
+}
+
 export interface SyskeeperPostBridgeV2 {
   connector: string
   description?: string
@@ -759,6 +759,52 @@ export interface SyskeeperPostBridgeV2 {
   tags?: string[]
   type: SyskeeperPostBridgeV2Type
 }
+
+export type PostActionsBody =
+  | ActionAlloydbPostBridgeV2
+  | ActionAwsTimestreamPostBridgeV2
+  | ActionAzureBlobStoragePostBridgeV2
+  | ActionBigqueryPostBridgeV2
+  | ActionCockroachdbPostBridgeV2
+  | ActionCouchbasePostBridgeV2
+  | ActionDiskLogPostBridgeV2
+  | ActionDorisPostBridgeV2
+  | ActionEmqxTablesPostBridgeV2
+  | ActionRedshiftPostBridgeV2
+  | ActionS3tablesPostBridgeV2
+  | ActionSnowflakeAggregatedPostBridgeV2
+  | ActionSnowflakeStreamingPostBridgeV2
+  | BridgeAzureEventHubPostBridgeV2
+  | BridgeCassaPostBridgeV2
+  | BridgeClickhousePostBridgeV2
+  | BridgeDatalayersPostBridgeV2
+  | BridgeDynamoPostBridgeV2
+  | BridgeElasticsearchPostBridgeV2
+  | BridgeGreptimedbPostBridgeV2
+  | BridgeHttpPostBridgeV2
+  | BridgeInfluxdbPostBridgeV2
+  | BridgeIotdbPostBridgeV2
+  | BridgeKafkaPostBridgeV2
+  | BridgeKinesisPostBridgeV2
+  | BridgeMatrixPostBridgeV2
+  | BridgeMongodbPostBridgeV2
+  | BridgeMqttPublisherPostBridgeV2
+  | BridgeMysqlPostBridgeV2
+  | BridgeOpentsPostBridgeV2
+  | BridgeOraclePostBridgeV2
+  | BridgePgsqlPostBridgeV2
+  | BridgeRabbitmqPostBridgeV2
+  | BridgeS3PostBridgeV2
+  | BridgeSqlserverPostBridgeV2
+  | BridgeTablestorePostBridgeV2
+  | BridgeTdenginePostBridgeV2
+  | BridgeTimescalePostBridgeV2
+  | ConfluentPostBridgeV2
+  | GcpPubsubProducerPostBridgeV2
+  | PulsarPostBridgeV2
+  | RedisPostBridgeV2
+  | RocketmqPostBridgeV2
+  | SyskeeperPostBridgeV2
 
 export type SyskeeperGetBridgeV2Type =
   (typeof SyskeeperGetBridgeV2Type)[keyof typeof SyskeeperGetBridgeV2Type]
@@ -936,21 +982,6 @@ export type RocketmqGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface RocketmqGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: RocketmqGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: RocketmqActionParameters
-  resource_opts?: RocketmqActionResourceOpts
-  status?: RocketmqGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: RocketmqGetBridgeV2Type
-}
-
 export type RocketmqActionResourceOptsRequestTtl = 'infinity' | string
 
 export type RocketmqActionResourceOptsQueryMode =
@@ -1004,6 +1035,21 @@ export interface RocketmqActionParameters {
   tag?: string
   template?: string
   topic?: string
+}
+
+export interface RocketmqGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: RocketmqGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: RocketmqActionParameters
+  resource_opts?: RocketmqActionResourceOpts
+  status?: RocketmqGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: RocketmqGetBridgeV2Type
 }
 
 export type RedisPutBridgeV2FallbackActionsItem =
@@ -1154,18 +1200,6 @@ export type PulsarPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface PulsarPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: PulsarPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: PulsarActionParameters
-  resource_opts?: PulsarActionResourceOpts
-  tags?: string[]
-  type: PulsarPostBridgeV2Type
-}
-
 export type PulsarGetBridgeV2Type =
   (typeof PulsarGetBridgeV2Type)[keyof typeof PulsarGetBridgeV2Type]
 
@@ -1275,6 +1309,18 @@ export interface PulsarGetBridgeV2 {
   status_reason?: string
   tags?: string[]
   type: PulsarGetBridgeV2Type
+}
+
+export interface PulsarPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: PulsarPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: PulsarActionParameters
+  resource_opts?: PulsarActionResourceOpts
+  tags?: string[]
+  type: PulsarPostBridgeV2Type
 }
 
 export type GcpPubsubProducerPutBridgeV2FallbackActionsItem =
@@ -1486,16 +1532,6 @@ export type ConfluentPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface ConfluentPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: ConfluentPutBridgeV2FallbackActionsItem[]
-  parameters: ConfluentProducerKafkaOpts
-  resource_opts?: BridgeKafkaResourceOpts
-  tags?: string[]
-}
-
 export type ConfluentProducerKafkaOptsRequiredAcks =
   (typeof ConfluentProducerKafkaOptsRequiredAcks)[keyof typeof ConfluentProducerKafkaOptsRequiredAcks]
 
@@ -1525,6 +1561,10 @@ export const ConfluentProducerKafkaOptsPartitionStrategy = {
   key_dispatch: 'key_dispatch',
   random: 'random',
 } as const
+
+export type ConfluentProducerKafkaOptsMaxRetries = number | 'infinity'
+
+export type ConfluentProducerKafkaOptsMaxBatchAge = string | 'infinity'
 
 export type ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode =
   (typeof ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode)[keyof typeof ConfluentProducerKafkaOptsKafkaHeaderValueEncodeMode]
@@ -1724,6 +1764,21 @@ export type BridgeTdengineGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export interface BridgeTdengineGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeTdengineGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeTdengineActionParameters
+  resource_opts?: BridgeTdengineActionResourceOpts
+  status?: BridgeTdengineGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeTdengineGetBridgeV2Type
+}
+
 export type BridgeTdengineActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeTdengineActionResourceOptsQueryMode =
@@ -1838,18 +1893,6 @@ export type BridgeTablestorePostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeTablestorePostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeTablestorePostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeTablestoreActionParameters
-  resource_opts?: BridgeTablestoreActionResourceOpts
-  tags?: string[]
-  type: BridgeTablestorePostBridgeV2Type
-}
-
 export type BridgeTablestoreGetBridgeV2Type =
   (typeof BridgeTablestoreGetBridgeV2Type)[keyof typeof BridgeTablestoreGetBridgeV2Type]
 
@@ -1913,6 +1956,18 @@ export interface BridgeTablestoreActionResourceOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
+}
+
+export interface BridgeTablestorePostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeTablestorePostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeTablestoreActionParameters
+  resource_opts?: BridgeTablestoreActionResourceOpts
+  tags?: string[]
+  type: BridgeTablestorePostBridgeV2Type
 }
 
 export type BridgeTablestoreActionParametersTimestamp = string | number
@@ -2032,6 +2087,21 @@ export const BridgeSqlserverGetBridgeV2Status = {
 export type BridgeSqlserverGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgeSqlserverGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeSqlserverGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeSqlserverActionParameters
+  resource_opts?: BridgeSqlserverActionResourceOpts
+  status?: BridgeSqlserverGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeSqlserverGetBridgeV2Type
+}
 
 export type BridgeSqlserverActionResourceOptsRequestTtl = 'infinity' | string
 
@@ -2311,16 +2381,6 @@ export type BridgeRabbitmqPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeRabbitmqPutBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeRabbitmqPutBridgeV2FallbackActionsItem[]
-  parameters: BridgeRabbitmqActionParameters
-  resource_opts?: BridgeRabbitmqActionResourceOpts
-  tags?: string[]
-}
-
 export type BridgeRabbitmqPropertyKeyValueKey =
   (typeof BridgeRabbitmqPropertyKeyValueKey)[keyof typeof BridgeRabbitmqPropertyKeyValueKey]
 
@@ -2355,6 +2415,18 @@ export const BridgeRabbitmqPostBridgeV2Type = {
 export type BridgeRabbitmqPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
+
+export interface BridgeRabbitmqPostBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeRabbitmqPostBridgeV2FallbackActionsItem[]
+  name: string
+  parameters: BridgeRabbitmqActionParameters
+  resource_opts?: BridgeRabbitmqActionResourceOpts
+  tags?: string[]
+  type: BridgeRabbitmqPostBridgeV2Type
+}
 
 export interface BridgeRabbitmqHeaderKeyValue {
   key: string
@@ -2446,16 +2518,14 @@ export interface BridgeRabbitmqActionParameters {
   wait_for_publish_confirmations?: boolean
 }
 
-export interface BridgeRabbitmqPostBridgeV2 {
+export interface BridgeRabbitmqPutBridgeV2 {
   connector: string
   description?: string
   enable?: boolean
-  fallback_actions?: BridgeRabbitmqPostBridgeV2FallbackActionsItem[]
-  name: string
+  fallback_actions?: BridgeRabbitmqPutBridgeV2FallbackActionsItem[]
   parameters: BridgeRabbitmqActionParameters
   resource_opts?: BridgeRabbitmqActionResourceOpts
   tags?: string[]
-  type: BridgeRabbitmqPostBridgeV2Type
 }
 
 export interface BridgeRabbitmqGetBridgeV2 {
@@ -2714,6 +2784,16 @@ export type BridgeOpentsPutBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
+export interface BridgeOpentsPutBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeOpentsPutBridgeV2FallbackActionsItem[]
+  parameters: BridgeOpentsActionParameters
+  resource_opts?: BridgeOpentsActionResourceOpts
+  tags?: string[]
+}
+
 export type BridgeOpentsPostBridgeV2Type =
   (typeof BridgeOpentsPostBridgeV2Type)[keyof typeof BridgeOpentsPostBridgeV2Type]
 
@@ -2830,18 +2910,18 @@ export interface BridgeOpentsPutBridgeV2 {
 
 export type BridgeOpentsActionParametersDataValue = string | number | number
 
-export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
-
-export type BridgeOpentsActionParametersDataTags =
-  | string
-  | BridgeOpentsActionParametersDataTagsOneOf
-
 export interface BridgeOpentsActionParametersData {
   metric: string
   tags: BridgeOpentsActionParametersDataTags
   timestamp?: string
   value: BridgeOpentsActionParametersDataValue
 }
+
+export type BridgeOpentsActionParametersDataTagsOneOf = { [key: string]: unknown }
+
+export type BridgeOpentsActionParametersDataTags =
+  | string
+  | BridgeOpentsActionParametersDataTagsOneOf
 
 export interface BridgeOpentsActionParameters {
   data?: BridgeOpentsActionParametersData[]
@@ -2908,21 +2988,6 @@ export type BridgeMysqlGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeMysqlGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeMysqlGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeMysqlActionParameters
-  resource_opts?: BridgeMysqlActionResourceOpts
-  status?: BridgeMysqlGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeMysqlGetBridgeV2Type
-}
-
 export type BridgeMysqlActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeMysqlActionResourceOptsQueryMode =
@@ -2968,6 +3033,21 @@ export interface BridgeMysqlActionResourceOpts {
 export interface BridgeMysqlActionParameters {
   sql?: string
   undefined_vars_as_null?: boolean
+}
+
+export interface BridgeMysqlGetBridgeV2 {
+  connector: string
+  description?: string
+  enable?: boolean
+  fallback_actions?: BridgeMysqlGetBridgeV2FallbackActionsItem[]
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: BridgeMysqlActionParameters
+  resource_opts?: BridgeMysqlActionResourceOpts
+  status?: BridgeMysqlGetBridgeV2Status
+  status_reason?: string
+  tags?: string[]
+  type: BridgeMysqlGetBridgeV2Type
 }
 
 export type BridgeMqttPublisherPutBridgeV2FallbackActionsItem =
@@ -3111,18 +3191,6 @@ export const BridgeMongodbPostBridgeV2Type = {
 export type BridgeMongodbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
-
-export interface BridgeMongodbPostBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeMongodbPostBridgeV2FallbackActionsItem[]
-  name: string
-  parameters: BridgeMongodbActionParameters
-  resource_opts?: BridgeMongodbActionResourceOpts
-  tags?: string[]
-  type: BridgeMongodbPostBridgeV2Type
-}
 
 export type BridgeMongodbGetBridgeV2Type =
   (typeof BridgeMongodbGetBridgeV2Type)[keyof typeof BridgeMongodbGetBridgeV2Type]
@@ -3446,6 +3514,10 @@ export const BridgeKafkaProducerKafkaOptsPartitionStrategy = {
   random: 'random',
 } as const
 
+export type BridgeKafkaProducerKafkaOptsMaxRetries = number | 'infinity'
+
+export type BridgeKafkaProducerKafkaOptsMaxBatchAge = string | 'infinity'
+
 export type BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode =
   (typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode)[keyof typeof BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode]
 
@@ -3493,19 +3565,39 @@ export interface BridgeKafkaProducerKafkaOpts {
   kafka_ext_headers?: BridgeKafkaProducerKafkaExtHeaders[]
   kafka_header_value_encode_mode?: BridgeKafkaProducerKafkaOptsKafkaHeaderValueEncodeMode
   kafka_headers?: string
+  max_batch_age?: BridgeKafkaProducerKafkaOptsMaxBatchAge
   max_batch_bytes?: string
   /** @minimum 1 */
   max_inflight?: number
   max_linger_bytes?: string
   max_linger_time?: string
+  max_retries?: BridgeKafkaProducerKafkaOptsMaxRetries
   message?: BridgeKafkaKafkaMessage
   partition_count_refresh_interval?: string
   partition_strategy?: BridgeKafkaProducerKafkaOptsPartitionStrategy
   partitions_limit?: BridgeKafkaProducerKafkaOptsPartitionsLimit
   query_mode?: BridgeKafkaProducerKafkaOptsQueryMode
+  reconnect_delay?: string
   required_acks?: BridgeKafkaProducerKafkaOptsRequiredAcks
   sync_query_timeout?: string
   topic: string
+}
+
+export type BridgeKafkaProducerBufferMode =
+  (typeof BridgeKafkaProducerBufferMode)[keyof typeof BridgeKafkaProducerBufferMode]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaProducerBufferMode = {
+  disk: 'disk',
+  hybrid: 'hybrid',
+  memory: 'memory',
+} as const
+
+export interface BridgeKafkaProducerBuffer {
+  memory_overload_protection?: boolean
+  mode?: BridgeKafkaProducerBufferMode
+  per_partition_limit?: string
+  segment_bytes?: string
 }
 
 export type BridgeKafkaPostBridgeV2Type =
@@ -3601,10 +3693,6 @@ export type BridgeIotdbPostBridgeV2Type =
 export const BridgeIotdbPostBridgeV2Type = {
   iotdb: 'iotdb',
 } as const
-
-export type BridgeIotdbPostBridgeV2Parameters =
-  | BridgeIotdbActionParametersTable
-  | BridgeIotdbActionParametersTree
 
 export type BridgeIotdbPostBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
@@ -3739,6 +3827,10 @@ export interface BridgeIotdbActionParametersTable {
   table: string
   write_to_table?: BridgeIotdbActionParametersTableWriteToTable
 }
+
+export type BridgeIotdbPostBridgeV2Parameters =
+  | BridgeIotdbActionParametersTable
+  | BridgeIotdbActionParametersTree
 
 export type BridgeIotdbActionParametersDataTreeTimestamp =
   | string
@@ -4453,21 +4545,6 @@ export type BridgeDynamoGetBridgeV2FallbackActionsItem =
   | ActionsAndSourcesFallbackActionRepublish
   | ActionsAndSourcesFallbackActionReference
 
-export interface BridgeDynamoGetBridgeV2 {
-  connector: string
-  description?: string
-  enable?: boolean
-  fallback_actions?: BridgeDynamoGetBridgeV2FallbackActionsItem[]
-  name: string
-  node_status?: ActionsAndSourcesNodeStatus[]
-  parameters: BridgeDynamoActionParameters
-  resource_opts?: BridgeDynamoActionResourceOpts
-  status?: BridgeDynamoGetBridgeV2Status
-  status_reason?: string
-  tags?: string[]
-  type: BridgeDynamoGetBridgeV2Type
-}
-
 export type BridgeDynamoActionResourceOptsRequestTtl = 'infinity' | string
 
 export type BridgeDynamoActionResourceOptsQueryMode =
@@ -4966,6 +5043,10 @@ export const BridgeAzureEventHubProducerKafkaOptsPartitionStrategy = {
   key_dispatch: 'key_dispatch',
   random: 'random',
 } as const
+
+export type BridgeAzureEventHubProducerKafkaOptsMaxRetries = number | 'infinity'
+
+export type BridgeAzureEventHubProducerKafkaOptsMaxBatchAge = string | 'infinity'
 
 export type BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode =
   (typeof BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode)[keyof typeof BridgeAzureEventHubProducerKafkaOptsKafkaHeaderValueEncodeMode]

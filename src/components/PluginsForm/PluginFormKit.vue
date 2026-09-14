@@ -3,7 +3,8 @@
     ref="PluginForm"
     class="plugin-form-kit"
     :rules="rules"
-    :model="configsForm"
+    :model="validationModel"
+    :disabled="saveLoading"
     scroll-to-error
     :scroll-into-view-options="{ behavior: 'smooth' }"
     label-position="top"
@@ -15,6 +16,7 @@
         :key="name"
         :name="name as string"
         :form-configs="configs"
+        @password-edited="editedPasswords.add($event)"
       />
     </el-row>
     <el-row>
@@ -35,6 +37,7 @@
 <script lang="ts" setup>
 import { PluginUIConfigs } from '@/types/plugin'
 import PluginFormKitItem from './PluginFormKitItem.vue'
+import { createPluginPasswordForm } from '@/hooks/Plugins/pluginPasswordForm'
 
 const props = defineProps({
   data: {
@@ -56,7 +59,19 @@ const emit = defineEmits(['saved'])
 
 const PluginForm = ref()
 
-const configsForm = ref(cloneDeep(props.data))
+const passwordForm = shallowRef(createPluginPasswordForm(props.data, props.layouts.$form))
+const configsForm = ref(passwordForm.value.values)
+const editedPasswords = ref(new Set<string>())
+// Validate the actual values, so a six-character mask cannot fail password rules.
+const validationModel = computed(() =>
+  passwordForm.value.restore(configsForm.value, editedPasswords.value),
+)
+
+const resetForm = (data: Record<string, any>) => {
+  passwordForm.value = createPluginPasswordForm(data, props.layouts.$form)
+  configsForm.value = passwordForm.value.values
+  editedPasswords.value = new Set()
+}
 
 const saveLoading = ref(false)
 
@@ -71,20 +86,21 @@ const validationFailedFields = ref<Record<string, any>>({})
 provide('pluginFormValidationFailed', validationFailedFields)
 
 watch(
-  () => props.data,
-  (val) => {
-    nextTick(() => {
-      configsForm.value = cloneDeep(val)
-    })
-  },
+  () => [props.data, props.layouts],
+  () => resetForm(props.data),
   { deep: true },
 )
 
 async function save() {
   try {
     saveLoading.value = true
-    await PluginForm.value.validate()
-    await props.saveFunc(configsForm.value)
+    const valid = await PluginForm.value.validate()
+    if (!valid) {
+      return
+    }
+    const data = passwordForm.value.restore(configsForm.value, editedPasswords.value)
+    await props.saveFunc(data)
+    resetForm(data)
     ElMessage.success(t('Base.updateSuccess'))
     emit('saved', configsForm.value)
   } catch (error: any) {

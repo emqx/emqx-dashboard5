@@ -24,13 +24,14 @@
 </template>
 
 <script setup lang="ts">
+import type { NamespaceSelection } from '@/common/constants'
 import { Node, NodeMouseEvent, VueFlow } from '@vue-flow/core'
 import FlowNode from './FlowNode.vue'
 import FlowSelectDialog from './FlowSelectDialog.vue'
 import NodeDrawer from './NodeDrawer.vue'
 
 const props = defineProps<{
-  namespace: string
+  namespace?: NamespaceSelection
 }>()
 
 const router = useRouter()

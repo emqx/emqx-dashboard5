@@ -5,7 +5,7 @@
       ref="formCom"
       type="connector"
       need-rules
-      :schema-file-path="getAPIPath(`/schemas/connectors`)"
+      schema-file-path="/schemas/connectors"
       :need-footer="false"
       :need-record="needRecord"
       :form="connectorRecord"

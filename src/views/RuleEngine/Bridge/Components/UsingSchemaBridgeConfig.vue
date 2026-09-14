@@ -71,7 +71,7 @@ const props = withDefaults(
 )
 const emit = defineEmits(['update:modelValue', 'init'])
 
-const schemaFilePath = computed(() => getAPIPath(`/schemas/actions`))
+const schemaFilePath = computed(() => '/schemas/actions')
 
 const schemaType = computed(() => {
   return props.isSource ? 'source' : 'action'

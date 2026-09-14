@@ -17,13 +17,13 @@ export default (): {
   const { initRecordByComponents } = useSchemaRecord()
   const { components: httpConnectorComponents, schemaLoadPromise: connectorSchemaLoadPromise } =
     useSchemaForm(
-      getAPIPath(`/schemas/connectors`),
+      '/schemas/connectors',
       { ref: `#/components/schemas/bridge_http.post_connector` },
       false,
     )
   const { components: httpActionComponents, schemaLoadPromise: actionSchemaLoadPromise } =
     useSchemaForm(
-      getAPIPath(`/schemas/actions`),
+      '/schemas/actions',
       { ref: `#/components/schemas/${getActionTypeRefKey(BridgeType.Webhook)}` },
       false,
     )

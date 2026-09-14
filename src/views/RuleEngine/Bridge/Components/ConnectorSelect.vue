@@ -67,7 +67,7 @@ const { getListNamespaceParams } = useListNsParams()
 const totalConnectorList = ref<Array<Connector>>([])
 const getTotalList = async () => {
   try {
-    const selectedNamespace = !isNamespaceUser.value ? GLOBAL_NAMESPACE : undefined
+    const selectedNamespace = !isNamespaceUser.value ? GLOBAL_NAMESPACE_VALUE : undefined
     totalConnectorList.value = await getConnectors(getListNamespaceParams(selectedNamespace))
   } catch (error) {
     //

@@ -52,6 +52,7 @@ export const useCommonDataHandler = () => {
     'authentication.password',
     'authentication.jwt',
     'authentication.service_account_json',
+    'service_account_json',
     'secret_key',
     'aws_secret_access_key',
     'secret_access_key',
@@ -129,6 +130,9 @@ export const useConnectorDataHandler = (): {
   const { tl } = useI18nTl('RuleEngine')
   const handleGCPData = (data: any) => {
     if (data.service_account_json && typeof data.service_account_json === 'string') {
+      if (ENCRYPTED_PWD_REG.test(data.service_account_json)) {
+        return data
+      }
       try {
         if (FILE_STR_REG.test(data.service_account_json)) {
           return data

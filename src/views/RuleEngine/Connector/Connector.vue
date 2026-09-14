@@ -11,7 +11,7 @@
               v-if="!isNamespaceUser"
               v-model="namespaceFilter"
               :placeholder="t('BasicConfig.namespace')"
-              :global="{ enable: true, value: GLOBAL_NAMESPACE }"
+              :global="{ enable: true, value: GLOBAL_NAMESPACE_VALUE }"
               @clear="getList"
               @change="getList"
             />
@@ -171,7 +171,11 @@
 
 <script setup lang="ts">
 import { BridgeType, ConnectionStatus } from '@/types/enum'
-import { SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
+import {
+  GLOBAL_NAMESPACE_VALUE,
+  SEARCH_FORM_RES_PROPS as colProps,
+  type NamespaceSelection,
+} from '@/common/constants'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Setting } from '@element-plus/icons-vue'
 import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
@@ -192,7 +196,7 @@ const isLoading = ref<boolean>(false)
 const tableData = ref<Array<Connector | BridgeItem>>([])
 
 const namespaceFromRoute = route.query.ns
-const namespaceFilter = ref<string | undefined>(
+const namespaceFilter = ref<NamespaceSelection | undefined>(
   typeof namespaceFromRoute === 'string' ? namespaceFromRoute : undefined,
 )
 
