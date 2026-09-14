@@ -69,6 +69,7 @@ export default (
     'socket_opts.recbuf',
     'socket_opts.tcp_keepalive',
     'socket_opts.nodelay',
+    'socket_opts.ip_family',
   ]
 
   const IoTDBAdvancedProps = ['recv_timeout', 'enable_pipelining']
@@ -169,6 +170,7 @@ export default (
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: azureOrderMap,
     [BridgeType.KafkaConsumer]: azureOrderMap,
+    [BridgeType.Confluent]: azureOrderMap,
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
     [BridgeType.MatrixDB]: pgSqlOrderMap,
