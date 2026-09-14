@@ -310,6 +310,8 @@ export const INFINITY_VALUE = 'infinity'
 
 export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
 
+export const DASHBOARD_USERNAME_REG = /^[A-Za-z0-9_]+$/
+
 export const SSL_FIELDS = [
   'user_lookup_fun',
   'cacertfile',
