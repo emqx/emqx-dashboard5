@@ -653,6 +653,21 @@ export const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/dashboard-listeners',
+    component: Layout,
+    meta: {
+      hideKey: 'dashboard-listeners',
+      authRequired: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'dashboard-listeners',
+        component: () => import('@/views/Config/BasicConfig/DashboardListeners.vue'),
+      },
+    ],
+  },
+  {
     path: '/namespace',
     component: Layout,
     meta: {
