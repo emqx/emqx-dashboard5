@@ -151,7 +151,7 @@
             />
           </template>
           <el-radio-group v-model="record.scopeMode" @change="handleScopeModeChanged">
-            <el-radio :value="ScopeMode.RoleDefault">
+            <el-radio :value="ScopeMode.RoleDefault" :disabled="!canUseRoleDefaultScopes">
               {{ tl('roleDefaultScopes') }}
             </el-radio>
             <el-radio :value="ScopeMode.Privilege">
@@ -161,6 +161,9 @@
               {{ tl('scopeModeCustom') }}
             </el-radio>
           </el-radio-group>
+          <p v-if="!canUseRoleDefaultScopes" class="scope-mode-tip">
+            {{ tl('roleDefaultScopesUnavailable') }}
+          </p>
         </el-form-item>
         <el-form-item
           v-if="accessType !== 'chPass' && shouldShowScopesSelect"
@@ -240,7 +243,8 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
-import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
+import { hasSelectedScopes, isUnsetScopes, normalizeScopes } from '@/common/scopes'
+import { buildUserScopesPayload, canPreserveRoleDefaultScopes } from '@/common/userScopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
@@ -280,6 +284,7 @@ const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
 const availableUserScopes = ref([])
+const storedUserScopes = ref()
 const shouldResolveRoleDefaultScopes = ref(false)
 
 const { userRoleOptions } = useRole()
@@ -354,10 +359,17 @@ const getRoleDefaultScopes = () => {
     .map(({ name }) => name)
 }
 
+const canUseRoleDefaultScopes = computed(
+  () =>
+    accessType.value !== 'edit' ||
+    canPreserveRoleDefaultScopes(storedUserScopes.value, getRoleDefaultScopes()),
+)
+
 const resolveRoleDefaultScopeState = () => {
   const isRoleDefault =
     record.value.scopeMode === ScopeMode.RoleDefault ||
-    isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes())
+    (availableUserScopes.value.length > 0 &&
+      isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes()))
   record.value.scopeMode = isRoleDefault
     ? ScopeMode.RoleDefault
     : resolveExplicitGlobalScopeMode(record.value.scopes)
@@ -443,6 +455,10 @@ const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
   const validateScopeMode = (_rule, value, callback) => {
+    if (value === ScopeMode.RoleDefault && !canUseRoleDefaultScopes.value) {
+      callback(new Error(tl('roleDefaultScopesUnavailable')))
+      return
+    }
     if (value === ScopeMode.Mixed) {
       callback(new Error(tl('mixedGlobalScopesError')))
       return
@@ -526,6 +542,7 @@ const isCurrentUser = (user) => user === currentUser.value.username
 const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
+  storedUserScopes.value = Array.isArray(item.scopes) ? [...item.scopes] : item.scopes
 
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
@@ -576,14 +593,20 @@ const trimUserName = () => {
 
 const getBackend = (backend) => (backend === SOURCE_LOCAL ? undefined : backend)
 
-// The global role-default mode maps to the backend's `unset` sentinel.
-// Explicit modes preserve the array,
-// including [] (deny all mapped paths), so the states are never conflated.
 const buildUserPayload = (rec, fields) => {
-  const payload = pick(rec, fields)
-  const useRoleDefaultScopes = rec.scopeMode === ScopeMode.RoleDefault
-  payload.scopes = useRoleDefaultScopes ? UNSET_SCOPES : (normalizeScopes(rec.scopes) ?? [])
-  return payload
+  return {
+    ...pick(
+      rec,
+      fields.filter((field) => field !== 'scopes'),
+    ),
+    ...buildUserScopesPayload({
+      useRoleDefault: rec.scopeMode === ScopeMode.RoleDefault,
+      scopes: rec.scopes,
+      editing: accessType.value === 'edit',
+      storedScopes: storedUserScopes.value,
+      roleDefaults: getRoleDefaultScopes(),
+    }),
+  }
 }
 
 const save = async () => {
@@ -676,6 +699,11 @@ onBeforeMount(async () => {
 }
 .mixed-scopes-alert {
   margin-bottom: 18px;
+}
+.scope-mode-tip {
+  margin: 4px 0 0;
+  color: var(--el-text-color-secondary);
+  line-height: 1.5;
 }
 .scope-desc {
   color: var(--el-text-color-secondary);
