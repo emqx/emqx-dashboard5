@@ -470,7 +470,8 @@ const getRoleDefaultScopes = () => {
 const resolveRoleDefaultScopeState = () => {
   const isRoleDefault =
     record.value.useRoleDefaultScopes ||
-    isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes())
+    (availableUserScopes.value.length > 0 &&
+      isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes()))
   record.value.useRoleDefaultScopes = isRoleDefault
   if (!isNamespaceEnabled.value) {
     record.value.scopeMode = isRoleDefault

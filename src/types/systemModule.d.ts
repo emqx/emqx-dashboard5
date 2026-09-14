@@ -117,7 +117,12 @@ export interface UserItem {
   backend?: string
 }
 
-export type UserFormForCreate = UserItem & {
+export type UserFormForUpdate = Pick<UserItem, 'description' | 'role'> & {
+  scopes?: string[] | UnsetScopes
+}
+
+export type UserFormForCreate = UserFormForUpdate & {
+  username: string
   password: string
 }
 
