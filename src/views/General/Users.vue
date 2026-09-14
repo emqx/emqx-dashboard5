@@ -296,6 +296,7 @@
 <script setup>
 import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
+import { DASHBOARD_USERNAME_REG } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
@@ -467,7 +468,8 @@ const getRoleDefaultScopes = () => {
 const resolveRoleDefaultScopeState = () => {
   const isRoleDefault =
     record.value.useRoleDefaultScopes ||
-    isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes())
+    (availableUserScopes.value.length > 0 &&
+      isSameScopeSet(normalizeScopes(record.value.scopes) ?? [], getRoleDefaultScopes()))
   record.value.useRoleDefaultScopes = isRoleDefault
   if (!isNamespaceEnabled.value) {
     record.value.scopeMode = isRoleDefault
@@ -561,7 +563,7 @@ const newPwdSameConfirm = (rule, value, callback) => {
   }
 }
 
-const { createNoChineseRule, createRequiredRule } = useFormRules()
+const { createRequiredRule } = useFormRules()
 const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
@@ -573,7 +575,18 @@ const rules = computed(() => {
     callback()
   }
   const ret = {
-    username: [{ required: true, message: tl('enterOneUserName') }, ...createNoChineseRule()],
+    username: [
+      { required: true, message: tl('enterOneUserName') },
+      ...(accessType.value === 'create'
+        ? [
+            {
+              pattern: DASHBOARD_USERNAME_REG,
+              message: tl('usernameFormatError'),
+              trigger: ['blur', 'change'],
+            },
+          ]
+        : []),
+    ],
     role: createRequiredRule(t('Dashboard.role'), 'select'),
     scopeMode: [{ validator: validateScopeMode, trigger: 'change' }],
     password: [
