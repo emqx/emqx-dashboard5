@@ -17,7 +17,7 @@ export default {
   },
   isEnable: {
     zh: '是否启用',
-    en: 'Is Enable',
+    en: 'Enabled',
   },
   show: {
     zh: '显示',
@@ -78,14 +78,14 @@ export default {
   scopeModeDesc: {
     zh: `选择 API 密钥的权限配置方式：
 
-- **角色默认权限**：自动使用当前角色的默认权限。管理员和查看者可访问全部管理功能类别，发布者仅可发布消息；以后角色默认权限发生变化时，新权限会自动生效。
+- **角色默认权限**：自动使用当前角色及命名空间对应的默认权限，具体范围见下方说明；以后角色默认权限发生变化时，新权限会自动生效。
 - **系统级权限**：仅授予“系统设置”权限范围，可访问核心配置、监听器、插件、数据备份与恢复、OpenTelemetry 等系统功能。
 - **自定义受限权限**：从连接、消息发布、数据集成、监控等非系统权限范围中按需选择。命名空间 API 密钥不能选择消息发布。未选择任何权限时，API 密钥不能访问受权限范围保护的接口。
 
 无论选择哪种模式，具体可执行的操作和可查看的数据仍受角色和命名空间限制。各角色的默认权限如下。`,
     en: `Choose how permissions are assigned to the API key:
 
-- **Role Default Scopes**: Automatically use the current role's defaults. Administrators and viewers can access all management feature areas, while publishers can only publish messages. Future changes to the role defaults take effect automatically.
+- **Role Default Scopes**: Automatically use the defaults for the current role and namespace, as listed below. Future changes to the role defaults take effect automatically.
 - **System-level Permissions**: Grant only the System scope, covering core configuration, listeners, plugins, data backup and restore, OpenTelemetry, and other system functions. 
 - **Custom Restricted Permissions**: Select non-system scopes such as Connections, Publish, Data Integration, and Monitoring. Namespaced API keys cannot select Publish. When no scope is selected, the API key cannot access scope-protected APIs.
 

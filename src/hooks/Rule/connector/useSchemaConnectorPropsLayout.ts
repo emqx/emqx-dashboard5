@@ -363,7 +363,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.RocketMQ]: createOrderObj(
-      ['servers', 'namespace', 'access_key', 'secret_key', 'security_token'],
+      ['servers', 'rocketmq_namespace', 'namespace', 'access_key', 'secret_key', 'security_token'],
       fieldStartIndex,
     ),
     [BridgeType.ClickHouse]: createOrderObj(
