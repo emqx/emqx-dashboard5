@@ -320,6 +320,8 @@ export const COMMON_ID_REG = /^[A-Za-z0-9]+[A-Za-z0-9-_]*$/
  */
 export const MESSAGE_QUEUE_NAME_REG = /^[0-9a-zA-Z][-.0-9a-zA-Z_]*$/
 
+export const DASHBOARD_USERNAME_REG = /^[A-Za-z0-9_]+$/
+
 export const SSL_FIELDS = [
   'user_lookup_fun',
   'cacertfile',

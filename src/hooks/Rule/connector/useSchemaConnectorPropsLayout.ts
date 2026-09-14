@@ -70,6 +70,7 @@ export default (
     'socket_opts.recbuf',
     'socket_opts.tcp_keepalive',
     'socket_opts.nodelay',
+    'socket_opts.ip_family',
   ]
 
   const IoTDBAdvancedProps = ['recv_timeout', 'enable_pipelining']
