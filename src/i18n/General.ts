@@ -115,10 +115,6 @@ Available scopes are still restricted by the user's role. The default scopes for
     zh: '角色默认权限',
     en: 'Role Default Scopes',
   },
-  roleDefaultScopesUnavailable: {
-    zh: '当前版本无法将已保存的显式权限恢复为所选角色的默认权限。请选择管理权限范围或自定义受限权限；若仅修改备注，请保留原角色和权限配置。',
-    en: 'This version cannot reset saved explicit permissions to the selected role’s defaults. Select Privilege Scopes or Custom Restricted Permissions. To edit only the description, keep the original role and permissions.',
-  },
   noUserScopes: {
     zh: '无权限范围',
     en: 'No Scopes',
