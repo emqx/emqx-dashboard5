@@ -5,6 +5,7 @@ import {
   BannedItem,
   PwdFormForUpdate,
   UserFormForCreate,
+  UserFormForUpdate,
   UserItem,
 } from '@/types/systemModule'
 
@@ -16,7 +17,11 @@ export function createUser(body: UserFormForCreate): Promise<UserItem> {
   return http.post(`/users`, body)
 }
 
-export function updateUser(username: string, body: UserItem, backend?: string): Promise<UserItem> {
+export function updateUser(
+  username: string,
+  body: UserFormForUpdate,
+  backend?: string,
+): Promise<UserItem> {
   return http.put(
     `/users/${encodeURIComponent(username)}`,
     body,
