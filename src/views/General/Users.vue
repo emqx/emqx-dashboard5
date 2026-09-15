@@ -161,9 +161,6 @@
               {{ tl('scopeModeCustom') }}
             </el-radio>
           </el-radio-group>
-          <p v-if="!canUseRoleDefaultScopes" class="scope-mode-tip">
-            {{ tl('roleDefaultScopesUnavailable') }}
-          </p>
         </el-form-item>
         <el-form-item
           v-if="accessType !== 'chPass' && shouldShowScopesSelect"
@@ -456,10 +453,6 @@ const pwdMismatchMsg =
   tl('passwordRequirement1') + tl('semicolon') + tl('passwordRequirement2').toLowerCase()
 const rules = computed(() => {
   const validateScopeMode = (_rule, value, callback) => {
-    if (value === ScopeMode.RoleDefault && !canUseRoleDefaultScopes.value) {
-      callback(new Error(tl('roleDefaultScopesUnavailable')))
-      return
-    }
     if (value === ScopeMode.Mixed) {
       callback(new Error(tl('mixedGlobalScopesError')))
       return
@@ -711,11 +704,6 @@ onBeforeMount(async () => {
 }
 .mixed-scopes-alert {
   margin-bottom: 18px;
-}
-.scope-mode-tip {
-  margin: 4px 0 0;
-  color: var(--el-text-color-secondary);
-  line-height: 1.5;
 }
 .scope-desc {
   color: var(--el-text-color-secondary);
