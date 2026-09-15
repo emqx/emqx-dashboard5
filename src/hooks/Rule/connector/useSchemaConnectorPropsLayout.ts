@@ -96,6 +96,7 @@ export default (
       [
         'bootstrap_hosts',
         'authentication',
+        'authentication.username',
         'authentication.password',
         'ssl',
         'health_check_topic',
