@@ -69,7 +69,6 @@ export default (
     'socket_opts.recbuf',
     'socket_opts.tcp_keepalive',
     'socket_opts.nodelay',
-    'socket_opts.ip_family',
   ]
 
   const IoTDBAdvancedProps = ['recv_timeout', 'enable_pipelining']
@@ -95,6 +94,7 @@ export default (
     ...createOrderObj(
       [
         'bootstrap_hosts',
+        'socket_opts.ip_family',
         'authentication',
         'authentication.username',
         'authentication.password',
