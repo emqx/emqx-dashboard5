@@ -2,6 +2,10 @@
   "common": {
     "max_linger_time": "Maximum duration for a per-partition producer to wait for messages in order to collect a batch to buffer.<br/>The default value <code>0</code> means no wait. For non-memory buffer mode, it's advised to configure at least <code>5ms</code> for less IOPS. <br/>There is no linger time when writing to memory buffer."
   },
+  "dynamo": {
+    "aws_access_key_id": "AWS Access Key ID for connecting to DynamoDB. Leave both the Access Key ID and Secret Access Key blank to use temporary credentials from the EC2 instance role or ECS task role of the EMQX runtime environment. To use explicit credentials, provide both fields.",
+    "aws_secret_access_key": "AWS Secret Access Key for connecting to DynamoDB. Leave both the Access Key ID and Secret Access Key blank to use temporary credentials from the EC2 instance role or ECS task role of the EMQX runtime environment. To use explicit credentials, provide both fields."
+  },
   "mqtt": {
     "source_topic": "Message subscription topics support the use of + and # wildcards. When EMQX is running in cluster mode or the connector is configured with a connection pool, shared subscriptions must be used to avoid message duplication."
   },
