@@ -124,7 +124,7 @@
               <el-radio :value="ScopeMode.RoleDefault">
                 {{ tl('roleDefaultScopes') }}
               </el-radio>
-              <el-radio :value="ScopeMode.System">
+              <el-radio v-if="!isPublisherRole" :value="ScopeMode.System">
                 {{ tl('scopeModeSystem') }}
               </el-radio>
               <el-radio :value="ScopeMode.Custom">
@@ -413,11 +413,13 @@ const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+const isSelectableCustomScope = (scope: string) =>
+  scope !== SYSTEM_SCOPE &&
+  (!isPublisherRole.value || scope === 'publish') &&
+  (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(scope))
+
 const customScopeOptions = computed(() =>
-  availableScopes.value.filter(
-    ({ name }) =>
-      name !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(name)),
-  ),
+  availableScopes.value.filter(({ name }) => isSelectableCustomScope(name)),
 )
 const hasLegacyMixedScopes = computed(
   () =>
@@ -432,10 +434,7 @@ const hasLegacyNamespacedScopes = computed(
 
 const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
   if (mode === ScopeMode.Custom) {
-    formData.value.scopes = formData.value.scopes.filter(
-      (scope) =>
-        scope !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(scope)),
-    )
+    formData.value.scopes = formData.value.scopes.filter(isSelectableCustomScope)
   }
   nextTick(() => formCom.value?.clearValidate('scopes'))
 }
