@@ -151,7 +151,7 @@
             />
           </template>
           <el-radio-group v-model="record.scopeMode" @change="handleScopeModeChanged">
-            <el-radio :value="ScopeMode.RoleDefault" :disabled="!canUseRoleDefaultScopes">
+            <el-radio :value="ScopeMode.RoleDefault">
               {{ tl('roleDefaultScopes') }}
             </el-radio>
             <el-radio :value="ScopeMode.Privilege">
@@ -242,7 +242,7 @@ import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@
 import { getLoginUserScopes } from '@/api/systemModule.ts'
 import { DASHBOARD_USERNAME_REG } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes } from '@/common/scopes'
-import { buildUserScopesPayload, canPreserveRoleDefaultScopes } from '@/common/userScopes'
+import { buildUserScopesPayload } from '@/common/userScopes'
 import { UserRole } from '@/types/enum.ts'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
 
@@ -282,7 +282,6 @@ const record = ref({})
 const submitLoading = ref(false)
 const formCom = ref()
 const availableUserScopes = ref([])
-const storedUserScopes = ref()
 const shouldResolveRoleDefaultScopes = ref(false)
 
 const { userRoleOptions } = useRole()
@@ -356,12 +355,6 @@ const getRoleDefaultScopes = () => {
     .filter(({ name }) => !LOGIN_ONLY_SCOPES.has(name))
     .map(({ name }) => name)
 }
-
-const canUseRoleDefaultScopes = computed(
-  () =>
-    accessType.value !== 'edit' ||
-    canPreserveRoleDefaultScopes(storedUserScopes.value, getRoleDefaultScopes()),
-)
 
 const resolveRoleDefaultScopeState = () => {
   const isRoleDefault =
@@ -547,7 +540,6 @@ const isCurrentUser = (user) => user === currentUser.value.username
 const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
   formCom.value?.resetFields()
-  storedUserScopes.value = Array.isArray(item.scopes) ? [...item.scopes] : item.scopes
 
   if (type === 'edit') {
     record.value = Object.assign({}, item, {
@@ -607,9 +599,6 @@ const buildUserPayload = (rec, fields) => {
     ...buildUserScopesPayload({
       useRoleDefault: rec.scopeMode === ScopeMode.RoleDefault,
       scopes: rec.scopes,
-      editing: accessType.value === 'edit',
-      storedScopes: storedUserScopes.value,
-      roleDefaults: getRoleDefaultScopes(),
     }),
   }
 }

@@ -116,7 +116,7 @@ export interface UserItem {
 }
 
 export type UserFormForUpdate = Pick<UserItem, 'description' | 'role'> & {
-  scopes?: string[]
+  scopes?: string[] | UnsetScopes
 }
 
 export type UserFormForCreate = UserFormForUpdate & {
