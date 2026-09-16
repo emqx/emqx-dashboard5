@@ -48,7 +48,7 @@
             >
               <el-switch
                 :model-value="row.enable"
-                :disabled="judgeIsWebhookConnector(row)"
+                :disabled="!$hasPermission('put') || judgeIsWebhookConnector(row)"
                 @update:modelValue="enableOrDisableConnector(row)"
               />
             </OperateWebhookAssociatedPopover>
