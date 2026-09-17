@@ -3,7 +3,7 @@ import { base64ToBytes, bytesToBase64, prepareScramProof, ScramLoginError } from
 
 const SCRAM_KEY_BYTES = 32
 const SCRAM_NONCE_BYTES = 24
-const CRYPTO_JS_TIMEOUT = 55_000
+const SCRAM_WORKER_TIMEOUT = 55_000
 
 const utf8 = (value: string) => new TextEncoder().encode(value)
 
@@ -81,14 +81,14 @@ export const deriveScramProofWithWebCrypto = async (
 export const canUseWebCrypto = (): boolean =>
   globalThis.isSecureContext === true && !!globalThis.crypto?.subtle
 
-const deriveScramProofWithCryptoJsWorker = (input: ScramProofInput): Promise<ScramProof> => {
+const deriveScramProofWithWasmWorker = (input: ScramProofInput): Promise<ScramProof> => {
   if (typeof Worker === 'undefined') {
     return Promise.reject(new ScramLoginError('Web Workers are unavailable.'))
   }
   return new Promise((resolve, reject) => {
     let worker: Worker
     try {
-      worker = new Worker(new URL('./scramCryptoJs.worker.ts', import.meta.url), { type: 'module' })
+      worker = new Worker(new URL('./scramWasm.worker.ts', import.meta.url), { type: 'module' })
     } catch (error) {
       reject(
         new ScramLoginError(
@@ -101,7 +101,7 @@ const deriveScramProofWithCryptoJsWorker = (input: ScramProofInput): Promise<Scr
     const timer = window.setTimeout(() => {
       worker.terminate()
       reject(new ScramLoginError('SCRAM password derivation timed out.'))
-    }, CRYPTO_JS_TIMEOUT)
+    }, SCRAM_WORKER_TIMEOUT)
     const finish = () => {
       window.clearTimeout(timer)
       worker.terminate()
@@ -124,9 +124,7 @@ const deriveScramProofWithCryptoJsWorker = (input: ScramProofInput): Promise<Scr
 }
 
 export const deriveScramProof = (input: ScramProofInput): Promise<ScramProof> =>
-  canUseWebCrypto()
-    ? deriveScramProofWithWebCrypto(input)
-    : deriveScramProofWithCryptoJsWorker(input)
+  canUseWebCrypto() ? deriveScramProofWithWebCrypto(input) : deriveScramProofWithWasmWorker(input)
 
 const equalBytes = (left: Uint8Array, right: Uint8Array): boolean => {
   if (left.length !== right.length) {
