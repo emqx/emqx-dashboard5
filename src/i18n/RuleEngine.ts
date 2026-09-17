@@ -961,6 +961,10 @@ export default {
     zh: 'OpenTSDB',
     en: 'OpenTSDB',
   },
+  dameng: {
+    zh: '达梦数据库',
+    en: 'DamengDB',
+  },
   oracleDatabase: {
     zh: 'Oracle Database',
     en: 'Oracle Database',

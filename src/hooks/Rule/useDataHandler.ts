@@ -62,6 +62,7 @@ export const useCommonDataHandler = () => {
     'access_key_secret',
     'sentinel_password',
     'private_key_password',
+    'ssl_pwd',
     'authentication.initial_token.client_secret',
     'oauth2.client_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])

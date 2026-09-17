@@ -354,6 +354,10 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Dameng]: createOrderObj(
+      getPathArrInParameters(['undefined_vars_as_null', 'sql']),
+      fieldStartIndex,
+    ),
     [BridgeType.MicrosoftSQLServer]: createOrderObj(
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
