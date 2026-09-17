@@ -340,6 +340,10 @@ export default (
       ['server', 'username', 'password', 'token'],
       fieldStartIndex,
     ),
+    [BridgeType.Dameng]: createOrderObj(
+      ['dsn', 'server', 'port', 'driver', 'username', 'password', 'charset', 'ssl_path', 'ssl_pwd'],
+      fieldStartIndex,
+    ),
     [BridgeType.OracleDatabase]: createOrderObj(
       ['server', 'service_name', 'sid', 'username', 'password'],
       fieldStartIndex,
