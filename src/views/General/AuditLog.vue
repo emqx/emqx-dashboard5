@@ -1,16 +1,5 @@
 <template>
-  <el-result
-    v-if="!canAccessCurrentRoute"
-    icon="warning"
-    title="403"
-    :sub-title="tl('auditLogGlobalUsersOnly')"
-  />
-  <div
-    v-else
-    class="audit-log"
-    :class="{ 'is-loading': isInitializing }"
-    v-loading.lock="isInitializing"
-  >
+  <div class="audit-log" :class="{ 'is-loading': isInitializing }" v-loading.lock="isInitializing">
     <div v-if="!isInitializing && !isAuditEnabled" class="no-log-tip">
       <img src="@/assets/img/log_disabled.png" alt="" width="376" />
       <p>{{ tl('auditLogDesc') }}</p>
@@ -210,7 +199,6 @@
 <script lang="ts" setup>
 import { getLogConfigs, updateLogConfigs } from '@/api/config'
 import { queryAuditLogs } from '@/api/systemModule'
-import useNamespaceAccess from '@/hooks/useNamespaceAccess'
 import { GLOBAL_NAMESPACE, SEARCH_FORM_RES_PROPS as colProps } from '@/common/constants'
 import {
   getLabelFromValueInOptionList as getLabelFromOpts,
@@ -251,9 +239,7 @@ const METHOD_PATH_CONNECTOR = ':'
 const CHILDREN_PATH_FOR_MAT = '[...]'
 
 const { t, tl } = useI18nTl('General')
-const store = useStore()
-const { state } = store
-const { canAccessCurrentRoute } = useNamespaceAccess()
+const { state } = useStore()
 
 const isAuditEnabled = ref(false)
 const isEnabling = ref(false)
@@ -351,10 +337,8 @@ const openRequestDetails = (row: AuditLogItem) => {
 const { pageMeta, pageParams, setPageMeta } = usePaginationWithHasNext()
 
 const confirmAuditLogEnabled = async () => {
-  const token = state.user.token
   try {
     const { audit } = await getLogConfigs()
-    if (token !== state.user.token || !canAccessCurrentRoute.value) return
     isAuditEnabled.value = !!audit?.enable
   } catch (error) {
     //
@@ -389,23 +373,19 @@ const checkParams = (params: GetAuditParams): Promise<boolean> => {
   return Promise.resolve(true)
 }
 const getData = async () => {
-  if (!canAccessCurrentRoute.value || !state.user.token) return
-  const token = state.user.token
   const filters = pickBy(filterParams, Boolean)
   const params = handleParams({ ...pageParams.value, ...filters })
   try {
     await checkParams(params)
-    if (token !== state.user.token || !canAccessCurrentRoute.value) return
     // if is initializing, do not set isTableLoading
     isTableLoading.value = !isInitializing.value
     const { data, meta } = await queryAuditLogs(params)
-    if (token !== state.user.token || !canAccessCurrentRoute.value) return
     tableData.value = data
     setPageMeta(meta)
   } catch (error) {
     //
   } finally {
-    if (token === state.user.token) isTableLoading.value = false
+    isTableLoading.value = false
   }
 }
 
@@ -421,19 +401,16 @@ const resetFilter = async () => {
 }
 
 const init = async () => {
-  if (!canAccessCurrentRoute.value || !state.user.token) return
-  const token = state.user.token
   try {
     isInitializing.value = true
     await confirmAuditLogEnabled()
-    if (token !== state.user.token || !canAccessCurrentRoute.value) return
     if (isAuditEnabled.value) {
       await getData()
     }
   } catch (error) {
     //
   } finally {
-    if (token === state.user.token) isInitializing.value = false
+    isInitializing.value = false
   }
 }
 const formatDate = (ipt: string) => dayjs(ipt).format('YYYY-MM-DD HH:mm:ss')
@@ -470,7 +447,6 @@ const getLogInfo = ({ operation_id, http_method, operation_type }: AuditLogItem)
 }
 
 const enableModule = async () => {
-  if (!canAccessCurrentRoute.value || !state.user.token) return
   try {
     isEnabling.value = true
     await updateLogConfigs({ audit: { enable: true } } as any)
@@ -482,17 +458,7 @@ const enableModule = async () => {
   }
 }
 
-watch(
-  () => [state.user.token, canAccessCurrentRoute.value],
-  () => {
-    tableData.value = []
-    isAuditEnabled.value = false
-    isInitializing.value = false
-    isTableLoading.value = false
-    init()
-  },
-  { immediate: true },
-)
+init()
 </script>
 
 <style lang="scss">
