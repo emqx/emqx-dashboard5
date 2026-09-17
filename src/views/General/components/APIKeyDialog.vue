@@ -5,6 +5,7 @@
     class="API-key-dialog"
     :title="t('Base.create')"
     :z-index="2000"
+    destroy-on-close
   >
     <el-form
       ref="formCom"
@@ -105,7 +106,7 @@
             <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
-        <el-col :span="24" v-if="!isPublisherRole || isNamespacedKey">
+        <el-col :span="24" v-if="!isPublisherRole">
           <el-form-item prop="scopeMode">
             <template #label>
               <FormItemLabel
@@ -133,10 +134,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col
-          :span="24"
-          v-if="(!isPublisherRole || isNamespacedKey) && formData.scopeMode === ScopeMode.Custom"
-        >
+        <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
           <el-form-item class="scopes-form-item" :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
