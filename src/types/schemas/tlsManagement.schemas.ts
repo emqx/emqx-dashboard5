@@ -1,3 +1,16 @@
+export type PostCertsPemCacheClean500Code =
+  (typeof PostCertsPemCacheClean500Code)[keyof typeof PostCertsPemCacheClean500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCertsPemCacheClean500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostCertsPemCacheClean500 = {
+  code?: PostCertsPemCacheClean500Code
+  message?: string
+}
+
 export type PostCertsNsNamespaceNameName500Code =
   (typeof PostCertsNsNamespaceNameName500Code)[keyof typeof PostCertsNsNamespaceNameName500Code]
 
@@ -106,6 +119,45 @@ export const GetCertsNsNamespaceList500Code = {
 
 export type GetCertsNsNamespaceList500 = {
   code?: GetCertsNsNamespaceList500Code
+  message?: string
+}
+
+export type PostCertsGlobalNameNameTrusts500Code =
+  (typeof PostCertsGlobalNameNameTrusts500Code)[keyof typeof PostCertsGlobalNameNameTrusts500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCertsGlobalNameNameTrusts500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostCertsGlobalNameNameTrusts500 = {
+  code?: PostCertsGlobalNameNameTrusts500Code
+  message?: string
+}
+
+export type PostCertsGlobalNameNameTrusts404Code =
+  (typeof PostCertsGlobalNameNameTrusts404Code)[keyof typeof PostCertsGlobalNameNameTrusts404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCertsGlobalNameNameTrusts404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostCertsGlobalNameNameTrusts404 = {
+  code?: PostCertsGlobalNameNameTrusts404Code
+  message?: string
+}
+
+export type PostCertsGlobalNameNameTrusts400Code =
+  (typeof PostCertsGlobalNameNameTrusts400Code)[keyof typeof PostCertsGlobalNameNameTrusts400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCertsGlobalNameNameTrusts400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostCertsGlobalNameNameTrusts400 = {
+  code?: PostCertsGlobalNameNameTrusts400Code
   message?: string
 }
 
@@ -218,6 +270,17 @@ export const GetCertsGlobalList500Code = {
 export type GetCertsGlobalList500 = {
   code?: GetCertsGlobalList500Code
   message?: string
+}
+
+export interface EmqxMgmtApiCertsTrustsMergeOut {
+  /** @minimum 0 */
+  added?: number
+  /** @minimum 0 */
+  total?: number
+}
+
+export interface EmqxMgmtApiCertsTrustsIn {
+  ca: string
 }
 
 export interface EmqxMgmtApiCertsFilesIn {

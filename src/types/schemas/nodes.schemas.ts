@@ -54,6 +54,8 @@ export interface EmqxMgmtApiStatsAggregatedData {
   /** @minimum 0 */
   'delayed.max'?: number
   /** @minimum 0 */
+  'disconnected_sessions.count'?: number
+  /** @minimum 0 */
   'live_connections.count'?: number
   /** @minimum 0 */
   'live_connections.max'?: number
@@ -112,6 +114,7 @@ export type EmqxMgmtApiNodesNodeInfoNodeStatus =
 export const EmqxMgmtApiNodesNodeInfoNodeStatus = {
   running: 'running',
   stopped: 'stopped',
+  unreachable: 'unreachable',
 } as const
 
 export type EmqxMgmtApiNodesNodeInfoFeaturePreset =
@@ -266,6 +269,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'messages.qos2.sent'?: number
   /** @minimum 0 */
   'messages.received'?: number
+  /** @minimum 0 */
+  'messages.rejected.quota_exceeded'?: number
   /** @minimum 0 */
   'messages.retained'?: number
   /** @minimum 0 */
