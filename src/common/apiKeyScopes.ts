@@ -53,8 +53,13 @@ export const resolveAPIKeyScopeMode = (
   if (!Array.isArray(scopes)) {
     return APIKeyScopeMode.RoleDefault
   }
-  // Older namespaced publish-only keys cannot be round-tripped as an explicit list.
-  if (isNamespacedAPIKey(namespace) && isSameScopeSet(scopes, ['publish'])) {
+  // Publisher defaults are submitted as unset, including for namespaced keys.
+  // Other namespaced publish-only keys cannot be round-tripped as an explicit list.
+  if (
+    role !== 'publisher' &&
+    isNamespacedAPIKey(namespace) &&
+    isSameScopeSet(scopes, ['publish'])
+  ) {
     return APIKeyScopeMode.Custom
   }
   const defaults = getAPIKeyRoleDefaultScopes(role, catalog, namespace)
