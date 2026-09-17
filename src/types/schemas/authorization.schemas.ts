@@ -145,6 +145,19 @@ export type PutAuthorizationSourcesOrder400 = {
   message?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code]
 
@@ -311,6 +324,19 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   ns?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code]
 
@@ -412,6 +438,19 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientidParams = {
   ns?: string
+}
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code =
+  (typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients409 = {
+  code?: PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code
+  message?: string
 }
 
 export type PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code =

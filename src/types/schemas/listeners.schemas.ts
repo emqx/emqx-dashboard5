@@ -1159,6 +1159,7 @@ export interface EmqxWsOpts {
   max_frame_size?: EmqxWsOptsMaxFrameSize
   mqtt_path?: string
   mqtt_piggyback?: EmqxWsOptsMqttPiggyback
+  proxy_address_allow?: string[]
   proxy_address_header?: string
   proxy_port_header?: string
   supported_subprotocols?: string

@@ -1,3 +1,30 @@
+export type PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404Code =
+  (typeof PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404Code)[keyof typeof PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+  RESOURCE_NOT_FOUND: 'RESOURCE_NOT_FOUND',
+} as const
+
+export type PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404 = {
+  code?: PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate404Code
+  message?: string
+}
+
+export type PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400Code =
+  (typeof PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400Code)[keyof typeof PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400 = {
+  code?: PostGatewaysNameListenersIdAuthenticationUsersUidPasswordRotate400Code
+  message?: string
+}
+
 export type PutGatewaysNameListenersIdAuthenticationUsersUid404Code =
   (typeof PutGatewaysNameListenersIdAuthenticationUsersUid404Code)[keyof typeof PutGatewaysNameListenersIdAuthenticationUsersUid404Code]
 
@@ -166,7 +193,8 @@ export type PutGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PutGatewaysNameListenersIdAuthentication200 =
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
   | AuthnCinfo
   | AuthnHttpGet
   | AuthnHttpPost
@@ -185,7 +213,8 @@ export type PutGatewaysNameListenersIdAuthentication200 =
   | AuthnRedisSingle
 
 export type PutGatewaysNameListenersIdAuthenticationBody =
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
   | AuthnCinfo
   | AuthnHttpGet
   | AuthnHttpPost
@@ -231,7 +260,8 @@ export type PostGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type PostGatewaysNameListenersIdAuthentication201 =
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
   | AuthnCinfo
   | AuthnHttpGet
   | AuthnHttpPost
@@ -250,7 +280,8 @@ export type PostGatewaysNameListenersIdAuthentication201 =
   | AuthnRedisSingle
 
 export type PostGatewaysNameListenersIdAuthenticationBody =
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
   | AuthnCinfo
   | AuthnHttpGet
   | AuthnHttpPost
@@ -296,7 +327,8 @@ export type GetGatewaysNameListenersIdAuthentication400 = {
 }
 
 export type GetGatewaysNameListenersIdAuthentication200 =
-  | AuthnBuiltinDb
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
   | AuthnCinfo
   | AuthnHttpGet
   | AuthnHttpPost
@@ -521,6 +553,19 @@ export type GetGatewaysNameListeners200Item =
   | EmqxGatewayApiListenersSslListener
   | EmqxGatewayApiListenersTcpListener
   | EmqxGatewayApiListenersUdpListener
+
+export interface PublicMeta {
+  /** @minimum 0 */
+  count?: number
+  hasnext: boolean
+  /**
+   * @minimum 1
+   * @maximum 10000
+   */
+  limit?: number
+  /** @minimum 1 */
+  page?: number
+}
 
 export interface MongoTopology {
   connect_timeout_ms?: string
@@ -947,6 +992,24 @@ export const EmqxGatewayApiTcpListenerType = {
 
 export type EmqxGatewayApiTcpListenerMaxConnections = 'infinity' | number
 
+export interface EmqxGatewayApiTcpListener {
+  acceptors?: number
+  access_rules?: string[]
+  bind?: string
+  enable?: boolean
+  enable_authn?: boolean
+  id?: string
+  max_conn_rate?: number
+  max_connections?: EmqxGatewayApiTcpListenerMaxConnections
+  mountpoint?: string
+  name?: string
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  running?: boolean
+  tcp_options?: EmqxTcpOpts
+  type?: EmqxGatewayApiTcpListenerType
+}
+
 export type EmqxGatewayApiSslListenerType =
   (typeof EmqxGatewayApiSslListenerType)[keyof typeof EmqxGatewayApiSslListenerType]
 
@@ -1004,22 +1067,34 @@ export interface EmqxGatewayApiDtlsListener {
   udp_options?: GatewayUdpOpts
 }
 
+export interface EmqxAuthnApiResponseUserWithPassword {
+  is_superuser?: boolean
+  namespace?: string
+  password?: string
+  user_id: string
+}
+
 export interface EmqxAuthnApiResponseUser {
   is_superuser?: boolean
   namespace?: string
   user_id: string
 }
 
+export interface EmqxAuthnApiResponseUsers {
+  data?: EmqxAuthnApiResponseUser[]
+  meta?: PublicMeta
+}
+
 export interface EmqxAuthnApiRequestUserUpdate {
   is_superuser?: boolean
   namespace?: string
-  password: string
+  password?: string
 }
 
 export interface EmqxAuthnApiRequestUserCreate {
   is_superuser?: boolean
   namespace?: string
-  password: string
+  password?: string
   user_id: string
 }
 
@@ -1038,24 +1113,6 @@ export interface EmqxTcpOpts {
   send_timeout?: string
   send_timeout_close?: boolean
   sndbuf?: string
-}
-
-export interface EmqxGatewayApiTcpListener {
-  acceptors?: number
-  access_rules?: string[]
-  bind?: string
-  enable?: boolean
-  enable_authn?: boolean
-  id?: string
-  max_conn_rate?: number
-  max_connections?: EmqxGatewayApiTcpListenerMaxConnections
-  mountpoint?: string
-  name?: string
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  running?: boolean
-  tcp_options?: EmqxTcpOpts
-  type?: EmqxGatewayApiTcpListenerType
 }
 
 export type EmqxSslClientOptsVerify =
@@ -1455,21 +1512,149 @@ export interface AuthnHashPbkdf2 {
   name: AuthnHashPbkdf2Name
 }
 
-export type AuthnHashBcryptRwName =
-  (typeof AuthnHashBcryptRwName)[keyof typeof AuthnHashBcryptRwName]
+export type AuthnHashHardenedBuiltinSimpleSaltPosition =
+  (typeof AuthnHashHardenedBuiltinSimpleSaltPosition)[keyof typeof AuthnHashHardenedBuiltinSimpleSaltPosition]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnHashBcryptRwName = {
-  bcrypt: 'bcrypt',
+export const AuthnHashHardenedBuiltinSimpleSaltPosition = {
+  disable: 'disable',
+  prefix: 'prefix',
+  suffix: 'suffix',
 } as const
 
-export interface AuthnHashBcryptRw {
-  name: AuthnHashBcryptRwName
-  /**
-   * @minimum 5
-   * @maximum 10
-   */
-  salt_rounds?: number
+export type AuthnHashHardenedBuiltinSimpleName =
+  (typeof AuthnHashHardenedBuiltinSimpleName)[keyof typeof AuthnHashHardenedBuiltinSimpleName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinSimpleName = {
+  sha256: 'sha256',
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashHardenedBuiltinSimple {
+  name: AuthnHashHardenedBuiltinSimpleName
+  salt_position?: AuthnHashHardenedBuiltinSimpleSaltPosition
+}
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha512Name =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha512Name)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha512Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha512Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha512MacFun =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha512MacFun)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha512MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha512MacFun = {
+  sha512: 'sha512',
+} as const
+
+export interface AuthnHashHardenedBuiltinPbkdf2Sha512 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashHardenedBuiltinPbkdf2Sha512MacFun
+  name: AuthnHashHardenedBuiltinPbkdf2Sha512Name
+}
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha384Name =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha384Name)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha384Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha384Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha384MacFun =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha384MacFun)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha384MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha384MacFun = {
+  sha384: 'sha384',
+} as const
+
+export interface AuthnHashHardenedBuiltinPbkdf2Sha384 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashHardenedBuiltinPbkdf2Sha384MacFun
+  name: AuthnHashHardenedBuiltinPbkdf2Sha384Name
+}
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha256Name =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha256Name)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha256Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha256Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha256MacFun =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha256MacFun)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha256MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha256MacFun = {
+  sha256: 'sha256',
+} as const
+
+export interface AuthnHashHardenedBuiltinPbkdf2Sha256 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashHardenedBuiltinPbkdf2Sha256MacFun
+  name: AuthnHashHardenedBuiltinPbkdf2Sha256Name
+}
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha224Name =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha224Name)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha224Name]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha224Name = {
+  pbkdf2: 'pbkdf2',
+} as const
+
+export type AuthnHashHardenedBuiltinPbkdf2Sha224MacFun =
+  (typeof AuthnHashHardenedBuiltinPbkdf2Sha224MacFun)[keyof typeof AuthnHashHardenedBuiltinPbkdf2Sha224MacFun]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashHardenedBuiltinPbkdf2Sha224MacFun = {
+  sha224: 'sha224',
+} as const
+
+export interface AuthnHashHardenedBuiltinPbkdf2Sha224 {
+  /** @minimum 1 */
+  dk_length?: number
+  /** @minimum 1 */
+  iterations: number
+  mac_fun: AuthnHashHardenedBuiltinPbkdf2Sha224MacFun
+  name: AuthnHashHardenedBuiltinPbkdf2Sha224Name
+}
+
+export type AuthnHashBuiltinGeneratedSaltPosition =
+  (typeof AuthnHashBuiltinGeneratedSaltPosition)[keyof typeof AuthnHashBuiltinGeneratedSaltPosition]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBuiltinGeneratedSaltPosition = {
+  disable: 'disable',
+} as const
+
+export type AuthnHashBuiltinGeneratedName =
+  (typeof AuthnHashBuiltinGeneratedName)[keyof typeof AuthnHashBuiltinGeneratedName]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnHashBuiltinGeneratedName = {
+  sha256: 'sha256',
+} as const
+
+export interface AuthnHashBuiltinGenerated {
+  name: AuthnHashBuiltinGeneratedName
+  salt_position: AuthnHashBuiltinGeneratedSaltPosition
 }
 
 export type AuthnHashBcryptName = (typeof AuthnHashBcryptName)[keyof typeof AuthnHashBcryptName]
@@ -2402,54 +2587,119 @@ export interface AuthnCinfo {
   precondition?: string
 }
 
-export type AuthnBuiltinDbUserIdType =
-  (typeof AuthnBuiltinDbUserIdType)[keyof typeof AuthnBuiltinDbUserIdType]
+export type AuthnBuiltinDbManualUserIdType =
+  (typeof AuthnBuiltinDbManualUserIdType)[keyof typeof AuthnBuiltinDbManualUserIdType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnBuiltinDbUserIdType = {
+export const AuthnBuiltinDbManualUserIdType = {
   clientid: 'clientid',
   username: 'username',
 } as const
 
-export type AuthnBuiltinDbPasswordHashAlgorithm =
-  | AuthnHashBcryptRw
-  | AuthnHashPbkdf2
-  | AuthnHashSimple
+export type AuthnBuiltinDbManualPasswordHashAlgorithm =
+  | AuthnHashHardenedBuiltinPbkdf2Sha224
+  | AuthnHashHardenedBuiltinPbkdf2Sha256
+  | AuthnHashHardenedBuiltinPbkdf2Sha384
+  | AuthnHashHardenedBuiltinPbkdf2Sha512
+  | AuthnHashHardenedBuiltinSimple
 
-export type AuthnBuiltinDbMechanism =
-  (typeof AuthnBuiltinDbMechanism)[keyof typeof AuthnBuiltinDbMechanism]
+export type AuthnBuiltinDbManualMechanism =
+  (typeof AuthnBuiltinDbManualMechanism)[keyof typeof AuthnBuiltinDbManualMechanism]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnBuiltinDbMechanism = {
+export const AuthnBuiltinDbManualMechanism = {
   password_based: 'password_based',
 } as const
 
-export type AuthnBuiltinDbBootstrapType =
-  (typeof AuthnBuiltinDbBootstrapType)[keyof typeof AuthnBuiltinDbBootstrapType]
+export type AuthnBuiltinDbManualBootstrapType =
+  (typeof AuthnBuiltinDbManualBootstrapType)[keyof typeof AuthnBuiltinDbManualBootstrapType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnBuiltinDbBootstrapType = {
+export const AuthnBuiltinDbManualBootstrapType = {
   hash: 'hash',
   plain: 'plain',
 } as const
 
-export type AuthnBuiltinDbBackend =
-  (typeof AuthnBuiltinDbBackend)[keyof typeof AuthnBuiltinDbBackend]
+export type AuthnBuiltinDbManualBackend =
+  (typeof AuthnBuiltinDbManualBackend)[keyof typeof AuthnBuiltinDbManualBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AuthnBuiltinDbBackend = {
+export const AuthnBuiltinDbManualBackend = {
   built_in_database: 'built_in_database',
 } as const
 
-export interface AuthnBuiltinDb {
-  backend: AuthnBuiltinDbBackend
+export type AuthnBuiltinDbManualAutogeneratePassword =
+  (typeof AuthnBuiltinDbManualAutogeneratePassword)[keyof typeof AuthnBuiltinDbManualAutogeneratePassword]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbManualAutogeneratePassword = {
+  false: false,
+} as const
+
+export interface AuthnBuiltinDbManual {
+  autogenerate_password: AuthnBuiltinDbManualAutogeneratePassword
+  backend: AuthnBuiltinDbManualBackend
   bootstrap_file?: string
-  bootstrap_type?: AuthnBuiltinDbBootstrapType
+  bootstrap_type?: AuthnBuiltinDbManualBootstrapType
   enable?: boolean
-  mechanism: AuthnBuiltinDbMechanism
-  password_hash_algorithm?: AuthnBuiltinDbPasswordHashAlgorithm
+  mechanism: AuthnBuiltinDbManualMechanism
+  password_hash_algorithm?: AuthnBuiltinDbManualPasswordHashAlgorithm
   precondition?: string
-  user_id_type: AuthnBuiltinDbUserIdType
+  user_id_type: AuthnBuiltinDbManualUserIdType
+}
+
+export type AuthnBuiltinDbGeneratedUserIdType =
+  (typeof AuthnBuiltinDbGeneratedUserIdType)[keyof typeof AuthnBuiltinDbGeneratedUserIdType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbGeneratedUserIdType = {
+  clientid: 'clientid',
+  username: 'username',
+} as const
+
+export type AuthnBuiltinDbGeneratedMechanism =
+  (typeof AuthnBuiltinDbGeneratedMechanism)[keyof typeof AuthnBuiltinDbGeneratedMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbGeneratedMechanism = {
+  password_based: 'password_based',
+} as const
+
+export type AuthnBuiltinDbGeneratedBootstrapType =
+  (typeof AuthnBuiltinDbGeneratedBootstrapType)[keyof typeof AuthnBuiltinDbGeneratedBootstrapType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbGeneratedBootstrapType = {
+  hash: 'hash',
+  plain: 'plain',
+} as const
+
+export type AuthnBuiltinDbGeneratedBackend =
+  (typeof AuthnBuiltinDbGeneratedBackend)[keyof typeof AuthnBuiltinDbGeneratedBackend]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbGeneratedBackend = {
+  built_in_database: 'built_in_database',
+} as const
+
+export type AuthnBuiltinDbGeneratedAutogeneratePassword =
+  (typeof AuthnBuiltinDbGeneratedAutogeneratePassword)[keyof typeof AuthnBuiltinDbGeneratedAutogeneratePassword]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnBuiltinDbGeneratedAutogeneratePassword = {
+  true: true,
+} as const
+
+export interface AuthnBuiltinDbGenerated {
+  autogenerate_password: AuthnBuiltinDbGeneratedAutogeneratePassword
+  backend: AuthnBuiltinDbGeneratedBackend
+  bootstrap_file?: string
+  bootstrap_type?: AuthnBuiltinDbGeneratedBootstrapType
+  enable?: boolean
+  mechanism: AuthnBuiltinDbGeneratedMechanism
+  password_hash_algorithm?: AuthnHashBuiltinGenerated
+  precondition?: string
+  user_id_type: AuthnBuiltinDbGeneratedUserIdType
 }
 
 export type AuthnBindMethodType = (typeof AuthnBindMethodType)[keyof typeof AuthnBindMethodType]
