@@ -22,7 +22,7 @@
             <el-switch
               class="enable-btn"
               :model-value="connectorData.enable"
-              :disabled="isWebhookConnector"
+              :disabled="!$hasPermission('put') || isWebhookConnector"
               @update:modelValue="enableOrDisableConnector"
             />
           </el-tooltip>
@@ -31,7 +31,7 @@
               class="icon-button"
               type="danger"
               :icon="Delete"
-              :disabled="isWebhookConnector"
+              :disabled="!$hasPermission('delete') || isWebhookConnector"
               @click="
                 handleDeleteConnector(connectorData, () => {
                   $router.push({ name: 'connector' })
@@ -83,7 +83,10 @@
             />
           </div>
           <div class="btn-area">
-            <el-button @click="saveAsCopy" :disabled="isWebhookConnector">
+            <el-button
+              @click="saveAsCopy"
+              :disabled="!$hasPermission('post') || isWebhookConnector"
+            >
               {{ tl('saveAsCopy') }}
             </el-button>
             <el-button
@@ -91,6 +94,7 @@
               type="primary"
               plain
               :loading="isTesting"
+              :disabled="!$hasPermission('post')"
               @click="handleTest"
             >
               {{ tl('testTheConnection') }}
@@ -99,7 +103,7 @@
               type="primary"
               v-if="connectorData.type"
               :loading="isSubmitting"
-              :disabled="isWebhookConnector"
+              :disabled="!$hasPermission('put') || isWebhookConnector"
               @click="submit"
             >
               {{ $t('Base.update') }}
