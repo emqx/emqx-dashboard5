@@ -6,7 +6,7 @@ import { Properties, Property } from '@/types/schemaForm'
 import { compare } from 'compare-versions'
 import useSchemaHandlers from '../useSchemaHandlers'
 import { IoTDBDrivers, IoTDBKeyField } from './useSecondRefControl'
-import { FILE_STR_REG } from '@/common/constants'
+import { ENCRYPTED_PWD_REG, FILE_STR_REG } from '@/common/constants'
 import HttpOAuth2Config from '@/components/HttpOAuth2Config.vue'
 
 type Handler = ({ components, rules }: { components: Properties; rules: SchemaRules }) => {
@@ -305,7 +305,7 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
-            if (FILE_STR_REG.test(value)) {
+            if ((props.edit && ENCRYPTED_PWD_REG.test(value)) || FILE_STR_REG.test(value)) {
               resolve(true)
               return
             }

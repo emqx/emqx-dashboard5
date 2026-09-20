@@ -106,6 +106,10 @@ For example (Namespace \`n1\`):
     desc: 'If the size is out of the preset value, EMQX will disconnect the current connection',
     label: 'Max Packet Size',
   },
+  max_connect_user_properties: {
+    label: 'Max CONNECT User Properties',
+    desc: 'Maximum number of User Property pairs accepted in a CONNECT packet. The limit applies separately to CONNECT properties and Will properties. EMQX closes the connection if either exceeds the limit. Default: 100. Set to 0 to disallow User Properties, or disable the limit (infinity) to accept any number.',
+  },
   max_conn_rate: {
     desc: `Limits how quickly accepts connections, per each node.
 
