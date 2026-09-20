@@ -28,6 +28,7 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.MicrosoftSQLServer]: ConnectorCategory.DataPersistence,
   [BridgeType.OracleDatabase]: ConnectorCategory.DataPersistence,
   [BridgeType.Dameng]: ConnectorCategory.DataPersistence,
+  [BridgeType.Zerobus]: ConnectorCategory.DataAnalytics,
   [BridgeType.CockroachDB]: ConnectorCategory.DataPersistence,
   [BridgeType.AlloyDB]: ConnectorCategory.DataPersistence,
   [BridgeType.InfluxDB]: ConnectorCategory.DataPersistence,
@@ -98,6 +99,7 @@ const bridgesOrder = [
   BridgeType.MicrosoftSQLServer,
   BridgeType.OracleDatabase,
   BridgeType.Dameng,
+  BridgeType.Zerobus,
   // BridgeType.HStream,
   BridgeType.Elasticsearch,
   BridgeType.S3,
@@ -153,6 +155,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.OpenTSDB, label: tl('openTSDB') },
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
     { value: BridgeType.Dameng, label: tl('dameng') },
+    { value: BridgeType.Zerobus, label: tl('zerobus') },
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
     { value: BridgeType.Pulsar, label: tl('pulsar') },
     // { value: BridgeType.HStream, label: tl('hStream') },
@@ -378,7 +381,7 @@ export const useBridgeTypeIcon = (): {
   }
 
   // Icons that use SVG format
-  const svgIcons = ['kafka']
+  const svgIcons = ['kafka', BridgeType.Zerobus]
 
   // Icons that need color inversion in dark mode (monochrome icons)
   const darkModeInvertIcons = ['kafka']
@@ -493,6 +496,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'connector_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'connector_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'connector_')],
+    [BridgeType.Zerobus, getRef(BridgeType.Zerobus, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -564,6 +568,7 @@ export const useActionSchema = (): {
     [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'action_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'action_')],
+    [BridgeType.Zerobus, getRef(BridgeType.Zerobus, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)

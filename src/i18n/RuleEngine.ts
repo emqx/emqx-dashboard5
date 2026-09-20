@@ -961,6 +961,10 @@ export default {
     zh: 'OpenTSDB',
     en: 'OpenTSDB',
   },
+  zerobus: {
+    zh: 'Databricks Zerobus',
+    en: 'Databricks Zerobus',
+  },
   dameng: {
     zh: '达梦数据库',
     en: 'DamengDB',
