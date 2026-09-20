@@ -354,6 +354,18 @@ export default (
       ],
       fieldStartIndex,
     ),
+    [BridgeType.Zerobus]: createOrderObj(
+      getPathArrInParameters([
+        'catalog',
+        'schema',
+        'table',
+        'record',
+        'record.type',
+        'record.schema_name',
+        'record.message_type',
+      ]),
+      fieldStartIndex,
+    ),
     [BridgeType.Dameng]: createOrderObj(
       getPathArrInParameters(['undefined_vars_as_null', 'sql']),
       fieldStartIndex,
@@ -483,6 +495,7 @@ export default (
     [BridgeType.IoTDB]: IoTDBClassMap,
     [BridgeType.Snowflake]: { 'parameters.mode': 'col-hidden' },
     [BridgeType.S3Tables]: { 'parameters.aggregation.container.type': 'col-hidden' },
+    [BridgeType.Zerobus]: { 'parameters.record.type': 'col-hidden' },
   }
 
   const advancedFieldsMap: Record<string, Array<string>> = {
