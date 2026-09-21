@@ -1,5 +1,6 @@
 {
   "common": {
+    "request_ttl": "Starting from the moment when the request enters the buffer, if the request remains in the buffer for the specified time or is sent but does not receive a response or acknowledgement in time, the request is considered expired.<br/>Messages are not attempted to be sent while the connector is disconnected. If Request TTL is shorter than the health check timeout (<code>health_check_timeout</code>) plus the time needed to reestablish the connection, messages queued as the connector becomes disconnected can expire before the connection is reestablished.<br/>It is recommended to set Request TTL greater than the health check timeout, with an additional margin for connection establishment.",
     "max_linger_time": "Maximum duration a per-partition producer waits to accumulate more messages into a larger batch.<br/>The default value <code>0</code> means no wait (messages are sent as soon as they arrive).<br/>The wait ends early as soon as a full batch's worth of data has accumulated, so a busy producer is never delayed.<br/>When buffering to disk, the wait happens before writing to the buffer; configuring at least <code>5ms</code> is advised there to reduce disk IOPS."
   },
   "dynamo": {
