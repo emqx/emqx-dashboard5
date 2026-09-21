@@ -219,10 +219,9 @@ const isItEarlierThanToday = (date: Date) => date.getTime() < todayStartTime
 
 const handleExpiredAt = (formData: APIKeyFormWhenCreating) => {
   const ret = { ...formData }
-  // The interface convention is that when the api key is never expired,
-  // do not submit expired_at
-  if (!ret.expired_at) {
-    Reflect.deleteProperty(ret, 'expired_at')
+  // Omitting expired_at on update preserves the stored expiry.
+  if (!ret.expired_at || ret.expired_at === 'infinity') {
+    ret.expired_at = 'infinity'
   } else {
     // The time is set to 23:59:59 of the selected date
     ret.expired_at = new Date(new Date(ret.expired_at).setHours(23, 59, 59)).toISOString()

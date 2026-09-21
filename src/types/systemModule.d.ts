@@ -4,8 +4,8 @@ import { SSL } from './common'
 export interface APIKeyFormWhenCreating {
   name: string
   /**
-   * When the api key never expires, the value is undefined
-   * (not submit to the interface)
+   * The UI uses undefined for keys that never expire.
+   * Submit "infinity" explicitly to clear the stored expiry on update.
    */
   expired_at?: string | undefined
   desc: string
