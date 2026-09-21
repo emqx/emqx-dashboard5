@@ -124,12 +124,10 @@ const operateKeyItem = (type: 'edit' | 'view', itemData: APIKey) => {
 const toggleKeyItemEnable = async (itemData: APIKey) => {
   try {
     const { name, enable, expired_at, desc } = itemData
-    const body: { enable: boolean; desc: string; expired_at?: string } = {
+    const body = {
       enable,
       desc,
-    }
-    if (expired_at) {
-      body.expired_at = expired_at
+      expired_at: expired_at || 'infinity',
     }
     await updateAPIKey(name, body)
     ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
