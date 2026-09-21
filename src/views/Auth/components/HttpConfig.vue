@@ -24,6 +24,14 @@
               <el-input v-model="httpConfig.url" />
             </el-form-item>
           </el-col>
+          <el-col :span="12" v-if="type === 'scram'">
+            <el-form-item :label="tl('passwordHash')">
+              <el-select v-model="httpConfig.algorithm" clearable>
+                <el-option value="sha256" />
+                <el-option value="sha512" />
+              </el-select>
+            </el-form-item>
+          </el-col>
           <PreconditionFormItem v-if="authType === 'authn'" v-model="httpConfig.precondition" />
 
           <el-col :span="24">
@@ -36,25 +44,6 @@
               <key-and-value-editor v-model="httpConfig.headers" />
             </el-form-item>
           </el-col>
-          <HttpOAuth2Config v-model="httpConfig.oauth2" :is-edit="isEdit" />
-          <el-col :span="12" v-if="type === 'scram'">
-            <el-form-item :label="tl('passwordHash')">
-              <el-select v-model="httpConfig.algorithm" clearable>
-                <el-option value="sha256" />
-                <el-option value="sha512" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <!-- TLS -->
-            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
-          </el-col>
-        </el-row>
-      </div>
-
-      <!-- Auth Config -->
-      <div class="config-sub-block">
-        <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item class="label-whole-line" prop="body">
               <template #label>
@@ -80,7 +69,16 @@
               </div>
             </el-form-item>
           </el-col>
+          <HttpOAuth2Config v-model="httpConfig.oauth2" :is-edit="isEdit" />
+          <el-col :span="24">
+            <!-- TLS -->
+            <CommonTLSConfig class="TLS-config" v-model="httpConfig.ssl" :is-edit="isEdit" />
+          </el-col>
         </el-row>
+      </div>
+
+      <!-- Auth Config -->
+      <div class="config-sub-block">
         <!-- Connect Config -->
         <AdvancedSettingContainer>
           <el-row :gutter="20">
