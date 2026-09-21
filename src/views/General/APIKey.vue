@@ -142,9 +142,7 @@ const toggleKeyItemEnable = async (itemData: APIKey) => {
       enable,
       desc,
       role,
-    }
-    if (expired_at) {
-      body.expired_at = expired_at
+      expired_at: expired_at || 'infinity',
     }
     await updateAPIKey(name, body)
     ElMessage.success(t(`Base.${enable ? 'enableSuccess' : 'disabledSuccess'}`))
