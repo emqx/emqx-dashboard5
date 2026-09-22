@@ -180,6 +180,7 @@ export interface Zone {
 export interface Mqtt {
   idle_timeout: string
   max_packet_size: string
+  max_connect_packet_size?: string
   max_connect_user_properties?: number | 'infinity'
   max_clientid_len: number
   max_topic_levels: number
