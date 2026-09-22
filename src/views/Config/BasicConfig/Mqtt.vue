@@ -41,6 +41,7 @@ export default defineComponent({
     const propsOrderMap = createOrderObj(
       [
         'max_packet_size',
+        'max_connect_packet_size',
         'max_connect_user_properties',
         'max_qos_allowed',
         'max_clientid_len',
@@ -69,7 +70,7 @@ export default defineComponent({
     const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
       const { client_attrs_init } = data?.components?.mqtt?.properties || {}
-      const { max_packet_size } = data?.components?.mqtt?.properties || {}
+      const { max_packet_size, max_connect_packet_size } = data?.components?.mqtt?.properties || {}
       if (client_attrs_init) {
         if (!client_attrs_init.componentProps) {
           client_attrs_init.componentProps = {}
@@ -115,9 +116,11 @@ export default defineComponent({
           }
         }
       }
-      if (max_packet_size) {
-        max_packet_size.componentProps = max_packet_size.componentProps || {}
-        max_packet_size.componentProps.units = ['MB', 'KB', 'B']
+      for (const property of [max_packet_size, max_connect_packet_size]) {
+        if (property) {
+          property.componentProps = property.componentProps || {}
+          property.componentProps.units = ['MB', 'KB', 'B']
+        }
       }
 
       const { items } = client_attrs_init || {}
