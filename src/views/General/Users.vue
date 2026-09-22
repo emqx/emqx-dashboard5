@@ -394,6 +394,9 @@ const getScopeDesc = (name) => {
 
 const roleCompatibleScopeOptions = computed(() =>
   availableUserScopes.value.filter((scope) => {
+    if (isNamespaceEnabled.value && scope.name === 'audit') {
+      return false
+    }
     if (!isAdminRole.value && scope.admin_only) {
       return false
     }
@@ -515,6 +518,7 @@ const handleScopeModeChanged = () => {
 
 const handleRoleDefaultScopesChanged = () => {
   shouldResolveRoleDefaultScopes.value = false
+  filterSelectedScopes(false)
 }
 
 const handleRoleChanged = () => {
@@ -692,6 +696,7 @@ const showDialog = (type = 'create', item = {}) => {
   if (type === 'edit') {
     if (availableUserScopes.value.length > 0) {
       resolveRoleDefaultScopeState()
+      filterSelectedScopes(false)
     } else {
       shouldResolveRoleDefaultScopes.value = true
     }
