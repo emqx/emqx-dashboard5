@@ -123,17 +123,21 @@ In every mode, available operations and visible data remain restricted by the ro
     zh: `**各角色的默认权限**
 
 - **全局管理员 / 全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
-- **命名空间管理员 / 命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
+- **命名空间管理员 / 命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、License
 - **发布者**：消息发布`,
     en: `**Default permissions by role**
 
 - **Global Administrator / Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
-- **Namespace Administrator / Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
+- **Namespace Administrator / Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, and License
 - **Publisher**: Publish`,
   },
   roleDefaultScopesRestrictionDesc: {
     zh: '上述权限范围决定 API 密钥可访问的功能类别；具体可执行的操作和可查看的数据仍受角色和命名空间限制。发布者只能使用消息发布权限。',
     en: 'These scopes determine which feature areas the API key can access. Allowed operations and visible data are still restricted by its role and Namespace. Publishers can only use the Publish scope.',
+  },
+  namespaceAuditScopeError: {
+    zh: '命名空间 API 密钥不能选择审计日志权限。',
+    en: 'Namespaced API keys cannot select the Audit Log scope.',
   },
   scopeLabel_connections: {
     zh: '连接',

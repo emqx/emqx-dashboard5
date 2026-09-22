@@ -268,6 +268,14 @@ const validateCustomScopes = (
   value: string[],
   callback: (error?: Error) => void,
 ) => {
+  if (
+    formData.value.scopeMode === ScopeMode.Custom &&
+    isNamespaceEnabled.value &&
+    value.includes('audit')
+  ) {
+    callback(new Error(tl('namespaceAuditScopeError')))
+    return
+  }
   if (formData.value.scopeMode === ScopeMode.Custom && value.includes(SYSTEM_SCOPE)) {
     callback(new Error(tl('customScopesSystemError')))
     return
@@ -304,6 +312,11 @@ const showResultDialog: Ref<boolean> = ref(false)
 const { datePickerShortcuts } = useDatePickerShortcuts()
 
 const isNamespaceEnabled = ref(false)
+const removeNamespaceAuditScope = () => {
+  if (isNamespaceEnabled.value) {
+    formData.value.scopes = formData.value.scopes.filter((scope) => scope !== 'audit')
+  }
+}
 const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const queryNamespaceList = async () => {
@@ -316,6 +329,7 @@ const queryNamespaceList = async () => {
   }
 }
 const toggleNamespaceEnabled = () => {
+  removeNamespaceAuditScope()
   if (isNamespaceEnabled.value && !isNamespaceOptionsLoaded.value) {
     queryNamespaceList()
   } else if (!isNamespaceEnabled.value && formData.value.namespace) {
@@ -385,6 +399,9 @@ watch(showDialog, async (val) => {
     }
     isNamespaceEnabled.value =
       !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
+    if (props.operationType !== 'view') {
+      removeNamespaceAuditScope()
+    }
   } else {
     formData.value = createRawFormData()
     lastRole.value = UserRole.Admin
@@ -396,7 +413,9 @@ const { copyText } = useCopy()
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
 const customScopeOptions = computed(() =>
-  availableScopes.value.filter(({ name }) => name !== SYSTEM_SCOPE),
+  availableScopes.value.filter(
+    ({ name }) => name !== SYSTEM_SCOPE && !(isNamespaceEnabled.value && name === 'audit'),
+  ),
 )
 const hasLegacyMixedScopes = computed(
   () =>
