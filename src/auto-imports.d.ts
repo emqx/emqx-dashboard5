@@ -223,6 +223,8 @@ declare global {
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
   const isRegExp: typeof import('lodash')['isRegExp']
+  const isZhLang: typeof import('./common/tools')['isZhLang']
+  const toLangFamily: typeof import('./common/tools')['toLangFamily']
   const isString: typeof import('lodash')['isString']
   const isUndefined: typeof import('lodash')['isUndefined']
   const judgeRuleSelectionWithFunc: typeof import('./common/tools')['judgeRuleSelectionWithFunc']
@@ -842,6 +844,8 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isRegExp: UnwrapRef<typeof import('lodash')['isRegExp']>
+    readonly isZhLang: UnwrapRef<typeof import('./common/tools')['isZhLang']>
+    readonly toLangFamily: UnwrapRef<typeof import('./common/tools')['toLangFamily']>
     readonly isString: UnwrapRef<typeof import('lodash')['isString']>
     readonly isUndefined: UnwrapRef<typeof import('lodash')['isUndefined']>
     readonly judgeRuleSelectionWithFunc: UnwrapRef<typeof import('./common/tools')['judgeRuleSelectionWithFunc']>

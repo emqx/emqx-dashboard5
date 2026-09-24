@@ -300,7 +300,7 @@ const resourceDict: Record<string, DictItem> = {}
   })
 })
 
-const langKey = state.lang === 'zh' ? 'zh' : 'en'
+const langKey = isZhLang(state.lang) ? 'zh' : 'en'
 const opNameList = Object.entries(resourceDict).map(([key, { label }]) => ({
   value: key,
   label: label?.[langKey],

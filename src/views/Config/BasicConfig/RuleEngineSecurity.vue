@@ -15,7 +15,7 @@
           class="configuration-form"
           label-position="right"
           hide-required-asterisk
-          :label-width="store.state.lang === 'zh' ? 172 : 212"
+          :label-width="isZhLang(store.state.lang) ? 172 : 212"
           :model="ssrfConfig"
         >
           <el-row>

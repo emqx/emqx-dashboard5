@@ -192,23 +192,20 @@ function replaceI18nInConfigs(
   return configs
 }
 
-const DEFAULT_VALUE_LABEL: Record<'zh' | 'en', string> = {
+const DEFAULT_VALUE_LABEL: Record<string, string> = {
   zh: '默认值：',
+  'zh-TW': '預設值：',
   en: 'Default: ',
 }
-const getDefaultValueLabel = (lang: 'zh' | 'en') => {
-  if (lang === 'zh') {
-    return DEFAULT_VALUE_LABEL['zh']
-  }
-  return DEFAULT_VALUE_LABEL['en']
-}
+const getDefaultValueLabel = (locale: string) =>
+  DEFAULT_VALUE_LABEL[locale] ?? DEFAULT_VALUE_LABEL[toLangFamily(locale)]
 
 /**
  * Traverses form configs and appends the default value (stored as `_defaultValue`) to each
  * field's description, using a localized label. Must be called after i18n replacement so that
  * the description is already in the target language before the suffix is appended.
  */
-function appendDefaultsToDescriptions(form: PluginUIConfigForm, lang: 'zh' | 'en'): void {
+function appendDefaultsToDescriptions(form: PluginUIConfigForm, locale: string): void {
   for (const key in form) {
     const field = form[key] as any
     if (typeof field !== 'object' || field === null) continue
@@ -217,12 +214,12 @@ function appendDefaultsToDescriptions(form: PluginUIConfigForm, lang: 'zh' | 'en
         field._defaultValue !== null && typeof field._defaultValue === 'object'
           ? JSON.stringify(field._defaultValue)
           : String(field._defaultValue)
-      const suffix = `${getDefaultValueLabel(lang)}${defaultStr}`
+      const suffix = `${getDefaultValueLabel(locale)}${defaultStr}`
       field.description = field.description ? `${field.description}<br/> ${suffix}` : suffix
       delete field._defaultValue
     }
-    if (field.children) appendDefaultsToDescriptions(field.children, lang)
-    if (field.valueChildren) appendDefaultsToDescriptions(field.valueChildren, lang)
+    if (field.children) appendDefaultsToDescriptions(field.children, locale)
+    if (field.valueChildren) appendDefaultsToDescriptions(field.valueChildren, locale)
   }
 }
 
@@ -251,9 +248,9 @@ export default function usePluginRenderForm(): PluginUI {
 
   const store = useStore()
 
-  const lang = computed<'zh' | 'en'>(() => {
-    return store.state.lang
-  })
+  // plugin i18n from the backend only carries en and zh
+  const lang = computed<'zh' | 'en'>(() => toLangFamily(store.state.lang))
+  const locale = computed<string>(() => store.state.lang)
 
   async function fetchPluginSchema(pluginName: string, pluginVersion: string) {
     schemaLoading.value = true
@@ -278,7 +275,7 @@ export default function usePluginRenderForm(): PluginUI {
           )
         }
         if (uiConfigs.value !== null && !isEmptyObj(uiConfigs.value.$form)) {
-          appendDefaultsToDescriptions(uiConfigs.value.$form, lang.value)
+          appendDefaultsToDescriptions(uiConfigs.value.$form, locale.value)
         }
       }
     } catch (error) {

@@ -113,7 +113,7 @@ const otherEventOpts = computed(() => {
   return ruleEvents.value.filter(({ event }) => !msgEventReg.test(event))
 })
 
-const isZh = computed(() => state.lang === 'zh')
+const isZh = computed(() => isZhLang(state.lang))
 const getEventLabel = ({ zh, en }: { zh: string; en: string }) => startCase(isZh.value ? zh : en)
 
 const updateSQL = (sql: string) => {

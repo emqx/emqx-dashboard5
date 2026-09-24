@@ -185,7 +185,7 @@ const getVersion = (version: string) => {
 }
 
 const getReleaseNoteLinkByVersion = (version: string) => {
-  const lang = locale.value === 'zh' ? 'zh' : 'en'
+  const lang = toLangFamily(locale.value)
   return ` https://www.emqx.com/${lang}/changelogs/enterprise/${version}`
 }
 
