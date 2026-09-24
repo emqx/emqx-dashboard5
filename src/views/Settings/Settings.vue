@@ -74,6 +74,10 @@ const langOption = [
     value: 'zh',
     label: '简体中文',
   },
+  {
+    value: 'zh-TW',
+    label: '繁體中文',
+  },
 ]
 
 const saveSetting = async () => {

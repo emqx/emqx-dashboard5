@@ -14,7 +14,10 @@
     "remove-orval-client": "node ./scripts/removeOrvalClient.js",
     "orval:api": "source ./.env.development.local && pnpm orval --input $HOST_URL\\api-docs/swagger.json",
     "orval:local": "pnpm orval --input ./swagger.json",
-    "prepare": "husky"
+    "prepare": "husky",
+    "i18n:zh-TW": "node ./scripts/i18n/gen-zh-TW.mjs",
+    "i18n:zh-TW:check": "node ./scripts/i18n/gen-zh-TW.mjs --check",
+    "i18n:zh-TW:lint": "node ./scripts/i18n/lint-zh-TW.mjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.0",
@@ -83,6 +86,7 @@
     "esm": "^3.2.25",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
+    "opencc-js": "^1.0.5",
     "orval": "^6.17.0",
     "prettier": "^3.3.3",
     "sass": "^1.84.0",

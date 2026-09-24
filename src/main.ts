@@ -11,6 +11,7 @@ import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import ElementPlus from 'element-plus'
 import elementI18nZhCn from 'element-plus/es/locale/lang/zh-cn'
+import elementI18nZhTw from 'element-plus/es/locale/lang/zh-tw'
 import elementI18nEn from 'element-plus/es/locale/lang/en'
 import safeHTML from '@/common/safeHTML'
 import i18n from './i18n'
@@ -22,8 +23,12 @@ function bindDirective(app: Application) {
   app.directive('safe-html', safeHTML)
 }
 
-const elementLang = store.state.lang === 'en' ? elementI18nEn : elementI18nZhCn
-const componentLocale = store.state.lang === 'zh' ? 'zh' : 'en'
+const elementLang = !isZhLang(store.state.lang)
+  ? elementI18nEn
+  : store.state.lang === 'zh-TW'
+    ? elementI18nZhTw
+    : elementI18nZhCn
+const componentLocale = isZhLang(store.state.lang) ? 'zh' : 'en'
 const app = createApp(App)
   .use(store)
   .use(router)

@@ -69,7 +69,7 @@ export default (): {
     const blockLabel = allEventWildcardLabelMap.get(block) ?? titleCase(block)
     return t('RuleEngine.allTargetEvents', { target: blockLabel })
   }
-  const isZh = computed(() => state.lang === 'zh')
+  const isZh = computed(() => isZhLang(state.lang))
   const getEventCurrentLangLabel = ({ zh, en }: { zh: string; en: string }) =>
     isZh.value ? zh : en
 
@@ -144,7 +144,7 @@ export default (): {
     }
   }
 
-  const lang = computed<'en' | 'zh'>(() => (state.lang === 'zh' ? 'zh' : 'en'))
+  const lang = computed<'en' | 'zh'>(() => (isZhLang(state.lang) ? 'zh' : 'en'))
   const getEventLabel = (event: string) => {
     const eventList: Array<RuleEvent> = state.ruleEventList
     const eventItem: RuleEvent | undefined = eventList.find((item) => item.event === event)

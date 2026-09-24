@@ -10,7 +10,7 @@
           :rules="rules"
           :model="opentelemetryFormData"
           :validate-on-rule-change="false"
-          :label-width="store.state.lang === 'zh' ? 236 : 308"
+          :label-width="isZhLang(store.state.lang) ? 236 : 308"
         >
           <el-row>
             <el-col class="ps-1.5" :xs="24" :sm="24" :md="24" :lg="16" :xl="12">
@@ -219,7 +219,7 @@
                   <template #header>
                     <span
                       class="inline-block text-right pr-8"
-                      :class="store.state.lang === 'zh' ? 'w-[236px]' : 'w-[308px]'"
+                      :class="isZhLang(store.state.lang) ? 'w-[236px]' : 'w-[308px]'"
                     >
                       {{ tl('oauth2Authentication') }}
                     </span>

@@ -11,7 +11,7 @@ export default (): {
   const getEventLabel = ({ zh, en }: { zh: string; en: string }) => (isZh.value ? zh : en)
   const getEventDesc = (event: string) => tl(`${camelCase(event.slice(8))}Desc`)
 
-  const isZh = computed(() => state.lang === 'zh')
+  const isZh = computed(() => isZhLang(state.lang))
 
   const { isMsgPubEvent } = useRuleUtils()
 

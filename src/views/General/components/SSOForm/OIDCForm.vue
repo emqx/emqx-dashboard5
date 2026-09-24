@@ -4,7 +4,7 @@
     ref="FormCom"
     :model="formData"
     :rules="rules"
-    :label-width="state.lang === 'zh' ? 140 : 228"
+    :label-width="isZhLang(state.lang) ? 140 : 228"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'OIDC' })">
       <el-switch v-model="formData.enable" />

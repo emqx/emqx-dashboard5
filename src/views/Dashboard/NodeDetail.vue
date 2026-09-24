@@ -146,7 +146,7 @@ const { transMsNumToSimpleStr } = useDurationStr()
 const { formatNodeStartupSetting } = useNodeStartupSettings()
 
 const releaseNoteLink = (version: string) => {
-  const lang = locale.value === 'zh' ? 'zh' : 'en'
+  const lang = toLangFamily(locale.value)
   return ` https://www.emqx.com/${lang}/changelogs/enterprise/${version}`
 }
 
