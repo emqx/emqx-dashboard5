@@ -7,7 +7,7 @@
           ref="form"
           class="configuration-form"
           label-position="right"
-          :label-width="store.state.lang === 'zh' ? 268 : 400"
+          :label-width="isZhLang(store.state.lang) ? 268 : 400"
           :model="streamConfig"
           :validate-on-rule-change="false"
           :rules="rules"

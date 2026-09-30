@@ -97,7 +97,7 @@ const { t, tl } = useI18nTl('General')
 const configLoading = ref(false)
 const saveLoading = ref(false)
 const store = useStore()
-const labelWidth = computed(() => (store.state.lang === 'zh' ? 170 : 230))
+const labelWidth = computed(() => (isZhLang(store.state.lang) ? 170 : 230))
 const policySchemaRef = { ref: '#/components/schemas/emqx.flapping_detect_dimension' }
 const policyFormRefs: Partial<Record<DimensionKey, PolicyFormInstance>> = {}
 const dimensionConfig = reactive<Record<DimensionKey, DimensionFormState>>({

@@ -108,7 +108,7 @@ const {
   handleDownloadTemp,
   templateContentMap,
   getTemplateContent,
-} = useBatchSettings(locale.value === 'zh' ? 'zh' : 'en')
+} = useBatchSettings(toLangFamily(locale.value))
 
 function downloadTemplate() {
   let template =

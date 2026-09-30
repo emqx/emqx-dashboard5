@@ -110,7 +110,7 @@ const configLoading = ref(true)
 const isSchemaLoading = ref(false)
 const isPageLoading = computed(() => configLoading.value || isSchemaLoading.value)
 
-const labelWidth = computed(() => (state.lang === 'zh' ? 210 : 230))
+const labelWidth = computed(() => (isZhLang(state.lang) ? 210 : 230))
 const certInfoPaddingLeft = computed(() => `${labelWidth.value}px`)
 
 const propsOrderMap = {

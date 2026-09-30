@@ -16,16 +16,37 @@ import type { RuleEvent } from '@/types/rule'
 
 export type SSOmfaPending = Extract<SSOTokenExchangeResult, { action: string }>
 
+const SUPPORTED_LANGS = ['en', 'zh', 'zh-TW']
+
+/**
+ * Accepts BCP 47 style tags: zh-Hant, zh-TW, zh-HK and zh-MO are Traditional
+ * Chinese, any other zh is Simplified, anything else falls back to English.
+ * The result is always one of SUPPORTED_LANGS, spelled the way vue-i18n and
+ * the broker's `dashboard.i18n_lang` expect it.
+ */
+const normalizeLang = (value?: string | null): string | undefined => {
+  if (!value) return undefined
+  const tag = value.toLowerCase()
+  const exact = SUPPORTED_LANGS.find((lang) => lang.toLowerCase() === tag)
+  if (exact) return exact
+  if (tag === 'zh' || tag.startsWith('zh-')) {
+    return /hant|-tw|-hk|-mo/.test(tag) ? 'zh-TW' : 'zh'
+  }
+  if (tag.startsWith('en')) return 'en'
+  return undefined
+}
+
 const getLang = () => {
-  const langFromQuery = getValueFromQuery('lang')
-  if (langFromQuery && /en|zh/i.test(langFromQuery)) {
+  const langFromQuery = normalizeLang(getValueFromQuery('lang'))
+  if (langFromQuery) {
     return langFromQuery
   }
-  let lang = localStorage.getItem('language')
-  if (!lang) {
-    lang = navigator.language.startsWith('zh') ? 'zh' : 'en'
-    localStorage.setItem('language', lang)
+  const stored = normalizeLang(localStorage.getItem('language'))
+  if (stored) {
+    return stored
   }
+  const lang = normalizeLang(navigator.language) ?? 'en'
+  localStorage.setItem('language', lang)
   return lang
 }
 
