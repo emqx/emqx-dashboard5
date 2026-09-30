@@ -5,6 +5,7 @@ on:
     tags:
       - 'e1.*'
       - '2*'
+      - '3*'
 
 jobs:
   set_version:
