@@ -136,13 +136,13 @@ In every mode, available operations and visible data remain restricted by the ro
 
 - **全局管理员 / 全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
 - **命名空间管理员**：连接、监控、数据集成、访问控制、系统设置、集群管理、License
-- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
+- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、License
 - **发布者**：消息发布`,
     en: `**Default permissions by role**
 
 - **Global Administrator / Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
 - **Namespace Administrator**: Connections, Monitoring, Data Integration, Access Control, System, Cluster, and License
-- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
+- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, and License
 - **Publisher**: Publish`,
   },
   roleDefaultScopesRestrictionDesc: {
