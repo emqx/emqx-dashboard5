@@ -11,8 +11,12 @@ export default {
     label: 'Use Username as Client ID',
   },
   idle_timeout: {
-    desc: 'Configure the duration of time that a connection can remain idle (i.e., without any data transfer) before being:\n\n- Automatically disconnected if no CONNECT package is received from the client yet.\n- Put into hibernation mode to save resources if some CONNECT packages are already received.\n\nNote: Please set the parameter with caution as long idle time will lead to resource waste.',
+    desc: 'Maximum time a new connection may wait for the client CONNECT packet. Defaults to 15 seconds. The connection is closed if no CONNECT packet arrives within this time. Hibernation of an established connection is controlled by `hibernate_after`.',
     label: 'Idle Timeout',
+  },
+  hibernate_after: {
+    desc: 'How long an established TCP, TLS, WS or WSS connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC listeners retain their own `hibernate_after` setting, which takes precedence.',
+    label: 'Hibernate After',
   },
   strict_mode: {
     desc: 'Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.',
@@ -109,6 +113,14 @@ For example (Namespace \`n1\`):
   max_packet_size: {
     desc: 'If the size is out of the preset value, EMQX will disconnect the current connection',
     label: 'Max Packet Size',
+  },
+  max_connect_packet_size: {
+    label: 'Max CONNECT Packet Size',
+    desc: 'Maximum size of a CONNECT packet. EMQX closes the connection if this limit is exceeded. This limit applies in addition to Max Packet Size; the smaller of the two applies to CONNECT packets. Default: 1 MB.',
+  },
+  max_connect_user_properties: {
+    label: 'Max CONNECT User Properties',
+    desc: 'Maximum number of User Property pairs accepted in a CONNECT packet. The limit applies separately to CONNECT properties and Will properties. EMQX closes the connection if either exceeds the limit. Default: 100. Set to 0 to disallow User Properties, or disable the limit (infinity) to accept any number.',
   },
   max_conn_rate: {
     desc: `Limits how quickly accepts connections, per each node.

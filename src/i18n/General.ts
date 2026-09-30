@@ -133,13 +133,13 @@ Available scopes are still restricted by the user's role. The default scopes for
 - **全局管理员**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License、用户管理、MFA 管理、SSO 管理、API 密钥管理
 - **全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
 - **命名空间管理员**：连接、监控、数据集成、访问控制、系统设置、集群管理、License、用户管理、API 密钥管理
-- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License`,
+- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、License`,
     en: `**Default permissions by role**
 
 - **Global Administrator**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, License, User Management, MFA Management, SSO Management, and API Key Management
 - **Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
 - **Namespace Administrator**: Connections, Monitoring, Data Integration, Access Control, System, Cluster, License, User Management, and API Key Management
-- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License`,
+- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, and License`,
   },
   roleDefaultScopesRestrictionDesc: {
     zh: '上述权限范围决定用户可访问的功能类别；具体可执行的操作和可查看的数据，仍受角色和命名空间限制。',
@@ -536,10 +536,6 @@ Available scopes are still restricted by the user's role. The default scopes for
   sourceType: {
     zh: '操作方式',
     en: 'Source Type',
-  },
-  auditLogGlobalUsersOnly: {
-    zh: '审计日志仅允许全局管理员和全局查看者访问。',
-    en: 'Audit logs are only available to global administrators and global viewers.',
   },
   auditLogDesc: {
     zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',

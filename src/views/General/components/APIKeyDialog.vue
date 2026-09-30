@@ -5,6 +5,7 @@
     class="API-key-dialog"
     :title="t('Base.create')"
     :z-index="2000"
+    destroy-on-close
   >
     <el-form
       ref="formCom"
@@ -105,7 +106,7 @@
             <el-input :placeholder="`**** ${tl('secretKeyPlaceholder')} ****`" disabled />
           </el-form-item>
         </el-col>
-        <el-col :span="24" v-if="!isPublisherRole || isNamespacedKey">
+        <el-col :span="24" v-if="!isPublisherRole">
           <el-form-item prop="scopeMode">
             <template #label>
               <FormItemLabel
@@ -124,7 +125,7 @@
               <el-radio :value="ScopeMode.RoleDefault">
                 {{ tl('roleDefaultScopes') }}
               </el-radio>
-              <el-radio :value="ScopeMode.System">
+              <el-radio v-if="!isPublisherRole" :value="ScopeMode.System">
                 {{ tl('scopeModeSystem') }}
               </el-radio>
               <el-radio :value="ScopeMode.Custom">
@@ -133,10 +134,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col
-          :span="24"
-          v-if="(!isPublisherRole || isNamespacedKey) && formData.scopeMode === ScopeMode.Custom"
-        >
+        <el-col :span="24" v-if="!isPublisherRole && formData.scopeMode === ScopeMode.Custom">
           <el-form-item class="scopes-form-item" :label="tl('scopes')" prop="scopes">
             <el-select
               v-model="formData.scopes"
@@ -418,11 +416,13 @@ const { copyText } = useCopy()
 
 const { apiKeyRoleOptions } = useRole()
 const isPublisherRole = computed(() => formData.value.role === UserRole.Publisher)
+const isSelectableCustomScope = (scope: string) =>
+  scope !== SYSTEM_SCOPE &&
+  (!isPublisherRole.value || scope === 'publish') &&
+  (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(scope))
+
 const customScopeOptions = computed(() =>
-  availableScopes.value.filter(
-    ({ name }) =>
-      name !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(name)),
-  ),
+  availableScopes.value.filter(({ name }) => isSelectableCustomScope(name)),
 )
 const hasLegacyMixedScopes = computed(
   () =>
@@ -437,10 +437,7 @@ const hasLegacyNamespacedScopes = computed(
 
 const handleScopeModeChanged = (mode: string | number | boolean | undefined) => {
   if (mode === ScopeMode.Custom) {
-    formData.value.scopes = formData.value.scopes.filter(
-      (scope) =>
-        scope !== SYSTEM_SCOPE && (!isNamespacedKey.value || isAllowedNamespacedAPIKeyScope(scope)),
-    )
+    formData.value.scopes = formData.value.scopes.filter(isSelectableCustomScope)
   }
   nextTick(() => formCom.value?.clearValidate('scopes'))
 }
@@ -478,10 +475,9 @@ const handleDataForSubmitting = <T extends APIKeyFormData | APIKeyFormDataWithou
     ...data,
     scopes,
   }
-  // The interface convention is that when the api key is never expired,
-  // do not submit expired_at
-  if (!ret.expired_at) {
-    Reflect.deleteProperty(ret, 'expired_at')
+  // Omitting expired_at on update preserves the stored expiry.
+  if (!ret.expired_at || ret.expired_at === 'infinity') {
+    ret.expired_at = 'infinity'
   } else {
     // The time is set to 23:59:59 of the selected date
     ret.expired_at = new Date(new Date(ret.expired_at).setHours(23, 59, 59)).toISOString()

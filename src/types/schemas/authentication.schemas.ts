@@ -569,8 +569,18 @@ export interface EmqxAuthnApiResponseUsers {
   meta?: PublicMeta
 }
 
+export type EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures =
+  (typeof EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures)[keyof typeof EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
+} as const
+
 export interface EmqxAuthnApiResponseAuthnSettings {
-  ignore_backend_failures?: boolean
+  ignore_backend_failures?: EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures
   node_cache?: AuthCacheConfig
 }
 
@@ -591,8 +601,18 @@ export interface EmqxAuthnApiRequestUserCreate {
   user_id: string
 }
 
+export type EmqxAuthnApiRequestAuthnSettingsIgnoreBackendFailures =
+  (typeof EmqxAuthnApiRequestAuthnSettingsIgnoreBackendFailures)[keyof typeof EmqxAuthnApiRequestAuthnSettingsIgnoreBackendFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxAuthnApiRequestAuthnSettingsIgnoreBackendFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
+} as const
+
 export interface EmqxAuthnApiRequestAuthnSettings {
-  ignore_backend_failures?: boolean
+  ignore_backend_failures?: EmqxAuthnApiRequestAuthnSettingsIgnoreBackendFailures
   node_cache?: AuthCacheConfig
 }
 
@@ -923,6 +943,10 @@ export interface AuthnHashBcrypt {
   name: AuthnHashBcryptName
 }
 
+export type AuthnScramRestapiPostOauth2 =
+  | ConnectorOauth2ClientCredentials
+  | ConnectorOauth2Oauth2Disabled
+
 export type AuthnScramRestapiPostMethod =
   (typeof AuthnScramRestapiPostMethod)[keyof typeof AuthnScramRestapiPostMethod]
 
@@ -979,6 +1003,7 @@ export interface AuthnScramRestapiPost {
   max_retries?: number
   mechanism: AuthnScramRestapiPostMechanism
   method: AuthnScramRestapiPostMethod
+  oauth2?: AuthnScramRestapiPostOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -989,6 +1014,10 @@ export interface AuthnScramRestapiPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type AuthnScramRestapiGetOauth2 =
+  | ConnectorOauth2ClientCredentials
+  | ConnectorOauth2Oauth2Disabled
 
 export type AuthnScramRestapiGetMethod =
   (typeof AuthnScramRestapiGetMethod)[keyof typeof AuthnScramRestapiGetMethod]
@@ -1046,6 +1075,7 @@ export interface AuthnScramRestapiGet {
   max_retries?: number
   mechanism: AuthnScramRestapiGetMechanism
   method: AuthnScramRestapiGetMethod
+  oauth2?: AuthnScramRestapiGetOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -1088,6 +1118,28 @@ export interface AuthnScram {
   mechanism: AuthnScramMechanism
   precondition?: string
 }
+
+export type PostAuthentication200 =
+  | AuthnBuiltinDb
+  | AuthnCinfo
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+  | AuthnScram
+  | AuthnScramRestapiGet
+  | AuthnScramRestapiPost
 
 export interface AuthnResourceMetrics {
   failed?: number

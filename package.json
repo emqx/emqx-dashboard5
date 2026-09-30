@@ -40,6 +40,7 @@
     "fflate": "^0.8.2",
     "genson-js": "^0.0.8",
     "github-markdown-css": "^5.7.0",
+    "hash-wasm": "^4.12.0",
     "highlight.js": "10.7.3",
     "js-base64": "^3.7.2",
     "json-to-avro": "^1.1.1",

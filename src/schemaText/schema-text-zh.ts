@@ -11,8 +11,12 @@ export default {
     label: '使用用户名作为客户端 ID',
   },
   idle_timeout: {
-    desc: '设置连接被断开或进入休眠状态前的等待时间，空闲超时后\n\n- 如暂未收到客户端的 CONNECT 报文，连接将断开；\n- 如已收到客户端的 CONNECT 报文，连接将进入休眠模式以节省系统资源。\n\n注意：请合理设置该参数值，如等待时间设置过长，可能造成系统资源的浪费。',
+    desc: '新连接等待客户端 CONNECT 报文的最长时间，默认 15 秒。超过此时间仍未收到 CONNECT 报文，连接将断开。已建立连接的休眠时间由 `hibernate_after` 控制。',
     label: '空闲超时',
+  },
+  hibernate_after: {
+    desc: '已建立的 TCP、TLS、WS 和 WSS 连接在无活动后进入休眠的等待时间，默认 5 秒。休眠会触发垃圾回收并缩小进程堆，以节省内存；收到报文、消息或定时器事件时，连接会唤醒。\n\n设为 `infinity` 可禁用休眠。如果客户端发送数据的间隔接近此值，建议增大该值，以避免频繁休眠带来的垃圾回收开销。此配置不影响等待 CONNECT 报文的超时时间。QUIC 监听器自身的 `hibernate_after` 配置优先。',
+    label: '连接休眠等待时间',
   },
   strict_mode: {
     desc: '是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。',
@@ -109,6 +113,14 @@ export default {
   max_packet_size: {
     desc: '允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。',
     label: '最大报文大小',
+  },
+  max_connect_packet_size: {
+    label: '最大 CONNECT 报文大小',
+    desc: '允许的最大 CONNECT 报文大小，超出此大小后 EMQX 将关闭连接。此限制与最大报文大小同时生效，CONNECT 报文以两者中较小的值为限。默认值为 1 MB。',
+  },
+  max_connect_user_properties: {
+    label: 'CONNECT 用户属性数量上限',
+    desc: 'CONNECT 报文中允许携带的用户属性键值对数量上限。CONNECT 属性和遗嘱属性分别计数，任一超限时 EMQX 将关闭连接。默认值为 100。设为 0 表示不允许携带用户属性；关闭限制（infinity）表示不限制数量。',
   },
   max_conn_rate: {
     desc: `限制每个节点上接受新连接的速率。

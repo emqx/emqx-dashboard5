@@ -558,8 +558,6 @@ export const SsoOidcNameVarSource = {
   userinfo: 'userinfo',
 } as const
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
-
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -588,6 +586,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  skip_login_cookie_check?: boolean
   ssl?: EmqxSslClientOpts
 }
 
@@ -626,6 +625,8 @@ export interface SsoClientFileJwks {
   file: string
   type: SsoClientFileJwksType
 }
+
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
 
 export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
@@ -998,6 +999,8 @@ export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttIdleTimeout = 'infinity' | string
 
+export type EmqxMqttHibernateAfter = 'infinity' | string
+
 export type EmqxMqttClientidOverride = 'disabled' | string
 
 export interface EmqxMqtt {
@@ -1005,6 +1008,7 @@ export interface EmqxMqtt {
   client_attrs_init?: EmqxClientAttrsInit[]
   clientid_override?: EmqxMqttClientidOverride
   exclusive_subscription?: boolean
+  hibernate_after?: EmqxMqttHibernateAfter
   idle_timeout?: EmqxMqttIdleTimeout
   ignore_loop_deliver?: boolean
   keepalive_check_interval?: string
@@ -1431,6 +1435,7 @@ export interface DashboardSaml {
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean
+  skip_login_cookie_check?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean

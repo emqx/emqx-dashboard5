@@ -647,6 +647,16 @@ export const PutAuthorizationSettings200NoMatch = {
   deny: 'deny',
 } as const
 
+export type PutAuthorizationSettings200IgnoreBackendFailures =
+  (typeof PutAuthorizationSettings200IgnoreBackendFailures)[keyof typeof PutAuthorizationSettings200IgnoreBackendFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettings200IgnoreBackendFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
+} as const
+
 export type PutAuthorizationSettings200DenyAction =
   (typeof PutAuthorizationSettings200DenyAction)[keyof typeof PutAuthorizationSettings200DenyAction]
 
@@ -659,7 +669,7 @@ export const PutAuthorizationSettings200DenyAction = {
 export type PutAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettings200DenyAction
-  ignore_backend_failures?: boolean
+  ignore_backend_failures?: PutAuthorizationSettings200IgnoreBackendFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
@@ -671,6 +681,16 @@ export type PutAuthorizationSettingsBodyNoMatch =
 export const PutAuthorizationSettingsBodyNoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type PutAuthorizationSettingsBodyIgnoreBackendFailures =
+  (typeof PutAuthorizationSettingsBodyIgnoreBackendFailures)[keyof typeof PutAuthorizationSettingsBodyIgnoreBackendFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettingsBodyIgnoreBackendFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type PutAuthorizationSettingsBodyDenyAction =
@@ -685,7 +705,7 @@ export const PutAuthorizationSettingsBodyDenyAction = {
 export type PutAuthorizationSettingsBody = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettingsBodyDenyAction
-  ignore_backend_failures?: boolean
+  ignore_backend_failures?: PutAuthorizationSettingsBodyIgnoreBackendFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
@@ -697,6 +717,16 @@ export type GetAuthorizationSettings200NoMatch =
 export const GetAuthorizationSettings200NoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type GetAuthorizationSettings200IgnoreBackendFailures =
+  (typeof GetAuthorizationSettings200IgnoreBackendFailures)[keyof typeof GetAuthorizationSettings200IgnoreBackendFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSettings200IgnoreBackendFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type GetAuthorizationSettings200DenyAction =
@@ -711,7 +741,7 @@ export const GetAuthorizationSettings200DenyAction = {
 export type GetAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: GetAuthorizationSettings200DenyAction
-  ignore_backend_failures?: boolean
+  ignore_backend_failures?: GetAuthorizationSettings200IgnoreBackendFailures
   include_mountpoint?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }
