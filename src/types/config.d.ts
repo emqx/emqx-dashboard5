@@ -2,6 +2,7 @@ import { EmqxForceShutdown, EmqxMqttMaxSessionExpiryInterval } from '@/types/typ
 import type {
   EmqxFlappingDetect,
   EmqxFlappingDetectDimension,
+  EmqxMqttHibernateAfter,
 } from '@/types/schemas/configs.schemas'
 import { LogConf, NamespaceConfig } from './typeAlias'
 
@@ -183,6 +184,7 @@ export interface Zone {
 
 export interface Mqtt {
   idle_timeout: string
+  hibernate_after?: EmqxMqttHibernateAfter
   max_packet_size: string
   max_clientid_len: number
   max_topic_levels: number
