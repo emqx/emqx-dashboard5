@@ -22,6 +22,8 @@ declare module 'axios' {
   export interface AxiosRequestConfig {
     doNotTriggerProgress?: boolean
     errorsHandleCustom?: number[]
+    /** Matching HTTP status and API code are handled entirely by the caller. */
+    errorsHandleCustomByCode?: { status: number; code: string }[]
     handleTimeoutSelf?: boolean
     controller?: AbortController
     keepSpaces?: boolean
@@ -133,6 +135,17 @@ axios.interceptors.response.use(
       }
 
       const { data, status } = error.response
+
+      if (
+        error.config?.errorsHandleCustomByCode?.some(
+          (handled: { status: number; code: string }) =>
+            handled.status === status && handled.code === data.code,
+        )
+      ) {
+        // Intermediate login failures must not notify, redirect, or throttle the final error.
+        store.commit('REMOVE_ABORT_CONTROLLER', error.config.controller)
+        return Promise.reject(error)
+      }
 
       if (!respSet.has(status)) {
         respSet.add(status)
