@@ -326,7 +326,7 @@
 </template>
 
 <script lang="ts" setup>
-import { scramLogin as loginApi } from '@/api/scram'
+import { loginWithPasswordFallback as loginApi } from '@/api/scram'
 import { changePassword } from '@/api/function'
 import { postSSOmfaSetupInfo, postSSOmfaSetup, postSSOmfaVerify } from '@/api/sso'
 import { LOGIN_LOCKED, MFA_REQUIRED, SCRAM_CHALLENGE_INVALID } from '@/common/customErrorCode'

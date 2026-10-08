@@ -1,4 +1,6 @@
 import http from '@/common/http'
+import { NAME_PWD_ERROR } from '@/common/customErrorCode'
+import { isAxiosError } from 'axios'
 import {
   createScramClientNonce,
   deriveScramProof,
@@ -11,6 +13,7 @@ import type {
   ScramChallengeRequest,
   ScramLoginResponse,
   ScramVerifyRequest,
+  LoginResponse,
 } from '@/types/typeAlias'
 
 const requestScramChallenge = (username: string, clientNonce: string): Promise<ScramChallenge> => {
@@ -19,7 +22,28 @@ const requestScramChallenge = (username: string, clientNonce: string): Promise<S
 }
 
 const requestScramVerification = (request: ScramVerifyRequest): Promise<ScramLoginResponse> =>
-  http.post('/login/verify', request)
+  http.post('/login/verify', request, {
+    errorsHandleCustomByCode: [{ status: 401, code: NAME_PWD_ERROR }],
+  })
+
+export const loginWithPasswordFallback = async (
+  credentials: ScramLoginCredentials,
+): Promise<LoginResponse> => {
+  try {
+    return await scramLogin(credentials)
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response?.status === 401 &&
+      error.response.data?.code === NAME_PWD_ERROR
+    ) {
+      // Legacy password hashes cannot produce a SCRAM verifier. Let the final
+      // password-login result drive notifications, MFA and lockout handling.
+      return http.post('/login', credentials)
+    }
+    throw error
+  }
+}
 
 export const scramLogin = async (
   credentials: ScramLoginCredentials,
