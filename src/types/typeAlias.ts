@@ -76,6 +76,7 @@ import type {
 import type { OpentelemetryE2eTracingOptions } from './schemas/monitor.schemas'
 import type {
   DashboardUser,
+  PostLogin200,
   PostLoginChallenge200,
   PostLoginChallengeBody,
   PostLoginVerify200,
@@ -105,6 +106,7 @@ import {
 import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
 
 /* BASE */
+export type LoginResponse = PostLogin200
 export type ScramChallenge = PostLoginChallenge200
 export type ScramChallengeRequest = PostLoginChallengeBody
 export type ScramVerifyRequest = PostLoginVerifyBody
