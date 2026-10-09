@@ -3,6 +3,7 @@ import type {
   EmqxFlappingDetect,
   EmqxFlappingDetectDimension,
   EmqxMqttHibernateAfter,
+  EmqxMqttMinorGcAfter,
 } from '@/types/schemas/configs.schemas'
 import { LogConf, NamespaceConfig } from './typeAlias'
 
@@ -185,6 +186,7 @@ export interface Zone {
 export interface Mqtt {
   idle_timeout: string
   hibernate_after?: EmqxMqttHibernateAfter
+  minor_gc_after?: EmqxMqttMinorGcAfter
   max_packet_size: string
   max_connect_packet_size?: string
   max_connect_user_properties?: number | 'infinity'
