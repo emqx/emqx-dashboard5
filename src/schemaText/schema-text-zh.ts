@@ -18,6 +18,10 @@ export default {
     desc: '已建立的 TCP、TLS、WS 和 WSS 连接在无活动后进入休眠的等待时间，默认 5 秒。休眠会触发垃圾回收并缩小进程堆，以节省内存；收到报文、消息或定时器事件时，连接会唤醒。\n\n设为 `infinity` 可禁用休眠。如果客户端发送数据的间隔接近此值，建议增大该值，以避免频繁休眠带来的垃圾回收开销。此配置不影响等待 CONNECT 报文的超时时间。QUIC 监听器自身的 `hibernate_after` 配置优先。',
     label: '连接休眠等待时间',
   },
+  minor_gc_after: {
+    desc: "使用 `socket` 后端的 TCP 连接在进程邮箱无活动后，执行一次新生代垃圾回收（Minor GC）的等待时间。默认为 `infinity`，表示禁用此垃圾回收。设为有限时长时，连接在垃圾回收后开始等待“@:{'ConfigSchema.hibernate_after.label'}”指定的时长。\n\n较短的等待时间可能减少内存使用，但会增加 CPU 开销。此配置不影响使用 `gen_tcp` 后端的连接。",
+    label: '新生代垃圾回收等待时间',
+  },
   strict_mode: {
     desc: '是否以严格模式解析 MQTT 消息。严格模式下，如客户端 ID、主题名称等中包含无效 utf8 字符串，连接将被断开。',
     label: '严格模式',
