@@ -1365,7 +1365,6 @@ export type EmqxListenerQuicSslOptsManagedCerts = EmqxManagedCertsServer | EmqxM
 export interface EmqxListenerQuicSslOpts {
   cacertfile?: string
   certfile?: string
-  hibernate_after?: string
   keyfile?: string
   managed_certs?: EmqxListenerQuicSslOptsManagedCerts
   password?: string

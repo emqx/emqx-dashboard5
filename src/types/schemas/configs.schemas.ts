@@ -558,6 +558,8 @@ export const SsoOidcNameVarSource = {
   userinfo: 'userinfo',
 } as const
 
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
+
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -625,8 +627,6 @@ export interface SsoClientFileJwks {
   file: string
   type: SsoClientFileJwksType
 }
-
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
 
 export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
@@ -985,6 +985,8 @@ export const EmqxMqttMqueueDefaultPriority = {
   lowest: 'lowest',
 } as const
 
+export type EmqxMqttMinorGcAfter = 'infinity' | string
+
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
 export type EmqxMqttMaxSubscriptions = 'infinity' | number
@@ -1047,6 +1049,7 @@ export interface EmqxMqtt {
    */
   max_topic_levels?: number
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  minor_gc_after?: EmqxMqttMinorGcAfter
   mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
   mqueue_priorities?: EmqxMqttMqueuePriorities
   mqueue_store_qos0?: boolean
