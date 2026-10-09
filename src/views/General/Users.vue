@@ -2,7 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton @click="showDialog()" />
+      <CreateButton v-if="canManageUsers" @click="showDialog()" />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -78,19 +78,23 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
+          <TableButton
+            v-if="canManageUsers"
+            :disabled="!$hasPermission('put')"
+            @click="showDialog('edit', row)"
+          >
             {{ $t('Base.edit') }}
           </TableButton>
           <TableButton
             v-if="canChangePwd(row)"
-            :disabled="!isCurrentUser(row.username) && !$hasPermission('put')"
+            :disabled="!isCurrentUser(row) && !$hasPermission('put')"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
           </TableButton>
           <TableButton
             v-if="canManageMfa(row)"
-            :disabled="!isCurrentUser(row.username) && !$hasPermission('post')"
+            :disabled="!isCurrentUser(row) && !$hasPermission('post')"
             @click="openMfaSettingsDialog(row)"
           >
             {{ tl('mfaSettings') }}
@@ -98,7 +102,7 @@
           <TableButton
             :disabled="!$hasPermission('delete')"
             @click="deleteConfirm(row)"
-            v-if="!isCurrentUser(row.username) && row.username !== 'admin'"
+            v-if="canManageUsers && !isCurrentUser(row) && row.username !== 'admin'"
           >
             {{ $t('Base.delete') }}
           </TableButton>
@@ -275,7 +279,7 @@
 
           <el-button
             type="primary"
-            :disabled="!isCurrentUser(record.username) && !$hasPermission('post')"
+            :disabled="!isCurrentUser(record) && !$hasPermission('post')"
             @click="save"
             :loading="submitLoading"
           >
@@ -288,19 +292,27 @@
   <UserMFASettingDialog
     v-model="isMfaSettingsDialogVisible"
     :user="record"
-    :is-current-user="isCurrentUser(record?.username)"
+    :is-current-user="isCurrentUser(record)"
     @submitted="loadData"
   />
 </template>
 
 <script setup>
-import { changePassword, createUser, destroyUser, loadUser, updateUser } from '@/api/function.ts'
+import {
+  changePassword,
+  createUser,
+  destroyUser,
+  loadCurrentUser,
+  loadUser,
+  updateUser,
+} from '@/api/function.ts'
 import { getLoginUserScopes } from '@/api/systemModule.ts'
 import { DASHBOARD_USERNAME_REG } from '@/common/constants'
 import { hasSelectedScopes, isUnsetScopes, normalizeScopes, UNSET_SCOPES } from '@/common/scopes'
 import { UserRole } from '@/types/enum.ts'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import UserMFASettingDialog from './components/UserMFASettingDialog.vue'
+import { toLogin } from '@/router'
 
 const SOURCE_LOCAL = 'local'
 const ScopeMode = {
@@ -545,10 +557,21 @@ const loadUserScopes = async () => {
 const { getBackendLabel } = useSSOBackendsLabel()
 const getSourceLabel = (source) => (source === SOURCE_LOCAL ? tl('local') : getBackendLabel(source))
 
-const { loadConfigPromise, hasSSOEnabled, getEnabledSSO } = useSSO()
+const { hasSSOEnabled, getEnabledSSO } = useSSO()
 
-const canChangePwd = ({ backend }) => backend === SOURCE_LOCAL
-const canManageMfa = () => true
+const accountProfile = ref()
+const canManageUsers = computed(
+  () =>
+    accountProfile.value?.role === UserRole.Admin &&
+    accountProfile.value.scopes.includes('user_management'),
+)
+const canChangePwd = (user) =>
+  isCurrentUser(user) && (user.backend || SOURCE_LOCAL) === SOURCE_LOCAL
+const canManageMfa = (user) =>
+  isCurrentUser(user) ||
+  (accountProfile.value?.role === UserRole.Admin &&
+    !isNamespaceUser.value &&
+    accountProfile.value.scopes.includes('mfa_management'))
 
 const validatePass = (rule, value, callback) => {
   if (value !== record.value.newPassword) {
@@ -647,15 +670,18 @@ const currentUserNamespace = computed(() => store.getters.userNamespace)
 const loadData = async () => {
   lockTable.value = true
   try {
+    accountProfile.value = await loadCurrentUser()
+    tableData.value = []
+    if (!canManageUsers.value) {
+      tableData.value = [accountProfile.value]
+      return
+    }
     await getEnabledSSO()
     const users = await loadUser()
     if (isNamespaceUser.value) {
       tableData.value = users.filter(({ namespace }) => namespace === currentUserNamespace.value)
     } else {
       tableData.value = users
-    }
-    if (loadConfigPromise) {
-      await loadConfigPromise
     }
   } catch (error) {
     //
@@ -675,7 +701,10 @@ const generateRawForm = () => ({
   scopeMode: ScopeMode.RoleDefault,
 })
 
-const isCurrentUser = (user) => user === currentUser.value.username
+const isCurrentUser = (user) =>
+  user?.username === currentUser.value.username &&
+  (user.backend || SOURCE_LOCAL) === (store.state.loginBackend || SOURCE_LOCAL) &&
+  (!('namespace' in user) || (user.namespace || null) === (currentUserNamespace.value || null))
 
 const showDialog = (type = 'create', item = {}) => {
   dialogVisible.value = true
@@ -692,6 +721,8 @@ const showDialog = (type = 'create', item = {}) => {
   } else if (type === 'chPass') {
     record.value = {
       username: item.username,
+      backend: item.backend,
+      namespace: item.namespace,
       password: '',
       newPassword: '',
       repeatPassword: '',
@@ -763,10 +794,13 @@ const save = async () => {
         new_pwd: record.value.newPassword,
         old_pwd: record.value.password,
       }
-      await changePassword(username, pass)
+      await changePassword(pass)
       ElMessage.success(tl('changePassSuccess'))
-      if (isCurrentUser(username)) {
+      if (isCurrentUser(record.value)) {
         store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', true)
+        closeDialog()
+        toLogin()
+        return
       }
     } else {
       await createUser(
@@ -790,7 +824,7 @@ const save = async () => {
 }
 
 const deleteConfirm = async (item) => {
-  if (isCurrentUser(item.username)) {
+  if (isCurrentUser(item)) {
     return
   }
   try {
