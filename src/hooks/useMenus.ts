@@ -52,10 +52,11 @@ const useMenus = (): {
         { title: 'namespace', path: '/namespace' },
         { title: 'rule-engine-security', path: '/rule-engine-security' },
         { title: 'listener', path: '/listener' },
+        { title: 'dashboard-listeners', path: '/dashboard-listeners' },
+        { title: 'certificates', path: '/certificates' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
         { title: 'cluster-linking', path: '/cluster-linking' },
-        { title: 'certificates', path: '/certificates' },
       ],
     },
     {
