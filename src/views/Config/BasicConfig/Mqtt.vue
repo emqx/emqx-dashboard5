@@ -64,6 +64,7 @@ export default defineComponent({
         'peer_cert_as_clientid',
         'idle_timeout',
         'hibernate_after',
+        'minor_gc_after',
       ],
       0,
     )
