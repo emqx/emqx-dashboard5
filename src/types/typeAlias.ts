@@ -91,6 +91,9 @@ import type {
 } from './schemas/monitor.schemas'
 import type {
   DashboardUser,
+  GetCurrentUser200,
+  PostCurrentUserChangePwdBody,
+  PostCurrentUserMfaBody,
   PostLogin200,
   PostLoginChallenge200,
   PostLoginChallengeBody,
@@ -268,6 +271,9 @@ export type OpenTelemetryTraces = OpentelemetryOtelTraces
 /* DASHBOARD */
 export type User = DashboardUser
 export const UserMFA = DashboardUserMfa
+export type CurrentUser = GetCurrentUser200
+export type CurrentUserPasswordUpdate = PostCurrentUserChangePwdBody
+export type CurrentUserMFAUpdate = PostCurrentUserMfaBody
 
 /*  CLUSTER */
 export type ClusterInfo = GetCluster200

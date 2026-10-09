@@ -1,9 +1,13 @@
 import http from '@/common/http'
+import type {
+  CurrentUser,
+  CurrentUserPasswordUpdate,
+  CurrentUserMFAUpdate,
+} from '@/types/typeAlias'
 import { ListDataWithPagination } from '@/types/common'
 import {
   BannedFormForCreate,
   BannedItem,
-  PwdFormForUpdate,
   UserFormForCreate,
   UserFormForUpdate,
   UserItem,
@@ -29,8 +33,20 @@ export function updateUser(
   )
 }
 
-export function changePassword(username: string, body: PwdFormForUpdate): Promise<void> {
-  return http.post(`/users/${encodeURIComponent(username)}/change_pwd`, body)
+export function loadCurrentUser(): Promise<CurrentUser> {
+  return http.get('/current_user')
+}
+
+export function changePassword(body: CurrentUserPasswordUpdate): Promise<void> {
+  return http.post('/current_user/change_pwd', body)
+}
+
+export function updateCurrentUserMfa(body: CurrentUserMFAUpdate): Promise<void> {
+  return http.post('/current_user/mfa', body)
+}
+
+export function deleteCurrentUserMfa(): Promise<void> {
+  return http.delete('/current_user/mfa')
 }
 
 export function destroyUser(username: string, backend?: string): Promise<void> {
