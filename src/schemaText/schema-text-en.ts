@@ -18,6 +18,10 @@ export default {
     desc: 'How long an established TCP, TLS, WS or WSS connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC listeners retain their own `hibernate_after` setting, which takes precedence.',
     label: 'Hibernate After',
   },
+  minor_gc_after: {
+    desc: "How long a TCP connection using the `socket` backend waits without mailbox activity before running a minor garbage collection. Defaults to `infinity`, which disables this collection. For finite values, the connection starts waiting for the timeout specified by “@:{'ConfigSchema.hibernate_after.label'}” after the collection.\n\nA shorter delay may reduce memory usage at the cost of increased CPU usage. This setting does not affect the `gen_tcp` backend.",
+    label: 'Minor GC After',
+  },
   strict_mode: {
     desc: 'Whether to parse MQTT messages in strict mode.\nIn strict mode, invalid utf8 strings in for example client ID, topic name, etc. will cause the client to be disconnected.',
     label: 'Strict Mode',
