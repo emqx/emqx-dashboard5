@@ -63,7 +63,9 @@ const QUERY_FOR_GO_UPGRADE = createQueryStr({
 })
 const QUERY_FOR_LICENSE = createQueryStr({ version: 5, utm_campaign: 'dashboard-to-license' })
 
-const createDocLinks = (lang: string): DocMap => {
+const createDocLinks = (locale: string): DocMap => {
+  // docs.emqx.com, emqx.com and the forums only publish en and zh
+  const lang = toLangFamily(locale)
   const accountsLink = lang === 'zh' ? 'accounts-zh.emqx.com' : 'accounts.emqx.com'
   return {
     sqlGrammar: `https://docs.emqx.com/${lang}/emqx/${EMQX_VERSION}/data-integration/rule-sql-syntax.html`,

@@ -1,0 +1,41 @@
+name: Check Traditional Chinese
+
+on:
+  pull_request:
+    branches:
+      - 'dev/*'
+      - '**enterprise**'
+    paths:
+      - 'src/i18n/**'
+      - 'src/schemaText/**'
+      - 'scripts/i18n/**'
+      - 'package.json'
+
+jobs:
+  check-zh-tw:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.17'
+          cache: pnpm
+
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # src/i18n/zh-TW.json is generated from the zh strings, so a change to
+      # those without regenerating it would silently leave the Traditional
+      # Chinese behind.
+      - name: src/i18n/zh-TW.json is up to date
+        run: pnpm i18n:zh-TW:check
+
+      - name: wording
+        run: pnpm i18n:zh-TW:lint

@@ -7,7 +7,7 @@
         :according-to="accordingTo"
         :form="configs"
         :btn-loading="saveLoading"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 160 : 250 }"
+        :form-props="{ labelWidth: isZhLang(state.lang) ? 160 : 250 }"
         :record-loading="configLoading"
         :data-handler="handleSchema"
         :props-order-map="propsOrder"

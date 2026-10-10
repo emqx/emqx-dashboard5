@@ -9,7 +9,7 @@
           label-position="right"
           :rules="rules"
           :model="sysTopics"
-          :label-width="store.state.lang === 'zh' ? 192 : 270"
+          :label-width="isZhLang(store.state.lang) ? 192 : 270"
         >
           <el-row>
             <el-col :span="21" class="custom-col">
