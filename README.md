@@ -133,3 +133,39 @@ To set up for development with a cloud host:
 Refer to the [Configuring Vite](https://vitejs.dev/config/#configuring-vite) for more information.
 
 After the completion of setup, the CI will run automatically and deploy upon successful execution.
+
+## License
+
+EMQX Dashboard is licensed under the
+[Business Source License 1.1](./LICENSE) (`BUSL-1.1`). This is a source-available
+license. Each Dashboard version transitions to Apache License, Version 2.0
+four years after that version's first publicly available distribution under BSL.
+The date is calculated separately for each version, including patch releases,
+across all maintained release series. Republishing the same version does not
+restart the four-year period.
+
+Use the Dashboard release tag and its first public distribution records to
+identify the version and its publication date, rather than relying solely on
+`package.json`. The conversion date is independent of Broker versions and their
+release dates; connecting to a different Broker does not change it. Conversion
+of a Dashboard version does not change the license applicable to the Broker.
+
+Both standard and enterprise builds include the complete `LICENSE` in `dist/`
+and their release archives.
+
+The Dashboard is used in conjunction with the EMQX broker. The Additional Use
+Grant permits production use of the Dashboard to manage and monitor the broker
+when the corresponding broker use is permitted under its applicable license,
+including any applicable commercial agreement. This includes single-node use,
+educational or non-profit use, and commercially licensed cluster or hosted use
+to the extent permitted by the applicable broker license or agreement. No
+separate Dashboard production license is required for uses covered by this grant.
+
+This license follows the licensing model of the
+[EMQX broker](https://github.com/emqx/emqx/blob/master/LICENSE), with the Licensed
+Work and Additional Use Grant adapted for the Dashboard. The broker remains
+subject to its own license; this license does not grant additional rights to use
+the broker. See the [EMQX Licensing FAQ](https://www.emqx.com/en/content/license-faq)
+for background on the broker's licensing model.
+
+Third-party code and dependencies remain subject to their respective licenses.
