@@ -1,6 +1,7 @@
 {
   "name": "emqx-dashboard5",
   "version": "5.10.0",
+  "license": "BUSL-1.1",
   "private": true,
   "type": "module",
   "scripts": {

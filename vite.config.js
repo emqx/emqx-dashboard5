@@ -7,6 +7,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import autoImportConfig, { autoImportComponentsConfig } from './auto-import.config.js'
 import { version as packageVersion } from './package.json'
+import { dashboardLicense } from './scripts/dashboardLicense.js'
 
 const getVersion = (packageVersion) => {
   const matched = packageVersion.match(/^\d\.\d+/)
@@ -22,6 +23,7 @@ export default defineConfig(({ mode }) => {
   return {
     base: './',
     plugins: [
+      dashboardLicense(__dirname),
       vue(),
       vueJsx({ include: /\.[jt]s[x]?$/ }),
       nodePolyfills({
