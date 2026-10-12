@@ -32,6 +32,8 @@ Post successful installation, access the EMQX Dashboard by opening <http://local
 
 ## 🤝 Get Involved
 
+- To report issues or contribute code, see our [contributing guide](./CONTRIBUTING.md).
+
 - Stay updated with the latest news by following [@EMQTech on Twitter](https://twitter.com/EMQTech).
   
 - Have a question? Check our [discussion forums](https://github.com/emqx/emqx/discussions).
