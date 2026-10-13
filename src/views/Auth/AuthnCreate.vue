@@ -119,7 +119,10 @@
           <el-button
             type="primary"
             @click="handleNext"
-            :disabled="needSelectInSecondStep && !backend"
+            :disabled="
+              (needSelectInSecondStep && !backend) ||
+              (backend === 'built_in_database' && policyLoading)
+            "
           >
             {{ $t('Base.nextStep') }}
           </el-button>
@@ -141,6 +144,7 @@
             ref="formCom"
             auth-type="authn"
             :type="mechanism"
+            :security-profile="securityProfile"
           />
           <ldap-config
             auth-type="authn"
@@ -175,7 +179,9 @@
           </el-button>
           <el-button
             type="primary"
-            :disabled="!$hasPermission('post')"
+            :disabled="
+              !$hasPermission('post') || (backend === 'built_in_database' && policyLoading)
+            "
             :loading="saveLoading"
             @click="handleCreate"
           >
@@ -205,6 +211,7 @@ import { createAuthn } from '@/api/auth'
 import { ElMessage as M } from 'element-plus'
 import type { DatabaseAndServer, BackendMap, MechanismType, BackendType } from '@/types/auth'
 import { AuthnMechanismType } from '@/types/enum'
+import useBuiltinPasswordPolicy from '@/hooks/Auth/useBuiltinPasswordPolicy'
 
 interface PresetData {
   mechanism: AuthnMechanismType
@@ -253,6 +260,7 @@ const isWork = ref(false)
 const testRes = ref(null)
 const configData = ref({})
 const { factory, create } = useAuthnCreate()
+const { securityProfile, policyLoading } = useBuiltinPasswordPolicy()
 const formCom = ref()
 const { authnMechanismTypeList } = useAuthnMechanismType()
 
@@ -386,7 +394,7 @@ const beforeNext = function () {
     }
     guideDescList.value.push(getMechanismLabel(mechanism.value as AuthnMechanismType))
   } else if (step.value === 1) {
-    const data = factory(mechanism.value, backend.value)
+    const data = factory(mechanism.value, backend.value, securityProfile.value)
     configData.value = checkPresetDataAndSet(data)
     if (mechanism.value !== 'jwt') {
       guideDescList.value.push(titleMap[backend.value])

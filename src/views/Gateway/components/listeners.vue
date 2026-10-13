@@ -36,7 +36,27 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column v-if="!showIntegration && canManageAuthentication" :label="t('Auth.authn')">
+        <template #default="{ row }">
+          <TableButton :disabled="!$hasPermission('get')" @click="manageAuthentication(row)">
+            {{ t('Auth.config') }}
+          </TableButton>
+        </template>
+      </el-table-column>
     </el-table>
+    <el-dialog
+      v-model="listenerAuthVisible"
+      :title="t('Auth.listenerAuthentication')"
+      width="90%"
+      destroy-on-close
+    >
+      <GatewayAuthentication
+        v-if="listenerAuthVisible"
+        :key="authListenerId"
+        :gateway-name="gName"
+        :listener-id="authListenerId"
+      />
+    </el-dialog>
     <div class="not-standalone-btn" v-if="showIntegration">
       <CreateButton @click="addListener">
         {{ tl('addListener') }}
@@ -60,6 +80,7 @@ import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { GatewayName } from '@/types/enum'
 import { Listener } from '@/types/listener'
+import GatewayAuthentication from './auth.vue'
 
 const props = defineProps({
   integration: {
@@ -93,6 +114,15 @@ const opListener = ref(false)
 const listenerTable = ref<Listener[]>([])
 const listenerLoading = ref(false)
 const currentListener = ref<Listener | undefined>(undefined)
+const listenerAuthVisible = ref(false)
+const authListenerId = ref('')
+const canManageAuthentication = computed(
+  () => (GATEWAY_ENABLED_MECHANISM_MAP[gName] ?? []).length > 0,
+)
+const manageAuthentication = (listener: Listener) => {
+  authListenerId.value = listener.id
+  listenerAuthVisible.value = true
+}
 
 let editPos = 0
 

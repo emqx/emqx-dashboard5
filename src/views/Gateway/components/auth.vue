@@ -15,6 +15,7 @@
           :update-func="authUpdate"
           :delete-func="authDelete"
           :gateway="gname"
+          :listener-id="listenerId"
         />
       </el-card>
     </div>
@@ -64,27 +65,32 @@ const presetAuthnDataMap: Record<string, any> = {
   ],
 }
 
+const props = defineProps<{ gatewayName?: string; listenerId?: string }>()
+
 const createDialog = ref(false)
-const hasAuth = ref(false)
+const hasAuth = ref<Record<string, any> | false>(false)
 const loadingAuth = ref(true)
 const { t, tl } = useI18nTl('Gateway')
 const route = useRoute()
-const gname: GatewayName = String(route.params.name).toLowerCase() as GatewayName
+const gname = computed(
+  () => String(props.gatewayName || route.params.name).toLowerCase() as GatewayName,
+)
 
 const allMechanism = Object.values(AuthnMechanismType)
 const disabledMechanism = computed(() => {
-  const enabledMechanism = GATEWAY_ENABLED_MECHANISM_MAP[gname] ?? []
+  const enabledMechanism: AuthnMechanismType[] = GATEWAY_ENABLED_MECHANISM_MAP[gname.value] ?? []
   return allMechanism.filter((mechanism) => !enabledMechanism.includes(mechanism))
 })
 
 const allDatabases = Object.values(DatabasesType)
 const disabledDatabases = computed(() => {
-  const enabledDatabases = GATEWAY_ENABLED_DATABASES_MAP[gname] ?? []
+  const enabledDatabases =
+    GATEWAY_ENABLED_DATABASES_MAP[gname.value as keyof typeof GATEWAY_ENABLED_DATABASES_MAP] ?? []
   return allDatabases.filter((database) => !enabledDatabases.includes(database))
 })
 
 const presetAuthnData = computed(() => {
-  return presetAuthnDataMap[gname] || undefined
+  return presetAuthnDataMap[gname.value] || undefined
 })
 
 const openAuthCreate = async () => {
@@ -94,7 +100,7 @@ const openAuthCreate = async () => {
 const getAuthInfo = async () => {
   try {
     loadingAuth.value = true
-    const res = await getGatewayAuth(gname)
+    const res = await getGatewayAuth(gname.value, props.listenerId)
     if (res === 204) {
       hasAuth.value = false
     } else if (res) {
@@ -117,10 +123,10 @@ const authCreate = async (data: AuthData) => {
       ...data.data,
       enable: true,
     }
-    await addGatewayAuth(gname, gData)
+    await addGatewayAuth(gname.value, gData, props.listenerId)
     createDialog.value = false
     M.success(t('Base.createSuccess'))
-    getAuthInfo()
+    await getAuthInfo()
   } catch (error) {
     return Promise.reject(error)
   }
@@ -128,17 +134,21 @@ const authCreate = async (data: AuthData) => {
 
 const authUpdate = async (data: AuthData) => {
   try {
-    await updateGatewayAuth(gname, omit(cloneDeep(data), ['id', 'chain_name']))
+    await updateGatewayAuth(
+      gname.value,
+      omit(cloneDeep(data), ['id', 'chain_name']),
+      props.listenerId,
+    )
     M.success(t('Base.updateSuccess'))
-    getAuthInfo()
+    await getAuthInfo()
   } catch (error) {
-    //
+    return Promise.reject(error)
   }
 }
 
 const authDelete = async () => {
   try {
-    await deleteGatewayAuth(gname)
+    await deleteGatewayAuth(gname.value, props.listenerId)
     hasAuth.value = false
     M.success(t('Base.deleteSuccess'))
   } catch (error) {
@@ -146,7 +156,7 @@ const authDelete = async () => {
   }
 }
 
-getAuthInfo()
+watch(() => [gname.value, props.listenerId], getAuthInfo, { immediate: true })
 </script>
 
 <style lang="scss" scoped>

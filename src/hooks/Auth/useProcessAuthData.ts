@@ -3,6 +3,7 @@ import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
 import { CInfoConfig } from '@/types/auth'
 import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
+import { normalizeBuiltinPasswordConfig } from '@/common/authnBuiltinPassword'
 //
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -140,7 +141,10 @@ export default function useProcessAuthData() {
     return tempData
   }
   const processPasswordHashAlgorithmData = (data: any) => {
-    const ret = cloneDeep(data)
+    const ret =
+      data.backend === 'built_in_database' && data.mechanism === 'password_based'
+        ? normalizeBuiltinPasswordConfig(cloneDeep(data))
+        : cloneDeep(data)
     const isBuiltInDatabase = data.backend === 'built_in_database'
     if ('password_hash_algorithm' in ret) {
       ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(

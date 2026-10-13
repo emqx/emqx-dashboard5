@@ -30,6 +30,7 @@ export interface AuthnItem {
   enable: boolean
   id: string
   mechanism: string
+  autogenerate_password?: boolean
   password_hash_algorithm?: PasswordHashAlgorithm
   user_id_type?: string
   body?: Body
@@ -74,9 +75,12 @@ export interface BuiltInDBItem {
 
 export interface DataManagerItem {
   user_id: string
-  password: string
   is_superuser: boolean
   namespace?: string
+}
+
+export interface AuthenticationUserForm extends DataManagerItem {
+  password: string
 }
 
 export type Metrics = MetricsDataWithExtraData<{

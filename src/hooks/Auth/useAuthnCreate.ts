@@ -1,6 +1,8 @@
 import { HTTP_POST_DEFAULT_HEADERS } from '@/common/constants'
 import { LDAPAuthMethod } from '@/types/enum'
 import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
+import { createBuiltinHash } from '@/common/authnBuiltinPassword'
+import type { SecurityProfile } from '@/types/dashboard'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
@@ -16,11 +18,12 @@ export default function useAuthnCreate() {
     processCInfoCreateConfig,
   } = useProcessAuthData()
 
-  const getBuiltInConfig = (type: string) => {
+  const getBuiltInConfig = (type: string, profile: SecurityProfile = 'hardened') => {
     if (type === 'password_based') {
       return {
         user_id_type: 'username',
-        ...getPasswordHashAlgorithmObj(),
+        autogenerate_password: profile !== 'legacy',
+        password_hash_algorithm: createBuiltinHash(profile !== 'legacy', profile),
       }
     } else if (type === 'scram') {
       return {
@@ -185,13 +188,13 @@ export default function useAuthnCreate() {
     }
   }
 
-  const factory = (mechanism: string, backend: string) => {
+  const factory = (mechanism: string, backend: string, profile: SecurityProfile = 'hardened') => {
     switch (mechanism) {
       case 'password_based':
         if (backend === 'http') {
           return getHttpConfig('password_based')
         } else if (backend === 'built_in_database') {
-          return getBuiltInConfig('password_based')
+          return getBuiltInConfig('password_based', profile)
         } else if (backend === 'mysql' || backend === 'postgresql') {
           return getDatabaseConfig(backend)
         } else if (backend === 'redis') {

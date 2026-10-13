@@ -2,7 +2,7 @@
   <el-col :span="12">
     <el-form-item :label="$t('Auth.passwordHash')">
       <el-select v-model="formData.password_hash_algorithm.name" @change="handleSaltChanged">
-        <el-option v-for="item in HashOptions" :key="item" :value="item" />
+        <el-option v-for="item in hashOptions" :key="item" :value="item" />
       </el-select>
     </el-form-item>
   </el-col>
@@ -52,15 +52,23 @@
 
 <script setup lang="ts">
 import { SaltPosition } from '@/types/enum'
+import type { SecurityProfile } from '@/types/dashboard'
+import {
+  builtinHashOptions,
+  builtinMacOptions,
+  builtinPbkdf2Iterations,
+  createBuiltinHash,
+} from '@/common/authnBuiltinPassword'
 
 interface PasswordHashAlgorithmFormItems {
+  autogenerate_password?: boolean
   password_hash_algorithm: {
     name: string
-    salt_rounds?: number
-    mac_fun?: number
-    iterations?: number
-    dk_length?: number
-    salt_position?: SaltPosition
+    salt_rounds?: number | string
+    mac_fun?: string
+    iterations?: number | string
+    dk_length?: number | string
+    salt_position?: string
   }
 }
 
@@ -72,6 +80,10 @@ const props = defineProps({
   isBuiltInDatabase: {
     type: Boolean,
     default: false,
+  },
+  securityProfile: {
+    type: String as PropType<SecurityProfile>,
+    default: 'hardened',
   },
 })
 
@@ -96,9 +108,16 @@ const formData = computed<PasswordHashAlgorithmFormItems>({
   },
 })
 const { HashOptions } = usePassword()
+const hashOptions = computed(() =>
+  props.isBuiltInDatabase ? builtinHashOptions(props.securityProfile) : HashOptions.value,
+)
 
 const saltPositionOpt = [SaltPosition.Disable, SaltPosition.Prefix, SaltPosition.Suffix]
-const macFunOpt = ['sha', 'sha224', 'sha256', 'sha384', 'sha512']
+const macFunOpt = computed(() =>
+  props.isBuiltInDatabase
+    ? builtinMacOptions(props.securityProfile)
+    : ['sha', 'sha224', 'sha256', 'sha384', 'sha512'],
+)
 
 const needSelectSaltPosition = computed(() => {
   const { name } = formData.value.password_hash_algorithm
@@ -107,9 +126,30 @@ const needSelectSaltPosition = computed(() => {
 
 watch(
   () => formData.value.password_hash_algorithm.name,
-  () => {
+  (name) => {
+    if (props.modelValue.autogenerate_password) return
+    if (props.isBuiltInDatabase) {
+      formData.value.password_hash_algorithm = createBuiltinHash(false, props.securityProfile, name)
+      return
+    }
     if (formData.value.password_hash_algorithm.name === 'plain') {
       formData.value.password_hash_algorithm.salt_position = SaltPosition.Disable
+    }
+  },
+)
+
+watch(
+  () => formData.value.password_hash_algorithm.mac_fun,
+  (mac, oldMac) => {
+    const hash = formData.value.password_hash_algorithm
+    if (
+      props.isBuiltInDatabase &&
+      hash.name === 'pbkdf2' &&
+      mac &&
+      oldMac &&
+      Number(hash.iterations) === builtinPbkdf2Iterations(oldMac, props.securityProfile)
+    ) {
+      hash.iterations = builtinPbkdf2Iterations(mac, props.securityProfile)
     }
   },
 )

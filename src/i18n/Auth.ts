@@ -1,4 +1,60 @@
 export default {
+  passwordMode: {
+    zh: '密码设置方式',
+    en: 'Password Mode',
+  },
+  positiveIntegerRequired: {
+    zh: '请输入大于 0 的整数',
+    en: 'Enter an integer greater than 0',
+  },
+  generatedPasswordMode: {
+    zh: '自动生成',
+    en: 'Automatically Generated',
+  },
+  manualPasswordMode: {
+    zh: '手动设置',
+    en: 'Manually Supplied',
+  },
+  generatedPasswordModeDesc: {
+    zh: '添加用户时由 EMQX 生成随机密码。修改密码请使用“重置密码”，客户端连接时仍需要提供密码。',
+    en: 'EMQX generates a random password when a user is added. Use Reset Password to change it. Clients still need the password to connect.',
+  },
+  unsupportedBuiltinHash: {
+    zh: '当前安全配置不支持所选的密码加密算法，请重新选择。',
+    en: 'The selected password hash algorithm is not supported by the current security profile. Choose a supported algorithm.',
+  },
+  keepPasswordPlaceholder: {
+    zh: '留空表示保留原密码',
+    en: 'Leave blank to keep the current password',
+  },
+  generatedPassword: {
+    zh: '生成的密码',
+    en: 'Generated Password',
+  },
+  generatedPasswordNotice: {
+    zh: '请复制并保存此密码，用于配置客户端连接。关闭后无法再次查看；需要新密码时可重置密码。',
+    en: 'Copy and save this password to configure your client. It cannot be viewed again after closing this dialog. Reset the password if you need a new one.',
+  },
+  userId: {
+    zh: '用户 ID',
+    en: 'User ID',
+  },
+  rotatePassword: {
+    zh: '重置密码',
+    en: 'Reset Password',
+  },
+  rotatePasswordConfirm: {
+    zh: '确认重置用户 {user} 的密码？重置后将自动生成新密码，原密码立即失效。',
+    en: 'Reset the password for user {user}? A new password will be generated automatically, and the current password will stop working immediately.',
+  },
+  rotatePasswordSuccess: {
+    zh: '密码已重置',
+    en: 'Password reset',
+  },
+  listenerAuthentication: {
+    zh: '监听器认证',
+    en: 'Listener Authentication',
+  },
   mechanism: {
     zh: '认证方式',
     en: 'Mechanism',
@@ -548,8 +604,8 @@ export default {
     en: 'Action',
   },
   updateBuiltInTip: {
-    zh: '更新密码加密方式或加盐方式将导致已添加的认证数据不可用，是否确认更新？',
-    en: 'Updating the Password Hash or Salt Position will cause the added authentication data to be unavailable. Confirm to update?',
+    zh: '更新密码设置方式或加密算法后，新建用户及后续修改的密码将使用新配置。已保存加密算法的用户保留原密码；升级遗留数据请先验证兼容性。是否继续？',
+    en: 'New users and subsequent password changes will use the updated mode and hash settings. Users with stored hash metadata keep their current passwords. Verify compatibility for legacy data before proceeding. Continue?',
   },
   authn: {
     zh: '认证',

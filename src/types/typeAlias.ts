@@ -1,7 +1,13 @@
 import {
   GetAuthentication200Item,
-  AuthnBuiltinDb,
+  AuthnBuiltinDbManual,
+  AuthnBuiltinDbGenerated,
   AuthnJwtPublicKeyOnMissingJwt,
+} from './schemas/authentication.schemas'
+import type {
+  EmqxAuthnApiRequestUserCreate,
+  EmqxAuthnApiRequestUserUpdate,
+  EmqxAuthnApiResponseUserWithPassword,
 } from './schemas/authentication.schemas'
 import {
   EmqxAuthzApiMnesiaRuleItemAction,
@@ -174,8 +180,11 @@ export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
 export type GatewayListener = PostGatewaysNameListenersBody
 
 /* AUTHENTICATION */
-export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
+export type AuthenticationBuiltInDbConfig = AuthnBuiltinDbManual | AuthnBuiltinDbGenerated
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
+export type AuthenticationUserCreateRequest = EmqxAuthnApiRequestUserCreate
+export type AuthenticationUserUpdateRequest = EmqxAuthnApiRequestUserUpdate
+export type AuthenticationUserWithPassword = EmqxAuthnApiResponseUserWithPassword
 export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 
 /* AUTHORIZATION */

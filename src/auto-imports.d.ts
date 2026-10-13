@@ -319,6 +319,7 @@ declare global {
   const useAuth: typeof import('./hooks/Auth/useAuth')['default']
   const useAuthHelp: typeof import('./hooks/Auth/useAuthHelp')['default']
   const useAuthMetrics: typeof import('./hooks/useMetrics')['useAuthMetrics']
+  const useAuthenticationUsers: typeof import('./hooks/Auth/useAuthenticationUsers')['default']
   const useAuthn: typeof import('./hooks/Auth/useAuthn')['default']
   const useAuthnCreate: typeof import('./hooks/Auth/useAuthnCreate')['default']
   const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
@@ -336,6 +337,7 @@ declare global {
   const useBridgeTypeOptions: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeOptions']
   const useBridgeTypeValue: typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['default']
   const useBuiltInDataUpdateTip: typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']
+  const useBuiltinPasswordPolicy: typeof import('./hooks/Auth/useBuiltinPasswordPolicy')['default']
   const useCInfoConfigForm: typeof import('./hooks/Auth/useCInfoConfigForm')['default']
   const useCSSVariables: typeof import('./hooks/useCSSVariables')['default']
   const useCertBundle: typeof import('./hooks/useCertBundle')['default']
@@ -954,6 +956,7 @@ declare module 'vue' {
     readonly useBridgeTypeOptions: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['useBridgeTypeOptions']>
     readonly useBridgeTypeValue: UnwrapRef<typeof import('./hooks/Rule/bridge/useBridgeTypeValue')['default']>
     readonly useBuiltInDataUpdateTip: UnwrapRef<typeof import('./hooks/Auth/useBuiltInDataUpdateTip')['default']>
+    readonly useBuiltinPasswordPolicy: UnwrapRef<typeof import('./hooks/Auth/useBuiltinPasswordPolicy')['default']>
     readonly useCInfoConfigForm: UnwrapRef<typeof import('./hooks/Auth/useCInfoConfigForm')['default']>
     readonly useCSSVariables: UnwrapRef<typeof import('./hooks/useCSSVariables')['default']>
     readonly useCertBundle: UnwrapRef<typeof import('./hooks/useCertBundle')['default']>

@@ -19,8 +19,8 @@ export default (): {
     if (
       !newHashSetting ||
       !oldHashSetting ||
-      (newHashSetting.name === oldHashSetting.name &&
-        newHashSetting.salt_position === oldHashSetting.salt_position)
+      (isEqual(newHashSetting, oldHashSetting) &&
+        data.autogenerate_password === rawSetting?.autogenerate_password)
     ) {
       return Promise.resolve()
     }
