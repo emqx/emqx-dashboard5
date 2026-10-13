@@ -43,26 +43,12 @@
                 </el-table-column>
                 <el-table-column :label="t('Dashboard.status')" prop="node_status" width="120">
                   <template #default="{ row }">
-                    <span
-                      v-if="![NodeStatus.Running, NodeStatus.Stopped].includes(row.node_status)"
-                    >
-                      {{ row.node_status }}
-                    </span>
-                    <span
-                      v-else
-                      :class="[
-                        row.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
-                      ]"
-                    >
-                      {{
-                        row.node_status === NodeStatus.Running
-                          ? t('Dashboard.running')
-                          : t('Dashboard.stopped')
-                      }}
-                    </span>
+                    <NodeStatusLabel :status="row.node_status" />
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.version')" prop="version" width="200" />
+                <el-table-column :label="t('Dashboard.version')" prop="version" width="200">
+                  <template #default="{ row }">{{ row.version ?? '--' }}</template>
+                </el-table-column>
                 <el-table-column width="120">
                   <template #header>
                     <!-- Invite Button -->
@@ -120,20 +106,34 @@
                 </el-table-column>
                 <el-table-column :label="t('Dashboard.status')" prop="node_status" width="120">
                   <template #default="{ row }">
-                    <span
-                      :class="[
-                        row.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
-                      ]"
-                    >
-                      {{
-                        row.node_status === NodeStatus.Running
-                          ? t('Dashboard.running')
-                          : t('Dashboard.stopped')
-                      }}
-                    </span>
+                    <NodeStatusLabel :status="row.node_status" />
                   </template>
                 </el-table-column>
-                <el-table-column :label="t('Dashboard.version')" prop="version" width="200" />
+                <el-table-column :label="t('Dashboard.version')" prop="version" width="200">
+                  <template #default="{ row }">{{ row.version ?? '--' }}</template>
+                </el-table-column>
+                <el-table-column width="120" />
+              </el-table>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="unknownNodes.length" :span="21">
+            <el-form-item :label="t('Dashboard.unknownRoleNodes')">
+              <el-table class="nodes-table shadow-none" :data="unknownNodes">
+                <el-table-column :label="t('Dashboard.nodeName')" prop="node">
+                  <template #default="{ row }">
+                    <router-link :to="`/dashboard/nodes/${row.node}`">
+                      <CommonOverflowTooltip :content="row.node" />
+                    </router-link>
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('Dashboard.status')" width="120">
+                  <template #default="{ row }">
+                    <NodeStatusLabel :status="row.node_status" />
+                  </template>
+                </el-table-column>
+                <el-table-column :label="t('Dashboard.version')" width="200">
+                  <template #default="{ row }">{{ row.version ?? '--' }}</template>
+                </el-table-column>
                 <el-table-column width="120" />
               </el-table>
             </el-form-item>
@@ -168,6 +168,8 @@ import { NodeStatus } from '@/types/enum'
 import { forceLeaveNode, getClusterNodes, inviteNode, loadNodes, updateCluster } from '@/api/common'
 import { toLower } from 'lodash'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import NodeStatusLabel from '@/components/NodeStatusLabel.vue'
+import { groupNodesByRole } from '@/common/nodeStatus'
 
 type DetailedNodeInfo = NodeInfo & { is_self: boolean }
 type DetailedClusterInfo = Omit<ClusterInfo, 'nodes'> & {
@@ -182,17 +184,10 @@ const isCommunityLicense = computed(() => getters.isCommunityLicense)
 const clusterInfo = ref<DetailedClusterInfo>({ name: '', nodes: [], self: '' })
 const isLoading = ref(false)
 
-const coreNodes = computed(() => {
-  return Array.isArray(clusterInfo.value?.nodes)
-    ? clusterInfo.value.nodes.filter((node) => node && node.role === 'core')
-    : []
-})
-
-const replicantNodes = computed(() => {
-  return Array.isArray(clusterInfo.value?.nodes)
-    ? clusterInfo.value.nodes.filter((node) => node && node.role === 'replicant')
-    : []
-})
+const nodesByRole = computed(() => groupNodesByRole(clusterInfo.value.nodes ?? []))
+const coreNodes = computed(() => nodesByRole.value.core)
+const replicantNodes = computed(() => nodesByRole.value.replicant)
+const unknownNodes = computed(() => nodesByRole.value.unknown)
 
 const fetchNodeDetailsWithRetry = async (
   expectedNodeCount: number,
@@ -254,10 +249,7 @@ const getClusterInfo = async () => {
         mergedNodesData.push({
           node,
           is_self: false,
-          version: t('RuleEngine.unknown'),
-          role: 'core',
-          node_status: t('RuleEngine.unknown'),
-        } as DetailedNodeInfo)
+        })
       }
     })
 

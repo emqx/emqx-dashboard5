@@ -1,5 +1,5 @@
 <template>
-  <div class="nodes-graph">
+  <div class="nodes-graph" :class="{ 'has-unknown-nodes': unknownNodes.length }">
     <VueFlow
       ref="FlowInstance"
       id="nodes-graph"
@@ -36,10 +36,25 @@
         />
       </template>
     </VueFlow>
+    <div class="unknown-nodes" v-if="unknownNodes.length">
+      <div class="unknown-nodes-title">{{ t('Dashboard.unknownRoleNodes') }}</div>
+      <button
+        v-for="node in unknownNodes"
+        :key="node.node"
+        type="button"
+        class="unknown-node"
+        :class="{ 'is-selected': modelValue === node.node }"
+        @click="selectNode(node.node)"
+      >
+        <NodeStatusLabel :status="node.node_status" />
+        <span>{{ node.node }}</span>
+      </button>
+    </div>
     <NodeListPopover
       v-if="isPopoverVisible"
       v-click-outside="closePopover"
       :nodes="nodes"
+      @select="selectNode"
       :class="{ 'is-more-down': showReplicantNodesCountPopover }"
     />
     <NodesCountCard
@@ -66,9 +81,11 @@ import useNodesGraph, {
   BACKGROUND_CIRCLE_OUTER_RADIUS,
   FlowDataItem,
   FLOW_DEFAULT_ZOOM,
+  MAX_DISPLAYED_REP_NODE,
 } from '@/hooks/Overview/useNodesGraph'
 import { NodeInfo } from '@/types/dashboard'
-import { NodeStatus } from '@/types/enum'
+import { countNodeStatuses, groupNodesByRole } from '@/common/nodeStatus'
+import NodeStatusLabel from '@/components/NodeStatusLabel.vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { ClickOutside as vClickOutside } from 'element-plus'
 import BackgroundCircle from './BackgroundCircle.vue'
@@ -117,24 +134,13 @@ const backgroundNode: ComputedRef<Array<FlowDataItem>> = computed(() =>
     : [],
 )
 
-const replicantNodesCountData = computed(() => {
-  return props.nodes.reduce(
-    (countMap, { node_status, role }) => {
-      if (role !== 'core') {
-        countMap[node_status]++
-      }
-      return countMap
-    },
-    { [NodeStatus.Running]: 0, [NodeStatus.Stopped]: 0 },
-  )
-})
-const showReplicantNodesCountPopover = computed(() => {
-  return (
-    replicantNodesCountData.value[NodeStatus.Running] +
-      replicantNodesCountData.value[NodeStatus.Stopped] >
-    20
-  )
-})
+const { t } = useI18n()
+const nodesByRole = computed(() => groupNodesByRole(props.nodes))
+const unknownNodes = computed(() => nodesByRole.value.unknown)
+const replicantNodesCountData = computed(() => countNodeStatuses(nodesByRole.value.replicant))
+const showReplicantNodesCountPopover = computed(
+  () => nodesByRole.value.replicant.length > MAX_DISPLAYED_REP_NODE,
+)
 
 const flowData: Ref<Array<FlowDataItem>> = ref([...backgroundNode.value])
 useVueFlow('nodes-graph')
@@ -181,6 +187,42 @@ const onClickCountCardOutside = () => {
 .nodes-graph {
   position: relative;
   height: 100%;
+  &.has-unknown-nodes {
+    display: flex;
+    flex-direction: column;
+    .vue-flow {
+      flex: 1;
+      min-height: 243px;
+    }
+  }
+  .unknown-nodes {
+    max-height: 120px;
+    overflow: auto;
+    padding: 8px;
+    border-top: 1px solid var(--color-border-card);
+  }
+  .unknown-nodes-title {
+    margin-bottom: 8px;
+    color: var(--color-text-secondary);
+  }
+  .unknown-node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--color-text-primary);
+    font: inherit;
+    text-align: left;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    &.is-selected {
+      border-color: var(--color-primary);
+      border-radius: 4px;
+    }
+  }
   .node-core,
   .node-replicant {
     cursor: default;

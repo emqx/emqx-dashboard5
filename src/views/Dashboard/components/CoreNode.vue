@@ -35,7 +35,7 @@ const props = defineProps({
   },
   status: {
     type: String as PropType<NodeStatus>,
-    default: NodeStatus.Running,
+    default: undefined,
   },
   nodesNum: {
     type: Number,
@@ -51,7 +51,9 @@ const id = createRandomString()
 const gradientColor = computed(() =>
   props.status === NodeStatus.Running
     ? ['rgba(94, 78, 255, 0.9)', 'rgba(94, 78, 255, 0.9)']
-    : ['#dcdcdc', '#dcdcdc'],
+    : props.status === NodeStatus.Unreachable
+      ? ['var(--el-color-warning)', 'var(--el-color-warning)']
+      : ['#dcdcdc', '#dcdcdc'],
 )
 
 const getPoints = (multiple = 1) => {
