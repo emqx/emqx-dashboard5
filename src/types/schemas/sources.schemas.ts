@@ -22,6 +22,7 @@ export type PostSourcesProbeBody =
   | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
   | KafkaConsumerPostSource
+  | SourceGcpPubsubConsumerGrpcPostSource
 
 export type PostSourcesProbeParams = {
   ns?: string
@@ -194,6 +195,7 @@ export type PutSourcesId200 =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+  | SourceGcpPubsubConsumerGrpcGetSource
 
 export type PutSourcesIdBody =
   | ActionSourceAzureEventGridPutSource
@@ -201,6 +203,7 @@ export type PutSourcesIdBody =
   | BridgeRabbitmqPutSource
   | GcpPubsubConsumerPutSource
   | KafkaConsumerPutSource
+  | SourceGcpPubsubConsumerGrpcPutSource
 
 export type PutSourcesIdParams = {
   ns?: string
@@ -224,6 +227,7 @@ export type GetSourcesId200 =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+  | SourceGcpPubsubConsumerGrpcGetSource
 
 export type GetSourcesIdParams = {
   ns?: string
@@ -292,6 +296,7 @@ export type PostSources201 =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+  | SourceGcpPubsubConsumerGrpcGetSource
 
 export type PostSourcesBody =
   | ActionSourceAzureEventGridPostSource
@@ -299,6 +304,7 @@ export type PostSourcesBody =
   | BridgeRabbitmqPostSource
   | GcpPubsubConsumerPostSource
   | KafkaConsumerPostSource
+  | SourceGcpPubsubConsumerGrpcPostSource
 
 export type PostSourcesParams = {
   ns?: string
@@ -310,6 +316,7 @@ export type GetSources200Item =
   | BridgeRabbitmqGetSource
   | GcpPubsubConsumerGetSource
   | KafkaConsumerGetSource
+  | SourceGcpPubsubConsumerGrpcGetSource
 
 export type GetSourcesParams = {
   ns?: string
@@ -323,6 +330,7 @@ export type GetSourceTypes200Item =
 export const GetSourceTypes200Item = {
   azure_event_grid: 'azure_event_grid',
   gcp_pubsub_consumer: 'gcp_pubsub_consumer',
+  gcp_pubsub_consumer_grpc: 'gcp_pubsub_consumer_grpc',
   kafka_consumer: 'kafka_consumer',
   mqtt: 'mqtt',
   rabbitmq: 'rabbitmq',
@@ -382,6 +390,85 @@ export type PostNodesNodeSourcesIdOperation400 = {
 
 export type PostNodesNodeSourcesIdOperationParams = {
   ns?: string
+}
+
+export interface SourceGcpPubsubConsumerGrpcSourceParameters {
+  ack_deadline?: string
+  /** @minimum 0 */
+  max_outstanding_messages?: number
+  topic: string
+}
+
+export type SourceGcpPubsubConsumerGrpcResourceOptsRequestTtl = 'infinity' | string
+
+export type SourceGcpPubsubConsumerGrpcResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface SourceGcpPubsubConsumerGrpcResourceOpts {
+  health_check_interval?: string
+  health_check_interval_jitter?: string
+  health_check_timeout?: SourceGcpPubsubConsumerGrpcResourceOptsHealthCheckTimeout
+  request_ttl?: SourceGcpPubsubConsumerGrpcResourceOptsRequestTtl
+}
+
+export interface SourceGcpPubsubConsumerGrpcPutSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  parameters: SourceGcpPubsubConsumerGrpcSourceParameters
+  resource_opts?: SourceGcpPubsubConsumerGrpcResourceOpts
+  tags?: string[]
+}
+
+export type SourceGcpPubsubConsumerGrpcPostSourceType =
+  (typeof SourceGcpPubsubConsumerGrpcPostSourceType)[keyof typeof SourceGcpPubsubConsumerGrpcPostSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SourceGcpPubsubConsumerGrpcPostSourceType = {
+  gcp_pubsub_consumer_grpc: 'gcp_pubsub_consumer_grpc',
+} as const
+
+export interface SourceGcpPubsubConsumerGrpcPostSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  parameters: SourceGcpPubsubConsumerGrpcSourceParameters
+  resource_opts?: SourceGcpPubsubConsumerGrpcResourceOpts
+  tags?: string[]
+  type: SourceGcpPubsubConsumerGrpcPostSourceType
+}
+
+export type SourceGcpPubsubConsumerGrpcGetSourceType =
+  (typeof SourceGcpPubsubConsumerGrpcGetSourceType)[keyof typeof SourceGcpPubsubConsumerGrpcGetSourceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SourceGcpPubsubConsumerGrpcGetSourceType = {
+  gcp_pubsub_consumer_grpc: 'gcp_pubsub_consumer_grpc',
+} as const
+
+export type SourceGcpPubsubConsumerGrpcGetSourceStatus =
+  (typeof SourceGcpPubsubConsumerGrpcGetSourceStatus)[keyof typeof SourceGcpPubsubConsumerGrpcGetSourceStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SourceGcpPubsubConsumerGrpcGetSourceStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected',
+  inconsistent: 'inconsistent',
+} as const
+
+export interface SourceGcpPubsubConsumerGrpcGetSource {
+  connector: string
+  description?: string
+  enable?: boolean
+  name: string
+  node_status?: ActionsAndSourcesNodeStatus[]
+  parameters: SourceGcpPubsubConsumerGrpcSourceParameters
+  resource_opts?: SourceGcpPubsubConsumerGrpcResourceOpts
+  status?: SourceGcpPubsubConsumerGrpcGetSourceStatus
+  status_reason?: string
+  tags?: string[]
+  type: SourceGcpPubsubConsumerGrpcGetSourceType
 }
 
 export type KafkaConsumerSourceParametersValueEncodingMode =

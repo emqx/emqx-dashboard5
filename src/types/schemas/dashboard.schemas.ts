@@ -360,6 +360,16 @@ export type PostLoginVerify400 = {
   message?: string
 }
 
+export type PostLoginVerify200MfaStatus =
+  (typeof PostLoginVerify200MfaStatus)[keyof typeof PostLoginVerify200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
 export type PostLoginVerify200LicenseEdition =
   (typeof PostLoginVerify200LicenseEdition)[keyof typeof PostLoginVerify200LicenseEdition]
 
@@ -375,6 +385,7 @@ export type PostLoginVerify200License = {
 
 export type PostLoginVerify200 = {
   license?: PostLoginVerify200License
+  mfa_status?: PostLoginVerify200MfaStatus
   password_expire_in_seconds?: number
   role?: string
   server_signature?: string
@@ -461,6 +472,25 @@ export type PostLogin401 = {
   message?: string
 }
 
+export type PostLogin200MfaStatus =
+  (typeof PostLogin200MfaStatus)[keyof typeof PostLogin200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogin200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
+export type PostLogin200 = {
+  license?: PostLogin200License
+  mfa_status?: PostLogin200MfaStatus
+  password_expire_in_seconds?: number
+  role?: string
+  token?: string
+  version?: string
+}
+
 export type PostLogin200LicenseEdition =
   (typeof PostLogin200LicenseEdition)[keyof typeof PostLogin200LicenseEdition]
 
@@ -472,14 +502,6 @@ export const PostLogin200LicenseEdition = {
 
 export type PostLogin200License = {
   edition?: PostLogin200LicenseEdition
-}
-
-export type PostLogin200 = {
-  license?: PostLogin200License
-  password_expire_in_seconds?: number
-  role?: string
-  token?: string
-  version?: string
 }
 
 export type PostLoginBody = {
@@ -535,6 +557,7 @@ export type DeleteCurrentUserMfa403Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteCurrentUserMfa403Code = {
   MFA_ADMIN_REQUIRED: 'MFA_ADMIN_REQUIRED',
+  MFA_ENFORCED: 'MFA_ENFORCED',
 } as const
 
 export type DeleteCurrentUserMfa403 = {
@@ -588,6 +611,29 @@ export type GetCurrentUser404 = {
   message?: string
 }
 
+export type GetCurrentUser401Code =
+  (typeof GetCurrentUser401Code)[keyof typeof GetCurrentUser401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser401Code = {
+  MFA_SETUP_REQUIRED: 'MFA_SETUP_REQUIRED',
+} as const
+
+export type GetCurrentUser401 = {
+  code?: GetCurrentUser401Code
+  message?: string
+}
+
+export type GetCurrentUser200MfaStatus =
+  (typeof GetCurrentUser200MfaStatus)[keyof typeof GetCurrentUser200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
 export type GetCurrentUser200Mfa = (typeof GetCurrentUser200Mfa)[keyof typeof GetCurrentUser200Mfa]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -601,6 +647,7 @@ export type GetCurrentUser200 = {
   backend?: string
   description?: string
   mfa?: GetCurrentUser200Mfa
+  mfa_status?: GetCurrentUser200MfaStatus
   role?: string
   scopes: string[]
   /** @maxLength 100 */

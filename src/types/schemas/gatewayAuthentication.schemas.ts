@@ -406,6 +406,26 @@ export type GetGatewaysNameAuthentication400 = {
   message?: string
 }
 
+export type GetGatewaysNameAuthentication200 =
+  | AuthnBuiltinDbGenerated
+  | AuthnBuiltinDbManual
+  | AuthnCinfo
+  | AuthnHttpGet
+  | AuthnHttpPost
+  | AuthnJwtHmac
+  | AuthnJwtJwks
+  | AuthnJwtPublicKey
+  | AuthnKerberos
+  | AuthnLdap
+  | AuthnMongoRs
+  | AuthnMongoSharded
+  | AuthnMongoSingle
+  | AuthnMysql
+  | AuthnPostgresql
+  | AuthnRedisCluster
+  | AuthnRedisSentinel
+  | AuthnRedisSingle
+
 export type DeleteGatewaysNameAuthentication404Code =
   (typeof DeleteGatewaysNameAuthentication404Code)[keyof typeof DeleteGatewaysNameAuthentication404Code]
 
@@ -496,6 +516,14 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export type LdapSslHostnameCheck = (typeof LdapSslHostnameCheck)[keyof typeof LdapSslHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
@@ -506,6 +534,7 @@ export interface LdapSsl {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: LdapSslHostnameCheck
   keyfile?: string
   log_level?: LdapSslLogLevel
   managed_certs?: EmqxManagedCerts
@@ -590,6 +619,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
@@ -605,6 +643,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts
@@ -1358,6 +1397,7 @@ export interface AuthnLdap {
   all_attribute?: string
   backend: AuthnLdapBackend
   base_dn: string
+  client_attrs?: AuthnClientAttr[]
   enable?: boolean
   filter?: string
   mechanism: AuthnLdapMechanism
@@ -1369,6 +1409,7 @@ export interface AuthnLdap {
   publish_attribute?: string
   query_timeout?: string
   request_timeout?: string
+  require_client_attrs?: boolean
   server: string
   ssl?: LdapSsl
   subscribe_attribute?: string
@@ -1590,6 +1631,15 @@ export const AuthnJwksClientSslOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type AuthnJwksClientSslOptsHostnameCheck =
+  (typeof AuthnJwksClientSslOptsHostnameCheck)[keyof typeof AuthnJwksClientSslOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnJwksClientSslOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface AuthnJwksClientSslOpts {
   cacertfile?: string
   /** @deprecated */
@@ -1600,6 +1650,7 @@ export interface AuthnJwksClientSslOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: AuthnJwksClientSslOptsHostnameCheck
   keyfile?: string
   log_level?: AuthnJwksClientSslOptsLogLevel
   managed_certs?: EmqxManagedCerts
@@ -1762,6 +1813,24 @@ export interface AuthnHashMethod {
   type?: AuthnHashMethodType
 }
 
+export type AuthnClientAttrExtract =
+  (typeof AuthnClientAttrExtract)[keyof typeof AuthnClientAttrExtract]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AuthnClientAttrExtract = {
+  cn: 'cn',
+  literal: 'literal',
+  value: 'value',
+} as const
+
+export interface AuthnClientAttr {
+  attribute: string
+  extract?: AuthnClientAttrExtract
+  literal?: string
+  select: string[]
+  set_as_attr: string
+}
+
 export type AuthnCinfoCheckResult =
   (typeof AuthnCinfoCheckResult)[keyof typeof AuthnCinfoCheckResult]
 
@@ -1907,26 +1976,6 @@ export interface AuthnBuiltinDbGenerated {
   precondition?: string
   user_id_type: AuthnBuiltinDbGeneratedUserIdType
 }
-
-export type GetGatewaysNameAuthentication200 =
-  | AuthnBuiltinDbGenerated
-  | AuthnBuiltinDbManual
-  | AuthnCinfo
-  | AuthnHttpGet
-  | AuthnHttpPost
-  | AuthnJwtHmac
-  | AuthnJwtJwks
-  | AuthnJwtPublicKey
-  | AuthnKerberos
-  | AuthnLdap
-  | AuthnMongoRs
-  | AuthnMongoSharded
-  | AuthnMongoSingle
-  | AuthnMysql
-  | AuthnPostgresql
-  | AuthnRedisCluster
-  | AuthnRedisSentinel
-  | AuthnRedisSingle
 
 export type AuthnBindMethodType = (typeof AuthnBindMethodType)[keyof typeof AuthnBindMethodType]
 

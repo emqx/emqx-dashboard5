@@ -388,10 +388,6 @@ export const SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryType 
   confluent: 'confluent',
 } as const
 
-export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
-  | SchemaRegistryConfluentSchemaRegistryAuthBasic
-  | 'none'
-
 export interface SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistry {
   auth?: SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth
   name: string
@@ -441,6 +437,10 @@ export interface SchemaRegistryConfluentSchemaRegistryAuthBasic {
   password: string
   username: string
 }
+
+export type SchemaRegistryExternalRegistryApiCreateConfluentSchemaRegistryAuth =
+  | SchemaRegistryConfluentSchemaRegistryAuthBasic
+  | 'none'
 
 export type SchemaRegistryConfluentSchemaRegistryType =
   (typeof SchemaRegistryConfluentSchemaRegistryType)[keyof typeof SchemaRegistryConfluentSchemaRegistryType]
@@ -504,6 +504,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
@@ -519,6 +528,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts
