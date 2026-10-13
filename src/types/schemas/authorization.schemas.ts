@@ -647,6 +647,16 @@ export const PutAuthorizationSettings200NoMatch = {
   deny: 'deny',
 } as const
 
+export type PutAuthorizationSettings200IgnoreRuleRenderFailures =
+  (typeof PutAuthorizationSettings200IgnoreRuleRenderFailures)[keyof typeof PutAuthorizationSettings200IgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettings200IgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
+} as const
+
 export type PutAuthorizationSettings200IgnoreBackendFailures =
   (typeof PutAuthorizationSettings200IgnoreBackendFailures)[keyof typeof PutAuthorizationSettings200IgnoreBackendFailures]
 
@@ -670,6 +680,7 @@ export type PutAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettings200DenyAction
   ignore_backend_failures?: PutAuthorizationSettings200IgnoreBackendFailures
+  ignore_rule_render_failures?: PutAuthorizationSettings200IgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
@@ -681,6 +692,16 @@ export type PutAuthorizationSettingsBodyNoMatch =
 export const PutAuthorizationSettingsBodyNoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type PutAuthorizationSettingsBodyIgnoreRuleRenderFailures =
+  (typeof PutAuthorizationSettingsBodyIgnoreRuleRenderFailures)[keyof typeof PutAuthorizationSettingsBodyIgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettingsBodyIgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type PutAuthorizationSettingsBodyIgnoreBackendFailures =
@@ -706,6 +727,7 @@ export type PutAuthorizationSettingsBody = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettingsBodyDenyAction
   ignore_backend_failures?: PutAuthorizationSettingsBodyIgnoreBackendFailures
+  ignore_rule_render_failures?: PutAuthorizationSettingsBodyIgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
@@ -717,6 +739,16 @@ export type GetAuthorizationSettings200NoMatch =
 export const GetAuthorizationSettings200NoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type GetAuthorizationSettings200IgnoreRuleRenderFailures =
+  (typeof GetAuthorizationSettings200IgnoreRuleRenderFailures)[keyof typeof GetAuthorizationSettings200IgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSettings200IgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type GetAuthorizationSettings200IgnoreBackendFailures =
@@ -742,6 +774,7 @@ export type GetAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: GetAuthorizationSettings200DenyAction
   ignore_backend_failures?: GetAuthorizationSettings200IgnoreBackendFailures
+  ignore_rule_render_failures?: GetAuthorizationSettings200IgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }
@@ -865,6 +898,14 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export type LdapSslHostnameCheck = (typeof LdapSslHostnameCheck)[keyof typeof LdapSslHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
@@ -875,6 +916,7 @@ export interface LdapSsl {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: LdapSslHostnameCheck
   keyfile?: string
   log_level?: LdapSslLogLevel
   managed_certs?: EmqxManagedCerts
@@ -1112,6 +1154,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
@@ -1127,6 +1178,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts

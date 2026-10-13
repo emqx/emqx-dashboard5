@@ -126,6 +126,10 @@ export interface S3TransportOptions {
   ssl?: EmqxSslClientOpts
 }
 
+export interface FileTransferStorageBackend {
+  local?: FileTransferLocalStorage
+}
+
 export type FileTransferS3ExporterAcl =
   (typeof FileTransferS3ExporterAcl)[keyof typeof FileTransferS3ExporterAcl]
 
@@ -191,10 +195,6 @@ export interface FileTransferLocalStorage {
   segments?: FileTransferLocalStorageSegments
 }
 
-export interface FileTransferStorageBackend {
-  local?: FileTransferLocalStorage
-}
-
 export interface FileTransferFileTransfer {
   assemble_timeout?: string
   enable?: boolean
@@ -242,6 +242,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
@@ -257,6 +266,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts
