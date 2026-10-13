@@ -270,6 +270,7 @@ export enum RedisType {
 export enum NodeStatus {
   Running = 'running',
   Stopped = 'stopped',
+  Unreachable = 'unreachable',
 }
 
 export enum AuthnMechanismType {

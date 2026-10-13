@@ -35,6 +35,14 @@ export default {
     zh: '已停止',
     en: 'Stopped',
   },
+  unreachable: {
+    zh: '不可达',
+    en: 'Unreachable',
+  },
+  unknownRoleNodes: {
+    zh: '角色未知的节点',
+    en: 'Nodes with unknown role',
+  },
   memory: {
     zh: '操作系统内存',
     en: 'OS Memory',

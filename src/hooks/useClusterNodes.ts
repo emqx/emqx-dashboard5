@@ -4,6 +4,7 @@ import { NodeInfo } from '@/types/dashboard'
 import { getClusterNodes } from '@/api/common'
 import type { GetCluster200 } from '@/types/schemas/cluster.schemas'
 import type { VersionInfo } from '@/types/common'
+import { hasNodeMemory } from '@/common/nodeStatus'
 
 interface UseClusterNodesOptions {
   loadByDefault?: boolean
@@ -38,8 +39,13 @@ export default function useClusterNodes(
   const clusterName = ref('')
 
   const handleVersions = (nodes: NodeInfo[]) => {
-    const versionList = nodes.map((node) => node.version.split('-')[0])
+    const versionList = nodes.flatMap((node) => (node.version ? [node.version.split('-')[0]] : []))
     const uniqueVersions = uniq(versionList)
+    if (uniqueVersions.length === 0) {
+      versionInfo.isMutiVersion = false
+      versionInfo.latestVersion = ''
+      return
+    }
     versionInfo.isMutiVersion = uniqueVersions.length > 1
     if (versionInfo.isMutiVersion) {
       versionInfo.latestVersion = uniqueVersions.reduce((latest, version) => {
@@ -55,7 +61,7 @@ export default function useClusterNodes(
     try {
       lockTable.value = true
       nodes.value = (await loadNodes(hideProgress, timeout)) ?? []
-      hasMemory.value = nodes.value.some((node) => ![0, '0'].includes(node.memory_total))
+      hasMemory.value = nodes.value.some(hasNodeMemory)
       if (getVersion) {
         handleVersions(nodes.value)
       }

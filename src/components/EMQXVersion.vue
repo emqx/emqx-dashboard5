@@ -17,7 +17,7 @@
 const { versionInfo } = useClusterNodes({
   loadByDefault: true,
   hideProgress: true,
-  timeout: 25000,
+  timeout: 35000,
   getVersion: true,
 })
 const store = useStore()

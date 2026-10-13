@@ -1,5 +1,6 @@
 import { NodeInfo } from '@/types/dashboard'
 import { NodeStatus } from '@/types/enum'
+import { groupNodesByRole } from '@/common/nodeStatus'
 
 export const FLOW_DEFAULT_ZOOM = 1.3
 
@@ -12,7 +13,7 @@ export interface FlowNodeData {
   selectable?: boolean
   zIndex?: number
   data?: {
-    node_status: NodeStatus
+    node_status?: NodeStatus
   }
 }
 
@@ -155,9 +156,11 @@ export default (
     }
   }
 
-  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role !== 'replicant').length)
+  const coreNodesNum = computed(() => props.nodes.filter(({ role }) => role === 'core').length)
   const countCoreNodeHeight = () => {
-    if (coreNodesNum.value === 1) {
+    if (coreNodesNum.value === 0) {
+      coreNodeHeight.value = 20
+    } else if (coreNodesNum.value === 1) {
       coreNodeHeight.value = numToFixed(
         showBackgroundCircle.value ? BACKGROUND_CIRCLE_RADIUS / 2.5 : flowEleHeight.value / 3.5,
         3,
@@ -215,11 +218,10 @@ export default (
     }
   }
 
-  const getCommonFlowNodeData = ({ node, node_status, role }: NodeInfo) => {
-    const roleVal = role || 'core'
+  const getCommonFlowNodeData = ({ node, node_status }: NodeInfo, role: 'core' | 'replicant') => {
     return {
-      type: roleVal,
-      class: `node-${roleVal}`,
+      type: role,
+      class: `node-${role}`,
       id: node,
       label: node,
       data: { node_status },
@@ -227,28 +229,26 @@ export default (
   }
 
   const generateFlowNodeData = (nodes: Array<NodeInfo>) => {
-    const coreNodes: Array<NodeInfo> = []
-    const repNodes: Array<NodeInfo> = []
-    nodes.forEach((item) => (item.role !== 'replicant' ? coreNodes : repNodes).push(item))
+    const { core: coreNodes, replicant: repNodes } = groupNodesByRole(nodes)
     if (repNodes.length > MAX_DISPLAYED_REP_NODE) {
-      repNodes.splice(20, repNodes.length - 20)
+      repNodes.splice(MAX_DISPLAYED_REP_NODE)
     }
     return coreNodes
       .map((item, index) => ({
-        ...getCommonFlowNodeData(item),
-        position: getNodePosition(index, coreNodes.length, item.role),
+        ...getCommonFlowNodeData(item, 'core'),
+        position: getNodePosition(index, coreNodes.length, 'core'),
       }))
       .concat(
         repNodes.map((item, index) => ({
-          ...getCommonFlowNodeData(item),
-          position: getNodePosition(index, repNodes.length, item.role),
+          ...getCommonFlowNodeData(item, 'replicant'),
+          position: getNodePosition(index, repNodes.length, 'replicant'),
         })),
       )
   }
 
   const generateFlowEdgeData = (nodes: Array<NodeInfo>) => {
     const ret = []
-    const coreNodes = nodes.filter(({ role }) => role !== 'replicant')
+    const coreNodes = nodes.filter(({ role }) => role === 'core')
     for (let i = 0; i < coreNodes.length; i++) {
       const source = coreNodes[i].node
       for (let j = i + 1; j < coreNodes.length; j++) {

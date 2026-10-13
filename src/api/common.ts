@@ -106,13 +106,14 @@ export const updateOpenTelemetrySampleWhiteList = (
 // Nodes
 export async function loadNodes(
   doNotTriggerProgress = false,
-  timeout = 20000,
+  // The backend node_info multicall can take up to 30 seconds before returning unreachable.
+  timeout = 35000,
 ): Promise<Array<NodeInfo>> {
   return http.get('/nodes', { doNotTriggerProgress, timeout })
 }
 
 export async function loadNodeDetail(node: string): Promise<NodeInfo> {
-  return http.get(`/nodes/${encodeURIComponent(node)}`)
+  return http.get(`/nodes/${encodeURIComponent(node)}`, { timeout: 35000 })
 }
 
 export async function loadStats(): Promise<Array<NodeStatisticalData>> {
