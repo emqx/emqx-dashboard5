@@ -183,6 +183,10 @@ export default (
       ['pubsub_topic', 'consumer.pull_max_messages'],
       fieldStartIndex,
     ),
+    [BridgeType.GCPConsumerGRPC]: createOrderObj(
+      getPathArrInParameters(['topic', 'ack_deadline', 'max_outstanding_messages']),
+      fieldStartIndex,
+    ),
     [BridgeType.MongoDB]: createOrderObj(['collection', 'payload_template'], fieldStartIndex),
     [BridgeType.PgSQL]: pgSqlOrderMap,
     [BridgeType.TimescaleDB]: pgSqlOrderMap,
@@ -510,6 +514,10 @@ export default (
     [BridgeType.ClickHouse]: ['batch_value_separator'],
     [BridgeType.GreptimeDB]: ['precision'],
     [BridgeType.GCPConsumer]: ['pipelining', getPathInParameters('ack_deadline')],
+    [BridgeType.GCPConsumerGRPC]: getPathArrInParameters([
+      'ack_deadline',
+      'max_outstanding_messages',
+    ]),
     [BridgeType.KafkaProducer]: kafkaProducerAdvancedProps,
     [BridgeType.AzureEventHubs]: kafkaProducerAdvancedProps,
     [BridgeType.Confluent]: kafkaProducerAdvancedProps,

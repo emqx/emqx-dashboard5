@@ -32,7 +32,7 @@ export {
 
 export const SourceType = RuleSourceType
 
-type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'SysKeeperProxy'
+type OmitKeys = 'KafkaConsumer' | 'GCPConsumer' | 'GCPConsumerGRPC' | 'SysKeeperProxy'
 const ActionSinkType: Omit<typeof BridgeType, OmitKeys> = omit(
   BridgeType,
   Object.keys(BridgeType).filter((key) => {

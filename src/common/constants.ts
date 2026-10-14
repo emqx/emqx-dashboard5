@@ -293,7 +293,11 @@ export const CONNECTOR_TYPES_WITH_TWO_DIRECTIONS = [
   BridgeType.AzureEventGrid,
 ]
 
-export const INGRESS_BRIDGE_TYPES = [BridgeType.KafkaConsumer, BridgeType.GCPConsumer]
+export const INGRESS_BRIDGE_TYPES = [
+  BridgeType.KafkaConsumer,
+  BridgeType.GCPConsumer,
+  BridgeType.GCPConsumerGRPC,
+]
 
 export const COPY_SUFFIX = '_duplication'
 
