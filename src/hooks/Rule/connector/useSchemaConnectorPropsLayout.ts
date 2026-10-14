@@ -254,6 +254,10 @@ export default (
     ),
     [BridgeType.GCPProducer]: GCPProducerOrderMap,
     [BridgeType.GCPConsumer]: GCPProducerOrderMap,
+    [BridgeType.GCPConsumerGRPC]: {
+      ...GCPProducerOrderMap,
+      ssl: fieldStartIndex + Object.keys(GCPProducerOrderMap).length,
+    },
     [BridgeType.BigQuery]: GCPProducerOrderMap,
     [BridgeType.Bigtable]: GCPProducerOrderMap,
     [BridgeType.MongoDB]: {
@@ -518,6 +522,7 @@ export default (
   > = {
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
+    [BridgeType.GCPConsumerGRPC]: GCPColClass,
     [BridgeType.BigQuery]: GCPColClass,
     [BridgeType.Bigtable]: GCPColClass,
     [BridgeType.KafkaConsumer]: getKafkaConsumerColClass,
