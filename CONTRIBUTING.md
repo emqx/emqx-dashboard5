@@ -11,17 +11,6 @@ fork the repository, develop changes, and submit pull requests. Use and distribu
 of your fork remain subject to the applicable license, including the conditions for
 production use. Keep the license with copies you distribute.
 
-The [EMQX Licensing FAQ](https://www.emqx.com/en/content/license-faq) states that
-community contributions are subject to a Contributor License Agreement (CLA).
-The software license describes how you may use the project; a CLA describes the
-rights you grant to EMQ for your contributions.
-
-This repository does not currently provide a Dashboard CLA document or signing link.
-Ask the maintainers in your pull request for the applicable agreement and signing
-instructions. The agreement's coverage of Dashboard contributions still needs to be
-confirmed. Submitting a pull request alone should not be treated as confirmation that
-you have signed a CLA.
-
 Only contribute code that you have the right to submit. Identify any third-party
 code and its license in your pull request.
 
