@@ -7,6 +7,14 @@ export default {
     zh: '状态',
     en: 'Status',
   },
+  runningStatus: {
+    zh: '运行状态',
+    en: 'Runtime Status',
+  },
+  notRunning: {
+    zh: '未运行',
+    en: 'Not Running',
+  },
   connection: {
     zh: '连接',
     en: 'Connections',

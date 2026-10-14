@@ -29,6 +29,11 @@
           />
         </template>
       </el-table-column>
+      <el-table-column :label="tl('runningStatus')" :min-width="160">
+        <template #default="{ row }">
+          <ListenerItemStatus :listener="row" />
+        </template>
+      </el-table-column>
       <el-table-column :label="tl('connection')">
         <template #default="{ row }">
           <template v-if="row.status?.max_connections === INFINITY_VALUE">
@@ -102,6 +107,7 @@ import {
 } from '@/api/listener'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
+import ListenerItemStatus from './components/ListenerItemStatus.vue'
 
 const { t, tl } = useI18nTl('Gateway')
 
