@@ -32,7 +32,7 @@ export function updateLicense(key: string) {
 export function loadLicenseConfig(): Promise<LicenseConfig> {
   return http.get('/license/setting')
 }
-export function updateLicenseConfig(body: LicenseConfig) {
+export function updateLicenseConfig(body: LicenseConfig): Promise<LicenseConfig> {
   return http.put('/license/setting', body)
 }
 

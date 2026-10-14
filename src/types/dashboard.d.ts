@@ -153,6 +153,7 @@ export interface LicenseConfig {
   connection_low_watermark: string
   connection_high_watermark: string
   high_watermark_timezone: string
+  tps_alarm_sustain_duration?: string
 }
 
 export type LicenseSessionHwmHistoryPeriod = 'daily' | 'monthly'
