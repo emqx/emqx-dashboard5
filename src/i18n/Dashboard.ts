@@ -422,6 +422,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '用于确定会话峰值历史“每天”边界的时区。可填写 `system` 以跟随节点主机本地时区，或填写 `+08:00` 这样的显式 UTC 偏移。',
     en: 'Timezone used to determine the local day boundary for session high-watermark history. Use `system` to follow the node host local timezone, or provide an explicit UTC offset such as `+08:00`.',
   },
+  tps_alarm_sustain_duration: {
+    zh: 'TPS 告警持续超限时长',
+    en: 'TPS Alarm Sustain Duration',
+  },
+  tps_alarm_sustain_duration_desc: {
+    zh: '集群 TPS 必须连续超过 License 上限达到此时长后才激活告警；任何一次采样低于或等于上限都会重新计时。默认值为 `1m`，范围为 `0s` 至 `10m`（含边界）。设为 `0s` 时，首次超限采样即激活告警。此设置不会自动清除已激活的告警。',
+    en: 'Activate the alarm only after the cluster TPS continuously exceeds the license limit for this duration. Any sample at or below the limit restarts the timer. The default is `1m`, and the inclusive range is `0s` to `10m`. Set to `0s` to activate on the first over-limit sample. This setting does not automatically clear an active alarm.',
+  },
   highWatermarkRequired: {
     zh: '需要填写使用量高水位线',
     en: 'Usage High Watermark is required',
