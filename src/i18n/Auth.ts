@@ -115,6 +115,14 @@ export default {
     zh: '请复制并保存此密码，用于配置客户端连接。关闭后无法再次查看；需要新密码时可重置密码。',
     en: 'Copy and save this password to configure your client. It cannot be viewed again after closing this dialog. Reset the password if you need a new one.',
   },
+  generatedPasswordImportNotice: {
+    zh: '导入将使用文件中的密码或密码哈希，不会自动生成密码。导入已存在的用户时，会覆盖其原有密码。',
+    en: 'Import uses the passwords or password hashes in the file and does not generate passwords automatically. Importing an existing user overwrites their current password.',
+  },
+  generatedPasswordHashImportNotice: {
+    zh: '当前模式使用 SHA-256 且不加盐，请确保文件中的密码哈希采用相同方式生成。',
+    en: 'This mode uses SHA-256 without a salt. Ensure the password hashes in the file were generated using the same settings.',
+  },
   userId: {
     zh: '用户 ID',
     en: 'User ID',
