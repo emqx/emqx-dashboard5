@@ -23,6 +23,14 @@ export default {
     zh: '连接数',
     en: 'Connections',
   },
+  disconnectedSessions: {
+    zh: '离线会话数',
+    en: 'Disconnected Sessions',
+  },
+  disconnectedSessionsDesc: {
+    zh: '客户端已断开连接，但尚未过期、仍由连接进程保留的会话数量。',
+    en: 'Current number of unexpired sessions retained by their connection processes after the clients disconnect.',
+  },
   nodeStatus: {
     zh: '状态',
     en: 'Status',
@@ -793,8 +801,12 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Number of messages dropped due to timeout waiting for PUBREL message',
   },
   messages_dropped_quota_exceeded: {
-    zh: '由于超出配额限制而被丢弃的消息数量',
-    en: 'Number of messages dropped due to quota exceeded',
+    zh: '由于超出发布速率配额而被丢弃的 QoS 0 消息累计数量',
+    en: 'Total number of QoS 0 messages dropped because the publish rate quota was exceeded',
+  },
+  messages_rejected_quota_exceeded: {
+    zh: '由于超出发布速率配额而被拒绝的 QoS 1/2 消息累计数量，不计入丢弃消息总数',
+    en: 'Total number of QoS 1/2 messages rejected because the publish rate quota was exceeded. These messages are not included in the dropped message total.',
   },
   messages_dropped_receive_maximum: {
     zh: '由于超出飞行窗口限制而被丢弃的消息数量',

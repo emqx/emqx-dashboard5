@@ -110,6 +110,15 @@
             <el-descriptions-item :label="tl('currentConnection')">
               {{ stats['connections.count'] ?? '--' }}/{{ stats['connections.max'] ?? '--' }}
             </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <FormItemLabel
+                  :label="tl('disconnectedSessions')"
+                  :desc="tl('disconnectedSessionsDesc')"
+                />
+              </template>
+              {{ stats['disconnected_sessions.count'] ?? '--' }}
+            </el-descriptions-item>
             <el-descriptions-item :label="tl('topics')">
               {{ stats['topics.count'] ?? '--' }}/{{ stats['topics.max'] ?? '--' }}
             </el-descriptions-item>
