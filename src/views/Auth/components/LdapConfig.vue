@@ -125,6 +125,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <LdapClientAttrs v-if="authType === 'authn'" :config="ldapConfig" />
         <AdvancedSettingContainer>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -207,6 +208,8 @@
 <script lang="ts" setup>
 import { LDAPAuthMethod } from '@/types/enum'
 import PreconditionFormItem from './PreconditionFormItem.vue'
+import LdapClientAttrs from './LdapClientAttrs.vue'
+
 const props = defineProps({
   modelValue: {
     type: Object,

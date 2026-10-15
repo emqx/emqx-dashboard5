@@ -1,6 +1,7 @@
 import { ElMessage as M } from 'element-plus'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
+import { serializeLDAPClientAttrs } from '@/common/ldapAuthn'
 import { CInfoConfig } from '@/types/auth'
 import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
 //
@@ -84,6 +85,10 @@ export default function useProcessAuthData() {
     }
   }
   const processLDAPConfig = (data: any) => {
+    data = cloneDeep(data)
+    if (data.client_attrs) {
+      data.client_attrs = serializeLDAPClientAttrs(data.client_attrs)
+    }
     const { method } = data
     if (method.type === LDAPAuthMethod.Hash) {
       data.method = omit(method, 'bind_password')

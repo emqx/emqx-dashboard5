@@ -4,6 +4,7 @@ import { AuthzSetting, BuiltInDBItem, BuiltInDBRule, ImportResult, Metrics } fro
 import { ListDataWithPagination } from '@/types/common'
 import { BuiltInDBType } from '@/types/enum'
 import { NsParams } from '@/types/rule'
+import { prepareAuthnRequest } from './authnRequest'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
@@ -64,12 +65,14 @@ export function moveAuthz(type: string, positionStr: string): Promise<void> {
 }
 
 export function createAuthn(body = {}) {
-  return http.post('/authentication', body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.post('/authentication', data, config)
 }
 
 export function updateAuthn(id: string, body: any) {
   delete body.id
-  return http.put(`/authentication/${encodeURIComponent(id)}`, body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.put(`/authentication/${encodeURIComponent(id)}`, data, config)
 }
 
 export function deleteAuthn(id: string) {
