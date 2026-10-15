@@ -19,6 +19,13 @@
       width="700px"
       :close-on-click-modal="false"
     >
+      <template v-if="autogeneratePassword">
+        <TipContainer :content="tl('generatedPasswordImportNotice')" />
+        <TipContainer
+          v-if="passwordType === 'hash'"
+          :content="tl('generatedPasswordHashImportNotice')"
+        />
+      </template>
       <el-steps direction="vertical">
         <el-step>
           <template #title>
@@ -77,6 +84,10 @@ import { uploadUsers } from '@/api/auth'
 import { Upload } from 'lucide-vue-next'
 
 type PasswordType = 'plain' | 'hash'
+
+withDefaults(defineProps<{ autogeneratePassword?: boolean }>(), {
+  autogeneratePassword: false,
+})
 
 const emits = defineEmits(['uploadedData'])
 

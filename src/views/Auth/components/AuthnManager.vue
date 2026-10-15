@@ -31,7 +31,7 @@
       </div>
       <div class="add-funcs-container">
         <template v-if="mechanism === 'password_based' && !gateway">
-          <authn-users-import @uploadedData="loadData" />
+          <authn-users-import :autogenerate-password="isGenerated" @uploadedData="loadData" />
         </template>
         <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
       </div>
