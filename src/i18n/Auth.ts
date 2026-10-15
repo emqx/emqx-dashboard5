@@ -1,4 +1,84 @@
 export default {
+  ldapClientAttrs: {
+    zh: '客户端属性映射',
+    en: 'Client Attribute Mappings',
+  },
+  ldapClientAttrsDesc: {
+    zh: '从用户 LDAP 条目读取属性，每条映射选择一个值并生成一个客户端属性；多个映射可同时生效。同名客户端属性由后续成功的映射覆盖。仅支持用户条目上的成员关系属性（如 `memberOf`），不解析嵌套组，也不查询组条目的 `member` 或 `uniqueMember`。',
+    en: 'Read attributes from the user’s LDAP entry. Each mapping selects one value and sets one client attribute; several mappings can succeed. Later successful mappings overwrite the same client attribute. Membership must be on the user entry, such as `memberOf`. Nested groups and membership stored only on group entries (`member` or `uniqueMember`) are not resolved.',
+  },
+  ldapAddMapping: {
+    zh: '添加映射',
+    en: 'Add Mapping',
+  },
+  ldapDirectoryAttribute: {
+    zh: 'LDAP 目录属性',
+    en: 'Directory Attribute',
+  },
+  ldapDirectoryAttributeDesc: {
+    zh: '例如 memberOf。属性名不区分大小写；以字母开头，可含字母、数字和连字符，或使用数字 OID。用户条目缺少该属性时，本映射不产生客户端属性。',
+    en: 'For example, memberOf. Names are case-insensitive: a letter followed by letters, digits or hyphens, or a numeric OID. If the user entry has no such attribute, the mapping sets nothing.',
+  },
+  ldapClientAttributeName: {
+    zh: '客户端属性名',
+    en: 'Client Attribute Name',
+  },
+  ldapClientAttributeNameDesc: {
+    zh: '以字母或数字开头，仅包含字母、数字、连字符和下划线。',
+    en: 'Start with a letter or digit; use only letters, digits, hyphens and underscores.',
+  },
+  ldapInvalidDirectoryAttribute: {
+    zh: '请输入合法的 LDAP 属性名或数字 OID。',
+    en: 'Enter a valid LDAP attribute name or numeric OID.',
+  },
+  ldapInvalidClientAttributeName: {
+    zh: '客户端属性名须以字母或数字开头，仅包含字母、数字、连字符和下划线。',
+    en: 'Client attribute names must start with a letter or digit and contain only letters, digits, hyphens and underscores.',
+  },
+  ldapSelectPatterns: {
+    zh: '匹配正则表达式',
+    en: 'Select Patterns',
+  },
+  ldapSelectPatternsDesc: {
+    zh: '输入正则后按回车添加标签，拖动标签可调整匹配顺序；逗号属于正则内容，不会拆分标签。至少配置一个 PCRE 正则，语法由服务器校验。按正则顺序尝试，每个正则按目录返回顺序检查属性值，选择首个匹配值。匹配区分大小写，前缀 `(?i)` 可忽略大小写。正则针对完整属性值（如组 DN）匹配；建议使用 `^CN=GROUP-X,`，避免误匹配 GROUP-X-ADMIN。空正则会匹配任意值。',
+    en: 'Press Enter to add a pattern; drag tags to change matching order. Commas are part of the pattern and do not split tags. Configure at least one PCRE pattern; syntax is validated by the server. Patterns are tried in order, each against values in directory order; the first matching value is selected. Matching is case-sensitive; prefix with `(?i)` to ignore case. Patterns run against the full attribute value, such as a group DN. Use `^CN=GROUP-X,` to avoid matching GROUP-X-ADMIN. An empty pattern matches any value.',
+  },
+  ldapEmptyPatterns: {
+    zh: '请至少添加一个匹配正则表达式。',
+    en: 'Add at least one select pattern.',
+  },
+  ldapEmptyPattern: {
+    zh: '空正则（匹配任意值）',
+    en: 'Empty pattern (matches any value)',
+  },
+  ldapExtract: {
+    zh: '提取方式',
+    en: 'Extract',
+  },
+  ldapExtractDesc: {
+    zh: '`value`（默认）：使用选中的完整值。`cn`：提取 DN 第一个 RDN 中的 CN；不是合法 DN 或该 RDN 没有 CN 时不产生属性。`literal`：匹配成功后使用配置的固定字符串。目录值保留原始大小写。',
+    en: '`value` (default): use the complete selected value. `cn`: extract the CN from the first RDN of a DN; an invalid DN or a first RDN without CN produces no attribute. `literal`: use the configured string after a match. Directory values retain their original casing.',
+  },
+  ldapLiteral: {
+    zh: '固定字符串',
+    en: 'Literal Value',
+  },
+  ldapMissingLiteral: {
+    zh: 'literal 提取方式必须配置非空的固定字符串。',
+    en: 'Set a non-empty literal value for literal extraction.',
+  },
+  ldapRequireClientAttrs: {
+    zh: '无映射结果时拒绝认证',
+    en: 'Require Client Attributes',
+  },
+  ldapRequireClientAttrsDesc: {
+    zh: '启用后，如果所有映射都未得到客户端属性，则拒绝认证；至少一条映射成功即可。禁用时，不会因无映射结果而拒绝认证。启用前请至少配置一条映射。',
+    en: 'When enabled, at least one mapping must produce a client attribute or authentication is denied; not every mapping must succeed. When disabled, no attribute output does not cause authentication to fail. Configure at least one mapping before enabling.',
+  },
+  ldapRequireWithoutMappings: {
+    zh: '启用“无映射结果时拒绝认证”时，请至少配置一条映射。',
+    en: 'Configure at least one mapping when Require Client Attributes is enabled.',
+  },
   mechanism: {
     zh: '认证方式',
     en: 'Mechanism',

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { GatewayItem } from '@/types/typeAlias'
+import { prepareAuthnRequest } from './authnRequest'
 
 export function getGatewayList(): Promise<Array<GatewayItem>> {
   return http.get('/gateways')
@@ -108,12 +109,14 @@ export async function deleteGatewayAuth(name: string) {
 
 export async function updateGatewayAuth(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.put('/gateways/' + encodeURIComponent(name) + '/authentication', body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.put('/gateways/' + encodeURIComponent(name) + '/authentication', data, config)
 }
 
 export async function addGatewayAuth(name: string, body: { [key: string]: any }) {
   if (!name) return Promise.reject()
-  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication', body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication', data, config)
 }
 
 export async function getGatewayUserManagement(name: string, params = {}) {

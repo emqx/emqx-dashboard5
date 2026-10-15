@@ -159,6 +159,8 @@ export default function useAuthnCreate() {
 
   const getLdapConfig = () => {
     return {
+      client_attrs: [],
+      require_client_attrs: false,
       query_timeout: '5s',
       enable: true,
       server: 'localhost:389',

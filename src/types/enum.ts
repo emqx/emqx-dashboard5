@@ -420,6 +420,12 @@ export const enum LDAPAuthMethod {
   Hash = 'hash',
 }
 
+export enum LDAPClientAttrExtract {
+  Value = 'value',
+  CN = 'cn',
+  Literal = 'literal',
+}
+
 /* EE exclusive 👇🏻 */
 
 export enum LicenseCustomerType {
