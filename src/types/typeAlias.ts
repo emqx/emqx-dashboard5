@@ -1,10 +1,16 @@
 import {
   GetAuthentication200Item,
-  AuthnBuiltinDb,
+  AuthnBuiltinDbManual,
+  AuthnBuiltinDbGenerated,
   AuthnJwtPublicKeyOnMissingJwt,
   AuthCacheConfig,
   EmqxAuthnApiResponseAuthnSettings,
   EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures,
+} from './schemas/authentication.schemas'
+import type {
+  EmqxAuthnApiRequestUserCreate,
+  EmqxAuthnApiRequestUserUpdate,
+  EmqxAuthnApiResponseUserWithPassword,
 } from './schemas/authentication.schemas'
 import {
   EmqxAuthzApiMnesiaRuleItemAction,
@@ -181,12 +187,15 @@ export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
 export type GatewayListener = PostGatewaysNameListenersBody
 
 /* AUTHENTICATION */
-export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
+export type AuthenticationBuiltInDbConfig = AuthnBuiltinDbManual | AuthnBuiltinDbGenerated
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
 export type AuthnSettings = EmqxAuthnApiResponseAuthnSettings
 export type NodeCacheConfig = AuthCacheConfig
 export const PER_SECURITY_PROFILE =
   EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures.per_security_profile
+export type AuthenticationUserCreateRequest = EmqxAuthnApiRequestUserCreate
+export type AuthenticationUserUpdateRequest = EmqxAuthnApiRequestUserUpdate
+export type AuthenticationUserWithPassword = EmqxAuthnApiResponseUserWithPassword
 export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 
 /* AUTHORIZATION */

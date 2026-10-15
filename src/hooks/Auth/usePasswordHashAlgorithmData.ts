@@ -37,7 +37,12 @@ export const getUsefulPasswordHashAlgorithmData = (
     return { name }
   }
   if (name === HashType.Pbkdf2) {
-    return { name, mac_fun, iterations, dk_length }
+    return {
+      name,
+      mac_fun,
+      iterations,
+      ...(dk_length === '' || dk_length === undefined ? {} : { dk_length }),
+    }
   }
   return { name, salt_position }
 }

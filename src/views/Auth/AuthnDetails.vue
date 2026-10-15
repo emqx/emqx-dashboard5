@@ -119,8 +119,12 @@
           name="users"
         >
           <authn-manager
-            :field="(configData as AuthenticationBuiltInDbConfig).user_id_type"
+            :field="savedUserConfig.field"
             :gateway="gateway"
+            :listener-id="listenerId"
+            :authenticator-id="configData.id || id"
+            :mechanism="savedUserConfig.mechanism"
+            :autogenerate-password="savedUserConfig.generated"
           />
         </el-tab-pane>
       </div>
@@ -133,6 +137,7 @@ import { deleteAuthn, loadAuthn, queryAuthnItemMetrics, updateAuthn } from '@/ap
 import { DatabaseAndServer, Metrics } from '@/types/auth'
 import { LDAPAuthMethod } from '@/types/enum'
 import { AuthenticationBuiltInDbConfig, AuthenticationConfig } from '@/types/typeAlias'
+import { createBuiltinHash, resolveBuiltinPasswordMode } from '@/common/authnBuiltinPassword'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthItemOverview from './components/AuthItemOverview.vue'
 import AuthnManager from './components/AuthnManager.vue'
@@ -145,10 +150,11 @@ import KerberosConfig from './components/KerberosConfig.vue'
 import CInfoConfig from './components/CInfoConfig.vue'
 
 const props = defineProps<{
-  gatewayInfo?: Record<string, any> | boolean
+  gatewayInfo?: Record<string, any> | false
   updateFunc?: (data: any) => Promise<void>
   deleteFunc?: () => Promise<void>
   gateway?: string
+  listenerId?: string
 }>()
 
 const route = useRoute()
@@ -157,7 +163,16 @@ const { t, tl } = useI18nTl('Auth')
 const isSubmitting = ref(false)
 const authnDetailLock = ref(false)
 const currTab = ref(props.gateway ? 'settings' : 'overview')
-const id = computed(() => route.params.id.toString())
+const id = computed(() => String(route.params.id || ''))
+const savedUserConfig = ref<{
+  field: 'username' | 'clientid'
+  mechanism: string
+  generated: boolean
+}>({
+  field: 'username',
+  mechanism: 'password_based',
+  generated: false,
+})
 const queryTab = computed(() => route.query.tab?.toString())
 
 if (queryTab.value) {
@@ -190,7 +205,11 @@ const setPassWordBasedFieldsDefaultValue = () => {
     configData.value.password_hash_algorithm
   ) {
     configData.value.password_hash_algorithm = {
-      ...getPasswordHashAlgorithmObj().password_hash_algorithm,
+      ...(currBackend.value === 'built_in_database'
+        ? createBuiltinHash(
+            resolveBuiltinPasswordMode(configData.value as AuthenticationBuiltInDbConfig),
+          )
+        : getPasswordHashAlgorithmObj().password_hash_algorithm),
       ...configData.value.password_hash_algorithm,
     } as any
   }
@@ -239,8 +258,24 @@ const loadData = async () => {
     if (!res) {
       return
     }
-    currBackend.value = res.backend || res.mechanism
+    currBackend.value = ('backend' in res && res.backend) || res.mechanism
     configData.value = fillDefaultValue(handlingDataCompatible(res))
+    if (
+      currBackend.value === 'built_in_database' &&
+      configData.value.mechanism === 'password_based'
+    ) {
+      const builtInConfig = configData.value as AuthenticationBuiltInDbConfig
+      builtInConfig.autogenerate_password = resolveBuiltinPasswordMode(builtInConfig)
+    }
+    savedUserConfig.value = {
+      field: ('user_id_type' in res && res.user_id_type) || 'username',
+      mechanism: res.mechanism,
+      generated:
+        res.mechanism === 'password_based' &&
+        'backend' in res &&
+        res.backend === 'built_in_database' &&
+        resolveBuiltinPasswordMode(res as AuthenticationBuiltInDbConfig),
+    }
     setRawSetting(configData.value as any)
     setPassWordBasedFieldsDefaultValue()
   } catch (error) {
@@ -261,7 +296,7 @@ const getAuthnMetrics = async () => {
 
 const { titleMap } = useAuth()
 
-const updateAuthnBelongGateway = async (data: any, enable: boolean) => {
+const updateAuthnBelongGateway = async (data: any, enable?: boolean) => {
   if (enable !== undefined) {
     if (enable) {
       await MB.confirm(tl('disableAuthnTip'), {
@@ -306,7 +341,7 @@ const handleUpdate = async (authnData?: { enable: boolean } & unknown) => {
     }
 
     if (props.gateway) {
-      updateAuthnBelongGateway(data, Boolean(enable))
+      await updateAuthnBelongGateway(data, enable)
     } else {
       if (enable !== undefined) {
         await toggleAuthStatus(checkNOmitFromObj({ ...data, id }) as any, 'authn')
