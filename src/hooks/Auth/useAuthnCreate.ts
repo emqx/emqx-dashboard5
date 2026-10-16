@@ -1,6 +1,7 @@
 import { HTTP_POST_DEFAULT_HEADERS } from '@/common/constants'
 import { LDAPAuthMethod } from '@/types/enum'
 import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
+import { createBuiltinHash } from '@/common/authnBuiltinPassword'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useAuthnCreate() {
@@ -20,7 +21,8 @@ export default function useAuthnCreate() {
     if (type === 'password_based') {
       return {
         user_id_type: 'username',
-        ...getPasswordHashAlgorithmObj(),
+        autogenerate_password: true,
+        password_hash_algorithm: createBuiltinHash(true),
       }
     } else if (type === 'scram') {
       return {

@@ -30,7 +30,18 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <password-hash-algorithm-form-items v-model="builtConfig" is-built-in-database />
+          <el-col :span="12">
+            <el-form-item :label="tl('passwordMode')" prop="autogenerate_password" required>
+              <el-select v-model="builtConfig.autogenerate_password" @change="handleModeChange">
+                <el-option :value="true" :label="tl('generatedPasswordMode')" />
+                <el-option :value="false" :label="tl('manualPasswordMode')" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="builtConfig.autogenerate_password" :span="24" class="mb-4">
+            <el-alert :title="tl('generatedPasswordModeDesc')" type="info" :closable="false" />
+          </el-col>
+          <password-hash-algorithm-form-items v-else v-model="builtConfig" is-built-in-database />
         </template>
         <template v-else>
           <el-col :span="12">
@@ -56,6 +67,8 @@
 <script lang="ts">
 import PasswordHashAlgorithmFormItems from './PasswordHashAlgorithmFormItems.vue'
 import PreconditionFormItem from './PreconditionFormItem.vue'
+import { createBuiltinHash, isBuiltinHashSupported } from '@/common/authnBuiltinPassword'
+import type { FormRules } from 'element-plus'
 
 export default defineComponent({
   name: 'BuiltInConfig',
@@ -85,30 +98,72 @@ export default defineComponent({
   setup(props, ctx) {
     const { tl } = useI18nTl('Auth')
 
-    const builtConfig = reactive(props.modelValue) as any
+    const builtConfig = computed<any>({
+      get: () => props.modelValue,
+      set: (value) => ctx.emit('update:modelValue', value),
+    })
+    let manualHash =
+      builtConfig.value.autogenerate_password === false
+        ? cloneDeep(builtConfig.value.password_hash_algorithm)
+        : undefined
+    const handleModeChange = (generated: boolean) => {
+      builtConfig.value.autogenerate_password = generated
+      if (generated) {
+        manualHash = cloneDeep(builtConfig.value.password_hash_algorithm)
+      }
+      builtConfig.value.password_hash_algorithm =
+        !generated && manualHash && isBuiltinHashSupported(manualHash)
+          ? cloneDeep(manualHash)
+          : createBuiltinHash(generated)
+      nextTick(() => formCom.value?.clearValidate())
+    }
 
     const formCom = ref()
     const { createRequiredRule, createNumRangeRule } = useFormRules()
     const { passwordHashRules } = usePasswordHashRules()
-    const rules = {
+    const rules: FormRules = {
       user_id_type: createRequiredRule(tl('userIdType')),
+      autogenerate_password: createRequiredRule(tl('passwordMode')),
       ...passwordHashRules,
+      'password_hash_algorithm.iterations': [
+        { required: true, type: 'integer', min: 1, message: tl('positiveIntegerRequired') },
+      ],
+      'password_hash_algorithm.dk_length': [
+        {
+          validator: (_rule: any, value: unknown, callback: (error?: Error) => void) => {
+            callback(
+              value === '' ||
+                value === undefined ||
+                (typeof value === 'number' && Number.isInteger(value) && value > 0)
+                ? undefined
+                : new Error(tl('positiveIntegerRequired')),
+            )
+          },
+        },
+      ],
       max_rules: createNumRangeRule(1),
     }
 
-    const validate = () => {
-      return formCom.value?.validate()
+    const validate = async () => {
+      await formCom.value?.validate()
+      if (
+        props.authType === 'authn' &&
+        props.type === 'password_based' &&
+        !builtConfig.value.autogenerate_password &&
+        !isBuiltinHashSupported(builtConfig.value.password_hash_algorithm)
+      ) {
+        ElMessage.error(tl('unsupportedBuiltinHash'))
+        throw new Error('Unsupported built-in password hash')
+      }
+      return true
     }
-
-    watch(builtConfig, (value) => {
-      ctx.emit('update:modelValue', value)
-    })
     return {
       tl,
       builtConfig,
       formCom,
       rules,
       validate,
+      handleModeChange,
     }
   },
 })
