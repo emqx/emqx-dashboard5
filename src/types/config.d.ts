@@ -188,7 +188,6 @@ export interface Mqtt {
   hibernate_after?: EmqxMqttHibernateAfter
   minor_gc_after?: EmqxMqttMinorGcAfter
   max_packet_size: string
-  max_connect_user_properties?: number | 'infinity'
   max_clientid_len: number
   max_topic_levels: number
   max_qos_allowed: string
