@@ -9,6 +9,7 @@
             <el-tag type="info" class="section-status">
               {{ pluginInfo.rel_vsn }}
             </el-tag>
+            <PluginPinnedBadge :plugin-data="pluginInfo" size="default" />
           </div>
         </template>
         <template #extra>
@@ -33,16 +34,20 @@
           <el-button
             v-if="getTheWorstStatus(pluginInfo) === PluginStatus.Running"
             @click="handleDisable"
-            :disabled="!$hasPermission('put')"
+            :disabled="isPinnedPlugin(pluginInfo) || !$hasPermission('put')"
           >
             {{ tl('stop', 'Base') }}
           </el-button>
-          <el-button @click="handleEnable" :disabled="!$hasPermission('put')" v-else>
+          <el-button
+            @click="handleEnable"
+            :disabled="isPinnedPlugin(pluginInfo) || !$hasPermission('put')"
+            v-else
+          >
             {{ tl('start') }}
           </el-button>
           <el-button
             type="danger"
-            :disabled="!$hasPermission('delete')"
+            :disabled="isPinnedPlugin(pluginInfo) || !$hasPermission('delete')"
             plain
             @click="handleUninstall"
           >
@@ -105,6 +110,7 @@ import { PluginDetail } from '@/types/plugin'
 import type { UploadFile } from 'element-plus'
 import PluginInfo from './components/PluginInfo.vue'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import PluginPinnedBadge from './components/PluginPinnedBadge.vue'
 import PluginManage from './components/PluginManage.vue'
 import useQueryTab from '@/hooks/useQueryTab'
 
@@ -131,8 +137,15 @@ const pluginVersion: ComputedRef<string> = computed(() => route.params.pluginVer
 const isReadMoreEnable = computed(() => pluginInfo.value?.builder?.website)
 const pluginWithConfig = computed(() => pluginInfo.value?.with_config_schema)
 
-const { NAME_VERSION_JOINER, goDoc, disablePlugin, uninstall, enablePlugin, getTheWorstStatus } =
-  usePluginItem()
+const {
+  NAME_VERSION_JOINER,
+  isPinnedPlugin,
+  goDoc,
+  disablePlugin,
+  uninstall,
+  enablePlugin,
+  getTheWorstStatus,
+} = usePluginItem()
 
 const getPluginDetail = async () => {
   try {
