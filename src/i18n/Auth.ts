@@ -119,25 +119,33 @@ export default {
     zh: '忽略认证数据源错误',
     en: 'Ignore Backend Failures',
   },
+  perSecurityProfile: {
+    zh: '跟随安全配置模式',
+    en: 'Follow Security Profile',
+  },
   ignoreBackendFailuresDesc: {
-    zh: `仅在 hardened security profile 下生效
-- 启用：EMQX 将忽略认证数据源错误，并继续认证链中的下一个认证器
-- 禁用：EMQX 将严格遵循认证链，遇到认证数据源错误时将拒绝客户端连接`,
-    en: `Only effective in hardened security profile
-- Enabled: EMQX ignores authentication backend failures and continues with the next authenticator in the chain
-- Disabled: EMQX strictly follows the authentication chain and will reject client connections when encountering authentication backend failures`,
+    zh: `决定认证数据源发生错误时的处理方式
+- 跟随安全配置模式：legacy 模式忽略错误并继续下一个认证器，hardened 模式拒绝客户端连接
+- 启用：在两种模式下均忽略错误，并继续认证链中的下一个认证器
+- 停用：在两种模式下均拒绝客户端连接`,
+    en: `Controls how authentication backend failures are handled
+- Follow Security Profile: The legacy profile ignores failures and continues with the next authenticator; the hardened profile rejects the client connection
+- Enabled: Ignore failures and continue with the next authenticator in both profiles
+- Disabled: Reject the client connection in both profiles`,
   },
   ignoreAuthzBackendFailures: {
     zh: '忽略授权数据源错误',
     en: 'Ignore Authorization Backend Failures',
   },
   ignoreAuthzBackendFailuresDesc: {
-    zh: `仅在 hardened security profile 下生效
-- 启用：EMQX 将忽略授权数据源错误，并继续尝试下一个授权数据源
-- 禁用：EMQX 将严格遵循授权链，遇到授权数据源错误时将拒绝`,
-    en: `Only effective in hardened security profile
-- Enabled: EMQX ignores authorization backend failures and continues with the next authorization source
-- Disabled: EMQX strictly follows the authorization chain and will reject client when encountering authorization backend failures`,
+    zh: `决定授权数据源发生错误时的处理方式
+- 跟随安全配置模式：legacy 模式忽略错误并继续下一个授权数据源，hardened 模式拒绝当前操作
+- 启用：在两种模式下均忽略错误，并继续尝试下一个授权数据源
+- 停用：在两种模式下均拒绝当前操作`,
+    en: `Controls how authorization backend failures are handled
+- Follow Security Profile: The legacy profile ignores failures and continues with the next authorization source; the hardened profile denies the current action
+- Enabled: Ignore failures and continue with the next authorization source in both profiles
+- Disabled: Deny the current action in both profiles`,
   },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',

@@ -1,12 +1,13 @@
 import { MetricsDataWithExtraData } from './common'
 import { BannedType, ConnectionStatus, QoSLevel } from './enum'
 import { AuthzRuleAction, AuthzRulePermission } from './typeAlias'
+import type { AuthzIgnoreBackendFailures } from './typeAlias'
 
 export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
   no_match: 'allow' | 'deny'
   include_mountpoint: boolean
-  ignore_backend_failures: boolean
+  ignore_backend_failures: AuthzIgnoreBackendFailures
   cache: {
     enable: boolean
     excludes: string[]

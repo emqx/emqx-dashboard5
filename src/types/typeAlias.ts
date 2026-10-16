@@ -2,10 +2,14 @@ import {
   GetAuthentication200Item,
   AuthnBuiltinDb,
   AuthnJwtPublicKeyOnMissingJwt,
+  AuthCacheConfig,
+  EmqxAuthnApiResponseAuthnSettings,
+  EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures,
 } from './schemas/authentication.schemas'
 import {
   EmqxAuthzApiMnesiaRuleItemAction,
   EmqxAuthzApiMnesiaRuleItemPermission,
+  GetAuthorizationSettings200IgnoreBackendFailures,
 } from './schemas/authorization.schemas'
 import {
   EmqxManagedCertsServer,
@@ -179,11 +183,16 @@ export type GatewayListener = PostGatewaysNameListenersBody
 /* AUTHENTICATION */
 export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
+export type AuthnSettings = EmqxAuthnApiResponseAuthnSettings
+export type NodeCacheConfig = AuthCacheConfig
+export const PER_SECURITY_PROFILE =
+  EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures.per_security_profile
 export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 
 /* AUTHORIZATION */
 export const AuthzRulePermission = EmqxAuthzApiMnesiaRuleItemPermission
 export const AuthzRuleAction = EmqxAuthzApiMnesiaRuleItemAction
+export type AuthzIgnoreBackendFailures = GetAuthorizationSettings200IgnoreBackendFailures
 
 export type OverrideProperties<
   T,
