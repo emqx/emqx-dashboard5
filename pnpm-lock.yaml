@@ -204,6 +204,9 @@ importers:
       lint-staged:
         specifier: ^15.2.10
         version: 15.2.10
+      opencc-js:
+        specifier: ^1.0.5
+        version: 1.4.2
       orval:
         specifier: ^6.17.0
         version: 6.31.0(openapi-types@12.1.3)(typescript@5.5.4)
@@ -2995,6 +2998,9 @@ packages:
 
   openapi3-ts@4.2.2:
     resolution: {integrity: sha512-+9g4actZKeb3czfi9gVQ4Br2Ju3KwhCAQJBNaKgye5KggqcBLIhFHH+nIkcm0BUX00TrAJl6dH4JWgM4G4JWrw==}
+
+  opencc-js@1.4.2:
+    resolution: {integrity: sha512-EdcspgdROiCCZDM+jZR6Pa670xW+EW2QhctPBQ8gRjg6lrx4IHEl+2s+kt5izk/TkxVRgdWuFgaGkaEdIUfdaw==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -6987,6 +6993,8 @@ snapshots:
   openapi3-ts@4.2.2:
     dependencies:
       yaml: 2.5.1
+
+  opencc-js@1.4.2: {}
 
   optionator@0.9.4:
     dependencies:

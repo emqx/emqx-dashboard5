@@ -142,7 +142,7 @@
               ref="licenseConfigForm"
               :model="licenseConfig"
               label-position="right"
-              :label-width="store.state.lang === 'zh' ? 216 : 245"
+              :label-width="isZhLang(store.state.lang) ? 216 : 245"
               :rules="rules"
               hide-required-asterisk
             >

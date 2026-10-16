@@ -11,7 +11,7 @@
         :record-loading="configLoading"
         :props-order-map="propsOrderMap"
         :data-handler="handleFileSchema"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 284 : 336 }"
+        :form-props="{ labelWidth: isZhLang(state.lang) ? 284 : 336 }"
         :default-tab="tab"
         @save="handleSave"
       />

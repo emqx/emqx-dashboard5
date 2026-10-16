@@ -4,7 +4,7 @@
     ref="FormCom"
     :model="formData"
     :rules="rules"
-    :label-width="state.lang === 'zh' ? 200 : 272"
+    :label-width="isZhLang(state.lang) ? 200 : 272"
     :validate-on-rule-change="false"
   >
     <el-form-item prop="enable" :label="tl('SSOEnable', { backend: 'SAML' })">

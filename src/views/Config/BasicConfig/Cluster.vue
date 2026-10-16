@@ -4,7 +4,7 @@
       <el-form
         ref="delayedForm"
         label-position="right"
-        :label-width="state.lang === 'zh' ? 106 : 159"
+        :label-width="isZhLang(state.lang) ? 106 : 159"
         class="configuration-form schema-form"
       >
         <el-row>
