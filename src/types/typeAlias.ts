@@ -16,6 +16,7 @@ import {
   EmqxAuthzApiMnesiaRuleItemAction,
   EmqxAuthzApiMnesiaRuleItemPermission,
   GetAuthorizationSettings200IgnoreBackendFailures,
+  GetAuthorizationSettings200IgnoreRuleRenderFailures,
 } from './schemas/authorization.schemas'
 import {
   EmqxManagedCertsServer,
@@ -202,6 +203,7 @@ export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 export const AuthzRulePermission = EmqxAuthzApiMnesiaRuleItemPermission
 export const AuthzRuleAction = EmqxAuthzApiMnesiaRuleItemAction
 export type AuthzIgnoreBackendFailures = GetAuthorizationSettings200IgnoreBackendFailures
+export type AuthzIgnoreRuleRenderFailures = GetAuthorizationSettings200IgnoreRuleRenderFailures
 
 export type OverrideProperties<
   T,
