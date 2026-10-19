@@ -291,6 +291,20 @@ export default {
 - Enabled: Ignore failures and continue with the next authorization source in both profiles
 - Disabled: Deny the current action in both profiles`,
   },
+  ignoreAuthzRuleRenderFailures: {
+    zh: '忽略授权规则渲染错误',
+    en: 'Ignore Authorization Rule Render Failures',
+  },
+  ignoreAuthzRuleRenderFailuresDesc: {
+    zh: `决定授权规则中的主题过滤器模板渲染失败时的处理方式，例如变量缺失，或替换值包含不允许的字符（\`+\`、\`#\`、\`/\`）。此配置独立于授权数据源错误配置。
+- 跟随安全配置模式：legacy 模式跳过失败的过滤器，hardened 模式拒绝当前发布或订阅操作
+- 启用：在两种模式下均跳过失败的过滤器，继续匹配其他过滤器或规则，并非直接放行
+- 停用：在两种模式下均拒绝当前发布或订阅操作`,
+    en: `Controls how topic-filter template render failures in authorization rules are handled, such as missing variables or substituted values containing disallowed characters (\`+\`, \`#\`, or \`/\`). This setting is independent of authorization backend failures.
+- Follow Security Profile: The legacy profile skips the failing filter; the hardened profile denies the current publish or subscribe action
+- Enabled: Skip the failing filter and continue matching other filters or rules in both profiles; this does not automatically allow the action
+- Disabled: Deny the current publish or subscribe action in both profiles`,
+  },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
     en: 'Maximum Number of Cached Items',

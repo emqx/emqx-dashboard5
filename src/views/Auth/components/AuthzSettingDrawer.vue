@@ -19,6 +19,20 @@
                   <el-option :value="false" :label="t('Base.disabled')" />
                 </el-select>
               </el-form-item>
+              <el-form-item v-if="record.ignore_rule_render_failures !== undefined">
+                <template #label>
+                  <FormItemLabel
+                    :label="t('Auth.ignoreAuthzRuleRenderFailures')"
+                    :desc="t('Auth.ignoreAuthzRuleRenderFailuresDesc')"
+                    desc-marked
+                  />
+                </template>
+                <el-select v-model="record.ignore_rule_render_failures">
+                  <el-option :value="PER_SECURITY_PROFILE" :label="t('Auth.perSecurityProfile')" />
+                  <el-option :value="true" :label="t('Base.enabled')" />
+                  <el-option :value="false" :label="t('Base.disabled')" />
+                </el-select>
+              </el-form-item>
               <el-form-item :label="$t('Auth.enableCache')">
                 <el-switch v-model="record.cache.enable" />
               </el-form-item>
@@ -147,6 +161,7 @@ const loadData = async () => {
     if (res.ignore_backend_failures === undefined) {
       res.ignore_backend_failures = PER_SECURITY_PROFILE
     }
+    // Keep ignore_rule_render_failures absent for older backends that do not support it.
     record.value = res
   } catch (error) {
     //
