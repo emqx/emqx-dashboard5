@@ -1,4 +1,16 @@
 export default {
+  pinned: {
+    zh: '固定（节点本地）',
+    en: 'Pinned (node-local)',
+  },
+  nodePinned: {
+    zh: '固定',
+    en: 'Pinned',
+  },
+  pinnedPluginHint: {
+    zh: '此插件由固定它的节点独立管理。请在对应节点执行 emqx ctl plugins start {nameVsn} 或 emqx ctl plugins stop {nameVsn} 来启动或停止插件。配置仍可通过 Dashboard 修改。',
+    en: 'This plugin is managed locally by the node that pins it. Run emqx ctl plugins start {nameVsn} or emqx ctl plugins stop {nameVsn} on that node to start or stop it. Configuration can still be updated in Dashboard.',
+  },
   searchPlaceholder: {
     zh: '搜索已安装的插件',
     en: 'Search for installed plugins',
