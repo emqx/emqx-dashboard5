@@ -20,6 +20,7 @@
       ref="tableCom"
       row-key="name"
       class="table-with-draggable"
+      :row-class-name="({ row }) => (isPinnedPlugin(row) ? 'plugin-pinned' : '')"
     >
       <el-table-column :label="tl('name')" min-width="380">
         <template #default="{ row }">
@@ -28,6 +29,7 @@
             <router-link :to="detailLink(row)">{{ row.name }}</router-link>
             <div class="vertical-align-center">
               <span class="version-info">{{ row.rel_vsn }}</span>
+              <PluginPinnedBadge :plugin-data="row" />
               <el-tag v-if="isPluginInConsistent(row)" size="small" type="warning" effect="light">
                 {{ t('Plugins.inConsistent') }}
               </el-tag>
@@ -62,13 +64,13 @@
         <template #default="{ row, $index }">
           <TableButton
             v-if="pluginTotalStatus(row) === PluginStatus.Running"
-            :disabled="!$hasPermission('put')"
+            :disabled="isPinnedPlugin(row) || !$hasPermission('put')"
             @click="handleDisable(row)"
           >
             {{ tl('stop') }}
           </TableButton>
           <TableButton
-            :disabled="!$hasPermission('put')"
+            :disabled="isPinnedPlugin(row) || !$hasPermission('put')"
             v-else-if="pluginTotalStatus(row) === PluginStatus.Stopped"
             @click="handleEnable(row)"
           >
@@ -112,6 +114,7 @@ import type { PluginHealthStatusValueType } from '@/types/typeAlias'
 import { PluginsHealthStatusVal } from '@/types/typeAlias'
 import { SortableEvent } from 'sortablejs'
 import PluginItemStatus from './components/PluginItemStatus.vue'
+import PluginPinnedBadge from './components/PluginPinnedBadge.vue'
 import SyncPluginVersionDialog from './components/SyncPluginVersionDialog.vue'
 import TableItemDropdown from './components/TableItemDropdown.vue'
 
@@ -144,6 +147,7 @@ const pluginVersionMap = ref<PluginVersionMap>(new Map())
 const isTableLoading = ref(false)
 
 const {
+  isPinnedPlugin,
   disablePlugin,
   enablePlugin,
   uninstall,
@@ -312,9 +316,16 @@ const handleOrderChanged = async (evt: SortableEvent) => {
   if (newIndex === undefined || oldIndex === undefined) {
     return
   }
+  if (isPinnedPlugin(pluginListToShow.value[oldIndex])) {
+    await queryListData()
+    return
+  }
   handleDragEvent(newIndex, oldIndex, pluginListToShow.value, isTableFiltered.value)
 }
-const { tableCom, initSortable } = useSortableTable(handleOrderChanged)
+const { tableCom, initSortable } = useSortableTable(handleOrderChanged, {
+  filter: '.plugin-pinned',
+  preventOnFilter: false,
+})
 
 const detailLink = ({ name, rel_vsn }: PluginItem) => ({
   name: 'plugin-detail',
