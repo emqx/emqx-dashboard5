@@ -81,13 +81,13 @@
                       is-server
                       managed-certs-arr
                       no-session-resumption
+                      hide-verify
                       :show-sni="false"
                       :show-middlebox-comp-mode="false"
                       :readonly="isCurrentProtocol('https')"
                       :managed-cert-conf-columns="1"
                       :managed-certs-bundle-empty-value="null"
                       base-path="https.ssl_options"
-                      :verify-label="t('Base.tlsVerifyClient')"
                     >
                       <template #before-certificate-source>
                         <el-alert class="acme-tip" type="info" :closable="false" show-icon>

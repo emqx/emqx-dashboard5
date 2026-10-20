@@ -12,8 +12,8 @@ export default {
     en: 'Current Connection',
   },
   editTip: {
-    zh: '为避免当前 Dashboard 连接中断，只能修改当前连接未使用的监听器。',
-    en: 'To avoid interrupting the current Dashboard connection, only the listener not used by the current connection can be modified.',
+    zh: '当前会话正通过此监听器连接，因此无法修改。请通过另一个监听器登录后，再修改此监听器的配置。',
+    en: 'You cannot update this listener because the current session is connected to it. Login from the other listener to reconfigure this one.',
   },
   enable: {
     zh: '启用监听器',
