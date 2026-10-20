@@ -1,3 +1,16 @@
+export type PostPluginsInstall409Code =
+  (typeof PostPluginsInstall409Code)[keyof typeof PostPluginsInstall409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsInstall409Code = {
+  PLUGIN_PINNED: 'PLUGIN_PINNED',
+} as const
+
+export type PostPluginsInstall409 = {
+  code?: PostPluginsInstall409Code
+  message?: string
+}
+
 export type PostPluginsInstall400Code =
   (typeof PostPluginsInstall400Code)[keyof typeof PostPluginsInstall400Code]
 
@@ -17,6 +30,19 @@ export type PostPluginsInstall400 = {
 
 export type PostPluginsInstallBody = {
   plugin?: Blob
+}
+
+export type PostPluginsClusterSync409Code =
+  (typeof PostPluginsClusterSync409Code)[keyof typeof PostPluginsClusterSync409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsClusterSync409Code = {
+  PLUGIN_PINNED: 'PLUGIN_PINNED',
+} as const
+
+export type PostPluginsClusterSync409 = {
+  code?: PostPluginsClusterSync409Code
+  message?: string
 }
 
 export type PostPluginsClusterSync404Code =
@@ -56,6 +82,19 @@ export const GetPluginsNameSchema404Code = {
 
 export type GetPluginsNameSchema404 = {
   code?: GetPluginsNameSchema404Code
+  message?: string
+}
+
+export type PostPluginsNameMove409Code =
+  (typeof PostPluginsNameMove409Code)[keyof typeof PostPluginsNameMove409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsNameMove409Code = {
+  PLUGIN_PINNED: 'PLUGIN_PINNED',
+} as const
+
+export type PostPluginsNameMove409 = {
+  code?: PostPluginsNameMove409Code
   message?: string
 }
 
@@ -117,6 +156,7 @@ export type PostPluginsNameConfigUpload400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostPluginsNameConfigUpload400Code = {
   BAD_CONFIG: 'BAD_CONFIG',
+  BAD_FORM_DATA: 'BAD_FORM_DATA',
   UNEXPECTED_ERROR: 'UNEXPECTED_ERROR',
 } as const
 
@@ -236,6 +276,19 @@ export type PutPluginsNameAction500 = {
   message?: string
 }
 
+export type PutPluginsNameAction409Code =
+  (typeof PutPluginsNameAction409Code)[keyof typeof PutPluginsNameAction409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutPluginsNameAction409Code = {
+  PLUGIN_PINNED: 'PLUGIN_PINNED',
+} as const
+
+export type PutPluginsNameAction409 = {
+  code?: PutPluginsNameAction409Code
+  message?: string
+}
+
 export type PutPluginsNameAction404Code =
   (typeof PutPluginsNameAction404Code)[keyof typeof PutPluginsNameAction404Code]
 
@@ -286,6 +339,19 @@ export const DeletePluginsName500Code = {
 
 export type DeletePluginsName500 = {
   code?: DeletePluginsName500Code
+  message?: string
+}
+
+export type DeletePluginsName409Code =
+  (typeof DeletePluginsName409Code)[keyof typeof DeletePluginsName409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeletePluginsName409Code = {
+  PLUGIN_PINNED: 'PLUGIN_PINNED',
+} as const
+
+export type DeletePluginsName409 = {
+  code?: DeletePluginsName409Code
   message?: string
 }
 
@@ -396,6 +462,7 @@ export const PluginsRunningStatusStatus = {
 
 export interface PluginsRunningStatus {
   node?: string
+  pinned?: boolean
   status?: PluginsRunningStatusStatus
 }
 
@@ -439,6 +506,7 @@ export interface PluginsPlugin {
   health_status?: PluginsHealthStatus
   metadata_vsn?: string
   name: string
+  pinned?: boolean
   readme?: string
   rel_apps: string[]
   rel_vsn: string
