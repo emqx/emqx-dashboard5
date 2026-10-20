@@ -346,6 +346,7 @@ export default (
       [
         'host',
         'port',
+        'region',
         'access_key_id',
         'secret_access_key',
         'access_method',
