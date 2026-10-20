@@ -34,7 +34,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="tl('lAddress')" prop="bind" required>
-            <el-input v-model="listenerRecord.bind" />
+            <el-input v-model="listenerRecord.bind">
+              <template #prefix>
+                <ListenerBindInfo
+                  :listener="listenerAddressInfo"
+                  :current-bind="listenerRecord.bind"
+                />
+              </template>
+            </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24"><el-divider /></el-col>
@@ -599,6 +606,7 @@ import CustomInputNumber from '../CustomInputNumber.vue'
 import DTLSVersionSelect from './DTLSVersionSelect.vue'
 import SSLVersionSelect from './SSLVersionSelect.vue'
 import CustomConfigs from './CustomConfigs.vue'
+import ListenerBindInfo from '../ListenerBindInfo.vue'
 
 const props = defineProps({
   modelValue: {
@@ -629,6 +637,7 @@ const {
   canBeDeleted,
   isLoading,
   listenerRecord,
+  listenerAddressInfo,
   listenerCustomConfigs,
   formCom,
   customConfig,
