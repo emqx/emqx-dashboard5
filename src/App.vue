@@ -81,15 +81,15 @@ const handleQuery = async () => {
         if ('token' in result) {
           // Login success
           updateBaseInfo(result.username, result, result.backend)
-          router.push({ path: to ?? '/' })
+          await router.push({ path: to ?? '/' })
         } else {
           // MFA required — store the pending state and go to login page
           store.commit('SET_SSO_MFA_PENDING', result)
-          router.push({ path: '/login' })
+          await router.push({ path: '/login' })
         }
       } catch (error) {
         console.error('SSO token exchange failed', error)
-        toLogin()
+        await toLogin()
       }
     } else if (info.token) {
       // Backward-compatible flow: login_meta contains a JWT directly
@@ -101,21 +101,20 @@ const handleQuery = async () => {
       updateBaseInfo(info.username, info, backend)
       // if in login page, redirect to overview page
       if (/login/i.test(location.hash.split('?')[0])) {
-        router.push({ name: 'overview' })
+        await router.push({ name: 'overview' })
       }
     }
-    await waitAMoment()
-    // remove login meta from query for safe
-    if (route.query) {
+    // Initial routing and post-login navigation must settle before URL cleanup.
+    await router.isReady()
+    // Only navigate again when metadata is present in the hash route's query.
+    if (USER_INFO_KEY in route.query) {
       const newQuery = omit(route.query, USER_INFO_KEY)
-      router.replace({ ...route, query: newQuery })
+      await router.replace({ path: route.path, query: newQuery, hash: route.hash })
     }
-    // Clear the login_meta from the URL immediately for security
-    window.history.replaceState(
-      {},
-      '',
-      location.origin + location.pathname + location.hash.split('?')[0],
-    )
+    // Remove metadata outside the hash without dropping other parameters or router state.
+    const url = new URL(window.location.href)
+    url.searchParams.delete(USER_INFO_KEY)
+    window.history.replaceState(window.history.state, '', url.href)
   } catch (error) {
     console.error(error)
   }

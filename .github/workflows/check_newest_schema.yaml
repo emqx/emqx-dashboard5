@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: checkout dashboard code
+        uses: actions/checkout@v4
+
+      - name: Enable Docker containerd image store
+        run: bash scripts/enable-docker-containerd.sh
+
       - uses: actions/download-artifact@v4
         with:
           name: ${{ env.EMQX_NAME }}-docker
@@ -25,11 +31,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          EMQX_IMAGE_TAG=$(docker load < /tmp/${EMQX_NAME}-docker.tar.gz 2>/dev/null | sed 's/Loaded image: //g')
+          docker load --input "/tmp/${EMQX_NAME}-docker.tar.gz"
+          EMQX_IMAGE_TAG=$(cat "/tmp/${EMQX_NAME}-docker-image-tag.txt")
+          docker image inspect "$EMQX_IMAGE_TAG" > /dev/null
           echo "EMQX_IMAGE_TAG=$EMQX_IMAGE_TAG" >> "$GITHUB_ENV"
-
-      - name: checkout dashboard code
-        uses: actions/checkout@v4
 
       - name: run EMQX
         shell: bash

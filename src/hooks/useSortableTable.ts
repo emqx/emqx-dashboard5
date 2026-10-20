@@ -2,6 +2,7 @@ import Sortable, { SortableEvent } from 'sortablejs'
 
 export default (
   onUpdate: (evt: SortableEvent) => void,
+  options: Sortable.Options = {},
 ): {
   tableCom: Ref<Component>
   sortable: undefined | Sortable
@@ -19,6 +20,7 @@ export default (
   const initSortable = () => {
     sortable && sortable?.destroy()
     sortable = new Sortable(tableCom.value.$el.querySelector('tbody'), {
+      ...options,
       onUpdate: onUpdate,
     })
   }

@@ -14,13 +14,16 @@
     </TableButton>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item command="up" :disabled="rowIndex === 0 || !$hasPermission('put')">
+        <el-dropdown-item
+          command="up"
+          :disabled="isPinnedPlugin(rowData) || rowIndex === 0 || !$hasPermission('put')"
+        >
           <ChevronUp class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.up') }}</span>
         </el-dropdown-item>
         <el-dropdown-item
           command="down"
-          :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
+          :disabled="isPinnedPlugin(rowData) || rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
           <ChevronDown class="w-4 h-4 mr-2" />
           <span>{{ $t('Base.down') }}</span>
@@ -28,7 +31,7 @@
         <el-dropdown-item
           command="top"
           :class="{ disabled: filtered }"
-          :disabled="rowIndex === 0 || !$hasPermission('put')"
+          :disabled="isPinnedPlugin(rowData) || rowIndex === 0 || !$hasPermission('put')"
         >
           <ChevronsUp class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToTop') }}</span>
@@ -36,12 +39,15 @@
         <el-dropdown-item
           command="bottom"
           :class="{ disabled: filtered }"
-          :disabled="rowIndex === tableLen - 1 || !$hasPermission('put')"
+          :disabled="isPinnedPlugin(rowData) || rowIndex === tableLen - 1 || !$hasPermission('put')"
         >
           <ChevronsDown class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.moveToBottom') }}</span>
         </el-dropdown-item>
-        <el-dropdown-item :disabled="!$hasPermission('delete')" command="uninstall">
+        <el-dropdown-item
+          :disabled="isPinnedPlugin(rowData) || !$hasPermission('delete')"
+          command="uninstall"
+        >
           <Trash2 class="w-4 h-4 mr-2" />
           <span>{{ $t('Plugins.uninstall') }}</span>
         </el-dropdown-item>
@@ -80,6 +86,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['moveToTop', 'moveToBottom', 'uninstall', 'moveUp', 'moveDown'])
+const { isPinnedPlugin } = usePluginItem()
 
 const dropdownVisible: Ref<boolean> = ref(false)
 
@@ -88,6 +95,9 @@ const dropdownVisibleChanged = (value: boolean) => {
 }
 
 const handleCommand = function (row: PluginItem, command: string) {
+  if (isPinnedPlugin(row)) {
+    return
+  }
   switch (command) {
     case 'up':
       emit('moveUp', row)

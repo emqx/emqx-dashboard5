@@ -1,5 +1,15 @@
 <template>
-  <StatusDetailsOfEachNode :status-data="statusData" :is-tag="isTag" />
+  <StatusDetailsOfEachNode :status-data="statusData" :is-tag="isTag">
+    <template #extra-content v-if="hasPinnedNode">
+      <p class="pinned-plugin-hint">
+        {{
+          tl('pinnedPluginHint', {
+            nameVsn: `${pluginData.name}-${pluginData.rel_vsn}`,
+          })
+        }}
+      </p>
+    </template>
+  </StatusDetailsOfEachNode>
 </template>
 
 <script lang="ts">
@@ -37,14 +47,18 @@ const statusText = (status: PluginStatus) =>
   })[status] || 'unknown'
 
 const { getTheWorstStatus } = usePluginItem()
+const hasPinnedNode = computed(() =>
+  props.pluginData.running_status?.some(({ pinned }) => pinned === true),
+)
 
 const statusData = computed(() => {
   const { pluginData } = props
   const details =
     pluginData?.running_status && Array.isArray(pluginData?.running_status)
-      ? pluginData?.running_status.map(({ node, status }) => ({
+      ? pluginData?.running_status.map(({ node, status, pinned }) => ({
           node,
-          statusLabel: statusText(status),
+          statusLabel:
+            pinned === true ? `${statusText(status)} · ${tl('nodePinned')}` : statusText(status),
           statusClass: dotClass(status),
         }))
       : []
@@ -54,3 +68,9 @@ const statusData = computed(() => {
   return { details, statusLabel, statusClass }
 })
 </script>
+
+<style scoped>
+.pinned-plugin-hint {
+  max-width: 320px;
+}
+</style>
