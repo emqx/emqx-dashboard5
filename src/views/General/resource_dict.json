@@ -2209,6 +2209,30 @@
   },
   {
     "method": "post",
+    "path": "/login/challenge",
+    "operation_label": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "operation_name_label": {
+      "en": "Dashboard login challenge",
+      "zh": "Dashboard 登录挑战"
+    }
+  },
+  {
+    "method": "post",
+    "path": "/login/verify",
+    "operation_label": {
+      "en": "Dashboard",
+      "zh": "Dashboard"
+    },
+    "operation_name_label": {
+      "en": "Dashboard login verification",
+      "zh": "Dashboard 登录验证"
+    }
+  },
+  {
+    "method": "post",
     "path": "/logout",
     "operation_label": {
       "en": "Dashboard",
