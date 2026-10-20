@@ -161,7 +161,12 @@ export type LogConf = EmqxLog
 
 /* AUDIT */
 export type GetAuditParams = GetAuditParamsType
-export type AuditLogItem = AuditAudit
+type AuditRequest = NonNullable<AuditAudit['http_request']>
+export type AuditLogItem = Omit<AuditAudit, 'http_request'> & {
+  http_request?: Omit<AuditRequest, 'body'> & {
+    body?: AuditRequest['body'] | string
+  }
+}
 export const AuditLogFrom = GetAuditFrom
 export const AuditLogOperationResult = GetAuditOperationResult
 
