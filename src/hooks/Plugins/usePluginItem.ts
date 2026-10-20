@@ -7,6 +7,7 @@ import { movePluginPosition } from '@/api/plugins'
 interface FuncRet {
   NAME_VERSION_JOINER: string
   concatNameWithVersion: ({ name, rel_vsn }: PluginItem) => string
+  isPinnedPlugin: (pluginItem: PluginItem) => boolean
   disablePlugin: (pluginItem: PluginItem) => Promise<void>
   enablePlugin: (pluginItem: PluginItem) => Promise<void>
   uninstall: (pluginItem: PluginItem) => Promise<void>
@@ -31,6 +32,17 @@ export default (): FuncRet => {
   const concatNameWithVersion = ({ name, rel_vsn }: PluginItem) =>
     `${name}${NAME_VERSION_JOINER}${rel_vsn}`
 
+  const isPinnedPlugin = (pluginItem: PluginItem) => pluginItem.pinned === true
+
+  const checkManagedPlugin = (pluginItem: PluginItem) => {
+    if (isPinnedPlugin(pluginItem)) {
+      return Promise.reject(
+        new Error(t('Plugins.pinnedPluginHint', { nameVsn: concatNameWithVersion(pluginItem) })),
+      )
+    }
+    return checkPlugin(concatNameWithVersion(pluginItem))
+  }
+
   const checkPlugin = (name: undefined | string) => {
     if (!name) {
       return Promise.reject(new Error('Please pass select a plugin'))
@@ -40,7 +52,7 @@ export default (): FuncRet => {
 
   const disablePlugin = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem))
+      await checkManagedPlugin(pluginItem)
       await updatePluginStatus(concatNameWithVersion(pluginItem), StatusCommandSendToPlugin.Stop)
       ElMessage.success(t('Base.disabledSuccess'))
       return Promise.resolve()
@@ -52,7 +64,7 @@ export default (): FuncRet => {
 
   const enablePlugin = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem))
+      await checkManagedPlugin(pluginItem)
       await updatePluginStatus(concatNameWithVersion(pluginItem), StatusCommandSendToPlugin.Start)
       ElMessage.success(t('Base.enableSuccess'))
       return Promise.resolve()
@@ -64,7 +76,7 @@ export default (): FuncRet => {
 
   const uninstall = async (pluginItem: PluginItem) => {
     try {
-      await checkPlugin(concatNameWithVersion(pluginItem))
+      await checkManagedPlugin(pluginItem)
       await ElMessageBox.confirm(t('Plugins.pluginUninstallConfirm', { name: pluginItem.name }))
       await uninstallPlugin(concatNameWithVersion(pluginItem) as string)
       ElMessage.success(t('Plugins.uninstalledSuccessfully'))
@@ -110,22 +122,32 @@ export default (): FuncRet => {
     }
   }
 
-  const movePluginToTop = (pluginItem: PluginItem) => {
+  const movePluginToTop = async (pluginItem: PluginItem) => {
+    await checkManagedPlugin(pluginItem)
     return movePluginPosition(concatNameWithVersion(pluginItem), TargetPosition.Top)
   }
 
-  const movePluginToBottom = (pluginItem: PluginItem) => {
+  const movePluginToBottom = async (pluginItem: PluginItem) => {
+    await checkManagedPlugin(pluginItem)
     return movePluginPosition(concatNameWithVersion(pluginItem), TargetPosition.Bottom)
   }
 
-  const movePluginBeforeAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
+  const movePluginBeforeAnotherPlugin = async (
+    pluginItem: PluginItem,
+    anotherPlugin: PluginItem,
+  ) => {
+    await checkManagedPlugin(pluginItem)
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
       TargetPosition.Before + concatNameWithVersion(anotherPlugin),
     )
   }
 
-  const movePluginAfterAnotherPlugin = (pluginItem: PluginItem, anotherPlugin: PluginItem) => {
+  const movePluginAfterAnotherPlugin = async (
+    pluginItem: PluginItem,
+    anotherPlugin: PluginItem,
+  ) => {
+    await checkManagedPlugin(pluginItem)
     return movePluginPosition(
       concatNameWithVersion(pluginItem),
       TargetPosition.After + concatNameWithVersion(anotherPlugin),
@@ -135,6 +157,7 @@ export default (): FuncRet => {
   return {
     NAME_VERSION_JOINER,
     concatNameWithVersion,
+    isPinnedPlugin,
     disablePlugin,
     enablePlugin,
     uninstall,

@@ -4,14 +4,14 @@ import { ListenerType, ListenerTypeForGateway } from './enum'
 type Infinity = 'infinity'
 
 export interface ListenerStatus {
-  max_connections: number
+  running: boolean | 'inconsistent'
+  max_connections: number | Infinity
   current_connections: number
 }
 
 export interface ListenerNodeStatus {
   node: string
-  max_connections: number
-  current_connections: number
+  status: ListenerStatus
 }
 
 export interface ListenerSimpleInfo {

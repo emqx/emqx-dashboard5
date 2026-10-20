@@ -1,9 +1,11 @@
 import { PluginStatus } from './enum'
 
 export interface PluginItem {
+  pinned?: boolean
   running_status: Array<{
     node: string
     status: PluginStatus
+    pinned?: boolean
     health_status: PluginHealthStatusObj
   }>
   authors: Array<string>
