@@ -104,14 +104,10 @@
               v-if="showDialog && !isLoading"
               class="TLS-config"
               v-model="listenerRecord[SSLConfigKey]"
-              managed-certs-arr
-              :is-server="true"
-              :show-sni="false"
+              is-server
               :no-session-resumption="isQUIC"
-              :show-middlebox-comp-mode="false"
               :is-edit="isEdit"
               :base-path="SSLConfigKey"
-              :verify-label="t('Base.tlsVerifyClient')"
               :managed-certs-bundle-empty-value="isEdit ? null : undefined"
               @verify-change="handleTLSVerifyChange"
             />
