@@ -753,6 +753,7 @@ export interface FileTransferS3Exporter {
   min_part_size?: string
   /** @minimum 1 */
   port: number
+  region?: string
   secret_access_key?: string
   transport_options?: S3TransportOptions
   url_expire_time?: string
