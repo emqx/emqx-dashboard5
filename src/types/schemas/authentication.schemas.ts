@@ -673,6 +673,10 @@ export interface ConnectorHttpRequest {
   request_timeout?: string
 }
 
+export type AuthnScramRestapiPostOauth2 =
+  | ConnectorOauth2ClientCredentials
+  | ConnectorOauth2Oauth2Disabled
+
 export type AuthnScramRestapiPostMethod =
   (typeof AuthnScramRestapiPostMethod)[keyof typeof AuthnScramRestapiPostMethod]
 
@@ -729,6 +733,7 @@ export interface AuthnScramRestapiPost {
   max_retries?: number
   mechanism: AuthnScramRestapiPostMechanism
   method: AuthnScramRestapiPostMethod
+  oauth2?: AuthnScramRestapiPostOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
@@ -739,6 +744,10 @@ export interface AuthnScramRestapiPost {
   ssl?: EmqxSslClientOpts
   url: string
 }
+
+export type AuthnScramRestapiGetOauth2 =
+  | ConnectorOauth2ClientCredentials
+  | ConnectorOauth2Oauth2Disabled
 
 export type AuthnScramRestapiGetMethod =
   (typeof AuthnScramRestapiGetMethod)[keyof typeof AuthnScramRestapiGetMethod]
@@ -796,6 +805,7 @@ export interface AuthnScramRestapiGet {
   max_retries?: number
   mechanism: AuthnScramRestapiGetMechanism
   method: AuthnScramRestapiGetMethod
+  oauth2?: AuthnScramRestapiGetOauth2
   /** @minimum 1 */
   pool_size?: number
   precondition?: string
