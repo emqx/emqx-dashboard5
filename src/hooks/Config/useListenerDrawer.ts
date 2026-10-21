@@ -2,7 +2,7 @@ import { addGatewayListener, updateGatewayListener } from '@/api/gateway'
 import { addListener, queryListenerDetail, updateListener } from '@/api/listener'
 import { FormRules } from '@/types/common'
 import { GatewayName, ListenerType, ListenerTypeForGateway } from '@/types/enum'
-import { Listener } from '@/types/listener'
+import { Listener, ListenerAddressInfo } from '@/types/listener'
 import { hoconToObject, isEmptyObj, unflattenObject } from '@emqx/shared-ui-utils'
 
 type Props = Readonly<
@@ -28,6 +28,7 @@ interface useListenerDrawerReturns {
   canBeDeleted: ComputedRef<boolean>
   isLoading: Ref<boolean>
   listenerRecord: Ref<Listener>
+  listenerAddressInfo: Ref<ListenerAddressInfo | undefined>
   listenerCustomConfigs: Ref<Listener>
   formCom: Ref<any>
   customConfig: Ref<any>
@@ -71,6 +72,8 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   })
 
   const listenerRecord: Ref<Listener> = ref({} as Listener)
+  const listenerAddressInfo = ref<ListenerAddressInfo>()
+  const addressInfoKeys = ['bind', 'resolved_address', 'resolved_address_from', 'node_status']
 
   const listenerCustomConfigs: Ref<Listener> = ref({} as Listener)
 
@@ -176,6 +179,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       isLoading.value = true
       const data = await queryListenerDetail(props.listener.id)
       const { name, type } = getListenerNameNTypeById(data.id)
+      listenerAddressInfo.value = cloneDeep(pick(data, addressInfoKeys))
       listenerRecord.value = { ...data, name, type, bind: transPort(data.bind) }
       // Extract differences custom configs
       let differences = {}
@@ -233,6 +237,8 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     'subscribes_burst',
   ]
   const handleDataBeforeSubmit = (data: Listener) => {
+    delete data.resolved_address
+    delete data.resolved_address_from
     if (props.gatewayName) {
       const needDeletedKeys = ['zone', 'limiter', 'current_connections']
       needDeletedKeys.forEach((key) => {
@@ -348,11 +354,13 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
   }
 
   watch(showDialog, async (val) => {
+    listenerAddressInfo.value = undefined
     if (val) {
       if (props.listener) {
         const initForm = createRawListener()
         initForm.health_check = emptyObject(initForm.health_check)
         listenerRecord.value = assign(initForm, cloneDeep(props.listener))
+        listenerAddressInfo.value = cloneDeep(pick(props.listener, addressInfoKeys))
         if (!props.gatewayName) {
           loadListenerData()
         } else {
@@ -396,6 +404,7 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     isEdit,
     canBeDeleted,
     listenerRecord,
+    listenerAddressInfo,
     listenerCustomConfigs,
     formCom,
     customConfig,

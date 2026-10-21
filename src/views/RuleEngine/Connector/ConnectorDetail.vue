@@ -80,6 +80,7 @@
               type="primary"
               plain
               :loading="isTesting"
+              :disabled="!$hasPermission('post')"
               @click="handleTest"
             >
               {{ tl('testTheConnection') }}

@@ -163,6 +163,16 @@ export interface GatewayTranslator {
   topic: string
 }
 
+export interface GatewayStompTransaction {
+  /** @minimum 0 */
+  max_actions_per_transaction?: number
+  /** @minimum 0 */
+  max_retained_bytes?: number
+  /** @minimum 0 */
+  max_transactions?: number
+  timeout?: string
+}
+
 export interface GatewayStompFrame {
   max_body_length?: number
   /** @minimum 0 */
@@ -172,6 +182,8 @@ export interface GatewayStompFrame {
 }
 
 export interface GatewayProtocol {
+  /** @minimum 0 */
+  max_control_line?: number
   /** @minimum 0 */
   max_payload_size?: number
 }
@@ -202,6 +214,9 @@ export interface GatewayLwm2mBlockwise {
    */
   max_block_size?: number
   max_body_size?: string
+  /** @minimum 1 */
+  max_concurrent_exchanges?: number
+  max_total_size?: string
 }
 
 export interface GatewayJwtResolverPreloadEntry {
@@ -377,6 +392,9 @@ export interface GatewayCoapBlockwise {
    */
   max_block_size?: number
   max_body_size?: string
+  /** @minimum 1 */
+  max_concurrent_exchanges?: number
+  max_total_size?: string
 }
 
 export interface GatewayClientinfoOverride {
@@ -529,6 +547,7 @@ export interface EmqxGatewayApiStomp {
   listeners?: EmqxGatewayApiStompListenersItem[]
   mountpoint?: string
   name?: EmqxGatewayApiStompName
+  transaction?: GatewayStompTransaction
 }
 
 export type EmqxGatewayApiSslListenerType =
@@ -762,20 +781,6 @@ export const EmqxGatewayApiGatewayOverviewStatus = {
   unloaded: 'unloaded',
 } as const
 
-export interface EmqxGatewayApiGatewayOverview {
-  created_at?: string
-  /** @minimum 0 */
-  current_connections?: number
-  listeners?: EmqxGatewayApiGatewayListenerOverview[]
-  /** @minimum 1 */
-  max_connections?: number
-  name?: string
-  node_status?: EmqxGatewayApiGatewayNodeStatus[]
-  started_at?: string
-  status?: EmqxGatewayApiGatewayOverviewStatus
-  stopped_at?: string
-}
-
 export type EmqxGatewayApiGatewayNodeStatusStatus =
   (typeof EmqxGatewayApiGatewayNodeStatusStatus)[keyof typeof EmqxGatewayApiGatewayNodeStatusStatus]
 
@@ -801,6 +806,20 @@ export interface EmqxGatewayApiGatewayNodeStatus {
   max_connections?: number
   node?: EmqxGatewayApiGatewayNodeStatusNode
   status?: EmqxGatewayApiGatewayNodeStatusStatus
+}
+
+export interface EmqxGatewayApiGatewayOverview {
+  created_at?: string
+  /** @minimum 0 */
+  current_connections?: number
+  listeners?: EmqxGatewayApiGatewayListenerOverview[]
+  /** @minimum 1 */
+  max_connections?: number
+  name?: string
+  node_status?: EmqxGatewayApiGatewayNodeStatus[]
+  started_at?: string
+  status?: EmqxGatewayApiGatewayOverviewStatus
+  stopped_at?: string
 }
 
 export type EmqxGatewayApiGatewayListenerOverviewType =

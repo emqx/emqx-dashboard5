@@ -27,6 +27,10 @@ export default {
     zh: '证书',
     en: 'Certificates',
   },
+  'dashboard-listeners': {
+    zh: 'Dashboard 监听器',
+    en: 'Dashboard Listeners',
+  },
   management: {
     zh: '管理',
     en: 'Management',

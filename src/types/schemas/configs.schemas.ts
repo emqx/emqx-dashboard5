@@ -588,6 +588,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  skip_login_cookie_check?: boolean
   ssl?: EmqxSslClientOpts
 }
 
@@ -752,6 +753,7 @@ export interface FileTransferS3Exporter {
   min_part_size?: string
   /** @minimum 1 */
   port: number
+  region?: string
   secret_access_key?: string
   transport_options?: S3TransportOptions
   url_expire_time?: string
@@ -984,6 +986,8 @@ export const EmqxMqttMqueueDefaultPriority = {
   lowest: 'lowest',
 } as const
 
+export type EmqxMqttMinorGcAfter = 'infinity' | string
+
 export type EmqxMqttMessageExpiryInterval = 'infinity' | string
 
 export type EmqxMqttMaxSubscriptions = 'infinity' | number
@@ -992,9 +996,13 @@ export type EmqxMqttMaxSessionExpiryInterval = 'infinity' | string
 
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
+export type EmqxMqttMaxConnectUserProperties = 'infinity' | number
+
 export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttIdleTimeout = 'infinity' | string
+
+export type EmqxMqttHibernateAfter = 'infinity' | string
 
 export type EmqxMqttClientidOverride = 'disabled' | string
 
@@ -1003,6 +1011,7 @@ export interface EmqxMqtt {
   client_attrs_init?: EmqxClientAttrsInit[]
   clientid_override?: EmqxMqttClientidOverride
   exclusive_subscription?: boolean
+  hibernate_after?: EmqxMqttHibernateAfter
   idle_timeout?: EmqxMqttIdleTimeout
   ignore_loop_deliver?: boolean
   keepalive_check_interval?: string
@@ -1014,6 +1023,8 @@ export interface EmqxMqtt {
    * @maximum 65535
    */
   max_clientid_len?: number
+  max_connect_packet_size?: string
+  max_connect_user_properties?: EmqxMqttMaxConnectUserProperties
   /**
    * @minimum 1
    * @maximum 65535
@@ -1039,6 +1050,7 @@ export interface EmqxMqtt {
    */
   max_topic_levels?: number
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  minor_gc_after?: EmqxMqttMinorGcAfter
   mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
   mqueue_priorities?: EmqxMqttMqueuePriorities
   mqueue_store_qos0?: boolean
@@ -1427,6 +1439,7 @@ export interface DashboardSaml {
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean
+  skip_login_cookie_check?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean

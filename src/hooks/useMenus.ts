@@ -13,7 +13,6 @@ import {
   Blocks,
   Bot,
 } from 'lucide-vue-next'
-import useNamespaceAccess from './useNamespaceAccess'
 
 export interface Menu {
   title: string
@@ -26,7 +25,7 @@ const useMenus = (): {
   menuList: Ref<Array<Menu>>
 } => {
   const store = useStore()
-  const { filterAccessibleItems } = useNamespaceAccess()
+
   const monitoring = [
     { title: 'dashboard', path: '/dashboard' },
     { title: 'clients', path: '/clients' },
@@ -53,10 +52,11 @@ const useMenus = (): {
         { title: 'namespace', path: '/namespace' },
         { title: 'rule-engine-security', path: '/rule-engine-security' },
         { title: 'listener', path: '/listener' },
+        { title: 'dashboard-listeners', path: '/dashboard-listeners' },
+        { title: 'certificates', path: '/certificates' },
         { title: 'log', path: '/log' },
         { title: 'monitoring', path: '/monitoring' },
         { title: 'cluster-linking', path: '/cluster-linking' },
-        { title: 'certificates', path: '/certificates' },
       ],
     },
     {
@@ -166,9 +166,12 @@ const useMenus = (): {
     },
   ]
 
-  const menuList = computed(() =>
-    filterAccessibleItems(filterItemsByFeatureGate(totalMenuList, store.state.featureGate)),
-  )
+  const menuList = computed(() => {
+    // if (isNamespaceUser.value) {
+    //   return totalMenuList.filter((menu) => menu.title === 'ruleengine')
+    // }
+    return filterItemsByFeatureGate(totalMenuList, store.state.featureGate)
+  })
 
   return {
     menuList,

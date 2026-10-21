@@ -17,7 +17,10 @@
       <el-table-column :label="tl('lType')" prop="type" sortable />
       <el-table-column :label="tl('lAddress')" prop="bind" sortable>
         <template #default="{ row }">
-          {{ transPort(row.bind) }}
+          <div class="flex items-center gap-2">
+            <ListenerBindInfo :listener="row" />
+            <span class="leading-none">{{ transPort(row.bind) }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('Base.isEnabled')">
@@ -27,6 +30,11 @@
             :disabled="!$hasPermission('put')"
             :before-change="handleSwitch(row)"
           />
+        </template>
+      </el-table-column>
+      <el-table-column :label="tl('runningStatus')" :min-width="160">
+        <template #default="{ row }">
+          <ListenerItemStatus :listener="row" />
         </template>
       </el-table-column>
       <el-table-column :label="tl('connection')" prop="status.current_connections" sortable>
@@ -102,6 +110,8 @@ import {
 } from '@/api/listener'
 import { ListenerAction } from '@/types/enum'
 import { Listener, ListenerSimpleInfo } from '@/types/listener'
+import ListenerBindInfo from '@/components/ListenerBindInfo.vue'
+import ListenerItemStatus from './components/ListenerItemStatus.vue'
 
 const { t, tl } = useI18nTl('Gateway')
 

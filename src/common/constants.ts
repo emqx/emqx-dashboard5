@@ -396,8 +396,8 @@ const websocketUnexposedOptions = {
   idle_timeout: '7200s',
   max_frame_size: 'infinity',
   mqtt_piggyback: 'multiple',
-  proxy_address_header: 'x-forwarded-for',
-  proxy_port_header: 'x-forwarded-port',
+  proxy_address_header: '',
+  proxy_port_header: '',
   supported_subprotocols: 'mqtt, mqtt-v3, mqtt-v3.1.1, mqtt-v5',
   validate_utf8: true,
 }

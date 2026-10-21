@@ -3,15 +3,25 @@ import { ListenerType, ListenerTypeForGateway } from './enum'
 
 type Infinity = 'infinity'
 
-export interface ListenerStatus {
-  max_connections: number
+export interface ListenerResolvedAddress {
+  resolved_address?: string
+  resolved_address_from?: string
+}
+
+export interface ListenerAddressInfo extends ListenerResolvedAddress {
+  bind?: number | string
+  node_status?: Array<{ node?: string; status?: ListenerResolvedAddress }>
+}
+
+export interface ListenerStatus extends ListenerResolvedAddress {
+  running: boolean | 'inconsistent'
+  max_connections: number | Infinity
   current_connections: number
 }
 
 export interface ListenerNodeStatus {
   node: string
-  max_connections: number
-  current_connections: number
+  status: ListenerStatus
 }
 
 export interface ListenerSimpleInfo {
@@ -19,12 +29,13 @@ export interface ListenerSimpleInfo {
   name: string
   type: string
   enable: boolean
+  bind: number | string
   number: number
   status: ListenerStatus
   node_status: Array<ListenerNodeStatus>
 }
 
-export interface ListenerBase {
+export interface ListenerBase extends ListenerResolvedAddress {
   /**
    * id = {type}:{name}
    */

@@ -133,13 +133,13 @@ Available scopes are still restricted by the user's role. The default scopes for
 - **全局管理员**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License、用户管理、MFA 管理、SSO 管理、API 密钥管理
 - **全局查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License
 - **命名空间管理员**：连接、监控、数据集成、访问控制、系统设置、集群管理、License、用户管理、API 密钥管理
-- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、审计日志、License`,
+- **命名空间查看者**：连接、消息发布、数据集成、访问控制、网关、监控、集群管理、系统设置、License`,
     en: `**Default permissions by role**
 
 - **Global Administrator**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, License, User Management, MFA Management, SSO Management, and API Key Management
 - **Global Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License
 - **Namespace Administrator**: Connections, Monitoring, Data Integration, Access Control, System, Cluster, License, User Management, and API Key Management
-- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, Audit Log, and License`,
+- **Namespace Viewer**: Connections, Publish, Data Integration, Access Control, Gateways, Monitoring, Cluster, System, and License`,
   },
   roleDefaultScopesRestrictionDesc: {
     zh: '上述权限范围决定用户可访问的功能类别；具体可执行的操作和可查看的数据，仍受角色和命名空间限制。',
@@ -378,8 +378,24 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Dashboard Address',
   },
   dashboardAddrDesc: {
-    zh: '确保用户能够访问 Dashboard 的实际访问地址。',
-    en: 'Ensure users can access the actual URL of the Dashboard.',
+    zh: '用户发起 SSO 登录时使用的 Dashboard 访问地址。启用登录 Cookie 检查时，请通过此地址发起登录并允许浏览器保存 Cookie。从 IP 地址切换到其他域名可能导致回调时缺少 Cookie，登录失败。',
+    en: 'The Dashboard address users open to start SSO login. When login cookie checks are enabled, start login at this address and allow browser cookies. Switching from an IP address to a different hostname can leave the callback without its cookie and cause login to fail.',
+  },
+  samlBrowserBindingDesc: {
+    zh: '启用登录 Cookie 检查时，跨站 SAML 回调需要 HTTPS，且仅支持从 Dashboard 发起登录，直接从 IdP 发起的登录会被此检查拒绝。登录 Cookie 的有效期为 5 分钟，超时后请重新发起登录。',
+    en: 'With login cookie checks enabled, use HTTPS for cross-site SAML callbacks and start login from Dashboard. IdP-initiated logins are rejected by this check. The login cookie expires after 5 minutes. Start a new login if it expires.',
+  },
+  samlHttpCookieWarning: {
+    zh: '登录 Cookie 检查已开启。跨站 SAML 回调需要 HTTPS，使用当前 HTTP 地址可能因浏览器未携带 Cookie 而导致登录失败。请先配置 HTTPS，再更新 Dashboard 地址。',
+    en: 'Login cookie checks are enabled. Cross-site SAML callbacks require HTTPS. Login may fail at this HTTP address because the browser does not send the cookie. Configure HTTPS before updating the Dashboard address.',
+  },
+  skipLoginCookieCheck: {
+    zh: '跳过登录 Cookie 检查',
+    en: 'Skip Login Cookie Check',
+  },
+  skipLoginCookieCheckDesc: {
+    zh: '默认关闭。开启后跳过登录 Cookie 检查，SSO 登录将不再绑定到发起登录的浏览器。',
+    en: 'Disabled by default. When enabled, login cookie checks are skipped, so SSO login is no longer bound to the browser that started it.',
   },
   idpMetadataUrl: {
     zh: 'SAML 元数据 URL',
@@ -498,8 +514,12 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'A jq expression to construct the Dashboard user namespace. Must return a string with an existing namespace name, or null for the global namespace. If not set, will create a user in the global namespace or retain the existing namespace.',
   },
   sessionExpiry: {
-    zh: '会话过期',
-    en: 'Session Expiry',
+    zh: '登录有效期',
+    en: 'Login Timeout',
+  },
+  sessionExpiryDesc: {
+    zh: 'OIDC 登录 state 和登录 Cookie 的有效期，默认为 30 秒。需在此时间内完成身份提供商验证并返回 Dashboard，超时后请重新发起登录。此设置不控制登录后的 Dashboard 会话有效期。',
+    en: 'The lifetime of the OIDC login state and login cookie. Defaults to 30 seconds. Complete authentication with the identity provider and return to Dashboard within this time, or start a new login. This does not control the Dashboard session lifetime after login.',
   },
   requirePkce: {
     zh: '开启 PKCE',
@@ -536,10 +556,6 @@ Available scopes are still restricted by the user's role. The default scopes for
   sourceType: {
     zh: '操作方式',
     en: 'Source Type',
-  },
-  auditLogGlobalUsersOnly: {
-    zh: '审计日志仅允许全局管理员和全局查看者访问。',
-    en: 'Audit logs are only available to global administrators and global viewers.',
   },
   auditLogDesc: {
     zh: '审计日志功能可以记录对 EMQX 集群的关键操作，以满足企业在合规性和数据安全方面的需求。',

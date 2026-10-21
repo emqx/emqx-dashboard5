@@ -2,8 +2,11 @@ import { EmqxForceShutdown, EmqxMqttMaxSessionExpiryInterval } from '@/types/typ
 import type {
   EmqxFlappingDetect,
   EmqxFlappingDetectDimension,
+  EmqxMqttHibernateAfter,
+  EmqxMqttMinorGcAfter,
 } from '@/types/schemas/configs.schemas'
 import { LogConf, NamespaceConfig } from './typeAlias'
+import type { SSL } from './common'
 
 export interface SubTabComponent extends ComponentPublicInstance {
   index: number
@@ -115,13 +118,25 @@ export interface BurstLimit2 {
   window_time: string
 }
 
+export interface DashboardManagedCerts {
+  bundle_name: string
+}
+
+export interface DashboardHttpListener {
+  enable?: boolean
+  bind?: string | number
+}
+
+export interface DashboardHttpsListener extends DashboardHttpListener {
+  ssl_options?: Partial<Omit<SSL, 'enable'>>
+}
+
 export interface Dashboard {
-  listeners: Listener[] | Listener
-  default_username: string
-  default_password: string
-  sample_interval: string
-  token_expired_time: string
-  cors: boolean
+  listeners?: {
+    http?: DashboardHttpListener
+    https?: DashboardHttpsListener
+  }
+  [key: string]: unknown
 }
 
 export interface RuleEngineSSRF {
@@ -183,7 +198,11 @@ export interface Zone {
 
 export interface Mqtt {
   idle_timeout: string
+  hibernate_after?: EmqxMqttHibernateAfter
+  minor_gc_after?: EmqxMqttMinorGcAfter
   max_packet_size: string
+  max_connect_packet_size?: string
+  max_connect_user_properties?: number | 'infinity'
   max_clientid_len: number
   max_topic_levels: number
   max_qos_allowed: string

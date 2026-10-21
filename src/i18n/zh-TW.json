@@ -59,17 +59,18 @@
     "scopes": "權限範圍",
     "scopesPlaceholder": "未選擇時，不授予任何權限範圍",
     "scopeMode": "權限模式",
-    "scopeModeDesc": "選擇 API 金鑰的權限設定方式：\n\n- **角色預設權限**：自動使用目前角色及命名空間對應的預設權限，具體範圍見下方說明；以後角色預設權限發生變化時，新權限會自動生效。\n- **系統層級權限**：僅授予“系統設定”權限範圍，可存取核心設定、監聽器、外掛、資料備份與恢復、OpenTelemetry 等系統功能。\n- **自訂受限權限**：從連線、訊息發布、資料整合、監控等非系統權限範圍中按需選擇。命名空間 API 金鑰不能選擇訊息發布。未選擇任何權限時，API 金鑰不能存取受權限範圍保護的介面。\n\n無論選擇哪種模式，具體可執行的操作和可檢視的資料仍受角色和命名空間限制。各角色的預設權限如下。",
+    "scopeModeDesc": "選擇 API 金鑰的權限設定方式：\n\n- **角色預設權限**：自動使用目前角色及命名空間對應的預設權限，具體範圍見下方說明；以後角色預設權限發生變化時，新權限會自動生效。\n- **系統層級權限**：僅授予“系統設定”權限範圍，可存取核心設定、監聽器、外掛、資料備份與恢復、OpenTelemetry 等系統功能。\n- **自訂受限權限**：從連線、訊息發布、資料整合、監控等非系統權限範圍中按需選擇。命名空間 API 金鑰不能選擇訊息發布、閘道和稽核紀錄。未選擇任何權限時，API 金鑰不能存取受權限範圍保護的介面。\n\n無論選擇哪種模式，具體可執行的操作和可檢視的資料仍受角色和命名空間限制。各角色的預設權限如下。",
     "roleDefaultScopes": "角色預設權限",
     "noScopes": "無權限範圍",
     "scopeModeSystem": "系統層級權限",
     "scopeModeCustom": "自訂受限權限",
     "customScopesSystemError": "自訂受限權限不能包含“系統設定”權限範圍，請移除該權限或選擇“系統層級權限”。",
-    "namespacedPublishError": "命名空間 API 金鑰不能包含“訊息發布”權限範圍，請移除該權限。",
+    "namespacedScopesError": "命名空間 API 金鑰的自訂權限僅支援連線、監控、資料整合、存取控制、叢集管理和授權。請移除其他權限範圍；如需系統設定權限，請選擇“系統層級權限”。",
+    "namespacedPublishOnlyError": "僅包含“訊息發布”權限的命名空間 API 金鑰無法使用，因為發布介面僅支援全域 API 金鑰。請刪除該金鑰並在不指定命名空間的情況下重新建立。",
     "mixedScopesMigrationDesc": "此 API 金鑰儲存了舊版的混合權限設定。請移除“系統設定”後繼續使用自訂受限權限，或改選“系統層級權限”或“角色預設權限”。",
-    "namespacedPublishMigrationDesc": "此命名空間 API 金鑰儲存了舊版的“訊息發布”權限。修改角色或權限範圍時，請先移除“訊息發布”。",
+    "namespacedScopesMigrationDesc": "此命名空間 API 金鑰包含舊版權限設定。角色和權限列表不變時，可儲存其他修改（僅含“訊息發布”的金鑰除外）。調整權限時，請移除不支援的權限和混合的“系統設定”權限，或選擇“角色預設權限”或“系統層級權限”。",
     "scopesColumnDesc": "權限範圍用於限定 API 金鑰可以存取的功能類別。顯示“角色預設權限”表示自動繼承目前角色的預設設定；具體權限標籤表示使用顯式設定；“無權限範圍”表示該金鑰不能存取受權限範圍保護的介面。具體可執行的操作仍受角色和命名空間限制。",
-    "roleDefaultScopesByRoleDesc": "**各角色的預設權限**\n\n- **全域管理員 / 全域檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權\n- **命名空間管理員**：連線、監控、資料整合、存取控制、系統設定、叢集管理、授權\n- **命名空間檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權\n- **發布者**：訊息發布",
+    "roleDefaultScopesByRoleDesc": "**各角色的預設權限**\n\n- **全域管理員 / 全域檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權\n- **命名空間管理員**：連線、監控、資料整合、存取控制、系統設定、叢集管理、授權\n- **命名空間檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、授權\n- **發布者**：訊息發布",
     "roleDefaultScopesRestrictionDesc": "上述權限範圍決定 API 金鑰可存取的功能類別；具體可執行的操作和可檢視的資料仍受角色和命名空間限制。發布者只能使用訊息發布權限。",
     "scopeLabel_connections": "連線",
     "scopeLabel_publish": "訊息發布",
@@ -1208,6 +1209,22 @@
     "actionsExecuted": "動作執行總數",
     "pleaseSelectNamespace": "請選擇命名空間"
   },
+  "DashboardListener": {
+    "http": "HTTP",
+    "https": "HTTPS",
+    "currentConnection": "目前連線",
+    "editTip": "目前會話正透過此監聽器連線，因此無法修改。請透過另一個監聽器登入後，再修改此監聽器的設定。",
+    "enable": "啟用監聽器",
+    "bind": "監聽地址",
+    "bindPlaceholder": "例如：18083 或 0.0.0.0:18083",
+    "bindCannotBeZero": "啟用監聽器時，連接埠不能為 0。",
+    "certificateBundle": "憑證 Bundle",
+    "certificateBundlePlaceholder": "請選擇憑證 Bundle",
+    "acmePlugin": "ACME 外掛文件",
+    "acmeTip": "如需自動申請和續期 HTTPS 憑證，請參閱 {link}。",
+    "atLeastOneListener": "HTTP 和 HTTPS 監聽器不能同時關閉。",
+    "fieldRequired": "啟用監聽器時必須設定{field}。"
+  },
   "Exhook": {
     "name": "名稱",
     "numberOfHooks": "鉤子數量",
@@ -1436,6 +1453,8 @@
   "Gateway": {
     "name": "名稱",
     "status": "狀態",
+    "runningStatus": "執行狀態",
+    "notRunning": "未執行",
     "connection": "連線",
     "currentConnection": "連線數",
     "listeners": "監聽器",
@@ -1470,6 +1489,17 @@
     "mountPointDesc": "為用戶端在 `SUBSCRIBE` 和 `UNSUBSCRIBE` 請求、`PUBLISH` 訊息以及 Will Message（如果在 `CONNECT` 資料包中提供）中使用的主題新增靜態或模板字首（例如 `n1/` 或 `{'$'}{'{'}username{'}'}/`）。<br />\n從發布到相應訂閱的訊息的主題中將移除此字首。\n\n支援的佔位符包括：\n- `{'$'}{'{'}username{'}'}`\n- `{'$'}{'{'}clientid{'}'}`\n- `{'$'}{'{'}zone{'}'}`\n- `{'$'}{'{'}client_attrs.NAME{'}'}`\n\n例如，使用 `mountpoint=\"{'$'}{'{'}username{'}'}/\"` 時，使用者名稱 `u1` 的用戶端將出現以下情況：\n- 用戶端 SUBSCRIBE `sensors/#` -> 在 broker 中內部轉換為 `u1/sensors/#`。\n- broker PUBLISH `u1/sensors/data` -> 傳送給用戶端時變為 `sensors/data`。\n\n字首的掛載/解除安裝應用於：\n- `CONNECT` 中的 Will\n- `PUBLISH`\n- `SUBSCRIBE`\n- `UNSUBSCRIBE`\n\n注意：掛載發生在**授權/ACL檢查之後**。",
     "lType": "類型",
     "lAddress": "監聽地址",
+    "listenerBindDetails": "檢視實際監聽地址",
+    "configuredBind": "設定地址",
+    "effectiveListenerAddress": "生效地址",
+    "listenerAddressSource": "地址來源",
+    "listenerResponseNodeAddress": "僅顯示目前節點的解析結果。",
+    "listenerAllInterfaces": "{address}（所有網路介面）",
+    "listenerAllInterfacesWithPort": "所有網路介面，連接埠 {port}",
+    "listenerAddressFromBind": "顯式設定",
+    "listenerAddressFromNodename": "節點名稱",
+    "listenerAddressDefaultRule": "預設監聽地址",
+    "listenerAddressFromDefault": "預設監聽地址（{source}）",
     "lMaxConn": "最大連線數",
     "clientAuth": "設定用戶端接入認證",
     "clientAuthDesc": "您可以在啟用閘道之後，進入詳情頁面進行設定。設定並啟用用戶端認證後未通過認證的用戶端無法連線到叢集中。",
@@ -1648,7 +1678,7 @@
     "noUserScopes": "無權限範圍",
     "roleDefaultScopesFormDesc": "開啟後，命名空間使用者會自動獲得目前角色的預設權限，以後預設權限發生變化時也會自動生效。關閉後，可以從該角色在命名空間內允許持有的所有權限範圍中直接選擇。",
     "userScopesColumnDesc": "權限範圍用於限定使用者可以存取的功能類別。顯示“角色預設權限”表示使用者會自動繼承目前角色的預設設定；顯示具體權限標籤表示使用者使用顯式設定。",
-    "roleDefaultScopesByRoleDesc": "**各角色的預設權限**\n\n- **全域管理員**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權、使用者管理、MFA 管理、SSO 管理、API 金鑰管理\n- **全域檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權\n- **命名空間管理員**：連線、監控、資料整合、存取控制、系統設定、叢集管理、授權、使用者管理、API 金鑰管理\n- **命名空間檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權",
+    "roleDefaultScopesByRoleDesc": "**各角色的預設權限**\n\n- **全域管理員**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權、使用者管理、MFA 管理、SSO 管理、API 金鑰管理\n- **全域檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、稽核紀錄、授權\n- **命名空間管理員**：連線、監控、資料整合、存取控制、系統設定、叢集管理、授權、使用者管理、API 金鑰管理\n- **命名空間檢視者**：連線、訊息發布、資料整合、存取控制、閘道、監控、叢集管理、系統設定、授權",
     "roleDefaultScopesRestrictionDesc": "上述權限範圍決定使用者可存取的功能類別；具體可執行的操作和可檢視的資料，仍受角色和命名空間限制。",
     "userScopesAdminOnlyTip": "僅管理員可持有此權限範圍",
     "source": "來源",
@@ -1708,7 +1738,11 @@
     "LDAPFilter": "使用者查詢條件",
     "LDAPFilterDesc": "LDAP 中匹配使用者的篩選器,預設為 `(& (objectClass=person) (uid={'$'}{'{'}username{'}'}))`。<br />對於Active Directory,預設應設定為 `(&(objectClass=user)(sAMAccountName={'$'}{'{'}username{'}'}))`，詳見 [LDAP 篩選器](https://ldap.com/ldap-filters/)。",
     "dashboardAddr": "Dashboard 地址",
-    "dashboardAddrDesc": "確保使用者能夠存取 Dashboard 的實際存取地址。",
+    "dashboardAddrDesc": "使用者發起 SSO 登入時使用的 Dashboard 存取地址。啟用登入 Cookie 檢查時，請透過此地址發起登入並允許瀏覽器儲存 Cookie。從 IP 地址切換到其他域名可能導致回呼時缺少 Cookie，登入失敗。",
+    "samlBrowserBindingDesc": "啟用登入 Cookie 檢查時，跨站 SAML 回呼需要 HTTPS，且僅支援從 Dashboard 發起登入，直接從 IdP 發起的登入會被此檢查拒絕。登入 Cookie 的有效期為 5 分鐘，逾時後請重新發起登入。",
+    "samlHttpCookieWarning": "登入 Cookie 檢查已開啟。跨站 SAML 回呼需要 HTTPS，使用目前 HTTP 地址可能因瀏覽器未攜帶 Cookie 而導致登入失敗。請先設定 HTTPS，再更新 Dashboard 地址。",
+    "skipLoginCookieCheck": "跳過登入 Cookie 檢查",
+    "skipLoginCookieCheckDesc": "預設關閉。開啟後跳過登入 Cookie 檢查，SSO 登入將不再繫結到發起登入的瀏覽器。",
     "idpMetadataUrl": "SAML 後設資料 URL",
     "idpSignsAssertions": "IdP 簽名斷言（Assertion）",
     "idpSignsAssertionsDesc": "是否要求 IdP 對 SAML 斷言進行簽名。對於安全性考慮，生產環境中至少需要啟用 IdP 簽名斷言（Assertion）或 IdP 簽名回應（Envelope） 中的一個。",
@@ -1738,7 +1772,8 @@
     "namespaceSourceDesc": "指定從哪個來源提取資訊以構建 Dashboard 使用者命名空間<br />使用者資訊端點：使用 `/userinfo` 端點的回應<br />ID Token：使用存取權杖中的宣告",
     "namespaceExpr": "命名空間表示式",
     "namespaceExprDesc": "用於構建 Dashboard 使用者命名空間的 jq 表示式，必須回傳一個已有命名空間名稱字串，或 null（表示全域命名空間）。若未設定，將在全域命名空間下建立使用者，或保留已有使用者的命名空間。",
-    "sessionExpiry": "會話過期",
+    "sessionExpiry": "登入有效期",
+    "sessionExpiryDesc": "OIDC 登入 state 和登入 Cookie 的有效期，預設為 30 秒。需在此時間內完成身分提供者驗證並回傳 Dashboard，逾時後請重新發起登入。此設定不控制登入後的 Dashboard 會話有效期。",
     "requirePkce": "開啟 PKCE",
     "signInRedirectUri": "登入重定向地址",
     "preferredAuthMethods": "首選認證方法",
@@ -1748,7 +1783,6 @@
     "JWK": "JSON Web 金鑰",
     "publisher": "訊息發布者",
     "sourceType": "操作方式",
-    "auditLogGlobalUsersOnly": "稽核紀錄僅允許全域管理員和全域檢視者存取。",
     "auditLogDesc": "稽核紀錄功能可以記錄對 EMQX 叢集的關鍵操作，以滿足企業在合規性和資料安全方面的需求。",
     "httpFilterParamsDesc": "Dashboard/REST API 篩選條件",
     "timeRangeError": "起始時間不得晚於結束時間",
@@ -2076,6 +2110,9 @@
     "namespaceRateLimitDesc": "命名空間資料抓取時的最大請求速率，針對特定命名空間的請求不受限制。例如：\n\n- `1/5s`: 每 5 秒最多接收 1 次請求，超出部分將被拒絕。"
   },
   "Plugins": {
+    "pinned": "固定（節點本地）",
+    "nodePinned": "固定",
+    "pinnedPluginHint": "此外掛由固定它的節點獨立管理。請在對應節點執行 emqx ctl plugins start {nameVsn} 或 emqx ctl plugins stop {nameVsn} 來啟動或停止外掛。設定仍可透過 Dashboard 修改。",
     "searchPlaceholder": "搜尋已安裝的外掛",
     "active": "執行中",
     "inactive": "已停止",
@@ -3100,6 +3137,7 @@
     "monitoring": "監控",
     "cluster-linking": "叢集連線",
     "certificates": "憑證",
+    "dashboard-listeners": "Dashboard 監聽器",
     "management": "管理",
     "diagnose": "診斷工具",
     "acl": "ACL",
@@ -3239,7 +3277,15 @@
     },
     "idle_timeout": {
       "label": "空閒逾時",
-      "desc": "設定連線被斷開或進入休眠狀態前的等待時間，空閒逾時後\n\n- 如暫未收到用戶端的 CONNECT 封包，連線將斷開；\n- 如已收到用戶端的 CONNECT 封包，連線將進入休眠模式以節省系統資源。\n\n注意：請合理設定該參數值，如等待時間設定過長，可能造成系統資源的浪費。"
+      "desc": "新連線等待用戶端 CONNECT 封包的最長時間，預設 15 秒。超過此時間仍未收到 CONNECT 封包，連線將斷開。已建立連線的休眠時間由 `hibernate_after` 控制。"
+    },
+    "hibernate_after": {
+      "label": "連線休眠等待時間",
+      "desc": "已建立的 TCP、TLS、WS 和 WSS 連線在無活動後進入休眠的等待時間，預設 5 秒。休眠會觸發垃圾回收並縮小行程堆，以節省記憶體；收到封包、訊息或定時器事件時，連線會喚醒。\n\n設為 `infinity` 可停用休眠。如果用戶端傳送資料的間隔接近此值，建議增大該值，以避免頻繁休眠帶來的垃圾回收開銷。此設定不影響等待 CONNECT 封包的逾時時間。QUIC 監聽器自身的 `hibernate_after` 設定優先。"
+    },
+    "minor_gc_after": {
+      "label": "新生代垃圾回收等待時間",
+      "desc": "使用 `socket` 後端的 TCP 連線在行程郵箱無活動後，執行一次新生代垃圾回收（Minor GC）的等待時間。預設為 `infinity`，表示停用此垃圾回收。設為有限時長時，連線在垃圾回收後開始等待“@:{'ConfigSchema.hibernate_after.label'}”指定的時長。\n\n較短的等待時間可能減少記憶體使用，但會增加 CPU 開銷。此設定不影響使用 `gen_tcp` 後端的連線。"
     },
     "strict_mode": {
       "label": "嚴格模式",
@@ -3329,6 +3375,14 @@
     "max_packet_size": {
       "label": "最大封包大小",
       "desc": "允許的最大 MQTT 封包大小，超出此大小後將斷開目前用戶端連線。"
+    },
+    "max_connect_packet_size": {
+      "label": "最大 CONNECT 封包大小",
+      "desc": "允許的最大 CONNECT 封包大小，超出此大小後 EMQX 將關閉連線。此限制與最大封包大小同時生效，CONNECT 封包以兩者中較小的值為限。預設值為 1 MB。"
+    },
+    "max_connect_user_properties": {
+      "label": "CONNECT 使用者屬性數量上限",
+      "desc": "CONNECT 封包中允許攜帶的使用者屬性鍵值對數量上限。CONNECT 屬性和遺囑屬性分別計數，任一超限時 EMQX 將關閉連線。預設值為 100。設為 0 表示不允許攜帶使用者屬性；關閉限制（infinity）表示不限制數量。"
     },
     "max_conn_rate": {
       "label": "最大連線速率",
@@ -3786,6 +3840,10 @@
         "label": "OAuth 請求受眾 (Audience)",
         "desc": "指定請求 OAuth 存取權杖時提供的 `audience` 參數。"
       },
+      "request_ttl": {
+        "desc": "從請求進入緩衝區開始計時，如果請求在規定的時間內仍停留在緩衝區內或者已傳送但未能及時收到回應或確認，該請求將被視為過期。",
+        "label": "請求超期"
+      },
       "max_linger_time": {
         "desc": "每個分割區生產者為將更多訊息累積成更大批次而等待的最長時間。<br/>預設值 <code>0</code> 表示不等待（訊息到達後立即傳送）。<br/>一旦累積的資料達到完整批次大小，等待將提前結束，因此繁忙的生產者不會被延遲。<br/>使用磁碟緩衝時，等待發生在寫入緩衝區之前；建議至少設定 <code>5ms</code> 以減少磁碟 IOPS。<br/>部分 EMQX 版本在使用記憶體緩衝時會忽略此設定，不進行等待。具體受影響版本請參閱版本相容性說明。",
         "label": "最長延遲時間"
@@ -3863,10 +3921,6 @@
       "worker_pool_size": {
         "label": "快取池大小",
         "desc": "快取佇列 worker 數量。僅對 egress 類型的橋接有意義。當橋接僅有 ingress 方向時，可設定為 0，否則必須大於 0。"
-      },
-      "request_ttl": {
-        "label": "請求超期",
-        "desc": "從請求進入緩衝區開始計時，如果請求在規定的時間內仍停留在緩衝區內或者已傳送但未能及時收到回應或確認，該請求將被視為過期。"
       },
       "max_buffer_bytes": {
         "label": "快取佇列最大長度",
@@ -4778,12 +4832,12 @@
         "desc": "DynamoDB 的地址。"
       },
       "aws_access_key_id": {
-        "label": "連線存取 ID",
-        "desc": "DynamoDB 的存取 ID。"
+        "desc": "DynamoDB 的存取 ID。",
+        "label": "連線存取 ID"
       },
       "aws_secret_access_key": {
-        "label": "連線存取金鑰",
-        "desc": "DynamoDB 的存取金鑰。"
+        "desc": "DynamoDB 的存取金鑰。",
+        "label": "連線存取金鑰"
       },
       "region": {
         "label": "DynamoDB 區域",

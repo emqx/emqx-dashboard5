@@ -152,6 +152,19 @@ export type GetSsoOidcCallback404 = {
   message?: string
 }
 
+export type GetSsoOidcCallback403Code =
+  (typeof GetSsoOidcCallback403Code)[keyof typeof GetSsoOidcCallback403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetSsoOidcCallback403Code = {
+  FORBIDDEN: 'FORBIDDEN',
+} as const
+
+export type GetSsoOidcCallback403 = {
+  code?: GetSsoOidcCallback403Code
+  message?: string
+}
+
 export type GetSsoOidcCallback401Code =
   (typeof GetSsoOidcCallback401Code)[keyof typeof GetSsoOidcCallback401Code]
 
@@ -383,6 +396,7 @@ export interface SsoOidc {
   scopes?: string[]
   secret: string
   session_expiry?: string
+  skip_login_cookie_check?: boolean
   ssl?: EmqxSslClientOpts
 }
 
@@ -662,6 +676,7 @@ export interface DashboardSaml {
   idp_metadata_url?: string
   idp_signs_assertions?: boolean
   idp_signs_envelopes?: boolean
+  skip_login_cookie_check?: boolean
   sp_private_key?: string
   sp_public_key?: string
   sp_sign_request?: boolean
