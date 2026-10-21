@@ -37,15 +37,7 @@
         </el-col>
       </el-row>
       <div class="tls-config-form">
-        <TLSEnableConfig
-          v-model="eValue.server.ssl_options"
-          managed-certs-arr
-          :is-edit="isEdit"
-          :is-server="true"
-          :show-sni="false"
-          :show-middlebox-comp-mode="false"
-          :verify-label="tl('tlsVerifyClient', 'Base')"
-        />
+        <TLSEnableConfig v-model="eValue.server.ssl_options" :is-edit="isEdit" is-server />
       </div>
 
       <!-- Handler -->
