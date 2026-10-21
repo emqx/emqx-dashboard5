@@ -67,13 +67,13 @@
             <div class="vertical-align-center">
               <el-switch
                 v-model="isNamespaceEnabled"
-                :disabled="operationType !== 'create'"
+                :disabled="operationType !== 'create' || isNamespaceUser"
                 @change="toggleNamespaceEnabled"
               />
               <el-select
                 v-if="isNamespaceEnabled"
                 v-model="formData.namespace"
-                :disabled="operationType !== 'create'"
+                :disabled="operationType !== 'create' || isNamespaceUser"
               >
                 <el-option
                   v-for="item in namespaceOptions"
@@ -241,6 +241,8 @@ const emit = defineEmits<{
 }>()
 
 const { t, te } = useI18n()
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
@@ -254,6 +256,7 @@ const createRawFormData = () => ({
   desc: '',
   enable: true,
   role: 'administrator',
+  namespace: store.state.user.namespace || undefined,
   scopes: [] as string[],
   scopeMode: ScopeMode.RoleDefault,
 })
@@ -320,6 +323,11 @@ const removeNamespaceAuditScope = () => {
 const namespaceOptions = ref<Array<string>>([])
 const isNamespaceOptionsLoaded = ref(false)
 const queryNamespaceList = async () => {
+  if (isNamespaceUser.value) {
+    namespaceOptions.value = [store.state.user.namespace]
+    isNamespaceOptionsLoaded.value = true
+    return
+  }
   try {
     const res = await getManagedNamespaceList({ limit: 10000 })
     namespaceOptions.value = res.data
@@ -393,12 +401,17 @@ watch(showDialog, async (val) => {
         await nextTick()
       }
     } else {
+      formData.value = createRawFormData()
       await nextTick()
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
     isNamespaceEnabled.value =
-      !!formData.value.namespace && formData.value.namespace !== GLOBAL_NAMESPACE
+      !!formData.value.namespace &&
+      (isNamespaceUser.value || formData.value.namespace !== GLOBAL_NAMESPACE)
+    if (isNamespaceEnabled.value) {
+      queryNamespaceList()
+    }
     if (props.operationType !== 'view') {
       removeNamespaceAuditScope()
     }
