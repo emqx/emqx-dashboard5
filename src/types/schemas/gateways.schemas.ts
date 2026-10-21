@@ -158,6 +158,16 @@ export interface GatewayTranslator {
   topic: string
 }
 
+export interface GatewayStompTransaction {
+  /** @minimum 0 */
+  max_actions_per_transaction?: number
+  /** @minimum 0 */
+  max_retained_bytes?: number
+  /** @minimum 0 */
+  max_transactions?: number
+  timeout?: string
+}
+
 export interface GatewayStompFrame {
   max_body_length?: number
   /** @minimum 0 */
@@ -240,6 +250,8 @@ export interface GatewaySslServerOpts {
 }
 
 export interface GatewayProtocol {
+  /** @minimum 0 */
+  max_control_line?: number
   /** @minimum 0 */
   max_payload_size?: number
 }
@@ -349,6 +361,35 @@ export const GatewayDtlsOptsLogLevel = {
   notice: 'notice',
   warning: 'warning',
 } as const
+
+export interface GatewayDtlsOpts {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  client_renegotiation?: boolean
+  /** @minimum 0 */
+  depth?: number
+  dhfile?: string
+  enable_crl_check?: boolean
+  fail_if_no_peer_cert?: boolean
+  gc_after_handshake?: boolean
+  handshake_timeout?: string
+  hibernate_after?: string
+  honor_cipher_order?: boolean
+  keyfile?: string
+  log_level?: GatewayDtlsOptsLogLevel
+  ocsp?: EmqxOcsp
+  partial_chain?: GatewayDtlsOptsPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  session_tickets?: GatewayDtlsOptsSessionTickets
+  verify?: GatewayDtlsOptsVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
+}
 
 export interface GatewayClientinfoOverride {
   clientid?: string
@@ -469,35 +510,6 @@ export interface EmqxOcsp {
   refresh_http_timeout?: string
   refresh_interval?: string
   responder_url?: string
-}
-
-export interface GatewayDtlsOpts {
-  cacertfile?: string
-  /** @deprecated */
-  cacerts?: boolean
-  certfile?: string
-  ciphers?: string[]
-  client_renegotiation?: boolean
-  /** @minimum 0 */
-  depth?: number
-  dhfile?: string
-  enable_crl_check?: boolean
-  fail_if_no_peer_cert?: boolean
-  gc_after_handshake?: boolean
-  handshake_timeout?: string
-  hibernate_after?: string
-  honor_cipher_order?: boolean
-  keyfile?: string
-  log_level?: GatewayDtlsOptsLogLevel
-  ocsp?: EmqxOcsp
-  partial_chain?: GatewayDtlsOptsPartialChain
-  password?: string
-  reuse_sessions?: boolean
-  secure_renegotiate?: boolean
-  session_tickets?: GatewayDtlsOptsSessionTickets
-  verify?: GatewayDtlsOptsVerify
-  verify_peer_ext_key_usage?: string
-  versions?: string[]
 }
 
 export type EmqxListenerWssOptsVerify =
@@ -776,6 +788,7 @@ export interface EmqxGatewayApiUpdateStomp {
   frame?: GatewayStompFrame
   idle_timeout?: string
   mountpoint?: string
+  transaction?: GatewayStompTransaction
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1007,6 +1020,7 @@ export interface EmqxGatewayApiStomp {
   listeners?: EmqxGatewayApiStompListenersItem[]
   mountpoint?: string
   name?: EmqxGatewayApiStompName
+  transaction?: GatewayStompTransaction
 }
 
 export type EmqxGatewayApiSslListenerType =
