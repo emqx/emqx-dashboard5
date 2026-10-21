@@ -454,6 +454,10 @@ If subscriber fails to reply in time, it's kicked from the group and all its wor
   ssl_opts_verify: {
     label: 'TLS Verify',
   },
+  ssl_opts_hostname_check: {
+    label: "@:{'Base.hostnameCheck'}",
+    desc: "@:{'Base.hostnameCheckDesc'}",
+  },
   ssl_opts_middlebox_comp_mode: {
     label: 'Middle Box Compatibility Mode',
     desc: `Enable the middle box compatibility mode for a TLS-1.3 connection.<br />

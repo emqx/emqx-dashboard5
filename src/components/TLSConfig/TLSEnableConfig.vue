@@ -12,6 +12,21 @@
         @change="handleVerifyChange"
       />
     </el-form-item>
+    <el-form-item
+      v-if="!isServer && record.verify === SSL_VERIFY_VALUE_MAP.get(true)"
+      :prop="getFormItemProp('hostname_check')"
+    >
+      <template #label>
+        <FormItemLabel
+          :label="t('Base.hostnameCheck')"
+          :desc="t('Base.hostnameCheckDesc')"
+          desc-marked
+        />
+      </template>
+      <el-select v-model="hostnameCheckValue" class="TLS-input" :disabled="readonly">
+        <el-option v-for="value in SSLHostnameCheck" :key="value" :label="value" :value="value" />
+      </el-select>
+    </el-form-item>
     <el-form-item v-if="!isServer" :prop="getFormItemProp(`middlebox_comp_mode`)">
       <template #label>
         <FormItemLabel
@@ -218,7 +233,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { SSL } from '@/types/common'
-import { SSLSessionTickets } from '@/types/typeAlias'
+import { SSLSessionTickets, SSLHostnameCheck } from '@/types/typeAlias'
 import CustomFormItem from '../CustomFormItem.vue'
 import FormItemLabel from '../FormItemLabel.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
@@ -325,6 +340,12 @@ const record = computed<SSL>({
 })
 const ciphersLabelToShow = computed(() => props.ciphersLabel || t('Gateway.ciphers'))
 const ciphersDescToShow = computed(() => props.ciphersDesc || t('Gateway.ciphersDesc'))
+const hostnameCheckValue = computed({
+  get: () => record.value.hostname_check ?? SSLHostnameCheck.san_only,
+  set: (value: NonNullable<SSL['hostname_check']>) => {
+    record.value.hostname_check = value
+  },
+})
 
 const sessionTicketOptions = [
   SSLSessionTickets.disabled,

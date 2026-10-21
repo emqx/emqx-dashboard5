@@ -332,6 +332,7 @@ export const SSL_FIELDS = [
   'user_lookup_fun',
   'cacertfile',
   'verify',
+  'hostname_check',
   'keyfile',
   'certfile',
   'cacerts',

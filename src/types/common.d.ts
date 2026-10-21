@@ -1,6 +1,6 @@
 import { NodeStatusClass } from './enum'
 import { FormItemRule } from 'element-plus'
-import { ManagedCerts, SSLSessionTickets } from './typeAlias'
+import { ManagedCerts, SSLSessionTickets, SSLHostnameCheck } from './typeAlias'
 
 export interface UserInfo {
   namespace?: string | null
@@ -63,6 +63,7 @@ export interface RuleInValidatorParam {
 export interface SSL {
   enable: boolean
   verify: string
+  hostname_check?: valueof<typeof SSLHostnameCheck>
   server_name_indication?: string
   certfile?: string
   keyfile?: string

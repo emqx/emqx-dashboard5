@@ -38,7 +38,12 @@ import {
   GetAuditFrom,
   GetAuditOperationResult,
 } from './schemas/audit.schemas'
-import { A2aRegistryA2aRegistry, EmqxLog, EmqxManagedCerts } from './schemas/configs.schemas'
+import {
+  A2aRegistryA2aRegistry,
+  EmqxLog,
+  EmqxManagedCerts,
+  EmqxSslClientOptsHostnameCheck,
+} from './schemas/configs.schemas'
 import type {
   SchemaValidationValidation,
   SchemaValidationHttpApiReorder,
@@ -337,6 +342,7 @@ export type NamespaceDetailItem = Merge<
 export type GatewayItem = EmqxGatewayApiGatewayOverview
 
 export const SSLSessionTickets = EmqxListenerWssOptsSessionTickets
+export const SSLHostnameCheck = EmqxSslClientOptsHostnameCheck
 
 /* MESSAGE QUEUE */
 export type MessageQueueRegular = MqMessageQueueRegularApiPost
