@@ -18,9 +18,20 @@
     </el-form-item>
     <el-form-item prop="dashboard_addr">
       <template #label>
-        <FormItemLabel :label="tl('dashboardAddr')" :desc="tl('dashboardAddrDesc')" />
+        <FormItemLabel
+          :label="tl('dashboardAddr')"
+          :desc="`${tl('dashboardAddrDesc')} ${tl('samlBrowserBindingDesc')}`"
+        />
       </template>
       <el-input v-model="formData.dashboard_addr" />
+      <el-alert
+        v-if="showHttpCookieWarning"
+        class="sso-cookie-alert"
+        type="warning"
+        :title="tl('samlHttpCookieWarning')"
+        :closable="false"
+        show-icon
+      />
     </el-form-item>
     <div class="info-idp-block">
       <p class="info-desc">{{ tl('infoIdPDesc') }}</p>
@@ -74,12 +85,23 @@
         </el-form-item>
       </div>
     </el-collapse-transition>
+    <AdvancedSettingContainer>
+      <el-form-item prop="skip_login_cookie_check">
+        <template #label>
+          <FormItemLabel
+            :label="tl('skipLoginCookieCheck')"
+            :desc="tl('skipLoginCookieCheckDesc')"
+          />
+        </template>
+        <el-switch v-model="formData.skip_login_cookie_check" />
+      </el-form-item>
+    </AdvancedSettingContainer>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { FormRules } from '@/types/common'
-import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { SAMLForm } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 
 const SAML_SSO_PATH = '/api/v5/sso/saml/acs'
@@ -87,7 +109,7 @@ const SAML_SSO_METADATA_PATH = '/api/v5/sso/saml/metadata'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<EmqxDashboardSsoSamlSaml>,
+    type: Object as PropType<SAMLForm>,
     default: () => ({}),
   },
   isEdit: {
@@ -130,6 +152,17 @@ const rules = computed(() => ({
 const ssoAddress = computed(() => formData.value.dashboard_addr + SAML_SSO_PATH)
 const metadataAddress = computed(() => formData.value.dashboard_addr + SAML_SSO_METADATA_PATH)
 
+const showHttpCookieWarning = computed(() => {
+  if (!formData.value.enable || formData.value.skip_login_cookie_check === true) {
+    return false
+  }
+  try {
+    return new URL(formData.value.dashboard_addr ?? '').protocol === 'http:'
+  } catch {
+    return false
+  }
+})
+
 const { copyText } = useCopy()
 
 const validate = () => FormCom.value.validate()
@@ -138,6 +171,9 @@ defineExpose({ validate })
 
 <style lang="scss">
 .saml-form {
+  .sso-cookie-alert {
+    margin-top: 8px;
+  }
   .keys-container {
     padding: 2px 0 0;
   }

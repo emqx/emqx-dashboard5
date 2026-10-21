@@ -127,14 +127,17 @@
         </template>
         <el-input v-model="formData.namespace_expr" />
       </el-form-item>
-      <el-form-item
-        prop="session_expiry"
-        :label="`${tl('sessionExpiry')}${
-          !formData.session_expiry || typeof formData.session_expiry === 'number'
-            ? `(${t('Exhook.second')})`
-            : ''
-        }`"
-      >
+      <el-form-item prop="session_expiry">
+        <template #label>
+          <FormItemLabel
+            :label="`${tl('sessionExpiry')}${
+              !formData.session_expiry || typeof formData.session_expiry === 'number'
+                ? `(${t('Exhook.second')})`
+                : ''
+            }`"
+            :desc="tl('sessionExpiryDesc')"
+          />
+        </template>
         <TimeInputWithUnitSelect
           v-if="typeof formData.session_expiry === 'string'"
           v-model="formData.session_expiry"
@@ -143,6 +146,15 @@
       </el-form-item>
       <el-form-item prop="require_pkce" :label="tl('requirePkce')">
         <el-switch v-model="formData.require_pkce" />
+      </el-form-item>
+      <el-form-item prop="skip_login_cookie_check">
+        <template #label>
+          <FormItemLabel
+            :label="tl('skipLoginCookieCheck')"
+            :desc="tl('skipLoginCookieCheckDesc')"
+          />
+        </template>
+        <el-switch v-model="formData.skip_login_cookie_check" />
       </el-form-item>
       <el-form-item prop="preferred_auth_methods" :label="tl('preferredAuthMethods')">
         <el-select v-model="formData.preferred_auth_methods" multiple>
