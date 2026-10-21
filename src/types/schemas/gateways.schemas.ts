@@ -214,6 +214,9 @@ export interface GatewayLwm2mBlockwise {
    */
   max_block_size?: number
   max_body_size?: string
+  /** @minimum 1 */
+  max_concurrent_exchanges?: number
+  max_total_size?: string
 }
 
 export interface GatewayJwtResolverPreloadEntry {
@@ -389,6 +392,9 @@ export interface GatewayCoapBlockwise {
    */
   max_block_size?: number
   max_body_size?: string
+  /** @minimum 1 */
+  max_concurrent_exchanges?: number
+  max_total_size?: string
 }
 
 export interface GatewayClientinfoOverride {
