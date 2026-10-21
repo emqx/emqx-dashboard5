@@ -1,4 +1,5 @@
 import { SSL } from '@/types/common'
+import { SSLHostnameCheck } from '@/types/typeAlias'
 
 type CreateSSLForm = () => SSL
 type HandleSSLDataBeforeSubmit = (data: SSL) => SSL
@@ -10,6 +11,7 @@ export default (): {
   const createSSLForm = (): SSL => ({
     enable: false,
     verify: DEFAULT_SSL_VERIFY_VALUE,
+    hostname_check: SSLHostnameCheck.san_only,
     certfile: '',
     keyfile: '',
     cacertfile: '',
