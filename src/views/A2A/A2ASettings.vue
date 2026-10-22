@@ -5,7 +5,7 @@
       <schema-form
         ref="SchemaFormCom"
         type="a2a_registry"
-        :form-props="{ labelWidth: state.lang === 'zh' ? 172 : 192 }"
+        :form-props="{ labelWidth: isZhLang(state.lang) ? 172 : 192 }"
         :according-to="accordingTo"
         :form="configs"
         :btn-loading="saveLoading"

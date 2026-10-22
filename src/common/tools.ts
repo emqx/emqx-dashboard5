@@ -879,3 +879,24 @@ export const sentenceCase = (str: string) => {
 
 export const intReg = /^-?\d+$/
 export const numberReg = /^-?\d+(\.\d+)?$/
+
+/**
+ * The Dashboard ships more than one Chinese locale (zh, zh-TW), but EMQX docs,
+ * the `{ en, zh }` texts the backend returns and the form label widths only
+ * tell Chinese from English. Use these to ask about the language family rather
+ * than comparing the locale directly.
+ */
+export const isZhLang = (lang?: string | null): boolean => !!lang && lang.startsWith('zh')
+
+export const toLangFamily = (lang?: string | null): 'zh' | 'en' => (isZhLang(lang) ? 'zh' : 'en')
+
+/**
+ * Reads a localised text in the language in use. Texts the Dashboard fills in
+ * itself, such as the rule event titles, carry every supported language; a
+ * text that only holds what the backend sends has no zh-TW, and falls back to
+ * English rather than Simplified Chinese, the way src/i18n/zh-TW.json does.
+ */
+export const pickLangText = (
+  texts: Record<string, string | undefined>,
+  lang?: string | null,
+): string => texts[lang ?? 'en'] ?? texts.en ?? ''

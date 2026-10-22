@@ -64,7 +64,7 @@ import {
   MessageTransformationLogFailureLevel,
   MessageTransformationHttpApiDryrunTransformation,
 } from './schemas/messageTransformation.schemas'
-import type { SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
+import type { DashboardSaml, SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
 import {
   SsoOidcPreferredAuthMethodsItem,
   SsoOidcProvider,
@@ -218,6 +218,7 @@ export type OverrideProperties<
 > = Merge<T, U>
 
 /* SSO */
+export type SAMLForm = DashboardSaml
 export type OIDBForm = SsoOidc
 export const OIDCPreferredAuthMethods = SsoOidcPreferredAuthMethodsItem
 export const OIDCProvider = SsoOidcProvider

@@ -94,7 +94,7 @@ const showDrawer: WritableComputedRef<boolean> = computed({
 const initTemplateList = () => {
   templateList.value = SQLTemplates.map((item) => {
     const { title, scene, input, outputs, sql } = item
-    const lang = locale.value === 'zh' ? 'zh' : 'en'
+    const lang = toLangFamily(locale.value)
     return {
       sql,
       title: title[lang],

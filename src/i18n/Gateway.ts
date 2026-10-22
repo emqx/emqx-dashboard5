@@ -189,6 +189,50 @@ Note: mounting occurs **after authorization/ACL checks**.`,
     zh: '监听地址',
     en: 'Bind',
   },
+  listenerBindDetails: {
+    zh: '查看实际监听地址',
+    en: 'View effective listener addresses',
+  },
+  configuredBind: {
+    zh: '配置地址',
+    en: 'Configured bind',
+  },
+  effectiveListenerAddress: {
+    zh: '生效地址',
+    en: 'Effective address',
+  },
+  listenerAddressSource: {
+    zh: '地址来源',
+    en: 'Resolution source',
+  },
+  listenerResponseNodeAddress: {
+    zh: '仅显示当前节点的解析结果。',
+    en: 'Resolved address for the current node only.',
+  },
+  listenerAllInterfaces: {
+    zh: '{address}（所有网络接口）',
+    en: '{address} (all network interfaces)',
+  },
+  listenerAllInterfacesWithPort: {
+    zh: '所有网络接口，端口 {port}',
+    en: 'All network interfaces, port {port}',
+  },
+  listenerAddressFromBind: {
+    zh: '显式配置',
+    en: 'Explicit bind',
+  },
+  listenerAddressFromNodename: {
+    zh: '节点名称',
+    en: 'Node name',
+  },
+  listenerAddressDefaultRule: {
+    zh: '默认监听地址',
+    en: 'Default listener address',
+  },
+  listenerAddressFromDefault: {
+    zh: '默认监听地址（{source}）',
+    en: 'Default listener address ({source})',
+  },
   lMaxConn: {
     zh: '最大连接数',
     en: 'Max Connections',

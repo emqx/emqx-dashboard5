@@ -103,6 +103,7 @@
       <ArrayEditorInput v-if="!readonly" class="TLS-input" v-model="record.ciphers" />
       <p class="value" v-else>{{ (record.ciphers || []).join(',') }}</p>
     </el-form-item>
+    <slot name="before-certificate-source" />
     <el-form-item :label="t('Base.certificateSource')">
       <el-radio-group :model-value="certificateSource" @change="handleCertificateSourceChange">
         <el-radio :value="CertificateSource.Manual">

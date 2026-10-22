@@ -17,7 +17,10 @@
       <el-table-column :label="tl('lType')" prop="type" />
       <el-table-column :label="tl('lAddress')" prop="bind" sortable>
         <template #default="{ row }">
-          {{ transPort(row.bind) }}
+          <div class="flex items-center gap-2">
+            <ListenerBindInfo :listener="row" />
+            <span>{{ transPort(row.bind) }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="tl('lMaxConn')" prop="max_connections" sortable>
@@ -80,6 +83,7 @@ import { getGatewayListeners, deleteGatewayListener } from '@/api/gateway'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import { GatewayName } from '@/types/enum'
 import { Listener } from '@/types/listener'
+import ListenerBindInfo from '@/components/ListenerBindInfo.vue'
 import GatewayAuthentication from './auth.vue'
 
 const props = defineProps({

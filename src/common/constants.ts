@@ -513,3 +513,9 @@ export const EMQX_AUTH_COOKIE_NAME = 'emqx_auth'
 export const QUERY_TAB = 'tab'
 
 export const FILE_STR_REG = /^file:\/\/.*$/
+
+/**
+ * Every language the Dashboard ships, spelled the way vue-i18n and the
+ * broker's `dashboard.i18n_lang` expect it.
+ */
+export const SUPPORTED_LANGS = ['en', 'zh', 'zh-TW']

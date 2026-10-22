@@ -7,7 +7,7 @@
           ref="forceShutdownForm"
           class="configuration-form"
           label-position="right"
-          :label-width="store.state.lang === 'zh' ? 138 : 210"
+          :label-width="isZhLang(store.state.lang) ? 138 : 210"
           :model="forceShutdownConfig"
           :validate-on-rule-change="false"
           @keyup.enter="updateConfigData()"

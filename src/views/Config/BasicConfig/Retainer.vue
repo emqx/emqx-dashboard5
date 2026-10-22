@@ -8,7 +8,7 @@
           class="configuration-form"
           label-position="right"
           hide-required-asterisk
-          :label-width="store.state.lang === 'zh' ? 184 : 240"
+          :label-width="isZhLang(store.state.lang) ? 184 : 240"
           :rules="retainerRules"
           :model="retainerConfig"
           :validate-on-rule-change="false"

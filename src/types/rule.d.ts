@@ -1,5 +1,12 @@
 import { Merge } from 'type-fest'
-import { BackendI18n, MetricsData, MetricsDataWithExtraData, PageParams, SSL } from './common'
+import {
+  BackendI18n,
+  LocalizedText,
+  MetricsData,
+  MetricsDataWithExtraData,
+  PageParams,
+  SSL,
+} from './common'
 import {
   BridgeType,
   ConnectionStatus,
@@ -268,7 +275,7 @@ export interface RuleEvent {
   event: string
   sql_example: string
   test_columns: Record<string, TestColumnItem>
-  title: BackendI18n
+  title: LocalizedText
 }
 
 export interface FilterParamsForQueryRules {

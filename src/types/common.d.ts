@@ -89,6 +89,14 @@ export interface BackendI18n {
   en: string
 }
 
+/**
+ * A text the Dashboard localises itself, so it holds every language the
+ * Dashboard supports rather than only the two the backend sends.
+ */
+export interface LocalizedText extends BackendI18n {
+  [lang: string]: string | undefined
+}
+
 export type StatusDetailOfEachNode = Array<{
   node: string
   statusClass: NodeStatusClass
