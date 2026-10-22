@@ -33,6 +33,33 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item prop="blockwise.max_concurrent_exchanges">
+            <template #label>
+              <FormItemLabel
+                :label="tl('maxConcurrentExchanges')"
+                :desc="tl('maxConcurrentExchangesDesc')"
+              />
+            </template>
+            <CustomInputNumber
+              v-model="blockwiseValue.max_concurrent_exchanges"
+              :min="1"
+              :precision="0"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="blockwise.max_total_size">
+            <template #label>
+              <FormItemLabel :label="tl('maxTotalSize')" :desc="tl('maxTotalSizeDesc')" />
+            </template>
+            <InputWithUnit
+              v-model="blockwiseValue.max_total_size"
+              :default-unit="'MB'"
+              :units="['KB', 'MB', 'GB']"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('exchangeLifetime')">
             <TimeInputWithUnitSelect
               v-model="blockwiseValue.exchange_lifetime"
