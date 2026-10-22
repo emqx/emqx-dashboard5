@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { GatewayItem } from '@/types/typeAlias'
+import type { GatewayCreateConfig, GatewayItem, GatewayUpdateConfig } from '@/types/typeAlias'
 
 export function getGatewayList(): Promise<Array<GatewayItem>> {
   return http.get('/gateways')
@@ -39,7 +39,7 @@ export async function deleteGatewayListener(name: string, listenerId: string) {
   )
 }
 
-export async function updateGateway(name: string, body: { [key: string]: any }) {
+export async function updateGateway(name: string, body: GatewayCreateConfig | GatewayUpdateConfig) {
   if (!name) return Promise.reject()
   return http.put('/gateways/' + encodeURIComponent(name), body)
 }
