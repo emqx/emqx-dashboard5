@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
 import { GatewayName } from '@/types/enum'
-import { GatewayListener } from '@/types/typeAlias'
+import type { GatewayCreateConfig, GatewayListener } from '@/types/typeAlias'
 import { ElMessage as M } from 'element-plus'
 import GatewayForm from './components/gatewayForm.vue'
 import Listeners from './components/listeners.vue'
@@ -166,7 +166,7 @@ const pageTitle = computed(() => `${tl('initial')} ${transGatewayName(name.value
 const gotoList = () => router.push({ name: 'gateway' })
 
 const createGateway = async () => {
-  let data: Record<string, any> = {
+  let data: GatewayCreateConfig = {
     ...basicData.value,
     listeners: [...listenerList.value],
     name: gname,

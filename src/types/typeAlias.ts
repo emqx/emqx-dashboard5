@@ -8,12 +8,12 @@ import {
   PostGatewaysNameListenersBody,
 } from './schemas/gatewayListeners.schemas'
 import {
-  EmqxGatewayApiUpdateCoap,
-  EmqxGatewayApiUpdateExproto,
-  EmqxGatewayApiUpdateStomp,
-  EmqxGatewayApiUpdateLwm2m,
-  EmqxGatewayApiUpdateMqttsn,
+  EmqxGatewayApiCoap,
+  EmqxGatewayApiStomp,
+  EmqxGatewayApiLwm2m,
+  EmqxGatewayApiMqttsn,
   EmqxGatewayApiGatewayOverview,
+  PutGatewaysNameBody,
 } from './schemas/gateways.schemas'
 import type { Merge, ValueOf } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
@@ -125,11 +125,20 @@ export interface LoginResponse extends PostLogin200 {
 }
 
 /* GATEWAY */
-export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
-export type CoapGatewayConfig = EmqxGatewayApiUpdateCoap
-export type ExprotoGatewayConfig = EmqxGatewayApiUpdateExproto
-export type Lwm2mGatewayConfig = EmqxGatewayApiUpdateLwm2m
-export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
+// Basic configuration is edited separately from listeners and authentication.
+// Distribute over the upsert union to preserve each gateway's required fields.
+type GatewayBasicConfig<T> = T extends unknown
+  ? Omit<T, 'name' | 'listeners' | 'authentication'>
+  : never
+
+export type StompGatewayConfig = GatewayBasicConfig<EmqxGatewayApiStomp>
+export type CoapGatewayConfig = GatewayBasicConfig<EmqxGatewayApiCoap>
+export type ExprotoGatewayConfig = any
+export type Lwm2mGatewayConfig = GatewayBasicConfig<EmqxGatewayApiLwm2m>
+export type MqttsnGatewayConfig = GatewayBasicConfig<EmqxGatewayApiMqttsn>
+
+export type GatewayCreateConfig = PutGatewaysNameBody
+export type GatewayUpdateConfig = GatewayBasicConfig<PutGatewaysNameBody>
 
 export type GatewayListener = PostGatewaysNameListenersBody
 
