@@ -18,6 +18,7 @@ import {
   EmqxGatewayApiUpdateLwm2m,
   EmqxGatewayApiUpdateMqttsn,
   EmqxGatewayApiGatewayOverview,
+  GatewayCoapBlockwise,
 } from './schemas/gateways.schemas'
 import type { Merge, ValueOf } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
@@ -165,6 +166,7 @@ export type ScramVerifyRequest = PostLoginVerifyBody
 export type ScramLoginResponse = PostLoginVerify200
 
 /* GATEWAY */
+export type BlockwiseConfig = GatewayCoapBlockwise
 export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
 export type CoapGatewayConfig = EmqxGatewayApiUpdateCoap
 export type ExprotoGatewayConfig = EmqxGatewayApiUpdateExproto

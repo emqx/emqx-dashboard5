@@ -760,6 +760,22 @@ Changing the backend require restarting the listener, which will terminate all i
     zh: '最大消息体大小',
     en: 'Max Body Size',
   },
+  maxConcurrentExchanges: {
+    zh: '最大并发交换数',
+    en: 'Max Concurrent Exchanges',
+  },
+  maxConcurrentExchangesDesc: {
+    zh: '每个客户端会话保留的块传输交换数量上限。达到上限时，新的上传返回 4.29，下行通知或命令等待可用容量。',
+    en: 'Maximum number of block-wise exchanges retained per client session. When the limit is reached, new uploads receive 4.29, and downlink notifications or commands wait for available capacity.',
+  },
+  maxTotalSize: {
+    zh: '最大保留负载总大小',
+    en: 'Max Total Retained Payload Size',
+  },
+  maxTotalSizeDesc: {
+    zh: '每个客户端会话中块传输保留的负载总大小上限。达到上限时，上传返回 4.13，可在容量释放后发送的下行通知或命令进入等待队列。',
+    en: 'Maximum total payload size retained by block-wise exchanges per client session. When the limit is reached, uploads receive 4.13, and downlink notifications or commands are queued if they can fit after capacity is released.',
+  },
   exchangeLifetime: {
     zh: '交换生存期',
     en: 'Exchange Lifetime',
