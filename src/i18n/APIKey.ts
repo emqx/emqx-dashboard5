@@ -246,12 +246,12 @@ In every mode, available operations and visible data remain restricted by the ro
     en: 'API Key Management',
   },
   scopeDesc_user_management: {
-    zh: '管理 Dashboard 用户（创建、更新、删除、修改其他用户密码）',
-    en: "Manage dashboard users (create, update, delete, change other users' password)",
+    zh: '管理 Dashboard 用户（创建、更新、删除）',
+    en: 'Manage dashboard users (create, update, delete)',
   },
   scopeDesc_mfa_management: {
-    zh: '管理员可重置任意用户 MFA 并绕过强制启用 MFA 锁定；普通用户仅可对自身 MFA 进行豁免操作',
-    en: "For administrators: reset any user's MFA and override Force MFA locks. For non-administrators: self-exemption only on the holder's own MFA.",
+    zh: '仅全局管理员可重置或关闭其他用户的 MFA；管理自己的 MFA 无需此权限',
+    en: "Global administrators only: reset or disable another user's MFA. Managing your own MFA requires no scope.",
   },
   scopeDesc_sso_management: {
     zh: '配置单点登录后端（LDAP、OIDC、SAML）',

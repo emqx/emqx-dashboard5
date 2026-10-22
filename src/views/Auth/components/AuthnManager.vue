@@ -30,8 +30,8 @@
         </el-space>
       </div>
       <div class="add-funcs-container">
-        <template v-if="mechanism === 'password_based'">
-          <authn-users-import @uploadedData="loadData" />
+        <template v-if="mechanism === 'password_based' && !gateway">
+          <authn-users-import :autogenerate-password="isGenerated" @uploadedData="loadData" />
         </template>
         <CreateButton @click="addCommand">{{ t('Base.add') }}</CreateButton>
       </div>
@@ -50,8 +50,15 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
+          <TableButton v-if="canEdit" :disabled="!$hasPermission('put')" @click="handleEdit(row)">
             {{ $t('Base.edit') }}
+          </TableButton>
+          <TableButton
+            v-if="isGenerated"
+            :disabled="!$hasPermission('post') || rotatingUserId !== null"
+            @click="handleRotate(row)"
+          >
+            {{ $t('Auth.rotatePassword') }}
           </TableButton>
           <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
             {{ $t('Base.delete') }}
@@ -68,6 +75,10 @@
       width="480px"
       v-model="dialogVisible"
       destroy-on-close
+      :close-on-click-modal="!saveLoading"
+      :close-on-press-escape="!saveLoading"
+      :show-close="!saveLoading"
+      @closed="record.password = ''"
     >
       <el-form
         ref="recordForm"
@@ -91,12 +102,15 @@
         <el-form-item prop="user_id" :label="getFiledLabel(field)">
           <el-input v-model="record.user_id" :disabled="isEdit" />
         </el-form-item>
-        <el-form-item prop="password" :label="$t('General.password')">
+        <el-form-item v-if="!isGenerated" prop="password" :label="$t('General.password')">
           <el-input
             v-model="record.password"
             type="password"
             show-password
             autocomplete="one-time-code"
+            :placeholder="
+              isEdit && mechanism === 'password_based' ? t('Auth.keepPasswordPlaceholder') : ''
+            "
           />
         </el-form-item>
         <el-form-item v-if="showIsSuperuserField">
@@ -113,7 +127,7 @@
           <CancelButton @click="dialogVisible = false" />
           <el-button
             type="primary"
-            :disabled="!$hasPermission('post')"
+            :disabled="!$hasPermission(isEdit ? 'put' : 'post')"
             :loading="saveLoading"
             @click="save"
           >
@@ -122,263 +136,240 @@
         </div>
       </template>
     </el-dialog>
+    <GeneratedPasswordDialog
+      v-if="generatedCredential"
+      :user-id="generatedCredential.user_id"
+      :password="generatedCredential.password"
+      @close="generatedCredential = null"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { createAuthnUsers, deleteAuthnUser, loadAuthnUsers, updateAuthnUser } from '@/api/auth'
-import {
-  addGatewayUserManagement,
-  deleteGatewayUser,
-  getGatewayUserManagement,
-  updateGatewayUser,
-} from '@/api/gateway'
+import useAuthenticationUsers from '@/hooks/Auth/useAuthenticationUsers'
+import { createAuthenticationUserBody } from '@/common/authnBuiltinPassword'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
-import { DataManagerItem } from '@/types/auth'
+import type { AuthenticationUserForm, DataManagerItem } from '@/types/auth'
+import type {
+  AuthenticationUserCreateRequest,
+  AuthenticationUserWithPassword,
+} from '@/types/typeAlias'
 import { ElMessage as M, ElMessageBox as MB } from 'element-plus'
 import AuthnUsersImport from './AuthnUsersImport.vue'
+import GeneratedPasswordDialog from './GeneratedPasswordDialog.vue'
 
-const createRawUserForm = () => ({
+const createRawUserForm = (): AuthenticationUserForm => ({
   user_id: '',
   password: '',
   is_superuser: false,
   namespace: undefined,
 })
 
-const prop = defineProps({
-  field: {
-    type: String as PropType<'username' | 'clientid'>,
-    required: true,
-    default: 'username',
-  },
-  gateway: {
-    type: String,
-    required: false,
-    default: '',
-  },
-})
+const prop = withDefaults(
+  defineProps<{
+    field?: 'username' | 'clientid'
+    gateway?: string
+    listenerId?: string
+    authenticatorId: string
+    mechanism: string
+    autogeneratePassword?: boolean
+  }>(),
+  { field: 'username', gateway: '', autogeneratePassword: false },
+)
 
 const { t } = useI18n()
-
 const store = useStore()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentUserNamespace = computed(() => store.getters.userNamespace)
-
-const record = ref<DataManagerItem>(createRawUserForm())
+const record = ref<AuthenticationUserForm>(createRawUserForm())
 const namespace = ref<string | undefined>(
-  isNamespaceUser.value ? currentUserNamespace.value : undefined,
+  !prop.gateway && isNamespaceUser.value ? currentUserNamespace.value : undefined,
 )
-const isNamespaceScopedUser = computed(() => !prop.gateway && !isUndefined(record.value.namespace))
+const context = computed(() => ({
+  authenticatorId: prop.authenticatorId,
+  gateway: prop.gateway,
+  listenerId: prop.listenerId,
+}))
+const {
+  addAuthenticationUser,
+  editAuthenticationUser,
+  listAuthenticationUsers,
+  removeAuthenticationUser,
+  rotateAuthenticationUserPassword,
+} = useAuthenticationUsers(context)
+const isGenerated = computed(() => prop.mechanism === 'password_based' && prop.autogeneratePassword)
+const isNamespaceScopedUser = computed(() => !prop.gateway && record.value.namespace !== undefined)
 const showIsSuperuserField = computed(() => !isNamespaceScopedUser.value)
-const tableData = ref([])
+const canEdit = computed(
+  () => !isGenerated.value || !!prop.gateway || namespace.value === undefined,
+)
+const tableData = ref<DataManagerItem[]>([])
 const lockTable = ref(false)
 const dialogVisible = ref(false)
-const route = useRoute()
 const recordForm = ref()
 const isEdit = ref(false)
 const saveLoading = ref(false)
-const searchVal = reactive({
-  user_id: '',
-  is_superuser: undefined,
-})
+const rotatingUserId = ref<string | null>(null)
+const generatedCredential = ref<{ user_id: string; password: string } | null>(null)
+const searchVal = reactive({ user_id: '', is_superuser: undefined as boolean | undefined })
 const { pageMeta, pageParams, initPageMeta, setPageMeta } = usePaginationWithHasNext()
-
-const id = computed(function (): string {
-  return route.params.id as string
-})
-
-const reg = /^(?<mechanism>.+):.+$/
-const mechanism = computed(() => {
-  const matchRes = id.value?.match(reg)
-  return matchRes ? matchRes.groups?.mechanism : ''
-})
+let requestId = 0
+let disposed = false
 
 const loadData = async () => {
-  const { user_id, is_superuser } = searchVal
+  const currentRequest = ++requestId
   const sendParams = {
     ...pageParams.value,
-    ns: namespace.value,
-    like_user_id: searchVal.user_id === '' ? null : user_id,
-    is_superuser,
+    ...(!prop.gateway ? { ns: namespace.value } : {}),
+    like_user_id: searchVal.user_id || undefined,
+    is_superuser: searchVal.is_superuser,
   }
-
   lockTable.value = true
-  let res
   try {
-    if (prop.gateway) {
-      res = await getGatewayUserManagement(prop.gateway, sendParams)
-    } else {
-      res = await loadAuthnUsers(id.value, sendParams)
-    }
-    if (res) {
-      tableData.value = res.data
-      setPageMeta(res?.meta)
-    }
-  } catch (error) {
+    const res = await listAuthenticationUsers(sendParams)
+    if (currentRequest !== requestId || disposed) return
+    tableData.value = (res?.data ?? []).map((user: DataManagerItem) => ({
+      user_id: user.user_id,
+      is_superuser: !!user.is_superuser,
+    }))
+    setPageMeta(res?.meta)
+  } catch {
+    if (currentRequest !== requestId || disposed) return
     tableData.value = []
     initPageMeta()
+  } finally {
+    if (currentRequest === requestId) lockTable.value = false
   }
-
-  lockTable.value = false
 }
 
 onMounted(loadData)
+onBeforeUnmount(() => {
+  disposed = true
+  generatedCredential.value = null
+})
 
-const getRules = function () {
-  let message = t('Auth.pleaseEnterUsername')
-  if (prop.field === 'clientid') {
-    message = t('Auth.pleaseEnterClientID')
-  }
-  const rules = {
-    user_id: [{ required: true, message, trigger: 'blur' }],
-    password: [{ required: true, message: t('General.pleaseEnterPassword') }],
-    namespace: [
-      {
-        validator(_rules: any, value: string | undefined, callback: (error?: Error) => void) {
-          let error = undefined
-          if (!isUndefined(value) && !value) {
-            error = new Error(
-              t('Rule.selectFieldRequiredError', { name: lowerCase(t('BasicConfig.namespace')) }),
-            )
-          }
-          callback(error)
-        },
-        trigger: 'blur',
+const getRules = () => ({
+  user_id: [{ required: !isEdit.value, message: getFiledLabel(prop.field), trigger: 'blur' }],
+  password: [
+    {
+      required: !isGenerated.value && (!isEdit.value || prop.mechanism !== 'password_based'),
+      message: t('General.pleaseEnterPassword'),
+    },
+  ],
+  namespace: [
+    {
+      validator(_rules: any, value: string | undefined, callback: (error?: Error) => void) {
+        callback(
+          value !== undefined && !value
+            ? new Error(
+                t('Rule.selectFieldRequiredError', { name: lowerCase(t('BasicConfig.namespace')) }),
+              )
+            : undefined,
+        )
       },
-    ],
-  }
-  if (isEdit.value) {
-    Reflect.deleteProperty(rules, 'user_id')
-  }
-  return rules
-}
+      trigger: 'blur',
+    },
+  ],
+})
 
 const handleNamespaceChange = (value: string | undefined) => {
   record.value.namespace = value
-  if (isUndefined(value) || value) {
-    nextTick(() => recordForm.value?.clearValidate('namespace'))
-  }
+  nextTick(() => recordForm.value?.clearValidate('namespace'))
 }
-
 const addCommand = () => {
   isEdit.value = false
-  record.value = createRawUserForm()
-  record.value.namespace = namespace.value
+  record.value = { ...createRawUserForm(), namespace: namespace.value }
   dialogVisible.value = true
 }
-
 const handleEdit = (row: DataManagerItem) => {
   isEdit.value = true
-  record.value = {
-    user_id: row.user_id,
-    is_superuser: row.is_superuser,
-    password: '',
-    namespace: namespace.value,
-  }
+  record.value = { ...row, password: '', namespace: namespace.value }
   dialogVisible.value = true
 }
-
-const getTableNsParams = () => ({ ns: namespace.value })
-const handleDelete = (row: DataManagerItem) => {
-  MB.confirm(t('Base.confirmDelete'), {
-    confirmButtonText: t('Base.confirm'),
-    cancelButtonText: t('Base.cancel'),
-    confirmButtonClass: 'confirm-danger',
-    type: 'warning',
-  })
-    .then(async () => {
-      if (prop.gateway) {
-        await deleteGatewayUser(prop.gateway, row.user_id)
-      } else {
-        await deleteAuthnUser(id.value, row.user_id, getTableNsParams())
-      }
-      resetPageAndLoadData()
+const showGeneratedPassword = (res: AuthenticationUserWithPassword) => {
+  if (!disposed && res.password) {
+    generatedCredential.value = { user_id: res.user_id, password: res.password }
+  }
+}
+const handleDelete = async (row: DataManagerItem) => {
+  const selectedContext = { ...context.value }
+  const params = { ns: namespace.value }
+  try {
+    await MB.confirm(t('Base.confirmDelete'), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      confirmButtonClass: 'confirm-danger',
+      type: 'warning',
     })
-    .catch(() => {
-      // cancel
-    })
+    await removeAuthenticationUser(row.user_id, params, selectedContext)
+    resetPageAndLoadData()
+  } catch {
+    /* Cancellation and request errors are handled by the dialog / HTTP client. */
+  }
 }
 
 const save = async () => {
-  const validation = await recordForm.value.validate()
-  if (!validation) {
-    return
-  }
-  saveLoading.value = true
-  if (isEdit.value) {
-    handleUpdate()
-  } else {
-    handleAdd()
-  }
-}
-
-const handleAdd = async function () {
-  let res
+  if (saveLoading.value) return
   try {
-    const dataToSubmit = { ...record.value }
-    if (isNamespaceScopedUser.value) {
-      Reflect.deleteProperty(dataToSubmit, 'is_superuser')
-    }
-    if (prop.gateway) {
-      res = await addGatewayUserManagement(prop.gateway, dataToSubmit)
-    } else {
-      res = await createAuthnUsers(id.value, dataToSubmit)
-    }
-    namespace.value = record.value.namespace
-    if (res) {
+    await recordForm.value.validate()
+    const editing = isEdit.value
+    const form = { ...record.value }
+    const body = createAuthenticationUserBody(
+      form,
+      isGenerated.value,
+      isNamespaceScopedUser.value,
+      editing,
+    )
+    if (editing && Object.keys(body).length === 0) {
       dialogVisible.value = false
-      M.success(t('Base.createSuccess'))
-      record.value = {
-        user_id: '',
-        password: '',
-        is_superuser: false,
-      }
+      return
     }
-    loadData()
-  } catch (error) {
-    //
+    saveLoading.value = true
+    const res = editing
+      ? await editAuthenticationUser(form.user_id, body, { ns: form.namespace })
+      : await addAuthenticationUser(body as AuthenticationUserCreateRequest)
+    if (disposed) return
+    namespace.value = form.namespace
+    dialogVisible.value = false
+    record.value = createRawUserForm()
+    M.success(t(editing ? 'Base.updateSuccess' : 'Base.createSuccess'))
+    showGeneratedPassword(res)
+    resetPageAndLoadData()
+  } catch {
+    /* Validation / HTTP errors are displayed by their respective handlers. */
   } finally {
     saveLoading.value = false
   }
 }
 
-const handleUpdate = async function () {
-  const { password, is_superuser, user_id, namespace } = record.value
-
-  const data: { password: string; is_superuser?: boolean } = {
-    password,
-  }
-  if (!isNamespaceScopedUser.value) {
-    data.is_superuser = is_superuser
-  }
-  let res
-  if (prop.gateway) {
-    res = await updateGatewayUser(prop.gateway, user_id, data)
-  } else {
-    res = await updateAuthnUser(id.value, user_id, data, { ns: namespace })
-  }
-  if (res) {
-    dialogVisible.value = false
-    saveLoading.value = false
-    M.success(t('Base.updateSuccess'))
-    loadData()
+const handleRotate = async (row: DataManagerItem) => {
+  if (rotatingUserId.value !== null) return
+  const selectedContext = { ...context.value }
+  const params = { ns: namespace.value }
+  rotatingUserId.value = row.user_id
+  try {
+    await MB.confirm(t('Auth.rotatePasswordConfirm', { user: row.user_id }), {
+      confirmButtonText: t('Base.confirm'),
+      cancelButtonText: t('Base.cancel'),
+      type: 'warning',
+    })
+    const res = await rotateAuthenticationUserPassword(row.user_id, params, selectedContext)
+    showGeneratedPassword(res)
+    if (!disposed) M.success(t('Auth.rotatePasswordSuccess'))
+  } catch {
+    /* Cancellation and request errors are handled by the dialog / HTTP client. */
+  } finally {
+    rotatingUserId.value = null
   }
 }
 
-const getFiledLabel = (field: 'clientid' | 'username') => {
-  const fieldMap = {
-    clientid: t('Base.clientid'),
-    username: t('Base.username'),
-  }
-  return fieldMap[field]
-}
-
+const getFiledLabel = (field: 'clientid' | 'username') =>
+  t(field === 'clientid' ? 'Base.clientid' : 'Base.username')
 const resetPageAndLoadData = () => {
   pageMeta.value.page = 1
   loadData()
 }
-
 const resetIsSuperuser = () => {
   searchVal.is_superuser = undefined
 }

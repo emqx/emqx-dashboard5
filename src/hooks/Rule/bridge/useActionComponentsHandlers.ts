@@ -713,7 +713,16 @@ export default (
     return { components, rules }
   }
 
+  const zerobusHandler: Handler = ({ components, rules }) => {
+    const record = components.parameters?.properties?.record
+    if (record) {
+      record.useNewCom = true
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.Zerobus]: zerobusHandler,
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
     [BridgeType.Redis]: redisComponentsHandler,

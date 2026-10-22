@@ -184,6 +184,22 @@
                 </template>
                 <el-input v-model="licenseConfig.high_watermark_timezone" />
               </el-form-item>
+              <el-form-item
+                v-if="licenseConfig.tps_alarm_sustain_duration !== undefined"
+                prop="tps_alarm_sustain_duration"
+              >
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('tps_alarm_sustain_duration')"
+                    :desc="tl('tps_alarm_sustain_duration_desc')"
+                    desc-marked
+                  />
+                </template>
+                <TimeInputWithUnitSelect
+                  v-model="licenseConfig.tps_alarm_sustain_duration"
+                  :enabled-units="['ms', 's', 'm', 'h', 'd']"
+                />
+              </el-form-item>
               <el-button
                 type="primary"
                 :disabled="!$hasPermission('put')"
@@ -326,6 +342,13 @@ const getProgressBarWidth = () => {
   return 0
 }
 
+const applyLicenseConfig = (config: LicenseConfig) => {
+  licenseConfig.value = {
+    ...config,
+    high_watermark_timezone: config.high_watermark_timezone || 'system',
+  }
+}
+
 const loadLicenseData = async () => {
   try {
     licenseConfigForm.value?.resetFields()
@@ -336,10 +359,7 @@ const loadLicenseData = async () => {
     ])
     currentConnections.value = state.connections
     store.commit('SET_LICENSE_DATA', data)
-    licenseConfig.value = {
-      ...config,
-      high_watermark_timezone: config.high_watermark_timezone || 'system',
-    }
+    applyLicenseConfig(config)
     progressBarOuterWidth.value = getProgressBarWidth()
   } catch (error) {
     // handle error
@@ -422,7 +442,8 @@ const handleUpdate = async () => {
   try {
     const valid = await licenseConfigForm.value?.validate()
     if (!valid) return
-    await updateLicenseConfig(licenseConfig.value)
+    const config = await updateLicenseConfig(licenseConfig.value)
+    applyLicenseConfig(config)
     ElMessage.success(t('Base.updateSuccess'))
   } catch (error) {
     // handle error

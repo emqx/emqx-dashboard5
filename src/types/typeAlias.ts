@@ -1,11 +1,22 @@
 import {
   GetAuthentication200Item,
-  AuthnBuiltinDb,
+  AuthnBuiltinDbManual,
+  AuthnBuiltinDbGenerated,
   AuthnJwtPublicKeyOnMissingJwt,
+  AuthCacheConfig,
+  EmqxAuthnApiResponseAuthnSettings,
+  EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures,
+} from './schemas/authentication.schemas'
+import type {
+  EmqxAuthnApiRequestUserCreate,
+  EmqxAuthnApiRequestUserUpdate,
+  EmqxAuthnApiResponseUserWithPassword,
 } from './schemas/authentication.schemas'
 import {
   EmqxAuthzApiMnesiaRuleItemAction,
   EmqxAuthzApiMnesiaRuleItemPermission,
+  GetAuthorizationSettings200IgnoreBackendFailures,
+  GetAuthorizationSettings200IgnoreRuleRenderFailures,
 } from './schemas/authorization.schemas'
 import {
   EmqxManagedCertsServer,
@@ -27,7 +38,12 @@ import {
   GetAuditFrom,
   GetAuditOperationResult,
 } from './schemas/audit.schemas'
-import { A2aRegistryA2aRegistry, EmqxLog, EmqxManagedCerts } from './schemas/configs.schemas'
+import {
+  A2aRegistryA2aRegistry,
+  EmqxLog,
+  EmqxManagedCerts,
+  EmqxSslClientOptsHostnameCheck,
+} from './schemas/configs.schemas'
 import type {
   SchemaValidationValidation,
   SchemaValidationHttpApiReorder,
@@ -91,6 +107,9 @@ import type {
 } from './schemas/monitor.schemas'
 import type {
   DashboardUser,
+  GetCurrentUser200,
+  PostCurrentUserChangePwdBody,
+  PostCurrentUserMfaBody,
   PostLogin200,
   PostLoginChallenge200,
   PostLoginChallengeBody,
@@ -174,13 +193,22 @@ export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
 export type GatewayListener = PostGatewaysNameListenersBody
 
 /* AUTHENTICATION */
-export type AuthenticationBuiltInDbConfig = AuthnBuiltinDb
+export type AuthenticationBuiltInDbConfig = AuthnBuiltinDbManual | AuthnBuiltinDbGenerated
 export type AuthenticationConfig = GetAuthentication200Item & { id: string }
+export type AuthnSettings = EmqxAuthnApiResponseAuthnSettings
+export type NodeCacheConfig = AuthCacheConfig
+export const PER_SECURITY_PROFILE =
+  EmqxAuthnApiResponseAuthnSettingsIgnoreBackendFailures.per_security_profile
+export type AuthenticationUserCreateRequest = EmqxAuthnApiRequestUserCreate
+export type AuthenticationUserUpdateRequest = EmqxAuthnApiRequestUserUpdate
+export type AuthenticationUserWithPassword = EmqxAuthnApiResponseUserWithPassword
 export const PublicKeyOnMissingJWT = AuthnJwtPublicKeyOnMissingJwt
 
 /* AUTHORIZATION */
 export const AuthzRulePermission = EmqxAuthzApiMnesiaRuleItemPermission
 export const AuthzRuleAction = EmqxAuthzApiMnesiaRuleItemAction
+export type AuthzIgnoreBackendFailures = GetAuthorizationSettings200IgnoreBackendFailures
+export type AuthzIgnoreRuleRenderFailures = GetAuthorizationSettings200IgnoreRuleRenderFailures
 
 export type OverrideProperties<
   T,
@@ -269,6 +297,9 @@ export type OpenTelemetryTraces = OpentelemetryOtelTraces
 /* DASHBOARD */
 export type User = DashboardUser
 export const UserMFA = DashboardUserMfa
+export type CurrentUser = GetCurrentUser200
+export type CurrentUserPasswordUpdate = PostCurrentUserChangePwdBody
+export type CurrentUserMFAUpdate = PostCurrentUserMfaBody
 
 /*  CLUSTER */
 export type ClusterInfo = GetCluster200
@@ -312,6 +343,7 @@ export type NamespaceDetailItem = Merge<
 export type GatewayItem = EmqxGatewayApiGatewayOverview
 
 export const SSLSessionTickets = EmqxListenerWssOptsSessionTickets
+export const SSLHostnameCheck = EmqxSslClientOptsHostnameCheck
 
 /* MESSAGE QUEUE */
 export type MessageQueueRegular = MqMessageQueueRegularApiPost

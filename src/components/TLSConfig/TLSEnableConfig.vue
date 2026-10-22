@@ -1,6 +1,9 @@
 <template>
   <div class="TLS-enable-config">
-    <el-form-item v-if="!hideVerify" :label="verifyLabel || t('Base.tlsVerify')">
+    <el-form-item
+      v-if="!hideVerify"
+      :label="t(isServer ? 'Base.tlsVerifyClient' : 'Base.tlsVerify')"
+    >
       <el-switch
         v-model="record.verify"
         :disabled="readonly || disabledVerify"
@@ -9,7 +12,22 @@
         @change="handleVerifyChange"
       />
     </el-form-item>
-    <el-form-item v-if="showMiddleboxCompMode" :prop="getFormItemProp(`middlebox_comp_mode`)">
+    <el-form-item
+      v-if="!isServer && record.verify === SSL_VERIFY_VALUE_MAP.get(true)"
+      :prop="getFormItemProp('hostname_check')"
+    >
+      <template #label>
+        <FormItemLabel
+          :label="t('Base.hostnameCheck')"
+          :desc="t('Base.hostnameCheckDesc')"
+          desc-marked
+        />
+      </template>
+      <el-select v-model="hostnameCheckValue" class="TLS-input" :disabled="readonly">
+        <el-option v-for="value in SSLHostnameCheck" :key="value" :label="value" :value="value" />
+      </el-select>
+    </el-form-item>
+    <el-form-item v-if="!isServer" :prop="getFormItemProp(`middlebox_comp_mode`)">
       <template #label>
         <FormItemLabel
           :label="t('Base.middleboxCompMode')"
@@ -62,7 +80,7 @@
     </el-row>
 
     <CustomFormItem
-      v-if="showSni"
+      v-if="!isServer && showSni"
       :readonly="readonly"
       :prop="getFormItemProp(`server_name_indication`)"
     >
@@ -93,7 +111,7 @@
         </el-radio>
         <el-radio :value="CertificateSource.ManagedCerts">
           {{ t('Base.selectFromManagedCerts') }}
-          <InfoTooltip v-if="managedCertsArr" :content="t('Base.managedCertListDesc')" />
+          <InfoTooltip v-if="isServer" :content="t('Base.managedCertListDesc')" />
         </el-radio>
       </el-radio-group>
     </el-form-item>
@@ -176,14 +194,15 @@
     </template>
     <template v-else>
       <ManagedCertConfig
-        v-if="!managedCertsArr && !Array.isArray(record.managed_certs)"
+        v-if="record.managed_certs && !Array.isArray(record.managed_certs)"
         v-model="record.managed_certs"
+        :sni="isServer"
         :global-only="globalOnly"
         :user-namespace="userNamespace"
         :columns="managedCertConfColumns"
       />
       <ListEditor
-        v-else-if="Array.isArray(record.managed_certs)"
+        v-else-if="isServer && Array.isArray(record.managed_certs)"
         class="managed-cert-list"
         :list="record.managed_certs"
         @add="addManagedCert"
@@ -215,7 +234,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { SSL } from '@/types/common'
-import { SSLSessionTickets } from '@/types/typeAlias'
+import { SSLSessionTickets, SSLHostnameCheck } from '@/types/typeAlias'
 import CustomFormItem from '../CustomFormItem.vue'
 import FormItemLabel from '../FormItemLabel.vue'
 import TextareaWithUploader from '../TextareaWithUploader.vue'
@@ -238,11 +257,11 @@ const props = defineProps({
   isEdit: {
     type: Boolean,
   },
+  /**
+   * Allow client forms such as monitoring integrations to hide SNI.
+   * Server-side SNI is configured on managed certificate bundles instead.
+   */
   showSni: {
-    type: Boolean,
-    default: true,
-  },
-  showMiddleboxCompMode: {
     type: Boolean,
     default: true,
   },
@@ -251,17 +270,6 @@ const props = defineProps({
    */
   basePath: {
     type: String,
-  },
-  verifyLabel: {
-    type: String,
-    default: function () {
-      try {
-        return useI18nTl('Base').tl('tlsVerify')
-      } catch (error) {
-        console.error(error)
-        return undefined
-      }
-    },
   },
   readonly: {
     type: Boolean,
@@ -276,10 +284,13 @@ const props = defineProps({
     default: false,
   },
   /**
-   * is TLS config for server
+   * Whether EMQX accepts TLS connections rather than initiating them.
+   * Controls verification labels, client-only fields, session resumption,
+   * and the creation of managed certificate lists with per-bundle SNI.
    */
   isServer: {
     type: Boolean,
+    default: false,
   },
   globalOnly: {
     type: Boolean,
@@ -287,13 +298,6 @@ const props = defineProps({
   },
   userNamespace: {
     type: String,
-  },
-  /**
-   * Setting this to true will enable the SNI configuration
-   * at ssl listener, wss listener, dtls listener in gateway, exproto gateway
-   */
-  managedCertsArr: {
-    type: Boolean,
   },
   managedCertConfColumns: {
     type: Number,
@@ -305,6 +309,9 @@ const props = defineProps({
     type: null as unknown as PropType<null>,
     default: undefined,
   },
+  /**
+   * QUIC listeners do not expose the TLS session resumption settings.
+   */
   noSessionResumption: {
     type: Boolean,
     default: false,
@@ -334,6 +341,12 @@ const record = computed<SSL>({
 })
 const ciphersLabelToShow = computed(() => props.ciphersLabel || t('Gateway.ciphers'))
 const ciphersDescToShow = computed(() => props.ciphersDesc || t('Gateway.ciphersDesc'))
+const hostnameCheckValue = computed({
+  get: () => record.value.hostname_check ?? SSLHostnameCheck.san_only,
+  set: (value: NonNullable<SSL['hostname_check']>) => {
+    record.value.hostname_check = value
+  },
+})
 
 const sessionTicketOptions = [
   SSLSessionTickets.disabled,
@@ -358,7 +371,7 @@ const handleCertificateSourceChange = async (val: any) => {
     certificateSource.value = newVal
     const isCertBundle = isUsingCertBundle.value
     if (isCertBundle && !record.value.managed_certs) {
-      if (props.managedCertsArr) {
+      if (props.isServer) {
         record.value.managed_certs = [createEmptyManagedCertConf()]
       } else {
         record.value.managed_certs = createEmptyManagedCertConf()

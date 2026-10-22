@@ -500,6 +500,18 @@ export default (
     return { components, rules }
   }
 
+  const GCPConsumerGRPCHandler: Handler = (data) => {
+    const { components, rules } = GCPHandler(data)
+    const sslProp = components.ssl
+    if (sslProp) {
+      setComponentProps(sslProp, { disabledBaseConfig: true })
+      if (sslProp.properties?.enable) {
+        sslProp.properties.enable.default = true
+      }
+    }
+    return { components, rules }
+  }
+
   const s3TablesHandler: Handler = ({ components, rules }) => {
     const sslProp = components?.s3_client?.properties?.transport_options?.properties?.ssl
     const sslEnableProp = sslProp?.properties?.enable
@@ -534,6 +546,7 @@ export default (
     [BridgeType.Confluent, confluentHandler],
     [BridgeType.GCPProducer, GCPHandler],
     [BridgeType.GCPConsumer, GCPHandler],
+    [BridgeType.GCPConsumerGRPC, GCPConsumerGRPCHandler],
     [BridgeType.BigQuery, GCPHandler],
     [BridgeType.Bigtable, GCPHandler],
     [BridgeType.MongoDB, mongoHandler],

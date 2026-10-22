@@ -32,6 +32,10 @@ const _events: Array<RuleEvent> = [
     event: '$sources/gcp_pubsub_consumer:*',
   },
   {
+    columns: ['attributes', 'message_id', 'ordering_key', 'publish_time', 'topic', 'value'],
+    event: '$sources/gcp_pubsub_consumer_grpc:*',
+  },
+  {
     columns: ['attributes', 'message_id', 'ordering_key', 'publishing_time', 'topic', 'value'],
     event: '$bridges/gcp_pubsub_consumer:*',
   },

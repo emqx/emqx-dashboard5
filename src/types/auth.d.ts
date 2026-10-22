@@ -1,12 +1,14 @@
 import { MetricsDataWithExtraData } from './common'
 import { BannedType, ConnectionStatus, QoSLevel } from './enum'
 import { AuthzRuleAction, AuthzRulePermission } from './typeAlias'
+import type { AuthzIgnoreBackendFailures, AuthzIgnoreRuleRenderFailures } from './typeAlias'
 
 export interface AuthzSetting {
   deny_action: 'ignore' | 'disconnect'
   no_match: 'allow' | 'deny'
   include_mountpoint: boolean
-  ignore_backend_failures: boolean
+  ignore_backend_failures: AuthzIgnoreBackendFailures
+  ignore_rule_render_failures?: AuthzIgnoreRuleRenderFailures
   cache: {
     enable: boolean
     excludes: string[]
@@ -30,6 +32,7 @@ export interface AuthnItem {
   enable: boolean
   id: string
   mechanism: string
+  autogenerate_password?: boolean
   password_hash_algorithm?: PasswordHashAlgorithm
   user_id_type?: string
   body?: Body
@@ -74,9 +77,12 @@ export interface BuiltInDBItem {
 
 export interface DataManagerItem {
   user_id: string
-  password: string
   is_superuser: boolean
   namespace?: string
+}
+
+export interface AuthenticationUserForm extends DataManagerItem {
+  password: string
 }
 
 export type Metrics = MetricsDataWithExtraData<{

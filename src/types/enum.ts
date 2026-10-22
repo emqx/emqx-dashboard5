@@ -139,6 +139,7 @@ export enum BridgeType {
   Redis = 'redis',
   GCPProducer = 'gcp_pubsub_producer',
   GCPConsumer = 'gcp_pubsub_consumer',
+  GCPConsumerGRPC = 'gcp_pubsub_consumer_grpc',
   MongoDB = 'mongodb',
   PgSQL = 'pgsql',
   TimescaleDB = 'timescale',
@@ -152,6 +153,8 @@ export enum BridgeType {
   IoTDB = 'iotdb',
   OpenTSDB = 'opents',
   OracleDatabase = 'oracle',
+  Dameng = 'dameng',
+  Zerobus = 'zerobus',
   RabbitMQ = 'rabbitmq',
   Pulsar = 'pulsar',
   // HStream = 'hstreamdb',
@@ -268,6 +271,7 @@ export enum RedisType {
 export enum NodeStatus {
   Running = 'running',
   Stopped = 'stopped',
+  Unreachable = 'unreachable',
 }
 
 export enum AuthnMechanismType {
@@ -414,6 +418,12 @@ export const enum TraceEncodeType {
 export const enum LDAPAuthMethod {
   Bind = 'bind',
   Hash = 'hash',
+}
+
+export enum LDAPClientAttrExtract {
+  Value = 'value',
+  CN = 'cn',
+  Literal = 'literal',
 }
 
 /* EE exclusive 👇🏻 */

@@ -12,24 +12,23 @@
       </el-table-column>
       <el-table-column :label="tl('nodeStatus')" width="120">
         <template #default="{ row }">
-          <span
-            :class="[
-              caseInsensitiveCompare(row.node_status, 'running') ? 'running-status' : 'stop-status',
-            ]"
-          >
-            {{ caseInsensitiveCompare(row.node_status, 'running') ? tl('running') : tl('stopped') }}
-          </span>
+          <NodeStatusLabel :status="row.node_status" />
         </template>
       </el-table-column>
       <el-table-column prop="uptime" :label="tl('uptime')" min-width="160" sortable>
         <template #default="{ row }">
-          {{ transMsNumToSimpleStr(row.uptime) }}
+          {{ row.uptime === undefined ? '--' : transMsNumToSimpleStr(row.uptime) }}
         </template>
       </el-table-column>
       <el-table-column prop="version" :label="tl('version')" width="116" sortable>
+        <template #default="{ row }">{{ row.version ?? '--' }}</template>
       </el-table-column>
-      <el-table-column prop="connections" :label="t('Clients.connect')" min-width="120" />
-      <el-table-column prop="role" :label="t('Dashboard.role')" width="90" />
+      <el-table-column prop="connections" :label="t('Clients.connect')" min-width="120">
+        <template #default="{ row }">{{ row.connections ?? '--' }}</template>
+      </el-table-column>
+      <el-table-column prop="role" :label="t('Dashboard.role')" min-width="90">
+        <template #default="{ row }">{{ row.role ?? t('RuleEngine.unknown') }}</template>
+      </el-table-column>
       <el-table-column :label="tl('securityProfile')" min-width="132">
         <template #default="{ row }">
           <span class="node-startup-setting">
@@ -49,6 +48,7 @@
       <el-table-column :label="`Erlang ${tl('process')}`" min-width="160">
         <template #default="{ row }">
           <el-tooltip
+            v-if="row.process_used !== undefined && row.process_available !== undefined"
             placement="top"
             effect="dark"
             :content="`${row.process_used}/${row.process_available}`"
@@ -60,11 +60,13 @@
             >
             </el-progress>
           </el-tooltip>
+          <span v-else>--</span>
         </template>
       </el-table-column>
       <el-table-column v-if="hasMemory" :label="tl('memory')" prop="memory_used" min-width="160">
         <template #default="{ row }">
           <el-tooltip
+            v-if="row.memory_used !== undefined && row.memory_total !== undefined"
             placement="top"
             effect="dark"
             :content="`${row.memory_used}/${row.memory_total}`"
@@ -76,12 +78,13 @@
             >
             </el-progress>
           </el-tooltip>
+          <span v-else>--</span>
         </template>
       </el-table-column>
       <el-table-column :label="tl('osCpuLoad')" min-width="120">
         <template #default="{ row }">
           <el-tooltip class="box-item" effect="dark" content="load1/load5/load15" placement="top"
-            >{{ row.load1 }}/{{ row.load5 }}/{{ row.load15 }}
+            >{{ row.load1 ?? '--' }}/{{ row.load5 ?? '--' }}/{{ row.load15 ?? '--' }}
           </el-tooltip>
         </template>
       </el-table-column>
@@ -96,6 +99,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import NodeStatusLabel from '@/components/NodeStatusLabel.vue'
 const { t, tl } = useI18nTl('Dashboard')
 
 const { transMsNumToSimpleStr } = useDurationStr()

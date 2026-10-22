@@ -33,7 +33,11 @@
             desc-marked
           />
         </template>
-        <el-switch v-model="record.ignore_backend_failures" />
+        <el-select v-model="record.ignore_backend_failures">
+          <el-option :value="PER_SECURITY_PROFILE" :label="tl('perSecurityProfile')" />
+          <el-option :value="true" :label="t('Base.enabled')" />
+          <el-option :value="false" :label="t('Base.disabled')" />
+        </el-select>
       </el-form-item>
 
       <el-form-item>
@@ -228,19 +232,9 @@ import {
   updateAuthzSettings,
 } from '@/api/auth'
 import { useSizeMetric } from '@/hooks/useMetrics'
+import { PER_SECURITY_PROFILE } from '@/types/typeAlias'
+import type { AuthnSettings, NodeCacheConfig } from '@/types/typeAlias'
 import { X } from 'lucide-vue-next'
-
-type NodeCacheConfig = {
-  enable?: boolean
-  max_count?: number
-  max_memory?: string
-  cache_ttl?: string
-}
-
-type AuthnSettings = {
-  ignore_backend_failures?: boolean
-  node_cache?: NodeCacheConfig
-}
 
 type CacheMetricItem = {
   value: number

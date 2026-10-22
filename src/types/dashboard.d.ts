@@ -28,28 +28,28 @@ export type SecurityProfile = 'legacy' | 'hardened'
 export type FeaturePreset = 'full' | 'essential' | 'custom'
 
 export interface NodeInfo {
-  connections: number
-  edition: string
+  connections?: number
+  edition?: string
   feature_preset?: FeaturePreset
-  load1: string
-  load15: string
-  load5: string
-  log_path: string
-  max_fds: number
-  memory_total: string | number
-  memory_used: string | number
+  load1?: number
+  load15?: number
+  load5?: number
+  log_path?: string
+  max_fds?: number
+  memory_total?: string | number
+  memory_used?: string | number
   node: string
-  node_status: NodeStatus
-  otp_release: string
-  process_available: number
-  process_used: number
+  node_status?: NodeStatus
+  otp_release?: string
+  process_available?: number
+  process_used?: number
   security_profile?: SecurityProfile
-  sys_path: string
-  uptime: number
-  version: string
-  role: 'core' | 'replicant'
-  cluster_sessions: number
-  live_connections: number
+  sys_path?: string
+  uptime?: number
+  version?: string
+  role?: 'core' | 'replicant'
+  cluster_sessions?: number
+  live_connections?: number
 }
 
 export interface Prometheus {
@@ -153,6 +153,7 @@ export interface LicenseConfig {
   connection_low_watermark: string
   connection_high_watermark: string
   high_watermark_timezone: string
+  tps_alarm_sustain_duration?: string
 }
 
 export type LicenseSessionHwmHistoryPeriod = 'daily' | 'monthly'

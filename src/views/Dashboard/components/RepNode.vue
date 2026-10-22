@@ -32,16 +32,22 @@ const props = defineProps({
   },
   status: {
     type: String as PropType<NodeStatus>,
-    default: NodeStatus.Running,
+    default: undefined,
   },
 })
 const emit = defineEmits(['select'])
 
 const isRunning = computed(() => props.status === NodeStatus.Running)
 
-const dotStrokeColor = computed(() => (isRunning.value ? '#6366f1' : '#bac1cd'))
+const dotStrokeColor = computed(() =>
+  isRunning.value
+    ? '#6366f1'
+    : props.status === NodeStatus.Unreachable
+      ? 'var(--el-color-warning)'
+      : '#bac1cd',
+)
 
-const dotActivatedColor = computed(() => (isRunning.value ? '#6366f1' : '#bac1cd'))
+const dotActivatedColor = dotStrokeColor
 
 const selectNode = () => {
   emit('select')

@@ -17,6 +17,7 @@ export type PutLicenseSetting200 = {
   connection_high_watermark?: string
   connection_low_watermark?: string
   high_watermark_timezone?: PutLicenseSetting200HighWatermarkTimezone
+  tps_alarm_sustain_duration?: string
 }
 
 export type PutLicenseSettingBodyHighWatermarkTimezone = 'system' | string
@@ -25,6 +26,7 @@ export type PutLicenseSettingBody = {
   connection_high_watermark?: string
   connection_low_watermark?: string
   high_watermark_timezone?: PutLicenseSettingBodyHighWatermarkTimezone
+  tps_alarm_sustain_duration?: string
 }
 
 export type GetLicenseSetting200HighWatermarkTimezone = 'system' | string
@@ -33,6 +35,7 @@ export type GetLicenseSetting200 = {
   connection_high_watermark?: string
   connection_low_watermark?: string
   high_watermark_timezone?: GetLicenseSetting200HighWatermarkTimezone
+  tps_alarm_sustain_duration?: string
 }
 
 export type GetLicenseSessionHwmHistoryPeriod =

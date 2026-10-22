@@ -692,6 +692,14 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export type LdapSslHostnameCheck = (typeof LdapSslHostnameCheck)[keyof typeof LdapSslHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
@@ -702,6 +710,7 @@ export interface LdapSsl {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: LdapSslHostnameCheck
   keyfile?: string
   log_level?: LdapSslLogLevel
   managed_certs?: EmqxManagedCerts
@@ -885,6 +894,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxSslClientOpts {
   cacertfile?: string
   /** @deprecated */
@@ -895,6 +913,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts

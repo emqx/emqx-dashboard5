@@ -1769,24 +1769,56 @@
         "method": "post",
         "path": "/users/:username/change_pwd",
         "name_label": {
-          "en": "Change dashboard user password",
-          "zh": "更改 Dashboard 用户密码"
+          "en": "Change current user password (deprecated)",
+          "zh": "修改当前用户密码（已弃用）"
         }
       },
       {
         "method": "delete",
         "path": "/users/:username/mfa",
         "name_label": {
-          "en": "Delete MFA state for a dashboard user",
-          "zh": "删除 Dashboard 用户的 MFA"
+          "en": "Disable another user's MFA",
+          "zh": "关闭其他用户的 MFA"
         }
       },
       {
         "method": "post",
         "path": "/users/:username/mfa",
         "name_label": {
-          "en": "Setup MFA for a dashboard user",
-          "zh": "设置 Dashboard 用户的 MFA"
+          "en": "Set up or rotate another user's MFA",
+          "zh": "设置或重置其他用户的 MFA"
+        }
+      },
+      {
+        "method": "get",
+        "path": "/current_user",
+        "name_label": {
+          "en": "Get current user account",
+          "zh": "获取当前用户账号"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/current_user/change_pwd",
+        "name_label": {
+          "en": "Change current user password",
+          "zh": "修改当前用户密码"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/current_user/mfa",
+        "name_label": {
+          "en": "Set up or rotate current user MFA",
+          "zh": "设置或重置当前用户 MFA"
+        }
+      },
+      {
+        "method": "delete",
+        "path": "/current_user/mfa",
+        "name_label": {
+          "en": "Disable current user MFA",
+          "zh": "关闭当前用户 MFA"
         }
       }
     ]

@@ -15,32 +15,43 @@
               <el-tag
                 v-if="node.node_status"
                 size="small"
-                :type="node.node_status === NodeStatus.Running ? '' : 'danger'"
+                :type="
+                  node.node_status === NodeStatus.Unreachable
+                    ? 'warning'
+                    : node.node_status === NodeStatus.Stopped
+                      ? 'danger'
+                      : undefined
+                "
               >
-                <span
-                  :class="[
-                    node.node_status === NodeStatus.Running ? 'running-status' : 'stop-status',
-                  ]"
-                  >{{ node.node_status === NodeStatus.Running ? tl('running') : tl('stopped') }}
-                </span>
+                <NodeStatusLabel :status="node.node_status" />
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item :label="tl('uptime')">
-              {{ transMsNumToSimpleStr(node.uptime) }}
+              {{ node.uptime === undefined ? '--' : transMsNumToSimpleStr(node.uptime) }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('version')">
-              <a :href="releaseNoteLink(node.version)" target="_blank" rel="noopener noreferrer">
+              <a
+                v-if="node.version"
+                :href="releaseNoteLink(node.version)"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {{ node.version }}
               </a>
+              <span v-else>--</span>
             </el-descriptions-item>
-            <el-descriptions-item :label="tl('role')">{{ node.role }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('role')">{{
+              node.role ?? $t('RuleEngine.unknown')
+            }}</el-descriptions-item>
             <el-descriptions-item :label="tl('securityProfile')">
               {{ formatNodeStartupSetting(node.security_profile) }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('featurePreset')">
               {{ formatNodeStartupSetting(node.feature_preset) }}
             </el-descriptions-item>
-            <el-descriptions-item :label="tl('maxFds')">{{ node.max_fds }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('maxFds')">{{
+              node.max_fds ?? '--'
+            }}</el-descriptions-item>
             <el-descriptions-item :label="tl('osCpuLoad')">
               <el-tooltip
                 class="box-item"
@@ -48,14 +59,12 @@
                 content="load1/load5/load15"
                 placement="top"
               >
-                {{ node.load1 }}/{{ node.load5 }}/{{ node.load15 }}
+                {{ node.load1 ?? '--' }}/{{ node.load5 ?? '--' }}/{{ node.load15 ?? '--' }}
               </el-tooltip>
             </el-descriptions-item>
-            <el-descriptions-item
-              v-if="![0, '0'].includes(node.memory_total)"
-              :label="tl('memory')"
-            >
+            <el-descriptions-item v-if="hasNodeMemory(node)" :label="tl('memory')">
               <el-tooltip
+                v-if="node.memory_used !== undefined && node.memory_total !== undefined"
                 placement="top"
                 effect="dark"
                 :content="`${node.memory_used}/${node.memory_total}`"
@@ -63,13 +72,15 @@
                 <el-progress
                   :stroke-width="20"
                   :percentage="calcPercentage(node.memory_used, node.memory_total)"
-                  :format="() => node.memory_used"
+                  :format="() => String(node.memory_used ?? '--')"
                 >
                 </el-progress>
               </el-tooltip>
+              <span v-else>--</span>
             </el-descriptions-item>
             <el-descriptions-item :label="`Erlang ${tl('process')}`">
               <el-tooltip
+                v-if="node.process_used !== undefined && node.process_available !== undefined"
                 placement="top"
                 effect="dark"
                 :content="`${node.process_used}/${node.process_available}`"
@@ -77,13 +88,18 @@
                 <el-progress
                   :stroke-width="20"
                   :percentage="calcPercentage(node.process_used, node.process_available)"
-                  :format="() => node.process_used"
+                  :format="() => String(node.process_used ?? '--')"
                 >
                 </el-progress>
               </el-tooltip>
+              <span v-else>--</span>
             </el-descriptions-item>
-            <el-descriptions-item :label="tl('logPath')">{{ node.log_path }}</el-descriptions-item>
-            <el-descriptions-item :label="tl('sysPath')">{{ node.sys_path }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('logPath')">{{
+              node.log_path ?? '--'
+            }}</el-descriptions-item>
+            <el-descriptions-item :label="tl('sysPath')">{{
+              node.sys_path ?? '--'
+            }}</el-descriptions-item>
           </el-descriptions>
         </el-card>
       </el-col>
@@ -92,22 +108,33 @@
           <span class="stats-tip">({{ $t('Base.current') }} / {{ $t('Base.highWatermark') }})</span>
           <el-descriptions :title="tl('nodeStatis')" border :column="1" size="large">
             <el-descriptions-item :label="tl('currentConnection')">
-              {{ stats['connections.count'] }}/{{ stats['connections.max'] }}
+              {{ stats['connections.count'] ?? '--' }}/{{ stats['connections.max'] ?? '--' }}
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <template #label>
+                <FormItemLabel
+                  :label="tl('disconnectedSessions')"
+                  :desc="tl('disconnectedSessionsDesc')"
+                />
+              </template>
+              {{ stats['disconnected_sessions.count'] ?? '--' }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('topics')">
-              {{ stats['topics.count'] }}/{{ stats['topics.max'] }}
+              {{ stats['topics.count'] ?? '--' }}/{{ stats['topics.max'] ?? '--' }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('retained')">
-              {{ stats['retained.count'] }}/{{ stats['retained.max'] }}
+              {{ stats['retained.count'] ?? '--' }}/{{ stats['retained.max'] ?? '--' }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('session')">
-              {{ stats['sessions.count'] }}/{{ stats['sessions.max'] }}
+              {{ stats['sessions.count'] ?? '--' }}/{{ stats['sessions.max'] ?? '--' }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('subscription')">
-              {{ stats['subscriptions.count'] }}/{{ stats['subscriptions.max'] }}
+              {{ stats['subscriptions.count'] ?? '--' }}/{{ stats['subscriptions.max'] ?? '--' }}
             </el-descriptions-item>
             <el-descriptions-item :label="tl('shareSubscription')">
-              {{ stats['subscriptions.shared.count'] }}/{{ stats['subscriptions.shared.max'] }}
+              {{ stats['subscriptions.shared.count'] ?? '--' }}/{{
+                stats['subscriptions.shared.max'] ?? '--'
+              }}
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
@@ -125,11 +152,14 @@ export default defineComponent({
 <script setup lang="ts">
 import { loadNodeDetail, loadNodeStats } from '@/api/common'
 import { NodeStatus } from '@/types/enum'
+import type { NodeInfo } from '@/types/dashboard'
+import { hasNodeMemory } from '@/common/nodeStatus'
+import NodeStatusLabel from '@/components/NodeStatusLabel.vue'
 
 const nodeLoading = ref(true)
 const statsLoading = ref(true)
 
-const node = ref<Record<string, any>>({})
+const node = ref<Partial<NodeInfo>>({})
 const stats = ref<Record<string, any>>({})
 
 const route = useRoute()
@@ -152,17 +182,23 @@ const releaseNoteLink = (version: string) => {
 
 const loadNode = async () => {
   nodeLoading.value = true
+  stats.value = {}
   try {
     const res = (await loadNodeDetail(nodeName.value)) ?? {}
     node.value = res
   } catch (error) {
-    // do nothing
+    node.value = {}
   } finally {
     nodeLoading.value = false
   }
 }
 
 const loadStats = async () => {
+  stats.value = {}
+  if (node.value.node_status !== NodeStatus.Running) {
+    statsLoading.value = false
+    return
+  }
   statsLoading.value = true
   try {
     const res = (await loadNodeStats(nodeName.value)) ?? {}
@@ -174,9 +210,9 @@ const loadStats = async () => {
   }
 }
 
-const loadData = () => {
-  loadNode()
-  loadStats()
+const loadData = async () => {
+  await loadNode()
+  await loadStats()
 }
 
 loadData()
@@ -192,20 +228,6 @@ loadData()
     margin-bottom: 20px;
   }
   .el-card {
-    .stop-status::before,
-    .running-status::before {
-      left: -6px;
-      top: -2px;
-    }
-    .stop-status::after,
-    .running-status::after {
-      left: 0px;
-      top: 4px;
-    }
-    .running-status,
-    .stop-status {
-      padding-left: 12px;
-    }
     &.node-info {
       &.top-border {
         &:before {

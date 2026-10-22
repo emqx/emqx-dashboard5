@@ -12,6 +12,7 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.RabbitMQ]: ConnectorCategory.MessageStreaming,
   [BridgeType.GCPProducer]: ConnectorCategory.MessageStreaming,
   [BridgeType.GCPConsumer]: ConnectorCategory.MessageStreaming,
+  [BridgeType.GCPConsumerGRPC]: ConnectorCategory.MessageStreaming,
   [BridgeType.AzureEventHubs]: ConnectorCategory.MessageStreaming,
   [BridgeType.AzureEventGrid]: ConnectorCategory.MessageStreaming,
   [BridgeType.AmazonKinesis]: ConnectorCategory.MessageStreaming,
@@ -27,6 +28,8 @@ export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   [BridgeType.Couchbase]: ConnectorCategory.DataPersistence,
   [BridgeType.MicrosoftSQLServer]: ConnectorCategory.DataPersistence,
   [BridgeType.OracleDatabase]: ConnectorCategory.DataPersistence,
+  [BridgeType.Dameng]: ConnectorCategory.DataPersistence,
+  [BridgeType.Zerobus]: ConnectorCategory.DataAnalytics,
   [BridgeType.CockroachDB]: ConnectorCategory.DataPersistence,
   [BridgeType.AlloyDB]: ConnectorCategory.DataPersistence,
   [BridgeType.InfluxDB]: ConnectorCategory.DataPersistence,
@@ -79,6 +82,7 @@ const bridgesOrder = [
   BridgeType.AmazonKinesis,
   BridgeType.GCPProducer,
   BridgeType.GCPConsumer,
+  BridgeType.GCPConsumerGRPC,
   BridgeType.MySQL,
   BridgeType.Redis,
   BridgeType.MongoDB,
@@ -96,6 +100,8 @@ const bridgesOrder = [
   BridgeType.Cassandra,
   BridgeType.MicrosoftSQLServer,
   BridgeType.OracleDatabase,
+  BridgeType.Dameng,
+  BridgeType.Zerobus,
   // BridgeType.HStream,
   BridgeType.Elasticsearch,
   BridgeType.S3,
@@ -134,6 +140,7 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.KafkaConsumer, label: `${tl('kafka')} ${tl('consumer')}` },
     { value: BridgeType.GCPProducer, label: `${tl('gcpPubSub')}  ${tl('producer')}` },
     { value: BridgeType.GCPConsumer, label: `${tl('gcpPubSub')}  ${tl('consumer')}` },
+    { value: BridgeType.GCPConsumerGRPC, label: `${tl('gcpPubSub')} ${tl('consumer')} (gRPC)` },
     { value: BridgeType.MySQL, label: tl('mySQL') },
     { value: BridgeType.PgSQL, label: tl('pgSql') },
     { value: BridgeType.MongoDB, label: tl('mongoDB') },
@@ -150,6 +157,8 @@ export const useBridgeTypeValue = (): {
     { value: BridgeType.IoTDB, label: tl('iotDB') },
     { value: BridgeType.OpenTSDB, label: tl('openTSDB') },
     { value: BridgeType.OracleDatabase, label: tl('oracleDatabase') },
+    { value: BridgeType.Dameng, label: tl('dameng') },
+    { value: BridgeType.Zerobus, label: tl('zerobus') },
     { value: BridgeType.RabbitMQ, label: tl('rabbitMQ') },
     { value: BridgeType.Pulsar, label: tl('pulsar') },
     // { value: BridgeType.HStream, label: tl('hStream') },
@@ -368,6 +377,7 @@ export const useBridgeTypeIcon = (): {
     [BridgeType.KafkaConsumer]: 'kafka',
     [BridgeType.GCPProducer]: 'gcp_pubsub',
     [BridgeType.GCPConsumer]: 'gcp_pubsub',
+    [BridgeType.GCPConsumerGRPC]: 'gcp_pubsub',
     [BridgeType.Confluent]: 'confluent',
     [BridgeType.SysKeeperForwarder]: 'syskeeper',
     [BridgeType.SysKeeperProxy]: 'syskeeper',
@@ -375,7 +385,7 @@ export const useBridgeTypeIcon = (): {
   }
 
   // Icons that use SVG format
-  const svgIcons = ['kafka']
+  const svgIcons = ['kafka', BridgeType.Zerobus]
 
   // Icons that need color inversion in dark mode (monochrome icons)
   const darkModeInvertIcons = ['kafka']
@@ -473,6 +483,7 @@ export const useConnectorSchema = (): {
     [BridgeType.RabbitMQ, getRef(BridgeType.RabbitMQ, '', 'post')],
     [BridgeType.RocketMQ, getRef(BridgeType.RocketMQ, '')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
+    [BridgeType.GCPConsumerGRPC, getRef(BridgeType.GCPConsumerGRPC, 'connector_')],
     [BridgeType.Pulsar, getRef(BridgeType.Pulsar, '', 'post')],
     [BridgeType.AzureBlobStorage, getRef(BridgeType.AzureBlobStorage, 'connector_')],
     [BridgeType.Couchbase, getRef(BridgeType.Couchbase, 'connector_')],
@@ -490,6 +501,7 @@ export const useConnectorSchema = (): {
     [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'connector_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'connector_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'connector_')],
+    [BridgeType.Zerobus, getRef(BridgeType.Zerobus, 'connector_')],
   ])
 
   const typeWithMultipleRefKeyMap: Map<BridgeType, Array<string>> = new Map([
@@ -561,6 +573,7 @@ export const useActionSchema = (): {
     [BridgeType.Bigtable, getRef(BridgeType.Bigtable, 'action_')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
     [BridgeType.QuasarDB, getRef(BridgeType.QuasarDB, 'action_')],
+    [BridgeType.Zerobus, getRef(BridgeType.Zerobus, 'action_')],
   ])
   const getSchemaRefByType = (type: string) => {
     const ref = specialActionTypeRefKeyMap.get(type)
@@ -601,6 +614,7 @@ export const useSourceSchema = (): {
   const specialActionTypeRefKeyMap: Map<string, string> = new Map([
     [BridgeType.MQTT, getRef('mqtt_publisher')],
     [BridgeType.GCPConsumer, getRef(BridgeType.GCPConsumer, '')],
+    [BridgeType.GCPConsumerGRPC, getRef(BridgeType.GCPConsumerGRPC, 'source_')],
     [BridgeType.KafkaConsumer, getRef(BridgeType.KafkaConsumer, '')],
     [BridgeType.AzureEventGrid, getRef(BridgeType.AzureEventGrid, 'action_source_')],
   ])

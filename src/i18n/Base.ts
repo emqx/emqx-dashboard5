@@ -319,6 +319,14 @@ export default {
     zh: '双向认证',
     en: 'Verify Peer',
   },
+  hostnameCheck: {
+    zh: '主机名校验',
+    en: 'Hostname Check',
+  },
+  hostnameCheckDesc: {
+    zh: '仅在验证服务器证书（`verify_peer`）时生效。<br />`san_only`（默认）：仅匹配证书的主题备用名称（SAN），没有 SAN 的证书会验证失败。<br />`san_or_common_name`：仅当证书没有 SAN 时，允许通过主题通用名称（CN）匹配主机名；不能覆盖已有 SAN 不匹配的结果。CN 通配符仅允许出现在最左侧标签中，IP 地址不能通过 CN 匹配。<br />兼容模式仅用于过渡，建议为服务器重新签发包含 SAN 的证书。',
+    en: 'Only takes effect when verifying the server certificate (`verify_peer`).<br />`san_only` (default): match only Subject Alternative Name (SAN) entries. Certificates without a SAN fail verification.<br />`san_or_common_name`: fall back to the subject Common Name (CN) only when the certificate has no SAN. An existing SAN mismatch still fails verification. CN wildcards are allowed in the left-most label only; IP addresses never match a CN.<br />Use compatibility mode only as a transition aid while the server certificate is reissued with a SAN.',
+  },
   enableTLS: {
     zh: '启用 TLS',
     en: 'Enable TLS',

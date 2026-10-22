@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
-import { GatewayItem } from '@/types/typeAlias'
+import type { DataManagerItem } from '@/types/auth'
+import type { ListDataWithPagination } from '@/types/common'
+import type {
+  GatewayItem,
+  AuthenticationUserCreateRequest,
+  AuthenticationUserUpdateRequest,
+  AuthenticationUserWithPassword,
+} from '@/types/typeAlias'
+import { prepareAuthnRequest } from './authnRequest'
 
 export function getGatewayList(): Promise<Array<GatewayItem>> {
   return http.get('/gateways')
@@ -96,54 +104,89 @@ export async function unsubscribeGatewayClientSub(name: string, id: string, topi
 }
 
 //gateway auth
-export async function getGatewayAuth(name: string) {
-  if (!name) return Promise.reject()
-  return http.get('/gateways/' + encodeURIComponent(name) + '/authentication')
+export function gatewayAuthPath(name: string, listenerId?: string): string {
+  const listenerPath = listenerId ? `/listeners/${encodeURIComponent(listenerId)}` : ''
+  return `/gateways/${encodeURIComponent(name)}${listenerPath}/authentication`
 }
 
-export async function deleteGatewayAuth(name: string) {
+export async function getGatewayAuth(
+  name: string,
+  listenerId?: string,
+): Promise<Record<string, any> | 204> {
   if (!name) return Promise.reject()
-  return http.delete('/gateways/' + encodeURIComponent(name) + '/authentication')
+  return http.get(gatewayAuthPath(name, listenerId))
 }
 
-export async function updateGatewayAuth(name: string, body: { [key: string]: any }) {
+export async function deleteGatewayAuth(name: string, listenerId?: string) {
   if (!name) return Promise.reject()
-  return http.put('/gateways/' + encodeURIComponent(name) + '/authentication', body)
+  return http.delete(gatewayAuthPath(name, listenerId))
 }
 
-export async function addGatewayAuth(name: string, body: { [key: string]: any }) {
+export async function updateGatewayAuth(
+  name: string,
+  body: { [key: string]: any },
+  listenerId?: string,
+) {
   if (!name) return Promise.reject()
-  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication', body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.put(gatewayAuthPath(name, listenerId), data, config)
 }
 
-export async function getGatewayUserManagement(name: string, params = {}) {
+export async function addGatewayAuth(
+  name: string,
+  body: { [key: string]: any },
+  listenerId?: string,
+) {
   if (!name) return Promise.reject()
-  return http.get('/gateways/' + encodeURIComponent(name) + '/authentication/users', { params })
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.post(gatewayAuthPath(name, listenerId), data, config)
 }
 
-export async function addGatewayUserManagement(name: string, body: { [key: string]: any }) {
+export async function getGatewayUserManagement(
+  name: string,
+  params = {},
+  listenerId?: string,
+): Promise<ListDataWithPagination<DataManagerItem>> {
   if (!name) return Promise.reject()
-  return http.post('/gateways/' + encodeURIComponent(name) + '/authentication/users', body)
+  return http.get(`${gatewayAuthPath(name, listenerId)}/users`, { params })
 }
 
-export async function updateGatewayUser(name: string, uid: string, data: { [key: string]: any }) {
+export async function addGatewayUserManagement(
+  name: string,
+  body: AuthenticationUserCreateRequest,
+  listenerId?: string,
+): Promise<AuthenticationUserWithPassword> {
+  if (!name) return Promise.reject()
+  return http.post(`${gatewayAuthPath(name, listenerId)}/users`, body)
+}
+
+export async function updateGatewayUser(
+  name: string,
+  uid: string,
+  data: AuthenticationUserUpdateRequest,
+  listenerId?: string,
+): Promise<AuthenticationUserWithPassword> {
   if (!name || !uid) return Promise.reject()
-  return http.put(
-    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
-    data,
-  )
+  return http.put(`${gatewayAuthPath(name, listenerId)}/users/${encodeURIComponent(uid)}`, data)
 }
 
-export async function deleteGatewayUser(name: string, uid: string) {
+export async function deleteGatewayUser(name: string, uid: string, listenerId?: string) {
   if (!name || !uid) return Promise.reject()
-  return http.delete(
-    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
-  )
+  return http.delete(`${gatewayAuthPath(name, listenerId)}/users/${encodeURIComponent(uid)}`)
 }
 
-export async function getGatewayUser(name: string, uid: string) {
+export async function getGatewayUser(name: string, uid: string, listenerId?: string) {
   if (!name || !uid) return Promise.reject()
-  return http.get(
-    '/gateways/' + encodeURIComponent(name) + '/authentication/users/' + encodeURIComponent(uid),
+  return http.get(`${gatewayAuthPath(name, listenerId)}/users/${encodeURIComponent(uid)}`)
+}
+
+export function rotateGatewayUserPassword(
+  name: string,
+  uid: string,
+  listenerId?: string,
+): Promise<AuthenticationUserWithPassword> {
+  return http.post(
+    `${gatewayAuthPath(name, listenerId)}/users/${encodeURIComponent(uid)}/password/rotate`,
+    {},
   )
 }

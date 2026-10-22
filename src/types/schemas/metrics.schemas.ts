@@ -77,6 +77,8 @@ export interface EmqxMgmtApiStatsPerNodeData {
   /** @minimum 0 */
   'delayed.max'?: number
   /** @minimum 0 */
+  'disconnected_sessions.count'?: number
+  /** @minimum 0 */
   'durable_subscriptions.count'?: number
   /** @minimum 0 */
   'live_connections.count'?: number
@@ -130,6 +132,8 @@ export interface EmqxMgmtApiStatsAggregatedData {
   'delayed.count'?: number
   /** @minimum 0 */
   'delayed.max'?: number
+  /** @minimum 0 */
+  'disconnected_sessions.count'?: number
   /** @minimum 0 */
   'live_connections.count'?: number
   /** @minimum 0 */
@@ -265,6 +269,8 @@ export interface EmqxMgmtApiMetricsNodeMetrics {
   'messages.qos2.sent'?: number
   /** @minimum 0 */
   'messages.received'?: number
+  /** @minimum 0 */
+  'messages.rejected.quota_exceeded'?: number
   /** @minimum 0 */
   'messages.retained'?: number
   /** @minimum 0 */
@@ -485,6 +491,8 @@ export interface EmqxMgmtApiMetricsAggregatedMetrics {
   'messages.qos2.sent'?: number
   /** @minimum 0 */
   'messages.received'?: number
+  /** @minimum 0 */
+  'messages.rejected.quota_exceeded'?: number
   /** @minimum 0 */
   'messages.retained'?: number
   /** @minimum 0 */

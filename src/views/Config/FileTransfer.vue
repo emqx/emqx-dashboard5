@@ -153,6 +153,7 @@ const getSSLConfPath = (key: string) => `${sslConfPath}.${key}`
 const keysInCommonConfComponent = [
   'enable',
   'verify',
+  'hostname_check',
   'middlebox_comp_mode',
   'verify',
   'keyfile',

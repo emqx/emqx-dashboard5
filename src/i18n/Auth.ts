@@ -1,4 +1,148 @@
 export default {
+  ldapClientAttrs: {
+    zh: '客户端属性映射',
+    en: 'Client Attribute Mappings',
+  },
+  ldapClientAttrsDesc: {
+    zh: '从用户 LDAP 条目读取属性，每条映射选择一个值并生成一个客户端属性；多个映射可同时生效。同名客户端属性由后续成功的映射覆盖。仅支持用户条目上的成员关系属性（如 `memberOf`），不解析嵌套组，也不查询组条目的 `member` 或 `uniqueMember`。',
+    en: 'Read attributes from the user’s LDAP entry. Each mapping selects one value and sets one client attribute; several mappings can succeed. Later successful mappings overwrite the same client attribute. Membership must be on the user entry, such as `memberOf`. Nested groups and membership stored only on group entries (`member` or `uniqueMember`) are not resolved.',
+  },
+  ldapAddMapping: {
+    zh: '添加映射',
+    en: 'Add Mapping',
+  },
+  ldapDirectoryAttribute: {
+    zh: 'LDAP 目录属性',
+    en: 'Directory Attribute',
+  },
+  ldapDirectoryAttributeDesc: {
+    zh: '例如 memberOf。属性名不区分大小写；以字母开头，可含字母、数字和连字符，或使用数字 OID。用户条目缺少该属性时，本映射不产生客户端属性。',
+    en: 'For example, memberOf. Names are case-insensitive: a letter followed by letters, digits or hyphens, or a numeric OID. If the user entry has no such attribute, the mapping sets nothing.',
+  },
+  ldapClientAttributeName: {
+    zh: '客户端属性名',
+    en: 'Client Attribute Name',
+  },
+  ldapClientAttributeNameDesc: {
+    zh: '以字母或数字开头，仅包含字母、数字、连字符和下划线。',
+    en: 'Start with a letter or digit; use only letters, digits, hyphens and underscores.',
+  },
+  ldapInvalidDirectoryAttribute: {
+    zh: '请输入合法的 LDAP 属性名或数字 OID。',
+    en: 'Enter a valid LDAP attribute name or numeric OID.',
+  },
+  ldapInvalidClientAttributeName: {
+    zh: '客户端属性名须以字母或数字开头，仅包含字母、数字、连字符和下划线。',
+    en: 'Client attribute names must start with a letter or digit and contain only letters, digits, hyphens and underscores.',
+  },
+  ldapSelectPatterns: {
+    zh: '匹配正则表达式',
+    en: 'Select Patterns',
+  },
+  ldapSelectPatternsDesc: {
+    zh: '输入正则后按回车添加标签，拖动标签可调整匹配顺序；逗号属于正则内容，不会拆分标签。至少配置一个 PCRE 正则，语法由服务器校验。按正则顺序尝试，每个正则按目录返回顺序检查属性值，选择首个匹配值。匹配区分大小写，前缀 `(?i)` 可忽略大小写。正则针对完整属性值（如组 DN）匹配；建议使用 `^CN=GROUP-X,`，避免误匹配 GROUP-X-ADMIN。空正则会匹配任意值。',
+    en: 'Press Enter to add a pattern; drag tags to change matching order. Commas are part of the pattern and do not split tags. Configure at least one PCRE pattern; syntax is validated by the server. Patterns are tried in order, each against values in directory order; the first matching value is selected. Matching is case-sensitive; prefix with `(?i)` to ignore case. Patterns run against the full attribute value, such as a group DN. Use `^CN=GROUP-X,` to avoid matching GROUP-X-ADMIN. An empty pattern matches any value.',
+  },
+  ldapEmptyPatterns: {
+    zh: '请至少添加一个匹配正则表达式。',
+    en: 'Add at least one select pattern.',
+  },
+  ldapEmptyPattern: {
+    zh: '空正则（匹配任意值）',
+    en: 'Empty pattern (matches any value)',
+  },
+  ldapExtract: {
+    zh: '提取方式',
+    en: 'Extract',
+  },
+  ldapExtractDesc: {
+    zh: '`value`（默认）：使用选中的完整值。`cn`：提取 DN 第一个 RDN 中的 CN；不是合法 DN 或该 RDN 没有 CN 时不产生属性。`literal`：匹配成功后使用配置的固定字符串。目录值保留原始大小写。',
+    en: '`value` (default): use the complete selected value. `cn`: extract the CN from the first RDN of a DN; an invalid DN or a first RDN without CN produces no attribute. `literal`: use the configured string after a match. Directory values retain their original casing.',
+  },
+  ldapLiteral: {
+    zh: '固定字符串',
+    en: 'Literal Value',
+  },
+  ldapMissingLiteral: {
+    zh: 'literal 提取方式必须配置非空的固定字符串。',
+    en: 'Set a non-empty literal value for literal extraction.',
+  },
+  ldapRequireClientAttrs: {
+    zh: '无映射结果时拒绝认证',
+    en: 'Require Client Attributes',
+  },
+  ldapRequireClientAttrsDesc: {
+    zh: '启用后，如果所有映射都未得到客户端属性，则拒绝认证；至少一条映射成功即可。禁用时，不会因无映射结果而拒绝认证。启用前请至少配置一条映射。',
+    en: 'When enabled, at least one mapping must produce a client attribute or authentication is denied; not every mapping must succeed. When disabled, no attribute output does not cause authentication to fail. Configure at least one mapping before enabling.',
+  },
+  ldapRequireWithoutMappings: {
+    zh: '启用“无映射结果时拒绝认证”时，请至少配置一条映射。',
+    en: 'Configure at least one mapping when Require Client Attributes is enabled.',
+  },
+  passwordMode: {
+    zh: '密码设置方式',
+    en: 'Password Mode',
+  },
+  positiveIntegerRequired: {
+    zh: '请输入大于 0 的整数',
+    en: 'Enter an integer greater than 0',
+  },
+  generatedPasswordMode: {
+    zh: '自动生成',
+    en: 'Automatically Generated',
+  },
+  manualPasswordMode: {
+    zh: '手动设置',
+    en: 'Manually Supplied',
+  },
+  generatedPasswordModeDesc: {
+    zh: '添加用户时由 EMQX 生成随机密码。修改密码请使用“重置密码”，客户端连接时仍需要提供密码。',
+    en: 'EMQX generates a random password when a user is added. Use Reset Password to change it. Clients still need the password to connect.',
+  },
+  unsupportedBuiltinHash: {
+    zh: '所选的密码加密算法不可用，请重新选择。',
+    en: 'The selected password hash algorithm is unavailable. Choose a supported algorithm.',
+  },
+  keepPasswordPlaceholder: {
+    zh: '留空表示保留原密码',
+    en: 'Leave blank to keep the current password',
+  },
+  generatedPassword: {
+    zh: '生成的密码',
+    en: 'Generated Password',
+  },
+  generatedPasswordNotice: {
+    zh: '请复制并保存此密码，用于配置客户端连接。关闭后无法再次查看；需要新密码时可重置密码。',
+    en: 'Copy and save this password to configure your client. It cannot be viewed again after closing this dialog. Reset the password if you need a new one.',
+  },
+  generatedPasswordImportNotice: {
+    zh: '导入将使用文件中的密码或密码哈希，不会自动生成密码。导入已存在的用户时，会覆盖其原有密码。',
+    en: 'Import uses the passwords or password hashes in the file and does not generate passwords automatically. Importing an existing user overwrites their current password.',
+  },
+  generatedPasswordHashImportNotice: {
+    zh: '当前模式使用 SHA-256 且不加盐，请确保文件中的密码哈希采用相同方式生成。',
+    en: 'This mode uses SHA-256 without a salt. Ensure the password hashes in the file were generated using the same settings.',
+  },
+  userId: {
+    zh: '用户 ID',
+    en: 'User ID',
+  },
+  rotatePassword: {
+    zh: '重置密码',
+    en: 'Reset Password',
+  },
+  rotatePasswordConfirm: {
+    zh: '确认重置用户 {user} 的密码？重置后将自动生成新密码，原密码立即失效。',
+    en: 'Reset the password for user {user}? A new password will be generated automatically, and the current password will stop working immediately.',
+  },
+  rotatePasswordSuccess: {
+    zh: '密码已重置',
+    en: 'Password reset',
+  },
+  listenerAuthentication: {
+    zh: '监听器认证',
+    en: 'Listener Authentication',
+  },
   mechanism: {
     zh: '认证方式',
     en: 'Mechanism',
@@ -119,25 +263,47 @@ export default {
     zh: '忽略认证数据源错误',
     en: 'Ignore Backend Failures',
   },
+  perSecurityProfile: {
+    zh: '跟随安全配置模式',
+    en: 'Follow Security Profile',
+  },
   ignoreBackendFailuresDesc: {
-    zh: `仅在 hardened security profile 下生效
-- 启用：EMQX 将忽略认证数据源错误，并继续认证链中的下一个认证器
-- 禁用：EMQX 将严格遵循认证链，遇到认证数据源错误时将拒绝客户端连接`,
-    en: `Only effective in hardened security profile
-- Enabled: EMQX ignores authentication backend failures and continues with the next authenticator in the chain
-- Disabled: EMQX strictly follows the authentication chain and will reject client connections when encountering authentication backend failures`,
+    zh: `决定认证数据源发生错误时的处理方式
+- 跟随安全配置模式：legacy 模式忽略错误并继续下一个认证器，hardened 模式拒绝客户端连接
+- 启用：在两种模式下均忽略错误，并继续认证链中的下一个认证器
+- 停用：在两种模式下均拒绝客户端连接`,
+    en: `Controls how authentication backend failures are handled
+- Follow Security Profile: The legacy profile ignores failures and continues with the next authenticator; the hardened profile rejects the client connection
+- Enabled: Ignore failures and continue with the next authenticator in both profiles
+- Disabled: Reject the client connection in both profiles`,
   },
   ignoreAuthzBackendFailures: {
     zh: '忽略授权数据源错误',
     en: 'Ignore Authorization Backend Failures',
   },
   ignoreAuthzBackendFailuresDesc: {
-    zh: `仅在 hardened security profile 下生效
-- 启用：EMQX 将忽略授权数据源错误，并继续尝试下一个授权数据源
-- 禁用：EMQX 将严格遵循授权链，遇到授权数据源错误时将拒绝`,
-    en: `Only effective in hardened security profile
-- Enabled: EMQX ignores authorization backend failures and continues with the next authorization source
-- Disabled: EMQX strictly follows the authorization chain and will reject client when encountering authorization backend failures`,
+    zh: `决定授权数据源发生错误时的处理方式
+- 跟随安全配置模式：legacy 模式忽略错误并继续下一个授权数据源，hardened 模式拒绝当前操作
+- 启用：在两种模式下均忽略错误，并继续尝试下一个授权数据源
+- 停用：在两种模式下均拒绝当前操作`,
+    en: `Controls how authorization backend failures are handled
+- Follow Security Profile: The legacy profile ignores failures and continues with the next authorization source; the hardened profile denies the current action
+- Enabled: Ignore failures and continue with the next authorization source in both profiles
+- Disabled: Deny the current action in both profiles`,
+  },
+  ignoreAuthzRuleRenderFailures: {
+    zh: '忽略授权规则渲染错误',
+    en: 'Ignore Authorization Rule Render Failures',
+  },
+  ignoreAuthzRuleRenderFailuresDesc: {
+    zh: `决定授权规则中的主题过滤器模板渲染失败时的处理方式，例如变量缺失，或替换值包含不允许的字符（\`+\`、\`#\`、\`/\`）。此配置独立于授权数据源错误配置。
+- 跟随安全配置模式：legacy 模式跳过失败的过滤器，hardened 模式拒绝当前发布或订阅操作
+- 启用：在两种模式下均跳过失败的过滤器，继续匹配其他过滤器或规则，并非直接放行
+- 停用：在两种模式下均拒绝当前发布或订阅操作`,
+    en: `Controls how topic-filter template render failures in authorization rules are handled, such as missing variables or substituted values containing disallowed characters (\`+\`, \`#\`, or \`/\`). This setting is independent of authorization backend failures.
+- Follow Security Profile: The legacy profile skips the failing filter; the hardened profile denies the current publish or subscribe action
+- Enabled: Skip the failing filter and continue matching other filters or rules in both profiles; this does not automatically allow the action
+- Disabled: Deny the current publish or subscribe action in both profiles`,
   },
   nodeCacheMaxCount: {
     zh: '缓存最大数量',
@@ -548,8 +714,8 @@ export default {
     en: 'Action',
   },
   updateBuiltInTip: {
-    zh: '更新密码加密方式或加盐方式将导致已添加的认证数据不可用，是否确认更新？',
-    en: 'Updating the Password Hash or Salt Position will cause the added authentication data to be unavailable. Confirm to update?',
+    zh: '更新密码设置方式或加密算法后，新建用户及后续修改的密码将使用新配置。已保存加密算法的用户保留原密码；升级遗留数据请先验证兼容性。是否继续？',
+    en: 'New users and subsequent password changes will use the updated mode and hash settings. Users with stored hash metadata keep their current passwords. Verify compatibility for legacy data before proceeding. Continue?',
   },
   authn: {
     zh: '认证',

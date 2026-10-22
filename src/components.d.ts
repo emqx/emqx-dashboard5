@@ -65,6 +65,7 @@ declare module 'vue' {
     MQTTNode: typeof import('./components/Connector/MQTTNode.vue')['default']
     NamespaceSelect: typeof import('./components/Namespace/NamespaceSelect.vue')['default']
     NamespaceSelectSwitch: typeof import('./components/Namespace/NamespaceSelectSwitch.vue')['default']
+    NodeStatusLabel: typeof import('./components/NodeStatusLabel.vue')['default']
     ObjectArrayEditor: typeof import('./components/ObjectArrayEditor.vue')['default']
     Oneof: typeof import('./components/Oneof.vue')['default']
     OneofRefs: typeof import('./components/OneofRefs.vue')['default']

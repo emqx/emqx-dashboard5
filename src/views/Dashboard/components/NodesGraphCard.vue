@@ -27,32 +27,52 @@
                 <div class="info-value">{{ currentInfo.node['node'] }}</div>
               </div>
               <div class="info-item">
+                <div class="info-label">{{ tl('status') }}</div>
+                <div class="info-value">
+                  <NodeStatusLabel :status="currentInfo.node.node_status" />
+                </div>
+              </div>
+              <div class="info-item">
                 <div class="info-label">{{ tl('nodeRole') }}</div>
-                <div class="info-value">{{ currentInfo.node['role'] }}</div>
+                <div class="info-value">
+                  {{ currentInfo.node.role ?? $t('RuleEngine.unknown') }}
+                </div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('uptime') }}</div>
-                <div class="info-value">{{ transMsNumToSimpleStr(currentInfo.node.uptime) }}</div>
+                <div class="info-value">
+                  {{
+                    currentInfo.node.uptime === undefined
+                      ? '--'
+                      : transMsNumToSimpleStr(currentInfo.node.uptime)
+                  }}
+                </div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('version') }}</div>
                 <div class="info-value">
-                  <a :href="releaseNoteLink" target="_blank" rel="noopener noreferrer">
-                    {{ currentInfo.node['version'] }} ({{ $t('Base.enterpriseEdition') }})
+                  <a
+                    v-if="currentInfo.node.version"
+                    :href="releaseNoteLink"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {{ currentInfo.node.version }}
                   </a>
+                  <span v-else>--</span>
                 </div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('currentConnection') }}</div>
-                <div class="info-value">{{ currentInfo.stats['connections.count'] }}</div>
+                <div class="info-value">{{ currentInfo.stats['connections.count'] ?? '--' }}</div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('maxFds') }}</div>
-                <div class="info-value">{{ currentInfo.node['max_fds'] }}</div>
+                <div class="info-value">{{ currentInfo.node.max_fds ?? '--' }}</div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('Subscription') }}</div>
-                <div class="info-value">{{ currentInfo.stats['subscriptions.count'] }}</div>
+                <div class="info-value">{{ currentInfo.stats['subscriptions.count'] ?? '--' }}</div>
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('osCpuLoad') }}</div>
@@ -65,11 +85,11 @@
                   >
                     <span>
                       {{
-                        currentInfo.node['load1'] +
+                        (currentInfo.node.load1 ?? '--') +
                         '/' +
-                        currentInfo.node['load5'] +
+                        (currentInfo.node.load5 ?? '--') +
                         '/' +
-                        currentInfo.node['load15']
+                        (currentInfo.node.load15 ?? '--')
                       }}
                     </span>
                   </el-tooltip>
@@ -77,12 +97,16 @@
               </div>
               <div class="info-item">
                 <div class="info-label">{{ tl('topics') }}</div>
-                <div class="info-value">{{ currentInfo.stats['topics.count'] }}</div>
+                <div class="info-value">{{ currentInfo.stats['topics.count'] ?? '--' }}</div>
               </div>
-              <div v-if="![0, '0'].includes(currentInfo?.node?.['memory_total'])" class="info-item">
+              <div v-if="hasNodeMemory(currentInfo.node)" class="info-item">
                 <div class="info-label">{{ tl('memory') }}</div>
                 <div class="info-value">
                   <el-tooltip
+                    v-if="
+                      currentInfo.node.memory_used !== undefined &&
+                      currentInfo.node.memory_total !== undefined
+                    "
                     class="box-item"
                     effect="dark"
                     :content="`${currentInfo?.node?.['memory_used']}/${currentInfo?.node?.['memory_total']}`"
@@ -95,6 +119,7 @@
                     >
                     </el-progress>
                   </el-tooltip>
+                  <span v-else>--</span>
                 </div>
               </div>
             </div>
@@ -114,10 +139,13 @@ export default defineComponent({
 <script setup lang="ts">
 import { loadStats } from '@/api/common'
 import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
+import { NodeStatus } from '@/types/enum'
+import { hasNodeMemory } from '@/common/nodeStatus'
+import NodeStatusLabel from '@/components/NodeStatusLabel.vue'
 import { Right } from '@element-plus/icons-vue'
 import NodesGraph from './NodesGraph.vue'
 
-type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
+type CurrentInfo = { node: Partial<NodeInfo>; stats: Partial<NodeStatisticalData> }
 
 const { locale } = useI18n()
 
@@ -131,20 +159,19 @@ const {
 } = useClusterNodes({
   loadByDefault: false,
   hideProgress: true,
-  timeout: 25000,
+  timeout: 35000,
 })
 /**
  * first time get node data, select the first node
  */
-let isInitialized = false
 const stats: Ref<Array<NodeStatisticalData>> = ref([])
 const graph: Ref<undefined | HTMLElement> = ref(undefined)
 const currentNodeName = ref('')
 const infoLoading: Ref<boolean> = ref(true)
 
 const currentInfo = computed(() => {
-  if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
-    return { node: {}, stats: {} } as CurrentInfo
+  if (!currentNodeName.value || nodes.value.length === 0) {
+    return { node: {}, stats: {} }
   }
   return getNodeInfoByName(currentNodeName.value)
 })
@@ -156,13 +183,17 @@ const getStats = async () => {
   try {
     stats.value = await loadStats()
   } catch (error) {
+    stats.value = []
     return Promise.reject(error)
   }
 }
 
 const getNodeInfoByName = (nodeName: string) => {
-  const node = nodes.value.find(({ node }) => node === nodeName) || {}
-  const statsItem = stats.value.find(({ node }) => node === nodeName) || {}
+  const node: Partial<NodeInfo> = nodes.value.find(({ node }) => node === nodeName) || {}
+  const statsItem =
+    node.node_status === NodeStatus.Running
+      ? stats.value.find(({ node }) => node === nodeName) || {}
+      : {}
   return { node, stats: statsItem } as CurrentInfo
 }
 
@@ -170,13 +201,13 @@ const { tl } = useI18nTl('Dashboard')
 
 const calcMemoryPercentage = computed(() => {
   return calcPercentage(
-    currentInfo.value.node['memory_used'],
-    currentInfo.value.node['memory_total'],
+    currentInfo.value.node.memory_used ?? 0,
+    currentInfo.value.node.memory_total ?? 0,
   )
 })
 
 const versionReg = /(?<version>\d\.\d+\.\d+)/
-const getVersion = (version: string) => {
+const getVersion = (version?: string) => {
   if (!version) {
     return ''
   }
@@ -196,9 +227,8 @@ const releaseNoteLink = computed(() =>
 const loadData = async () => {
   try {
     await Promise.all([getNodes(), getStats()])
-    if (!isInitialized) {
-      currentNodeName.value = nodes.value[0].node
-      isInitialized = true
+    if (!nodes.value.some(({ node }) => node === currentNodeName.value)) {
+      currentNodeName.value = nodes.value[0]?.node ?? ''
     }
     infoLoading.value = false
     return Promise.resolve()

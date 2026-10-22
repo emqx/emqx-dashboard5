@@ -1,3 +1,16 @@
+export type PostCertsPemCacheClean500Code =
+  (typeof PostCertsPemCacheClean500Code)[keyof typeof PostCertsPemCacheClean500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCertsPemCacheClean500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostCertsPemCacheClean500 = {
+  code?: PostCertsPemCacheClean500Code
+  message?: string
+}
+
 export type PostCertsNsNamespaceNameName500Code =
   (typeof PostCertsNsNamespaceNameName500Code)[keyof typeof PostCertsNsNamespaceNameName500Code]
 

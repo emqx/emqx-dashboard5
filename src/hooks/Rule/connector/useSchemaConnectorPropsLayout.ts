@@ -254,6 +254,10 @@ export default (
     ),
     [BridgeType.GCPProducer]: GCPProducerOrderMap,
     [BridgeType.GCPConsumer]: GCPProducerOrderMap,
+    [BridgeType.GCPConsumerGRPC]: {
+      ...GCPProducerOrderMap,
+      ssl: fieldStartIndex + Object.keys(GCPProducerOrderMap).length,
+    },
     [BridgeType.BigQuery]: GCPProducerOrderMap,
     [BridgeType.Bigtable]: GCPProducerOrderMap,
     [BridgeType.MongoDB]: {
@@ -339,6 +343,30 @@ export default (
     [BridgeType.EMQXTables]: greptimeDBOrderMap,
     [BridgeType.TDengine]: createOrderObj(
       ['server', 'username', 'password', 'token'],
+      fieldStartIndex,
+    ),
+    [BridgeType.Zerobus]: createOrderObj(
+      [
+        'zerobus_endpoint',
+        'authentication',
+        'authentication.workspace_id',
+        'authentication.workspace_url',
+        'authentication.client_id',
+        'authentication.client_secret',
+        'authentication.timeout',
+        'authentication.ssl',
+        'transport',
+        'transport.type',
+        'transport.connect_timeout',
+        'transport.pool_size',
+        'transport.pipelining',
+        'transport.max_inactive',
+        'ssl',
+      ],
+      fieldStartIndex,
+    ),
+    [BridgeType.Dameng]: createOrderObj(
+      ['dsn', 'server', 'port', 'driver', 'username', 'password', 'charset', 'ssl_path', 'ssl_pwd'],
       fieldStartIndex,
     ),
     [BridgeType.OracleDatabase]: createOrderObj(
@@ -494,6 +522,7 @@ export default (
   > = {
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
+    [BridgeType.GCPConsumerGRPC]: GCPColClass,
     [BridgeType.BigQuery]: GCPColClass,
     [BridgeType.Bigtable]: GCPColClass,
     [BridgeType.KafkaConsumer]: getKafkaConsumerColClass,
@@ -507,6 +536,11 @@ export default (
     [BridgeType.Datalayers]: getDatalayersColClass,
     [BridgeType.KafkaProducer]: getKafkaProducerColClass,
     [BridgeType.Confluent]: getKafkaProducerColClass,
+    [BridgeType.Zerobus]: {
+      'authentication.enable': 'col-hidden',
+      'transport.type': 'col-hidden',
+      'authentication.ssl': 'dividing-line-below',
+    },
   }
 
   const pgSqlAdvancedFields = ['application_name', 'disable_prepared_statements']

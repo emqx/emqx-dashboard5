@@ -49,6 +49,7 @@ export const useCommonDataHandler = () => {
   const likePasswordFieldKeys = [
     'password',
     'authentication.password',
+    'authentication.client_secret',
     'authentication.jwt',
     'authentication.service_account_json',
     'service_account_json',
@@ -62,6 +63,7 @@ export const useCommonDataHandler = () => {
     'access_key_secret',
     'sentinel_password',
     'private_key_password',
+    'ssl_pwd',
     'authentication.initial_token.client_secret',
     'oauth2.client_secret',
   ].reduce((arr: Array<string>, key) => [...arr, key, `parameters.${key}`], [])
@@ -142,7 +144,18 @@ export const useConnectorDataHandler = (): {
     return data
   }
 
-  const specialDataHandlerBeforeSubmit = new Map([[BridgeType.MQTT, handleMQTTData]])
+  const { handleSSLDataBeforeSubmit } = useSSL()
+  const handleZerobusData = (data: any) => {
+    if (data.authentication?.ssl) {
+      data.authentication.ssl = handleSSLDataBeforeSubmit(data.authentication.ssl)
+    }
+    return data
+  }
+
+  const specialDataHandlerBeforeSubmit = new Map([
+    [BridgeType.MQTT, handleMQTTData],
+    [BridgeType.Zerobus, handleZerobusData],
+  ])
 
   const handleConnectorDataBeforeSubmit = async (data: Connector): Promise<Connector> => {
     try {

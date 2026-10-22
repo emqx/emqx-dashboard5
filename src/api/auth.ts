@@ -2,8 +2,16 @@
 import http from '@/common/http'
 import { AuthzSetting, BuiltInDBItem, BuiltInDBRule, ImportResult, Metrics } from '@/types/auth'
 import { ListDataWithPagination } from '@/types/common'
+import type { DataManagerItem } from '@/types/auth'
 import { BuiltInDBType } from '@/types/enum'
 import { NsParams } from '@/types/rule'
+import type {
+  AuthenticationConfig,
+  AuthenticationUserCreateRequest,
+  AuthenticationUserUpdateRequest,
+  AuthenticationUserWithPassword,
+} from '@/types/typeAlias'
+import { prepareAuthnRequest } from './authnRequest'
 
 export function listAuthn(params = {}) {
   return http.get('/authentication', { params })
@@ -64,27 +72,35 @@ export function moveAuthz(type: string, positionStr: string): Promise<void> {
 }
 
 export function createAuthn(body = {}) {
-  return http.post('/authentication', body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.post('/authentication', data, config)
 }
 
 export function updateAuthn(id: string, body: any) {
   delete body.id
-  return http.put(`/authentication/${encodeURIComponent(id)}`, body)
+  const { data, ...config } = prepareAuthnRequest(body)
+  return http.put(`/authentication/${encodeURIComponent(id)}`, data, config)
 }
 
 export function deleteAuthn(id: string) {
   return http.delete(`/authentication/${encodeURIComponent(id)}`)
 }
 
-export function loadAuthn(id: string) {
+export function loadAuthn(id: string): Promise<AuthenticationConfig> {
   return http.get(`/authentication/${encodeURIComponent(id)}`)
 }
 
-export function createAuthnUsers(id: string, body = {}) {
+export function createAuthnUsers(
+  id: string,
+  body: AuthenticationUserCreateRequest,
+): Promise<AuthenticationUserWithPassword> {
   return http.post(`/authentication/${encodeURIComponent(id)}/users`, body)
 }
 
-export function loadAuthnUsers(id: string, params = {}) {
+export function loadAuthnUsers(
+  id: string,
+  params = {},
+): Promise<ListDataWithPagination<DataManagerItem>> {
   return http.get(`/authentication/${encodeURIComponent(id)}/users`, {
     params,
   })
@@ -100,12 +116,24 @@ export function deleteAuthnUser(id: string, userId: string, params?: NsParams) {
 export function updateAuthnUser(
   id: string,
   userId: string,
-  body: { [key: string]: any },
+  body: AuthenticationUserUpdateRequest,
   params?: NsParams,
-) {
+): Promise<AuthenticationUserWithPassword> {
   return http.put(
     `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}`,
     body,
+    { params },
+  )
+}
+
+export function rotateAuthnUserPassword(
+  id: string,
+  userId: string,
+  params?: NsParams,
+): Promise<AuthenticationUserWithPassword> {
+  return http.post(
+    `/authentication/${encodeURIComponent(id)}/users/${encodeURIComponent(userId)}/password/rotate`,
+    {},
     { params },
   )
 }

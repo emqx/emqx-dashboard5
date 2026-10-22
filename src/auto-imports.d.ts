@@ -323,6 +323,7 @@ declare global {
   const useAuth: typeof import('./hooks/Auth/useAuth')['default']
   const useAuthHelp: typeof import('./hooks/Auth/useAuthHelp')['default']
   const useAuthMetrics: typeof import('./hooks/useMetrics')['useAuthMetrics']
+  const useAuthenticationUsers: typeof import('./hooks/Auth/useAuthenticationUsers')['default']
   const useAuthn: typeof import('./hooks/Auth/useAuthn')['default']
   const useAuthnCreate: typeof import('./hooks/Auth/useAuthnCreate')['default']
   const useAuthnMechanismType: typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']
@@ -555,6 +556,9 @@ declare global {
   // @ts-ignore
   export type { ComposerTranslation } from 'vue-i18n'
   import('vue-i18n')
+  // @ts-ignore
+  export type { AuthenticationUserContext } from './hooks/Auth/useAuthenticationUsers'
+  import('./hooks/Auth/useAuthenticationUsers')
   // @ts-ignore
   export type { AuthnItemInTable } from './hooks/Auth/useAuthn'
   import('./hooks/Auth/useAuthn')
@@ -945,6 +949,7 @@ declare module 'vue' {
     readonly useAuth: UnwrapRef<typeof import('./hooks/Auth/useAuth')['default']>
     readonly useAuthHelp: UnwrapRef<typeof import('./hooks/Auth/useAuthHelp')['default']>
     readonly useAuthMetrics: UnwrapRef<typeof import('./hooks/useMetrics')['useAuthMetrics']>
+    readonly useAuthenticationUsers: UnwrapRef<typeof import('./hooks/Auth/useAuthenticationUsers')['default']>
     readonly useAuthn: UnwrapRef<typeof import('./hooks/Auth/useAuthn')['default']>
     readonly useAuthnCreate: UnwrapRef<typeof import('./hooks/Auth/useAuthnCreate')['default']>
     readonly useAuthnMechanismType: UnwrapRef<typeof import('./hooks/Auth/useAuthnType')['useAuthnMechanismType']>

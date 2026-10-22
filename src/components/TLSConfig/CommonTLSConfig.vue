@@ -55,10 +55,12 @@ const props = defineProps({
     default: false,
   },
   /**
-   * is TLS config for server
+   * Whether EMQX accepts TLS connections. Defaults to client TLS.
+   * The enabled TLS form derives role-specific fields from this value.
    */
   isServer: {
     type: Boolean,
+    default: false,
   },
   userNamespace: {
     type: String,

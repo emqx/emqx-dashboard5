@@ -177,6 +177,15 @@ export const ExhookSslConfLogLevel = {
   warning: 'warning',
 } as const
 
+export type ExhookSslConfHostnameCheck =
+  (typeof ExhookSslConfHostnameCheck)[keyof typeof ExhookSslConfHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ExhookSslConfHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface ExhookSslConf {
   cacertfile?: string
   /** @deprecated */
@@ -187,6 +196,7 @@ export interface ExhookSslConf {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: ExhookSslConfHostnameCheck
   keyfile?: string
   log_level?: ExhookSslConfLogLevel
   managed_certs?: EmqxManagedCerts

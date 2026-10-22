@@ -1,8 +1,10 @@
 import { ElMessage as M } from 'element-plus'
 import { parseJSONSafely } from '@emqx/shared-ui-utils'
 import { LDAPAuthMethod } from '@/types/enum'
+import { serializeLDAPClientAttrs } from '@/common/ldapAuthn'
 import { CInfoConfig } from '@/types/auth'
 import { PublicKeyOnMissingJWT } from '@/types/typeAlias'
+import { normalizeBuiltinPasswordConfig } from '@/common/authnBuiltinPassword'
 //
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -84,6 +86,10 @@ export default function useProcessAuthData() {
     }
   }
   const processLDAPConfig = (data: any) => {
+    data = cloneDeep(data)
+    if (data.client_attrs) {
+      data.client_attrs = serializeLDAPClientAttrs(data.client_attrs)
+    }
     const { method } = data
     if (method.type === LDAPAuthMethod.Hash) {
       data.method = omit(method, 'bind_password')
@@ -140,7 +146,10 @@ export default function useProcessAuthData() {
     return tempData
   }
   const processPasswordHashAlgorithmData = (data: any) => {
-    const ret = cloneDeep(data)
+    const ret =
+      data.backend === 'built_in_database' && data.mechanism === 'password_based'
+        ? normalizeBuiltinPasswordConfig(cloneDeep(data))
+        : cloneDeep(data)
     const isBuiltInDatabase = data.backend === 'built_in_database'
     if ('password_hash_algorithm' in ret) {
       ret.password_hash_algorithm = getUsefulPasswordHashAlgorithmData(

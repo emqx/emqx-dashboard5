@@ -23,6 +23,14 @@ export default {
     zh: '连接数',
     en: 'Connections',
   },
+  disconnectedSessions: {
+    zh: '离线会话数',
+    en: 'Disconnected Sessions',
+  },
+  disconnectedSessionsDesc: {
+    zh: '客户端已断开连接，但尚未过期、仍由连接进程保留的会话数量。',
+    en: 'Current number of unexpired sessions retained by their connection processes after the clients disconnect.',
+  },
   nodeStatus: {
     zh: '状态',
     en: 'Status',
@@ -34,6 +42,14 @@ export default {
   stopped: {
     zh: '已停止',
     en: 'Stopped',
+  },
+  unreachable: {
+    zh: '不可达',
+    en: 'Unreachable',
+  },
+  unknownRoleNodes: {
+    zh: '角色未知的节点',
+    en: 'Nodes with unknown role',
   },
   memory: {
     zh: '操作系统内存',
@@ -414,6 +430,14 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     zh: '用于确定会话峰值历史“每天”边界的时区。可填写 `system` 以跟随节点主机本地时区，或填写 `+08:00` 这样的显式 UTC 偏移。',
     en: 'Timezone used to determine the local day boundary for session high-watermark history. Use `system` to follow the node host local timezone, or provide an explicit UTC offset such as `+08:00`.',
   },
+  tps_alarm_sustain_duration: {
+    zh: 'TPS 告警持续超限时长',
+    en: 'TPS Alarm Sustain Duration',
+  },
+  tps_alarm_sustain_duration_desc: {
+    zh: '集群 TPS 必须连续超过 License 上限达到此时长后才激活告警；任何一次采样低于或等于上限都会重新计时。默认值为 `1m`，范围为 `0s` 至 `10m`（含边界）。设为 `0s` 时，首次超限采样即激活告警。此设置不会自动清除已激活的告警。',
+    en: 'Activate the alarm only after the cluster TPS continuously exceeds the license limit for this duration. Any sample at or below the limit restarts the timer. The default is `1m`, and the inclusive range is `0s` to `10m`. Set to `0s` to activate on the first over-limit sample. This setting does not automatically clear an active alarm.',
+  },
   highWatermarkRequired: {
     zh: '需要填写使用量高水位线',
     en: 'Usage High Watermark is required',
@@ -777,8 +801,12 @@ To enable clustering or for commercial use cases mentioned above, please obtain 
     en: 'Number of messages dropped due to timeout waiting for PUBREL message',
   },
   messages_dropped_quota_exceeded: {
-    zh: '由于超出配额限制而被丢弃的消息数量',
-    en: 'Number of messages dropped due to quota exceeded',
+    zh: '由于超出发布速率配额而被丢弃的 QoS 0 消息累计数量',
+    en: 'Total number of QoS 0 messages dropped because the publish rate quota was exceeded',
+  },
+  messages_rejected_quota_exceeded: {
+    zh: '由于超出发布速率配额而被拒绝的 QoS 1/2 消息累计数量，不计入丢弃消息总数',
+    en: 'Total number of QoS 1/2 messages rejected because the publish rate quota was exceeded. These messages are not included in the dropped message total.',
   },
   messages_dropped_receive_maximum: {
     zh: '由于超出飞行窗口限制而被丢弃的消息数量',

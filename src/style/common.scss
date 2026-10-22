@@ -792,13 +792,15 @@ code {
   &.is-success {
     background: var(--color-primary);
   }
-  &.is-stopped {
+  &.is-stopped,
+  &.is-unknown {
     background: var(--color-text-placeholder);
   }
   &.is-danger {
     background: var(--el-color-danger);
   }
-  &.is-warning {
+  &.is-warning,
+  &.is-unreachable {
     background: var(--el-color-warning);
   }
 }

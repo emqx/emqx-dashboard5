@@ -145,6 +145,19 @@ export type PutAuthorizationSourcesOrder400 = {
   message?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername409Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesUsersUsername403Code]
 
@@ -311,6 +324,19 @@ export type GetAuthorizationSourcesBuiltInDatabaseRulesUsersParams = {
   ns?: string
 }
 
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code =
+  (typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409 = {
+  code?: PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid409Code
+  message?: string
+}
+
 export type PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code =
   (typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code)[keyof typeof PutAuthorizationSourcesBuiltInDatabaseRulesClientsClientid403Code]
 
@@ -412,6 +438,19 @@ export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientid400 = {
 
 export type DeleteAuthorizationSourcesBuiltInDatabaseRulesClientsClientidParams = {
   ns?: string
+}
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code =
+  (typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code)[keyof typeof PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code = {
+  ALREADY_EXISTS: 'ALREADY_EXISTS',
+} as const
+
+export type PostAuthorizationSourcesBuiltInDatabaseRulesClients409 = {
+  code?: PostAuthorizationSourcesBuiltInDatabaseRulesClients409Code
+  message?: string
 }
 
 export type PostAuthorizationSourcesBuiltInDatabaseRulesClients403Code =
@@ -608,6 +647,16 @@ export const PutAuthorizationSettings200NoMatch = {
   deny: 'deny',
 } as const
 
+export type PutAuthorizationSettings200IgnoreRuleRenderFailures =
+  (typeof PutAuthorizationSettings200IgnoreRuleRenderFailures)[keyof typeof PutAuthorizationSettings200IgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettings200IgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
+} as const
+
 export type PutAuthorizationSettings200IgnoreBackendFailures =
   (typeof PutAuthorizationSettings200IgnoreBackendFailures)[keyof typeof PutAuthorizationSettings200IgnoreBackendFailures]
 
@@ -631,6 +680,7 @@ export type PutAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettings200DenyAction
   ignore_backend_failures?: PutAuthorizationSettings200IgnoreBackendFailures
+  ignore_rule_render_failures?: PutAuthorizationSettings200IgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettings200NoMatch
 }
@@ -642,6 +692,16 @@ export type PutAuthorizationSettingsBodyNoMatch =
 export const PutAuthorizationSettingsBodyNoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type PutAuthorizationSettingsBodyIgnoreRuleRenderFailures =
+  (typeof PutAuthorizationSettingsBodyIgnoreRuleRenderFailures)[keyof typeof PutAuthorizationSettingsBodyIgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutAuthorizationSettingsBodyIgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type PutAuthorizationSettingsBodyIgnoreBackendFailures =
@@ -667,6 +727,7 @@ export type PutAuthorizationSettingsBody = {
   cache?: EmqxAuthzCache
   deny_action: PutAuthorizationSettingsBodyDenyAction
   ignore_backend_failures?: PutAuthorizationSettingsBodyIgnoreBackendFailures
+  ignore_rule_render_failures?: PutAuthorizationSettingsBodyIgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: PutAuthorizationSettingsBodyNoMatch
 }
@@ -678,6 +739,16 @@ export type GetAuthorizationSettings200NoMatch =
 export const GetAuthorizationSettings200NoMatch = {
   allow: 'allow',
   deny: 'deny',
+} as const
+
+export type GetAuthorizationSettings200IgnoreRuleRenderFailures =
+  (typeof GetAuthorizationSettings200IgnoreRuleRenderFailures)[keyof typeof GetAuthorizationSettings200IgnoreRuleRenderFailures]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAuthorizationSettings200IgnoreRuleRenderFailures = {
+  false: false,
+  true: true,
+  per_security_profile: 'per_security_profile',
 } as const
 
 export type GetAuthorizationSettings200IgnoreBackendFailures =
@@ -703,6 +774,7 @@ export type GetAuthorizationSettings200 = {
   cache?: EmqxAuthzCache
   deny_action: GetAuthorizationSettings200DenyAction
   ignore_backend_failures?: GetAuthorizationSettings200IgnoreBackendFailures
+  ignore_rule_render_failures?: GetAuthorizationSettings200IgnoreRuleRenderFailures
   include_mountpoint?: boolean
   no_match: GetAuthorizationSettings200NoMatch
 }
@@ -826,6 +898,14 @@ export const LdapSslLogLevel = {
   warning: 'warning',
 } as const
 
+export type LdapSslHostnameCheck = (typeof LdapSslHostnameCheck)[keyof typeof LdapSslHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LdapSslHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface LdapSsl {
   cacertfile?: string
   /** @deprecated */
@@ -836,6 +916,7 @@ export interface LdapSsl {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: LdapSslHostnameCheck
   keyfile?: string
   log_level?: LdapSslLogLevel
   managed_certs?: EmqxManagedCerts
@@ -1073,6 +1154,15 @@ export const EmqxSslClientOptsLogLevel = {
   warning: 'warning',
 } as const
 
+export type EmqxSslClientOptsHostnameCheck =
+  (typeof EmqxSslClientOptsHostnameCheck)[keyof typeof EmqxSslClientOptsHostnameCheck]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxSslClientOptsHostnameCheck = {
+  san_only: 'san_only',
+  san_or_common_name: 'san_or_common_name',
+} as const
+
 export interface EmqxManagedCerts {
   bundle_name: string
   namespace?: string
@@ -1088,6 +1178,7 @@ export interface EmqxSslClientOpts {
   depth?: number
   enable?: boolean
   hibernate_after?: string
+  hostname_check?: EmqxSslClientOptsHostnameCheck
   keyfile?: string
   log_level?: EmqxSslClientOptsLogLevel
   managed_certs?: EmqxManagedCerts

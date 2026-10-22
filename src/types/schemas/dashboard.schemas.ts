@@ -11,6 +11,19 @@ export type PostUsersUsernameMfa404 = {
   message?: string
 }
 
+export type PostUsersUsernameMfa400Code =
+  (typeof PostUsersUsernameMfa400Code)[keyof typeof PostUsersUsernameMfa400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameMfa400Code = {
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type PostUsersUsernameMfa400 = {
+  code?: PostUsersUsernameMfa400Code
+  message?: string
+}
+
 export type PostUsersUsernameMfaBodyMechanism =
   (typeof PostUsersUsernameMfaBodyMechanism)[keyof typeof PostUsersUsernameMfaBodyMechanism]
 
@@ -51,6 +64,19 @@ export type DeleteUsersUsernameMfa404 = {
   message?: string
 }
 
+export type DeleteUsersUsernameMfa400Code =
+  (typeof DeleteUsersUsernameMfa400Code)[keyof typeof DeleteUsersUsernameMfa400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteUsersUsernameMfa400Code = {
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type DeleteUsersUsernameMfa400 = {
+  code?: DeleteUsersUsernameMfa400Code
+  message?: string
+}
+
 export type DeleteUsersUsernameMfaBackend =
   (typeof DeleteUsersUsernameMfaBackend)[keyof typeof DeleteUsersUsernameMfaBackend]
 
@@ -79,6 +105,19 @@ export type PostUsersUsernameChangePwd404 = {
   message?: string
 }
 
+export type PostUsersUsernameChangePwd403Code =
+  (typeof PostUsersUsernameChangePwd403Code)[keyof typeof PostUsersUsernameChangePwd403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostUsersUsernameChangePwd403Code = {
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type PostUsersUsernameChangePwd403 = {
+  code?: PostUsersUsernameChangePwd403Code
+  message?: string
+}
+
 export type PostUsersUsernameChangePwd400Code =
   (typeof PostUsersUsernameChangePwd400Code)[keyof typeof PostUsersUsernameChangePwd400Code]
 
@@ -86,6 +125,7 @@ export type PostUsersUsernameChangePwd400Code =
 export const PostUsersUsernameChangePwd400Code = {
   BAD_REQUEST: 'BAD_REQUEST',
   ERROR_PWD_NOT_MATCH: 'ERROR_PWD_NOT_MATCH',
+  NOT_ALLOWED: 'NOT_ALLOWED',
 } as const
 
 export type PostUsersUsernameChangePwd400 = {
@@ -320,6 +360,16 @@ export type PostLoginVerify400 = {
   message?: string
 }
 
+export type PostLoginVerify200MfaStatus =
+  (typeof PostLoginVerify200MfaStatus)[keyof typeof PostLoginVerify200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLoginVerify200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
 export type PostLoginVerify200LicenseEdition =
   (typeof PostLoginVerify200LicenseEdition)[keyof typeof PostLoginVerify200LicenseEdition]
 
@@ -335,6 +385,7 @@ export type PostLoginVerify200License = {
 
 export type PostLoginVerify200 = {
   license?: PostLoginVerify200License
+  mfa_status?: PostLoginVerify200MfaStatus
   password_expire_in_seconds?: number
   role?: string
   server_signature?: string
@@ -421,6 +472,25 @@ export type PostLogin401 = {
   message?: string
 }
 
+export type PostLogin200MfaStatus =
+  (typeof PostLogin200MfaStatus)[keyof typeof PostLogin200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostLogin200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
+export type PostLogin200 = {
+  license?: PostLogin200License
+  mfa_status?: PostLogin200MfaStatus
+  password_expire_in_seconds?: number
+  role?: string
+  token?: string
+  version?: string
+}
+
 export type PostLogin200LicenseEdition =
   (typeof PostLogin200LicenseEdition)[keyof typeof PostLogin200LicenseEdition]
 
@@ -434,19 +504,152 @@ export type PostLogin200License = {
   edition?: PostLogin200LicenseEdition
 }
 
-export type PostLogin200 = {
-  license?: PostLogin200License
-  password_expire_in_seconds?: number
-  role?: string
-  token?: string
-  version?: string
-}
-
 export type PostLoginBody = {
   /** @maxLength 9 */
   mfa_token?: string
   /** @maxLength 100 */
   password?: string
+  /** @maxLength 100 */
+  username?: string
+}
+
+export type PostCurrentUserMfa404Code =
+  (typeof PostCurrentUserMfa404Code)[keyof typeof PostCurrentUserMfa404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCurrentUserMfa404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type PostCurrentUserMfa404 = {
+  code?: PostCurrentUserMfa404Code
+  message?: string
+}
+
+export type PostCurrentUserMfaBodyMechanism =
+  (typeof PostCurrentUserMfaBodyMechanism)[keyof typeof PostCurrentUserMfaBodyMechanism]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCurrentUserMfaBodyMechanism = {
+  totp: 'totp',
+} as const
+
+export type PostCurrentUserMfaBody = {
+  mechanism: PostCurrentUserMfaBodyMechanism
+}
+
+export type DeleteCurrentUserMfa404Code =
+  (typeof DeleteCurrentUserMfa404Code)[keyof typeof DeleteCurrentUserMfa404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCurrentUserMfa404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type DeleteCurrentUserMfa404 = {
+  code?: DeleteCurrentUserMfa404Code
+  message?: string
+}
+
+export type DeleteCurrentUserMfa403Code =
+  (typeof DeleteCurrentUserMfa403Code)[keyof typeof DeleteCurrentUserMfa403Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteCurrentUserMfa403Code = {
+  MFA_ADMIN_REQUIRED: 'MFA_ADMIN_REQUIRED',
+  MFA_ENFORCED: 'MFA_ENFORCED',
+} as const
+
+export type DeleteCurrentUserMfa403 = {
+  code?: DeleteCurrentUserMfa403Code
+  message?: string
+}
+
+export type PostCurrentUserChangePwd404Code =
+  (typeof PostCurrentUserChangePwd404Code)[keyof typeof PostCurrentUserChangePwd404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCurrentUserChangePwd404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type PostCurrentUserChangePwd404 = {
+  code?: PostCurrentUserChangePwd404Code
+  message?: string
+}
+
+export type PostCurrentUserChangePwd400Code =
+  (typeof PostCurrentUserChangePwd400Code)[keyof typeof PostCurrentUserChangePwd400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostCurrentUserChangePwd400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+  ERROR_PWD_NOT_MATCH: 'ERROR_PWD_NOT_MATCH',
+  NOT_ALLOWED: 'NOT_ALLOWED',
+} as const
+
+export type PostCurrentUserChangePwd400 = {
+  code?: PostCurrentUserChangePwd400Code
+  message?: string
+}
+
+export type PostCurrentUserChangePwdBody = {
+  new_pwd?: string
+  old_pwd?: string
+}
+
+export type GetCurrentUser404Code =
+  (typeof GetCurrentUser404Code)[keyof typeof GetCurrentUser404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser404Code = {
+  USER_NOT_FOUND: 'USER_NOT_FOUND',
+} as const
+
+export type GetCurrentUser404 = {
+  code?: GetCurrentUser404Code
+  message?: string
+}
+
+export type GetCurrentUser401Code =
+  (typeof GetCurrentUser401Code)[keyof typeof GetCurrentUser401Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser401Code = {
+  MFA_SETUP_REQUIRED: 'MFA_SETUP_REQUIRED',
+} as const
+
+export type GetCurrentUser401 = {
+  code?: GetCurrentUser401Code
+  message?: string
+}
+
+export type GetCurrentUser200MfaStatus =
+  (typeof GetCurrentUser200MfaStatus)[keyof typeof GetCurrentUser200MfaStatus]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser200MfaStatus = {
+  complete: 'complete',
+  disabled: 'disabled',
+  pending_voluntary: 'pending_voluntary',
+} as const
+
+export type GetCurrentUser200Mfa = (typeof GetCurrentUser200Mfa)[keyof typeof GetCurrentUser200Mfa]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCurrentUser200Mfa = {
+  disabled: 'disabled',
+  none: 'none',
+  totp: 'totp',
+} as const
+
+export type GetCurrentUser200 = {
+  backend?: string
+  description?: string
+  mfa?: GetCurrentUser200Mfa
+  mfa_status?: GetCurrentUser200MfaStatus
+  role?: string
+  scopes: string[]
   /** @maxLength 100 */
   username?: string
 }
