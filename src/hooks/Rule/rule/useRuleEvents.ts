@@ -1,5 +1,6 @@
 import { getRuleEvents as queryRuleEvents } from '@/api/ruleengine'
 import { EventForRule } from '@/types/enum'
+import { LocalizedText } from '@/types/common'
 import { RuleEvent } from '@/types/rule'
 
 export const EVENT_SORT: Array<string> = [
@@ -43,13 +44,19 @@ export default (): {
   getEventLabel: (event: string) => string
 } => {
   const { state, commit } = useStore()
-  const { t } = useI18n()
+  const { t, te } = useI18n()
 
   const setLabelToEventList = (eventList: Array<RuleEvent>) => {
-    // Use our own label instead of the one provided by api
+    // Use our own label instead of the one provided by api. The list is cached,
+    // so every language is filled in here and read back by the one in use. An
+    // event we have no title for keeps the one the api sent.
     eventList.forEach((item) => {
-      item.title.en = t(`RuleEvent.${camelCase(item.event)}`, {}, { locale: 'en' })
-      item.title.zh = t(`RuleEvent.${camelCase(item.event)}`, {}, { locale: 'zh' })
+      const key = `RuleEvent.${camelCase(item.event)}`
+      SUPPORTED_LANGS.forEach((locale) => {
+        if (te(key, locale)) {
+          item.title[locale] = t(key, {}, { locale })
+        }
+      })
     })
     return eventList
   }
@@ -69,9 +76,7 @@ export default (): {
     const blockLabel = allEventWildcardLabelMap.get(block) ?? titleCase(block)
     return t('RuleEngine.allTargetEvents', { target: blockLabel })
   }
-  const isZh = computed(() => isZhLang(state.lang))
-  const getEventCurrentLangLabel = ({ zh, en }: { zh: string; en: string }) =>
-    isZh.value ? zh : en
+  const getEventCurrentLangLabel = (title: LocalizedText) => pickLangText(title, state.lang)
 
   const generateEventWildcardOptions = (eventList: Array<RuleEvent>) => {
     const optMap = new Map<string, Omit<EventWildcardOption, 'event' | 'description'>>([
@@ -144,12 +149,11 @@ export default (): {
     }
   }
 
-  const lang = computed<'en' | 'zh'>(() => (isZhLang(state.lang) ? 'zh' : 'en'))
   const getEventLabel = (event: string) => {
     const eventList: Array<RuleEvent> = state.ruleEventList
     const eventItem: RuleEvent | undefined = eventList.find((item) => item.event === event)
     if (eventItem) {
-      return startCase(eventItem?.title[lang.value])
+      return startCase(getEventCurrentLangLabel(eventItem.title))
     }
 
     const eventWildcardItem: EventWildcardOption | undefined = eventWildcardOptions.value.find(

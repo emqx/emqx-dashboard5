@@ -3826,28 +3826,6 @@
   },
   "BridgeSchema": {
     "common": {
-      "description": {
-        "label": "描述"
-      },
-      "ssl": {
-        "label": "啟用SSL",
-        "desc": "啟用 SSL 連線。"
-      },
-      "no_local": {
-        "label": "禁止本地轉發"
-      },
-      "audience": {
-        "label": "OAuth 請求受眾 (Audience)",
-        "desc": "指定請求 OAuth 存取權杖時提供的 `audience` 參數。"
-      },
-      "request_ttl": {
-        "desc": "從請求進入緩衝區開始計時，如果請求在規定的時間內仍停留在緩衝區內或者已傳送但未能及時收到回應或確認，該請求將被視為過期。",
-        "label": "請求超期"
-      },
-      "max_linger_time": {
-        "desc": "每個分割區生產者為將更多訊息累積成更大批次而等待的最長時間。<br/>預設值 <code>0</code> 表示不等待（訊息到達後立即傳送）。<br/>一旦累積的資料達到完整批次大小，等待將提前結束，因此繁忙的生產者不會被延遲。<br/>使用磁碟緩衝時，等待發生在寫入緩衝區之前；建議至少設定 <code>5ms</code> 以減少磁碟 IOPS。<br/>部分 EMQX 版本在使用記憶體緩衝時會忽略此設定，不進行等待。具體受影響版本請參閱版本相容性說明。",
-        "label": "最長延遲時間"
-      },
       "connect_timeout": {
         "label": "連線逾時"
       },
@@ -3921,6 +3899,10 @@
       "worker_pool_size": {
         "label": "快取池大小",
         "desc": "快取佇列 worker 數量。僅對 egress 類型的橋接有意義。當橋接僅有 ingress 方向時，可設定為 0，否則必須大於 0。"
+      },
+      "request_ttl": {
+        "label": "請求超期",
+        "desc": "從請求進入緩衝區開始計時，如果請求在規定的時間內仍停留在緩衝區內或者已傳送但未能及時收到回應或確認，該請求將被視為過期。<br/>連接器斷開連線期間，不會嘗試傳送訊息。如果請求 TTL 小於健康檢查逾時時間（<code>health_check_timeout</code>）與連線重建耗時之和，連接器斷開時排隊的訊息可能在連線恢復前過期。<br/>建議將請求 TTL 設定為大於健康檢查逾時時間，併為連線建立預留額外時間。"
       },
       "max_buffer_bytes": {
         "label": "快取佇列最大長度",
@@ -4086,6 +4068,10 @@
       "gcp_wif_pool_provider_id": {
         "label": "工作負載身分提供者 ID"
       },
+      "audience": {
+        "label": "OAuth 請求受眾 (Audience)",
+        "desc": "指定請求 OAuth 存取權杖時提供的 `audience` 參數。"
+      },
       "ciphers": {
         "label": "加密套件"
       },
@@ -4203,6 +4189,10 @@
         "label": "最大記錄數",
         "desc": "每個聚合物件允許的記錄（事件）數量。每次聚合上傳包含的事件數量不會超過此數值，但可能會更少。<br/>如果事件速率足夠高，在同一時間間隔內顯然可能會有多個聚合上傳。這些上傳將具有不同但連續的序列號，這些序列號將是 S3 物件鍵的一部分。"
       },
+      "max_linger_time": {
+        "label": "最長延遲時間",
+        "desc": "每個分割區生產者為將更多訊息累積成更大批次而等待的最長時間。<br/>預設值 <code>0</code> 表示不等待（訊息到達後立即傳送）。<br/>一旦累積的資料達到完整批次大小，等待將提前結束，因此繁忙的生產者不會被延遲。<br/>使用磁碟緩衝時，等待發生在寫入緩衝區之前；建議至少設定 <code>5ms</code> 以減少磁碟 IOPS。"
+      },
       "max_linger_bytes": {
         "label": "最大延遲位元組數",
         "desc": "每個分割區生產者在等待期間可累積的最大位元組數；達到該值後將停止等待併發送批次。"
@@ -4269,6 +4259,10 @@
       "prepare_statement": {
         "desc": "SQL 預處理語句列表。"
       },
+      "ssl": {
+        "desc": "啟用 SSL 連線。",
+        "label": "啟用SSL"
+      },
       "private_key": {
         "desc": "為 Pipe User 設定的私鑰。支援以下輸入格式：\n- 明文金鑰：直接以字串形式輸入PEM格式的私鑰內容。\n- 檔案路徑：指定包含私鑰的檔案路徑。確保路徑以<code>file://</code>開頭。檔案路徑必須在叢集的所有節點上相同。"
       },
@@ -4277,82 +4271,15 @@
       },
       "private_key_path": {
         "desc": "用於 ODBC 連線的私鑰的完整檔案路徑。此路徑必須在叢集的所有節點上保持一致。"
-      }
-    },
-    "mqtt": {
-      "source_topic": {
-        "label": "主題",
-        "desc": "訊息訂閱主題，支援使用 + 和 # 萬用字元。當 EMQX 執行在叢集模式下或連接器設定了連線池時，為了避免訊息重複，必須使用共享訂閱。"
       },
-      "keepalive": {
-        "label": "MQTT Keepalive"
+      "description": {
+        "label": "描述"
       },
-      "tcp_opts_keepalive": {
-        "label": "TCP Keepalive"
-      },
-      "node": {
-        "label": "節點名稱",
-        "desc": "EMQX 的節點名稱，例如：<code>emqx{'@'}10.0.0.1</code>"
-      },
-      "ids": {
-        "label": "用戶端 ID 列表",
-        "desc": "指定給該節點的靜態用戶端 ID 列表"
-      },
-      "topic": {
-        "label": "主題",
-        "desc": "訊息發布主題，支援使用 ${'{'}field{'}'} 語法提取變數動態拼接主題。"
-      },
-      "bridge_mode": {
-        "desc": "該設定僅適用於 MQTT 協定版本低於 5.0 的情況，且遠端 MQTT 服務必須支援該功能。開啟後，遠端伺服器將識別目前連線為一個橋接，訊息迴環檢測更高效，收到的保留訊息標誌位會透傳給本地。"
-      },
-      "clean_start": {
-        "desc": "當重新連線到遠端服務，該 MQTT 服務作為入口橋接時，是否啟動一個乾淨的會話。"
-      },
-      "retry_interval": {
-        "desc": "在未收到 ACK 的情況下，QoS1/QoS2 訊息的重試間隔。"
-      },
-      "clientid_prefix": {
-        "desc": "連接器隨機生成用戶端 ID 時所使用的字首。"
-      },
-      "max_inflight": {
-        "desc": "訊息發布時，可以同時等待確認的未確認訊息數量，用以提高訊息傳遞效率和吞吐量。"
-      },
-      "retain_as_published": {
-        "desc": "是否在遠端訂閱中設定 MQTT 5.0 的 Retain As Published 訂閱選項。啟用後，上游 broker 會保留轉發訊息的 retain 標誌；關閉後，上游 broker 會清除該標誌。僅當連接器使用 MQTT 5.0 時生效。"
-      },
-      "payload": {
-        "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。請根據使用動作的業務需求來選擇欄位，置空則原樣轉發訊息。支援使用 ${'{'}field{'}'} 語法讀取資料。"
-      },
-      "static_clientids": {
-        "desc": "設定 EMQX 節點與靜態用戶端 ID 的對應關係。當設定了對映關係後，只有在對映中指定的 EMQX 節點才會建立對應的 MQTT 用戶端連線。"
-      },
-      "delay_send": {
-        "desc": "啟用後，EMQX 可能會將較小的 TCP 寫入短暫快取，併合並後一次傳送為較大的資料包。適合大量小訊息場景，可提升吞吐，但可能增加少量延遲。預設值：<code>false</code>。"
-      },
-      "active_n": {
-        "desc": "每個連線在一次批處理中處理的 TCP 入站事件數量。值越大，繁忙連線的吞吐可能越高；值越小，單連線延遲可能更低。預設值：<code>10</code>。"
-      }
-    },
-    "azure_event_grid": {
-      "source_topic": {
-        "label": "主題"
-      },
-      "tcp_opts_keepalive": {
-        "label": "TCP Keepalive"
-      },
-      "topic": {
-        "label": "主題"
+      "no_local": {
+        "label": "禁止本地轉發"
       }
     },
     "kafka_producer": {
-      "bootstrap_hosts": {
-        "label": "主機列表",
-        "desc": "用逗號分隔的 <code>host[:port]</code> 主機列表。預設連接埠號為 9092。"
-      },
-      "topic": {
-        "label": "Kafka 主題名稱",
-        "desc": "Kafka 主題名稱"
-      },
       "authentication_endpoint": {
         "label": "Roles Anywhere 端點",
         "desc": "AWS IAM Roles Anywhere 憑證行程提供 API 的端點。"
@@ -4383,6 +4310,10 @@
         "label": "Kafka Headers 值",
         "desc": "Kafka Headers 的值。支援使用 <code>${'{'}var{'}'}</code> 格式的佔位符。"
       },
+      "bootstrap_hosts": {
+        "desc": "用逗號分隔的 <code>host[:port]</code> 主機列表。預設連接埠號為 9092。",
+        "label": "主機列表"
+      },
       "authentication": {
         "desc": "認證參數。"
       },
@@ -4394,6 +4325,10 @@
       },
       "metadata_request_timeout": {
         "desc": "重新整理後設資料時最長等待時長。"
+      },
+      "topic": {
+        "desc": "Kafka 主題名稱",
+        "label": "Kafka 主題名稱"
       },
       "kafka_headers": {
         "desc": "請提供用作 Kafka Headers 的佔位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意佔位符的值必須是一個物件：<br/>`{'{'}\"foo\": \"bar\"{'}'}`"
@@ -4450,91 +4385,97 @@
         "desc": "限制生產者能夠傳送訊息的最大分割區數量。"
       }
     },
-    "confluent_producer": {
-      "bootstrap_hosts": {
-        "label": "主機列表",
-        "desc": "用逗號分隔的 <code>host[:port]</code> 主機列表。預設連接埠號為 9092。"
+    "http": {
+      "url": {
+        "label": "URL",
+        "desc": "HTTP 連接器的 URL。<br/>路徑中支援佔位符，但在主機或連接埠部分中不能使用佔位符。<br/>例如，`http://localhost:9901/${'{'}topic{'}'}` 是允許的，但是 `http://${'{'}host{'}'}:9901/message` 或 `http://localhost:${'{'}port{'}'}/message `不允許。"
       },
-      "topic": {
-        "label": "Kafka 主題名稱",
-        "desc": "Kafka 主題名稱"
+      "headers": {
+        "label": "請求標頭"
       },
-      "logical_cluster": {
-        "label": "邏輯叢集 ID"
+      "enable_pipelining": {
+        "label": "HTTP 管道"
       },
-      "identity_pool_id": {
-        "label": "身分池 ID"
+      "oauth2": {
+        "label": "OAuth2 用戶端憑證",
+        "desc": "啟用 OAuth2 用戶端憑證認證。EMQX 會取得並快取存取權杖，並以 Bearer Token 的形式新增到發出的 HTTP 請求中。"
+      },
+      "oauth2_token_endpoint": {
+        "label": "Token 端點",
+        "desc": "用於請求存取權杖的 OAuth2 授權伺服器端點。"
+      },
+      "oauth2_client_id": {
+        "label": "用戶端 ID",
+        "desc": "請求存取權杖時使用的 OAuth2 用戶端 ID。"
+      },
+      "oauth2_client_secret": {
+        "label": "用戶端金鑰",
+        "desc": "請求存取權杖時使用的 OAuth2 用戶端金鑰。"
+      },
+      "oauth2_scope": {
+        "label": "授權範圍",
+        "desc": "請求存取權杖時使用的可選 OAuth2 授權範圍。"
+      },
+      "oauth2_timeout": {
+        "label": "Token 請求逾時",
+        "desc": "向 Token 端點發起 HTTP 請求的逾時時間。"
+      },
+      "oauth2_ssl": {
+        "label": "Token 端點 TLS",
+        "desc": "連線 OAuth2 Token 端點時使用的 TLS 設定。"
+      },
+      "body": {
+        "label": "請求體",
+        "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。請根據使用動作的業務需求來選擇欄位，置空則原樣轉發訊息。"
+      },
+      "method": {
+        "label": "請求方法"
+      },
+      "path": {
+        "label": "URL 路徑",
+        "desc": "此操作的 URL 路徑。<br/>此路徑將附加到連接器的 <code>url</code> 設定中，以形成完整的 URL 地址。此選項中允許使用帶有變數的模板。 例如，<code>/room/{'{'}$room_no{'}'}</code>"
+      }
+    },
+    "gcp_pubsub_producer": {
+      "authentication_type": {
+        "label": "認證類型"
+      },
+      "query_mode": {
+        "label": "請求模式"
+      },
+      "batch_size": {
+        "label": "最大批次請求大小"
+      },
+      "authentication_initial_token_type": {
+        "label": "憑證類型"
+      },
+      "attributes_template": {
+        "label": "屬性模版",
+        "desc": "用於格式化訊息屬性的模板。未定義的值將被渲染為空字串。空鍵將從屬性對映中刪除。"
+      },
+      "pubsub_topic": {
+        "label": "GCP PubSub 主題",
+        "desc": "要發布訊息的 GCP PubSub 主題。"
+      },
+      "ordering_key_template": {
+        "label": "排序鍵模板",
+        "desc": "用於格式化訊息排序鍵的模板。未定義的值將被渲染為空字串。如果此值為空，則不會將其新增到訊息中。"
+      },
+      "payload_template": {
+        "label": "HTTP 請求訊息體模板",
+        "desc": "用於格式化外發資訊的模板。 如果未定義，將以 JSON 格式傳送所有可用的上下文。"
+      },
+      "pipelining": {
+        "desc": "正整數，設定最大可傳送的非同步 HTTP 請求數量。當設定為 1 時，表示每次傳送完成 HTTP 請求後都需要等待伺服器回傳，再繼續傳送下一個請求。"
       },
       "connect_timeout": {
-        "desc": "建立 TCP 連線時的最長等待時長（若啟用認證，這個等待時長也包含完成認證所需時間）。"
+        "desc": "連線 GCP 伺服器的逾時時間。"
       },
-      "min_metadata_refresh_interval": {
-        "desc": "重新整理 Kafka broker 和 Kafka 主題後設資料的最短時間間隔。設定太小可能會增加 Kafka 壓力。"
-      },
-      "metadata_request_timeout": {
-        "desc": "重新整理後設資料時最長等待時長。"
-      },
-      "kafka_headers": {
-        "desc": "請提供用作 Kafka Headers 的佔位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意佔位符的值必須是一個物件：<br/>`{'{'}\"foo\": \"bar\"{'}'}`"
-      },
-      "kafka_header_value_encode_mode": {
-        "desc": "Kafka Headers 的值編碼類型：<br/>- `NONE`：僅將二進位制值新增到 Kafka Headers；<br/>- `JSON`：僅將 JSON 值新增到 Kafka Headers，並在傳送之前將其編碼為 JSON 字串。"
-      },
-      "kafka_ext_headers": {
-        "desc": "請提供更多的鍵值對，用於 Kafka Headers。<br/>這裡的鍵值對將與 `kafka_headers` 欄位的值合併後傳送到 Kafka。"
-      },
-      "key": {
-        "desc": "生成 Kafka 訊息鍵的模版。如果模版生成後為空值，則會使用 Kafka 的 <code>NULL</code> ，而非空字串。"
-      },
-      "value": {
-        "desc": "生成 Kafka 訊息的值的模版。如果模版生成後為空值，則會使用 Kafka 的 <code>NULL</code>，而非空字串。"
-      },
-      "partition_strategy": {
-        "desc": "設定訊息發布時應該如何選擇 Kafka 分割區。<br/><code>random</code>: 為每個訊息隨機選擇一個分割區。<br/><code>key_dispatch</code>：對 Kafka 訊息鍵進行雜湊，以得到一個分割區號。"
-      },
-      "max_batch_bytes": {
-        "desc": "最大訊息批次位元組數。大多數 Kafka 環境的預設最低值是 1 MB，EMQX 的預設值比 1 MB 更小是因為需要補償 Kafka 訊息編碼所需要的額外位元組（尤其是當每條訊息都很小的情況下）。當單個訊息的大小超過該限制時，它仍然會被傳送，（相當於該批次中只有單個訊息）。"
-      },
-      "required_acks": {
-        "desc": "設定 Kafka leader 在回傳給 EMQX 確認之前需要等待多少個 follower 的確認。<br/><code>all_isr</code>: 需要所有的線上複製者都確認。<br/><code>leader_only</code>: 僅需要分割區 leader 確認。<br/><code>none</code>: 無需 Kafka 回覆任何確認。"
-      },
-      "partition_count_refresh_interval": {
-        "desc": "設定 Kafka 重新整理分割區數量的時間間隔。<br/>EMQX 發現 Kafka 分割區數量增加後，會開始按 <code>partition_strategy</code> 設定，把訊息傳送到新的分割區中。"
-      },
-      "max_inflight": {
-        "desc": "設定 Kafka 生產者（每個分割區一個）在收到 Kafka 的確認前最多傳送多少個請求（批次）。調大這個值通常可以增加吞吐量，但是，當該值設定大於 1 時存在訊息亂序的風險。"
-      },
-      "sync_query_timeout": {
-        "desc": "同步查詢的逾時時間。僅當請求模式設定為'同步'時才使用該設定。"
-      },
-      "mode": {
-        "desc": "訊息快取模式。<br/><code>memory</code>: 所有的訊息都快取在記憶體裡。如果 EMQX 服務重啟，快取的訊息會遺失。<br/><code>disk</code>: 快取到磁碟上。EMQX 重啟後會繼續傳送重啟前未傳送完成的訊息。<br/><code>hybrid</code>: 先將訊息快取在記憶體中，當記憶體中的訊息堆積超過一定限制（設定項 <code>segment_bytes</code> 描述了該限制）後，後續的訊息會快取到磁碟上。與 <code>memory</code> 模式一樣，如果 EMQX 服務重啟，快取的訊息會遺失。"
-      },
-      "per_partition_limit": {
-        "desc": "為每個 Kafka 分割區設定的最大快取位元組數。當超過這個上限之後，老的訊息會被丟棄，為新的訊息騰出空間。"
-      },
-      "segment_bytes": {
-        "desc": "當快取模式是 <code>disk</code> 或 <code>hybrid</code> 時適用。該設定用於指定快取到磁碟上的檔案的大小。"
-      },
-      "compression": {
-        "desc": "壓縮方法。"
-      },
-      "partitions_limit": {
-        "desc": "限制生產者能夠傳送訊息的最大分割區數量。"
+      "service_account_json": {
+        "desc": "包含將與 PubSub 一起使用的 GCP 服務帳戶憑證的 JSON。<br/>當建立 GCP 服務帳戶時（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以選擇下載 JSON 形式的憑證，然後在該設定項中使用。"
       }
     },
     "azure_event_hub_producer": {
-      "connection_string": {
-        "label": "連線字串"
-      },
-      "kafka_ext_header_key": {
-        "label": "鍵",
-        "desc": "Azure Event Hubs 標頭的鍵。支援格式為${'{'}var{'}'}的佔位符。"
-      },
-      "kafka_ext_header_value": {
-        "label": "值",
-        "desc": "Azure Event Hubs 標頭的值。支援格式為${'{'}var{'}'}的佔位符。"
-      },
       "bootstrap_hosts": {
         "label": "引導主機",
         "desc": "用於引導用戶端的 Azure Event Hubs Kafka <code>host[:port]</code>命名空間端點的逗號分隔列表。預設連接埠號為 9093。"
@@ -4617,14 +4558,76 @@
       "sync_query_timeout": {
         "desc": "該參數定義同步查詢的逾時限制。僅在橋接查詢模式設定為'同步'時適用。"
       },
+      "kafka_ext_header_key": {
+        "desc": "Azure Event Hubs 標頭的鍵。支援格式為${'{'}var{'}'}的佔位符。",
+        "label": "鍵"
+      },
+      "kafka_ext_header_value": {
+        "desc": "Azure Event Hubs 標頭的值。支援格式為${'{'}var{'}'}的佔位符。",
+        "label": "值"
+      },
       "partitions_limit": {
         "desc": "限制生產者能夠傳送訊息的最大分割區數量。"
+      },
+      "connection_string": {
+        "label": "連線字串"
+      }
+    },
+    "syskeeper_forwarder": {
+      "ack_mode": {
+        "label": "ACK 模式",
+        "desc": "指定 Proxy 伺服器是否應該回復確認訊息，可以是：<br/>- need_ack <br/>- no_ack <br/>"
+      },
+      "ack_timeout": {
+        "label": "ACK 逾時",
+        "desc": "等待回覆確認訊息的最長時間"
+      },
+      "target_topic": {
+        "label": "主題",
+        "desc": "轉發訊息的主題"
+      },
+      "target_qos": {
+        "label": "QoS",
+        "desc": "轉發訊息的服務品質（QoS），留空表示使用原始主題的 QoS"
+      },
+      "server": {
+        "desc": "Syskeeper Proxy 伺服器的地址"
+      },
+      "template": {
+        "desc": "訊息模板, 支援佔位符"
+      }
+    },
+    "redis": {
+      "parameters": {
+        "label": "部署模式"
+      },
+      "sentinel": {
+        "label": "哨兵模式",
+        "desc": "哨兵模式。當 Redis 服務執行在哨兵模式下，該設定必須設定為 'sentinel'。"
+      },
+      "sentinel_username": {
+        "label": "Sentinel 使用者名稱",
+        "desc": "用於向 Redis Sentinel 進行身分認證的使用者名稱。若 Sentinel 不需要 ACL 使用者名稱認證，請留空。"
+      },
+      "sentinel_password": {
+        "label": "Sentinel 密碼",
+        "desc": "用於向 Redis Sentinel 進行身分認證的密碼。若 Sentinel 不需要認證，請留空。"
+      },
+      "command_template": {
+        "label": "Redis 命令模板",
+        "desc": "用於推送資料的 Redis 命令模板。 每個列表元素代表一個命令名稱或其參數。<br/>例如，要透過鍵 `msgs` 將訊息體推送到 Redis 列表中，陣列元素應該是： `rpush`, `msgs`, `${'{'}payload{'}'}`。"
+      },
+      "server": {
+        "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 Redis 預設連接埠 6379。"
+      },
+      "servers": {
+        "desc": "叢集將要連線的節點列表。 節點之間用逗號分隔，如：`Node[,Node].`<br/>每個節點的設定為：將要連線的 IPv4 或 IPv6 地址或主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 Redis 預設連接埠 6379。"
+      },
+      "redis_type": {
+        "label": "部署模式"
       }
     },
     "mongodb": {
-      "mongo_type": {
-        "label": "部署模式"
-      },
       "parameters": {
         "label": "部署模式"
       },
@@ -4719,213 +4722,18 @@
       },
       "servers": {
         "desc": "叢集將要連線的節點列表。 節點之間用逗號分隔，如：`Node[,Node].`<br/>每個節點的設定為：將要連線的 IPv4 或 IPv6 地址或主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 MongoDB 預設連接埠 27017。"
-      }
-    },
-    "redis": {
-      "redis_type": {
+      },
+      "mongo_type": {
         "label": "部署模式"
-      },
-      "parameters": {
-        "label": "部署模式"
-      },
-      "sentinel": {
-        "label": "哨兵模式",
-        "desc": "哨兵模式。當 Redis 服務執行在哨兵模式下，該設定必須設定為 'sentinel'。"
-      },
-      "sentinel_username": {
-        "label": "Sentinel 使用者名稱",
-        "desc": "用於向 Redis Sentinel 進行身分認證的使用者名稱。若 Sentinel 不需要 ACL 使用者名稱認證，請留空。"
-      },
-      "sentinel_password": {
-        "label": "Sentinel 密碼",
-        "desc": "用於向 Redis Sentinel 進行身分認證的密碼。若 Sentinel 不需要認證，請留空。"
-      },
-      "command_template": {
-        "label": "Redis 命令模板",
-        "desc": "用於推送資料的 Redis 命令模板。 每個列表元素代表一個命令名稱或其參數。<br/>例如，要透過鍵 `msgs` 將訊息體推送到 Redis 列表中，陣列元素應該是： `rpush`, `msgs`, `${'{'}payload{'}'}`。"
-      },
-      "server": {
-        "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 Redis 預設連接埠 6379。"
-      },
-      "servers": {
-        "desc": "叢集將要連線的節點列表。 節點之間用逗號分隔，如：`Node[,Node].`<br/>每個節點的設定為：將要連線的 IPv4 或 IPv6 地址或主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 Redis 預設連接埠 6379。"
-      }
-    },
-    "syskeeper_proxy": {
-      "listen": {
-        "label": "監聽地址",
-        "desc": "Syskeeper Proxy 伺服器的監聽地址"
-      },
-      "acceptors": {
-        "label": "接收器",
-        "desc": "接收器的數量"
-      },
-      "handshake_timeout": {
-        "label": "握手逾時",
-        "desc": "在建立連線時等待握手的最長時間"
-      }
-    },
-    "elasticsearch": {
-      "action": {
-        "label": "操作"
-      },
-      "server": {
-        "label": "伺服器地址",
-        "desc": "ElasticSearch 服務的 REST 介面地址。"
-      },
-      "parameters": {
-        "label": "操作"
-      },
-      "index": {
-        "label": "索引名稱",
-        "desc": "要執行操作的索引或索引別名的名稱，支援 ${'{'}var{'}'} 格式的佔位符。"
-      },
-      "id": {
-        "label": "文件 ID",
-        "desc": "索引內文件的唯一識別碼，支援 ${'{'}var{'}'} 格式的佔位符。如果未指定 ID，則由 Elasticsearch 自動生成。"
-      },
-      "doc": {
-        "label": "文件模版",
-        "desc": "自訂文件模板，支援 ${'{'}var{'}'} 格式的佔位符，要求必須可以被轉換為 JSON 物件。\n 例如 `{'{'} \"field\": \"${'{'}payload.field{'}'}\" {'}'}`，或 `${'{'}payload{'}'}`。"
-      },
-      "routing": {
-        "label": "路由",
-        "desc": "指定應將文件儲存在索引的哪個分片中，留空則由 Elasticsearch 決定。"
-      },
-      "overwrite": {
-        "label": "是否覆寫文件",
-        "desc": "當文件已經存在時覆寫文件，否則文件將寫入失敗。"
-      },
-      "doc_as_upsert": {
-        "label": "啟用更新插入",
-        "desc": "嘗試更新的文件不存在時，將更新操作當作一個插入操作，並將提供的文件當作新文件插入。"
-      },
-      "wait_for_active_shards": {
-        "desc": "在繼續操作之前必須啟用的分片副本數。\n設定為 all 或任何正整數，最多為索引中的總分片數（number_of_replicas+1）。\n預設值：1，即主分片。"
-      },
-      "enable_pipelining": {
-        "desc": "一個正整數。是否連續傳送 HTTP 請求，當設定為 1 時，這意味著每次傳送 HTTP 請求後，您需要等待伺服器回傳，然後繼續傳送下一個請求。"
-      },
-      "connect_timeout": {
-        "desc": "連線到 ElasticSearch 伺服器時的逾時時間。"
-      }
-    },
-    "clickhouse": {
-      "url": {
-        "label": "伺服器 URL",
-        "desc": "你想連線到的 Clickhouse 伺服器的 HTTP URL（例如 http://myhostname:8123）。"
-      },
-      "batch_value_separator": {
-        "label": "分隔符",
-        "desc": "預設為逗號 ','，適用於 VALUES 格式。您也可以使用其他分隔符， 請參考 [INSERT INTO 語句](https://clickhouse.com/docs/zh/sql-reference/statements/insert-into)。"
-      },
-      "connect_timeout": {
-        "desc": "連線 Clickhouse 伺服器的逾時時間。"
-      },
-      "sql": {
-        "desc": "可以使用 ${'{'}field{'}'} 佔位符來引用訊息與用戶端上下文中的變數，請確保對應欄位存在且資料格式符合預期。此處不支援 [SQL 預處理](https://docs.emqx.com/zh/enterprise/v5.0/data-integration/data-bridges.html#sql-預處理)。"
-      }
-    },
-    "dynamo": {
-      "url": {
-        "label": "DynamoDB 地址",
-        "desc": "DynamoDB 的地址。"
-      },
-      "aws_access_key_id": {
-        "desc": "DynamoDB 的存取 ID。",
-        "label": "連線存取 ID"
-      },
-      "aws_secret_access_key": {
-        "desc": "DynamoDB 的存取金鑰。",
-        "label": "連線存取金鑰"
-      },
-      "region": {
-        "label": "DynamoDB 區域",
-        "desc": "AWS DynamoDB 所在的區域"
-      },
-      "hash_key": {
-        "label": "雜湊鍵"
-      },
-      "range_key": {
-        "label": "範圍鍵"
-      },
-      "template": {
-        "desc": "模板，預設值為空。當此值為空時，整個訊息將儲存在資料庫中。<br/>模板可以是任何帶有佔位符的有效 JSON，並確保表中所有的鍵都在這裡，例如：<br/>  `{'{'}\"id\" : \"${'{'}id{'}'}\", \"clientid\" : \"${'{'}clientid{'}'}\", \"data\" : \"${'{'}payload.data{'}'}\"{'}'}`"
-      },
-      "table": {
-        "desc": "DynamoDB 的表。"
-      }
-    },
-    "rabbitmq": {
-      "queue": {
-        "label": "佇列",
-        "desc": "RabbitMQ 佇列名稱。"
-      },
-      "no_ack": {
-        "label": "No Ack",
-        "desc": "在從 RabbitMQ 消費訊息時是否使用 `no_ack` 模式。"
-      },
-      "port": {
-        "label": "連接埠",
-        "desc": "RabbitMQ 伺服器監聽的連接埠號（預設為 5672）。"
-      },
-      "virtual_host": {
-        "label": "虛擬主機",
-        "desc": "連線到 RabbitMQ 伺服器時要使用的虛擬主機。"
-      },
-      "heartbeat": {
-        "label": "心跳",
-        "desc": "傳送心跳訊息到 RabbitMQ 伺服器的時間間隔。"
-      },
-      "timeout": {
-        "label": "連線逾時時間",
-        "desc": "等待建立連線的逾時時間。"
-      },
-      "exchange": {
-        "label": "交換機",
-        "desc": "訊息將被傳送到的 RabbitMQ 交換機的名稱。"
-      },
-      "routing_key": {
-        "label": "路由鍵",
-        "desc": "用於將訊息路由到 RabbitMQ 交換機的正確佇列的路由鍵。"
-      },
-      "delivery_mode": {
-        "label": "訊息傳遞模式",
-        "desc": "發布到 RabbitMQ 的訊息的傳遞模式。非永續性的傳遞模式適用於不需要在 RabbitMQ 重啟時保持永續性的訊息，而永續性的傳遞模式適用於必須在 RabbitMQ 重啟時保持永續性的訊息。"
-      },
-      "wait_for_publish_confirmations": {
-        "label": "等待發布確認",
-        "desc": "使用發布者確認時，是否要等待 RabbitMQ 確認訊息。"
-      },
-      "publish_confirmation_timeout": {
-        "label": "發布確認逾時時間",
-        "desc": "使用發布者確認時等待 RabbitMQ 確認訊息發布的逾時時間。"
-      },
-      "payload_template": {
-        "label": "有效載荷模板",
-        "desc": "傳送訊息到 RabbitMQ 之前格式化訊息有效載荷的模板。模板佔位符（例如 ${'{'}field1.sub_field{'}'} ）將被替換為相應欄位的值。如果為空，則整個輸入訊息將被用作有效載荷，格式化為 JSON 文本。此行為相當於將 ${'{'}.{'}'} 指定為有效載荷模板。"
-      },
-      "headers_template": {
-        "label": "Headers 模板"
-      },
-      "properties_template": {
-        "label": "屬性模版",
-        "desc": "訊息屬性模板，可檢視: https://www.rabbitmq.com/docs/publishers#message-properties"
-      },
-      "server": {
-        "desc": "你想要連線的 RabbitMQ 伺服器地址（例如，localhost）。"
       }
     },
     "influxdb": {
-      "influxdb_type": {
+      "parameters": {
         "label": "InfluxDB 版本"
       },
       "ping_with_auth": {
         "label": "Ping 請求攜帶認證",
         "desc": "控制 EMQX 在傳送 /ping 健康檢查請求時是否附帶連接器認證資訊。如果你的 InfluxDB 服務要求 /ping 也進行認證，請啟用此項。預設值為 false，即保持原有行為，不在 /ping 請求中附帶認證資訊。"
-      },
-      "parameters": {
-        "label": "InfluxDB 版本"
       },
       "server": {
         "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/><br/>主機名具有以下形式：`Host[:Port]`。<br/><br/>如果未指定 `[:Port]`，則使用 InfluxDB 預設連接埠 8086。"
@@ -4944,339 +4752,9 @@
       },
       "precision": {
         "desc": "InfluxDB 時間精度。"
-      }
-    },
-    "hstreamdb": {
-      "hstream_batch_size": {
-        "label": "HStreamDB 最大批次請求大小"
       },
-      "grpc_timeout": {
-        "label": "gRPC 逾時"
-      },
-      "stream": {
-        "label": "Stream"
-      },
-      "partition_key": {
-        "label": "分割區鍵",
-        "desc": "HStreamDB 分割區鍵。支援佔位符。"
-      },
-      "grpc_flush_timeout": {
-        "label": "gRPC 重新整理間隔",
-        "desc": "重新整理 gRPC 呼叫到 HStreamDB 伺服器的時間間隔。"
-      },
-      "aggregation_pool_size": {
-        "label": "Record 聚合池大小",
-        "desc": "記錄聚合池的大小。增大聚合池可提升並行處理能力，但可能會因批處理變小而影響效率。"
-      },
-      "max_batches": {
-        "label": "最大批次",
-        "desc": "重新整理佇列中最大未確認批次數。"
-      },
-      "writer_pool_size": {
-        "label": "寫入池大小",
-        "desc": "寫入池大小。擴大池規模可增加並行化和同時寫入操作，可能提升吞吐量。但需權衡記憶體消耗和資源競爭。"
-      },
-      "batch_interval": {
-        "label": "最長批處理間隔",
-        "desc": "兩個連續（批次）請求之間的最長間隔。"
-      },
-      "record_template": {
-        "label": "Record 模板",
-        "desc": "將被轉發到 HStreamDB 的 HStream record 模板。支援佔位符。<br/>注意：當使用 `raw record` 模板（意味著資料不是有效的 JSON）時，應該在 HStream 中使用 `read` 或 `subscription` 來取得資料。"
-      },
-      "parameters_batch_size": {
-        "label": "HStreamDB 最大批次請求大小",
-        "desc": "單個請求中可傳送的插入資料子句的最大數量。"
-      },
-      "url": {
-        "desc": "HStreamDB 伺服器的 URL。使用 gRPC HTTP 伺服器地址。"
-      }
-    },
-    "s3": {
-      "aggregated_key": {
-        "label": "物件鍵",
-        "desc": "以下是聚合上傳的 S3 物件鍵模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 S3 物件鍵中。"
-      },
-      "host": {
-        "label": "地址"
-      },
-      "port": {
-        "label": "連接埠"
-      },
-      "bucket": {
-        "label": "儲存桶",
-        "desc": "將要上傳檔案的儲存桶的名稱。需要在 S3 中預先建立好，支援 ${'{'}var{'}'} 佔位符格式。"
-      },
-      "acl": {
-        "label": "ACL",
-        "desc": "上傳的物件的存取權限。"
-      },
-      "content": {
-        "label": "物件內容",
-        "desc": "要儲存的物件的內容。預設情況下，它是包含所有欄位的 JSON 文本格式。支援如 ${'{'}payload{'}'} 的佔位符設定。儲存格式取決於變數的格式，支援二進位制內容。"
-      },
-      "key": {
-        "label": "物件鍵",
-        "desc": "要儲存的物件的鍵。支援如 ${'{'}var{'}'} 的佔位符設定。"
-      },
-      "parameters": {
-        "label": "上傳方式"
-      },
-      "type": {
-        "label": "增強類型"
-      },
-      "container": {
-        "label": "聚合上傳檔案格式"
-      },
-      "column_order": {
-        "desc": "在生成的 CSV 檔案中首先按列排序的事件欄位。<br/>無論此設定如何，生成的 CSV 都將包含聚合事件的所有欄位，但此處未明確提及的所有列將按字典順序排在這裡列出的欄位之後。"
-      },
-      "time_interval": {
-        "desc": "在上傳前將事件聚合到單個物件中的時間量。"
-      }
-    },
-    "azure_blob_storage": {
-      "aggregated_blob": {
-        "label": "Blob 名稱",
-        "desc": "以下是聚合上傳的 Azure Blob Storage blob 名稱模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 Azure Blob Storage blob 名稱中。"
-      },
-      "account_name": {
-        "label": "帳戶名稱"
-      },
-      "account_key": {
-        "label": "存取金鑰"
-      },
-      "parameters": {
-        "label": "上傳方式"
-      },
-      "content": {
-        "label": "物件內容",
-        "desc": "要儲存的物件的內容。預設情況下，它是包含所有欄位的 JSON 文本格式。支援如 ${'{'}payload{'}'} 的佔位符設定。儲存格式取決於變數的格式，支援二進位制內容。"
-      },
-      "type": {
-        "label": "增強類型"
-      },
-      "blob": {
-        "label": "Blob 名稱",
-        "desc": "Azure Blob Storage blob 名稱。"
-      },
-      "container": {
-        "label": "容器名稱"
-      },
-      "parameters_aggregation_container": {
-        "label": "聚合上傳檔案格式"
-      },
-      "column_order": {
-        "desc": "在生成的 CSV 檔案中首先按列排序的事件欄位。<br/>無論此設定如何，生成的 CSV 都將包含聚合事件的所有欄位，但此處未明確提及的所有列將按字典順序排在這裡列出的欄位之後。"
-      },
-      "time_interval": {
-        "desc": "在上傳前將事件聚合到單個物件中的時間量。"
-      },
-      "parameters_container": {
-        "desc": "Azure Blob Storage 容器名稱。"
-      }
-    },
-    "quasardb": {
-      "health_check_table": {
-        "label": "健康檢查表",
-        "desc": "在動作健康檢查中使用的表名。目前，無法直接從 SQL 中推斷表名。如果設定，此值將在 `SHOW TABLE <table>` 語句中用於在動作健康檢查期間探測表的存在。"
-      },
-      "uri": {
-        "label": "URI"
-      },
-      "cluster_public_key": {
-        "label": "叢集公鑰"
-      }
-    },
-    "rocketmq": {
-      "strategy": {
-        "desc": "生產者金鑰分派策略，預設為 `roundrobin`，從 EMQX 6.0.0 版本後不支援佔位符。",
-        "label": "Produce 策略"
-      },
-      "access_key": {
-        "label": "AccessKey",
-        "desc": "RocketMQ 伺服器的 `accessKey`。"
-      },
-      "secret_key": {
-        "label": "SecretKey",
-        "desc": "RocketMQ 伺服器的 `secretKey`。"
-      },
-      "security_token": {
-        "label": "安全權杖",
-        "desc": "RocketMQ 伺服器安全權杖"
-      },
-      "rocketmq_namespace": {
-        "label": "RocketMQ 命名空間",
-        "desc": "RocketMQ 服務中設定的命名空間。使用已啟用命名空間的阿里雲 RocketMQ 時，請填寫實例 ID。"
-      },
-      "namespace": {
-        "label": "命名空間",
-        "desc": "如果你正在使用阿里雲的 RocketMQ 服務並且啟用了命名空間，或者你在你自己的 RocketMQ 服務裡設定了命名空間，那麼你必須設定命名空間欄位。對於阿里雲的 RocketMQ 服務來說，命名空間就是實例 ID。"
-      },
-      "topic": {
-        "label": "RocketMQ 主題",
-        "desc": "RocketMQ 主題"
-      },
-      "refresh_interval": {
-        "label": "主題路由更新間隔",
-        "desc": "RocketMQ 主題路由更新間隔。"
-      },
-      "send_buffer": {
-        "label": "傳送訊息的緩衝區大小",
-        "desc": "RocketMQ 驅動的套位元組傳送訊息的緩衝區大小"
-      },
-      "sync_timeout": {
-        "label": "同步呼叫逾時時間",
-        "desc": "RocketMQ 驅動同步呼叫的逾時時間。"
-      },
-      "tag": {
-        "label": "標籤"
-      },
-      "key": {
-        "label": "索引"
-      },
-      "servers": {
-        "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 RocketMQ 預設連接埠 9876。"
-      },
-      "template": {
-        "desc": "模板, 預設為空，為空時將會將整個訊息轉發給 RocketMQ。 <br/>模板可以是任意帶有佔位符的合法字串, 例如:<br/>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br/>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}"
-      }
-    },
-    "datalayers": {
-      "server": {
-        "desc": "驅動類型為 Arrow Flight 時，預設連接埠應為 8360"
-      },
-      "driver_type": {
-        "label": "驅動類型"
-      },
-      "enable_prepared": {
-        "label": "啟用預處理語句",
-        "desc": "啟用 Datalayers 連接器的預處理語句。\n    注意：此參數僅在 <code>驅動類型</code> 設定為 <code>Arrow Flight</code> 時生效。"
-      },
-      "write_syntax": {
-        "desc": "Datalayers 採用與 InfluxDB v1 完全相容的行協定，為使用者提供了熟悉且高效的資料寫入方式。雖然相容InfluxDB v1 的語法，但 Datalayers 在底層實現上有其獨特之處，以最佳化效能和適應其特定的儲存結構。參考 [InfluxDB Line Protocol](https://docs.datalayers.cn/datalayers/latest/development-guide/writing-with-influxdb-line-protocol.html)"
-      },
-      "precision": {
-        "desc": "Datalayers 時間精度。"
-      }
-    },
-    "emqx_tables": {
-      "ciphers": {
-        "desc": "此設定儲存由逗號分隔的 TLS 密碼套件名稱。支援的套件如下\n- TLS_AES_256_GCM_SHA384\n- TLS_AES_128_GCM_SHA256\n- TLS_CHACHA20_POLY1305_SHA256\n- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\n- TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\n- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\n- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
-      }
-    },
-    "http": {
-      "url": {
-        "label": "URL",
-        "desc": "HTTP 連接器的 URL。<br/>路徑中支援佔位符，但在主機或連接埠部分中不能使用佔位符。<br/>例如，`http://localhost:9901/${'{'}topic{'}'}` 是允許的，但是 `http://${'{'}host{'}'}:9901/message` 或 `http://localhost:${'{'}port{'}'}/message `不允許。"
-      },
-      "headers": {
-        "label": "請求標頭"
-      },
-      "enable_pipelining": {
-        "label": "HTTP 管道"
-      },
-      "oauth2": {
-        "label": "OAuth2 用戶端憑證",
-        "desc": "啟用 OAuth2 用戶端憑證認證。EMQX 會取得並快取存取權杖，並以 Bearer Token 的形式新增到發出的 HTTP 請求中。"
-      },
-      "oauth2_token_endpoint": {
-        "label": "Token 端點",
-        "desc": "用於請求存取權杖的 OAuth2 授權伺服器端點。"
-      },
-      "oauth2_client_id": {
-        "label": "用戶端 ID",
-        "desc": "請求存取權杖時使用的 OAuth2 用戶端 ID。"
-      },
-      "oauth2_client_secret": {
-        "label": "用戶端金鑰",
-        "desc": "請求存取權杖時使用的 OAuth2 用戶端金鑰。"
-      },
-      "oauth2_scope": {
-        "label": "授權範圍",
-        "desc": "請求存取權杖時使用的可選 OAuth2 授權範圍。"
-      },
-      "oauth2_timeout": {
-        "label": "Token 請求逾時",
-        "desc": "向 Token 端點發起 HTTP 請求的逾時時間。"
-      },
-      "oauth2_ssl": {
-        "label": "Token 端點 TLS",
-        "desc": "連線 OAuth2 Token 端點時使用的 TLS 設定。"
-      },
-      "body": {
-        "label": "請求體",
-        "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。請根據使用動作的業務需求來選擇欄位，置空則原樣轉發訊息。"
-      },
-      "method": {
-        "label": "請求方法"
-      },
-      "path": {
-        "label": "URL 路徑",
-        "desc": "此操作的 URL 路徑。<br/>此路徑將附加到連接器的 <code>url</code> 設定中，以形成完整的 URL 地址。此選項中允許使用帶有變數的模板。 例如，<code>/room/{'{'}$room_no{'}'}</code>"
-      }
-    },
-    "gcp_pubsub_producer": {
-      "authentication_type": {
-        "label": "認證類型"
-      },
-      "query_mode": {
-        "label": "請求模式"
-      },
-      "batch_size": {
-        "label": "最大批次請求大小"
-      },
-      "authentication_initial_token_type": {
-        "label": "憑證類型"
-      },
-      "attributes_template": {
-        "label": "屬性模版",
-        "desc": "用於格式化訊息屬性的模板。未定義的值將被渲染為空字串。空鍵將從屬性對映中刪除。"
-      },
-      "pubsub_topic": {
-        "label": "GCP PubSub 主題",
-        "desc": "要發布訊息的 GCP PubSub 主題。"
-      },
-      "ordering_key_template": {
-        "label": "排序鍵模板",
-        "desc": "用於格式化訊息排序鍵的模板。未定義的值將被渲染為空字串。如果此值為空，則不會將其新增到訊息中。"
-      },
-      "payload_template": {
-        "label": "HTTP 請求訊息體模板",
-        "desc": "用於格式化外發資訊的模板。 如果未定義，將以 JSON 格式傳送所有可用的上下文。"
-      },
-      "pipelining": {
-        "desc": "正整數，設定最大可傳送的非同步 HTTP 請求數量。當設定為 1 時，表示每次傳送完成 HTTP 請求後都需要等待伺服器回傳，再繼續傳送下一個請求。"
-      },
-      "connect_timeout": {
-        "desc": "連線 GCP 伺服器的逾時時間。"
-      },
-      "service_account_json": {
-        "desc": "包含將與 PubSub 一起使用的 GCP 服務帳戶憑證的 JSON。<br/>當建立 GCP 服務帳戶時（如 https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount ），可以選擇下載 JSON 形式的憑證，然後在該設定項中使用。"
-      }
-    },
-    "syskeeper_forwarder": {
-      "ack_mode": {
-        "label": "ACK 模式",
-        "desc": "指定 Proxy 伺服器是否應該回復確認訊息，可以是：<br/>- need_ack <br/>- no_ack <br/>"
-      },
-      "ack_timeout": {
-        "label": "ACK 逾時",
-        "desc": "等待回覆確認訊息的最長時間"
-      },
-      "target_topic": {
-        "label": "主題",
-        "desc": "轉發訊息的主題"
-      },
-      "target_qos": {
-        "label": "QoS",
-        "desc": "轉發訊息的服務品質（QoS），留空表示使用原始主題的 QoS"
-      },
-      "server": {
-        "desc": "Syskeeper Proxy 伺服器的地址"
-      },
-      "template": {
-        "desc": "訊息模板, 支援佔位符"
+      "influxdb_type": {
+        "label": "InfluxDB 版本"
       }
     },
     "iotdb": {
@@ -5351,6 +4829,105 @@
         "desc": "連線到 IoTDB 伺服器時的逾時時間。"
       }
     },
+    "elasticsearch": {
+      "server": {
+        "label": "伺服器地址",
+        "desc": "ElasticSearch 服務的 REST 介面地址。"
+      },
+      "parameters": {
+        "label": "操作"
+      },
+      "index": {
+        "label": "索引名稱",
+        "desc": "要執行操作的索引或索引別名的名稱，支援 ${'{'}var{'}'} 格式的佔位符。"
+      },
+      "id": {
+        "label": "文件 ID",
+        "desc": "索引內文件的唯一識別碼，支援 ${'{'}var{'}'} 格式的佔位符。如果未指定 ID，則由 Elasticsearch 自動生成。"
+      },
+      "doc": {
+        "label": "文件模版",
+        "desc": "自訂文件模板，支援 ${'{'}var{'}'} 格式的佔位符，要求必須可以被轉換為 JSON 物件。\n 例如 `{'{'} \"field\": \"${'{'}payload.field{'}'}\" {'}'}`，或 `${'{'}payload{'}'}`。"
+      },
+      "routing": {
+        "label": "路由",
+        "desc": "指定應將文件儲存在索引的哪個分片中，留空則由 Elasticsearch 決定。"
+      },
+      "overwrite": {
+        "label": "是否覆寫文件",
+        "desc": "當文件已經存在時覆寫文件，否則文件將寫入失敗。"
+      },
+      "doc_as_upsert": {
+        "label": "啟用更新插入",
+        "desc": "嘗試更新的文件不存在時，將更新操作當作一個插入操作，並將提供的文件當作新文件插入。"
+      },
+      "wait_for_active_shards": {
+        "desc": "在繼續操作之前必須啟用的分片副本數。\n設定為 all 或任何正整數，最多為索引中的總分片數（number_of_replicas+1）。\n預設值：1，即主分片。"
+      },
+      "enable_pipelining": {
+        "desc": "一個正整數。是否連續傳送 HTTP 請求，當設定為 1 時，這意味著每次傳送 HTTP 請求後，您需要等待伺服器回傳，然後繼續傳送下一個請求。"
+      },
+      "connect_timeout": {
+        "desc": "連線到 ElasticSearch 伺服器時的逾時時間。"
+      },
+      "action": {
+        "label": "操作"
+      }
+    },
+    "mqtt": {
+      "keepalive": {
+        "label": "MQTT Keepalive"
+      },
+      "tcp_opts_keepalive": {
+        "label": "TCP Keepalive"
+      },
+      "node": {
+        "label": "節點名稱",
+        "desc": "EMQX 的節點名稱，例如：<code>emqx{'@'}10.0.0.1</code>"
+      },
+      "ids": {
+        "label": "用戶端 ID 列表",
+        "desc": "指定給該節點的靜態用戶端 ID 列表"
+      },
+      "topic": {
+        "label": "主題",
+        "desc": "訊息發布主題，支援使用 ${'{'}field{'}'} 語法提取變數動態拼接主題。"
+      },
+      "bridge_mode": {
+        "desc": "該設定僅適用於 MQTT 協定版本低於 5.0 的情況，且遠端 MQTT 服務必須支援該功能。開啟後，遠端伺服器將識別目前連線為一個橋接，訊息迴環檢測更高效，收到的保留訊息標誌位會透傳給本地。"
+      },
+      "clean_start": {
+        "desc": "當重新連線到遠端服務，該 MQTT 服務作為入口橋接時，是否啟動一個乾淨的會話。"
+      },
+      "retry_interval": {
+        "desc": "在未收到 ACK 的情況下，QoS1/QoS2 訊息的重試間隔。"
+      },
+      "clientid_prefix": {
+        "desc": "連接器隨機生成用戶端 ID 時所使用的字首。"
+      },
+      "max_inflight": {
+        "desc": "訊息發布時，可以同時等待確認的未確認訊息數量，用以提高訊息傳遞效率和吞吐量。"
+      },
+      "source_topic": {
+        "desc": "訊息訂閱主題，支援使用 + 和 # 萬用字元。當 EMQX 執行在叢集模式下或連接器設定了連線池時，為了避免訊息重複，必須使用共享訂閱。",
+        "label": "主題"
+      },
+      "retain_as_published": {
+        "desc": "是否在遠端訂閱中設定 MQTT 5.0 的 Retain As Published 訂閱選項。啟用後，上游 broker 會保留轉發訊息的 retain 標誌；關閉後，上游 broker 會清除該標誌。僅當連接器使用 MQTT 5.0 時生效。"
+      },
+      "payload": {
+        "desc": "例如：${'{'}payload{'}'}, ${'{'}clientid{'}'}, ${'{'}topic{'}'}, ${'{'}username{'}'} 等。請根據使用動作的業務需求來選擇欄位，置空則原樣轉發訊息。支援使用 ${'{'}field{'}'} 語法讀取資料。"
+      },
+      "static_clientids": {
+        "desc": "設定 EMQX 節點與靜態用戶端 ID 的對應關係。當設定了對映關係後，只有在對映中指定的 EMQX 節點才會建立對應的 MQTT 用戶端連線。"
+      },
+      "delay_send": {
+        "desc": "啟用後，EMQX 可能會將較小的 TCP 寫入短暫快取，併合並後一次傳送為較大的資料包。適合大量小訊息場景，可提升吞吐，但可能增加少量延遲。預設值：<code>false</code>。"
+      },
+      "active_n": {
+        "desc": "每個連線在一次批處理中處理的 TCP 入站事件數量。值越大，繁忙連線的吞吐可能越高；值越小，單連線延遲可能更低。預設值：<code>10</code>。"
+      }
+    },
     "cassandra": {
       "keyspace": {
         "label": "Keyspace",
@@ -5396,6 +4973,52 @@
         "desc": "伺服器的地址。"
       }
     },
+    "clickhouse": {
+      "url": {
+        "label": "伺服器 URL",
+        "desc": "你想連線到的 Clickhouse 伺服器的 HTTP URL（例如 http://myhostname:8123）。"
+      },
+      "batch_value_separator": {
+        "label": "分隔符",
+        "desc": "預設為逗號 ','，適用於 VALUES 格式。您也可以使用其他分隔符， 請參考 [INSERT INTO 語句](https://clickhouse.com/docs/zh/sql-reference/statements/insert-into)。"
+      },
+      "connect_timeout": {
+        "desc": "連線 Clickhouse 伺服器的逾時時間。"
+      },
+      "sql": {
+        "desc": "可以使用 ${'{'}field{'}'} 佔位符來引用訊息與用戶端上下文中的變數，請確保對應欄位存在且資料格式符合預期。此處不支援 [SQL 預處理](https://docs.emqx.com/zh/enterprise/v5.0/data-integration/data-bridges.html#sql-預處理)。"
+      }
+    },
+    "dynamo": {
+      "url": {
+        "label": "DynamoDB 地址",
+        "desc": "DynamoDB 的地址。"
+      },
+      "aws_access_key_id": {
+        "label": "連線存取 ID",
+        "desc": "用於連線 DynamoDB 的 AWS 存取金鑰 ID。存取金鑰 ID 和秘密存取金鑰均留空時，將使用 EMQX 執行環境的 EC2 實例角色或 ECS 任務角色提供的臨時憑據。手動設定憑據時，必須同時填寫這兩個欄位。"
+      },
+      "aws_secret_access_key": {
+        "label": "連線存取金鑰",
+        "desc": "用於連線 DynamoDB 的 AWS 秘密存取金鑰。存取金鑰 ID 和秘密存取金鑰均留空時，將使用 EMQX 執行環境的 EC2 實例角色或 ECS 任務角色提供的臨時憑據。手動設定憑據時，必須同時填寫這兩個欄位。"
+      },
+      "region": {
+        "label": "DynamoDB 區域",
+        "desc": "AWS DynamoDB 所在的區域"
+      },
+      "hash_key": {
+        "label": "雜湊鍵"
+      },
+      "range_key": {
+        "label": "範圍鍵"
+      },
+      "template": {
+        "desc": "模板，預設值為空。當此值為空時，整個訊息將儲存在資料庫中。<br/>模板可以是任何帶有佔位符的有效 JSON，並確保表中所有的鍵都在這裡，例如：<br/>  `{'{'}\"id\" : \"${'{'}id{'}'}\", \"clientid\" : \"${'{'}clientid{'}'}\", \"data\" : \"${'{'}payload.data{'}'}\"{'}'}`"
+      },
+      "table": {
+        "desc": "DynamoDB 的表。"
+      }
+    },
     "gcp_pubsub_consumer": {
       "authentication_type": {
         "label": "認證類型"
@@ -5423,6 +5046,52 @@
       },
       "connect_timeout": {
         "desc": "連線 GCP 伺服器的逾時時間。"
+      }
+    },
+    "hstreamdb": {
+      "grpc_timeout": {
+        "label": "gRPC 逾時"
+      },
+      "stream": {
+        "label": "Stream"
+      },
+      "partition_key": {
+        "label": "分割區鍵",
+        "desc": "HStreamDB 分割區鍵。支援佔位符。"
+      },
+      "grpc_flush_timeout": {
+        "label": "gRPC 重新整理間隔",
+        "desc": "重新整理 gRPC 呼叫到 HStreamDB 伺服器的時間間隔。"
+      },
+      "aggregation_pool_size": {
+        "label": "Record 聚合池大小",
+        "desc": "記錄聚合池的大小。增大聚合池可提升並行處理能力，但可能會因批處理變小而影響效率。"
+      },
+      "max_batches": {
+        "label": "最大批次",
+        "desc": "重新整理佇列中最大未確認批次數。"
+      },
+      "writer_pool_size": {
+        "label": "寫入池大小",
+        "desc": "寫入池大小。擴大池規模可增加並行化和同時寫入操作，可能提升吞吐量。但需權衡記憶體消耗和資源競爭。"
+      },
+      "batch_interval": {
+        "label": "最長批處理間隔",
+        "desc": "兩個連續（批次）請求之間的最長間隔。"
+      },
+      "record_template": {
+        "label": "Record 模板",
+        "desc": "將被轉發到 HStreamDB 的 HStream record 模板。支援佔位符。<br/>注意：當使用 `raw record` 模板（意味著資料不是有效的 JSON）時，應該在 HStream 中使用 `read` 或 `subscription` 來取得資料。"
+      },
+      "parameters_batch_size": {
+        "label": "HStreamDB 最大批次請求大小",
+        "desc": "單個請求中可傳送的插入資料子句的最大數量。"
+      },
+      "url": {
+        "desc": "HStreamDB 伺服器的 URL。使用 gRPC HTTP 伺服器地址。"
+      },
+      "hstream_batch_size": {
+        "label": "HStreamDB 最大批次請求大小"
       }
     },
     "kafka_consumer": {
@@ -5490,6 +5159,60 @@
         "desc": "設定每次從 Kafka 拉取資料的位元組數。<br/>消費者按批次取得訊息，如果取得的第一個非空分割區中的第一個記錄批次大小大於這個值，該記錄批次仍會被回傳，以確保消費者能夠繼續處理。因此，這並不是一個絕對的最大值限制。如果需要實現最小延遲，可將該值設為 `1`"
       }
     },
+    "rocketmq": {
+      "access_key": {
+        "label": "AccessKey",
+        "desc": "RocketMQ 伺服器的 `accessKey`。"
+      },
+      "secret_key": {
+        "label": "SecretKey",
+        "desc": "RocketMQ 伺服器的 `secretKey`。"
+      },
+      "security_token": {
+        "label": "安全權杖",
+        "desc": "RocketMQ 伺服器安全權杖"
+      },
+      "rocketmq_namespace": {
+        "label": "RocketMQ 命名空間",
+        "desc": "RocketMQ 服務中設定的命名空間。使用已啟用命名空間的阿里雲 RocketMQ 時，請填寫實例 ID。"
+      },
+      "namespace": {
+        "label": "命名空間",
+        "desc": "如果你正在使用阿里雲的 RocketMQ 服務並且啟用了命名空間，或者你在你自己的 RocketMQ 服務裡設定了命名空間，那麼你必須設定命名空間欄位。對於阿里雲的 RocketMQ 服務來說，命名空間就是實例 ID。"
+      },
+      "topic": {
+        "label": "RocketMQ 主題",
+        "desc": "RocketMQ 主題"
+      },
+      "refresh_interval": {
+        "label": "主題路由更新間隔",
+        "desc": "RocketMQ 主題路由更新間隔。"
+      },
+      "send_buffer": {
+        "label": "傳送訊息的緩衝區大小",
+        "desc": "RocketMQ 驅動的套位元組傳送訊息的緩衝區大小"
+      },
+      "sync_timeout": {
+        "label": "同步呼叫逾時時間",
+        "desc": "RocketMQ 驅動同步呼叫的逾時時間。"
+      },
+      "strategy": {
+        "label": "Produce 策略",
+        "desc": "生產者訊息分發策略。 可能的值：`key_dispatch`，`roundrobin`。 預設值為 `roundrobin`。"
+      },
+      "tag": {
+        "label": "標籤"
+      },
+      "key": {
+        "label": "索引"
+      },
+      "servers": {
+        "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 RocketMQ 預設連接埠 9876。"
+      },
+      "template": {
+        "desc": "模板, 預設為空，為空時將會將整個訊息轉發給 RocketMQ。 <br/>模板可以是任意帶有佔位符的合法字串, 例如:<br/>- ${'{'}id{'}'}, ${'{'}username{'}'}, ${'{'}clientid{'}'}, ${'{'}timestamp{'}'}<br/>- {'{'}\"id\" : ${'{'}id{'}'}, \"username\" : ${'{'}username{'}'}{'}'}"
+      }
+    },
     "sqlserver": {
       "driver": {
         "label": "SQL Server Driver 名稱",
@@ -5518,6 +5241,66 @@
       },
       "server": {
         "desc": "將要連線的 IPv4 或 IPv6 地址，或者主機名。<br/>主機名具有以下形式：`Host[:Port]`。<br/>如果未指定 `[:Port]`，則使用 Oracle Database 預設連接埠 1521。"
+      }
+    },
+    "rabbitmq": {
+      "port": {
+        "label": "連接埠",
+        "desc": "RabbitMQ 伺服器監聽的連接埠號（預設為 5672）。"
+      },
+      "virtual_host": {
+        "label": "虛擬主機",
+        "desc": "連線到 RabbitMQ 伺服器時要使用的虛擬主機。"
+      },
+      "heartbeat": {
+        "label": "心跳",
+        "desc": "傳送心跳訊息到 RabbitMQ 伺服器的時間間隔。"
+      },
+      "timeout": {
+        "label": "連線逾時時間",
+        "desc": "等待建立連線的逾時時間。"
+      },
+      "exchange": {
+        "label": "交換機",
+        "desc": "訊息將被傳送到的 RabbitMQ 交換機的名稱。"
+      },
+      "routing_key": {
+        "label": "路由鍵",
+        "desc": "用於將訊息路由到 RabbitMQ 交換機的正確佇列的路由鍵。"
+      },
+      "delivery_mode": {
+        "label": "訊息傳遞模式",
+        "desc": "發布到 RabbitMQ 的訊息的傳遞模式。非永續性的傳遞模式適用於不需要在 RabbitMQ 重啟時保持永續性的訊息，而永續性的傳遞模式適用於必須在 RabbitMQ 重啟時保持永續性的訊息。"
+      },
+      "wait_for_publish_confirmations": {
+        "label": "等待發布確認",
+        "desc": "使用發布者確認時，是否要等待 RabbitMQ 確認訊息。"
+      },
+      "publish_confirmation_timeout": {
+        "label": "發布確認逾時時間",
+        "desc": "使用發布者確認時等待 RabbitMQ 確認訊息發布的逾時時間。"
+      },
+      "payload_template": {
+        "label": "有效載荷模板",
+        "desc": "傳送訊息到 RabbitMQ 之前格式化訊息有效載荷的模板。模板佔位符（例如 ${'{'}field1.sub_field{'}'} ）將被替換為相應欄位的值。如果為空，則整個輸入訊息將被用作有效載荷，格式化為 JSON 文本。此行為相當於將 ${'{'}.{'}'} 指定為有效載荷模板。"
+      },
+      "headers_template": {
+        "label": "Headers 模板"
+      },
+      "properties_template": {
+        "label": "屬性模版",
+        "desc": "訊息屬性模板，可檢視: https://www.rabbitmq.com/docs/publishers#message-properties"
+      },
+      "server": {
+        "desc": "你想要連線的 RabbitMQ 伺服器地址（例如，localhost）。"
+      },
+      "queue": {
+        "desc": "RabbitMQ 佇列名稱。",
+        "label": "佇列"
+      },
+      "no_ack": {
+        "desc": "在從 RabbitMQ 消費訊息時是否使用 `no_ack` 模式。",
+        "label": "No Ack"
       }
     },
     "pulsar": {
@@ -5606,6 +5389,108 @@
       "partition_key": {
         "label": "分割區鍵",
         "desc": "與發布的訊息關聯的 Amazon Kinesis 分割區鍵。支援 ${'{'}var{'}'} 格式的佔位符。"
+      }
+    },
+    "s3": {
+      "host": {
+        "label": "地址"
+      },
+      "port": {
+        "label": "連接埠"
+      },
+      "bucket": {
+        "label": "儲存桶",
+        "desc": "將要上傳檔案的儲存桶的名稱。需要在 S3 中預先建立好，支援 ${'{'}var{'}'} 佔位符格式。"
+      },
+      "acl": {
+        "label": "ACL",
+        "desc": "上傳的物件的存取權限。"
+      },
+      "content": {
+        "label": "物件內容",
+        "desc": "要儲存的物件的內容。預設情況下，它是包含所有欄位的 JSON 文本格式。支援如 ${'{'}payload{'}'} 的佔位符設定。儲存格式取決於變數的格式，支援二進位制內容。"
+      },
+      "key": {
+        "label": "物件鍵",
+        "desc": "要儲存的物件的鍵。支援如 ${'{'}var{'}'} 的佔位符設定。"
+      },
+      "parameters": {
+        "label": "上傳方式"
+      },
+      "type": {
+        "label": "增強類型"
+      },
+      "container": {
+        "label": "聚合上傳檔案格式"
+      },
+      "column_order": {
+        "desc": "在生成的 CSV 檔案中首先按列排序的事件欄位。<br/>無論此設定如何，生成的 CSV 都將包含聚合事件的所有欄位，但此處未明確提及的所有列將按字典順序排在這裡列出的欄位之後。"
+      },
+      "time_interval": {
+        "desc": "在上傳前將事件聚合到單個物件中的時間量。"
+      },
+      "aggregated_key": {
+        "label": "物件鍵",
+        "desc": "以下是聚合上傳的 S3 物件鍵模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 S3 物件鍵中。"
+      }
+    },
+    "azure_blob_storage": {
+      "account_name": {
+        "label": "帳戶名稱"
+      },
+      "account_key": {
+        "label": "存取金鑰"
+      },
+      "parameters": {
+        "label": "上傳方式"
+      },
+      "content": {
+        "label": "物件內容",
+        "desc": "要儲存的物件的內容。預設情況下，它是包含所有欄位的 JSON 文本格式。支援如 ${'{'}payload{'}'} 的佔位符設定。儲存格式取決於變數的格式，支援二進位制內容。"
+      },
+      "type": {
+        "label": "增強類型"
+      },
+      "blob": {
+        "label": "Blob 名稱",
+        "desc": "Azure Blob Storage blob 名稱。"
+      },
+      "container": {
+        "label": "容器名稱"
+      },
+      "parameters_aggregation_container": {
+        "label": "聚合上傳檔案格式"
+      },
+      "column_order": {
+        "desc": "在生成的 CSV 檔案中首先按列排序的事件欄位。<br/>無論此設定如何，生成的 CSV 都將包含聚合事件的所有欄位，但此處未明確提及的所有列將按字典順序排在這裡列出的欄位之後。"
+      },
+      "time_interval": {
+        "desc": "在上傳前將事件聚合到單個物件中的時間量。"
+      },
+      "parameters_container": {
+        "desc": "Azure Blob Storage 容器名稱。"
+      },
+      "aggregated_blob": {
+        "label": "Blob 名稱",
+        "desc": "以下是聚合上傳的 Azure Blob Storage blob 名稱模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 Azure Blob Storage blob 名稱中。"
+      }
+    },
+    "datalayers": {
+      "driver_type": {
+        "label": "驅動類型"
+      },
+      "enable_prepared": {
+        "label": "啟用預處理語句",
+        "desc": "啟用 Datalayers 連接器的預處理語句。\n    注意：此參數僅在 <code>驅動類型</code> 設定為 <code>Arrow Flight</code> 時生效。"
+      },
+      "write_syntax": {
+        "desc": "Datalayers 採用與 InfluxDB v1 完全相容的行協定，為使用者提供了熟悉且高效的資料寫入方式。雖然相容InfluxDB v1 的語法，但 Datalayers 在底層實現上有其獨特之處，以最佳化效能和適應其特定的儲存結構。參考 [InfluxDB Line Protocol](https://docs.datalayers.cn/datalayers/latest/development-guide/writing-with-influxdb-line-protocol.html)"
+      },
+      "precision": {
+        "desc": "Datalayers 時間精度。"
+      },
+      "server": {
+        "desc": "驅動類型為 Arrow Flight 時，預設連接埠應為 8360"
       }
     },
     "snowflake": {
@@ -5785,12 +5670,97 @@
         "label": "Parquet 最大行組大小"
       }
     },
+    "confluent_producer": {
+      "logical_cluster": {
+        "label": "邏輯叢集 ID"
+      },
+      "identity_pool_id": {
+        "label": "身分池 ID"
+      },
+      "connect_timeout": {
+        "desc": "建立 TCP 連線時的最長等待時長（若啟用認證，這個等待時長也包含完成認證所需時間）。"
+      },
+      "bootstrap_hosts": {
+        "desc": "用逗號分隔的 <code>host[:port]</code> 主機列表。預設連接埠號為 9092。",
+        "label": "主機列表"
+      },
+      "min_metadata_refresh_interval": {
+        "desc": "重新整理 Kafka broker 和 Kafka 主題後設資料的最短時間間隔。設定太小可能會增加 Kafka 壓力。"
+      },
+      "metadata_request_timeout": {
+        "desc": "重新整理後設資料時最長等待時長。"
+      },
+      "topic": {
+        "desc": "Kafka 主題名稱",
+        "label": "Kafka 主題名稱"
+      },
+      "kafka_headers": {
+        "desc": "請提供用作 Kafka Headers 的佔位符<br/>例如：<code>${'{'}pub_props{'}'}</code><br/>注意佔位符的值必須是一個物件：<br/>`{'{'}\"foo\": \"bar\"{'}'}`"
+      },
+      "kafka_header_value_encode_mode": {
+        "desc": "Kafka Headers 的值編碼類型：<br/>- `NONE`：僅將二進位制值新增到 Kafka Headers；<br/>- `JSON`：僅將 JSON 值新增到 Kafka Headers，並在傳送之前將其編碼為 JSON 字串。"
+      },
+      "kafka_ext_headers": {
+        "desc": "請提供更多的鍵值對，用於 Kafka Headers。<br/>這裡的鍵值對將與 `kafka_headers` 欄位的值合併後傳送到 Kafka。"
+      },
+      "key": {
+        "desc": "生成 Kafka 訊息鍵的模版。如果模版生成後為空值，則會使用 Kafka 的 <code>NULL</code> ，而非空字串。"
+      },
+      "value": {
+        "desc": "生成 Kafka 訊息的值的模版。如果模版生成後為空值，則會使用 Kafka 的 <code>NULL</code>，而非空字串。"
+      },
+      "partition_strategy": {
+        "desc": "設定訊息發布時應該如何選擇 Kafka 分割區。<br/><code>random</code>: 為每個訊息隨機選擇一個分割區。<br/><code>key_dispatch</code>：對 Kafka 訊息鍵進行雜湊，以得到一個分割區號。"
+      },
+      "max_batch_bytes": {
+        "desc": "最大訊息批次位元組數。大多數 Kafka 環境的預設最低值是 1 MB，EMQX 的預設值比 1 MB 更小是因為需要補償 Kafka 訊息編碼所需要的額外位元組（尤其是當每條訊息都很小的情況下）。當單個訊息的大小超過該限制時，它仍然會被傳送，（相當於該批次中只有單個訊息）。"
+      },
+      "required_acks": {
+        "desc": "設定 Kafka leader 在回傳給 EMQX 確認之前需要等待多少個 follower 的確認。<br/><code>all_isr</code>: 需要所有的線上複製者都確認。<br/><code>leader_only</code>: 僅需要分割區 leader 確認。<br/><code>none</code>: 無需 Kafka 回覆任何確認。"
+      },
+      "partition_count_refresh_interval": {
+        "desc": "設定 Kafka 重新整理分割區數量的時間間隔。<br/>EMQX 發現 Kafka 分割區數量增加後，會開始按 <code>partition_strategy</code> 設定，把訊息傳送到新的分割區中。"
+      },
+      "max_inflight": {
+        "desc": "設定 Kafka 生產者（每個分割區一個）在收到 Kafka 的確認前最多傳送多少個請求（批次）。調大這個值通常可以增加吞吐量，但是，當該值設定大於 1 時存在訊息亂序的風險。"
+      },
+      "sync_query_timeout": {
+        "desc": "同步查詢的逾時時間。僅當請求模式設定為'同步'時才使用該設定。"
+      },
+      "mode": {
+        "desc": "訊息快取模式。<br/><code>memory</code>: 所有的訊息都快取在記憶體裡。如果 EMQX 服務重啟，快取的訊息會遺失。<br/><code>disk</code>: 快取到磁碟上。EMQX 重啟後會繼續傳送重啟前未傳送完成的訊息。<br/><code>hybrid</code>: 先將訊息快取在記憶體中，當記憶體中的訊息堆積超過一定限制（設定項 <code>segment_bytes</code> 描述了該限制）後，後續的訊息會快取到磁碟上。與 <code>memory</code> 模式一樣，如果 EMQX 服務重啟，快取的訊息會遺失。"
+      },
+      "per_partition_limit": {
+        "desc": "為每個 Kafka 分割區設定的最大快取位元組數。當超過這個上限之後，老的訊息會被丟棄，為新的訊息騰出空間。"
+      },
+      "segment_bytes": {
+        "desc": "當快取模式是 <code>disk</code> 或 <code>hybrid</code> 時適用。該設定用於指定快取到磁碟上的檔案的大小。"
+      },
+      "compression": {
+        "desc": "壓縮方法。"
+      },
+      "partitions_limit": {
+        "desc": "限制生產者能夠傳送訊息的最大分割區數量。"
+      }
+    },
     "aws_timestream": {
       "influxdb_type": {
         "label": "InfluxDB 類型"
       },
       "parameters": {
         "label": "InfluxDB 版本"
+      }
+    },
+    "quasardb": {
+      "uri": {
+        "label": "URI"
+      },
+      "cluster_public_key": {
+        "label": "叢集公鑰"
+      },
+      "health_check_table": {
+        "label": "健康檢查表",
+        "desc": "在動作健康檢查中使用的表名。目前，無法直接從 SQL 中推斷表名。如果設定，此值將在 `SHOW TABLE <table>` 語句中用於在動作健康檢查期間探測表的存在。"
       }
     },
     "bigquery": {
@@ -5853,6 +5823,17 @@
         "desc": "包含變更值的欄位名。"
       }
     },
+    "azure_event_grid": {
+      "tcp_opts_keepalive": {
+        "label": "TCP Keepalive"
+      },
+      "topic": {
+        "label": "主題"
+      },
+      "source_topic": {
+        "label": "主題"
+      }
+    },
     "tdengine": {
       "database": {
         "label": "資料庫名字"
@@ -5901,6 +5882,25 @@
       },
       "ts_column": {
         "desc": "指定查詢時將顯示的自訂時間戳列名。"
+      }
+    },
+    "syskeeper_proxy": {
+      "listen": {
+        "desc": "Syskeeper Proxy 伺服器的監聽地址",
+        "label": "監聽地址"
+      },
+      "acceptors": {
+        "desc": "接收器的數量",
+        "label": "接收器"
+      },
+      "handshake_timeout": {
+        "desc": "在建立連線時等待握手的最長時間",
+        "label": "握手逾時"
+      }
+    },
+    "emqx_tables": {
+      "ciphers": {
+        "desc": "此設定儲存由逗號分隔的 TLS 密碼套件名稱。支援的套件如下<br/>- TLS_AES_256_GCM_SHA384<br/>- TLS_AES_128_GCM_SHA256<br/>- TLS_CHACHA20_POLY1305_SHA256<br/>- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256<br/>- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
       }
     }
   },

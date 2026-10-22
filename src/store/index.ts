@@ -16,8 +16,6 @@ import type { RuleEvent } from '@/types/rule'
 
 export type SSOmfaPending = Extract<SSOTokenExchangeResult, { action: string }>
 
-const SUPPORTED_LANGS = ['en', 'zh', 'zh-TW']
-
 /**
  * Accepts BCP 47 style tags: zh-Hant, zh-TW, zh-HK and zh-MO are Traditional
  * Chinese, any other zh is Simplified, anything else falls back to English.

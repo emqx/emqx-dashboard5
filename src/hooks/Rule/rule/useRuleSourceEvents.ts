@@ -1,17 +1,17 @@
+import { LocalizedText } from '@/types/common'
+
 export default (): {
   eventDoNotNeedShow: string[]
   isMsgPubEvent: (event: string) => boolean
-  getEventLabel: ({ zh, en }: { zh: string; en: string }) => string
+  getEventLabel: (title: LocalizedText) => string
   getEventDesc: (event: string) => string
 } => {
   const { state } = useStore()
   const { tl } = useI18nTl('RuleEngine')
 
   const eventDoNotNeedShow = ['$bridges/mqtt:*']
-  const getEventLabel = ({ zh, en }: { zh: string; en: string }) => (isZh.value ? zh : en)
+  const getEventLabel = (title: LocalizedText) => pickLangText(title, state.lang)
   const getEventDesc = (event: string) => tl(`${camelCase(event.slice(8))}Desc`)
-
-  const isZh = computed(() => isZhLang(state.lang))
 
   const { isMsgPubEvent } = useRuleUtils()
 

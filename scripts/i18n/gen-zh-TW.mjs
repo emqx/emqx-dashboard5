@@ -119,25 +119,12 @@ for (const [key, value] of Object.entries(schemaZh)) {
   if (Object.keys(entry).length) messages.ConfigSchema[key] = entry
 }
 
-// src/schemaText/actionText/*-zh.json -> BridgeSchema
-const actionDir = path.join(SRC, 'schemaText', 'actionText')
+// BridgeSchema is assembled in the order src/schemaText/actionText/index.ts
+// merges it at runtime: @emqx/shared-ui-i18n first, then this repo's own
+// action-*-zh.json on top. Doing it the other way round would let a shared
+// label overwrite the one this repo deliberately replaced.
 messages.BridgeSchema = {}
-for (const [file, tag] of [['action-label-zh.json', 'label'], ['action-desc-zh.json', 'desc']]) {
-  const data = JSON.parse(fs.readFileSync(path.join(actionDir, file), 'utf8'))
-  for (const [type, entries] of Object.entries(data)) {
-    for (const [key, text] of Object.entries(entries)) {
-      if (typeof text !== 'string') continue
-      messages.BridgeSchema[type] ??= {}
-      messages.BridgeSchema[type][key] ??= {}
-      messages.BridgeSchema[type][key][tag] = convert(text, `BridgeSchema.${type}.${key}.${tag}`)
-      count++
-    }
-  }
-}
 
-// @emqx/shared-ui-i18n ships more Simplified Chinese action/connector labels
-// and the schema symbol labels. It is optional so this script still runs in a
-// checkout without node_modules; anything missing keeps its zh text at runtime.
 const addTextConf = (data, tag) => {
   for (const [type, entries] of Object.entries(data ?? {})) {
     for (const [key, text] of Object.entries(entries ?? {})) {
@@ -159,6 +146,9 @@ const convertTree = (node) => {
   return Object.fromEntries(Object.entries(node).map(([k, v]) => [k, convertTree(v)]))
 }
 
+// @emqx/shared-ui-i18n ships the Simplified Chinese action/connector labels
+// and the schema symbol labels. It is optional so this script still runs in a
+// checkout without node_modules; anything missing keeps its zh text at runtime.
 try {
   const shared = await import('@emqx/shared-ui-i18n')
   addTextConf(shared.zhConnectorsLabel, 'label')
@@ -170,6 +160,22 @@ try {
     'WARNING: @emqx/shared-ui-i18n could not be loaded (%s), its labels stay Simplified Chinese. Run pnpm install and retry.',
     err.code ?? err.message,
   )
+}
+
+// src/schemaText/actionText/*-zh.json -> BridgeSchema, on top of the shared
+// labels above, the way src/schemaText/actionText/index.ts does it.
+const actionDir = path.join(SRC, 'schemaText', 'actionText')
+for (const [file, tag] of [['action-label-zh.json', 'label'], ['action-desc-zh.json', 'desc']]) {
+  const data = JSON.parse(fs.readFileSync(path.join(actionDir, file), 'utf8'))
+  for (const [type, entries] of Object.entries(data)) {
+    for (const [key, text] of Object.entries(entries)) {
+      if (typeof text !== 'string') continue
+      messages.BridgeSchema[type] ??= {}
+      messages.BridgeSchema[type][key] ??= {}
+      messages.BridgeSchema[type][key][tag] = convert(text, `BridgeSchema.${type}.${key}.${tag}`)
+      count++
+    }
+  }
 }
 
 fs.rmSync(tmp, { recursive: true, force: true })

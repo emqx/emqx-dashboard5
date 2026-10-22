@@ -116,6 +116,7 @@ declare global {
   const SESSION_NEVER_EXPIRE_TIME: typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']
   const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
   const SPECIAL_INVALID_SUB_TOPIC_REG: typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']
+  const SUPPORTED_LANGS: typeof import('./common/constants')['SUPPORTED_LANGS']
   const SSL_FIELDS: typeof import('./common/constants')['SSL_FIELDS']
   const SSL_VERIFY_VALUE_MAP: typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']
   const SinkType: typeof import('./hooks/Flow/useFlowNode')['SinkType']
@@ -258,6 +259,7 @@ declare global {
   const orderBy: typeof import('lodash')['orderBy']
   const pick: typeof import('lodash')['pick']
   const pickBy: typeof import('lodash')['pickBy']
+  const pickLangText: typeof import('./common/tools')['pickLangText']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
@@ -736,6 +738,7 @@ declare module 'vue' {
     readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']>
     readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']>
     readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']>
+    readonly SUPPORTED_LANGS: UnwrapRef<typeof import('./common/constants')['SUPPORTED_LANGS']>
     readonly SSL_FIELDS: UnwrapRef<typeof import('./common/constants')['SSL_FIELDS']>
     readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']>
     readonly SinkType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SinkType']>
@@ -878,6 +881,7 @@ declare module 'vue' {
     readonly orderBy: UnwrapRef<typeof import('lodash')['orderBy']>
     readonly pick: UnwrapRef<typeof import('lodash')['pick']>
     readonly pickBy: UnwrapRef<typeof import('lodash')['pickBy']>
+    readonly pickLangText: UnwrapRef<typeof import('./common/tools')['pickLangText']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
