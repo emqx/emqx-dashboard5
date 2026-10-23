@@ -11,46 +11,6 @@ export default {
     zh: '基本信息',
     en: 'Basic Info',
   },
-  guideSourceNodeLabel: {
-    zh: 'Source',
-    en: 'Source',
-  },
-  guideSourceNodeDesc: {
-    zh: '拖拽多个节点以选择消息与事件输入',
-    en: 'Drag in multiple nodes to select message and event inputs',
-  },
-  guideProcessingNodeLabel: {
-    zh: 'Processing（可选）',
-    en: 'Processing (optional)',
-  },
-  guideProcessingNodeDesc: {
-    zh: '拖拽节点以处理和过滤数据',
-    en: 'Drag nodes to transform and filter data',
-  },
-  guideSinkNodeLabel: {
-    zh: 'Sink',
-    en: 'Sink',
-  },
-  guideFallbackNodeLabel: {
-    zh: 'Fallback（可选）',
-    en: 'Fallback (optional)',
-  },
-  guideFallbackNodeDesc: {
-    zh: '拖拽节点以作为备选动作',
-    en: 'Drag nodes as fallback actions',
-  },
-  guideSinkNodeDesc: {
-    zh: '拖拽多个节点以输出数据到外部数据集成',
-    en: 'Drag in multiple nodes to output data to external integrations',
-  },
-  filter: {
-    zh: '过滤器',
-    en: 'Filter',
-  },
-  condition: {
-    zh: '个条件',
-    en: 'condition | conditions',
-  },
   functionNum: {
     zh: '个函数',
     en: 'function | functions',
@@ -62,22 +22,6 @@ export default {
   nodeDrawerCancelTip: {
     zh: '是否取消{type}？你所做的修改将不被保存',
     en: 'Are you sure you want to cancel {type}? Your changes will not be saved.',
-  },
-  flowEmptyError: {
-    zh: '无法保存，Flow 中需要有至少一个 Sink 节点和一个 Source 节点',
-    en: 'Unable to save, there must be at least one Sink node and one Source node in the Flow',
-  },
-  flowIntegrityError: {
-    zh: '无法保存，Flow 中需要有至少一个 {missing} 节点',
-    en: 'Unable to save, at least one {missing} node is required in the Flow',
-  },
-  isolatedNodeError: {
-    zh: 'Flow 中有未连接的节点，请先连接或将其删除|Flow 中有未连接的节点，请先连接或将其删除',
-    en: 'There are unconnected node in the flow. Please connect or delete them.|There are unconnected nodes in the flow. Please connect or delete them.',
-  },
-  multipleFlowError: {
-    zh: '每次仅允许创建一个 Flow',
-    en: 'Only one flow can be created at a time',
   },
   alias: {
     zh: '别名',
@@ -119,22 +63,6 @@ export default {
     zh: '格式错误的别名',
     en: 'Invalid alias format',
   },
-  incorrectConnection: {
-    zh: '错误的连线',
-    en: 'Incorrect connection',
-  },
-  incorrectInputOutputConnection: {
-    zh: '请确认所有 Source 节点均正确连接到同一数据处理节点',
-    en: 'Please confirm that all source nodes are correctly connected to the same data processing node',
-  },
-  incorrectOutputNodeConnection: {
-    zh: '请确认所有 Sink 节点均由同一数据处理节点输出',
-    en: 'Please confirm that all sink nodes are output from the same data processing node',
-  },
-  incorrectDefaultNodeConnection: {
-    zh: '请确认所有数据处理节点均按照顺序首尾相连',
-    en: 'Please confirm that all data processing nodes are connected in sequence from start to end',
-  },
   editedWayToggleTip: {
     zh: '表达式过于复杂无法完全转换到编辑器，结果将被更改',
     en: 'Expressions that are excessively complex and cannot fully convert in the editor will be altered.',
@@ -142,14 +70,6 @@ export default {
   filterFunctionsWrongOrder: {
     zh: '过滤器节点必须放置在数据处理节点及 AI 节点之后，请调整节点位置。',
     en: 'Filter nodes must be placed after data processing node and AI nodes. Please adjust node positions.',
-  },
-  consoleFallbackWrong: {
-    zh: 'Console 不可作为备选动作',
-    en: 'Console cannot be used as a fallback action',
-  },
-  multipleFallbackWrong: {
-    zh: 'Flow 暂不支持编辑多层级备选动作',
-    en: 'Flow does not support editing multi-level fallback actions',
   },
   dataRemovedTip: {
     zh: '该节点已被删除，请及时更新 Flow',
@@ -159,37 +79,9 @@ export default {
     zh: '包含来自所有主题的消息，以及以下事件：',
     en: 'Contains messages from all topics, as well as the following events:',
   },
-  anthropicVersion: {
-    zh: 'Anthropic 版本',
-    en: 'Anthropic Version',
-  },
-  maxTokens: {
-    zh: '最大令牌数',
-    en: 'Max Tokens',
-  },
-  model: {
-    zh: '模型',
-    en: 'Model',
-  },
-  systemPrompt: {
-    zh: '系统消息',
-    en: 'System Message',
-  },
-  systemPromptDesc: {
-    zh: '系统消息，用于引导 AI 模型生成符合预期的输出。例：将输入的 JSON 数据中，值为数字的 value 相加起来，并输出，只需返回输出结果。',
-    en: 'System message, used to guide AI models to generate outputs that meet expectations. Example: Add up the values of numeric keys in the input JSON data and output the result, only return the output result.',
-  },
-  aiOutputAlias: {
-    zh: '输出结果别名',
-    en: 'Output Result Alias',
-  },
   aiOutputAliasDesc: {
     zh: '输出结果别名，用户在动作或后续处理中引用输出结果',
     en: 'Output result alias, used to reference output results in actions or subsequent processing',
-  },
-  baseURL: {
-    zh: '基础 URL',
-    en: 'Base URL',
   },
   aiCompletionTip: {
     zh: 'SQL 中包含 AI函数，AI 函数的系统消息及 API 密钥等配置，请至 {link} 编辑',
@@ -198,22 +90,6 @@ export default {
   flowDetail: {
     zh: 'Flow 详情页',
     en: 'flow details page',
-  },
-  recvTimeout: {
-    zh: '接收数据超时时间',
-    en: 'Receive Timeout',
-  },
-  checkoutTimeout: {
-    zh: '连接池超时时间',
-    en: 'Checkout Timeout',
-  },
-  checkoutTimeoutDesc: {
-    zh: '从连接池中为请求 AI 服务的请求分配的超时时间。',
-    en: 'Timeout for the checkout from connection pool for a request to the AI provider.',
-  },
-  maxConnectionsDesc: {
-    zh: '最大并发连接数',
-    en: 'Maximum number of simultaneous connections to the AI provider.',
   },
   openAiModelTip: {
     zh: '当前 OpenAI 使用 Responses API，一些较旧的模型不支持该 API，具体请查询 https://platform.openai.com/docs/models/compare?model=o1-mini',

@@ -18,6 +18,7 @@ import i18n from './i18n'
 import globalComponents from './components/global-components'
 import permissionsPlugin from './plugins/permissionsPlugin'
 import { FlowComponents } from '@emqx/shared-ui-components'
+import { zhTWFlowMessages } from '@/common/sharedFlowLocale'
 
 function bindDirective(app: Application) {
   app.directive('safe-html', safeHTML)
@@ -28,7 +29,8 @@ const elementLang = !isZhLang(store.state.lang)
   : store.state.lang === 'zh-TW'
     ? elementI18nZhTw
     : elementI18nZhCn
-const componentLocale = isZhLang(store.state.lang) ? 'zh' : 'en'
+const componentLocale =
+  store.state.lang === 'zh-TW' ? 'zh-TW' : isZhLang(store.state.lang) ? 'zh' : 'en'
 const app = createApp(App)
   .use(store)
   .use(router)
@@ -37,6 +39,7 @@ const app = createApp(App)
   })
   .use(FlowComponents, {
     locale: componentLocale,
+    messages: componentLocale === 'zh-TW' ? zhTWFlowMessages : undefined,
   })
   .use(i18n)
   .use(bindDirective)

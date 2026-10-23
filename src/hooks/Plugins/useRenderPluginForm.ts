@@ -168,24 +168,24 @@ function extractUIConfigs(schema: { fields: Array<Field> }): {
  *
  * @param configs - The plugin UI configuration form to modify.
  * @param i18nConfigs - The i18n configurations containing the translations for the placeholders.
- * @param lang - The language code ('zh' for Chinese, 'en' for English) to determine the translation to use.
+ * @param locale - The current language code; missing translations fall back to English.
  * @returns The modified plugin UI configuration form with the i18n placeholders replaced.
  */
 function replaceI18nInConfigs(
   configs: PluginUIConfigForm,
   i18nConfigs: Record<string, any>,
-  lang: 'zh' | 'en',
+  locale: string,
 ): PluginUIConfigForm {
   for (const key in configs) {
     if (typeof configs[key] === 'object') {
-      replaceI18nInConfigs(configs[key], i18nConfigs, lang)
+      replaceI18nInConfigs(configs[key], i18nConfigs, locale)
     } else if (
       ['label', 'description', 'message', 'dividerLabel'].includes(key) &&
       configs[key].startsWith('$')
     ) {
       const i18nKey = configs[key]
       if (i18nConfigs[i18nKey]) {
-        configs[key] = i18nConfigs[i18nKey][lang]
+        configs[key] = pickLangText(i18nConfigs[i18nKey], locale)
       }
     }
   }
@@ -197,8 +197,7 @@ const DEFAULT_VALUE_LABEL: Record<string, string> = {
   'zh-TW': '預設值：',
   en: 'Default: ',
 }
-const getDefaultValueLabel = (locale: string) =>
-  DEFAULT_VALUE_LABEL[locale] ?? DEFAULT_VALUE_LABEL[toLangFamily(locale)]
+const getDefaultValueLabel = (locale: string) => pickLangText(DEFAULT_VALUE_LABEL, locale)
 
 /**
  * Traverses form configs and appends the default value (stored as `_defaultValue`) to each
@@ -248,8 +247,6 @@ export default function usePluginRenderForm(): PluginUI {
 
   const store = useStore()
 
-  // plugin i18n from the backend only carries en and zh
-  const lang = computed<'zh' | 'en'>(() => toLangFamily(store.state.lang))
   const locale = computed<string>(() => store.state.lang)
 
   async function fetchPluginSchema(pluginName: string, pluginVersion: string) {
@@ -271,7 +268,7 @@ export default function usePluginRenderForm(): PluginUI {
           uiConfigs.value.$form = replaceI18nInConfigs(
             uiConfigs.value.$form,
             i18nConfigs.value,
-            lang.value,
+            locale.value,
           )
         }
         if (uiConfigs.value !== null && !isEmptyObj(uiConfigs.value.$form)) {

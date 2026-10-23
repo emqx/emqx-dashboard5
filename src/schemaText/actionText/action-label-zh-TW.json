@@ -1,0 +1,67 @@
+{
+  "common": {
+    "description": "描述",
+    "ssl": "啟用SSL",
+    "no_local": "禁止本地轉發",
+    "audience": "OAuth 請求受眾 (Audience)"
+  },
+  "mqtt": {
+    "source_topic": "主題"
+  },
+  "azure_event_grid": {
+    "source_topic": "主題"
+  },
+  "kafka_producer": {
+    "bootstrap_hosts": "主機列表",
+    "topic": "Kafka 主題名稱"
+  },
+  "confluent_producer": {
+    "bootstrap_hosts": "主機列表",
+    "topic": "Kafka 主題名稱"
+  },
+  "azure_event_hub_producer": {
+    "connection_string": "連線字串",
+    "kafka_ext_header_key": "鍵",
+    "kafka_ext_header_value": "值"
+  },
+  "mongodb": {
+    "mongo_type": "部署模式"
+  },
+  "redis": {
+    "redis_type": "部署模式"
+  },
+  "syskeeper_proxy": {
+    "listen": "監聽地址",
+    "acceptors": "接收器",
+    "handshake_timeout": "握手逾時"
+  },
+  "elasticsearch": {
+    "action": "操作"
+  },
+  "clickhouse": {
+    "url": "伺服器 URL"
+  },
+  "dynamo": {
+    "url": "DynamoDB 地址"
+  },
+  "rabbitmq": {
+    "queue": "佇列",
+    "no_ack": "No Ack"
+  },
+  "influxdb": {
+    "influxdb_type": "InfluxDB 版本",
+    "ping_with_auth": "Ping 請求攜帶認證"
+  },
+  "hstreamdb": {
+    "hstream_batch_size": "HStreamDB 最大批次請求大小"
+  },
+  "s3": {
+    "aggregated_key": "物件鍵"
+  },
+  "azure_blob_storage": {
+    "aggregated_blob": "Blob 名稱"
+  },
+  "quasardb": {
+    "health_check_table": "健康檢查表"
+  }
+}

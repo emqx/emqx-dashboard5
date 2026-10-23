@@ -1,0 +1,35 @@
+{
+  "common": {
+    "request_ttl": "從請求進入緩衝區開始計時，如果請求在規定的時間內仍停留在緩衝區內或者已傳送但未能及時收到回應或確認，該請求將被視為過期。<br/>連接器斷開連線期間，不會嘗試傳送訊息。如果請求 TTL 小於健康檢查逾時時間（<code>health_check_timeout</code>）與連線重建耗時之和，連接器斷開時排隊的訊息可能在連線恢復前過期。<br/>建議將請求 TTL 設定為大於健康檢查逾時時間，併為連線建立預留額外時間。",
+    "max_linger_time": "每個分割區生產者為將更多訊息累積成更大批次而等待的最長時間。<br/>預設值 <code>0</code> 表示不等待（訊息到達後立即傳送）。<br/>一旦累積的資料達到完整批次大小，等待將提前結束，因此繁忙的生產者不會被延遲。<br/>使用磁碟緩衝時，等待發生在寫入緩衝區之前；建議至少設定 <code>5ms</code> 以減少磁碟 IOPS。",
+    "audience": "指定請求 OAuth 存取權杖時提供的 `audience` 參數。"
+  },
+  "dynamo": {
+    "aws_access_key_id": "用於連線 DynamoDB 的 AWS 存取金鑰 ID。存取金鑰 ID 和秘密存取金鑰均留空時，將使用 EMQX 執行環境的 EC2 實例角色或 ECS 任務角色提供的臨時憑據。手動設定憑據時，必須同時填寫這兩個欄位。",
+    "aws_secret_access_key": "用於連線 DynamoDB 的 AWS 秘密存取金鑰。存取金鑰 ID 和秘密存取金鑰均留空時，將使用 EMQX 執行環境的 EC2 實例角色或 ECS 任務角色提供的臨時憑據。手動設定憑據時，必須同時填寫這兩個欄位。"
+  },
+  "mqtt": {
+    "source_topic": "訊息訂閱主題，支援使用 + 和 # 萬用字元。當 EMQX 執行在叢集模式下或連接器設定了連線池時，為了避免訊息重複，必須使用共享訂閱。"
+  },
+  "s3": {
+    "aggregated_key": "以下是聚合上傳的 S3 物件鍵模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 S3 物件鍵中。"
+  },
+  "azure_blob_storage": {
+    "aggregated_blob": "以下是聚合上傳的 Azure Blob Storage blob 名稱模板。<br/>模板可以包含以下變數的佔位符：<ul>  <li><code>${'{'}action{'}'}</code>：動作名稱（必需）。</li>  <li><code>${'{'}node{'}'}</code>：執行上傳的 EMQX 節點名稱（必需）。</li>  <li>    <code>${'{'}datetime.{'{'}format{'}'}{'}'}</code>：聚合開始的日期和時間，格式根據 <code>{'{'}format{'}'}</code> 字串指定（必需）：    <ul>      <li><code>${'{'}datetime.rfc3339utc{'}'}</code>：UTC 格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.rfc3339{'}'}</code>：本地時區格式的 RFC3339 日期和時間，</li>      <li><code>${'{'}datetime.unix{'}'}</code>：Unix 時間戳。</li>    </ul>  </li>  <li><code>${'{'}datetime_until.{'{'}format{'}'}{'}'}</code>：聚合結束的日期和時間，格式選項與上述相同。</li>  <li><code>${'{'}sequence{'}'}</code>：相同時間間隔內聚合上傳的序列號（必需）。</li></ul>所有其他佔位符均視為無效。請注意，如果模板中沒有使用標記為必需的佔位符，這些佔位符將作為路徑字尾新增到 Azure Blob Storage blob 名稱中。"
+  },
+  "rocketmq": {
+    "strategy": "生產者訊息分發策略。 可能的值：`key_dispatch`，`roundrobin`。 預設值為 `roundrobin`。"
+  },
+  "datalayers": {
+    "server": "驅動類型為 Arrow Flight 時，預設連接埠應為 8360"
+  },
+  "quasardb": {
+    "health_check_table": "在動作健康檢查中使用的表名。目前，無法直接從 SQL 中推斷表名。如果設定，此值將在 `SHOW TABLE <table>` 語句中用於在動作健康檢查期間探測表的存在。"
+  },
+  "influxdb": {
+    "ping_with_auth": "控制 EMQX 在傳送 /ping 健康檢查請求時是否附帶連接器認證資訊。如果你的 InfluxDB 服務要求 /ping 也進行認證，請啟用此項。預設值為 false，即保持原有行為，不在 /ping 請求中附帶認證資訊。"
+  },
+  "emqx_tables": {
+    "ciphers": "此設定儲存由逗號分隔的 TLS 密碼套件名稱。支援的套件如下<br/>- TLS_AES_256_GCM_SHA384<br/>- TLS_AES_128_GCM_SHA256<br/>- TLS_CHACHA20_POLY1305_SHA256<br/>- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256<br/>- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+  }
+}
