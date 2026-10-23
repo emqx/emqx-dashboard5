@@ -6,3 +6,5 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@emqx/shared-ui-constants'
   - '@emqx/shared-ui-i18n'
+  - '@emqx/shared-ui-components@0.0.19'
+  - '@emqx/shared-ui-utils@0.0.28'
