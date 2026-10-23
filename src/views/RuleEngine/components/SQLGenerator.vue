@@ -7,12 +7,12 @@
       @click="openDialog"
       :icon="MagicStick"
     >
-      {{ tl('generateSQL') }}
+      {{ tlSQL('generateSQLByAIBtn') }}
     </el-button>
 
     <el-dialog
       v-model="dialogVisible"
-      :title="tl('generateSQLWithAI')"
+      :title="tlSQL('generateSQLWithAI')"
       width="650px"
       append-to-body
       @closed="resetDialogState"
@@ -20,23 +20,26 @@
     >
       <div v-if="currentStep === 1">
         <el-form :model="formData" :rules="rules" ref="formRef" label-position="top">
-          <el-form-item :label="tl('description')" prop="description">
+          <el-form-item :label="tlSQL('taskDesc')" prop="description">
             <el-input
               v-model="formData.description"
               type="textarea"
               :rows="4"
-              :placeholder="tl('descriptionPlaceholder')"
+              :placeholder="tlSQL('taskDescPlaceholder')"
             />
           </el-form-item>
           <el-form-item prop="topics">
             <template #label>
-              <FormItemLabel :label="tl('topics')" :desc="tl('topicsTips')" />
+              <FormItemLabel :label="tlSQL('relatedTopics')" :desc="tlSQL('relatedTopicsDesc')" />
             </template>
-            <el-input v-model="formData.topics" :placeholder="tl('topicsPlaceholder')" />
+            <el-input v-model="formData.topics" :placeholder="tlSQL('relatedTopicsPlaceholder')" />
           </el-form-item>
           <el-form-item prop="exampleInput">
             <template #label>
-              <FormItemLabel :label="tl('exampleInput')" :desc="tl('exampleInputTips')" />
+              <FormItemLabel
+                :label="tlSQL('sqlExampleInput')"
+                :desc="tlSQL('sqlExampleInputDesc')"
+              />
             </template>
             <div class="monaco-container form-monaco-editor">
               <Monaco :id="exampleInputMonacoId" v-model="formData.exampleInput" lang="json" />
@@ -44,7 +47,10 @@
           </el-form-item>
           <el-form-item prop="exampleOutput">
             <template #label>
-              <FormItemLabel :label="tl('exampleOutput')" :desc="tl('exampleOutputTips')" />
+              <FormItemLabel
+                :label="tlSQL('sqlExampleOutput')"
+                :desc="tlSQL('sqlExampleOutputDesc')"
+              />
             </template>
             <div class="monaco-container form-monaco-editor">
               <Monaco :id="exampleOutputMonacoId" v-model="formData.exampleOutput" lang="json" />
@@ -55,8 +61,8 @@
       <div v-else-if="currentStep === 2">
         <div class="generated-sql-header">
           <div class="generated-sql-header-title">
-            <h3>{{ tl('generatedSQLOutputTitle') }}</h3>
-            <p class="description">{{ tl('generatedSQLOutputDesc') }}</p>
+            <h3>{{ tlSQL('generatedSQLOutputTitle') }}</h3>
+            <p class="description">{{ tlSQL('generatedSQLOutputDesc') }}</p>
           </div>
           <el-button type="primary" link @click="handleCopySQL" :icon="CopyDocument"> </el-button>
         </div>
@@ -76,7 +82,7 @@
           <template v-else-if="currentStep === 2">
             <el-button @click="handleBackToForm">{{ tl('backToForm') }}</el-button>
             <el-button type="primary" @click="handleApplySQL">
-              {{ tl('applySQL') }}
+              {{ tlSQL('applySQL') }}
               <el-icon class="el-icon--right"><Right /></el-icon>
             </el-button>
           </template>
@@ -95,6 +101,7 @@ import type { GenerateSQLPayload } from '@/types/rule'
 
 const store = useStore()
 const { tl } = useI18nTl('RuleEngine')
+const { tl: tlSQL } = useI18nTl('ruleSQL')
 const emit = defineEmits(['apply-sql'])
 
 const { copyText } = useCopy()

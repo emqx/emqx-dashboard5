@@ -7,12 +7,24 @@ import zhTWLocale from 'element-plus/es/locale/lang/zh-tw'
 import enLocale from 'element-plus/es/locale/lang/en'
 
 import schemaTextZh from '@/schemaText/schema-text-zh'
+import schemaTextZhTW from '@/schemaText/schema-text-zh-TW'
 import schemaTextEn from '@/schemaText/schema-text-en'
 
 import {
+  enFlow,
+  zhFlow,
+  enRuleFunction,
+  zhRuleFunction,
+  enRuleSQL,
+  zhRuleSQL,
   enSymbolLabel as symbolLabelEn,
   zhSymbolLabel as symbolLabelZh,
 } from '@emqx/shared-ui-i18n'
+
+import { zhTWSymbolLabel } from '@emqx/shared-ui-i18n/zh-TW/integration'
+import { zhTWRuleSQL } from '@emqx/shared-ui-i18n/zh-TW/ruleSQL'
+import { zhTWRuleFunction } from '@emqx/shared-ui-i18n/zh-TW/ruleFunction'
+import { zhTWFlow } from '@emqx/shared-ui-i18n/zh-TW/flow'
 
 import actionText from '@/schemaText/actionText/index'
 import zhTWMessages from '@/i18n/zh-TW.json'
@@ -46,6 +58,11 @@ const withZhTW = (enText: any, overrides: any): any => {
   }, {})
 }
 
+// Local Flow texts add app-only fields and retain intentional en/zh overrides.
+lang.en.Flow = { ...enFlow }
+lang.zh.Flow = { ...zhFlow }
+lang['zh-TW'].Flow = withZhTW(enFlow, zhTWFlow)
+
 // Dynamically import all translation files
 const modules = import.meta.glob('./i18n/*.ts')
 
@@ -62,23 +79,35 @@ Object.keys(modules).forEach((path) => {
         const { en, zh } = tran[k]
         lang.en[partKey][k] = en
         lang.zh[partKey][k] = zh
-        lang['zh-TW'][partKey][k] = zhTW[partKey]?.[k] ?? en
+        lang['zh-TW'][partKey][k] = zhTW[partKey]?.[k] ?? lang['zh-TW'][partKey][k] ?? en
       })
     })
   }
 })
 
+// Keep the existing Function namespace backed by shared resources.
+lang.en.Function = enRuleFunction
+lang.zh.Function = zhRuleFunction
+lang['zh-TW'].Function = withZhTW(enRuleFunction, zhTWRuleFunction)
+
+lang.en.ruleSQL = enRuleSQL
+lang.zh.ruleSQL = zhRuleSQL
+lang['zh-TW'].ruleSQL = withZhTW(enRuleSQL, zhTWRuleSQL)
+
 lang.en.ConfigSchema = schemaTextEn
 lang.zh.ConfigSchema = schemaTextZh
-lang['zh-TW'].ConfigSchema = withZhTW(schemaTextEn, zhTW.ConfigSchema)
+lang['zh-TW'].ConfigSchema = withZhTW(schemaTextEn, schemaTextZhTW)
 
 lang.en.BridgeSchema = actionText.en
 lang.zh.BridgeSchema = actionText.zh
-lang['zh-TW'].BridgeSchema = withZhTW(actionText.en, zhTW.BridgeSchema)
+lang['zh-TW'].BridgeSchema = withZhTW(actionText.en, actionText['zh-TW'])
 
 lang.en.SchemaSymbolLabel = symbolLabelEn
 lang.zh.SchemaSymbolLabel = symbolLabelZh
-lang['zh-TW'].SchemaSymbolLabel = withZhTW(symbolLabelEn, zhTW.SchemaSymbolLabel)
+lang['zh-TW'].SchemaSymbolLabel = withZhTW(
+  symbolLabelEn,
+  withZhTW(zhTWSymbolLabel, zhTW.SchemaSymbolLabel),
+)
 
 const i18nInstance = createI18n({
   legacy: false,

@@ -5,8 +5,9 @@
 //   pnpm add -D opencc-js
 //   node scripts/i18n/gen-zh-TW.mjs [--check]
 //
-// Sources: src/i18n/*.ts (the `zh` of every entry), src/schemaText/
-// schema-text-zh.ts and src/schemaText/actionText/action-{desc,label}-zh.json.
+// Sources: src/i18n/*.ts (the `zh` of every entry). Schema translations and
+// local integration overrides are maintained separately in src/schemaText/
+// schema-text-zh-TW.ts and actionText/action-{label,desc}-zh-TW.json.
 // Conversion is OpenCC `cn -> twp` followed by scripts/i18n/zh-TW-terms.json,
 // which fixes the terms OpenCC gets wrong for Taiwanese usage.
 //
@@ -19,6 +20,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+import { zhTWFlow } from '@emqx/shared-ui-i18n/zh-TW/flow'
+
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(HERE, '..', '..')
 const SRC = path.join(ROOT, 'src')
@@ -27,9 +30,7 @@ const CHECK = process.argv.includes('--check')
 
 const { Converter } = await import('opencc-js')
 const toTW = Converter({ from: 'cn', to: 'twp' })
-const { terms } = JSON.parse(
-  fs.readFileSync(path.join(HERE, 'zh-TW-terms.json'), 'utf8'),
-)
+const { terms } = JSON.parse(fs.readFileSync(path.join(HERE, 'zh-TW-terms.json'), 'utf8'))
 const rules = terms.map((t, i) => ({
   ...t,
   i,
@@ -54,7 +55,10 @@ const KEY_TERMS = {
   'General.disabled': [['不啟用', '停用']],
   'General.ssoDisabled': [['未啟用', '停用']],
   // 回車 is the Mainland name for the Enter key
-  'Gateway.aObservePathPlaceholder': [['刪除', '移除'], ['按回車', '按 Enter 鍵']],
+  'Gateway.aObservePathPlaceholder': [
+    ['刪除', '移除'],
+    ['按回車', '按 Enter 鍵'],
+  ],
 }
 const keyTermsSeen = new Set()
 
@@ -92,90 +96,22 @@ let count = 0
 
 // src/i18n/*.ts -> { <FileName>: { <key>: <zh-TW text> } }
 const i18nDir = path.join(SRC, 'i18n')
-for (const file of fs.readdirSync(i18nDir).filter((f) => f.endsWith('.ts')).sort()) {
+for (const file of fs
+  .readdirSync(i18nDir)
+  .filter((f) => f.endsWith('.ts'))
+  .sort()) {
   const partKey = path.basename(file, '.ts')
   const mod = await loadModule(path.join(i18nDir, file))
   const part = {}
   for (const [key, value] of Object.entries(mod)) {
+    // Shared Flow translations are maintained in the optional shared-ui entry.
+    if (partKey === 'Flow' && Object.hasOwn(zhTWFlow, key)) continue
     if (value && typeof value.zh === 'string') {
       part[key] = convert(value.zh, `${partKey}.${key}`)
       count++
     }
   }
   if (Object.keys(part).length) messages[partKey] = part
-}
-
-// src/schemaText/schema-text-zh.ts -> ConfigSchema
-const schemaZh = await loadModule(path.join(SRC, 'schemaText', 'schema-text-zh.ts'))
-messages.ConfigSchema = {}
-for (const [key, value] of Object.entries(schemaZh)) {
-  const entry = {}
-  for (const tag of ['label', 'desc']) {
-    if (typeof value?.[tag] === 'string') {
-      entry[tag] = convert(value[tag], `ConfigSchema.${key}.${tag}`)
-      count++
-    }
-  }
-  if (Object.keys(entry).length) messages.ConfigSchema[key] = entry
-}
-
-// BridgeSchema is assembled in the order src/schemaText/actionText/index.ts
-// merges it at runtime: @emqx/shared-ui-i18n first, then this repo's own
-// action-*-zh.json on top. Doing it the other way round would let a shared
-// label overwrite the one this repo deliberately replaced.
-messages.BridgeSchema = {}
-
-const addTextConf = (data, tag) => {
-  for (const [type, entries] of Object.entries(data ?? {})) {
-    for (const [key, text] of Object.entries(entries ?? {})) {
-      if (typeof text !== 'string') continue
-      messages.BridgeSchema[type] ??= {}
-      messages.BridgeSchema[type][key] ??= {}
-      messages.BridgeSchema[type][key][tag] = convert(text, `BridgeSchema.${type}.${key}.${tag}`)
-      count++
-    }
-  }
-}
-
-const convertTree = (node) => {
-  if (typeof node === 'string') {
-    count++
-    return convert(node)
-  }
-  if (!node || typeof node !== 'object') return node
-  return Object.fromEntries(Object.entries(node).map(([k, v]) => [k, convertTree(v)]))
-}
-
-// @emqx/shared-ui-i18n ships the Simplified Chinese action/connector labels
-// and the schema symbol labels. It is optional so this script still runs in a
-// checkout without node_modules; anything missing keeps its zh text at runtime.
-try {
-  const shared = await import('@emqx/shared-ui-i18n')
-  addTextConf(shared.zhConnectorsLabel, 'label')
-  addTextConf(shared.zhActionsLabel, 'label')
-  addTextConf(shared.zhIntegrationDesc, 'desc')
-  messages.SchemaSymbolLabel = convertTree(shared.zhSymbolLabel)
-} catch (err) {
-  console.warn(
-    'WARNING: @emqx/shared-ui-i18n could not be loaded (%s), its labels stay Simplified Chinese. Run pnpm install and retry.',
-    err.code ?? err.message,
-  )
-}
-
-// src/schemaText/actionText/*-zh.json -> BridgeSchema, on top of the shared
-// labels above, the way src/schemaText/actionText/index.ts does it.
-const actionDir = path.join(SRC, 'schemaText', 'actionText')
-for (const [file, tag] of [['action-label-zh.json', 'label'], ['action-desc-zh.json', 'desc']]) {
-  const data = JSON.parse(fs.readFileSync(path.join(actionDir, file), 'utf8'))
-  for (const [type, entries] of Object.entries(data)) {
-    for (const [key, text] of Object.entries(entries)) {
-      if (typeof text !== 'string') continue
-      messages.BridgeSchema[type] ??= {}
-      messages.BridgeSchema[type][key] ??= {}
-      messages.BridgeSchema[type][key][tag] = convert(text, `BridgeSchema.${type}.${key}.${tag}`)
-      count++
-    }
-  }
 }
 
 fs.rmSync(tmp, { recursive: true, force: true })

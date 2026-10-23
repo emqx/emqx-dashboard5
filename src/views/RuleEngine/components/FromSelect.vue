@@ -28,11 +28,11 @@
         v-for="item in eventOptions"
         :key="item.event"
         :value="item.event"
-        :label="item.title[locale]"
+        :label="getEventLabel(item.title)"
         @click="clickOption(RuleInputType.Event)"
       >
         <div class="option-content">
-          <p>{{ item.title[locale] }}</p>
+          <p>{{ getEventLabel(item.title) }}</p>
           <span class="item-id">{{ getEventForShow(item.event) }}</span>
         </div>
       </el-option>
@@ -66,7 +66,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { RuleEvent, BridgeItem } from '@/types/rule'
-import { BackendI18n } from '@/types/common'
+import type { LocalizedText } from '@/types/common'
 import { RuleInputType } from '@/types/enum'
 
 const props = defineProps({
@@ -90,8 +90,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'change'])
 
-const locale: Ref<keyof BackendI18n> = useI18n().locale as Ref<keyof BackendI18n>
+const { locale } = useI18n()
 const { tl } = useI18nTl('RuleEngine')
+const getEventLabel = (title: LocalizedText) => pickLangText(title, locale.value)
 
 const selectCom = ref()
 const isTopic = ref(false)
@@ -124,7 +125,7 @@ const eventOptions = computed(() =>
     ?.filter(({ event }) => !bridgeEventReg.test(event))
     .filter(
       ({ title, event }) =>
-        title[locale.value].indexOf(filterStr.value) > -1 ||
+        getEventLabel(title).indexOf(filterStr.value) > -1 ||
         event.lastIndexOf(filterStr.value) > -1,
     ),
 )
@@ -184,7 +185,7 @@ const findInputTypeNTargetByLabel = (
   label: string,
 ): { type: RuleInputType; target: RuleEvent | BridgeItem | string } => {
   const { ingressBridgeList = [], eventList = [] } = props
-  const event = eventList.find(({ title }) => title[locale.value] === label)
+  const event = eventList.find(({ title }) => getEventLabel(title) === label)
   if (event) {
     return { type: RuleInputType.Event, target: event }
   }

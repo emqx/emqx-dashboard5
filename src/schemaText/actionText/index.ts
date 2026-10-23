@@ -6,10 +6,17 @@ import {
   zhIntegrationDesc,
   enIntegrationDesc,
 } from '@emqx/shared-ui-i18n'
+import {
+  zhTWActionsLabel,
+  zhTWConnectorsLabel,
+  zhTWIntegrationDesc,
+} from '@emqx/shared-ui-i18n/zh-TW/integration'
 import customActionDescEn from './action-desc-en.json'
 import customActionDescZh from './action-desc-zh.json'
+import customActionDescZhTW from './action-desc-zh-TW.json'
 import customActionLabelEn from './action-label-en.json'
 import customActionLabelZh from './action-label-zh.json'
+import customActionLabelZhTW from './action-label-zh-TW.json'
 
 interface TextConf {
   [type: string]: { [key: string]: string }
@@ -22,11 +29,13 @@ interface TextItem {
 interface TextResult {
   zh: Record<string, { [key: string]: TextItem }>
   en: Record<string, { [key: string]: TextItem }>
+  'zh-TW': Record<string, { [key: string]: TextItem }>
 }
 
 const result: TextResult = {
   zh: {},
   en: {},
+  'zh-TW': {},
 }
 
 const transformConf = (conf: TextConf, propName: 'label' | 'desc') =>
@@ -49,26 +58,34 @@ const handleOneLang = (
   customLabelConf: TextConf,
   defaultDescConf: TextConf,
   customDescConf: TextConf,
-  lang: 'zh' | 'en',
+  lang: 'zh' | 'en' | 'zh-TW',
 ) => {
-  const labelConf = merge(defaultLabelConf, customLabelConf)
+  const labelConf = merge({}, defaultLabelConf, customLabelConf)
   const labelRet = transformConf(labelConf, 'label')
-  const descConf = merge(defaultDescConf, customDescConf)
+  const descConf = merge({}, defaultDescConf, customDescConf)
   const descRet = transformConf(descConf, 'desc')
 
   result[lang] = merge(labelRet, descRet)
 }
 
 const generateResult = () => {
+  // Local label and description overrides take precedence for every language.
   handleOneLang(
-    merge(zhConnectorsLabel, zhActionsLabel),
+    merge({}, zhTWConnectorsLabel, zhTWActionsLabel),
+    customActionLabelZhTW,
+    zhTWIntegrationDesc,
+    customActionDescZhTW,
+    'zh-TW',
+  )
+  handleOneLang(
+    merge({}, zhConnectorsLabel, zhActionsLabel),
     customActionLabelZh,
     zhIntegrationDesc,
     customActionDescZh,
     'zh',
   )
   handleOneLang(
-    merge(enConnectorsLabel, enActionsLabel),
+    merge({}, enConnectorsLabel, enActionsLabel),
     customActionLabelEn,
     enIntegrationDesc,
     customActionDescEn,

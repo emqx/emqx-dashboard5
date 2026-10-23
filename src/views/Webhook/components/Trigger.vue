@@ -61,6 +61,7 @@ import {
   RULE_INPUT_EVENT_PREFIX,
 } from '@/common/constants'
 import { EventForRule } from '@/types/enum'
+import type { LocalizedText } from '@/types/common'
 import { RuleEvent } from '@/types/rule'
 import { Plus, Trash2 } from 'lucide-vue-next'
 
@@ -113,8 +114,7 @@ const otherEventOpts = computed(() => {
   return ruleEvents.value.filter(({ event }) => !msgEventReg.test(event))
 })
 
-const isZh = computed(() => isZhLang(state.lang))
-const getEventLabel = ({ zh, en }: { zh: string; en: string }) => startCase(isZh.value ? zh : en)
+const getEventLabel = (title: LocalizedText) => startCase(pickLangText(title, state.lang))
 
 const updateSQL = (sql: string) => {
   if (sql !== nowSQL.value) {

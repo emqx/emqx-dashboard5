@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Check src/i18n/zh-TW.json for wording that does not belong in it.
+// Check local and shared zh-TW resources for wording that does not belong in them.
 //
 //   pnpm i18n:zh-TW:lint
 //
@@ -20,6 +20,17 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+import {
+  zhTWActionsLabel,
+  zhTWConnectorsLabel,
+  zhTWIntegrationDesc,
+  zhTWSymbolLabel,
+} from '@emqx/shared-ui-i18n/zh-TW/integration'
+
+import { zhTWRuleSQL } from '@emqx/shared-ui-i18n/zh-TW/ruleSQL'
+import { zhTWRuleFunction } from '@emqx/shared-ui-i18n/zh-TW/ruleFunction'
+import { zhTWFlow } from '@emqx/shared-ui-i18n/zh-TW/flow'
+
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(HERE, '..', '..')
 const SRC = path.join(ROOT, 'src')
@@ -33,6 +44,35 @@ const lint = JSON.parse(fs.readFileSync(path.join(HERE, 'zh-TW-lint.json'), 'utf
 const { rules } = lint
 const SIMPLIFIED = new Set([...(lint.simplifiedChars ?? '')])
 const generated = JSON.parse(fs.readFileSync(path.join(SRC, 'i18n', 'zh-TW.json'), 'utf8'))
+
+// Validate shared defaults as well as the local overrides that replace them.
+const localActionDesc = JSON.parse(
+  fs.readFileSync(path.join(SRC, 'schemaText', 'actionText', 'action-desc-zh-TW.json'), 'utf8'),
+)
+const localActionLabel = JSON.parse(
+  fs.readFileSync(path.join(SRC, 'schemaText', 'actionText', 'action-label-zh-TW.json'), 'utf8'),
+)
+const sharedBridgeSchema = {}
+for (const [data, tag] of [
+  [zhTWConnectorsLabel, 'label'],
+  [zhTWActionsLabel, 'label'],
+  [zhTWIntegrationDesc, 'desc'],
+  [localActionLabel, 'label'],
+  [localActionDesc, 'desc'],
+]) {
+  for (const [type, fields] of Object.entries(data)) {
+    sharedBridgeSchema[type] ??= {}
+    for (const [key, text] of Object.entries(fields)) {
+      sharedBridgeSchema[type][key] ??= {}
+      sharedBridgeSchema[type][key][tag] = text
+    }
+  }
+}
+generated.Flow = { ...zhTWFlow, ...generated.Flow }
+generated.Function = zhTWRuleFunction
+generated.ruleSQL = zhTWRuleSQL
+generated.BridgeSchema = sharedBridgeSchema
+generated.SchemaSymbolLabel = { ...zhTWSymbolLabel, ...generated.SchemaSymbolLabel }
 
 // flatten { A: { b: 'text' } } to [['A.b', 'text'], ...]
 const flatten = (node, prefix = []) =>
@@ -52,7 +92,10 @@ const loadModule = async (file) => {
 
 const zh = new Map()
 const i18nDir = path.join(SRC, 'i18n')
-for (const file of fs.readdirSync(i18nDir).filter((f) => f.endsWith('.ts')).sort()) {
+for (const file of fs
+  .readdirSync(i18nDir)
+  .filter((f) => f.endsWith('.ts'))
+  .sort()) {
   const part = path.basename(file, '.ts')
   const mod = await loadModule(path.join(i18nDir, file))
   for (const [key, value] of Object.entries(mod)) {
@@ -60,20 +103,34 @@ for (const file of fs.readdirSync(i18nDir).filter((f) => f.endsWith('.ts')).sort
   }
 }
 const schemaZh = await loadModule(path.join(SRC, 'schemaText', 'schema-text-zh.ts'))
+generated.ConfigSchema = await loadModule(path.join(SRC, 'schemaText', 'schema-text-zh-TW.ts'))
 for (const [key, value] of Object.entries(schemaZh)) {
   for (const tag of ['label', 'desc']) {
     if (typeof value?.[tag] === 'string') zh.set(`ConfigSchema.${key}.${tag}`, value[tag])
   }
 }
+for (const [file, tag] of [
+  ['action-label-zh.json', 'label'],
+  ['action-desc-zh.json', 'desc'],
+]) {
+  const data = JSON.parse(fs.readFileSync(path.join(SRC, 'schemaText', 'actionText', file), 'utf8'))
+  for (const [type, fields] of Object.entries(data)) {
+    for (const [key, text] of Object.entries(fields)) {
+      zh.set(`BridgeSchema.${type}.${key}.${tag}`, text)
+    }
+  }
+}
 fs.rmSync(tmp, { recursive: true, force: true })
 
 const entries = flatten(generated)
-console.log(`checking ${entries.length} strings in src/i18n/zh-TW.json against ${rules.length} rules`)
+console.log(`checking ${entries.length} local and shared strings against ${rules.length} rules`)
 
 const show = (text, needle, width = 34) => {
   const flat = text.replace(/\n/g, ' ')
   const i = flat.indexOf(needle)
-  return i < 0 ? flat.slice(0, width * 2) : flat.slice(Math.max(0, i - width), i + needle.length + width)
+  return i < 0
+    ? flat.slice(0, width * 2)
+    : flat.slice(Math.max(0, i - width), i + needle.length + width)
 }
 
 let problems = 0
@@ -115,8 +172,7 @@ try {
   for (const [key, text] of entries) {
     const bad = [...new Set([...text])].filter(
       (c) =>
-        SIMPLIFIED.has(c) ||
-        (s2t && c >= '一' && c <= '鿿' && !TW_VARIANTS.has(c) && s2t(c) !== c),
+        SIMPLIFIED.has(c) || (s2t && c >= '一' && c <= '鿿' && !TW_VARIANTS.has(c) && s2t(c) !== c),
     )
     if (bad.length) hits.push([key, bad.join(''), text])
   }
