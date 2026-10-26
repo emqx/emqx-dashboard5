@@ -40,6 +40,7 @@ const prop = defineProps<{
   modelValue?: string
   lang: string
   disabled?: boolean
+  autoHeight?: boolean
   hoverProvider?: monaco.languages.HoverProvider
   completionProvider?: monaco.languages.CompletionItemProvider
   scrollLoading?: boolean
@@ -53,6 +54,15 @@ const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'change'])
 
 // ❗️ editor instance can not be reactive, otherwise it will cause the page to get stuck for unknown reasons
 let editor: null | monaco.editor.IStandaloneCodeEditor = null
+
+const updateEditorHeight = () => {
+  if (!editor) return
+  const container = editor.getContainerDomNode()
+  const height = prop.autoHeight ? `${editor.getContentHeight()}px` : ''
+  if (container.style.height === height) return
+  container.style.height = height
+  editor.layout()
+}
 
 const setJSONValidate = () => {
   if (prop.lang === 'json') {
@@ -131,7 +141,7 @@ const initEditor = () => {
   if (!ele) {
     return
   }
-  const defaultOptions = {
+  const defaultOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
     value: prop.modelValue || '',
     language: prop.lang,
     readOnly: prop.disabled,
@@ -143,6 +153,8 @@ const initEditor = () => {
       enabled: false,
     },
     scrollbar: {
+      vertical: prop.autoHeight ? 'hidden' : 'auto',
+      handleMouseWheel: !prop.autoHeight,
       verticalScrollbarSize: 6,
       horizontalScrollbarSize: 6,
       alwaysConsumeMouseWheel: false,
@@ -154,6 +166,10 @@ const initEditor = () => {
   }
   setJSONValidate()
   editor = monaco.editor.create(ele, defaultOptions)
+  editor.onDidContentSizeChange(() => {
+    if (prop.autoHeight) updateEditorHeight()
+  })
+  updateEditorHeight()
   editor.onDidChangeModelContent(async (event) => {
     const value = editor?.getValue()
     if (value !== prop.modelValue) {
