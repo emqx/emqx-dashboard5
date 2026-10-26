@@ -91,6 +91,18 @@ export default {
     zh: '卸载',
     en: 'Uninstall',
   },
+  uninstallByName: {
+    zh: '手动卸载插件',
+    en: 'Manually uninstall plugin',
+  },
+  manualUninstallHint: {
+    zh: '输入插件名称和版本以请求集群范围的卸载。即使插件未显示在列表中，也可通过此入口卸载。',
+    en: 'Enter the plugin name and version to request cluster-wide uninstallation, even if the plugin is not shown in the list.',
+  },
+  manualUninstallConfirm: {
+    zh: '是否确认在整个集群中卸载插件 {name}（版本：{version}）？',
+    en: 'Uninstall plugin {name} (version: {version}) across the cluster?',
+  },
   uploadWarning: {
     zh: '请先上传文件',
     en: 'Please upload the file first',

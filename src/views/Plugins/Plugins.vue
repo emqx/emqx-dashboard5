@@ -10,9 +10,18 @@
           </el-radio-button>
         </el-radio-group>
       </div>
-      <CreateButton @click="goInstall">
-        {{ t('components.plugin-install') }}
-      </CreateButton>
+      <div class="plugin-actions">
+        <el-button
+          plain
+          :disabled="!hasPermission('delete')"
+          @click="isManualUninstallDialogVisible = true"
+        >
+          {{ tl('uninstallByName') }}
+        </el-button>
+        <CreateButton @click="goInstall">
+          {{ t('components.plugin-install') }}
+        </CreateButton>
+      </div>
     </div>
     <el-table
       :data="pluginListToShow"
@@ -104,15 +113,69 @@
     :plugin-node-version-info="pluginNodeVersionInfo"
     @submitted="queryListData"
   />
+  <el-dialog
+    v-model="isManualUninstallDialogVisible"
+    class="common-dialog"
+    :title="tl('uninstallByName')"
+    :width="520"
+    destroy-on-close
+    :close-on-click-modal="!isManualUninstallPending"
+    :close-on-press-escape="!isManualUninstallPending"
+    :show-close="!isManualUninstallPending"
+    @closed="resetManualUninstallForm"
+  >
+    <p>{{ tl('manualUninstallHint') }}</p>
+    <el-form
+      ref="manualUninstallFormRef"
+      :model="manualUninstallForm"
+      :rules="manualUninstallRules"
+      label-position="top"
+      @submit.prevent="handleManualUninstall"
+    >
+      <el-form-item prop="name" :label="tl('name')">
+        <el-input
+          v-model.trim="manualUninstallForm.name"
+          :aria-label="tl('name')"
+          :disabled="isManualUninstallPending"
+        />
+      </el-form-item>
+      <el-form-item prop="version" :label="tl('version')">
+        <el-input
+          v-model.trim="manualUninstallForm.version"
+          :aria-label="tl('version')"
+          :disabled="isManualUninstallPending"
+        />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button
+        :disabled="isManualUninstallPending"
+        @click="isManualUninstallDialogVisible = false"
+      >
+        {{ t('Base.cancel') }}
+      </el-button>
+      <el-button
+        type="danger"
+        plain
+        :disabled="!hasPermission('delete')"
+        :loading="isManualUninstallPending"
+        @click="handleManualUninstall"
+      >
+        {{ tl('uninstall') }}
+      </el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import { queryPlugins } from '@/api/plugins'
+import { queryPlugins, uninstallPlugin } from '@/api/plugins'
+import { usePerms } from '@/plugins/permissionsPlugin'
 import { NodeStatusClass, PluginStatus } from '@/types/enum'
 import { PluginItem } from '@/types/plugin'
 import type { PluginHealthStatusValueType } from '@/types/typeAlias'
 import { PluginsHealthStatusVal } from '@/types/typeAlias'
 import { SortableEvent } from 'sortablejs'
+import type { FormInstance, FormRules } from 'element-plus'
 import PluginItemStatus from './components/PluginItemStatus.vue'
 import PluginPinnedBadge from './components/PluginPinnedBadge.vue'
 import SyncPluginVersionDialog from './components/SyncPluginVersionDialog.vue'
@@ -120,6 +183,7 @@ import TableItemDropdown from './components/TableItemDropdown.vue'
 
 const router = useRouter()
 const { t } = useI18n()
+const { hasPermission } = usePerms()
 const tl = (key: string, moduleName = 'Plugins') => {
   return t(`${moduleName}.${key}`)
 }
@@ -362,11 +426,64 @@ const handleUninstall = async (plugin: PluginItem) => {
   }
 }
 
+const manualUninstallForm = ref({ name: '', version: '' })
+const manualUninstallFormRef = ref<FormInstance>()
+const { createRequiredRule } = useFormRules()
+const manualUninstallRules: FormRules = {
+  name: createRequiredRule(tl('name')).map((rule) => ({ ...rule, whitespace: true })),
+  version: createRequiredRule(tl('version')).map((rule) => ({ ...rule, whitespace: true })),
+}
+const isManualUninstallDialogVisible = ref(false)
+const isManualUninstallPending = ref(false)
+const resetManualUninstallForm = () => {
+  manualUninstallForm.value = { name: '', version: '' }
+  manualUninstallFormRef.value?.clearValidate()
+}
+const handleManualUninstall = async () => {
+  if (!manualUninstallFormRef.value || !hasPermission('delete') || isManualUninstallPending.value) {
+    return
+  }
+  isManualUninstallPending.value = true
+  try {
+    const valid = await manualUninstallFormRef.value.validate()
+    if (!valid) {
+      return
+    }
+    const { name, version } = manualUninstallForm.value
+    const nameVsn = `${name}-${version}`
+    const knownPlugin = totalData.value.find(
+      (plugin: PluginItem) => `${plugin.name}-${plugin.rel_vsn}` === nameVsn,
+    )
+    if (knownPlugin && isPinnedPlugin(knownPlugin)) {
+      ElMessage.warning(t('Plugins.pinnedPluginHint', { nameVsn }))
+      return
+    }
+    await ElMessageBox.confirm(t('Plugins.manualUninstallConfirm', { name, version }))
+    if (!hasPermission('delete')) {
+      return
+    }
+    await uninstallPlugin(nameVsn)
+    ElMessage.success(tl('uninstalledSuccessfully'))
+    isManualUninstallDialogVisible.value = false
+    await queryListData()
+  } catch (error) {
+    if (error !== 'cancel' && error !== 'close') {
+      console.error(error)
+    }
+  } finally {
+    isManualUninstallPending.value = false
+  }
+}
+
 queryListData()
 </script>
 
 <style lang="scss">
 .plugins {
+  .plugin-actions {
+    display: flex;
+    align-items: center;
+  }
   .filters {
     .el-input,
     .el-radio-group {
