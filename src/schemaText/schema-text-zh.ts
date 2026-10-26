@@ -15,7 +15,7 @@ export default {
     label: '空闲超时',
   },
   hibernate_after: {
-    desc: '已建立的 TCP、TLS、WS 和 WSS 连接在无活动后进入休眠的等待时间，默认 5 秒。休眠会触发垃圾回收并缩小进程堆，以节省内存；收到报文、消息或定时器事件时，连接会唤醒。\n\n设为 `infinity` 可禁用休眠。如果客户端发送数据的间隔接近此值，建议增大该值，以避免频繁休眠带来的垃圾回收开销。此配置不影响等待 CONNECT 报文的超时时间。QUIC 监听器自身的 `hibernate_after` 配置优先。',
+    desc: '已建立的 TCP、TLS、WS、WSS 或 QUIC 连接在无活动后进入休眠的等待时间，默认 5 秒。休眠会触发垃圾回收并缩小进程堆，以节省内存；收到报文、消息或定时器事件时，连接会唤醒。\n\n设为 `infinity` 可禁用休眠。如果客户端发送数据的间隔接近此值，建议增大该值，以避免频繁休眠带来的垃圾回收开销。此配置不影响等待 CONNECT 报文的超时时间。QUIC 连接使用监听器所属 Zone 的 `mqtt.hibernate_after`，QUIC 监听器的 `ssl_options.hibernate_after` 不再生效。',
     label: '连接休眠等待时间',
   },
   minor_gc_after: {

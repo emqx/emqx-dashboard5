@@ -15,7 +15,7 @@ export default {
     label: 'Idle Timeout',
   },
   hibernate_after: {
-    desc: 'How long an established TCP, TLS, WS or WSS connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC listeners retain their own `hibernate_after` setting, which takes precedence.',
+    desc: "How long an established TCP, TLS, WS, WSS or QUIC connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC connections use `mqtt.hibernate_after` of the listener's zone; `ssl_options.hibernate_after` on a QUIC listener has no effect.",
     label: 'Hibernate After',
   },
   minor_gc_after: {
