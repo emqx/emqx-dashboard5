@@ -1,4 +1,16 @@
 export default {
+  cleanPemCache: {
+    zh: '清理 PEM 缓存',
+    en: 'Clean PEM Cache',
+  },
+  cleanPemCacheConfirm: {
+    zh: '此操作会清理整个集群所有运行节点的 PEM 缓存，不受当前选择的命名空间影响。后续 TLS 握手将重新读取磁盘上的证书文件，证书文件不会被删除。确认清理？',
+    en: 'This clears the PEM cache on all running nodes in the cluster, regardless of the selected namespace. Subsequent TLS handshakes will read certificate files from disk again. Certificate files will not be deleted. Continue?',
+  },
+  cleanPemCacheSuccess: {
+    zh: 'PEM 缓存清理成功',
+    en: 'PEM cache cleared successfully',
+  },
   mqtt: {
     zh: 'MQTT',
     en: 'MQTT',

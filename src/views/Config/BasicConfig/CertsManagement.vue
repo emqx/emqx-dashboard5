@@ -12,6 +12,14 @@
           />
         </div>
         <div>
+          <el-button
+            v-if="canCleanPemCache"
+            :disabled="!$hasPermission('post')"
+            :loading="isCleaningPemCache"
+            @click="openPemCacheDialog"
+          >
+            {{ t('BasicConfig.cleanPemCache') }}
+          </el-button>
           <CreateButton @click="createBundle" />
         </div>
       </div>
@@ -36,6 +44,29 @@
       </el-table>
     </div>
   </div>
+  <el-dialog
+    v-model="isPemCacheDialogShow"
+    :title="t('BasicConfig.cleanPemCache')"
+    width="500px"
+    append-to-body
+    destroy-on-close
+    :close-on-click-modal="false"
+    :close-on-press-escape="!isCleaningPemCache"
+    :show-close="!isCleaningPemCache"
+  >
+    <TipContainer :content="t('BasicConfig.cleanPemCacheConfirm')" />
+    <template #footer>
+      <CancelButton :disabled="isCleaningPemCache" @click="isPemCacheDialogShow = false" />
+      <el-button
+        type="primary"
+        :loading="isCleaningPemCache"
+        :disabled="!canCleanPemCache || !$hasPermission('post')"
+        @click="handleCleanPemCache"
+      >
+        {{ t('Base.confirm') }}
+      </el-button>
+    </template>
+  </el-dialog>
   <CertBundleDrawer
     v-model="isDrawerShow"
     :bundle-name="currentBundleName"
@@ -56,9 +87,36 @@ import CertBundleInUseDialog, {
 } from '@/components/TLSConfig/CertBundleInUseDialog.vue'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
 import { CertBundleOut, ManagedCerts } from '@/types/typeAlias'
+import { cleanPemCache } from '@/api/tlsManagement'
 
 const { t } = useI18n()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
+const { canCleanPemCache, refreshPermissions } = usePemCachePermission()
+onMounted(refreshPermissions)
+
+const isCleaningPemCache = ref(false)
+const isPemCacheDialogShow = ref(false)
+const openPemCacheDialog = () => {
+  if (canCleanPemCache.value && !isCleaningPemCache.value) {
+    isPemCacheDialogShow.value = true
+  }
+}
+
+const handleCleanPemCache = async () => {
+  if (!canCleanPemCache.value || isCleaningPemCache.value) {
+    return
+  }
+  isCleaningPemCache.value = true
+  try {
+    await cleanPemCache()
+    isPemCacheDialogShow.value = false
+    ElMessage.success(t('BasicConfig.cleanPemCacheSuccess'))
+  } catch {
+    // Errors are displayed by the HTTP client.
+  } finally {
+    isCleaningPemCache.value = false
+  }
+}
 
 const isLoading = ref(false)
 

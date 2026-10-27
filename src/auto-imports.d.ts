@@ -116,9 +116,9 @@ declare global {
   const SESSION_NEVER_EXPIRE_TIME: typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']
   const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
   const SPECIAL_INVALID_SUB_TOPIC_REG: typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']
-  const SUPPORTED_LANGS: typeof import('./common/constants')['SUPPORTED_LANGS']
   const SSL_FIELDS: typeof import('./common/constants')['SSL_FIELDS']
   const SSL_VERIFY_VALUE_MAP: typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']
+  const SUPPORTED_LANGS: typeof import('./common/constants')['SUPPORTED_LANGS']
   const SinkType: typeof import('./hooks/Flow/useFlowNode')['SinkType']
   const SourceServerType: typeof import('./hooks/Rule/rule/useRule')['SourceServerType']
   const SourceType: typeof import('./hooks/Flow/useFlowNode')['SourceType']
@@ -224,10 +224,9 @@ declare global {
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
   const isRegExp: typeof import('lodash')['isRegExp']
-  const isZhLang: typeof import('./common/tools')['isZhLang']
-  const toLangFamily: typeof import('./common/tools')['toLangFamily']
   const isString: typeof import('lodash')['isString']
   const isUndefined: typeof import('lodash')['isUndefined']
+  const isZhLang: typeof import('./common/tools')['isZhLang']
   const judgeRuleSelectionWithFunc: typeof import('./common/tools')['judgeRuleSelectionWithFunc']
   const jumpToErrorFormItem: typeof import('./common/tools')['jumpToErrorFormItem']
   const lowerCase: typeof import('lodash')['lowerCase']
@@ -287,6 +286,7 @@ declare global {
   const sum: typeof import('lodash')['sum']
   const throttle: typeof import('lodash')['throttle']
   const titleCase: typeof import('./common/tools')['titleCase']
+  const toLangFamily: typeof import('./common/tools')['toLangFamily']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
@@ -468,6 +468,7 @@ declare global {
   const usePassword: typeof import('./hooks/usePassword')['default']
   const usePasswordHashRules: typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']
   const usePathInMenu: typeof import('./hooks/useMenus')['usePathInMenu']
+  const usePemCachePermission: typeof import('./hooks/usePemCachePermission')['default']
   const usePieChart: typeof import('./hooks/useMetrics')['usePieChart']
   const usePluginItem: typeof import('./hooks/Plugins/usePluginItem')['default']
   const usePluginStatus: typeof import('./hooks/Plugins/usePluginStatus')['default']
@@ -742,9 +743,9 @@ declare module 'vue' {
     readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']>
     readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']>
     readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']>
-    readonly SUPPORTED_LANGS: UnwrapRef<typeof import('./common/constants')['SUPPORTED_LANGS']>
     readonly SSL_FIELDS: UnwrapRef<typeof import('./common/constants')['SSL_FIELDS']>
     readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']>
+    readonly SUPPORTED_LANGS: UnwrapRef<typeof import('./common/constants')['SUPPORTED_LANGS']>
     readonly SinkType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SinkType']>
     readonly SourceServerType: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['SourceServerType']>
     readonly SourceType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SourceType']>
@@ -850,10 +851,9 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isRegExp: UnwrapRef<typeof import('lodash')['isRegExp']>
-    readonly isZhLang: UnwrapRef<typeof import('./common/tools')['isZhLang']>
-    readonly toLangFamily: UnwrapRef<typeof import('./common/tools')['toLangFamily']>
     readonly isString: UnwrapRef<typeof import('lodash')['isString']>
     readonly isUndefined: UnwrapRef<typeof import('lodash')['isUndefined']>
+    readonly isZhLang: UnwrapRef<typeof import('./common/tools')['isZhLang']>
     readonly judgeRuleSelectionWithFunc: UnwrapRef<typeof import('./common/tools')['judgeRuleSelectionWithFunc']>
     readonly jumpToErrorFormItem: UnwrapRef<typeof import('./common/tools')['jumpToErrorFormItem']>
     readonly lowerCase: UnwrapRef<typeof import('lodash')['lowerCase']>
@@ -913,6 +913,7 @@ declare module 'vue' {
     readonly sum: UnwrapRef<typeof import('lodash')['sum']>
     readonly throttle: UnwrapRef<typeof import('lodash')['throttle']>
     readonly titleCase: UnwrapRef<typeof import('./common/tools')['titleCase']>
+    readonly toLangFamily: UnwrapRef<typeof import('./common/tools')['toLangFamily']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
@@ -1094,6 +1095,7 @@ declare module 'vue' {
     readonly usePassword: UnwrapRef<typeof import('./hooks/usePassword')['default']>
     readonly usePasswordHashRules: UnwrapRef<typeof import('./hooks/Auth/usePasswordHashAlgorithmData')['usePasswordHashRules']>
     readonly usePathInMenu: UnwrapRef<typeof import('./hooks/useMenus')['usePathInMenu']>
+    readonly usePemCachePermission: UnwrapRef<typeof import('./hooks/usePemCachePermission')['default']>
     readonly usePieChart: UnwrapRef<typeof import('./hooks/useMetrics')['usePieChart']>
     readonly usePluginItem: UnwrapRef<typeof import('./hooks/Plugins/usePluginItem')['default']>
     readonly usePluginStatus: UnwrapRef<typeof import('./hooks/Plugins/usePluginStatus')['default']>

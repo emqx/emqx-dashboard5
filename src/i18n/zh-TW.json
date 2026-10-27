@@ -650,6 +650,9 @@
     "copyRawResponse": "複製原始回應"
   },
   "BasicConfig": {
+    "cleanPemCache": "清理 PEM 快取",
+    "cleanPemCacheConfirm": "此操作會清理整個叢集所有執行節點的 PEM 快取，不受目前選擇的命名空間影響。後續 TLS 握手將重新讀取磁碟上的憑證檔案，憑證檔案不會被刪除。確認清理？",
+    "cleanPemCacheSuccess": "PEM 快取清理成功",
     "mqtt": "MQTT",
     "cluster": "叢集",
     "log": "日誌",
