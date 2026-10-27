@@ -417,12 +417,16 @@ export default (gatewayName?: string | undefined): ListenerUtils => {
         customData[key] === undefined ||
         customData[key] === null ||
         customData[key] === '' ||
-        (typeof customData[key] === 'object' && isEmptyObj(customData[key]))
+        (typeof customData[key] === 'object' &&
+          !Array.isArray(customData[key]) &&
+          isEmptyObj(customData[key]))
       ) {
         customData[key] = defaultCustomConfig[key]
       } else if (
         typeof customData[key] === 'object' &&
-        typeof defaultCustomConfig[key] === 'object'
+        !Array.isArray(customData[key]) &&
+        typeof defaultCustomConfig[key] === 'object' &&
+        !Array.isArray(defaultCustomConfig[key])
       ) {
         customData[key] = resetCustomConfig(customData[key], defaultCustomConfig[key])
       }

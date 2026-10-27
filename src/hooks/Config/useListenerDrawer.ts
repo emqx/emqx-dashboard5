@@ -260,8 +260,13 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     // Handle the custom configs
     if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
       const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
-      const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
-      merge(data, customConfigs)
+      const customConfigs = resetCustomConfig(
+        cloneDeep(listenerCustomConfigs.value),
+        unexposedConfigs[type],
+      )
+      mergeWith(data, customConfigs, (_value, sourceValue) =>
+        Array.isArray(sourceValue) ? cloneDeep(sourceValue) : undefined,
+      )
     }
     if (data.type !== ListenerType.TCP && data.tcp_backend) {
       delete data.tcp_backend
