@@ -9,6 +9,10 @@ import type {
 
 const CERT_CUSTOM_ERRORS = [400]
 
+export const cleanPemCache = (): Promise<void> => {
+  return http.post('/certs/pem_cache_clean')
+}
+
 export const postGlobalCertBundle = (name: string, data: CertBundleIn): Promise<void> => {
   return http.post(`/certs/global/name/${encodeURIComponent(name)}`, data)
 }

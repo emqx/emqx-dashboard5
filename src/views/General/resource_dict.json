@@ -2412,6 +2412,14 @@
           "en": "Upload a file to a global namespace bundle",
           "zh": "上传全局证书包文件"
         }
+      },
+      {
+        "method": "post",
+        "path": "/certs/pem_cache_clean",
+        "name_label": {
+          "en": "Clean the PEM cache on all nodes",
+          "zh": "清理所有节点的 PEM 缓存"
+        }
       }
     ]
   },
