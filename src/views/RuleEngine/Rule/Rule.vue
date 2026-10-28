@@ -10,7 +10,7 @@
         <div></div>
         <div>
           <RefreshButton @click="refreshTotalRuleListAndTable" />
-          <CreateButton @click="$router.push({ name: 'rule-create' })" />
+          <NamespaceCreateButton class="ml-3" resource="rule" @create="createRule" />
         </div>
       </div>
       <el-table
@@ -168,6 +168,7 @@
 
 <script lang="ts" setup>
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+import NamespaceCreateButton from '@/components/Namespace/NamespaceCreateButton.vue'
 import { getRules } from '@/api/ruleengine'
 import { FilterParamsForQueryRules, RuleItem } from '@/types/rule'
 import { ElMessage as M } from 'element-plus'
@@ -179,6 +180,11 @@ import RuleFilterForm from './components/RuleFilterForm.vue'
 
 const { t } = useI18n()
 const router = useRouter()
+const createRule = (namespace?: string) =>
+  router.push({
+    name: 'rule-create',
+    query: getNsParams(namespace),
+  })
 const ruleTable: Ref<Array<RuleItem>> = ref([])
 const ruleLoading: Ref<boolean> = ref(false)
 
@@ -307,7 +313,10 @@ const startOrStopRule = async (row: RuleItem) => {
 }
 
 const copyRuleItem = (rule: RuleItem) => {
-  router.push({ name: 'rule-create', query: { target: rule.id, action: 'copy' } })
+  router.push({
+    name: 'rule-create',
+    query: { target: rule.id, action: 'copy', ...getNsParams(rule.namespace) },
+  })
 }
 
 const { judgeIsWebhookRule } = useWebhookUtils()

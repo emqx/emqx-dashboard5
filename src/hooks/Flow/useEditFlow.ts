@@ -35,7 +35,7 @@ export default (): {
   const { customHandleAINode } = useGenerateFlowDataUtils()
 
   const flowId = computed(() => route.params.id?.toString())
-  const namespace = computed(() => route.query.ns?.toString())
+  const namespace = useResourceNamespace()
   const ruleData: Ref<undefined | RuleItem> = ref(undefined)
   // let bridgeInfoMap = {}
   const flowData: Ref<undefined | Array<Node | Edge>> = ref(undefined)

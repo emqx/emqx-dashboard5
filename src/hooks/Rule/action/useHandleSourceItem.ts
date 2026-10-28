@@ -41,7 +41,8 @@ const useHandleSourceItem = (): {
   }
 
   const addSource = async (data: Source): Promise<Source> => {
-    return postSource(data) as Promise<Source>
+    const { namespace, ...others } = data
+    return postSource(others as Source, getNsParams(namespace)) as Promise<Source>
   }
 
   const updateSource = async (data: Source): Promise<Source> => {

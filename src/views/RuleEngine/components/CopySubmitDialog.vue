@@ -46,6 +46,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
 const router = useRouter()
+const { getNsParams } = useNsParams()
 
 const isRule = computed(() => props.target.type === 'rule')
 
@@ -84,8 +85,11 @@ const checkName = () => {
 }
 
 const submitRule = async () => {
-  const { sql, enable, description, actions } = props.target.obj as RuleItem
-  return createRules({ sql, enable, description, actions, id: inputValue.value })
+  const { sql, enable, description, actions, namespace } = props.target.obj as RuleItem
+  return createRules(
+    { sql, enable, description, actions, id: inputValue.value },
+    getNsParams(namespace),
+  )
 }
 
 const { addAction } = useHandleActionItem()
@@ -116,7 +120,10 @@ const confirmAfterCreatedBridge = (id: string) => {
       type: 'success',
     })
       .then(() => {
-        router.push({ name: 'rule-create', query: { actionId: id } })
+        router.push({
+          name: 'rule-create',
+          query: { actionId: id, ...getNsParams(props.target.obj.namespace) },
+        })
       })
       .catch(() => {
         router.push({ name: 'actions' })

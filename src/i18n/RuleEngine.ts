@@ -7,6 +7,14 @@ export default {
     zh: '创建连接器',
     en: 'Create Connector',
   },
+  createNamespaceConnector: {
+    zh: '创建命名空间 Connector',
+    en: 'Create Namespaced Connector',
+  },
+  createNamespaceRule: {
+    zh: '创建命名空间规则',
+    en: 'Create Namespaced Rule',
+  },
   updateConnectorTip: {
     zh: '更新配置会导致连接中断，进而可能导致关联动作消息丢失。',
     en: 'Updating the configuration can cause a connection interruption, which may result in the loss of associated action messages.',
@@ -1968,6 +1976,10 @@ It's recommended to use a template syntax, e.g., \`\${'{'}timestamp{'}'}\` or \`
   geminiBaseUrlTips: {
     zh: '当前 Gemini 通过兼容 OpenAI 的接口来与之通信，请输入兼容 OpenAI 的基础 URL',
     en: 'This Gemini connection uses an OpenAI-compatible API. Please enter a compatible Base URL.',
+  },
+  namespaceResourceLabel: {
+    zh: '命名空间：{namespace}',
+    en: 'Namespace: {namespace}',
   },
   namespaceResourceTip: {
     zh: '当前{target}仅命名空间 {namespace} 管理员可进行操作',

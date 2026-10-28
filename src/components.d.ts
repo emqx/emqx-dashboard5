@@ -63,6 +63,8 @@ declare module 'vue' {
     Monaco: typeof import('./components/Monaco.vue')['default']
     MQTTIds: typeof import('./components/Connector/MQTTIds.vue')['default']
     MQTTNode: typeof import('./components/Connector/MQTTNode.vue')['default']
+    NamespaceCreateButton: typeof import('./components/Namespace/NamespaceCreateButton.vue')['default']
+    NamespaceResourceTag: typeof import('./components/Namespace/NamespaceResourceTag.vue')['default']
     NamespaceSelect: typeof import('./components/Namespace/NamespaceSelect.vue')['default']
     NamespaceSelectSwitch: typeof import('./components/Namespace/NamespaceSelectSwitch.vue')['default']
     ObjectArrayEditor: typeof import('./components/ObjectArrayEditor.vue')['default']

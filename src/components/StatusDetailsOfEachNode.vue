@@ -110,7 +110,7 @@ const statusForIcon = computed(() => {
     color: #8d96a2;
     background: var(--color-bg-split);
     border: 1px solid var(--color-border-primary);
-    border-radius: 8px;
+    border-radius: var(--border-radius-small);
     .text-status {
       font-weight: normal;
     }

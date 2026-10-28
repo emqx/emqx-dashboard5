@@ -51,8 +51,6 @@ const props = withDefaults(
   },
 )
 
-const store = useStore()
-const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
-
-const disabledByNsResource = computed(() => !(!isNamespaceUser.value && !!props.namespace))
+const { isOpNsResourceDisabled } = useNsResource()
+const disabledByNsResource = computed(() => !isOpNsResourceDisabled(props))
 </script>

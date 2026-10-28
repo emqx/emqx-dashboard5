@@ -22,6 +22,11 @@
             <el-tag type="info" class="section-status">
               {{ getGeneralTypeLabel(bridgeInfo.type) }}
             </el-tag>
+            <NamespaceResourceTag
+              :namespace="bridgeInfo.namespace || namespaceFromInject"
+              type="info"
+              class="section-status"
+            />
           </div>
         </template>
         <template #extra>
@@ -194,7 +199,8 @@ const props = defineProps({
     default: false,
   },
 })
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = useResourceNamespace()
+const { getNsParams } = useNsParams()
 const formCom = ref()
 
 const queryTab = computed(() => {
@@ -220,7 +226,7 @@ const id = computed(() => {
   return route.params.id as string
 })
 const namespaceFromRoute = computed(() => route.query.ns as string | undefined)
-provide('ns', namespaceFromRoute.value)
+provide('ns', namespaceFromInject)
 
 watch(id, (val) => {
   if (val && props.inDrawer) {
@@ -257,7 +263,7 @@ useDataNotSaveConfirm(countIsRecordChanged)
 const loadBridgeInfo = async () => {
   infoLoading.value = true
   try {
-    const nsParams = !props.inDrawer ? namespaceFromRoute.value : namespaceFromInject
+    const nsParams = !props.inDrawer ? namespaceFromRoute.value : namespaceFromInject.value
     bridgeInfo.value = (await getActionDetail(id.value, nsParams)) as BridgeItem
     rawBridgeInfo = cloneDeep(bridgeInfo.value)
   } catch (error) {
@@ -348,7 +354,10 @@ const createRuleWithBridge = () => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { actionId: bridgeInfo.value.id } })
+      router.push({
+        name: 'rule-create',
+        query: { actionId: bridgeInfo.value.id, ...getNsParams(bridgeInfo.value.namespace) },
+      })
     })
     .catch(() => ({}))
 }
