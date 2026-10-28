@@ -11,6 +11,7 @@
             <el-icon class="icon-edit" @click="openBasicInfoDialog">
               <EditPen />
             </el-icon>
+            <NamespaceResourceTag class="ml-3" :namespace="namespace" />
           </div>
           <p class="info-desc tip">{{ flowBasicInfo.desc || tl('description') }}</p>
         </div>
@@ -116,6 +117,7 @@ const {
   updateInitialAIDataAfterRemoveAINode,
 } = useEditFlow()
 const isCreate = computed(() => !flowId.value)
+provide('ns', namespace)
 const editingMethod = ref(EditingMethod.Flow)
 
 const showBasicInfoDialog = ref(false)
@@ -250,7 +252,13 @@ const updateNewestSavedFlowData = (data: { nodes: Array<Node>; edges: Array<Edge
 
 const sourceList = ref<Array<BridgeItem>>([])
 const { getSourceList } = useSourceList()
-;(async () => (sourceList.value = await getSourceList()))()
+const { getListNamespaceParams } = useListNsParams()
+const loadSourceList = async () => {
+  sourceList.value = await getSourceList(
+    getListNamespaceParams(namespace.value || GLOBAL_NAMESPACE_VALUE),
+  )
+}
+loadSourceList()
 
 const { isBridgerNode } = useFlowNode()
 /**

@@ -61,6 +61,7 @@ const showDialog = computed({
 
 const { t, tl } = useI18nTl('RuleEngine')
 const router = useRouter()
+const { getNsParams } = useNsParams()
 
 const confirmStep = ref(0)
 
@@ -100,10 +101,15 @@ const createRule = async () => {
   if (!props.connector) {
     return
   }
-  const { name, type } = props.connector
+  const { name, type, namespace } = props.connector
   router.push({
     name: 'rule-create',
-    query: { direction: connectorDirection.value, connName: name, connType: type },
+    query: {
+      direction: connectorDirection.value,
+      connName: name,
+      connType: type,
+      ...getNsParams(namespace),
+    },
   })
 }
 

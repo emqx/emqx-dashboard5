@@ -42,6 +42,7 @@ export default (): {
   const isSubmitting = ref(false)
   const { addAction, updateAction, deleteAction } = useHandleActionItem()
   const { addSource, updateSource, deleteSource } = useHandleSourceItem()
+  const { getNsParams } = useNsParams()
 
   const createItems = async (
     items: Array<any>,
@@ -221,8 +222,18 @@ export default (): {
     try {
       isSubmitting.value = true
 
-      createdActions = await submitActions(actions)
-      createdSources = await submitSources(sources)
+      createdActions = await submitActions(
+        actions.map((item) => ({
+          ...item,
+          data: { ...item.data, namespace: rule.namespace },
+        })),
+      )
+      createdSources = await submitSources(
+        sources.map((item) => ({
+          ...item,
+          data: { ...item.data, namespace: rule.namespace },
+        })),
+      )
 
       createdAIProviderNames = await submitAIProviders(aiProviders)
       createdAICompletionNames = await submitAICompletionProfiles(aiCompletions)
@@ -239,7 +250,8 @@ export default (): {
     try {
       let ruleRet: RuleItem
       if (operation === 'create') {
-        ruleRet = await createRules(rule as any)
+        const { namespace, ...body } = rule
+        ruleRet = await createRules(body, getNsParams(namespace))
       } else {
         ruleRet = await updateRule(rule.id, rule as any)
       }

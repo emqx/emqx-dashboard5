@@ -55,7 +55,7 @@ const props = withDefaults(
     webhookActionDisabled: true,
   },
 )
-const namespaceFromInject = inject<string | undefined>('ns', undefined)
+const namespaceFromInject = useResourceNamespace()
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 
@@ -83,12 +83,20 @@ const selected = computed({
 const totalList = ref<Array<BridgeItem>>([])
 const { getActionList } = useActionList()
 const { getSourceList } = useSourceList()
+const { getListNamespaceParams } = useListNsParams()
 const getTotalList = async () => {
   try {
-    if (props.direction === BridgeDirection.Ingress) {
-      totalList.value = await getSourceList()
-    } else {
-      totalList.value = await getActionList()
+    const requestedNamespace = namespaceFromInject.value
+    const requestedDirection = props.direction
+    const params = getListNamespaceParams(requestedNamespace || GLOBAL_NAMESPACE_VALUE)
+    const list = await (requestedDirection === BridgeDirection.Ingress
+      ? getSourceList(params)
+      : getActionList(params))
+    if (
+      requestedNamespace === namespaceFromInject.value &&
+      requestedDirection === props.direction
+    ) {
+      totalList.value = list
     }
   } catch (error) {
     //
@@ -119,7 +127,7 @@ const actionOpts = computed(() => {
   }
   return totalList.value.filter((item) => {
     const isNamespaceMatch =
-      isNamespaceUser.value || (namespaceFromInject || '') === (item.namespace || '')
+      isNamespaceUser.value || (namespaceFromInject.value || '') === (item.namespace || '')
     return isNamespaceMatch && getBridgeGeneralType(item.type) === props.type
   })
 })

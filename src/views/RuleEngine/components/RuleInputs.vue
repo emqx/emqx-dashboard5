@@ -87,7 +87,7 @@ const emit = defineEmits<{
 const { t, tl } = useI18nTl('RuleEngine')
 
 const { getNsParams } = useNsParams()
-const namespaceFromInject = inject<string | undefined>('ns', undefined)
+const namespaceFromInject = useResourceNamespace()
 
 const keyParts = computed(() => getKeywordsFromSQL(props.modelValue))
 

@@ -35,11 +35,14 @@ export default (deletedCallBack: () => void): DeleteBridgeResult => {
   }
 
   const { getActionList } = useActionList()
+  const { getListNamespaceParams } = useListNsParams()
   const isUsedAsFallbackAction = async (item: BridgeItem) => {
     try {
       let { referenced_as_fallback_action_by } = item
       if (isUndefined(referenced_as_fallback_action_by)) {
-        const totalList = await getActionList()
+        const totalList = await getActionList(
+          getListNamespaceParams(item.namespace || GLOBAL_NAMESPACE_VALUE),
+        )
         const targetAction = totalList.find((action) => action.id === item.id)
         referenced_as_fallback_action_by = targetAction?.referenced_as_fallback_action_by ?? []
       }

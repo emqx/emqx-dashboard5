@@ -117,7 +117,7 @@
                 :can-copy="false"
                 :disabled="judgeIsWebhookAction(row) || disabledOpByNsResource"
                 @delete="handleDelete(row)"
-                @create-rule="createRuleWithTarget(row.id)"
+                @create-rule="createRuleWithTarget(row)"
               />
             </template>
           </OperationDisabledPopover>
@@ -352,7 +352,7 @@ const toggleEnable = async (row: Source | Action) => {
 }
 
 const router = useRouter()
-const createRuleWithTarget = (id: string) => {
+const createRuleWithTarget = ({ id, namespace }: Action | Source) => {
   const confirmContent = isSource.value ? tl('useSourceCreateRule') : tl('useActionCreateRule')
   const query = isSource.value ? { sourceId: id } : { actionId: id }
   ElMessageBox.confirm(confirmContent, {
@@ -361,7 +361,7 @@ const createRuleWithTarget = (id: string) => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query })
+      router.push({ name: 'rule-create', query: { ...query, ...getNsParams(namespace) } })
     })
     .catch(() => ({}))
 }

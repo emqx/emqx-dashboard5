@@ -12,9 +12,13 @@
         </el-col>
         <el-col v-bind="colProps">
           <div class="flex justify-end">
-            <CreateButton v-if="hasFlowData" @click="goCreate">
+            <NamespaceCreateButton
+              v-if="hasFlowData || showEmpty"
+              resource="flow"
+              @create="goCreate"
+            >
               {{ tl('flow-create') }}
-            </CreateButton>
+            </NamespaceCreateButton>
           </div>
         </el-col>
       </el-row>
@@ -29,9 +33,9 @@
       <el-empty v-if="showEmpty" :description="t('Base.noData')" />
       <template v-else>
         <img class="img-placeholder" width="520" :src="getImgSrc()" alt="empty_placeholder" />
-        <CreateButton @click="goCreate">
+        <NamespaceCreateButton resource="flow" @create="goCreate">
           {{ tl('flow-create') }}
-        </CreateButton>
+        </NamespaceCreateButton>
       </template>
     </div>
   </div>
@@ -44,6 +48,7 @@ import {
   type NamespaceSelection,
 } from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+import NamespaceCreateButton from '@/components/Namespace/NamespaceCreateButton.vue'
 import FlowView from './components/FlowView.vue'
 
 const router = useRouter()
@@ -90,7 +95,12 @@ const handleLoaded = (dataLength: number) => {
   hasFlowData.value = dataLength > 0
 }
 
-const goCreate = () => router.push({ name: 'flow-create' })
+const { getNsParams } = useNsParams()
+const goCreate = (namespace?: string) =>
+  router.push({
+    name: 'flow-create',
+    query: getNsParams(namespace),
+  })
 </script>
 
 <style lang="scss">

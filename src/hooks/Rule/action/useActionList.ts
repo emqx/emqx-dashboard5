@@ -1,10 +1,10 @@
 import { getSimplifiedActions } from '@/api/action'
-import { BridgeItem, NsParams } from '@/types/rule'
+import { BridgeItem, NsWithGlobalParams } from '@/types/rule'
 
 export default (): {
-  getActionList: (params?: NsParams) => Promise<Array<BridgeItem>>
+  getActionList: (params?: NsWithGlobalParams) => Promise<Array<BridgeItem>>
 } => {
-  const getActionList = async (params?: NsParams): Promise<Array<BridgeItem>> => {
+  const getActionList = async (params?: NsWithGlobalParams): Promise<Array<BridgeItem>> => {
     try {
       const data = await getSimplifiedActions(params)
       return Promise.resolve(data)

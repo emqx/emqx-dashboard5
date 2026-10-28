@@ -25,10 +25,7 @@
               >
                 <span> {{ t('BasicConfig.ssrfPolicy') }}</span>
               </LinkButton>
-              <CreateButton
-                v-if="!isEmpty || namespaceFilter || isLoading"
-                @click="$router.push({ name: 'connector-create' })"
-              />
+              <NamespaceCreateButton class="ml-3" resource="connector" @create="createConnector" />
             </div>
           </el-col>
         </el-row>
@@ -177,6 +174,7 @@ import {
   type NamespaceSelection,
 } from '@/common/constants'
 import useMultiTenancyEnabled from '@/hooks/Config/useMultiTenancyEnabled'
+import NamespaceCreateButton from '@/components/Namespace/NamespaceCreateButton.vue'
 import { BridgeItem, Connector } from '@/types/rule'
 import { Setting } from '@element-plus/icons-vue'
 import OperationDisabledPopover from '../components/OperationDisabledPopover.vue'
@@ -189,6 +187,11 @@ import ConnectorTypeCards from './components/ConnectorTypeCards.vue'
 
 const route = useRoute()
 const router = useRouter()
+const createConnector = (namespace?: string) =>
+  router.push({
+    name: 'connector-create',
+    query: getNsParams(namespace),
+  })
 
 const store = useStore()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
@@ -277,14 +280,21 @@ const createRuleWithConnector = async (connector: Connector) => {
   createdConnector.value = connector
 }
 
-const copyConnectorItem = ({ id }: Connector) => {
-  router.push({ name: 'connector-create', query: { action: 'copy', target: id } })
+const copyConnectorItem = ({ id, namespace }: Connector) => {
+  router.push({
+    name: 'connector-create',
+    query: { action: 'copy', target: id, ...getNsParams(namespace) },
+  })
 }
 
 const handleTypeSelect = (type: BridgeType) => {
   router.push({
     name: 'connector-create',
-    query: { type, autoAdvance: 'true' },
+    query: {
+      type,
+      autoAdvance: 'true',
+      ...getNsParams(store.getters.userNamespace),
+    },
   })
 }
 

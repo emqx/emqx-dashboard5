@@ -1,6 +1,13 @@
 <template>
   <div class="rule-create app-wrapper">
-    <detail-header :item="{ name: $t('RuleEngine.createRule'), routeName: 'rule' }" />
+    <detail-header :item="{ name: $t('RuleEngine.createRule'), routeName: 'rule' }">
+      <template #content>
+        <div class="flex items-center gap-3">
+          <span>{{ t('RuleEngine.createRule') }}</span>
+          <NamespaceResourceTag :namespace="namespace" />
+        </div>
+      </template>
+    </detail-header>
     <el-card class="rule-form-card overview-visible app-card">
       <rule-form
         ref="formCom"
@@ -28,6 +35,10 @@ const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
+const inheritedNamespace = useResourceNamespace()
+const namespace = ref(inheritedNamespace.value)
+provide('ns', namespace)
+const { getNsParams } = useNsParams()
 
 const submitLoading = ref(false)
 
@@ -35,11 +46,11 @@ const submitLoading = ref(false)
 
 const { createRawRuleForm } = useRuleForm()
 
-const ruleValue = ref(createRawRuleForm())
+const ruleValue = ref({ ...createRawRuleForm(), namespace: namespace.value })
 let rawRuleValue = cloneDeep(ruleValue.value)
 const countIsRuleRecordChanged = () => !isEqual(ruleValue.value, rawRuleValue)
 
-let isRuleCreated = false
+const isRuleCreated = ref(false)
 const { isTesting, savedAfterDataChange, updateSavedData } = useStatusController(ruleValue)
 savedAfterDataChange.value = false
 
@@ -50,11 +61,15 @@ useDataNotSaveConfirm(countIsRuleRecordChanged)
 const { getRuleDetail } = useRuleItem()
 const checkRuleClipStatus = async () => {
   if (route.query.action === 'copy' && route.query.target) {
-    const ruleData = await getRuleDetail(route.query.target as string)
+    const ruleData = await getRuleDetail(route.query.target as string, namespace.value)
     const rule = pick(ruleData, ['sql', 'actions', 'description', 'actions'])
 
     if (rule) {
-      ruleValue.value = { ...(rule as RuleItem), id: countDuplicationName(ruleData.id) }
+      ruleValue.value = {
+        ...(rule as RuleItem),
+        id: countDuplicationName(ruleData.id),
+        namespace: namespace.value,
+      }
     }
   }
 }
@@ -66,12 +81,13 @@ const submitCreateRule = async () => {
   submitLoading.value = true
 
   try {
-    await (isRuleCreated
+    const { namespace: ns, ...body } = ruleValue.value
+    await (isRuleCreated.value
       ? updateRule(ruleValue.value.id, { ...ruleValue.value })
-      : createRules({ ...ruleValue.value }))
+      : createRules(body, getNsParams(ns)))
     rawRuleValue = ruleValue.value
     ElMessage.success(t('Base.createSuccess'))
-    isRuleCreated = true
+    isRuleCreated.value = true
     if (!isTesting.value) {
       router.push({ name: 'rule' })
     } else {

@@ -5,10 +5,11 @@ export default (): {
   checkIsIoTDBThriftConnector: (name: string) => Promise<boolean>
 } => {
   const { getConnectorDetail } = useHandleConnectorItem()
+  const namespace = useResourceNamespace()
   const checkIsIoTDBThriftConnector = async (name: string) => {
     try {
       const connectorId = getBridgeKey({ type: BridgeType.IoTDB, name })
-      const { driver } = await getConnectorDetail(connectorId)
+      const { driver } = await getConnectorDetail(connectorId, namespace.value)
       const ret = /thrift/i.test(driver)
       return Promise.resolve(ret)
     } catch (error) {

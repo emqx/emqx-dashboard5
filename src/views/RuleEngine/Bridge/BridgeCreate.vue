@@ -135,6 +135,8 @@ const { t, tl } = useI18nTl('RuleEngine')
 const createBridgeData = () => ({})
 const router = useRouter()
 const route = useRoute()
+const namespace = useResourceNamespace()
+const { getNsParams } = useNsParams()
 const { bridgeTypeOptions, searchQuery, getFilterBridgeOptions } = useBridgeTypeOptions()
 const { getBridgeGeneralType, getBridgeLabelByTypeValue } = useBridgeTypeValue()
 
@@ -189,7 +191,7 @@ const checkBridgeClipStatus = async () => {
     }
     step.value = 1
     targetLoading.value = true
-    const bridgeInfo = await getActionDetail(route.query.target as string)
+    const bridgeInfo = await getActionDetail(route.query.target as string, namespace.value)
     if (bridgeInfo) {
       bridgeData.value = {
         ...handleBridgeDataForCopy(bridgeInfo),
@@ -214,7 +216,7 @@ const getDataForSubmit = () => {
       ...cloneDeep(bridgeData.value),
     }
   }
-  return handleActionDataBeforeSubmit(dataToSubmit)
+  return handleActionDataBeforeSubmit({ ...dataToSubmit, namespace: namespace.value })
 }
 
 const testConnection = async () => {
@@ -260,7 +262,10 @@ const submitCreateBridge = async () => {
         type: 'success',
       })
         .then(() => {
-          router.push({ name: 'rule-create', query: { actionId: id } })
+          router.push({
+            name: 'rule-create',
+            query: { actionId: id, ...getNsParams(namespace.value) },
+          })
         })
         .catch(() => {
           router.push({ name: 'actions' })

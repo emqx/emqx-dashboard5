@@ -16,6 +16,11 @@
             <el-tag type="info" class="section-status">
               {{ getTypeStr(connectorData.type) }}
             </el-tag>
+            <NamespaceResourceTag
+              :namespace="connectorData.namespace || namespace"
+              type="info"
+              class="section-status"
+            />
           </div>
         </template>
         <template #extra>
