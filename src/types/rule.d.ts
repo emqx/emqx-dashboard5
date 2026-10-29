@@ -1,4 +1,5 @@
 import { Merge } from 'type-fest'
+import type { AiAnthropicProvider, AiOpenaiDecisionsProvider } from './schemas/aiCompletion.schemas'
 import {
   BackendI18n,
   LocalizedText,
@@ -21,6 +22,7 @@ import {
   AIProviderForm,
   AnthropicCompletion,
   OpenAICompletion,
+  DecisionsCompletion,
   RuleActionStatus,
   SchemaRegistryDetail,
   SchemaRegistryExternalHttp,
@@ -364,11 +366,16 @@ export type SchemaRegistryExternalHttpParameters = SchemaRegistryExternalHttp['p
 
 type OmitCompletionKeys = 'name' | 'provider_name' | 'type'
 type AICompletion<T> = Omit<T, OmitCompletionKeys>
-type AITotalConfig<T> = AIProviderForm & { input: string; alias: string } & AICompletion<T>
+type AITotalConfig<T, Provider = AIProviderForm> = Provider & {
+  provider_name?: string
+  input: string
+  alias: string
+} & AICompletion<T>
 
 export type AIOpenAIConfig = AITotalConfig<OpenAICompletion>
-export type AIAnthropicConfig = AITotalConfig<AnthropicCompletion>
-export type AIConfig = AIOpenAIConfig | AIAnthropicConfig
+export type AIAnthropicConfig = AITotalConfig<AnthropicCompletion, AiAnthropicProvider>
+export type AIDecisionsConfig = AITotalConfig<DecisionsCompletion, AiOpenaiDecisionsProvider>
+export type AIConfig = AIOpenAIConfig | AIAnthropicConfig | AIDecisionsConfig
 
 export type FlowDataItemForSubmit<T> = {
   isCreated: boolean

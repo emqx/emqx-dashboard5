@@ -12,6 +12,7 @@ import useFlowNode, {
   FunctionItem,
   NodeType,
   ProcessingType,
+  OptionalProcessingType,
   SinkType,
   SourceTypeAllMsgsAndEvents,
 } from './useFlowNode'
@@ -112,8 +113,12 @@ export default (): {
   const getSpecificTypeForBridge = (bridgeType: string) => getBridgeGeneralType(bridgeType)
 
   /* FIELDS */
-  const aiNodeSpecificTypeMap = new Map([
+  const aiNodeSpecificTypeMap = new Map<
+    AIProviderForm['type'],
+    ProcessingType | OptionalProcessingType
+  >([
     [AIProviderType.openai_response, ProcessingType.AIOpenAI],
+    [AIProviderType.openai_decisions, OptionalProcessingType.AIOpenAIDecisions],
     [AIProviderType.anthropic, ProcessingType.AIAnthropic],
     [AIProviderType.openai, ProcessingType.AIGemini],
   ])
