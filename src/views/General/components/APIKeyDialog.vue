@@ -3,7 +3,7 @@
     v-model="showDialog"
     :width="600"
     class="API-key-dialog"
-    :title="t('Base.create')"
+    :title="t(`Base.${operationType}`)"
     :z-index="2000"
   >
     <el-form
