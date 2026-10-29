@@ -11,6 +11,7 @@ import {
   FlowNodeType,
   NodeType,
   ProcessingType,
+  OptionalProcessingType,
   SourceTypeAllMsgsAndEvents,
 } from '@emqx/shared-ui-constants'
 import { Edge, Node, Position } from '@vue-flow/core'
@@ -27,6 +28,7 @@ export {
   FlowNodeType,
   NodeType,
   ProcessingType,
+  OptionalProcessingType,
   SourceTypeAllMsgsAndEvents,
 }
 
@@ -117,6 +119,7 @@ export default (): {
 
   const {
     nodeWidth,
+    processingNodeList: sharedProcessingNodeList,
     getNodeClass,
     getFlowNodeHookPosition,
     getTypeCommonData,
@@ -127,7 +130,8 @@ export default (): {
     isAIType,
     isLikeFunctionType,
     getNodeInfoFunc: getNodeInfo,
-  } = useFlowNode()
+    getCommonTypeLabel,
+  } = useFlowNode({ additionalProcessingTypes: [OptionalProcessingType.AIOpenAIDecisions] })
   /**
    * just record, not for setting
    */
@@ -146,9 +150,6 @@ export default (): {
     [SourceType.Event]: t('RuleEngine.event'),
     [ProcessingType.Function]: t('RuleEngine.dataProcessing'),
     [ProcessingType.Filter]: tl('filter'),
-    [ProcessingType.AIOpenAI]: 'OpenAI',
-    [ProcessingType.AIAnthropic]: 'Anthropic',
-    [ProcessingType.AIGemini]: 'Gemini',
     [SinkType.Webhook]: t('RuleEngine.HTTPServer'),
     [SinkType.MQTT]: t('RuleEngine.mqttBroker'),
     [SinkType.Console]: t('RuleEngine.consoleOutput'),
@@ -161,7 +162,7 @@ export default (): {
     return sharedIsBridgeType(type) || bridgeTypeList.includes(type as BridgeType)
   }
   const getTypeLabel = (specificType: string): string => {
-    let ret: string | undefined = typeLabelMap[specificType]
+    let ret: string | undefined = typeLabelMap[specificType] || getCommonTypeLabel(specificType)
     if (!ret && isBridgeType(specificType)) {
       ret = getBridgeLabelByTypeValue(specificType as BridgeType)
     }
@@ -179,6 +180,9 @@ export default (): {
   // }
 
   const adjustTypeForSpecialCases = (type: string): string => {
+    if (type === OptionalProcessingType.AIOpenAIDecisions) {
+      return ProcessingType.AIOpenAI
+    }
     if (([SourceType.MQTTBroker, SinkType.MQTT] as Array<string>).includes(type)) {
       return BridgeType.MQTT
     }
@@ -196,9 +200,10 @@ export default (): {
     SinkType.Console,
     SinkType.RePub,
     SinkType.Webhook,
+    ...Object.values(ProcessingType),
+    ...Object.values(OptionalProcessingType),
   ]
-  const isTypeUsingNewIcon = (type: string) =>
-    typesIconNew.includes(type) || Object.values(ProcessingType).includes(type as ProcessingType)
+  const isTypeUsingNewIcon = (type: string) => typesIconNew.includes(type)
   const { getBridgeIcon, needsDarkModeInvert, isSvgIcon } = useBridgeTypeIcon()
   const getNodeIcon = (type: string, disabled = false): string => {
     try {
@@ -266,7 +271,9 @@ export default (): {
     name: label,
   }))
 
-  const processingNodeList: Array<NodeItem> = Object.values(ProcessingType).map(generateNodeByType)
+  const processingNodeList: Array<NodeItem> = sharedProcessingNodeList.map(({ specificType }) =>
+    generateNodeByType(specificType),
+  )
   const sinkNodeList: Array<NodeItem> = Object.entries(SinkType)
     .sort(
       (a, b) =>

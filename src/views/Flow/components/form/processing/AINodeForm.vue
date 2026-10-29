@@ -3,6 +3,7 @@
     ref="FormCom"
     label-width="164px"
     class="provider-form"
+    :class="{ 'is-decisions': isDecisionsProfile(record) }"
     label-position="right"
     :rules="rules"
     :model="record"
@@ -17,7 +18,13 @@
         popper-class="is-wider"
       />
     </CustomFormItem>
-    <CustomFormItem prop="system_prompt" :readonly="readonly">
+    <DecisionQuestionsEditor
+      v-if="isDecisionsProfile(record)"
+      v-model="record.questions"
+      :tip-component="InfoTooltip"
+      :readonly="readonly"
+    />
+    <CustomFormItem v-else prop="system_prompt" :readonly="readonly">
       <template #label>
         <FormItemLabel :label="t('Flow.systemPrompt')" :desc="t('Flow.systemPromptDesc')" />
       </template>
@@ -114,15 +121,17 @@
 </template>
 
 <script setup lang="ts">
+import { DecisionQuestionsEditor } from '@emqx/shared-ui-components'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 import { correctAliasReg, GEMINI_DEFAULT_BASE_URL } from '@/common/constants'
-import { ProcessingType } from '@/hooks/Flow/useFlowNode'
-import type { AIAnthropicConfig, AIConfig } from '@/types/rule'
+import { ProcessingType, OptionalProcessingType } from '@/hooks/Flow/useFlowNode'
+import type { AIAnthropicConfig, AIConfig, AIDecisionsConfig } from '@/types/rule'
 import { AIProviderType, AnthropicVersion } from '@/types/typeAlias'
 import type { Node } from '@vue-flow/core'
 
 const props = defineProps<{
   modelValue: AIConfig
-  nodeSpecificType: ProcessingType
+  nodeSpecificType: ProcessingType | OptionalProcessingType
   readonly: boolean
   nodes?: Array<Node>
 }>()
@@ -180,6 +189,9 @@ const getModelOpts = async () => {
 }
 getModelOpts()
 
+const isDecisionsProfile = (profile: AIConfig): profile is AIDecisionsConfig =>
+  profile.type === AIProviderType.openai_decisions
+
 const anthropicVersionOpts = Object.values(AnthropicVersion)
 
 const isAnthropicProfile = (profile: AIConfig): profile is AIAnthropicConfig => {
@@ -214,6 +226,10 @@ defineExpose({ validate: () => FormCom.value.validate() })
 <style lang="scss">
 .provider-form {
   max-width: 480px;
+
+  &.is-decisions {
+    max-width: none;
+  }
 
   .with-tooltip {
     .icon-question {
