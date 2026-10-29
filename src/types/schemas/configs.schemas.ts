@@ -558,8 +558,6 @@ export const SsoOidcNameVarSource = {
   userinfo: 'userinfo',
 } as const
 
-export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
-
 export type SsoOidcBackend = (typeof SsoOidcBackend)[keyof typeof SsoOidcBackend]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -627,6 +625,8 @@ export interface SsoClientFileJwks {
   file: string
   type: SsoClientFileJwksType
 }
+
+export type SsoOidcClientJwks = SsoClientFileJwks | 'none'
 
 export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
@@ -762,7 +762,6 @@ export interface FileTransferS3Exporter {
   min_part_size?: string
   /** @minimum 1 */
   port: number
-  region?: string
   secret_access_key?: string
   transport_options?: S3TransportOptions
   url_expire_time?: string

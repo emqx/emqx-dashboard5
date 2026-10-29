@@ -78,6 +78,7 @@ export type PutAiProvidersName400 = {
 
 export type PutAiProvidersNameBody =
   | AiAnthropicProviderApiPut
+  | AiOpenaiDecisionsProviderApiPut
   | AiOpenaiProviderApiPut
   | AiOpenaiResponseProviderApiPut
 
@@ -96,6 +97,7 @@ export type GetAiProvidersName404 = {
 
 export type GetAiProvidersName200 =
   | AiAnthropicProviderApiGet
+  | AiOpenaiDecisionsProviderApiGet
   | AiOpenaiProviderApiGet
   | AiOpenaiResponseProviderApiGet
 
@@ -164,7 +166,11 @@ export type PostAiProviders400 = {
   message?: string
 }
 
-export type PostAiProvidersBody = AiAnthropicProvider | AiOpenaiProvider | AiOpenaiResponseProvider
+export type PostAiProvidersBody =
+  | AiAnthropicProvider
+  | AiOpenaiDecisionsProvider
+  | AiOpenaiProvider
+  | AiOpenaiResponseProvider
 
 export type GetAiProviders503Code =
   (typeof GetAiProviders503Code)[keyof typeof GetAiProviders503Code]
@@ -181,6 +187,7 @@ export type GetAiProviders503 = {
 
 export type GetAiProviders200Item =
   | AiAnthropicProviderApiGet
+  | AiOpenaiDecisionsProviderApiGet
   | AiOpenaiProviderApiGet
   | AiOpenaiResponseProviderApiGet
 
@@ -222,6 +229,7 @@ export type PostAiModels400 = {
 
 export type PostAiModelsBody =
   | AiAnthropicProviderApiPut
+  | AiOpenaiDecisionsProviderApiPut
   | AiOpenaiProviderApiPut
   | AiOpenaiResponseProviderApiPut
 
@@ -267,6 +275,7 @@ export type PutAiCompletionProfilesName400 = {
 export type PutAiCompletionProfilesNameBody =
   | AiAnthropicCompletionProfileApiPut
   | AiOpenaiCompletionProfileApiPut
+  | AiOpenaiDecisionsCompletionProfileApiPut
   | AiOpenaiResponseCompletionProfileApiPut
 
 export type GetAiCompletionProfilesName404Code =
@@ -285,6 +294,7 @@ export type GetAiCompletionProfilesName404 = {
 export type GetAiCompletionProfilesName200 =
   | AiAnthropicCompletionProfileApiGet
   | AiOpenaiCompletionProfileApiGet
+  | AiOpenaiDecisionsCompletionProfileApiGet
   | AiOpenaiResponseCompletionProfileApiGet
 
 export type DeleteAiCompletionProfilesName503Code =
@@ -355,6 +365,7 @@ export type PostAiCompletionProfiles400 = {
 export type PostAiCompletionProfilesBody =
   | AiAnthropicCompletionProfile
   | AiOpenaiCompletionProfile
+  | AiOpenaiDecisionsCompletionProfile
   | AiOpenaiResponseCompletionProfile
 
 export type GetAiCompletionProfiles503Code =
@@ -369,6 +380,12 @@ export type GetAiCompletionProfiles503 = {
   code?: GetAiCompletionProfiles503Code
   message?: string
 }
+
+export type GetAiCompletionProfiles200Item =
+  | AiAnthropicCompletionProfileApiGet
+  | AiOpenaiCompletionProfileApiGet
+  | AiOpenaiDecisionsCompletionProfileApiGet
+  | AiOpenaiResponseCompletionProfileApiGet
 
 export interface AiTransportOptions {
   checkout_timeout?: string
@@ -385,6 +402,7 @@ export type AiOpenaiResponseProviderApiPutType =
 export const AiOpenaiResponseProviderApiPutType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -402,6 +420,7 @@ export type AiOpenaiResponseProviderApiGetType =
 export const AiOpenaiResponseProviderApiGetType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -420,6 +439,7 @@ export type AiOpenaiResponseProviderType =
 export const AiOpenaiResponseProviderType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -462,11 +482,6 @@ export interface AiOpenaiResponseCompletionProfileApiGet {
   type: AiOpenaiResponseCompletionProfileApiGetType
 }
 
-export type GetAiCompletionProfiles200Item =
-  | AiAnthropicCompletionProfileApiGet
-  | AiOpenaiCompletionProfileApiGet
-  | AiOpenaiResponseCompletionProfileApiGet
-
 export type AiOpenaiResponseCompletionProfileType =
   (typeof AiOpenaiResponseCompletionProfileType)[keyof typeof AiOpenaiResponseCompletionProfileType]
 
@@ -490,6 +505,7 @@ export type AiOpenaiProviderApiPutType =
 export const AiOpenaiProviderApiPutType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -507,6 +523,7 @@ export type AiOpenaiProviderApiGetType =
 export const AiOpenaiProviderApiGetType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -524,6 +541,7 @@ export type AiOpenaiProviderType = (typeof AiOpenaiProviderType)[keyof typeof Ai
 export const AiOpenaiProviderType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -533,6 +551,124 @@ export interface AiOpenaiProvider {
   name: string
   transport_options?: AiTransportOptions
   type: AiOpenaiProviderType
+}
+
+export type AiOpenaiDecisionsProviderApiPutType =
+  (typeof AiOpenaiDecisionsProviderApiPutType)[keyof typeof AiOpenaiDecisionsProviderApiPutType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsProviderApiPutType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+  openai_decisions: 'openai_decisions',
+  openai_response: 'openai_response',
+} as const
+
+export interface AiOpenaiDecisionsProviderApiPut {
+  api_key: string
+  base_url?: string
+  transport_options?: AiTransportOptions
+  type: AiOpenaiDecisionsProviderApiPutType
+}
+
+export type AiOpenaiDecisionsProviderApiGetType =
+  (typeof AiOpenaiDecisionsProviderApiGetType)[keyof typeof AiOpenaiDecisionsProviderApiGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsProviderApiGetType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+  openai_decisions: 'openai_decisions',
+  openai_response: 'openai_response',
+} as const
+
+export interface AiOpenaiDecisionsProviderApiGet {
+  api_key: string
+  base_url?: string
+  name: string
+  transport_options?: AiTransportOptions
+  type: AiOpenaiDecisionsProviderApiGetType
+}
+
+export type AiOpenaiDecisionsProviderType =
+  (typeof AiOpenaiDecisionsProviderType)[keyof typeof AiOpenaiDecisionsProviderType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsProviderType = {
+  anthropic: 'anthropic',
+  openai: 'openai',
+  openai_decisions: 'openai_decisions',
+  openai_response: 'openai_response',
+} as const
+
+export interface AiOpenaiDecisionsProvider {
+  api_key: string
+  base_url?: string
+  name: string
+  transport_options?: AiTransportOptions
+  type: AiOpenaiDecisionsProviderType
+}
+
+export type AiOpenaiDecisionsCompletionProfileApiPutType =
+  (typeof AiOpenaiDecisionsCompletionProfileApiPutType)[keyof typeof AiOpenaiDecisionsCompletionProfileApiPutType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsCompletionProfileApiPutType = {
+  openai_decisions: 'openai_decisions',
+} as const
+
+export type AiOpenaiDecisionsCompletionProfileApiPutQuestionsItem =
+  | AiDecisionChoice
+  | AiDecisionPredicate
+  | AiDecisionScore
+
+export interface AiOpenaiDecisionsCompletionProfileApiPut {
+  model?: string
+  provider_name: string
+  questions: AiOpenaiDecisionsCompletionProfileApiPutQuestionsItem[]
+  type: AiOpenaiDecisionsCompletionProfileApiPutType
+}
+
+export type AiOpenaiDecisionsCompletionProfileApiGetType =
+  (typeof AiOpenaiDecisionsCompletionProfileApiGetType)[keyof typeof AiOpenaiDecisionsCompletionProfileApiGetType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsCompletionProfileApiGetType = {
+  openai_decisions: 'openai_decisions',
+} as const
+
+export type AiOpenaiDecisionsCompletionProfileApiGetQuestionsItem =
+  | AiDecisionChoice
+  | AiDecisionPredicate
+  | AiDecisionScore
+
+export interface AiOpenaiDecisionsCompletionProfileApiGet {
+  model?: string
+  name: string
+  provider_name: string
+  questions: AiOpenaiDecisionsCompletionProfileApiGetQuestionsItem[]
+  type: AiOpenaiDecisionsCompletionProfileApiGetType
+}
+
+export type AiOpenaiDecisionsCompletionProfileType =
+  (typeof AiOpenaiDecisionsCompletionProfileType)[keyof typeof AiOpenaiDecisionsCompletionProfileType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiOpenaiDecisionsCompletionProfileType = {
+  openai_decisions: 'openai_decisions',
+} as const
+
+export type AiOpenaiDecisionsCompletionProfileQuestionsItem =
+  | AiDecisionChoice
+  | AiDecisionPredicate
+  | AiDecisionScore
+
+export interface AiOpenaiDecisionsCompletionProfile {
+  model?: string
+  name: string
+  provider_name: string
+  questions: AiOpenaiDecisionsCompletionProfileQuestionsItem[]
+  type: AiOpenaiDecisionsCompletionProfileType
 }
 
 export type AiOpenaiCompletionProfileApiPutType =
@@ -582,6 +718,60 @@ export interface AiOpenaiCompletionProfile {
   type: AiOpenaiCompletionProfileType
 }
 
+export interface AiDecisionScoreLevel {
+  description?: string
+  label: string
+}
+
+export type AiDecisionScoreType = (typeof AiDecisionScoreType)[keyof typeof AiDecisionScoreType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiDecisionScoreType = {
+  score: 'score',
+} as const
+
+export interface AiDecisionScore {
+  instructions: string
+  levels: AiDecisionScoreLevel[]
+  name: string
+  type: AiDecisionScoreType
+}
+
+export type AiDecisionPredicateType =
+  (typeof AiDecisionPredicateType)[keyof typeof AiDecisionPredicateType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiDecisionPredicateType = {
+  predicate: 'predicate',
+} as const
+
+export interface AiDecisionPredicate {
+  instructions: string
+  name: string
+  type: AiDecisionPredicateType
+}
+
+export type AiDecisionChoiceOptionValue = boolean | string
+
+export interface AiDecisionChoiceOption {
+  description?: string
+  value: AiDecisionChoiceOptionValue
+}
+
+export type AiDecisionChoiceType = (typeof AiDecisionChoiceType)[keyof typeof AiDecisionChoiceType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AiDecisionChoiceType = {
+  choice: 'choice',
+} as const
+
+export interface AiDecisionChoice {
+  choices: AiDecisionChoiceOption[]
+  instructions: string
+  name: string
+  type: AiDecisionChoiceType
+}
+
 export type AiAnthropicProviderApiPutType =
   (typeof AiAnthropicProviderApiPutType)[keyof typeof AiAnthropicProviderApiPutType]
 
@@ -589,6 +779,7 @@ export type AiAnthropicProviderApiPutType =
 export const AiAnthropicProviderApiPutType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -615,6 +806,7 @@ export type AiAnthropicProviderApiGetType =
 export const AiAnthropicProviderApiGetType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
@@ -642,6 +834,7 @@ export type AiAnthropicProviderType =
 export const AiAnthropicProviderType = {
   anthropic: 'anthropic',
   openai: 'openai',
+  openai_decisions: 'openai_decisions',
   openai_response: 'openai_response',
 } as const
 
