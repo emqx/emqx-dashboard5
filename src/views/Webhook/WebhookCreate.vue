@@ -1,6 +1,13 @@
 <template>
   <div class="app-wrapper">
-    <detail-header :item="{ name: t('components.webhook-create'), routeName: 'webhook' }" />
+    <detail-header :item="{ name: t('components.webhook-create'), routeName: 'webhook' }">
+      <template #content>
+        <div class="flex items-center gap-3">
+          <span>{{ t('components.webhook-create') }}</span>
+          <NamespaceResourceTag :namespace="namespace" />
+        </div>
+      </template>
+    </detail-header>
     <el-card class="webhook-create-card app-card">
       <WebhookFormCom v-if="webhook" ref="FormCom" v-model="webhook" />
       <el-skeleton v-else :rows="10" />
@@ -29,6 +36,9 @@ import WebhookFormCom from './components/WebhookForm.vue'
 const { t, tl } = useI18nTl('Base')
 const router = useRouter()
 const { query } = useRoute()
+const namespace = ref(useResourceNamespace().value)
+provide('ns', namespace)
+const { getNsParams } = useNsParams()
 
 const FormCom = ref()
 
@@ -97,9 +107,13 @@ const submit = async () => {
     syncHeaders(data)
     normalizeActionPathForSubmit(data)
     const connectorData = await handleConnectorDataBeforeSubmit(data.connector)
-    await postConnector(connectorData)
-    await postAction(data.action)
-    await createRules(data.rule)
+    const params = getNsParams(namespace.value)
+    for (const resource of [connectorData, data.action, data.rule]) {
+      Reflect.deleteProperty(resource, 'namespace')
+    }
+    await postConnector(connectorData, params)
+    await postAction(data.action, params)
+    await createRules(data.rule, params)
     ElMessage.success(tl('createSuccess'))
     router.push({ name: 'webhook' })
   } catch (error) {
