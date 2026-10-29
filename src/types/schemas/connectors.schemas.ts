@@ -723,6 +723,18 @@ export const SyskeeperForwarderPutAckMode = {
   no_ack: 'no_ack',
 } as const
 
+export interface SyskeeperForwarderPut {
+  ack_mode?: SyskeeperForwarderPutAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+}
+
 export type SyskeeperForwarderPostType =
   (typeof SyskeeperForwarderPostType)[keyof typeof SyskeeperForwarderPostType]
 
@@ -2706,6 +2718,23 @@ export interface ConnectorS3tablesGetConnector {
   type: ConnectorS3tablesGetConnectorType
 }
 
+export interface ConnectorRedshiftPutConnector {
+  /** @deprecated */
+  auto_reconnect?: boolean
+  database: string
+  description?: string
+  disable_prepared_statements?: boolean
+  enable?: boolean
+  password?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: ConnectorPostgresResourceOpts
+  server: string
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  username: string
+}
+
 export type ConnectorRedshiftPostConnectorType =
   (typeof ConnectorRedshiftPostConnectorType)[keyof typeof ConnectorRedshiftPostConnectorType]
 
@@ -2782,23 +2811,6 @@ export interface ConnectorPostgresResourceOpts {
   health_check_timeout?: ConnectorPostgresResourceOptsHealthCheckTimeout
   start_after_created?: boolean
   start_timeout?: string
-}
-
-export interface ConnectorRedshiftPutConnector {
-  /** @deprecated */
-  auto_reconnect?: boolean
-  database: string
-  description?: string
-  disable_prepared_statements?: boolean
-  enable?: boolean
-  password?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: ConnectorPostgresResourceOpts
-  server: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  username: string
 }
 
 export interface ConnectorPostgresPutConnector {
@@ -5029,20 +5041,6 @@ export interface BridgeMatrixGetConnector {
   username: string
 }
 
-export interface BridgeKinesisPutConnector {
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  /** @minimum 0 */
-  max_retries?: number
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeKinesisConnectorResourceOpts
-  tags?: string[]
-}
-
 export type BridgeKinesisPostConnectorType =
   (typeof BridgeKinesisPostConnectorType)[keyof typeof BridgeKinesisPostConnectorType]
 
@@ -5050,22 +5048,6 @@ export type BridgeKinesisPostConnectorType =
 export const BridgeKinesisPostConnectorType = {
   kinesis: 'kinesis',
 } as const
-
-export interface BridgeKinesisPostConnector {
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  /** @minimum 0 */
-  max_retries?: number
-  name: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeKinesisConnectorResourceOpts
-  tags?: string[]
-  type: BridgeKinesisPostConnectorType
-}
 
 export type BridgeKinesisGetConnectorType =
   (typeof BridgeKinesisGetConnectorType)[keyof typeof BridgeKinesisGetConnectorType]
@@ -5086,6 +5068,45 @@ export const BridgeKinesisGetConnectorStatus = {
   inconsistent: 'inconsistent',
 } as const
 
+export type BridgeKinesisConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
+
+export interface BridgeKinesisConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: BridgeKinesisConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
+export interface BridgeKinesisPutConnector {
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  /** @minimum 0 */
+  max_retries?: number
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeKinesisConnectorResourceOpts
+  tags?: string[]
+}
+
+export interface BridgeKinesisPostConnector {
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  /** @minimum 0 */
+  max_retries?: number
+  name: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeKinesisConnectorResourceOpts
+  tags?: string[]
+  type: BridgeKinesisPostConnectorType
+}
+
 export interface BridgeKinesisGetConnector {
   actions?: string[]
   aws_access_key_id: string
@@ -5104,15 +5125,6 @@ export interface BridgeKinesisGetConnector {
   status_reason?: string
   tags?: string[]
   type: BridgeKinesisGetConnectorType
-}
-
-export type BridgeKinesisConnectorResourceOptsHealthCheckTimeout = 'infinity' | string
-
-export interface BridgeKinesisConnectorResourceOpts {
-  health_check_interval?: string
-  health_check_timeout?: BridgeKinesisConnectorResourceOptsHealthCheckTimeout
-  start_after_created?: boolean
-  start_timeout?: string
 }
 
 export type BridgeKafkaSslClientOptsVerify =

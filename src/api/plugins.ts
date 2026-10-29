@@ -18,7 +18,7 @@ export const installPlugin = (file: File): Promise<void> => {
 }
 
 export const uninstallPlugin = (nameWithVersion: string): Promise<void> => {
-  return http.delete(`/plugins/${nameWithVersion}`)
+  return http.delete(`/plugins/${encodeURIComponent(nameWithVersion)}`)
 }
 
 export const updatePluginStatus = (
