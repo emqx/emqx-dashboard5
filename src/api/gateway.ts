@@ -4,6 +4,8 @@ import type { DataManagerItem } from '@/types/auth'
 import type { ListDataWithPagination } from '@/types/common'
 import type {
   GatewayItem,
+  GatewayCreateConfig,
+  GatewayUpdateConfig,
   AuthenticationUserCreateRequest,
   AuthenticationUserUpdateRequest,
   AuthenticationUserWithPassword,
@@ -47,7 +49,7 @@ export async function deleteGatewayListener(name: string, listenerId: string) {
   )
 }
 
-export async function updateGateway(name: string, body: { [key: string]: any }) {
+export async function updateGateway(name: string, body: GatewayCreateConfig | GatewayUpdateConfig) {
   if (!name) return Promise.reject()
   return http.put('/gateways/' + encodeURIComponent(name), body)
 }

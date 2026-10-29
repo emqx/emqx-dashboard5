@@ -2,7 +2,11 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton v-if="canManageUsers" @click="showDialog()" />
+      <CreateButton
+        v-if="canManageUsers"
+        :disabled="!$hasPermission('post') || isNamespaceUser"
+        @click="showDialog()"
+      />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -80,27 +84,27 @@
         <template #default="{ row }">
           <TableButton
             v-if="canManageUsers"
-            :disabled="!$hasPermission('put')"
+            :disabled="!$hasPermission('put') || isNamespaceUser"
             @click="showDialog('edit', row)"
           >
             {{ $t('Base.edit') }}
           </TableButton>
           <TableButton
             v-if="canChangePwd(row)"
-            :disabled="!isCurrentUser(row) && !$hasPermission('put')"
+            :disabled="!isCurrentUser(row) && (!$hasPermission('put') || isNamespaceUser)"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
           </TableButton>
           <TableButton
             v-if="canManageMfa(row)"
-            :disabled="!isCurrentUser(row) && !$hasPermission('post')"
+            :disabled="!isCurrentUser(row) && (!$hasPermission('post') || isNamespaceUser)"
             @click="openMfaSettingsDialog(row)"
           >
             {{ tl('mfaSettings') }}
           </TableButton>
           <TableButton
-            :disabled="!$hasPermission('delete')"
+            :disabled="!$hasPermission('delete') || isNamespaceUser"
             @click="deleteConfirm(row)"
             v-if="canManageUsers && !isCurrentUser(row) && row.username !== 'admin'"
           >
@@ -347,6 +351,7 @@ const NS_ADMIN_ALLOWED_SCOPES = new Set([
 
 const store = useStore()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const { tl, t, te } = useI18nTl('General')
 const isZh = computed(() => /zh/.test(store.state.lang))
 
@@ -665,7 +670,6 @@ const currentUser = computed(() => {
   return store.state.user
 })
 
-const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentUserNamespace = computed(() => store.getters.userNamespace)
 const loadData = async () => {
   lockTable.value = true

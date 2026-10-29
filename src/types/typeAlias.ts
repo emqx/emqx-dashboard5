@@ -23,12 +23,13 @@ import {
   PostGatewaysNameListenersBody,
 } from './schemas/gatewayListeners.schemas'
 import {
-  EmqxGatewayApiUpdateCoap,
-  EmqxGatewayApiUpdateExproto,
-  EmqxGatewayApiUpdateStomp,
-  EmqxGatewayApiUpdateLwm2m,
-  EmqxGatewayApiUpdateMqttsn,
+  EmqxGatewayApiCoap,
+  EmqxGatewayApiStomp,
+  EmqxGatewayApiLwm2m,
+  EmqxGatewayApiMqttsn,
   EmqxGatewayApiGatewayOverview,
+  GatewayCoapBlockwise,
+  PutGatewaysNameBody,
 } from './schemas/gateways.schemas'
 import type { Merge, ValueOf } from 'type-fest'
 import { FileTransferFileTransfer } from './schemas/fileTransfer.schemas'
@@ -184,11 +185,22 @@ export type ScramVerifyRequest = PostLoginVerifyBody
 export type ScramLoginResponse = PostLoginVerify200
 
 /* GATEWAY */
-export type StompGatewayConfig = EmqxGatewayApiUpdateStomp
-export type CoapGatewayConfig = EmqxGatewayApiUpdateCoap
-export type ExprotoGatewayConfig = EmqxGatewayApiUpdateExproto
-export type Lwm2mGatewayConfig = EmqxGatewayApiUpdateLwm2m
-export type MqttsnGatewayConfig = EmqxGatewayApiUpdateMqttsn
+export type BlockwiseConfig = GatewayCoapBlockwise
+
+// Basic configuration is edited separately from listeners and authentication.
+// Distribute over the upsert union to preserve each gateway's required fields.
+type GatewayBasicConfig<T> = T extends unknown
+  ? Omit<T, 'name' | 'listeners' | 'authentication'>
+  : never
+
+export type StompGatewayConfig = GatewayBasicConfig<EmqxGatewayApiStomp>
+export type CoapGatewayConfig = GatewayBasicConfig<EmqxGatewayApiCoap>
+export type ExprotoGatewayConfig = any
+export type Lwm2mGatewayConfig = GatewayBasicConfig<EmqxGatewayApiLwm2m>
+export type MqttsnGatewayConfig = GatewayBasicConfig<EmqxGatewayApiMqttsn>
+
+export type GatewayCreateConfig = PutGatewaysNameBody
+export type GatewayUpdateConfig = GatewayBasicConfig<PutGatewaysNameBody>
 
 export type GatewayListener = PostGatewaysNameListenersBody
 
@@ -235,7 +247,12 @@ export type SessionMaxSessionExpiryInterval = EmqxMqttMaxSessionExpiryInterval
 
 /* AUDIT */
 export type GetAuditParams = GetAuditParamsType
-export type AuditLogItem = AuditAudit
+type AuditRequest = NonNullable<AuditAudit['http_request']>
+export type AuditLogItem = Omit<AuditAudit, 'http_request'> & {
+  http_request?: Omit<AuditRequest, 'body'> & {
+    body?: AuditRequest['body'] | string
+  }
+}
 export const AuditLogFrom = GetAuditFrom
 export const AuditLogOperationResult = GetAuditOperationResult
 

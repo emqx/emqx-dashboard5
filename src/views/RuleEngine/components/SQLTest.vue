@@ -130,7 +130,7 @@ const props = defineProps({
     required: true,
   },
 })
-const namespaceFromInject = inject<string | undefined>('ns', undefined)
+const namespaceFromInject = useResourceNamespace()
 
 const { isTesting, testTarget } = useStatusController()
 testTarget.value = TestRuleTarget.SQL
@@ -184,7 +184,7 @@ const submitTestSQL = async () => {
   try {
     res = await testsql(
       { context: getMockContext(), sql: ruleSql.value },
-      getNsParams(namespaceFromInject),
+      getNsParams(namespaceFromInject.value),
     )
     if (res) {
       rawResultData.value = res

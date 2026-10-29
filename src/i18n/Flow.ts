@@ -1,4 +1,8 @@
 export default {
+  createNamespaceFlow: {
+    zh: '创建命名空间 Flow',
+    en: 'Create Namespaced Flow',
+  },
   list: {
     zh: '列表',
     en: 'List',

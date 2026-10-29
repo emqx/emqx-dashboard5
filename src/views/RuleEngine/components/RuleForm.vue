@@ -169,7 +169,7 @@ const prop = defineProps({
 })
 const emit = defineEmits(['update:modelValue', 'save', 'save-as-copy'])
 
-const namespaceFromInject = inject<string | undefined>('ns', undefined)
+const namespaceFromInject = useResourceNamespace()
 const { getNsParams } = useNsParams()
 
 const { t } = useI18n()
@@ -358,8 +358,11 @@ const transformSQL = () => {
 }
 
 const { getSourceList } = useSourceList()
+const { getListNamespaceParams } = useListNsParams()
 const loadIngressBridgeList = async () => {
-  ingressBridgeList.value = await getSourceList()
+  ingressBridgeList.value = await getSourceList(
+    getListNamespaceParams(namespaceFromInject.value || GLOBAL_NAMESPACE_VALUE),
+  )
 }
 
 const useSQLTemplate = (SQLTemp: string) => {

@@ -58,8 +58,9 @@ export default (): {
   }
 
   const addAction = async (data: Action): Promise<Action> => {
-    const dataForSubmit = await handleActionDataBeforeSubmit(data)
-    return postAction(dataForSubmit as any) as Promise<Action>
+    const { namespace, ...others } = data
+    const dataForSubmit = await handleActionDataBeforeSubmit(others as Action)
+    return postAction(dataForSubmit as any, getNsParams(namespace)) as Promise<Action>
   }
 
   const updateAction = async (data: Action): Promise<Action> => {

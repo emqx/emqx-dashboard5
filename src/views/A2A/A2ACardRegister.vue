@@ -73,7 +73,13 @@
           </el-collapse-transition>
 
           <div class="viewer-container">
-            <Monaco :id="monacoId" v-model="form.card" lang="json" @blur="handleCardBlur" />
+            <Monaco
+              :id="monacoId"
+              v-model="form.card"
+              lang="json"
+              auto-height
+              @blur="handleCardBlur"
+            />
           </div>
         </el-form-item>
 
@@ -403,7 +409,10 @@ const submit = async () => {
     border: 1px solid var(--color-border-primary);
     margin-top: 12px;
     width: 100%;
-    height: 320px;
+
+    :deep(.monaco-view) {
+      min-height: 320px;
+    }
   }
 
   .form-footer {

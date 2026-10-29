@@ -1086,6 +1086,13 @@ export type RedisGetConnectorParameters =
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
 
+export interface RedisConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: RedisConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface RedisGetConnector {
   description?: string
   enable?: boolean
@@ -1194,7 +1201,7 @@ export interface RabbitmqGet {
   description?: string
   enable?: boolean
   heartbeat?: string
-  node_status?: ActionsAndSourcesNodeStatus[]
+  name: string
   password: string
   /** @minimum 1 */
   pool_size?: number
@@ -1206,10 +1213,9 @@ export interface RabbitmqGet {
   resource_opts?: RabbitmqConnectorResourceOpts
   servers?: string
   ssl?: EmqxSslClientOpts
-  status?: RabbitmqGetStatus
-  status_reason?: string
   tags?: string[]
   timeout?: string
+  type: RabbitmqPostType
   username: string
   virtual_host?: string
 }
@@ -2559,6 +2565,17 @@ export interface ConnectorZerobusAuthentication {
   timeout?: string
   workspace_id: string
   workspace_url: string
+}
+
+export interface ConnectorSyskeeperProxyPut {
+  /** @minimum 0 */
+  acceptors?: number
+  description?: string
+  enable?: boolean
+  handshake_timeout?: string
+  listen: string
+  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
+  tags?: string[]
 }
 
 export interface ConnectorSyskeeperProxyPut {

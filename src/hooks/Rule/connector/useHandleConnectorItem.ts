@@ -65,8 +65,9 @@ export default (): ConnectorHandlerResult => {
   }
 
   const addConnector = async (data: Connector): Promise<Connector> => {
-    const dataForSubmit = await handleConnectorDataBeforeSubmit(data as any)
-    return postConnector(dataForSubmit)
+    const { namespace, ...others } = data
+    const dataForSubmit = await handleConnectorDataBeforeSubmit(others as Connector)
+    return postConnector(dataForSubmit, getNsParams(namespace))
   }
 
   const { getNsParams } = useNsParams()

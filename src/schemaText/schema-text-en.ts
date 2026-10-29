@@ -15,7 +15,7 @@ export default {
     label: 'Idle Timeout',
   },
   hibernate_after: {
-    desc: 'How long an established TCP, TLS, WS or WSS connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC listeners retain their own `hibernate_after` setting, which takes precedence.',
+    desc: "How long an established TCP, TLS, WS, WSS or QUIC connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC connections use `mqtt.hibernate_after` of the listener's zone; `ssl_options.hibernate_after` on a QUIC listener has no effect.",
     label: 'Hibernate After',
   },
   minor_gc_after: {
@@ -570,6 +570,10 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
   file_trans_storage_local_exporter_local_root: {
     desc: 'Uploaded and assembled files. Absolute path.',
     label: 'Files Root Directory',
+  },
+  file_trans_storage_local_exporter_s3_region: {
+    label: 'Signing Region',
+    desc: 'The region used to sign requests to the S3 endpoint, for example `us-west-2`. An explicit value takes precedence over the region inferred from the endpoint host. Leave empty to infer the region from the host, with `us-east-1` as the fallback when no region can be inferred. Set this field for custom endpoint hosts that do not contain the intended region.',
   },
   host: {
     label: 'Host',

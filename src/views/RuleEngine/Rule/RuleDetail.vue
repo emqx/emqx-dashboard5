@@ -6,6 +6,11 @@
           <div class="vertical-align-center">
             <p class="block-title">{{ ruleInfo.id }}</p>
             <RuleItemStatus :rule="ruleInfo" is-tag />
+            <NamespaceResourceTag
+              :namespace="ruleInfo.namespace || namespace"
+              type="info"
+              class="section-status"
+            />
           </div>
         </template>
         <template #extra>
@@ -89,7 +94,7 @@ const submitLoading = ref(false)
 const activeTab = ref(Tab.Overview)
 
 const namespace = computed(() => route.query.ns as string | undefined)
-provide('ns', namespace.value)
+provide('ns', namespace)
 
 const { isTesting, updateSavedData } = useStatusController(ruleInfo)
 

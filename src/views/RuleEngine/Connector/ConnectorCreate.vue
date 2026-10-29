@@ -3,7 +3,14 @@
     <DetailHeader
       v-if="isInSinglePage"
       :item="{ name: tl('createConnector'), routeName: 'connector' }"
-    />
+    >
+      <template #content>
+        <div class="flex items-center gap-3">
+          <span>{{ tl('createConnector') }}</span>
+          <NamespaceResourceTag :namespace="namespace" />
+        </div>
+      </template>
+    </DetailHeader>
     <el-card class="app-card">
       <GuideBar
         v-if="isInSinglePage"
@@ -90,6 +97,9 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
+const inheritedNamespace = useResourceNamespace()
+const namespace = ref(inheritedNamespace.value)
+provide('ns', namespace)
 const { t, tl } = useI18nTl('RuleEngine')
 
 /**
@@ -147,7 +157,7 @@ const submit = async () => {
   try {
     await customValidate(FormCom.value)
     isSubmitting.value = true
-    const ret = await addConnector(formData.value)
+    const ret = await addConnector({ ...formData.value, namespace: namespace.value })
     if (isInSinglePage.value) {
       if (isSysKeeperProxy.value) {
         router.push({ name: 'connector' })
@@ -168,7 +178,7 @@ const submit = async () => {
 const handleTest = async () => {
   try {
     await customValidate(FormCom.value)
-    await testConnectivity(formData.value)
+    await testConnectivity({ ...formData.value, namespace: namespace.value })
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //
@@ -194,7 +204,7 @@ const checkClipStatus = async () => {
     }
     setTypeAndGoStepConf(currentType as BridgeType)
     targetLoading.value = true
-    const connectorData = await getConnectorDetail(route.query.target as string)
+    const connectorData = await getConnectorDetail(route.query.target as string, namespace.value)
     if (connectorData) {
       formData.value = {
         ...handleDataForCopy(connectorData),

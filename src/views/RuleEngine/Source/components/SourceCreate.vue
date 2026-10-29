@@ -17,6 +17,7 @@ const props = defineProps<{
 }>()
 
 const { tl } = useI18nTl('RuleEngine')
+const namespace = useResourceNamespace()
 
 const sourceType = computed(() => props.type || '')
 const { formCom, formComProps } = useSourceFormComponent(sourceType)
@@ -28,7 +29,7 @@ const sourceRecord = ref({})
 const { addSource, isTesting, testConnectivity } = useHandleSourceItem()
 
 const getDataForSubmit = (): Source =>
-  ({ type: props.type, ...cloneDeep(sourceRecord.value) }) as Source
+  ({ type: props.type, ...cloneDeep(sourceRecord.value), namespace: namespace.value }) as Source
 
 const testConnection = async () => {
   try {

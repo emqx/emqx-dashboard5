@@ -481,6 +481,7 @@ declare global {
   const useRedisCommandCheck: typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']
   const useRenderPluginForm: typeof import('./hooks/Plugins/useRenderPluginForm')['default']
   const useRepCodeNodeSize: typeof import('./hooks/Overview/useNodesGraph')['useRepCodeNodeSize']
+  const useResourceNamespace: typeof import('./hooks/Rule/useResourceNamespace')['default']
   const useResourceOpt: typeof import('./hooks/Rule/bridge/useResourceOpt')['default']
   const useRole: typeof import('./hooks/SSO/useRole')['default']
   const useRoute: typeof import('vue-router')['useRoute']
@@ -1108,6 +1109,7 @@ declare module 'vue' {
     readonly useRedisCommandCheck: UnwrapRef<typeof import('./hooks/Rule/useDataHandler')['useRedisCommandCheck']>
     readonly useRenderPluginForm: UnwrapRef<typeof import('./hooks/Plugins/useRenderPluginForm')['default']>
     readonly useRepCodeNodeSize: UnwrapRef<typeof import('./hooks/Overview/useNodesGraph')['useRepCodeNodeSize']>
+    readonly useResourceNamespace: UnwrapRef<typeof import('./hooks/Rule/useResourceNamespace')['default']>
     readonly useResourceOpt: UnwrapRef<typeof import('./hooks/Rule/bridge/useResourceOpt')['default']>
     readonly useRole: UnwrapRef<typeof import('./hooks/SSO/useRole')['default']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

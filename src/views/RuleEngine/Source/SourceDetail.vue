@@ -10,6 +10,11 @@
             <el-tag type="info" class="section-status">
               {{ getGeneralTypeLabel(sourceInfo.type) }}
             </el-tag>
+            <NamespaceResourceTag
+              :namespace="sourceInfo.namespace || namespaceFromInject"
+              type="info"
+              class="section-status"
+            />
           </div>
         </template>
         <template #extra>
@@ -171,7 +176,9 @@ const props = defineProps({
     default: false,
   },
 })
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = useResourceNamespace()
+const { getNsParams } = useNsParams()
+provide('ns', namespaceFromInject)
 const FormComEl = ref()
 
 const { isOpNsResourceDisabled } = useNsResource()
@@ -226,7 +233,7 @@ useDataNotSaveConfirm(countIsRecordChanged)
 const getSourceInfo = async () => {
   infoLoading.value = true
   try {
-    const nsParams = !isFromRule.value ? namespaceFromRoute.value : namespaceFromInject
+    const nsParams = !isFromRule.value ? namespaceFromRoute.value : namespaceFromInject.value
     sourceInfo.value = await getSourceDetail(id.value, nsParams)
     rawSourceInfo = cloneDeep(sourceInfo.value)
   } catch (error) {
@@ -326,7 +333,10 @@ const createRuleWithSource = () => {
     type: 'success',
   })
     .then(() => {
-      router.push({ name: 'rule-create', query: { sourceId: sourceInfo.value.id } })
+      router.push({
+        name: 'rule-create',
+        query: { sourceId: sourceInfo.value.id, ...getNsParams(sourceInfo.value.namespace) },
+      })
     })
     .catch(() => ({}))
 }

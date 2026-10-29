@@ -16,6 +16,7 @@
 <script lang="ts" setup>
 import { getGateway, updateGateway } from '@/api/gateway'
 import { GatewayName } from '@/types/enum'
+import type { GatewayUpdateConfig } from '@/types/typeAlias'
 import GatewayForm from './gatewayForm.vue'
 
 const basicData = ref<any>({})
@@ -56,6 +57,7 @@ const updateGatewayInfo = async () => {
     'listeners',
     'created_at',
     'started_at',
+    'stopped_at',
     'status',
     'name',
     'authentication',
@@ -64,16 +66,10 @@ const updateGatewayInfo = async () => {
     delete basicData.value[field]
   })
   try {
-    let dataToSubmit = basicData.value
+    let dataToSubmit: GatewayUpdateConfig = basicData.value
     if (name === GatewayName.ExProto) {
       dataToSubmit = handleExprotoData(dataToSubmit)
     }
-    const needDeleteFields = ['stopped_at']
-    needDeleteFields.forEach((field) => {
-      if (dataToSubmit[field]) {
-        delete dataToSubmit[field]
-      }
-    })
     await updateGateway(name, dataToSubmit)
     ElMessage.success(t('Base.updateSuccess'))
     loadGatewayInfo()

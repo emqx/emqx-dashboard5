@@ -3,7 +3,7 @@
     v-model="showDialog"
     :width="600"
     class="API-key-dialog"
-    :title="t('Base.create')"
+    :title="t(`Base.${operationType}`)"
     :z-index="2000"
     destroy-on-close
   >
@@ -68,13 +68,13 @@
             <div class="vertical-align-center">
               <el-switch
                 v-model="isNamespaceEnabled"
-                :disabled="operationType !== 'create'"
+                :disabled="operationType !== 'create' || isNamespaceUser"
                 @change="toggleNamespaceEnabled"
               />
               <el-select
                 v-if="isNamespaceEnabled"
                 v-model="formData.namespace"
-                :disabled="operationType !== 'create'"
+                :disabled="operationType !== 'create' || isNamespaceUser"
               >
                 <el-option
                   v-for="item in namespaceOptions"
@@ -252,6 +252,8 @@ const emit = defineEmits<{
 
 const { t, te } = useI18n()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
+const store = useStore()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const tl = (key: string, collection = 'APIKey') => {
   return t(collection + '.' + key)
 }
@@ -265,6 +267,7 @@ const createRawFormData = () => ({
   desc: '',
   enable: true,
   role: 'administrator',
+  namespace: store.state.user.namespace || undefined,
   scopes: [] as string[],
   scopeMode: ScopeMode.RoleDefault,
 })
@@ -341,6 +344,11 @@ const queryNamespaceList = async () => {
   if (!isMultiTenancyEnabled.value) {
     return
   }
+  if (isNamespaceUser.value) {
+    namespaceOptions.value = [store.state.user.namespace]
+    isNamespaceOptionsLoaded.value = true
+    return
+  }
   try {
     const res = await getNamespaceOptions()
     namespaceOptions.value = res
@@ -400,11 +408,15 @@ watch(showDialog, async (val) => {
       }
     } else {
       originalAPIKeyScopeState.value = undefined
+      formData.value = createRawFormData()
       await nextTick()
       lastRole.value = formData.value.role as UserRole
       formCom.value.clearValidate()
     }
     isNamespaceEnabled.value = isNamespacedAPIKey(formData.value.namespace)
+    if (isNamespaceEnabled.value) {
+      queryNamespaceList()
+    }
   } else {
     formData.value = createRawFormData()
     originalAPIKeyScopeState.value = undefined

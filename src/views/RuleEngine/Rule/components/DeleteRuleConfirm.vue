@@ -60,6 +60,7 @@ watch(showDialog, (val) => {
 })
 
 const namespace = computed(() => props.rule?.namespace)
+const { getListNamespaceParams } = useListNsParams()
 
 /**
  * all created action list
@@ -68,7 +69,10 @@ const actionList = ref<Array<any>>([])
 const { getActionList } = useActionList()
 const refreshActionList = async () => {
   try {
-    actionList.value = await getActionList()
+    actionList.value = []
+    actionList.value = await getActionList(
+      getListNamespaceParams(namespace.value || GLOBAL_NAMESPACE_VALUE),
+    )
   } catch (error) {
     //
   }
@@ -82,7 +86,10 @@ const sourceList = ref<Array<any>>([])
 const { getSourceList } = useSourceList()
 const refreshSourceList = async () => {
   try {
-    sourceList.value = await getSourceList()
+    sourceList.value = []
+    sourceList.value = await getSourceList(
+      getListNamespaceParams(namespace.value || GLOBAL_NAMESPACE_VALUE),
+    )
   } catch (error) {
     //
   }

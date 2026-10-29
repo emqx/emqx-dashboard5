@@ -146,8 +146,9 @@ const { t, tl } = useI18nTl('Base')
 const type = computed(() => props.node?.data?.specificType)
 const isEdit = computed(() => !!record.value.id)
 
-const namespace = computed(() => props.node?.data?.namespace)
-provide('ns', namespace.value)
+const inheritedNamespace = useResourceNamespace()
+const namespace = computed(() => props.node?.data?.namespace ?? inheritedNamespace.value)
+provide('ns', namespace)
 
 const FormCom = ref()
 

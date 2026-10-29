@@ -93,7 +93,7 @@ const props = defineProps({
     required: true,
   },
 })
-const namespaceFromInject = inject<string | undefined>('ns')
+const namespaceFromInject = useResourceNamespace()
 
 const { ruleTypeMetricsMap, actionTypeMetricsMap, textMap, rateData } = useRuleMetrics()
 
@@ -104,7 +104,7 @@ const getRuleMetricsData = async () => {
     if (!props.ruleId) {
       return
     }
-    return queryRuleMetrics(props.ruleId, getNsParams(namespaceFromInject))
+    return queryRuleMetrics(props.ruleId, getNsParams(namespaceFromInject.value))
   } catch (error) {
     //
   }
@@ -114,6 +114,6 @@ const resetMetrics = () => {
   if (!props.ruleId) {
     return
   }
-  return resetRuleMetrics(props.ruleId, getNsParams(namespaceFromInject))
+  return resetRuleMetrics(props.ruleId, getNsParams(namespaceFromInject.value))
 }
 </script>
