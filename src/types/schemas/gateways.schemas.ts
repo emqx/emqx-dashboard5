@@ -149,6 +149,16 @@ export interface GatewayTranslator {
   topic: string
 }
 
+export interface GatewayStompTransaction {
+  /** @minimum 0 */
+  max_actions_per_transaction?: number
+  /** @minimum 0 */
+  max_retained_bytes?: number
+  /** @minimum 0 */
+  max_transactions?: number
+  timeout?: string
+}
+
 export interface GatewayStompFrame {
   max_body_length?: number
   /** @minimum 0 */
@@ -234,6 +244,8 @@ export interface GatewaySslServerOpts {
 }
 
 export interface GatewayProtocol {
+  /** @minimum 0 */
+  max_control_line?: number
   /** @minimum 0 */
   max_payload_size?: number
 }
@@ -939,6 +951,7 @@ export interface EmqxGatewayApiStomp {
   listeners?: EmqxGatewayApiStompListenersItem[]
   mountpoint?: string
   name?: EmqxGatewayApiStompName
+  transaction?: GatewayStompTransaction
 }
 
 export type EmqxGatewayApiSslListenerType =
@@ -1201,7 +1214,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@1721702': 'emqx@172.17.0.2',
+  'emqx@1721704': 'emqx@172.17.0.4',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {

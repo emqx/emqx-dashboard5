@@ -94,7 +94,7 @@ const cValue = reactive(merge(createDefault(), props.value))
 
 const qosOptions = ['coap', 'qos0', 'qos1', 'qos2']
 
-const checkHeartBeat = (source: Record<string, any>) => {
+const checkHeartBeat = <T extends CoapGatewayConfig>(source: T): T => {
   if (!source.connection_required) {
     Reflect.deleteProperty(source, 'heartbeat')
   } else if (source.connection_required && !source.heartbeat) {
