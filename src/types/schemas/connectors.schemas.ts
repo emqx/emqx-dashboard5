@@ -842,6 +842,18 @@ export interface SyskeeperForwarderConnectorResourceOpts {
   start_timeout?: string
 }
 
+export interface SyskeeperForwarderPut {
+  ack_mode?: SyskeeperForwarderPutAckMode
+  ack_timeout?: string
+  description?: string
+  enable?: boolean
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: SyskeeperForwarderConnectorResourceOpts
+  server: string
+  tags?: string[]
+}
+
 export type S3TransportOptionsHeaders = { [key: string]: unknown }
 
 export interface S3TransportOptions {
@@ -1067,6 +1079,13 @@ export type RedisGetConnectorParameters =
   | RedisRedisSentinelConnector
   | RedisRedisSingleConnector
 
+export interface RedisConnectorResourceOpts {
+  health_check_interval?: string
+  health_check_timeout?: RedisConnectorResourceOptsHealthCheckTimeout
+  start_after_created?: boolean
+  start_timeout?: string
+}
+
 export interface RedisGetConnector {
   description?: string
   enable?: boolean
@@ -1173,7 +1192,7 @@ export interface RabbitmqGet {
   description?: string
   enable?: boolean
   heartbeat?: string
-  node_status?: ActionsAndSourcesNodeStatus[]
+  name: string
   password: string
   /** @minimum 1 */
   pool_size?: number
@@ -1185,26 +1204,14 @@ export interface RabbitmqGet {
   resource_opts?: RabbitmqConnectorResourceOpts
   servers?: string
   ssl?: EmqxSslClientOpts
-  status?: RabbitmqGetStatus
-  status_reason?: string
   tags?: string[]
   timeout?: string
+  type: RabbitmqPostType
   username: string
   virtual_host?: string
 }
 
 export type PulsarPutAuthentication = BridgePulsarAuthBasic | BridgePulsarAuthToken | 'none'
-
-export interface PulsarPut {
-  authentication?: PulsarPutAuthentication
-  connect_timeout?: string
-  description?: string
-  enable?: boolean
-  resource_opts?: PulsarConnectorResourceOpts
-  servers: string
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
 
 export type PulsarPostType = (typeof PulsarPostType)[keyof typeof PulsarPostType]
 
@@ -2397,6 +2404,17 @@ export interface ElasticsearchGet {
   status_reason?: string
   tags?: string[]
   type: ElasticsearchGetType
+}
+
+export interface ConnectorSyskeeperProxyPut {
+  /** @minimum 0 */
+  acceptors?: number
+  description?: string
+  enable?: boolean
+  handshake_timeout?: string
+  listen: string
+  resource_opts?: ConnectorSyskeeperProxyConnectorResourceOpts
+  tags?: string[]
 }
 
 export interface ConnectorSyskeeperProxyPut {

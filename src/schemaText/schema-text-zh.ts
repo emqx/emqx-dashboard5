@@ -554,6 +554,10 @@ export default {
     desc: '已上传完成，拼接成功的文件存储路径，绝对路径。',
     label: '文件存储目录',
   },
+  file_trans_storage_local_exporter_s3_region: {
+    label: '签名区域',
+    desc: '用于对 S3 端点请求进行签名的区域，例如 `us-west-2`。显式配置的值优先于从端点地址推断的区域。留空时会从端点地址自动推断区域；无法推断时使用 `us-east-1`。当自定义端点地址不包含预期区域时，可通过此字段指定。',
+  },
   storage_local_exporter_s_3_enable: {
     desc: '在文件上传完成后拼接分片并存储到 S3 指定 Bucket。',
     label: '是否启用 S3 存储',

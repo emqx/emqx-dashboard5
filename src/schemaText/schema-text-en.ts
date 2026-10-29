@@ -567,6 +567,10 @@ A significant number of middle boxes misbehave when a TLS-1.3 connection is nego
     desc: 'Uploaded and assembled files. Absolute path.',
     label: 'Files Root Directory',
   },
+  file_trans_storage_local_exporter_s3_region: {
+    label: 'Signing Region',
+    desc: 'The region used to sign requests to the S3 endpoint, for example `us-west-2`. An explicit value takes precedence over the region inferred from the endpoint host. Leave empty to infer the region from the host, with `us-east-1` as the fallback when no region can be inferred. Set this field for custom endpoint hosts that do not contain the intended region.',
+  },
   host: {
     label: 'Host',
   },

@@ -2,7 +2,7 @@
   <div class="users app-wrapper">
     <div class="section-header">
       <div></div>
-      <CreateButton @click="showDialog()" />
+      <CreateButton :disabled="!$hasPermission('post') || isNamespaceUser" @click="showDialog()" />
     </div>
 
     <el-table :data="tableData" v-loading.lock="lockTable">
@@ -78,25 +78,28 @@
       </el-table-column>
       <el-table-column :label="$t('Base.operation')" :min-width="isZh ? 308 : 386">
         <template #default="{ row }">
-          <TableButton :disabled="!$hasPermission('put')" @click="showDialog('edit', row)">
+          <TableButton
+            :disabled="!$hasPermission('put') || isNamespaceUser"
+            @click="showDialog('edit', row)"
+          >
             {{ $t('Base.edit') }}
           </TableButton>
           <TableButton
             v-if="canChangePwd(row)"
-            :disabled="!isCurrentUser(row.username) && !$hasPermission('put')"
+            :disabled="!isCurrentUser(row.username) && (!$hasPermission('put') || isNamespaceUser)"
             @click="showDialog('chPass', row)"
           >
             {{ tl('changePassword') }}
           </TableButton>
           <TableButton
             v-if="canManageMfa(row)"
-            :disabled="!isCurrentUser(row.username) && !$hasPermission('post')"
+            :disabled="!isCurrentUser(row.username) && (!$hasPermission('post') || isNamespaceUser)"
             @click="openMfaSettingsDialog(row)"
           >
             {{ tl('mfaSettings') }}
           </TableButton>
           <TableButton
-            :disabled="!$hasPermission('delete')"
+            :disabled="!$hasPermission('delete') || isNamespaceUser"
             @click="deleteConfirm(row)"
             v-if="!isCurrentUser(row.username) && row.username !== 'admin'"
           >
@@ -335,6 +338,7 @@ const NS_ADMIN_ALLOWED_SCOPES = new Set([
 
 const store = useStore()
 const isMultiTenancyEnabled = useMultiTenancyEnabled()
+const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const { tl, t, te } = useI18nTl('General')
 const isZh = computed(() => /zh/.test(store.state.lang))
 
@@ -642,7 +646,6 @@ const currentUser = computed(() => {
   return store.state.user
 })
 
-const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const currentUserNamespace = computed(() => store.getters.userNamespace)
 const loadData = async () => {
   lockTable.value = true
