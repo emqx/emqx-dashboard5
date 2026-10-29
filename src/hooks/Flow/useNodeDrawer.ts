@@ -13,6 +13,7 @@ import useBridgeTypeValue from '../Rule/bridge/useBridgeTypeValue'
 import useI18nTl from '../useI18nTl'
 import useFlowNode, {
   ProcessingType,
+  OptionalProcessingType,
   SinkType,
   SourceType,
   SourceTypeAllMsgsAndEvents,
@@ -47,6 +48,7 @@ export default (): {
   const drawerWidthMap: Record<string, string> = {
     [ProcessingType.Filter]: '960px',
     [ProcessingType.Function]: '680px',
+    [OptionalProcessingType.AIOpenAIDecisions]: '720px',
   }
   const getDrawerWidth = (type: string) => {
     if (isBridgeType(type)) {

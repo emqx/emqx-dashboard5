@@ -98,6 +98,7 @@ declare global {
   const ONE_HOUR: typeof import('./common/tools')['ONE_HOUR']
   const ONE_MINUTE: typeof import('./common/tools')['ONE_MINUTE']
   const ONE_SECOND: typeof import('./common/tools')['ONE_SECOND']
+  const OptionalProcessingType: typeof import('./hooks/Flow/useFlowNode')['OptionalProcessingType']
   const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
   const PASSWORD_REG: typeof import('./common/constants')['PASSWORD_REG']
   const ProcessingType: typeof import('./hooks/Flow/useFlowNode')['ProcessingType']
@@ -116,9 +117,9 @@ declare global {
   const SESSION_NEVER_EXPIRE_TIME: typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']
   const SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']
   const SPECIAL_INVALID_SUB_TOPIC_REG: typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']
-  const SUPPORTED_LANGS: typeof import('./common/constants')['SUPPORTED_LANGS']
   const SSL_FIELDS: typeof import('./common/constants')['SSL_FIELDS']
   const SSL_VERIFY_VALUE_MAP: typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']
+  const SUPPORTED_LANGS: typeof import('./common/constants')['SUPPORTED_LANGS']
   const SinkType: typeof import('./hooks/Flow/useFlowNode')['SinkType']
   const SourceServerType: typeof import('./hooks/Rule/rule/useRule')['SourceServerType']
   const SourceType: typeof import('./hooks/Flow/useFlowNode')['SourceType']
@@ -160,6 +161,7 @@ declare global {
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
   const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
   const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
+  const createAIDecisionsForm: typeof import('./hooks/Flow/useNodeForm')['createAIDecisionsForm']
   const createAIGeminiForm: typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']
   const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
@@ -224,10 +226,9 @@ declare global {
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
   const isRegExp: typeof import('lodash')['isRegExp']
-  const isZhLang: typeof import('./common/tools')['isZhLang']
-  const toLangFamily: typeof import('./common/tools')['toLangFamily']
   const isString: typeof import('lodash')['isString']
   const isUndefined: typeof import('lodash')['isUndefined']
+  const isZhLang: typeof import('./common/tools')['isZhLang']
   const judgeRuleSelectionWithFunc: typeof import('./common/tools')['judgeRuleSelectionWithFunc']
   const jumpToErrorFormItem: typeof import('./common/tools')['jumpToErrorFormItem']
   const lowerCase: typeof import('lodash')['lowerCase']
@@ -287,6 +288,7 @@ declare global {
   const sum: typeof import('lodash')['sum']
   const throttle: typeof import('lodash')['throttle']
   const titleCase: typeof import('./common/tools')['titleCase']
+  const toLangFamily: typeof import('./common/tools')['toLangFamily']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']
@@ -724,6 +726,7 @@ declare module 'vue' {
     readonly ONE_HOUR: UnwrapRef<typeof import('./common/tools')['ONE_HOUR']>
     readonly ONE_MINUTE: UnwrapRef<typeof import('./common/tools')['ONE_MINUTE']>
     readonly ONE_SECOND: UnwrapRef<typeof import('./common/tools')['ONE_SECOND']>
+    readonly OptionalProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['OptionalProcessingType']>
     readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']>
     readonly PASSWORD_REG: UnwrapRef<typeof import('./common/constants')['PASSWORD_REG']>
     readonly ProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['ProcessingType']>
@@ -742,9 +745,9 @@ declare module 'vue' {
     readonly SESSION_NEVER_EXPIRE_TIME: UnwrapRef<typeof import('./common/constants')['SESSION_NEVER_EXPIRE_TIME']>
     readonly SHOW_PAYLOAD_BY_WHICH_OPTION_LIST: UnwrapRef<typeof import('./common/constants')['SHOW_PAYLOAD_BY_WHICH_OPTION_LIST']>
     readonly SPECIAL_INVALID_SUB_TOPIC_REG: UnwrapRef<typeof import('./common/constants')['SPECIAL_INVALID_SUB_TOPIC_REG']>
-    readonly SUPPORTED_LANGS: UnwrapRef<typeof import('./common/constants')['SUPPORTED_LANGS']>
     readonly SSL_FIELDS: UnwrapRef<typeof import('./common/constants')['SSL_FIELDS']>
     readonly SSL_VERIFY_VALUE_MAP: UnwrapRef<typeof import('./common/constants')['SSL_VERIFY_VALUE_MAP']>
+    readonly SUPPORTED_LANGS: UnwrapRef<typeof import('./common/constants')['SUPPORTED_LANGS']>
     readonly SinkType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SinkType']>
     readonly SourceServerType: UnwrapRef<typeof import('./hooks/Rule/rule/useRule')['SourceServerType']>
     readonly SourceType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['SourceType']>
@@ -786,6 +789,7 @@ declare module 'vue' {
     readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
     readonly createAIAnthropicForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']>
     readonly createAICommonForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']>
+    readonly createAIDecisionsForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIDecisionsForm']>
     readonly createAIGeminiForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']>
     readonly createAIOpenAIForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
@@ -850,10 +854,9 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isRegExp: UnwrapRef<typeof import('lodash')['isRegExp']>
-    readonly isZhLang: UnwrapRef<typeof import('./common/tools')['isZhLang']>
-    readonly toLangFamily: UnwrapRef<typeof import('./common/tools')['toLangFamily']>
     readonly isString: UnwrapRef<typeof import('lodash')['isString']>
     readonly isUndefined: UnwrapRef<typeof import('lodash')['isUndefined']>
+    readonly isZhLang: UnwrapRef<typeof import('./common/tools')['isZhLang']>
     readonly judgeRuleSelectionWithFunc: UnwrapRef<typeof import('./common/tools')['judgeRuleSelectionWithFunc']>
     readonly jumpToErrorFormItem: UnwrapRef<typeof import('./common/tools')['jumpToErrorFormItem']>
     readonly lowerCase: UnwrapRef<typeof import('lodash')['lowerCase']>
@@ -913,6 +916,7 @@ declare module 'vue' {
     readonly sum: UnwrapRef<typeof import('lodash')['sum']>
     readonly throttle: UnwrapRef<typeof import('lodash')['throttle']>
     readonly titleCase: UnwrapRef<typeof import('./common/tools')['titleCase']>
+    readonly toLangFamily: UnwrapRef<typeof import('./common/tools')['toLangFamily']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>

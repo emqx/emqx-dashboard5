@@ -136,8 +136,8 @@ export default (): {
   const addAIRecordDataToNodes = (node: Array<Node>): Array<Node> => {
     return node.map((item) => {
       if (isAIType(item.data.specificType)) {
-        const provider = providerDataMap.get(item.data.formData?.name)
         const completion = completionDataMap.get(item.data.formData?.name)
+        const provider = completion ? providerDataMap.get(completion.provider_name) : undefined
         addAIRecordToAINode(item, provider, completion)
       }
       return item

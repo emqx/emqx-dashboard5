@@ -685,7 +685,6 @@ defineExpose({ getFlowData, getNodes, setNodes })
 
   .el-collapse-item__header {
     font-weight: 600;
-    border-bottom-color: var(--color-border-primary);
   }
 
   .flow-wrap {
