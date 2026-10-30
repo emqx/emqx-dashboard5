@@ -29,7 +29,7 @@ const keysNeedRemovedForUpdate = ['type', 'name']
 export const useCommonDataHandler = () => {
   const { handleSSLDataBeforeSubmit } = useSSL()
 
-  const handleDataBeforeSubmit = (data: any): any => {
+  const handleDataBeforeSubmit = (data: any, ignorePaths?: Array<string>): any => {
     const ret = cloneDeep(data)
     if (ret.ssl) {
       ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
@@ -41,7 +41,7 @@ export const useCommonDataHandler = () => {
     } else if (ret.oauth2) {
       ret.oauth2 = { enable: false }
     }
-    return checkNOmitFromObj(omit(ret, keysNeedDel.update))
+    return checkNOmitFromObj(omit(ret, keysNeedDel.update), ignorePaths)
   }
 
   // When copying, set to empty value.
@@ -365,7 +365,9 @@ export const useActionDataHandler = (): {
           delete item.tags
         })
       }
-      return Promise.resolve(await handleDataBeforeSubmit(ret))
+      // HTTP distinguishes an unset body (full event JSON) from an explicitly empty body.
+      const ignorePaths = ret.type === BridgeType.Webhook ? ['parameters.body'] : undefined
+      return Promise.resolve(await handleDataBeforeSubmit(ret, ignorePaths))
     } catch (error) {
       console.error(error)
       return Promise.reject()

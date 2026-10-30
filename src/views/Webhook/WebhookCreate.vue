@@ -91,7 +91,9 @@ const submit = async () => {
   }
   try {
     await customValidate(FormCom.value)
-    const data: any = checkNOmitFromObj(setName(cloneDeep(webhook.value)))
+    const data: any = checkNOmitFromObj(setName(cloneDeep(webhook.value)), [
+      'action.parameters.body',
+    ])
     isSubmitting.value = true
     // Because it is easier to report errors when creating bridge, put it in the front..
     syncHeaders(data)
