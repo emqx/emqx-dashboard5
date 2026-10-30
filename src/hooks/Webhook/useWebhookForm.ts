@@ -45,7 +45,10 @@ export default (): {
     return ret
   }
   const createRawHTTPAction = () => {
-    return initRecordByComponents(httpActionComponents.value) as HTTPBridge
+    const action = initRecordByComponents(httpActionComponents.value) as HTTPBridge
+    // Schema form initialization turns an unset string into ''. Keep the default full-event body.
+    delete action.parameters.body
+    return action
   }
 
   const { createRawRuleForm } = useRuleForm()

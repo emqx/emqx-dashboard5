@@ -99,6 +99,22 @@ export default {
     zh: '用于配置 Webhook 请求 URL 中的查询参数，例如 `token=xxx&key=value`。',
     en: 'Used to configure query parameters in the Webhook request URL, for example `token=xxx&key=value`.',
   },
+  customRequestBody: {
+    zh: '自定义请求体',
+    en: 'Custom Request Body',
+  },
+  customRequestBodyDesc: {
+    zh: '关闭时将完整事件作为 JSON 发送。开启后使用下方模板；模板为空时发送空请求体。',
+    en: 'When disabled, sends the full event as JSON. When enabled, uses the template below; an empty template sends an empty request body.',
+  },
+  requestBodyTemplate: {
+    zh: '请求体模板',
+    en: 'Request Body Template',
+  },
+  requestBodyTemplateDesc: {
+    zh: "支持使用 ${'{'}field{'}'} 引用事件字段。将字符串字段插入 JSON 字符串时不会自动转义，字段值中的双引号、反斜杠或换行可能导致 JSON 无效。",
+    en: "Use ${'{'}field{'}'} to reference event fields. String fields inserted into JSON strings are not automatically escaped; double quotes, backslashes or line breaks in field values may produce invalid JSON.",
+  },
   topicFilter: {
     zh: '主题过滤',
     en: 'Topic Filter',

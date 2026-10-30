@@ -189,7 +189,7 @@ const submit = async () => {
   }
   try {
     await FormCom.value.validate()
-    const data: any = checkNOmitFromObj(cloneDeep(webhookData.value))
+    const data: any = checkNOmitFromObj(cloneDeep(webhookData.value), ['action.parameters.body'])
     normalizeActionPathForSubmit(data)
     isSubmitting.value = true
     syncHeaders(data)

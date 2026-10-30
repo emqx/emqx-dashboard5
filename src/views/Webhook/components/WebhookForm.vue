@@ -6,6 +6,7 @@
     hide-required-asterisk
     :rules="rules"
     :model="formData"
+    :disabled="disabled"
   >
     <el-form-item prop="name" :label="tl('name')">
       <el-input class="name-input" v-model="formData.name" :disabled="isEdit">
@@ -53,6 +54,26 @@
     </el-form-item>
     <el-form-item :label="tl('headers')" class="item-headers">
       <KeyAndValueEditor v-model="formData.connector.headers" type="list" />
+    </el-form-item>
+    <el-form-item>
+      <template #label>
+        <FormItemLabel :label="tl('customRequestBody')" :desc="tl('customRequestBodyDesc')" />
+      </template>
+      <el-switch v-model="customBodyEnabled" />
+    </el-form-item>
+    <el-form-item v-if="customBodyEnabled" prop="action.parameters.body">
+      <template #label>
+        <FormItemLabel :label="tl('requestBodyTemplate')" :desc="tl('requestBodyTemplateDesc')" />
+      </template>
+      <div class="monaco-container is-small">
+        <Monaco
+          :id="bodyEditorId"
+          v-model="formData.action.parameters.body"
+          lang="json"
+          json-without-validate
+          :disabled="disabled"
+        />
+      </div>
     </el-form-item>
     <el-row>
       <HttpOAuth2Config
@@ -113,6 +134,7 @@ import { FormRules } from '@/types/common'
 import { WebhookForm, WebhookItem } from '@/types/webhook'
 import BridgeResourceOpt from '@/views/RuleEngine/Bridge/Components/BridgeConfig/BridgeResourceOpt.vue'
 import HttpOAuth2Config from '@/components/HttpOAuth2Config.vue'
+import Monaco from '@/components/Monaco.vue'
 import Trigger from './Trigger.vue'
 
 const props = defineProps({
@@ -121,6 +143,10 @@ const props = defineProps({
     required: true,
   },
   isEdit: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
     type: Boolean,
     default: false,
   },
@@ -143,6 +169,18 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
   },
   set(val) {
     emit('update:modelValue', val)
+  },
+})
+
+const bodyEditorId = createRandomString()
+const customBodyEnabled = computed({
+  get: () => typeof formData.value.action.parameters.body === 'string',
+  set: (enabled: boolean) => {
+    if (enabled) {
+      formData.value.action.parameters.body = ''
+    } else {
+      delete formData.value.action.parameters.body
+    }
   },
 })
 
