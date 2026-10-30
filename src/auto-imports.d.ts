@@ -98,6 +98,7 @@ declare global {
   const ONE_HOUR: typeof import('./common/tools')['ONE_HOUR']
   const ONE_MINUTE: typeof import('./common/tools')['ONE_MINUTE']
   const ONE_SECOND: typeof import('./common/tools')['ONE_SECOND']
+  const OptionalProcessingType: typeof import('./hooks/Flow/useFlowNode')['OptionalProcessingType']
   const PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']
   const PASSWORD_REG: typeof import('./common/constants')['PASSWORD_REG']
   const ProcessingType: typeof import('./hooks/Flow/useFlowNode')['ProcessingType']
@@ -160,6 +161,7 @@ declare global {
   const countDuplicationName: typeof import('./common/tools')['countDuplicationName']
   const createAIAnthropicForm: typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']
   const createAICommonForm: typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']
+  const createAIDecisionsForm: typeof import('./hooks/Flow/useNodeForm')['createAIDecisionsForm']
   const createAIGeminiForm: typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']
   const createAIOpenAIForm: typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']
   const createApp: typeof import('vue')['createApp']
@@ -726,6 +728,7 @@ declare module 'vue' {
     readonly ONE_HOUR: UnwrapRef<typeof import('./common/tools')['ONE_HOUR']>
     readonly ONE_MINUTE: UnwrapRef<typeof import('./common/tools')['ONE_MINUTE']>
     readonly ONE_SECOND: UnwrapRef<typeof import('./common/tools')['ONE_SECOND']>
+    readonly OptionalProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['OptionalProcessingType']>
     readonly PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION: UnwrapRef<typeof import('./common/constants')['PASSWORD_HASH_TYPES_WHICH_NEED_SALT_POSITION']>
     readonly PASSWORD_REG: UnwrapRef<typeof import('./common/constants')['PASSWORD_REG']>
     readonly ProcessingType: UnwrapRef<typeof import('./hooks/Flow/useFlowNode')['ProcessingType']>
@@ -788,6 +791,7 @@ declare module 'vue' {
     readonly countDuplicationName: UnwrapRef<typeof import('./common/tools')['countDuplicationName']>
     readonly createAIAnthropicForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIAnthropicForm']>
     readonly createAICommonForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAICommonForm']>
+    readonly createAIDecisionsForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIDecisionsForm']>
     readonly createAIGeminiForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIGeminiForm']>
     readonly createAIOpenAIForm: UnwrapRef<typeof import('./hooks/Flow/useNodeForm')['createAIOpenAIForm']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>

@@ -7,6 +7,7 @@ import useFlowNode, {
   FilterForm,
   FilterItem,
   ProcessingType,
+  OptionalProcessingType,
   SinkType,
   SourceType,
 } from './useFlowNode'
@@ -33,24 +34,33 @@ export const createFilterForm = (): FilterForm => ({
   form: createFilterFormData(),
 })
 
+const createAITransportOptions = () => ({
+  connect_timeout: '1s',
+  recv_timeout: '5s',
+  checkout_timeout: '1s',
+  max_connections: 50,
+})
+
 export const createAICommonForm = () => ({
   api_key: '',
   system_prompt: '',
   input: '',
   base_url: '',
   name: `flow_ai_${createRandomString(4)}`,
-  transport_options: {
-    connect_timeout: '1s',
-    recv_timeout: '5s',
-    checkout_timeout: '1s',
-    max_connections: 50,
-  },
+  transport_options: createAITransportOptions(),
 })
 export const createAIOpenAIForm = () => ({
   type: AIProviderType.openai_response,
   model: 'gpt-4o',
   ...createAICommonForm(),
 })
+export const createAIDecisionsForm = () => {
+  const { getCommonFormDataByType } = useNodeForm()
+  return {
+    ...getCommonFormDataByType(OptionalProcessingType.AIOpenAIDecisions),
+    transport_options: createAITransportOptions(),
+  }
+}
 export const createAIAnthropicForm = () => ({
   type: AIProviderType.anthropic,
   model: 'claude-3-5-sonnet-20240620',
@@ -89,6 +99,7 @@ export default (): {
     [ProcessingType.Filter]: () => getCommonFormDataByType(ProcessingType.Filter),
     [ProcessingType.Function]: () => getCommonFormDataByType(ProcessingType.Function),
     [ProcessingType.AIOpenAI]: createAIOpenAIForm,
+    [OptionalProcessingType.AIOpenAIDecisions]: createAIDecisionsForm,
     [ProcessingType.AIAnthropic]: createAIAnthropicForm,
     [ProcessingType.AIGemini]: createAIGeminiForm,
     [SinkType.RePub]: () => getCommonFormDataByType(SinkType.RePub),

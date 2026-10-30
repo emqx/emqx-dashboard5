@@ -17,7 +17,6 @@ export type PutSchemaRegistryProtobufBundle400Code =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutSchemaRegistryProtobufBundle400Code = {
   BAD_FORM_DATA: 'BAD_FORM_DATA',
-  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PutSchemaRegistryProtobufBundle400 = {
@@ -39,7 +38,6 @@ export type PostSchemaRegistryProtobufBundle400Code =
 export const PostSchemaRegistryProtobufBundle400Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
   BAD_FORM_DATA: 'BAD_FORM_DATA',
-  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostSchemaRegistryProtobufBundle400 = {
@@ -67,19 +65,6 @@ export type PutSchemaRegistryExternalRegistryName404 = {
   message?: string
 }
 
-export type PutSchemaRegistryExternalRegistryName400Code =
-  (typeof PutSchemaRegistryExternalRegistryName400Code)[keyof typeof PutSchemaRegistryExternalRegistryName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSchemaRegistryExternalRegistryName400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutSchemaRegistryExternalRegistryName400 = {
-  code?: PutSchemaRegistryExternalRegistryName400Code
-  message?: string
-}
-
 export type GetSchemaRegistryExternalRegistryName404Code =
   (typeof GetSchemaRegistryExternalRegistryName404Code)[keyof typeof GetSchemaRegistryExternalRegistryName404Code]
 
@@ -93,26 +78,12 @@ export type GetSchemaRegistryExternalRegistryName404 = {
   message?: string
 }
 
-export type DeleteSchemaRegistryExternalRegistryName400Code =
-  (typeof DeleteSchemaRegistryExternalRegistryName400Code)[keyof typeof DeleteSchemaRegistryExternalRegistryName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryExternalRegistryName400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteSchemaRegistryExternalRegistryName400 = {
-  code?: DeleteSchemaRegistryExternalRegistryName400Code
-  message?: string
-}
-
 export type PostSchemaRegistryExternal400Code =
   (typeof PostSchemaRegistryExternal400Code)[keyof typeof PostSchemaRegistryExternal400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaRegistryExternal400Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
-  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostSchemaRegistryExternal400 = {
@@ -138,19 +109,6 @@ export const PutSchemaRegistryName404Code = {
 
 export type PutSchemaRegistryName404 = {
   code?: PutSchemaRegistryName404Code
-  message?: string
-}
-
-export type PutSchemaRegistryName400Code =
-  (typeof PutSchemaRegistryName400Code)[keyof typeof PutSchemaRegistryName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PutSchemaRegistryName400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type PutSchemaRegistryName400 = {
-  code?: PutSchemaRegistryName400Code
   message?: string
 }
 
@@ -198,26 +156,12 @@ export type DeleteSchemaRegistryName404 = {
   message?: string
 }
 
-export type DeleteSchemaRegistryName400Code =
-  (typeof DeleteSchemaRegistryName400Code)[keyof typeof DeleteSchemaRegistryName400Code]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DeleteSchemaRegistryName400Code = {
-  BAD_REQUEST: 'BAD_REQUEST',
-} as const
-
-export type DeleteSchemaRegistryName400 = {
-  code?: DeleteSchemaRegistryName400Code
-  message?: string
-}
-
 export type PostSchemaRegistry400Code =
   (typeof PostSchemaRegistry400Code)[keyof typeof PostSchemaRegistry400Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PostSchemaRegistry400Code = {
   ALREADY_EXISTS: 'ALREADY_EXISTS',
-  BAD_REQUEST: 'BAD_REQUEST',
 } as const
 
 export type PostSchemaRegistry400 = {

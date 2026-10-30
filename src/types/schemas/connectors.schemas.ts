@@ -5278,7 +5278,6 @@ export interface BridgeS3PutConnector {
   host: string
   /** @minimum 1 */
   port: number
-  region?: string
   resource_opts?: BridgeS3S3ConnectorResourceOpts
   secret_access_key?: string
   tags?: string[]
@@ -5311,7 +5310,6 @@ export interface BridgeS3PostConnector {
   name: string
   /** @minimum 1 */
   port: number
-  region?: string
   resource_opts?: BridgeS3S3ConnectorResourceOpts
   secret_access_key?: string
   tags?: string[]
@@ -5358,7 +5356,6 @@ export interface BridgeS3GetConnector {
   node_status?: ConnectorNodeStatus[]
   /** @minimum 1 */
   port: number
-  region?: string
   resource_opts?: BridgeS3S3ConnectorResourceOpts
   secret_access_key?: string
   status?: BridgeS3GetConnectorStatus

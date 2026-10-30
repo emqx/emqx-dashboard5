@@ -1,7 +1,6 @@
 import { getAIModels, getProviderModels } from '@/api/ai'
 import { AIConfig } from '@/types/rule'
-import { AIProviderType } from '@/types/typeAlias'
-import { ProcessingType } from './useFlowNode'
+import { ProcessingType, OptionalProcessingType } from './useFlowNode'
 import aiModels from '@/common/aiModels.json'
 import axios from 'axios'
 
@@ -101,8 +100,12 @@ const useAIModels = () => {
     })
     return textOnlyModels
   }
-  const modelsFilterMap = new Map<ProcessingType, (data: Array<any>) => Array<any>>([
+  const modelsFilterMap = new Map<
+    ProcessingType | OptionalProcessingType,
+    (data: Array<any>) => Array<any>
+  >([
     [ProcessingType.AIOpenAI, filterOpenaiModels],
+    [OptionalProcessingType.AIOpenAIDecisions, filterOpenaiModels],
     [ProcessingType.AIAnthropic, filterAnthropicModels],
     [ProcessingType.AIGemini, filterGeminiModels],
   ])
@@ -124,7 +127,7 @@ const useAIModels = () => {
   }
   const requestModels = async (
     data: AIConfig,
-    provider: ProcessingType,
+    provider: ProcessingType | OptionalProcessingType,
   ): Promise<Array<string>> => {
     try {
       if (provider === ProcessingType.AIGemini) {
@@ -138,29 +141,35 @@ const useAIModels = () => {
     }
   }
 
-  const getLocalModels = (type: ProcessingType) => {
+  const getLocalModels = (type: ProcessingType | OptionalProcessingType, model?: string) => {
+    if (type === OptionalProcessingType.AIOpenAIDecisions) {
+      return model ? [model] : []
+    }
     return modelOptsMap.get(type) ?? []
   }
 
-  const modelOptsMap = new Map([
+  const modelOptsMap = new Map<ProcessingType | OptionalProcessingType, string[]>([
     [ProcessingType.AIOpenAI, aiModels.openai],
     [ProcessingType.AIAnthropic, aiModels.anthropic],
     [ProcessingType.AIGemini, aiModels.gemini],
   ])
-  const getModels = async (data: AIConfig, type: ProcessingType): Promise<Array<string>> => {
+  const getModels = async (
+    data: AIConfig,
+    type: ProcessingType | OptionalProcessingType,
+  ): Promise<Array<string>> => {
     try {
       let ret: Array<string> = []
       const isEncryptedPassword = /^\*{1,6}$/.test(data.api_key)
       const isEditing = isEncryptedPassword && data.name
       const isGemini = type === ProcessingType.AIGemini
       if (isEditing && !isGemini) {
-        ret = await getProviderModels(data.name)
+        ret = await getProviderModels(data.provider_name || data.name)
       } else if (data.api_key && !isEncryptedPassword) {
         ret = await requestModels(data, type)
       }
 
       if (!ret.length) {
-        ret = getLocalModels(type)
+        ret = getLocalModels(type, data.model)
       } else {
         const filter = modelsFilterMap.get(type)
         if (filter) {
@@ -173,7 +182,7 @@ const useAIModels = () => {
 
       return ret
     } catch (error) {
-      return getLocalModels(type)
+      return getLocalModels(type, data.model)
     }
   }
   return {
