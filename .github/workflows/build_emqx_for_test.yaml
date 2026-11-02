@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: emqx/emqx
-          ref: release-63
+          ref: dev-70
 
       - name: Enable Docker containerd image store
         run: bash scripts/enable-docker-containerd.sh
