@@ -408,7 +408,10 @@ export const unexposedConfigs = {
   tcp: {
     ...defaultUnexposedConfig,
     parse_unit: 'frame',
-    tcp_options: tcpUnexposedOptions,
+    tcp_options: {
+      ...tcpUnexposedOptions,
+      buffer_retention_strategy: 'packet',
+    },
   },
   ssl: {
     ...defaultUnexposedConfig,
