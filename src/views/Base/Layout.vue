@@ -42,6 +42,7 @@
                   :index="topLvRoute.path + '/' + route.path"
                 >
                   {{ $t(`components.${route.name}`) }}
+                  <BetaTag v-if="route.name === 'mqtt-streams'" />
                 </el-menu-item>
               </template>
             </el-menu>
