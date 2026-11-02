@@ -308,6 +308,19 @@ export type DeletePluginsName400 = {
   message?: string
 }
 
+export type PostPluginsInstall500Code =
+  (typeof PostPluginsInstall500Code)[keyof typeof PostPluginsInstall500Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsInstall500Code = {
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+} as const
+
+export type PostPluginsInstall500 = {
+  code?: PostPluginsInstall500Code
+  message?: string
+}
+
 export type PostPluginsInstall409Code =
   (typeof PostPluginsInstall409Code)[keyof typeof PostPluginsInstall409Code]
 

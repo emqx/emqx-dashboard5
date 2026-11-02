@@ -781,6 +781,20 @@ export const EmqxGatewayApiGatewayOverviewStatus = {
   unloaded: 'unloaded',
 } as const
 
+export interface EmqxGatewayApiGatewayOverview {
+  created_at?: string
+  /** @minimum 0 */
+  current_connections?: number
+  listeners?: EmqxGatewayApiGatewayListenerOverview[]
+  /** @minimum 1 */
+  max_connections?: number
+  name?: string
+  node_status?: EmqxGatewayApiGatewayNodeStatus[]
+  started_at?: string
+  status?: EmqxGatewayApiGatewayOverviewStatus
+  stopped_at?: string
+}
+
 export type EmqxGatewayApiGatewayNodeStatusStatus =
   (typeof EmqxGatewayApiGatewayNodeStatusStatus)[keyof typeof EmqxGatewayApiGatewayNodeStatusStatus]
 
@@ -796,7 +810,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@1721704': 'emqx@172.17.0.4',
+  'emqx@127001': 'emqx@127.0.0.1',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {
@@ -806,20 +820,6 @@ export interface EmqxGatewayApiGatewayNodeStatus {
   max_connections?: number
   node?: EmqxGatewayApiGatewayNodeStatusNode
   status?: EmqxGatewayApiGatewayNodeStatusStatus
-}
-
-export interface EmqxGatewayApiGatewayOverview {
-  created_at?: string
-  /** @minimum 0 */
-  current_connections?: number
-  listeners?: EmqxGatewayApiGatewayListenerOverview[]
-  /** @minimum 1 */
-  max_connections?: number
-  name?: string
-  node_status?: EmqxGatewayApiGatewayNodeStatus[]
-  started_at?: string
-  status?: EmqxGatewayApiGatewayOverviewStatus
-  stopped_at?: string
 }
 
 export type EmqxGatewayApiGatewayListenerOverviewType =
@@ -925,14 +925,25 @@ export interface EmqxGatewayApiCoap {
   subscribe_qos?: EmqxGatewayApiCoapSubscribeQos
 }
 
+export type EmqxTcpOptsBufferRetentionStrategy =
+  (typeof EmqxTcpOptsBufferRetentionStrategy)[keyof typeof EmqxTcpOptsBufferRetentionStrategy]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxTcpOptsBufferRetentionStrategy = {
+  always: 'always',
+  packet: 'packet',
+} as const
+
 export interface EmqxTcpOpts {
   /** @minimum 0 */
   active_n?: number
   /** @minimum 1 */
   backlog?: number
   buffer?: string
+  buffer_retention_strategy?: EmqxTcpOptsBufferRetentionStrategy
   high_watermark?: string
   keepalive?: string
+  low_watermark?: string
   nodelay?: boolean
   nolinger?: boolean
   recbuf?: string
