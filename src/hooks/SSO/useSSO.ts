@@ -1,9 +1,9 @@
 import { getSSORunning, postSSOLogin } from '@/api/sso'
+import type { SSOLoginResult } from '@/api/sso'
 import {
   DashboardSsoBackendStatusBackend,
   SsoLogin,
   DashboardSamlBackend,
-  PostSsoLoginBackend200,
 } from '@/types/schemas/dashboardSingleSignOn.schemas'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
@@ -21,7 +21,7 @@ type LoginBackend = 'local' | 'ldap'
 
 interface LdapLoginResult {
   username: string | undefined
-  response: PostSsoLoginBackend200
+  response: SSOLoginResult
 }
 
 export default function useSSO(): {
