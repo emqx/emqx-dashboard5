@@ -284,6 +284,14 @@
           "en": "Reset metrics counters for a specific authenticator in the global authentication chain",
           "zh": "重置指定认证器的指标计数器"
         }
+      },
+      {
+        "method": "post",
+        "path": "/authentication/:id/users/:user_id/password/rotate",
+        "name_label": {
+          "en": "Generate a new password for a user in an authenticator configured for automatic password generation",
+          "zh": "为配置了自动密码生成的认证器中的用户生成新密码"
+        }
       }
     ]
   },
@@ -1283,6 +1291,22 @@
         "name_label": {
           "en": "Import client authentication credentials",
           "zh": "导入客户端认证凭证"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/listeners/:id/authentication/users/:uid/password/rotate",
+        "name_label": {
+          "en": "Generate a new password for a listener authenticator user",
+          "zh": "为监听器认证器用户生成新密码"
+        }
+      },
+      {
+        "method": "post",
+        "path": "/gateways/:name/authentication/users/:uid/password/rotate",
+        "name_label": {
+          "en": "Generate a new password for a gateway authenticator user",
+          "zh": "为网关认证器用户生成新密码"
         }
       }
     ]
