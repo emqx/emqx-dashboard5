@@ -346,13 +346,6 @@ export const EmqxMgmtApiClientsRequestedClientFieldsParameterOneOfItem = {
   send_msgqos2: 'send_msg.qos2',
   send_oct: 'send_oct',
   send_pkt: 'send_pkt',
-  seqno_q1_comm: 'seqno_q1_comm',
-  seqno_q1_dup: 'seqno_q1_dup',
-  seqno_q1_next: 'seqno_q1_next',
-  seqno_q2_comm: 'seqno_q2_comm',
-  seqno_q2_dup: 'seqno_q2_dup',
-  seqno_q2_next: 'seqno_q2_next',
-  seqno_q2_rec: 'seqno_q2_rec',
   subscriptions_cnt: 'subscriptions_cnt',
   subscriptions_max: 'subscriptions_max',
   total_payload_bytes: 'total_payload_bytes',
@@ -515,20 +508,6 @@ export interface EmqxMgmtApiClientsClient {
   'send_msg.qos2'?: number
   send_oct?: number
   send_pkt?: number
-  /** @minimum 0 */
-  seqno_q1_comm?: number
-  /** @minimum 0 */
-  seqno_q1_dup?: number
-  /** @minimum 0 */
-  seqno_q1_next?: number
-  /** @minimum 0 */
-  seqno_q2_comm?: number
-  /** @minimum 0 */
-  seqno_q2_dup?: number
-  /** @minimum 0 */
-  seqno_q2_next?: number
-  /** @minimum 0 */
-  seqno_q2_rec?: number
   subscriptions_cnt?: number
   subscriptions_max?: number
   total_payload_bytes?: number
