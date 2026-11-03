@@ -762,6 +762,7 @@ export interface FileTransferS3Exporter {
   min_part_size?: string
   /** @minimum 1 */
   port: number
+  region?: string
   secret_access_key?: string
   transport_options?: S3TransportOptions
   url_expire_time?: string
@@ -1522,6 +1523,7 @@ export interface DashboardDashboard {
   listeners?: DashboardListeners
   password_expired_time?: string
   password_login?: DashboardDashboardPasswordLogin
+  show_preview_version?: boolean
   sso?: DashboardSso
   swagger_support?: boolean
   token_expired_time?: string
