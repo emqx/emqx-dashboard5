@@ -44,7 +44,11 @@ jobs:
           EMQX_ADMIN_PASSWORD=$(openssl rand -hex 24)
           echo "::add-mask::$EMQX_ADMIN_PASSWORD"
 
-          CID=$(docker run -d --rm -P \
+          EMQX_NODE_COOKIE=$(openssl rand -hex 24)
+          echo "::add-mask::$EMQX_NODE_COOKIE"
+
+          CID=$(docker run -d -P \
+            -e EMQX_NODE__COOKIE="$EMQX_NODE_COOKIE" \
             -e EMQX_DASHBOARD__DEFAULT_PASSWORD="$EMQX_ADMIN_PASSWORD" \
             "$EMQX_IMAGE_TAG")
           echo "CID=$CID" >> "$GITHUB_ENV"
@@ -56,12 +60,16 @@ jobs:
           echo "EMQX_ADMIN_PASSWORD=$EMQX_ADMIN_PASSWORD" >> "$GITHUB_ENV"
 
           for attempt in $(seq 1 60); do
-            if curl --fail --silent "$HOST_URL/status" > /dev/null; then
+            if curl --fail --silent --max-time 2 "$HOST_URL/status" > /dev/null; then
               exit 0
+            fi
+            if [ "$(docker inspect --format='{{.State.Running}}' "$CID")" != 'true' ]; then
+              break
             fi
             sleep 2
           done
 
+          docker inspect --format='{{json .State}}' "$CID"
           docker logs "$CID"
           exit 1
 
@@ -146,5 +154,5 @@ jobs:
         if: always()
         run: |
           if [ -n "${CID:-}" ]; then
-            docker stop "$CID" || true
+            docker rm -fv "$CID" || true
           fi
