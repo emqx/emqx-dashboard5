@@ -417,6 +417,7 @@ declare global {
   const useHandleExhookItem: typeof import('./hooks/Exhook/useHandleExhookItem')['default']
   const useHandleGatewayData: typeof import('./hooks/Gateway/useHandleGatewayData')['default']
   const useHandleSourceItem: typeof import('./hooks/Rule/action/useHandleSourceItem')['default']
+  const useHttpActiveHealthCheckRules: typeof import('./hooks/Rule/connector/useHttpActiveHealthCheckRules')['default']
   const useI18n: typeof import('vue-i18n')['useI18n']
   const useI18nPrefix: typeof import('./hooks/useI18nPrefix')['default']
   const useI18nTl: typeof import('./hooks/useI18nTl')['default']
@@ -1047,6 +1048,7 @@ declare module 'vue' {
     readonly useHandleExhookItem: UnwrapRef<typeof import('./hooks/Exhook/useHandleExhookItem')['default']>
     readonly useHandleGatewayData: UnwrapRef<typeof import('./hooks/Gateway/useHandleGatewayData')['default']>
     readonly useHandleSourceItem: UnwrapRef<typeof import('./hooks/Rule/action/useHandleSourceItem')['default']>
+    readonly useHttpActiveHealthCheckRules: UnwrapRef<typeof import('./hooks/Rule/connector/useHttpActiveHealthCheckRules')['default']>
     readonly useI18n: UnwrapRef<typeof import('vue-i18n')['useI18n']>
     readonly useI18nPrefix: UnwrapRef<typeof import('./hooks/useI18nPrefix')['default']>
     readonly useI18nTl: UnwrapRef<typeof import('./hooks/useI18nTl')['default']>

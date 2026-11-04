@@ -50,6 +50,7 @@ export default (
   props: {
     type?: string
     edit?: boolean
+    modelValue?: Record<string, any>
   } & unknown,
 ): {
   filterSSLParams: (components: Properties) => Properties
@@ -215,6 +216,8 @@ export default (
     return { components: comRet, rules }
   }
 
+  const healthCheckRules = useHttpActiveHealthCheckRules(() => props.modelValue ?? {})
+
   const httpHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.url && !comRet.url.default) {
@@ -225,6 +228,9 @@ export default (
     }
     if (comRet?.ssl?.properties?.verify) {
       comRet.ssl.properties.verify.default = SSL_VERIFY_VALUE_MAP.get(false)
+    }
+    if (comRet.active_health_check) {
+      addRules(healthCheckRules, rules)
     }
     if (comRet.oauth2) {
       comRet.oauth2.default = { enable: false }
@@ -536,7 +542,27 @@ export default (
     return { components, rules }
   }
 
+  const natsHandler: Handler = ({ components, rules }) => {
+    components.authentication?.oneOf?.forEach(({ properties }) => {
+      if (!properties) {
+        return
+      }
+      for (const key of ['password', 'token', 'nkey_seed']) {
+        if (properties[key]) {
+          setPwdFormat(properties[key])
+        }
+      }
+      const credentials = properties.credentials_file_content
+      if (credentials) {
+        credentials.format = 'textarea'
+        setComponentProps(credentials, { rows: 6 })
+      }
+    })
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
+    [BridgeType.NATS, natsHandler],
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaHandler],

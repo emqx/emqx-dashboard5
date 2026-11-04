@@ -59,6 +59,11 @@ export default (
   }
 
   const httpAdvancedProps = ['pool_type', 'pool_size', 'connect_timeout', 'enable_pipelining']
+  const httpHealthCheckProps = [
+    'active_health_check.enable',
+    'active_health_check.method',
+    'active_health_check.path',
+  ]
 
   const azureAdvancedProps = [
     'health_check_topic',
@@ -235,10 +240,25 @@ export default (
     fieldStartIndex,
   )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
+    [BridgeType.NATS]: createOrderObj(
+      [
+        'servers',
+        'authentication',
+        'authentication.mechanism',
+        'authentication.username',
+        'authentication.password',
+        'authentication.token',
+        'authentication.nkey_seed',
+        'authentication.credentials_file_content',
+        'ssl',
+        'tls_handshake',
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers', 'oauth2'], fieldStartIndex),
-      ...createOrderObj(httpAdvancedProps, 70),
+      ...createOrderObj([...httpAdvancedProps, ...httpHealthCheckProps], 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: kafkaProducerOrderMap,
@@ -520,6 +540,11 @@ export default (
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
   > = {
+    [BridgeType.NATS]: (formData) => ({
+      'authentication.mechanism': 'col-hidden',
+      'authentication.credentials_file_content': 'custom-col-24',
+      ...(formData.ssl?.enable === false ? { tls_handshake: 'col-hidden' } : {}),
+    }),
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.GCPConsumerGRPC]: GCPColClass,
@@ -554,7 +579,7 @@ export default (
   ]
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.MQTT]: mqttAdvancedFields,
-    [BridgeType.Webhook]: httpAdvancedProps,
+    [BridgeType.Webhook]: [...httpAdvancedProps, ...httpHealthCheckProps],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.KafkaConsumer]: azureAdvancedProps,

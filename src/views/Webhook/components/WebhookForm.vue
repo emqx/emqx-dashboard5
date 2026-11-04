@@ -85,6 +85,44 @@
       />
     </el-row>
     <AdvancedSettingContainer>
+      <el-form-item prop="connector.active_health_check.enable">
+        <template #label>
+          <FormItemLabel
+            :label="getLabel('active_health_check_enable')"
+            :desc="getDesc('active_health_check_enable')"
+            desc-marked
+          />
+        </template>
+        <el-switch :model-value="healthCheckEnabled" @change="toggleHealthCheck" />
+      </el-form-item>
+      <template v-if="healthCheckEnabled">
+        <el-form-item prop="connector.active_health_check.method">
+          <template #label>
+            <FormItemLabel
+              :label="getLabel('method')"
+              :desc="getDesc('active_health_check_method')"
+            />
+          </template>
+          <el-select v-model="formData.connector.active_health_check.method">
+            <el-option
+              v-for="method in ['get', 'head']"
+              :key="method"
+              :value="method"
+              :label="method.toUpperCase()"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="connector.active_health_check.path">
+          <template #label>
+            <FormItemLabel
+              :label="getLabel('path')"
+              :desc="getDesc('active_health_check_path')"
+              desc-marked
+            />
+          </template>
+          <el-input v-model="formData.connector.active_health_check.path" placeholder="/health" />
+        </el-form-item>
+      </template>
       <el-form-item prop="connector.resource_opts.start_timeout">
         <template #label>
           <FormItemLabel
@@ -159,6 +197,7 @@ const store = useStore()
 const userNamespace = computed(() => store.getters.userNamespace)
 const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
+const getDesc = (key: string) => getText(`${key}.desc`)
 const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
 const FormCom = ref()
 const TriggerCom = ref()
@@ -171,6 +210,16 @@ const formData: WritableComputedRef<WebhookForm | WebhookItem> = computed({
     emit('update:modelValue', val)
   },
 })
+
+const healthCheckEnabled = computed(() => !!formData.value.connector.active_health_check?.enable)
+const toggleHealthCheck = (enable: boolean | string | number) => {
+  const connector = formData.value.connector
+  connector.active_health_check = {
+    method: 'get',
+    ...connector.active_health_check,
+    enable: !!enable,
+  }
+}
 
 const bodyEditorId = createRandomString()
 const customBodyEnabled = computed({
@@ -185,7 +234,9 @@ const customBodyEnabled = computed({
 })
 
 const { createRequiredRule, createCommonIdRule, createIntFieldRule } = useFormRules()
+const healthCheckRules = useHttpActiveHealthCheckRules(() => formData.value.connector, 'connector.')
 const rules: FormRules = {
+  'connector.active_health_check.path': healthCheckRules['connector.active_health_check.path'],
   name: [...createRequiredRule(t('Base.name')), ...createCommonIdRule()],
   'connector.url': createRequiredRule(t('URL')),
   'rule.sql': [
