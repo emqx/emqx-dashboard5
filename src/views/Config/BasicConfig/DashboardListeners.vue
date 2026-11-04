@@ -88,6 +88,7 @@
                       :managed-cert-conf-columns="1"
                       :managed-certs-bundle-empty-value="null"
                       base-path="https.ssl_options"
+                      @certificate-source-change="handleCertificateSourceChange"
                     >
                       <template #before-certificate-source>
                         <el-alert class="acme-tip" type="info" :closable="false" show-icon>
@@ -279,6 +280,11 @@ const rules: FormRules = {
       },
     },
   ],
+}
+
+const handleCertificateSourceChange = async () => {
+  await nextTick()
+  formRef.value?.clearValidate('https.ssl_options')
 }
 
 const beforeListenerToggle = (protocol: DashboardProtocol) => {
