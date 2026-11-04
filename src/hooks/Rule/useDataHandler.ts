@@ -49,6 +49,9 @@ export const useCommonDataHandler = () => {
   const likePasswordFieldKeys = [
     'password',
     'authentication.password',
+    'authentication.token',
+    'authentication.nkey_seed',
+    'authentication.credentials_file_content',
     'authentication.client_secret',
     'authentication.jwt',
     'authentication.service_account_json',
@@ -83,7 +86,7 @@ export const useCommonDataHandler = () => {
     return ret
   }
   const handleDataForCopy = (data: any): any => {
-    const ret = omit(data, keysNeedDel.saveAsCopy)
+    const ret = omit(cloneDeep(data), keysNeedDel.saveAsCopy)
     likePasswordFieldKeys.forEach((key) => {
       if (get(ret, key) !== undefined) {
         set(ret, key, '')
@@ -333,6 +336,13 @@ export const useActionDataHandler = (): {
     return bridgeData
   }
 
+  const handleNatsActionData = async (data: any) => {
+    if (data.parameters?.delivery_mode === 'jetstream') {
+      data.resource_opts = { ...data.resource_opts, batch_size: 1 }
+    }
+    return data
+  }
+
   const { checkIsIoTDBThriftConnector } = useCheckIoTDBConnectorDriver()
   const handleIoTDBActionData = async (data: any) => {
     const { connector } = data
@@ -344,6 +354,7 @@ export const useActionDataHandler = (): {
   }
 
   const specialDataHandlerBeforeSubmit = new Map([
+    [BridgeType.NATS, handleNatsActionData],
     [BridgeType.Redis, handleRedisBridgeData],
     [BridgeType.S3, handleS3ActionData],
     [BridgeType.AzureBlobStorage, handleS3ActionData],

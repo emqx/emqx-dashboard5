@@ -235,6 +235,21 @@ export default (
     fieldStartIndex,
   )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
+    [BridgeType.NATS]: createOrderObj(
+      [
+        'servers',
+        'authentication',
+        'authentication.mechanism',
+        'authentication.username',
+        'authentication.password',
+        'authentication.token',
+        'authentication.nkey_seed',
+        'authentication.credentials_file_content',
+        'ssl',
+        'tls_handshake',
+      ],
+      fieldStartIndex,
+    ),
     [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers', 'oauth2'], fieldStartIndex),
@@ -520,6 +535,11 @@ export default (
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
   > = {
+    [BridgeType.NATS]: (formData) => ({
+      'authentication.mechanism': 'col-hidden',
+      'authentication.credentials_file_content': 'custom-col-24',
+      ...(formData.ssl?.enable === false ? { tls_handshake: 'col-hidden' } : {}),
+    }),
     [BridgeType.GCPProducer]: GCPColClass,
     [BridgeType.GCPConsumer]: GCPColClass,
     [BridgeType.GCPConsumerGRPC]: GCPColClass,

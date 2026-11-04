@@ -536,7 +536,27 @@ export default (
     return { components, rules }
   }
 
+  const natsHandler: Handler = ({ components, rules }) => {
+    components.authentication?.oneOf?.forEach(({ properties }) => {
+      if (!properties) {
+        return
+      }
+      for (const key of ['password', 'token', 'nkey_seed']) {
+        if (properties[key]) {
+          setPwdFormat(properties[key])
+        }
+      }
+      const credentials = properties.credentials_file_content
+      if (credentials) {
+        credentials.format = 'textarea'
+        setComponentProps(credentials, { rows: 6 })
+      }
+    })
+    return { components, rules }
+  }
+
   const specialConnectorHandlerMap: Map<string, Handler> = new Map([
+    [BridgeType.NATS, natsHandler],
     [BridgeType.MQTT, mqttHandler],
     [BridgeType.Webhook, httpHandler],
     [BridgeType.KafkaProducer, kafkaHandler],

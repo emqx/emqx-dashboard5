@@ -4,6 +4,7 @@ import { BridgeItem } from '@/types/rule'
 // Mapping connectors to categories
 export const connectorCategoryMap: Record<BridgeType, ConnectorCategory> = {
   // Message Streaming
+  [BridgeType.NATS]: ConnectorCategory.MessageStreaming,
   [BridgeType.MQTT]: ConnectorCategory.MessageStreaming,
   [BridgeType.KafkaProducer]: ConnectorCategory.MessageStreaming,
   [BridgeType.KafkaConsumer]: ConnectorCategory.MessageStreaming,
@@ -78,6 +79,7 @@ const bridgesOrder = [
   BridgeType.Pulsar,
   BridgeType.RocketMQ,
   BridgeType.RabbitMQ,
+  BridgeType.NATS,
   BridgeType.AzureEventHubs,
   BridgeType.AmazonKinesis,
   BridgeType.GCPProducer,
@@ -134,6 +136,7 @@ export const useBridgeTypeValue = (): {
   const { t, tl } = useI18nTl('RuleEngine')
 
   const bridgeTypeList = [
+    { value: BridgeType.NATS, label: 'NATS' },
     { value: BridgeType.Webhook, label: t('Auth.HTTPServer') },
     { value: BridgeType.MQTT, label: t('RuleEngine.mqttBroker') },
     { value: BridgeType.KafkaProducer, label: `${tl('kafka')} ${tl('producer')}` },
@@ -404,6 +407,9 @@ export const useBridgeTypeIcon = (): {
       return ''
     }
     try {
+      if (type === BridgeType.NATS) {
+        return getImg('gateway/nats.png')
+      }
       const iconKey = getBridgeIconKey(type)
       const ext = svgIcons.includes(iconKey) ? 'svg' : 'png'
       return getImg(`img/${iconKey}.${ext}`)
@@ -466,6 +472,7 @@ export const useConnectorSchema = (): {
     `${prefix ?? refPrefix}${type}.${suffix ?? refSuffix}`
 
   const specialTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.NATS, getRef(BridgeType.NATS, 'connector_')],
     [BridgeType.MQTT, getRef(BridgeType.MQTT, 'connector_')],
     [BridgeType.KafkaProducer, getRef('kafka')],
     [BridgeType.KafkaConsumer, getRef(BridgeType.KafkaConsumer, '')],
@@ -547,6 +554,7 @@ export const useActionSchema = (): {
   const getRef = (type: string, prefix?: string) => (prefix ?? refPrefix) + type + refSuffix
 
   const specialActionTypeRefKeyMap: Map<string, string> = new Map([
+    [BridgeType.NATS, getRef(BridgeType.NATS, 'action_')],
     [BridgeType.MQTT, getRef('mqtt_publisher')],
     [BridgeType.AzureEventHubs, getRef('azure_event_hub')],
     [BridgeType.Confluent, getRef('confluent', '')],
