@@ -59,6 +59,11 @@ export default (
   }
 
   const httpAdvancedProps = ['pool_type', 'pool_size', 'connect_timeout', 'enable_pipelining']
+  const httpHealthCheckProps = [
+    'active_health_check.enable',
+    'active_health_check.method',
+    'active_health_check.path',
+  ]
 
   const azureAdvancedProps = [
     'health_check_topic',
@@ -253,7 +258,7 @@ export default (
     [BridgeType.MQTT]: mqttOrderMap,
     [BridgeType.Webhook]: {
       ...createOrderObj(['url', 'headers', 'oauth2'], fieldStartIndex),
-      ...createOrderObj(httpAdvancedProps, 70),
+      ...createOrderObj([...httpAdvancedProps, ...httpHealthCheckProps], 70),
     },
     [BridgeType.AzureEventHubs]: azureOrderMap,
     [BridgeType.KafkaProducer]: kafkaProducerOrderMap,
@@ -574,7 +579,7 @@ export default (
   ]
   const advancedFieldsMap: Record<string, Array<string | RegExp>> = {
     [BridgeType.MQTT]: mqttAdvancedFields,
-    [BridgeType.Webhook]: httpAdvancedProps,
+    [BridgeType.Webhook]: [...httpAdvancedProps, ...httpHealthCheckProps],
     [BridgeType.AzureEventHubs]: azureAdvancedProps,
     [BridgeType.KafkaProducer]: azureAdvancedProps,
     [BridgeType.KafkaConsumer]: azureAdvancedProps,

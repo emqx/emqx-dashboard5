@@ -50,6 +50,7 @@ export default (
   props: {
     type?: string
     edit?: boolean
+    modelValue?: Record<string, any>
   } & unknown,
 ): {
   filterSSLParams: (components: Properties) => Properties
@@ -215,6 +216,8 @@ export default (
     return { components: comRet, rules }
   }
 
+  const healthCheckRules = useHttpActiveHealthCheckRules(() => props.modelValue ?? {})
+
   const httpHandler: Handler = ({ components, rules }) => {
     const comRet = components
     if (comRet.url && !comRet.url.default) {
@@ -225,6 +228,9 @@ export default (
     }
     if (comRet?.ssl?.properties?.verify) {
       comRet.ssl.properties.verify.default = SSL_VERIFY_VALUE_MAP.get(false)
+    }
+    if (comRet.active_health_check) {
+      addRules(healthCheckRules, rules)
     }
     if (comRet.oauth2) {
       comRet.oauth2.default = { enable: false }
