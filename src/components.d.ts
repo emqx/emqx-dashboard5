@@ -15,6 +15,7 @@ declare module 'vue' {
     ArrayEditorTable: typeof import('./components/ArrayEditorTable.vue')['default']
     AvroRecordFields: typeof import('./components/AvroRecordFields.vue')['default']
     BatchSettings: typeof import('./components/BatchSettings.vue')['default']
+    BetaTag: typeof import('./components/BetaTag.vue')['default']
     BooleanSelect: typeof import('./components/BooleanSelect.vue')['default']
     CancelButton: typeof import('./components/Buttons/CancelButton.vue')['default']
     CertBundleDrawer: typeof import('./components/TLSConfig/CertBundleDrawer.vue')['default']

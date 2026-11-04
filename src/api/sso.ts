@@ -14,7 +14,7 @@ export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
 export const postSSOLogin = (
   backend: 'ldap' | 'saml',
   emqxDashboardSsoLdapLogin: PostSsoLoginBackendBody,
-): Promise<PostSsoLoginBackend200> => {
+): Promise<SSOLoginResult> => {
   return http.post(`/sso/login/${backend}`, emqxDashboardSsoLdapLogin)
 }
 
@@ -50,6 +50,10 @@ export type SSOTokenExchangeResult =
       backend: string
     }
   | { action: 'mfa_verify'; verify_token: string; username: string; backend: string }
+
+export type SSOLoginResult =
+  | PostSsoLoginBackend200
+  | Extract<SSOTokenExchangeResult, { action: string }>
 
 export const postSSOTokenExchange = (
   code: string,

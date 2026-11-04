@@ -593,8 +593,12 @@ const submit = async () => {
     case 'ldap':
       ldapLogin()
         .then(({ username, response }) => {
-          updateStoreInfo(username as string, response)
-          redirectToDashboard()
+          if ('action' in response) {
+            store.commit('SET_SSO_MFA_PENDING', response)
+          } else if (response.token) {
+            updateStoreInfo(username as string, response)
+            redirectToDashboard()
+          }
         })
         .catch(() => {
           // ignore
