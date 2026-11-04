@@ -88,7 +88,7 @@ export default (
     })
   }
 
-  const store = useStore()
+  const resourceNamespace = useResourceNamespace()
   const { createSSLForm } = useSSL()
   const SSLKeys = Object.keys(createSSLForm())
   const SSL_KEY = 'ssl'
@@ -108,10 +108,9 @@ export default (
             }
             const showCiphers = customSSLKeys.includes('ciphers') && !!ciphersSchema
             prop.componentProps = {
-              ...(prop.componentProps ?? {
-                globalOnly: false,
-                userNamespace: store.getters.userNamespace,
-              }),
+              ...(prop.componentProps ?? {}),
+              globalOnly: false,
+              resourceNamespace: resourceNamespace.value,
               ...(showCiphers
                 ? {
                     ciphers: true,
@@ -505,7 +504,7 @@ export default (
     const sslEnableProp = sslProp?.properties?.enable
     const sslVerifyProp = sslProp?.properties?.verify
     if (sslProp) {
-      sslProp.componentProps = { disabledBaseConfig: true }
+      sslProp.componentProps = { ...sslProp.componentProps, disabledBaseConfig: true }
     }
     if (sslVerifyProp) {
       sslVerifyProp.default = SSL_VERIFY_VALUE_MAP.get(false)

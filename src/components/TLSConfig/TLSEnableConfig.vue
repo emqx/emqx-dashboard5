@@ -179,7 +179,7 @@
         v-if="!managedCertsArr && !Array.isArray(record.managed_certs)"
         v-model="record.managed_certs"
         :global-only="globalOnly"
-        :user-namespace="userNamespace"
+        :resource-namespace="resourceNamespace"
         :columns="managedCertConfColumns"
       />
       <ListEditor
@@ -195,7 +195,7 @@
               v-model="record.managed_certs[index]"
               sni
               :global-only="globalOnly"
-              :user-namespace="userNamespace"
+              :resource-namespace="resourceNamespace"
               :columns="managedCertConfColumns"
               :current-index="index"
               :all-managed-certs="record.managed_certs"
@@ -285,7 +285,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  userNamespace: {
+  resourceNamespace: {
     type: String,
   },
   /**
