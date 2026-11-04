@@ -320,7 +320,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'verifyChange'])
+const emit = defineEmits(['update:modelValue', 'verifyChange', 'certificateSourceChange'])
 
 const { t } = useI18nTl('Auth')
 
@@ -366,6 +366,7 @@ const handleCertificateSourceChange = async (val: any) => {
     } else if (!isCertBundle && record.value.managed_certs) {
       record.value.managed_certs = props.managedCertsBundleEmptyValue
     }
+    emit('certificateSourceChange')
   } catch (error) {
     //
   }
