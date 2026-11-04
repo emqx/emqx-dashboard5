@@ -10,7 +10,7 @@
           :is-server="isServer"
           :readonly="readonly"
           :global-only="globalOnly"
-          :user-namespace="userNamespace"
+          :resource-namespace="resourceNamespace"
           :disabled-verify="disabledVerify"
           :managed-cert-conf-columns="managedCertConfColumns"
         />
@@ -60,7 +60,7 @@ const props = defineProps({
   isServer: {
     type: Boolean,
   },
-  userNamespace: {
+  resourceNamespace: {
     type: String,
   },
   globalOnly: {
