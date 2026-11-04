@@ -580,6 +580,10 @@ See EMQX documentation for expression syntax.`,
     zh: '监听器',
     en: 'Listener',
   },
+  refModuleDashboardListener: {
+    zh: 'Dashboard 监听器',
+    en: 'Dashboard Listener',
+  },
   refModuleSSO: {
     zh: 'SSO',
     en: 'SSO',
