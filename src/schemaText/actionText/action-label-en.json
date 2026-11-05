@@ -63,5 +63,17 @@
   },
   "quasardb": {
     "health_check_table": "Health Check Table"
+  },
+  "gcp_pubsub_producer": {
+    "authentication_initial_token_ssl": "Identity Provider TLS"
+  },
+  "gcp_pubsub_consumer": {
+    "authentication_initial_token_ssl": "Identity Provider TLS"
+  },
+  "bigquery": {
+    "authentication_initial_token_ssl": "Identity Provider TLS"
+  },
+  "bigtable": {
+    "authentication_initial_token_ssl": "Identity Provider TLS"
   }
 }

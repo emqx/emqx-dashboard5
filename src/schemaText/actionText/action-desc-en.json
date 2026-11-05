@@ -31,5 +31,17 @@
   },
   "emqx_tables": {
     "ciphers": "This config holds TLS cipher suite names separated by comma. The supported suites are as follows<br/>- TLS_AES_256_GCM_SHA384<br/>- TLS_AES_128_GCM_SHA256<br/>- TLS_CHACHA20_POLY1305_SHA256<br/>- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256<br/>- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384<br/>- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+  },
+  "gcp_pubsub_producer": {
+    "authentication_initial_token_ssl": "TLS settings for requesting the initial token from the identity provider at the Token Endpoint URL."
+  },
+  "gcp_pubsub_consumer": {
+    "authentication_initial_token_ssl": "TLS settings for requesting the initial token from the identity provider at the Token Endpoint URL."
+  },
+  "bigquery": {
+    "authentication_initial_token_ssl": "TLS settings for requesting the initial token from the identity provider at the Token Endpoint URL."
+  },
+  "bigtable": {
+    "authentication_initial_token_ssl": "TLS settings for requesting the initial token from the identity provider at the Token Endpoint URL."
   }
 }

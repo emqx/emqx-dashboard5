@@ -2155,6 +2155,7 @@ export interface GcpPubsubAuthWifOidcClientCredentials {
   client_secret: string
   endpoint_uri: string
   scope: string
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   type: GcpPubsubAuthWifOidcClientCredentialsType
 }
 

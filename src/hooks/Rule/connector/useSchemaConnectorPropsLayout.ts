@@ -466,6 +466,7 @@ export default (
     return ret
   })
   const GCPColClass = {
+    'authentication.initial_token.ssl': 'col-need-row dividing-line-below',
     'authentication.service_account_json': 'custom-col-24',
     'authentication.type': 'col-hidden',
   }
