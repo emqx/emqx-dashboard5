@@ -260,8 +260,14 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     // Handle the custom configs
     if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
       const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
+      const lowWatermarkRemoved =
+        data.tcp_options?.low_watermark !== undefined &&
+        listenerCustomConfigs.value.tcp_options?.low_watermark === undefined
       const customConfigs = resetCustomConfig(listenerCustomConfigs.value, unexposedConfigs[type])
       merge(data, customConfigs)
+      if (lowWatermarkRemoved) {
+        data.tcp_options.low_watermark = null
+      }
     }
     if (data.type !== ListenerType.TCP && data.tcp_backend) {
       delete data.tcp_backend
