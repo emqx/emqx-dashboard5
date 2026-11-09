@@ -60,6 +60,8 @@
         prop-prefix="connector.oauth2"
         :col-span="24"
         :is-edit="isEdit"
+        :global-only="false"
+        :resource-namespace="namespace"
         :managed-cert-conf-columns="1"
       />
     </el-row>
@@ -81,10 +83,9 @@
       <CommonTLSConfig
         class="tls-config-form"
         v-model="formData.connector.ssl"
-        require-namespace
         :is-edit="isEdit"
         :global-only="false"
-        :user-namespace="namespace"
+        :resource-namespace="namespace"
         :managed-cert-conf-columns="1"
       />
       <el-form-item :label="getCommonText('connect_timeout.label')">
