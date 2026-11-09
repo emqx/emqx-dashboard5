@@ -28,6 +28,13 @@ export default (): {
     if (ret.enable === false) {
       return { enable: false } as SSL
     } else {
+      if (
+        ret.managed_certs &&
+        !Array.isArray(ret.managed_certs) &&
+        Object.values(ret.managed_certs).every((value) => value === '' || value === undefined)
+      ) {
+        delete ret.managed_certs
+      }
       checkFields.forEach((key) => {
         if (!ret[key]) {
           ret = omit(ret, key)
