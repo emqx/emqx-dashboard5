@@ -230,6 +230,8 @@ export default (
       comRet.oauth2.customComponent = markRaw(HttpOAuth2Config)
       comRet.oauth2.componentProps = {
         isEdit: props.edit,
+        globalOnly: false,
+        resourceNamespace: resourceNamespace.value,
       }
       addRules(
         {
