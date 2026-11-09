@@ -1,5 +1,6 @@
 import { BridgeType } from '@/types/enum'
 import { Connector } from '@/types/rule'
+import type { SSL } from '@/types/common'
 
 const keysDoNotNeedForAPI = [
   'node_status',
@@ -29,16 +30,25 @@ const keysNeedRemovedForUpdate = ['type', 'name']
 export const useCommonDataHandler = () => {
   const { handleSSLDataBeforeSubmit } = useSSL()
 
+  const normalizeSSLFields = (data: unknown): void => {
+    if (Array.isArray(data)) {
+      data.forEach(normalizeSSLFields)
+    } else if (isPlainObject(data)) {
+      const record = data as Record<string, unknown>
+      Object.entries(record).forEach(([key, value]) => {
+        if (key === 'ssl' && isPlainObject(value)) {
+          record[key] = handleSSLDataBeforeSubmit(value as SSL)
+        } else {
+          normalizeSSLFields(value)
+        }
+      })
+    }
+  }
+
   const handleDataBeforeSubmit = (data: any): any => {
     const ret = cloneDeep(data)
-    if (ret.ssl) {
-      ret.ssl = handleSSLDataBeforeSubmit(ret.ssl)
-    }
-    if (ret.oauth2?.enable) {
-      if (ret.oauth2.ssl) {
-        ret.oauth2.ssl = handleSSLDataBeforeSubmit(ret.oauth2.ssl)
-      }
-    } else if (ret.oauth2) {
+    normalizeSSLFields(ret)
+    if (ret.oauth2 && !ret.oauth2.enable) {
       ret.oauth2 = { enable: false }
     }
     return checkNOmitFromObj(omit(ret, keysNeedDel.update))
