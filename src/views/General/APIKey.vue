@@ -87,7 +87,7 @@ import { deleteAPIKey, loadAPIKeyList, updateAPIKey } from '@/api/systemModule'
 import dayjs from 'dayjs'
 import { hasSelectedScopes, isUnsetScopes } from '@/common/scopes'
 
-const { t, te } = useI18n()
+const { t, te, locale } = useI18n()
 const tl = function (key: string, collection = 'APIKey') {
   return t(collection + '.' + key)
 }
@@ -112,7 +112,7 @@ const { apiKeyRoleOptions } = useRole()
 
 const getScopeLabel = (name: string): string => {
   const key = `APIKey.scopeLabel_${name}`
-  return te(key) ? t(key) : titleCase(name)
+  return te(key, locale.value) ? t(key) : titleCase(name)
 }
 
 const operateKeyItem = (type: 'edit' | 'view', itemData: APIKey) => {

@@ -59,7 +59,7 @@
     "sortablejs": "^1.14.0",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vue": "^3.5.45",
-    "vue-i18n": "^9.2.0-beta.19",
+    "vue-i18n": "^11.4.18",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "xss": "^1.0.14"
