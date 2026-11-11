@@ -3,6 +3,9 @@
     v-model="password"
     autocomplete="one-time-code"
     v-bind="$attrs"
+    :disabled="disabled"
+    :placeholder="placeholder"
+    :clearable="clearable"
     :type="isPassword ? 'password' : 'text'"
     :show-password="isPassword"
   />
@@ -11,7 +14,9 @@
 <script setup lang="ts">
 const props = defineProps<{
   modelValue?: string
-  [key: string]: any
+  disabled?: boolean
+  placeholder?: string
+  clearable?: boolean
 }>()
 
 const emit = defineEmits<{
