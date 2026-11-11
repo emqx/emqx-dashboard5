@@ -70,7 +70,7 @@ watch(showDialog, async (val) => {
   }
 })
 
-const { te } = useI18n()
+const { te, locale } = useI18n()
 const { t, tl } = useI18nTl('Base')
 
 const createChildReg = (path: string) => new RegExp(`${path}(/(\\w|-)+)+$`)
@@ -113,7 +113,7 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
         route.path
       }`
       const labelKey = route.name
-      const label = te(`components.${labelKey as string}`)
+      const label = te(`components.${labelKey as string}`, locale.value)
         ? t(`components.${labelKey as string}`)
         : titleCase(route.name as string)
       const { parentLabel, blockTitle } = findParentAndBlock(path)

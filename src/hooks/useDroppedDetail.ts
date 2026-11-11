@@ -21,13 +21,13 @@ type ItemStyle = {
 }
 
 export const useDroppedCharts = () => {
-  const { te, t } = useI18n()
+  const { te, t, locale } = useI18n()
   const lastKeyReg = /[^.]+$/
   const getLastKey = (metricKey: string) => lastKeyReg.exec(metricKey)?.[0] ?? metricKey
   const getTypeName = (metricKey: string) => {
     const lastKey = getLastKey(metricKey)
     const textKey = `Dashboard.dropped_${lastKey}`
-    return te(textKey) ? t(textKey) : startCase(lastKey)
+    return te(textKey, locale.value) ? t(textKey) : startCase(lastKey)
   }
 
   const sortData = (data: ChartData): ChartData => {
