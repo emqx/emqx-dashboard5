@@ -13,8 +13,8 @@
       <plugin-form-kit-item
         v-for="(configs, name) in layouts.$form"
         v-model="configsForm[name]"
+        v-bind="{ name: name as string }"
         :key="name"
-        :name="name as string"
         :form-configs="configs"
         @password-edited="editedPasswords.add($event)"
       />

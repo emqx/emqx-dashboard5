@@ -3,7 +3,10 @@
     ref="AutocompleteRef"
     v-model="inputValue"
     :fetch-suggestions="fetchSuggestions"
-    @select="handleSelect($event)"
+    :disabled="disabled"
+    :type="type"
+    :clearable="clearable"
+    @select="handleSelect($event.value)"
     @keydown.enter="handleEnter"
   >
     <template v-if="$slots.prefix" #prefix>
@@ -27,7 +30,9 @@ import { Property } from '@/types/schemaForm'
 
 const props = defineProps<{
   modelValue?: string | number | boolean
-  [key: string]: any
+  disabled?: boolean
+  type?: string
+  clearable?: boolean
   customPlaceholders?: Array<string>
   /**
    * The provided options are available when the input has no value.
@@ -101,7 +106,7 @@ const fetchSuggestions = (queryString: string, cb: any) => {
   cb(convertStrArrToOptArr(ret))
 }
 
-const handleSelect = ({ value: selected }: { value: string }) => {
+const handleSelect = (selected: string) => {
   const matchPart = getMatchPart()
   if (!matchPart) {
     return
