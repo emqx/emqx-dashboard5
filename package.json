@@ -4,6 +4,9 @@
   "license": "BUSL-1.1",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "dev:enterprise": "VITE_APP_VERSION=enterprise vite",
