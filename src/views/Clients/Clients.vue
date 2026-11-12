@@ -3,34 +3,20 @@
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="20">
         <el-col v-bind="colProps">
-          <el-input
+          <ClientSearchInput
             v-model="queryParams.clientid"
+            v-model:search-type="queryParams.clientidSearchType"
             :placeholder="$t('Clients.clientId')"
-            clearable
-            @clear="handleSearch"
-          >
-            <template #prepend>
-              <el-select v-model="queryParams.clientidSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
-              </el-select>
-            </template>
-          </el-input>
+            @search="handleSearch"
+          />
         </el-col>
         <el-col v-bind="colProps">
-          <el-input
+          <ClientSearchInput
             v-model="queryParams.username"
+            v-model:search-type="queryParams.usernameSearchType"
             :placeholder="$t('Clients.username')"
-            clearable
-            @clear="handleSearch"
-          >
-            <template #prepend>
-              <el-select v-model="queryParams.usernameSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
-              </el-select>
-            </template>
-          </el-input>
+            @search="handleSearch"
+          />
         </el-col>
         <el-col v-bind="colProps">
           <el-input
@@ -194,28 +180,25 @@ import {
   DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt,
 } from '@/common/constants'
 import { Client } from '@/types/client'
-import { CheckStatus, ClientsExportFormat } from '@/types/enum'
+import { CheckStatus, ClientsExportFormat, ClientListSearchType as SearchType } from '@/types/enum'
 import { Delete, Download } from '@element-plus/icons-vue'
 import { isEmptyObj } from '@emqx/shared-ui-utils'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
 import dayjs from 'dayjs'
 
+import ClientSearchInput from './components/ClientSearchInput.vue'
+
 enum Comparator {
   After = 'gte',
   Before = 'lte',
 }
 
-enum SearchType {
-  Exact = 'exact',
-  Fuzzy = 'fuzzy',
-}
-
 type QueryParams = {
   like_username?: string
-  username?: string
+  username?: string | string[]
   like_clientid?: string
-  clientid?: string
+  clientid?: string | string[]
   ip_address?: string
   conn_state?: string
   gte_connected_at?: string
@@ -302,7 +285,9 @@ const handleSelectedColumnChanged = (val: Array<string>) => {
   loadNodeClients()
 }
 
-const genQueryParams = (params: Record<string, any>) => {
+const toArray = <T,>(value: T | T[]): T[] => (Array.isArray(value) ? value : [value])
+
+const genQueryParams = (params: Record<string, any>): QueryParams => {
   const {
     clientid,
     username,
@@ -314,12 +299,12 @@ const genQueryParams = (params: Record<string, any>) => {
     clientidSearchType,
   } = params
 
-  const addLikeParam = (key: string, value: string, searchType: string) => {
-    if (!value) return undefined
+  const addLikeParam = (key: string, value: string | string[], searchType: string) => {
+    if (!value?.length) return undefined
 
     const isFuzzy = searchType === SearchType.Fuzzy
     const _key = isFuzzy ? `like_${key}` : key
-    const _value = isFuzzy ? value : value.split(',')
+    const _value = isFuzzy ? (Array.isArray(value) ? value.join(',') : value) : toArray(value)
 
     return { [_key]: _value }
   }
@@ -338,6 +323,40 @@ const genQueryParams = (params: Record<string, any>) => {
   return newParams
 }
 
+const doesClientMatchClientListQuery = (
+  client: Record<string, any>,
+  params: QueryParams,
+): boolean => {
+  const { username, ip_address, conn_state, like_username, gte_connected_at, lte_connected_at } =
+    params
+
+  if (username && !toArray(username).includes(client.username)) {
+    return false
+  }
+  if (ip_address && client.ip_address !== ip_address) {
+    return false
+  }
+  if (conn_state && client.connected !== (conn_state === 'connected')) {
+    return false
+  }
+  if (like_username && client.username.indexOf(like_username) === -1) {
+    return false
+  }
+  if (
+    gte_connected_at &&
+    new Date(client.connected_at).getTime() < new Date(gte_connected_at).getTime()
+  ) {
+    return false
+  }
+  if (
+    lte_connected_at &&
+    new Date(client.connected_at).getTime() > new Date(lte_connected_at).getTime()
+  ) {
+    return false
+  }
+  return true
+}
+
 const handlePageChange = (no: number) => {
   const isBack = no < page.value
   page.value = no
@@ -351,42 +370,9 @@ const handleSizeChange = (size: number) => {
 
 const handleExactSearchClient = async (params: Record<string, any>) => {
   try {
-    const {
-      clientid,
-
-      username,
-      ip_address,
-      conn_state,
-      like_username,
-      gte_connected_at,
-      lte_connected_at,
-    } = params
-    const data = await exactSearchClient(clientid)
-    let isMatchOther = true
-    if (username && data.username !== username) {
-      isMatchOther = false
-    }
-    if (ip_address && data.ip_address !== ip_address) {
-      isMatchOther = false
-    }
-    if (conn_state && data.connected !== (conn_state === 'connected')) {
-      isMatchOther = false
-    }
-    if (like_username && data.username.indexOf(like_username) === -1) {
-      isMatchOther = false
-    }
-    if (
-      gte_connected_at &&
-      new Date(data.connected_at).getTime() < new Date(gte_connected_at).getTime()
-    ) {
-      isMatchOther = false
-    }
-    if (
-      lte_connected_at &&
-      new Date(data.connected_at).getTime() > new Date(lte_connected_at).getTime()
-    ) {
-      isMatchOther = false
-    }
+    const { clientid, ...restParams } = params
+    const data = (await exactSearchClient(clientid[0])) as unknown as Client
+    const isMatchOther = doesClientMatchClientListQuery(data, restParams)
     return Promise.resolve({ data: isMatchOther ? [data] : [] })
   } catch (error) {
     return Promise.reject(error)
@@ -400,7 +386,7 @@ const getQueryDataAllParams = () => ({
 })
 
 const getQueryFunc = (params: Record<string, any>) =>
-  params.clientid ? handleExactSearchClient(params) : listClients(params)
+  params.clientid?.length === 1 ? handleExactSearchClient(params) : listClients(params)
 
 const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
@@ -436,7 +422,12 @@ const getParamsFromQuery = () => {
   setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
-      if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
+      if (['clientid', 'username', 'like_clientid', 'like_username'].includes(key)) {
+        const isFuzzy = key.startsWith('like_')
+        const field = isFuzzy ? key.slice(5) : key
+        queryParams.value[`${field}SearchType`] = isFuzzy ? SearchType.Fuzzy : SearchType.Exact
+        queryParams.value[field] = filterParams[key]
+      } else if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
         queryParams.value[key] = filterParams[key]
       } else {
         queryParams.value.connected_at = filterParams[key]
@@ -638,6 +629,8 @@ onUnmounted(() => {
     flex-shrink: 0;
   }
   .el-input-group {
+    --el-input-border-radius: var(--el-border-radius-base);
+
     .el-input-group__prepend {
       box-shadow:
         1px 0 0 0 var(--color-border-primary) inset,

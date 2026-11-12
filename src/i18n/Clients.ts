@@ -523,6 +523,10 @@ export default {
     zh: '消息转换名称',
     en: 'Message Transformation Name',
   },
+  exactSearchTip: {
+    zh: '按回车可输入多个值',
+    en: 'Press Enter to add multiple values',
+  },
   exactQuery: {
     zh: '精准查询',
     en: 'Exact Query',
