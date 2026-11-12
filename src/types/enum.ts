@@ -433,3 +433,8 @@ export const enum ClientsExportFormat {
   JSON = 'json',
   CSV = 'csv',
 }
+
+export enum ClientListSearchType {
+  Exact = 'exact',
+  Fuzzy = 'fuzzy',
+}
