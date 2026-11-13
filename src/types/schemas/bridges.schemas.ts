@@ -448,41 +448,6 @@ export type PostBridges201 =
   | BridgeTimescaleGet
   | RocketmqGet
 
-export type PostBridgesBody =
-  | BridgeAzureEventHubPostProducer
-  | BridgeCassaPost
-  | BridgeClickhousePost
-  | BridgeDynamoPost
-  | BridgeGcpPubsubPostConsumer
-  | BridgeGcpPubsubPostProducer
-  | BridgeGreptimedbPostGrpcV1
-  | BridgeHstreamdbPost
-  | BridgeHttpPost
-  | BridgeInfluxdbPostApiV1
-  | BridgeInfluxdbPostApiV2
-  | BridgeIotdbPost
-  | BridgeKafkaPostConsumer
-  | BridgeKafkaPostProducer
-  | BridgeKinesisPostProducer
-  | BridgeMatrixPost
-  | BridgeMongodbPostRs
-  | BridgeMongodbPostSharded
-  | BridgeMongodbPostSingle
-  | BridgeMqttPost
-  | BridgeMysqlPost
-  | BridgeOpentsPost
-  | BridgeOraclePost
-  | BridgePgsqlPost
-  | BridgePulsarPostProducer
-  | BridgeRabbitmqPost
-  | BridgeRedisPostCluster
-  | BridgeRedisPostSentinel
-  | BridgeRedisPostSingle
-  | BridgeSqlserverPost
-  | BridgeTdenginePost
-  | BridgeTimescalePost
-  | RocketmqPost
-
 export type GetBridges200Item =
   | BridgeKafkaGetConsumer
   | BridgeGcpPubsubGetProducer
@@ -574,6 +539,41 @@ export interface RocketmqPost {
   topic?: string
   type: RocketmqPostType
 }
+
+export type PostBridgesBody =
+  | BridgeAzureEventHubPostProducer
+  | BridgeCassaPost
+  | BridgeClickhousePost
+  | BridgeDynamoPost
+  | BridgeGcpPubsubPostConsumer
+  | BridgeGcpPubsubPostProducer
+  | BridgeGreptimedbPostGrpcV1
+  | BridgeHstreamdbPost
+  | BridgeHttpPost
+  | BridgeInfluxdbPostApiV1
+  | BridgeInfluxdbPostApiV2
+  | BridgeIotdbPost
+  | BridgeKafkaPostConsumer
+  | BridgeKafkaPostProducer
+  | BridgeKinesisPostProducer
+  | BridgeMatrixPost
+  | BridgeMongodbPostRs
+  | BridgeMongodbPostSharded
+  | BridgeMongodbPostSingle
+  | BridgeMqttPost
+  | BridgeMysqlPost
+  | BridgeOpentsPost
+  | BridgeOraclePost
+  | BridgePgsqlPost
+  | BridgePulsarPostProducer
+  | BridgeRabbitmqPost
+  | BridgeRedisPostCluster
+  | BridgeRedisPostSentinel
+  | BridgeRedisPostSingle
+  | BridgeSqlserverPost
+  | BridgeTdenginePost
+  | BridgeTimescalePost
+  | RocketmqPost
 
 export type RocketmqGetType = (typeof RocketmqGetType)[keyof typeof RocketmqGetType]
 
@@ -718,33 +718,6 @@ export interface EmqxSslClientOpts {
   versions?: string[]
 }
 
-export interface RocketmqGet {
-  access_key?: string
-  /** @deprecated */
-  auto_reconnect?: boolean
-  enable?: boolean
-  local_topic?: string
-  name: string
-  namespace?: string
-  node_status?: BridgeNodeStatus[]
-  /** @minimum 1 */
-  pool_size?: number
-  refresh_interval?: string
-  resource_opts?: ResourceSchemaCreationOpts
-  secret_key?: string
-  security_token?: string
-  send_buffer?: string
-  servers: string
-  ssl?: EmqxSslClientOpts
-  status?: RocketmqGetStatus
-  status_reason?: string
-  strategy?: RocketmqGetStrategy
-  sync_timeout?: string
-  template?: string
-  topic?: string
-  type: RocketmqGetType
-}
-
 export interface ConnectorMqttStaticClientidEntryTuple {
   clientid: string
   password?: string
@@ -822,6 +795,33 @@ export interface BridgeNodeStatus {
   node?: string
   status?: BridgeNodeStatusStatus
   status_reason?: string
+}
+
+export interface RocketmqGet {
+  access_key?: string
+  /** @deprecated */
+  auto_reconnect?: boolean
+  enable?: boolean
+  local_topic?: string
+  name: string
+  namespace?: string
+  node_status?: BridgeNodeStatus[]
+  /** @minimum 1 */
+  pool_size?: number
+  refresh_interval?: string
+  resource_opts?: ResourceSchemaCreationOpts
+  secret_key?: string
+  security_token?: string
+  send_buffer?: string
+  servers: string
+  ssl?: EmqxSslClientOpts
+  status?: RocketmqGetStatus
+  status_reason?: string
+  strategy?: RocketmqGetStrategy
+  sync_timeout?: string
+  template?: string
+  topic?: string
+  type: RocketmqGetType
 }
 
 export interface BridgeMetrics {
@@ -2373,6 +2373,33 @@ export const BridgeMqttPutMode = {
   cluster_shareload: 'cluster_shareload',
 } as const
 
+export interface BridgeMqttPut {
+  bridge_mode?: boolean
+  clean_start?: boolean
+  clientid_prefix?: string
+  connect_timeout?: string
+  description?: string
+  egress?: ConnectorMqttEgress
+  enable?: boolean
+  ingress?: ConnectorMqttIngress
+  keepalive?: string
+  /** @minimum 0 */
+  max_inflight?: number
+  /** @deprecated */
+  mode?: BridgeMqttPutMode
+  password?: string
+  proto_ver?: BridgeMqttPutProtoVer
+  /** @deprecated */
+  reconnect_interval?: string
+  resource_opts?: BridgeMqttCreationOpts
+  retry_interval?: string
+  server: string
+  ssl?: EmqxSslClientOpts
+  static_clientids?: ConnectorMqttStaticClientidEntry[]
+  tags?: string[]
+  username?: string
+}
+
 export type BridgeMqttPostType = (typeof BridgeMqttPostType)[keyof typeof BridgeMqttPostType]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -2527,33 +2554,6 @@ export interface BridgeMqttCreationOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
-}
-
-export interface BridgeMqttPut {
-  bridge_mode?: boolean
-  clean_start?: boolean
-  clientid_prefix?: string
-  connect_timeout?: string
-  description?: string
-  egress?: ConnectorMqttEgress
-  enable?: boolean
-  ingress?: ConnectorMqttIngress
-  keepalive?: string
-  /** @minimum 0 */
-  max_inflight?: number
-  /** @deprecated */
-  mode?: BridgeMqttPutMode
-  password?: string
-  proto_ver?: BridgeMqttPutProtoVer
-  /** @deprecated */
-  reconnect_interval?: string
-  resource_opts?: BridgeMqttCreationOpts
-  retry_interval?: string
-  server: string
-  ssl?: EmqxSslClientOpts
-  static_clientids?: ConnectorMqttStaticClientidEntry[]
-  tags?: string[]
-  username?: string
 }
 
 export type BridgeMongodbPutSingleWMode =
@@ -3234,6 +3234,24 @@ export interface BridgeMatrixGet {
   username: string
 }
 
+export interface BridgeKinesisPutProducer {
+  aws_access_key_id: string
+  aws_secret_access_key: string
+  description?: string
+  enable?: boolean
+  endpoint: string
+  local_topic?: string
+  /** @minimum 0 */
+  max_retries?: number
+  partition_key: string
+  payload_template?: string
+  /** @minimum 1 */
+  pool_size?: number
+  resource_opts?: BridgeKinesisCreationOpts
+  stream_name: string
+  tags?: string[]
+}
+
 export type BridgeKinesisPostProducerType =
   (typeof BridgeKinesisPostProducerType)[keyof typeof BridgeKinesisPostProducerType]
 
@@ -3328,24 +3346,6 @@ export interface BridgeKinesisCreationOpts {
    * @maximum 1024
    */
   worker_pool_size?: number
-}
-
-export interface BridgeKinesisPutProducer {
-  aws_access_key_id: string
-  aws_secret_access_key: string
-  description?: string
-  enable?: boolean
-  endpoint: string
-  local_topic?: string
-  /** @minimum 0 */
-  max_retries?: number
-  partition_key: string
-  payload_template?: string
-  /** @minimum 1 */
-  pool_size?: number
-  resource_opts?: BridgeKinesisCreationOpts
-  stream_name: string
-  tags?: string[]
 }
 
 export interface BridgeKinesisPostProducer {
@@ -3498,7 +3498,18 @@ export interface BridgeKafkaSslClientOpts {
   versions?: string[]
 }
 
+export type BridgeKafkaSocketOptsIpFamily =
+  (typeof BridgeKafkaSocketOptsIpFamily)[keyof typeof BridgeKafkaSocketOptsIpFamily]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const BridgeKafkaSocketOptsIpFamily = {
+  auto: 'auto',
+  ipv4: 'ipv4',
+  ipv6: 'ipv6',
+} as const
+
 export interface BridgeKafkaSocketOpts {
+  ip_family?: BridgeKafkaSocketOptsIpFamily
   nodelay?: boolean
   recbuf?: string
   sndbuf?: string
@@ -4825,6 +4836,7 @@ export interface BridgeGcpPubsubPutProducer {
   request_timeout?: string
   resource_opts?: ResourceSchemaCreationOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   tags?: string[]
 }
 
@@ -4844,6 +4856,7 @@ export interface BridgeGcpPubsubPutConsumer {
   request_timeout?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   tags?: string[]
 }
 
@@ -4876,6 +4889,7 @@ export interface BridgeGcpPubsubPostProducer {
   request_timeout?: string
   resource_opts?: ResourceSchemaCreationOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   tags?: string[]
   type: BridgeGcpPubsubPostProducerType
 }
@@ -4905,6 +4919,7 @@ export interface BridgeGcpPubsubPostConsumer {
   request_timeout?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   tags?: string[]
   type: BridgeGcpPubsubPostConsumerType
 }
@@ -4955,6 +4970,7 @@ export interface BridgeGcpPubsubGetProducer {
   request_timeout?: string
   resource_opts?: ResourceSchemaCreationOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   status?: BridgeGcpPubsubGetProducerStatus
   status_reason?: string
   tags?: string[]
@@ -4998,6 +5014,7 @@ export interface BridgeGcpPubsubGetConsumer {
   request_timeout?: string
   resource_opts: BridgeGcpPubsubConsumerResourceOpts
   service_account_json: string
+  ssl?: EmqxSslClientOpts
   status?: BridgeGcpPubsubGetConsumerStatus
   status_reason?: string
   tags?: string[]
@@ -5031,8 +5048,8 @@ export interface BridgeGcpPubsubConsumer {
 export interface BridgeDynamoPut {
   /** @deprecated */
   auto_reconnect?: boolean
-  aws_access_key_id: string
-  aws_secret_access_key: string
+  aws_access_key_id?: string
+  aws_secret_access_key?: string
   enable?: boolean
   hash_key: string
   local_topic?: string
@@ -5057,8 +5074,8 @@ export const BridgeDynamoPostType = {
 export interface BridgeDynamoPost {
   /** @deprecated */
   auto_reconnect?: boolean
-  aws_access_key_id: string
-  aws_secret_access_key: string
+  aws_access_key_id?: string
+  aws_secret_access_key?: string
   enable?: boolean
   hash_key: string
   local_topic?: string
@@ -5096,8 +5113,8 @@ export const BridgeDynamoGetStatus = {
 export interface BridgeDynamoGet {
   /** @deprecated */
   auto_reconnect?: boolean
-  aws_access_key_id: string
-  aws_secret_access_key: string
+  aws_access_key_id?: string
+  aws_secret_access_key?: string
   enable?: boolean
   hash_key: string
   local_topic?: string

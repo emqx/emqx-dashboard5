@@ -902,6 +902,8 @@ export type EmqxMqttMaxSubscriptions = 'infinity' | number
 
 export type EmqxMqttMaxMqueueLen = 'infinity' | number
 
+export type EmqxMqttMaxConnectUserProperties = 'infinity' | number
+
 export type EmqxMqttMaxAwaitingRel = 'infinity' | number
 
 export type EmqxMqttIdleTimeout = string | 'infinity'
@@ -924,6 +926,7 @@ export interface EmqxMqtt {
    * @maximum 65535
    */
   max_clientid_len?: number
+  max_connect_user_properties?: EmqxMqttMaxConnectUserProperties
   /**
    * @minimum 1
    * @maximum 65535

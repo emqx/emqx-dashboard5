@@ -125,6 +125,8 @@ export type PutUsersUsername400 = {
   message?: string
 }
 
+export type PutUsersUsername200Scopes = string[] | 'unset'
+
 export type PutUsersUsername200Mfa =
   (typeof PutUsersUsername200Mfa)[keyof typeof PutUsersUsername200Mfa]
 
@@ -140,15 +142,17 @@ export type PutUsersUsername200 = {
   description?: string
   mfa?: PutUsersUsername200Mfa
   role?: string
-  scopes?: string[]
+  scopes?: PutUsersUsername200Scopes
   /** @maxLength 100 */
   username?: string
 }
 
+export type PutUsersUsernameBodyScopes = string[] | 'unset'
+
 export type PutUsersUsernameBody = {
   description?: string
   role?: string
-  scopes?: string[]
+  scopes?: PutUsersUsernameBodyScopes
 }
 
 export type PutUsersUsernameBackend =
@@ -208,6 +212,8 @@ export type DeleteUsersUsernameParams = {
   backend?: DeleteUsersUsernameBackend
 }
 
+export type PostUsers200Scopes = string[] | 'unset'
+
 export type PostUsers200Mfa = (typeof PostUsers200Mfa)[keyof typeof PostUsers200Mfa]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -222,17 +228,19 @@ export type PostUsers200 = {
   description?: string
   mfa?: PostUsers200Mfa
   role?: string
-  scopes?: string[]
+  scopes?: PostUsers200Scopes
   /** @maxLength 100 */
   username?: string
 }
+
+export type PostUsersBodyScopes = string[] | 'unset'
 
 export type PostUsersBody = {
   description?: string
   /** @maxLength 100 */
   password?: string
   role?: string
-  scopes?: string[]
+  scopes?: PostUsersBodyScopes
   /** @maxLength 100 */
   username?: string
 }
@@ -314,6 +322,8 @@ export type PostLoginBody = {
   username?: string
 }
 
+export type DashboardUserScopes = string[] | 'unset'
+
 export type DashboardUserMfa = (typeof DashboardUserMfa)[keyof typeof DashboardUserMfa]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -328,7 +338,7 @@ export interface DashboardUser {
   description?: string
   mfa?: DashboardUserMfa
   role?: string
-  scopes?: string[]
+  scopes?: DashboardUserScopes
   /** @maxLength 100 */
   username?: string
 }
