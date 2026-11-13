@@ -59,6 +59,19 @@ export type GetPluginsNameSchema404 = {
   message?: string
 }
 
+export type PostPluginsNameMove404Code =
+  (typeof PostPluginsNameMove404Code)[keyof typeof PostPluginsNameMove404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PostPluginsNameMove404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type PostPluginsNameMove404 = {
+  code?: PostPluginsNameMove404Code
+  message?: string
+}
+
 export type PostPluginsNameMove400Code =
   (typeof PostPluginsNameMove400Code)[keyof typeof PostPluginsNameMove400Code]
 
