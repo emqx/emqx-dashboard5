@@ -1,47 +1,43 @@
 import http from '@/common/http'
 import type {
-  DashboardSsoBackendStatus,
-  SsoLdap,
-  GetSsoRunning200Item,
-  PostSsoLoginBackend200,
-  PostSsoLoginBackendBody,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+  SSOLoginSuccessResponse,
+  SSOMFASetupInfoRequest,
+  SSOMFASetupInfoResponse,
+  SSOMFASetupRequest,
+  SSOMFAVerifyRequest,
+  SSOBackend,
+  SSOConfig,
+} from '@/types/typeAlias'
+import type { LDAPLoginRequest, SSOBackendStatus } from '@/types/sso'
 
-export const getSSOList = (): Promise<DashboardSsoBackendStatus[]> => {
+export const getSSOList = (): Promise<SSOBackendStatus[]> => {
   return http.get('/sso')
 }
 
 export const postSSOLogin = (
   backend: 'ldap' | 'saml',
-  emqxDashboardSsoLdapLogin: PostSsoLoginBackendBody,
+  emqxDashboardSsoLdapLogin: LDAPLoginRequest | { backend: 'saml' },
 ): Promise<SSOLoginResult> => {
   return http.post(`/sso/login/${backend}`, emqxDashboardSsoLdapLogin)
 }
 
-export const getSSORunning = (): Promise<GetSsoRunning200Item[]> => {
+export const getSSORunning = (): Promise<SSOBackend[]> => {
   return http.get('/sso/running')
 }
 
-export const getSSOBackend = (backend: 'ldap'): Promise<SsoLdap> => {
+export const getSSOBackend = (backend: SSOBackend): Promise<SSOConfig> => {
   return http.get(`/sso/${backend}`)
 }
 
 export const putSSOBackend = (
-  backend: 'ldap',
-  emqxDashboardSsoLdapLdap: SsoLdap,
-): Promise<SsoLdap> => {
+  backend: SSOBackend,
+  emqxDashboardSsoLdapLdap: SSOConfig,
+): Promise<SSOConfig> => {
   return http.put(`/sso/${backend}`, emqxDashboardSsoLdapLdap)
 }
 
 export type SSOTokenExchangeResult =
-  | {
-      token: string
-      username: string
-      role: string
-      backend: string
-      version: string
-      license: any
-    }
+  | Required<SSOLoginSuccessResponse>
   | {
       action: 'mfa_setup'
       setup_token: string
@@ -52,7 +48,7 @@ export type SSOTokenExchangeResult =
   | { action: 'mfa_verify'; verify_token: string; username: string; backend: string }
 
 export type SSOLoginResult =
-  | PostSsoLoginBackend200
+  | SSOLoginSuccessResponse
   | Extract<SSOTokenExchangeResult, { action: string }>
 
 export const postSSOTokenExchange = (
@@ -67,8 +63,12 @@ export const postSSOmfaSetupInfo = (
   setup_token: string,
   username: string,
   backend: string,
-): Promise<{ secret: string; mechanism: string }> => {
-  return http.post(`/sso/mfa/setup_info`, { setup_token, username, backend })
+): Promise<SSOMFASetupInfoResponse> => {
+  return http.post(`/sso/mfa/setup_info`, {
+    setup_token,
+    username,
+    backend,
+  } satisfies SSOMFASetupInfoRequest)
 }
 
 export const postSSOmfaSetup = (
@@ -76,8 +76,13 @@ export const postSSOmfaSetup = (
   totp_code: string,
   username: string,
   backend: string,
-): Promise<any> => {
-  return http.post(`/sso/mfa/setup`, { setup_token, totp_code, username, backend })
+): Promise<SSOLoginSuccessResponse> => {
+  return http.post(`/sso/mfa/setup`, {
+    setup_token,
+    totp_code,
+    username,
+    backend,
+  } satisfies SSOMFASetupRequest)
 }
 
 export const postSSOmfaVerify = (
@@ -85,6 +90,11 @@ export const postSSOmfaVerify = (
   totp_code: string,
   username: string,
   backend: string,
-): Promise<any> => {
-  return http.post(`/sso/mfa/verify`, { verify_token, totp_code, username, backend })
+): Promise<SSOLoginSuccessResponse> => {
+  return http.post(`/sso/mfa/verify`, {
+    verify_token,
+    totp_code,
+    username,
+    backend,
+  } satisfies SSOMFAVerifyRequest)
 }

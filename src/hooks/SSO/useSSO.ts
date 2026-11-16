@@ -1,16 +1,13 @@
 import { getSSORunning, postSSOLogin } from '@/api/sso'
 import type { SSOLoginResult } from '@/api/sso'
-import {
-  DashboardSsoBackendStatusBackend,
-  SsoLogin,
-  DashboardSamlBackend,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { LDAPLoginRequest } from '@/types/sso'
+import { SSOBackend } from '@/types/typeAlias'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
   const backendsLabelMap: Map<string, string> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, 'LDAP'],
-    [DashboardSsoBackendStatusBackend.saml, 'SAML 2.0'],
-    [DashboardSsoBackendStatusBackend.oidc, 'OIDC'],
+    [SSOBackend.ldap, 'LDAP'],
+    [SSOBackend.saml, 'SAML 2.0'],
+    [SSOBackend.oidc, 'OIDC'],
   ])
   const getBackendLabel = (backend: string): string => backendsLabelMap.get(backend) || ''
 
@@ -32,26 +29,25 @@ export default function useSSO(): {
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
-  ldapRecord: SsoLogin
+  ldapRecord: LDAPLoginRequest
   hasSSOEnabled: ComputedRef<boolean>
   ldapLogin: () => Promise<LdapLoginResult>
   getEnabledSSO: () => Promise<void>
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
-  // FIXME: remove any
-  const ldapRecord = reactive<SsoLogin | any>({
+  const ldapRecord = reactive<LDAPLoginRequest>({
     username: '',
     password: '',
     backend: 'ldap',
   })
   const currentLoginBackend = ref<LoginBackend>('local')
 
-  const samlLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.saml}`
-  const samlBackend = ref(DashboardSamlBackend.saml)
+  const samlLoginUrl = `${API_BASE_URL}/sso/login/${SSOBackend.saml}`
+  const samlBackend = ref(SSOBackend.saml)
 
-  const oidcLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.oidc}`
-  const oidcBackend = ref(DashboardSsoBackendStatusBackend.oidc)
+  const oidcLoginUrl = `${API_BASE_URL}/sso/login/${SSOBackend.oidc}`
+  const oidcBackend = ref(SSOBackend.oidc)
 
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 

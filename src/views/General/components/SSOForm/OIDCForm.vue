@@ -52,7 +52,7 @@
         </el-tooltip>
       </div>
     </div>
-    <CommonTLSConfig v-if="formData.ssl" v-model="(formData as any).ssl" :is-edit="isEdit" />
+    <CommonTLSConfig v-if="formData.ssl" v-model="formData.ssl" :is-edit="isEdit" />
     <AdvancedSettingContainer>
       <el-form-item prop="scopes" :label="tl('scopes')">
         <ArrayEditor v-model="formData.scopes" />
@@ -106,11 +106,7 @@
         v-if="formData.client_jwks && formData.client_jwks !== JWK_NONE"
       >
         <div class="monaco-container">
-          <Monaco
-            v-model="(formData.client_jwks as any).file"
-            :id="createRandomString()"
-            lang="json"
-          />
+          <Monaco v-model="formData.client_jwks.file" :id="createRandomString()" lang="json" />
         </div>
       </el-form-item>
     </AdvancedSettingContainer>
@@ -119,7 +115,7 @@
 
 <script setup lang="ts">
 import type { OIDBForm } from '@/types/typeAlias'
-import { OIDCPreferredAuthMethods, OIDCProvider } from '@/types/typeAlias'
+import { OIDCPreferredAuthMethods, OIDCProvider, OIDCClientJwksType } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 
 const OIDC_REDIRECT = '/api/v5/sso/oidc/callback'
@@ -170,16 +166,16 @@ const providerOpts = [
 const JWK_NONE = 'none'
 const selectedJwkType = computed<string>({
   get() {
-    if (isObject(formData.value.client_jwks)) {
+    if (formData.value.client_jwks && formData.value.client_jwks !== JWK_NONE) {
       return formData.value.client_jwks.type
     }
     return formData.value.client_jwks || JWK_NONE
   },
-  set(val: any) {
+  set(val: string) {
     if (val === JWK_NONE) {
       formData.value.client_jwks = JWK_NONE
     } else {
-      formData.value.client_jwks = { type: val, file: '' }
+      formData.value.client_jwks = { type: OIDCClientJwksType.file, file: '' }
     }
   },
 })

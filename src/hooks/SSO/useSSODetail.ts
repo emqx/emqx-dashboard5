@@ -1,8 +1,4 @@
-import {
-  DashboardSamlBackend,
-  DashboardSsoBackendStatusBackend,
-  SsoLdapBackend,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { SSOBackend } from '@/types/typeAlias'
 import { OIDCPreferredAuthMethods, OIDCProvider, SSOOIDCBackend } from '@/types/typeAlias'
 import useSSL from '../useSSL'
 
@@ -15,7 +11,7 @@ export default (): {
   const createRawLDAPForm = (): any => ({
     enable: true,
     force_mfa: false,
-    backend: SsoLdapBackend.ldap,
+    backend: SSOBackend.ldap,
     server: 'localhost:389',
     username: '',
     password: '',
@@ -26,7 +22,7 @@ export default (): {
   const createRawSAMLForm = (): any => ({
     enable: true,
     force_mfa: false,
-    backend: DashboardSamlBackend.saml,
+    backend: SSOBackend.saml,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     idp_metadata_url: '',
     idp_signs_assertions: true,
@@ -59,9 +55,9 @@ export default (): {
   })
 
   const formCreatorMap: Map<string, () => any> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
-    [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
-    [DashboardSsoBackendStatusBackend.oidc, createRawOIDCForm],
+    [SSOBackend.ldap, createRawLDAPForm],
+    [SSOBackend.saml, createRawSAMLForm],
+    [SSOBackend.oidc, createRawOIDCForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)
@@ -77,9 +73,9 @@ export default (): {
   }
 
   const formHandlerMap: Map<string, (form: any) => any> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
-    [DashboardSsoBackendStatusBackend.oidc, checkNOmitFromObj],
-    [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
+    [SSOBackend.ldap, checkNOmitFromObj],
+    [SSOBackend.oidc, checkNOmitFromObj],
+    [SSOBackend.saml, handleSAMLFormBeforeSubmit],
   ])
 
   const handleFormDataBeforeSubmit = (backend: string, form: any) => {

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { DashboardSamlBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { SSOBackend } from '@/types/typeAlias'
 import { postSSOTokenExchange } from './api/sso'
 import { toLogin } from './router'
 
@@ -93,11 +93,7 @@ const handleQuery = async () => {
       }
     } else if (info.token) {
       // Backward-compatible flow: login_meta contains a JWT directly
-      const backend = info.backend
-        ? info.backend
-        : location.search
-          ? DashboardSamlBackend.saml
-          : undefined
+      const backend = info.backend ? info.backend : location.search ? SSOBackend.saml : undefined
       updateBaseInfo(info.username, info, backend)
       // if in login page, redirect to overview page
       if (/login/i.test(location.hash.split('?')[0])) {
