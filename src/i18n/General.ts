@@ -809,6 +809,18 @@ Available scopes are still restricted by the user's role. The default scopes for
     en: 'Enable MFA',
     zh: '启用 MFA',
   },
+  enableOrResetMFA: {
+    en: 'Enable or Reset MFA',
+    zh: '启用或重置 MFA',
+  },
+  confirmEnableOrResetMFA: {
+    en: 'Enable or reset MFA? Any existing TOTP secret will become invalid and you will be logged out to set up TOTP again.',
+    zh: '确认启用或重置 MFA？已有的 TOTP 密钥将失效，并立即退出登录，请重新登录完成 TOTP 设置。',
+  },
+  currentEnableUserMFATip: {
+    en: 'Enabling or resetting MFA invalidates any existing TOTP secret and logs you out. Log in again to set up TOTP.',
+    zh: '启用或重置 MFA 后，已有的 TOTP 密钥将失效，并立即退出登录。请重新登录完成 TOTP 设置。',
+  },
   enableMAFTip: {
     en: 'After enabling, the user will set up TOTP secret key in the next login.',
     zh: '启用后，用户将在下次登录时，设置 TOTP 密钥。',

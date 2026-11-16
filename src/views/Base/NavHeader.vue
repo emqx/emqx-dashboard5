@@ -66,7 +66,13 @@
 
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="users">
+            <el-dropdown-item v-if="isLocalUser" command="changePassword">
+              {{ $t('General.changePassword') }}
+            </el-dropdown-item>
+            <el-dropdown-item command="mfa">
+              {{ $t('General.mfaSettings') }}
+            </el-dropdown-item>
+            <el-dropdown-item divided command="users">
               {{ $t('components.usersManagement') }}
             </el-dropdown-item>
             <el-dropdown-item divided command="logout">
@@ -77,12 +83,17 @@
       </el-dropdown>
     </div>
     <help v-model="showHelp" />
+    <CurrentUserPasswordDialog v-model="showPasswordDialog" :username="user.username" />
+    <UserMFASettingDialog v-model="showMfaDialog" :user="currentAccount" self-service />
   </div>
 </template>
 
 <script lang="ts">
 import { loadAlarm, logout as queryLogout } from '@/api/common'
 import { toLogin } from '@/router'
+import { UserMFA } from '@/types/typeAlias'
+import CurrentUserPasswordDialog from './components/CurrentUserPasswordDialog.vue'
+import UserMFASettingDialog from '../General/components/UserMFASettingDialog.vue'
 import { Right, Bell, Setting, Search } from '@element-plus/icons-vue'
 import Settings from '../Settings/Settings.vue'
 import Help from '../Settings/Help.vue'
@@ -98,6 +109,8 @@ export default defineComponent({
     Help,
     Search,
     LicensePromotion,
+    CurrentUserPasswordDialog,
+    UserMFASettingDialog,
   },
   props: {
     title: {
@@ -108,7 +121,20 @@ export default defineComponent({
   setup(props, ctx) {
     const showSettings = ref(false)
     const showHelp = ref(false)
+    const showPasswordDialog = ref(false)
+    const showMfaDialog = ref(false)
     const store = useStore()
+    const isLocalUser = computed(() => store.state.loginBackend === 'local')
+    const currentAccount = computed(() => ({
+      username: store.state.user.username,
+      backend: store.state.loginBackend,
+      mfa:
+        store.state.user.mfaEnabled === undefined
+          ? undefined
+          : store.state.user.mfaEnabled
+            ? UserMFA.totp
+            : UserMFA.none,
+    }))
     const { t } = useI18n()
     const router = useRouter()
     const { docMap } = useDocLink()
@@ -175,6 +201,14 @@ export default defineComponent({
       if (!command) {
         return
       }
+      if (command === 'changePassword') {
+        showPasswordDialog.value = true
+        return
+      }
+      if (command === 'mfa') {
+        showMfaDialog.value = true
+        return
+      }
       if (command === 'logout') {
         return logout()
       }
@@ -211,6 +245,10 @@ export default defineComponent({
       IS_ENTERPRISE,
       showSettings,
       showHelp,
+      currentAccount,
+      showPasswordDialog,
+      showMfaDialog,
+      isLocalUser,
       store,
       leftBarCollapse,
       alertCount,

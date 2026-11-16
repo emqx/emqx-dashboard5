@@ -6,6 +6,7 @@ export interface UserInfo {
   role: 'viewer' | 'administrator'
   username: string
   token: string
+  mfaEnabled?: boolean
 }
 
 export interface VersionInfo {
