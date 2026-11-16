@@ -80,7 +80,7 @@ const handleQuery = async () => {
         const result = await postSSOTokenExchange(info.code, info.username, info.backend)
         if ('token' in result) {
           // Login success
-          updateBaseInfo(result.username, result, result.backend)
+          updateBaseInfo(result.username, result, result.backend, false)
           router.push({ path: to ?? '/' })
         } else {
           // MFA required — store the pending state and go to login page

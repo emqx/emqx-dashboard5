@@ -446,6 +446,7 @@ const FormCom = ref()
 const PwdFormCom = ref()
 
 const loginMethod = ref('')
+const mfaChallengeUsername = ref('')
 const show2FAInput = computed(() => loginMethod.value === 'totp')
 const showTotpSecret = ref(false)
 const totpSecret = ref('')
@@ -461,6 +462,7 @@ const twoFARecord = reactive({ authCode: '' })
 const twoFARules = { authCode: authCodeRule }
 
 const resetMFAData = () => {
+  mfaChallengeUsername.value = ''
   loginMethod.value = ''
   showTotpSecret.value = false
 }
@@ -498,8 +500,8 @@ const checkPasswordChange = () => {
 }
 
 const { updateBaseInfo } = useUpdateBaseInfo()
-const updateStoreInfo = (username: string, data: PostLogin200) =>
-  updateBaseInfo(username, data, currentLoginBackend.value)
+const updateStoreInfo = (username: string, data: PostLogin200, mfaEnabled?: boolean) =>
+  updateBaseInfo(username, data, currentLoginBackend.value, mfaEnabled)
 
 let timerForHideLoginLockedAlert: number | undefined
 const resetTimerForHideLoginLockedAlert = () => {
@@ -527,10 +529,16 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
   const mfa_token = user.mfa_token || undefined
   try {
     const res = await loginApi({ username, password, mfa_token })
+    // A code alone is not proof of MFA: the backend may ignore it when MFA is off.
+    const mfaEnabled = mfa_token
+      ? mfaChallengeUsername.value === username
+        ? true
+        : undefined
+      : false
     resetMFAData()
 
     updatePasswordData(user, res.password_expire_in_seconds)
-    updateStoreInfo(username, res)
+    updateStoreInfo(username, res, mfaEnabled)
 
     checkPasswordChange()
 
@@ -541,6 +549,7 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
   } catch (error: any) {
     const { code, message } = error?.response?.data || {}
     if (code === MFA_REQUIRED) {
+      mfaChallengeUsername.value = username
       handleMFAMethod(message, username)
     }
     isLoginLocked.value = code === LOGIN_LOCKED
@@ -583,7 +592,7 @@ const submit = async () => {
           if ('action' in response) {
             store.commit('SET_SSO_MFA_PENDING', response)
           } else if (response.token) {
-            updateStoreInfo(username as string, response)
+            updateStoreInfo(username as string, response, false)
             redirectToDashboard()
           }
         })
@@ -670,7 +679,7 @@ const submitSSOmfa = async () => {
       )
     }
     store.commit('SET_SSO_MFA_PENDING', null)
-    updateStoreInfo(res.username, res)
+    updateBaseInfo(res.username, res, res.backend, true)
     isSSOMFARouting.value = true
     resetMFAData()
     redirectToDashboard()
