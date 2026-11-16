@@ -27,11 +27,8 @@
 
 <script setup lang="ts">
 import { getSSOBackend, putSSOBackend, getSSOList } from '@/api/sso'
-import {
-  DashboardSsoBackendStatus,
-  DashboardSsoBackendStatusBackend,
-  EmqxDashboardSsoLdapLdap,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { SSOBackendStatus } from '@/types/sso'
+import { SSOBackend } from '@/types/typeAlias'
 import LDAPForm from './components/SSOForm/LDAPForm.vue'
 import SAMLForm from './components/SSOForm/SAMLForm.vue'
 import OIDCForm from './components/SSOForm/OIDCForm.vue'
@@ -44,14 +41,14 @@ const { t } = useI18nTl('General')
 const { getBackendLabel } = useSSOBackendsLabel()
 
 const backend: ComputedRef<any> = computed(() => route.params.backend.toString())
-const baseInfo: Ref<undefined | DashboardSsoBackendStatus> = ref(undefined)
+const baseInfo: Ref<undefined | SSOBackendStatus> = ref(undefined)
 const { createRawForm, handleFormDataBeforeSubmit } = useSSODetail()
 
 const FormCom = ref()
 const formComMap: Record<string, Component> = {
-  [DashboardSsoBackendStatusBackend.ldap]: LDAPForm,
-  [DashboardSsoBackendStatusBackend.saml]: SAMLForm,
-  [DashboardSsoBackendStatusBackend.oidc]: OIDCForm,
+  [SSOBackend.ldap]: LDAPForm,
+  [SSOBackend.saml]: SAMLForm,
+  [SSOBackend.oidc]: OIDCForm,
 }
 
 const formCom = computed(() =>
@@ -96,10 +93,7 @@ const saveConfig = async () => {
   try {
     isSubmitting.value = true
     await FormCom.value?.validate?.()
-    await putSSOBackend(
-      backend.value,
-      handleFormDataBeforeSubmit(backend.value, formData.value) as EmqxDashboardSsoLdapLdap,
-    )
+    await putSSOBackend(backend.value, handleFormDataBeforeSubmit(backend.value, formData.value))
     ElMessage.success(t('Base.updateSuccess'))
     router.push({ name: 'sso' })
   } catch (error) {

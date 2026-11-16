@@ -158,7 +158,7 @@
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
             <div class="buttons-container vertical-align-center">
               <el-button
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.ldap)"
+                v-if="enabledSSOList.includes(SSOBackend.ldap)"
                 link
                 type="info"
                 @click="currentLoginBackend = 'ldap'"
@@ -167,7 +167,7 @@
               </el-button>
               <!-- for call api by browser -->
               <form
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.saml)"
+                v-if="enabledSSOList.includes(SSOBackend.saml)"
                 :action="samlLoginUrl"
                 method="post"
                 class="form-sso"
@@ -185,7 +185,7 @@
               </form>
               <!-- for call api by browser -->
               <form
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.oidc)"
+                v-if="enabledSSOList.includes(SSOBackend.oidc)"
                 :action="oidcLoginUrl"
                 method="post"
                 class="form-sso"
@@ -331,7 +331,7 @@ import { postSSOmfaSetupInfo, postSSOmfaSetup, postSSOmfaVerify } from '@/api/ss
 import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
 import { PostLogin200 } from '@/types/schemas/dashboard.schemas'
-import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import { SSOBackend } from '@/types/typeAlias'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
 
 interface MFAError {
