@@ -25,10 +25,10 @@ const BRIDGE_SPECIAL_TYPE_MAP: Map<string, string> = new Map([
 export const useSymbolLabel = (): {
   getOptLabel: (key: string) => string
 } => {
-  const { t, te } = useI18n()
+  const { t, te, locale } = useI18n()
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key?.toString()
+    return te(textKey, locale.value) ? t(textKey) : key?.toString()
   }
   return {
     getOptLabel,
@@ -47,8 +47,8 @@ export default (
   getOptLabel: (key: string) => string
 } => {
   const CONFIG_TEXT_BASE = 'ConfigSchema.'
-  const { t, te } = useI18n()
-  const testConfigTextKey = (key: string) => te(`${CONFIG_TEXT_BASE}${key}.label`)
+  const { t, te, locale } = useI18n()
+  const testConfigTextKey = (key: string) => te(`${CONFIG_TEXT_BASE}${key}.label`, locale.value)
 
   const typesUseBridgeText = INTEGRATION_SCHEMA_TYPES
 
@@ -95,7 +95,7 @@ export default (
     if (textKey) {
       return {
         label: t(`${textKey}.label`),
-        desc: te(descKey) ? t(descKey) : '',
+        desc: te(descKey, locale.value) ? t(descKey) : '',
       }
     }
     return { label: '' }
@@ -124,10 +124,15 @@ export default (
      * Otherwise, the text in the common zone will be taken.
      * Do this for override some of the less precise commons in the share-ui.
      */
-    if (!prop.labelKey && te(specialTextPath)) {
+    if (!prop.labelKey && te(specialTextPath, locale.value)) {
       return specialTextPath
     }
-    if (prop.key && COMMON_FIELD_KEYS.includes(prop.key) && !prop.labelKey && !te(typeTextPath)) {
+    if (
+      prop.key &&
+      COMMON_FIELD_KEYS.includes(prop.key) &&
+      !prop.labelKey &&
+      !te(typeTextPath, locale.value)
+    ) {
       return `BridgeSchema.${COMMON_ZONE}.${textFinalKey}.${textType}`
     }
     return typeTextPath
@@ -175,7 +180,7 @@ export default (
     if (labelPath) {
       return {
         label: t(labelPath),
-        desc: te(descPath) ? t(descPath) : '',
+        desc: te(descPath, locale.value) ? t(descPath) : '',
       }
     }
     return { label: '' }
@@ -183,7 +188,7 @@ export default (
 
   const getOptLabel = (key: string) => {
     const textKey = `SchemaSymbolLabel.${key}`
-    return te(textKey) ? t(textKey) : key?.toString()
+    return te(textKey, locale.value) ? t(textKey) : key?.toString()
   }
 
   const getText = (prop: Property) => {

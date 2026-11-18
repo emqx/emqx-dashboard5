@@ -64,7 +64,7 @@ const createDefault = () => ({
   frame: {
     max_headers: 10,
     max_headers_length: 1024,
-    max_body_length: 8192,
+    max_body_length: 65536,
   },
   idle_timeout: '30s',
   enable_stats: true,

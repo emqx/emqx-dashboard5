@@ -10,9 +10,9 @@ export enum ClientListSearchType {
 
 export type ClientListQueryParams = {
   like_username?: string
-  username?: string | string[]
+  username?: string[]
   like_clientid?: string
-  clientid?: string | string[]
+  clientid?: string[]
   node?: string
   ip_address?: string
   conn_state?: string
@@ -37,12 +37,13 @@ export const genClientListQueryParams = (params: Record<string, any>): ClientLis
     clientidSearchType,
   } = params
 
-  const addLikeParam = (key: string, value: string, searchType: string) => {
-    if (!value) return undefined
+  const addLikeParam = (key: string, value: string | string[] | undefined, searchType: string) => {
+    if (!value?.length) return undefined
 
     const isFuzzy = searchType === ClientListSearchType.Fuzzy
     const _key = isFuzzy ? `like_${key}` : key
-    const _value = isFuzzy ? value : value.split(',')
+    const values = toArray(value)
+    const _value = isFuzzy ? values.join(',') : values
 
     return { [_key]: _value }
   }
@@ -76,7 +77,7 @@ export const doesClientMatchClientListQuery = (
     lte_connected_at,
   } = params
 
-  if (username && !toArray(username).includes(client.username)) {
+  if (username && !username.includes(client.username)) {
     return false
   }
   if (node && client.node !== node) {

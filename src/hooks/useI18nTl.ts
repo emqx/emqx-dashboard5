@@ -8,7 +8,7 @@ export default function useI18nTl(collection: string): {
   ) => string
   te: (key: string, locale?: string) => boolean
 } {
-  const { t, te } = useI18n()
+  const { t, te, locale } = useI18n()
   const tl = function (key: string, meta?: { [key: string]: string | number }) {
     if (meta) {
       return t(`${collection}.${key}`, meta)
@@ -18,6 +18,7 @@ export default function useI18nTl(collection: string): {
   return {
     t,
     tl,
-    te,
+    // Preserve locale-only lookup; I18n 11 otherwise searches fallback locales.
+    te: (key, targetLocale = locale.value) => te(key, targetLocale),
   }
 }
