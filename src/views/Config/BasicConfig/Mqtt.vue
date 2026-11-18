@@ -41,6 +41,7 @@ export default defineComponent({
     const propsOrderMap = createOrderObj(
       [
         'max_packet_size',
+        'max_connect_user_properties',
         'max_qos_allowed',
         'max_clientid_len',
         'max_topic_levels',
