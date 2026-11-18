@@ -15,6 +15,10 @@ export default {
     zh: '创建命名空间规则',
     en: 'Create Namespaced Rule',
   },
+  createNamespaceWebhook: {
+    zh: '创建命名空间 Webhook',
+    en: 'Create Namespaced Webhook',
+  },
   updateConnectorTip: {
     zh: '更新配置会导致连接中断，进而可能导致关联动作消息丢失。',
     en: 'Updating the configuration can cause a connection interruption, which may result in the loss of associated action messages.',

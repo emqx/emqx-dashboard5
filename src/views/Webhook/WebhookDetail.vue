@@ -6,6 +6,10 @@
           <div class="vertical-align-center">
             <p class="block-title">{{ fullName }}</p>
             <StatusDetailsOfEachNode :status-data="statusData" is-tag />
+            <NamespaceResourceTag
+              :namespace="webhookData?.rule.namespace || namespace"
+              class="section-status"
+            />
           </div>
         </template>
         <template #extra>
@@ -96,6 +100,7 @@ const actionId = computed(() => {
   return getBridgeKey({ type: BridgeType.Webhook, name: actionName })
 })
 const namespace = computed(() => route.query.ns as string | undefined)
+provide('ns', namespace)
 const ruleId = computed(() => fullName.value)
 
 const tab = computed(() => route.query.tab && Number(route.query.tab))

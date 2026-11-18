@@ -65,15 +65,26 @@ import {
   MessageTransformationLogFailureLevel,
   MessageTransformationHttpApiDryrunTransformation,
 } from './schemas/messageTransformation.schemas'
-import type { DashboardSaml, SsoOidc } from './schemas/dashboardSingleSignOn.schemas'
+import type { DashboardSso, DashboardSaml, SsoLdap, SsoOidc } from './schemas/configs.schemas'
+import type {
+  DashboardSsoLoginSuccessResponse,
+  DashboardSsoMfaMfaSetupInfoRequest,
+  DashboardSsoMfaMfaSetupInfoResponse,
+  DashboardSsoMfaMfaSetupRequest,
+  DashboardSsoMfaMfaVerifyRequest,
+} from './schemas/dashboardSingleSignOn.schemas'
+import type { SSL } from './common'
 import {
   SsoOidcPreferredAuthMethodsItem,
   SsoOidcProvider,
   SsoOidcBackend,
+  SsoLdapBackend,
+  DashboardSamlBackend,
+  SsoClientFileJwksType,
   SsoOidcNameVarSource,
   SsoOidcRoleSource,
   SsoOidcNamespaceSource,
-} from './schemas/dashboardSingleSignOn.schemas'
+} from './schemas/configs.schemas'
 import type {
   PostRelupPackageUploadBody,
   RelupRunningStatus,
@@ -228,14 +239,27 @@ export type OverrideProperties<
 > = Merge<T, U>
 
 /* SSO */
+export const SSOBackend = {
+  ...SsoLdapBackend,
+  ...SsoOidcBackend,
+  ...DashboardSamlBackend,
+} as const
+export type SSOBackend = (typeof SSOBackend)[keyof typeof SSOBackend]
+export type SSOConfig = NonNullable<DashboardSso[SSOBackend]>
+export type LDAPForm = Omit<SsoLdap, 'ssl'> & { ssl?: SSL }
 export type SAMLForm = DashboardSaml
-export type OIDBForm = SsoOidc
+export type OIDBForm = Omit<SsoOidc, 'ssl'> & { ssl?: SSL }
 export const OIDCPreferredAuthMethods = SsoOidcPreferredAuthMethodsItem
 export const OIDCProvider = SsoOidcProvider
 export const OIDCNameVarSource = SsoOidcNameVarSource
 export const OIDCRoleSource = SsoOidcRoleSource
 export const OIDCNamespaceSource = SsoOidcNamespaceSource
-export const SSOOIDCBackend = SsoOidcBackend
+export const OIDCClientJwksType = SsoClientFileJwksType
+export type SSOLoginSuccessResponse = DashboardSsoLoginSuccessResponse
+export type SSOMFASetupInfoRequest = DashboardSsoMfaMfaSetupInfoRequest
+export type SSOMFASetupInfoResponse = DashboardSsoMfaMfaSetupInfoResponse
+export type SSOMFASetupRequest = DashboardSsoMfaMfaSetupRequest
+export type SSOMFAVerifyRequest = DashboardSsoMfaMfaVerifyRequest
 
 /* CONF */
 export type FileTransferConf = FileTransferFileTransfer

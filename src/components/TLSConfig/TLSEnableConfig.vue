@@ -198,7 +198,7 @@
         v-model="record.managed_certs"
         :sni="isServer"
         :global-only="globalOnly"
-        :user-namespace="userNamespace"
+        :resource-namespace="resourceNamespace"
         :columns="managedCertConfColumns"
       />
       <ListEditor
@@ -214,7 +214,7 @@
               v-model="record.managed_certs[index]"
               sni
               :global-only="globalOnly"
-              :user-namespace="userNamespace"
+              :resource-namespace="resourceNamespace"
               :columns="managedCertConfColumns"
               :current-index="index"
               :all-managed-certs="record.managed_certs"
@@ -296,7 +296,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  userNamespace: {
+  resourceNamespace: {
     type: String,
   },
   managedCertConfColumns: {
@@ -327,7 +327,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'verifyChange'])
+const emit = defineEmits(['update:modelValue', 'verifyChange', 'certificateSourceChange'])
 
 const { t } = useI18nTl('Auth')
 
@@ -379,6 +379,7 @@ const handleCertificateSourceChange = async (val: any) => {
     } else if (!isCertBundle && record.value.managed_certs) {
       record.value.managed_certs = props.managedCertsBundleEmptyValue
     }
+    emit('certificateSourceChange')
   } catch (error) {
     //
   }

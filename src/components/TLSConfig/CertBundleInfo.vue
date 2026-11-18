@@ -57,5 +57,5 @@ const certBundleInfoKeyArr: Array<keyof CertBundleInfo> = [
   'ca',
 ]
 
-watch(() => props.name, getCertBundleInfo)
+watch(() => [props.name, props.namespace], getCertBundleInfo)
 </script>

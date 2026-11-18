@@ -1,15 +1,10 @@
 import {
-  DashboardSamlBackend,
-  DashboardSsoBackendStatusBackend,
-  SsoLdapBackend,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
-import {
   OIDCNameVarSource,
+  OIDCNamespaceSource,
   OIDCPreferredAuthMethods,
   OIDCProvider,
   OIDCRoleSource,
-  OIDCNamespaceSource,
-  SSOOIDCBackend,
+  SSOBackend,
 } from '@/types/typeAlias'
 import useSSL from '../useSSL'
 
@@ -22,7 +17,7 @@ export default (): {
   const createRawLDAPForm = (): any => ({
     enable: true,
     force_mfa: false,
-    backend: SsoLdapBackend.ldap,
+    backend: SSOBackend.ldap,
     server: 'localhost:389',
     username: '',
     password: '',
@@ -33,7 +28,7 @@ export default (): {
   const createRawSAMLForm = (): any => ({
     enable: true,
     force_mfa: false,
-    backend: DashboardSamlBackend.saml,
+    backend: SSOBackend.saml,
     skip_login_cookie_check: false,
     dashboard_addr: location.origin + location.pathname.slice(0, -1),
     idp_metadata_url: '',
@@ -46,7 +41,7 @@ export default (): {
   const createRawOIDCForm = (): any => ({
     enable: true,
     force_mfa: false,
-    backend: SSOOIDCBackend.oidc,
+    backend: SSOBackend.oidc,
     skip_login_cookie_check: false,
     issuer: '',
     clientid: '',
@@ -71,9 +66,9 @@ export default (): {
   })
 
   const formCreatorMap: Map<string, () => any> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, createRawLDAPForm],
-    [DashboardSsoBackendStatusBackend.saml, createRawSAMLForm],
-    [DashboardSsoBackendStatusBackend.oidc, createRawOIDCForm],
+    [SSOBackend.ldap, createRawLDAPForm],
+    [SSOBackend.saml, createRawSAMLForm],
+    [SSOBackend.oidc, createRawOIDCForm],
   ])
   const createRawForm = (backend: string) => {
     const func = formCreatorMap.get(backend)
@@ -89,9 +84,9 @@ export default (): {
   }
 
   const formHandlerMap: Map<string, (form: any) => any> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, checkNOmitFromObj],
-    [DashboardSsoBackendStatusBackend.oidc, checkNOmitFromObj],
-    [DashboardSsoBackendStatusBackend.saml, handleSAMLFormBeforeSubmit],
+    [SSOBackend.ldap, checkNOmitFromObj],
+    [SSOBackend.oidc, checkNOmitFromObj],
+    [SSOBackend.saml, handleSAMLFormBeforeSubmit],
   ])
 
   const handleFormDataBeforeSubmit = (backend: string, form: any) => {

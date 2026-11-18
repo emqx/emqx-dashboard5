@@ -81,6 +81,8 @@
         prop-prefix="connector.oauth2"
         :col-span="24"
         :is-edit="isEdit"
+        :global-only="false"
+        :resource-namespace="namespace"
         :managed-cert-conf-columns="1"
       />
     </el-row>
@@ -102,10 +104,9 @@
       <CommonTLSConfig
         class="tls-config-form"
         v-model="formData.connector.ssl"
-        require-namespace
         :is-edit="isEdit"
         :global-only="false"
-        :user-namespace="userNamespace"
+        :resource-namespace="namespace"
         :managed-cert-conf-columns="1"
       />
       <el-form-item :label="getCommonText('connect_timeout.label')">
@@ -155,8 +156,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const { t, tl } = useI18nTl('RuleEngine')
-const store = useStore()
-const userNamespace = computed(() => store.getters.userNamespace)
+const namespace = useResourceNamespace()
 const getText = (key: string) => t(`BridgeSchema.http.${key}`)
 const getLabel = (key: string) => getText(`${key}.label`)
 const getCommonText = (key: string) => t(`BridgeSchema.common.${key}`)
@@ -225,7 +225,7 @@ const handleTestConnectivity = async () => {
     isTesting.value = true
     const data = formData.value.connector
     data.name = getActionNameByName(formData.value.name)
-    await testConnectivity(data)
+    await testConnectivity({ ...data, namespace: namespace.value })
     ElMessage.success(tl('connectionSuccessful'))
   } catch (error) {
     //

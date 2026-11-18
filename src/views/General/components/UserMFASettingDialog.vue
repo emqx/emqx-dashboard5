@@ -8,14 +8,38 @@
   >
     <el-card class="info-card" shadow="never">
       <p>{{ tl('username') }}: {{ props.user?.username ?? '' }}</p>
-      <p>{{ t('General.currentMFA') }}: {{ getMFAMethodLabel(props.user?.mfa ?? '') }}</p>
+      <p v-if="!mfaStateUnknown">
+        {{ t('General.currentMFA') }}: {{ getMFAMethodLabel(props.user?.mfa ?? '') }}
+      </p>
     </el-card>
-    <template v-if="withMFA">
+    <template v-if="mfaStateUnknown">
+      <el-alert type="info" :closable="false">
+        {{ tl('currentEnableUserMFATip') }}
+      </el-alert>
+      <div class="buttons">
+        <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
+          {{ tl('enableOrResetMFA') }}
+        </el-button>
+        <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
+          {{ tl('disableMFA') }}
+        </el-button>
+      </div>
+    </template>
+    <template v-else-if="withMFA">
+      <el-alert v-if="disableMfaBlocked" type="warning" :closable="false" class="mfa-alert">
+        {{ t('General.disableMFAForbiddenBySSO') }}
+      </el-alert>
       <div class="buttons">
         <el-button type="primary" plain :loading="submitLoading" @click="resetTOTPSecret">
           {{ tl('resetTOTPSecret') }}
         </el-button>
-        <el-button type="danger" plain :loading="submitLoading" @click="deleteMFA">
+        <el-button
+          type="danger"
+          plain
+          :loading="submitLoading"
+          :disabled="disableMfaBlocked || ssoConfigLoading"
+          @click="deleteMFA"
+        >
           {{ tl('disableMFA') }}
         </el-button>
       </div>
@@ -30,10 +54,12 @@
         />
       </el-select>
       <el-alert type="info" :closable="false">
-        {{ isCurrentUser ? t('General.currentEnableUserMFATip') : t('General.enableMAFTip') }}
+        {{ props.isCurrentUser ? tl('currentEnableUserMFATip') : tl('enableMAFTip') }}
       </el-alert>
       <div class="buttons">
-        <el-button type="primary" @click="enableMFA">{{ tl('enableMFA') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="enableMFA">
+          {{ tl('enableMFA') }}
+        </el-button>
       </div>
     </template>
   </el-dialog>
@@ -47,20 +73,46 @@ import {
   updateUserMfa,
 } from '@/api/function'
 import { toLogin } from '@/router'
-import { type CurrentUserMFAUpdate, type User, UserMFA } from '@/types/typeAlias'
+import { getSSOBackend } from '@/api/sso'
+import { UserRole } from '@/types/enum'
+import {
+  SSOBackend,
+  UserMFA,
+  type CurrentUserMFAUpdate,
+  type SSOConfig,
+  type User,
+} from '@/types/typeAlias'
 
 const props = defineProps<{
   modelValue: boolean
   user: User
   isCurrentUser: boolean
+  selfService?: boolean
 }>()
 const emit = defineEmits(['update:modelValue', 'submitted'])
 
 const { t, tl } = useI18nTl('General')
 
+const store = useStore()
+const currentUser = computed(() => store.state.user)
+const mfaStateUnknown = computed(() => props.selfService && props.user.mfa === undefined)
+const isCurrentUserAdmin = computed(() => currentUser.value.role === UserRole.Admin)
+
 const { mfaOptions, isMFAEnabled, getMFAMethodLabel } = useMFAMethods()
 const withMFA = computed(() => isMFAEnabled(props.user.mfa ?? ''))
 const isSSOUser = computed(() => !!props.user?.backend && props.user.backend !== 'local')
+const ssoConfigLoading = ref(false)
+const ssoBackendConfig = ref<(SSOConfig & { enforce_mfa?: boolean }) | null>(null)
+const isSSOBackendMfaEnforced = computed(
+  () => !!(ssoBackendConfig.value?.force_mfa || ssoBackendConfig.value?.enforce_mfa),
+)
+const disableMfaBlocked = computed(
+  () =>
+    !props.selfService &&
+    !isCurrentUserAdmin.value &&
+    isSSOUser.value &&
+    isSSOBackendMfaEnforced.value,
+)
 
 const defaultMFA = UserMFA.totp
 
@@ -73,16 +125,47 @@ const showDialog = computed({
   },
 })
 
-watch(showDialog, (value: boolean) => {
+watch(showDialog, async (value, _previous, onCleanup) => {
   if (!value) {
     submitLoading.value = false
     selectedMFA.value = defaultMFA
+    ssoConfigLoading.value = false
+    ssoBackendConfig.value = null
+    return
+  }
+
+  const { backend } = props.user
+  if (
+    props.selfService ||
+    (backend !== SSOBackend.ldap && backend !== SSOBackend.oidc && backend !== SSOBackend.saml)
+  ) {
+    return
+  }
+
+  let active = true
+  onCleanup(() => {
+    active = false
+  })
+  ssoConfigLoading.value = true
+  try {
+    const config = await getSSOBackend(backend)
+    if (active) {
+      ssoBackendConfig.value = config
+    }
+  } catch {
+    // Request errors are already reported by the HTTP interceptor.
+  } finally {
+    if (active) {
+      ssoConfigLoading.value = false
+    }
   }
 })
 
 const resetTOTPSecret = async () => {
   try {
-    await operationWarning(tl('confirmResetTOTPSecret'))
+    await operationWarning(
+      mfaStateUnknown.value ? tl('confirmEnableOrResetMFA') : tl('confirmResetTOTPSecret'),
+    )
     const { username, backend } = props.user
     if (!username) {
       return
@@ -93,7 +176,7 @@ const resetTOTPSecret = async () => {
     } else {
       await updateUserMfa(username, { mechanism: UserMFA.totp }, backend ? { backend } : undefined)
     }
-    ElMessage.success(t('Base.resetSuccess'))
+    ElMessage.success(t(props.selfService ? 'Base.updateSuccess' : 'Base.resetSuccess'))
     showDialog.value = false
     if (props.isCurrentUser) {
       toLogin()
@@ -139,6 +222,10 @@ const deleteMFA = async () => {
   try {
     const { username, backend } = props.user
     if (!username) {
+      return
+    }
+    if (disableMfaBlocked.value) {
+      ElMessage.warning(t('General.disableMFAForbiddenBySSO'))
       return
     }
     await operationWarning(t('General.confirmDisableMFA'))

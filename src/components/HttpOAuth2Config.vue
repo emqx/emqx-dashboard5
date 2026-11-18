@@ -76,6 +76,8 @@
             v-model="record.ssl"
             :is-edit="isEdit"
             :base-path="getProp('ssl')"
+            :global-only="globalOnly"
+            :resource-namespace="resourceNamespace"
             :managed-cert-conf-columns="managedCertConfColumns"
           />
         </el-col>
@@ -103,12 +105,15 @@ const props = withDefaults(
     propPrefix?: string
     colSpan?: number
     isEdit?: boolean
+    globalOnly?: boolean
+    resourceNamespace?: string
     managedCertConfColumns?: number
   }>(),
   {
     propPrefix: 'oauth2',
     colSpan: 12,
     isEdit: false,
+    globalOnly: true,
   },
 )
 

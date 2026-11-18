@@ -19,6 +19,7 @@
         v-model="formData"
         :is-editing="isEditing"
         :global-only="globalOnly"
+        :resource-namespace="resourceNamespace"
       />
     </template>
     <template #footer>
@@ -50,6 +51,8 @@ const props = defineProps<{
    * not data integration
    */
   globalOnly?: boolean
+  /** Restrict inline certificate creation to the resource namespace. */
+  resourceNamespace?: string
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void

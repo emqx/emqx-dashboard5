@@ -4,7 +4,7 @@
       v-if="canSelectNamespace"
       split-button
       type="primary"
-      :disabled="!hasPermission('post')"
+      :disabled="disabled || !hasPermission('post')"
       @click="create()"
       @command="openNamespaceDialog"
     >
@@ -12,13 +12,13 @@
       <slot>{{ t('Base.create') }}</slot>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="namespace" :disabled="!hasPermission('post')">
+          <el-dropdown-item command="namespace" :disabled="disabled || !hasPermission('post')">
             {{ namespaceCreateLabel }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <CreateButton v-else @click="create()">
+    <CreateButton v-else :disabled="disabled || !hasPermission('post')" @click="create()">
       <slot>{{ t('Base.create') }}</slot>
     </CreateButton>
 
@@ -47,7 +47,7 @@
         <CancelButton @click="showNamespaceDialog = false" />
         <el-button
           type="primary"
-          :disabled="!canSelectNamespace || !hasPermission('post')"
+          :disabled="disabled || !canSelectNamespace || !hasPermission('post')"
           @click="createInNamespace"
         >
           {{ t('Base.create') }}
@@ -64,7 +64,10 @@ import { UserRole } from '@/types/enum'
 import type { FormInstance } from 'element-plus'
 import { Plus } from 'lucide-vue-next'
 
-const props = defineProps<{ resource: 'connector' | 'rule' | 'flow' }>()
+const props = defineProps<{
+  resource: 'connector' | 'rule' | 'flow' | 'webhook'
+  disabled?: boolean
+}>()
 const emit = defineEmits<{ (e: 'create', namespace?: string): void }>()
 const { t } = useI18n()
 const store = useStore()
@@ -82,12 +85,13 @@ const namespaceCreateLabel = computed(() =>
       connector: 'RuleEngine.createNamespaceConnector',
       rule: 'RuleEngine.createNamespaceRule',
       flow: 'Flow.createNamespaceFlow',
+      webhook: 'RuleEngine.createNamespaceWebhook',
     }[props.resource],
   ),
 )
 
 const create = (namespace = store.getters.userNamespace) => {
-  if (hasPermission('post')) {
+  if (!props.disabled && hasPermission('post')) {
     emit('create', namespace)
   }
 }
@@ -101,13 +105,13 @@ const resetNamespace = () => {
   FormCom.value?.clearValidate()
 }
 const openNamespaceDialog = () => {
-  if (canSelectNamespace.value && hasPermission('post')) {
+  if (!props.disabled && canSelectNamespace.value && hasPermission('post')) {
     resetNamespace()
     showNamespaceDialog.value = true
   }
 }
 const createInNamespace = async () => {
-  if (!canSelectNamespace.value || !hasPermission('post')) {
+  if (props.disabled || !canSelectNamespace.value || !hasPermission('post')) {
     return
   }
   try {

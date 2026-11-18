@@ -97,6 +97,8 @@ const props = defineProps<{
    * not data integration
    */
   globalOnly?: boolean
+  /** Restrict inline certificate creation to the resource namespace. */
+  resourceNamespace?: string
 }>()
 const emit = defineEmits<{
   (e: 'update:modelValue', value: CertBundleForm): void
@@ -191,11 +193,8 @@ const queryNamespaceList = async () => {
     }
     isLoading.value = true
     const res = await requestNamespaceOptions()
-    if (userNamespace.value && res.includes(userNamespace.value)) {
-      namespaceOptions.value.push(userNamespace.value)
-    } else {
-      namespaceOptions.value.push(...res)
-    }
+    const namespace = userNamespace.value ?? props.resourceNamespace
+    namespaceOptions.value = namespace ? res.filter((item) => item === namespace) : res
   } catch (error) {
     //
   } finally {

@@ -1,6 +1,7 @@
 import store from '@/store'
 
 import { createI18n } from 'vue-i18n'
+import type { DefineLocaleMessage } from 'vue-i18n'
 
 import zhLocale from 'element-plus/es/locale/lang/zh-cn'
 import zhTWLocale from 'element-plus/es/locale/lang/zh-tw'
@@ -29,7 +30,7 @@ import { zhTWFlow } from '@emqx/shared-ui-i18n/zh-TW/flow'
 import actionText from '@/schemaText/actionText/index'
 import zhTWMessages from '@/i18n/zh-TW.json'
 
-const lang: { [key: string]: any } = {
+const lang: Record<'en' | 'zh' | 'zh-TW', DefineLocaleMessage> = {
   en: {
     ...enLocale,
   },
@@ -45,7 +46,7 @@ const lang: { [key: string]: any } = {
 // scripts/i18n/gen-zh-TW.mjs, but it is a locale in its own right: a string
 // zh-TW.json does not cover shows English, not Simplified Chinese. This is the
 // same rule the broker applies to the config descriptions.
-const zhTW = zhTWMessages as Record<string, any>
+const zhTW: Record<string, Record<string, string>> = zhTWMessages
 
 const withZhTW = (enText: any, overrides: any): any => {
   if (!isPlainObject(enText) && !isPlainObject(overrides)) {
@@ -58,31 +59,27 @@ const withZhTW = (enText: any, overrides: any): any => {
   }, {})
 }
 
-// Local Flow texts add app-only fields and retain intentional en/zh overrides.
-lang.en.Flow = { ...enFlow }
-lang.zh.Flow = { ...zhFlow }
-lang['zh-TW'].Flow = withZhTW(enFlow, zhTWFlow)
+// Load messages before creating i18n so the first render has all translations.
+const modules = import.meta.glob<Record<string, { en: string; zh: string }>>('./i18n/*.ts', {
+  eager: true,
+  import: 'default',
+})
 
-// Dynamically import all translation files
-const modules = import.meta.glob('./i18n/*.ts')
-
-// Process each module
-Object.keys(modules).forEach((path) => {
-  const partKey = path.match(/\/(\w+)\.ts$/)?.[1] // retrieve the filename as partial keys
-  if (partKey) {
-    modules[path]().then((mod) => {
-      const tran = mod.default
-      lang.en[partKey] = lang.en[partKey] || {}
-      lang.zh[partKey] = lang.zh[partKey] || {}
-      lang['zh-TW'][partKey] = lang['zh-TW'][partKey] || {}
-      Object.keys(tran).forEach((k) => {
-        const { en, zh } = tran[k]
-        lang.en[partKey][k] = en
-        lang.zh[partKey][k] = zh
-        lang['zh-TW'][partKey][k] = zhTW[partKey]?.[k] ?? lang['zh-TW'][partKey][k] ?? en
-      })
-    })
-  }
+Object.entries(modules).forEach(([path, translations]) => {
+  const partKey = path.slice(path.lastIndexOf('/') + 1, -3)
+  const isFlow = partKey === 'Flow'
+  const enMessages: Record<string, string> = isFlow ? { ...enFlow } : {}
+  const zhMessages: Record<string, string> = isFlow ? { ...zhFlow } : {}
+  const zhTWTexts: Record<string, string> = isFlow ? { ...zhTWFlow } : {}
+  const localZhTW = zhTW[partKey]
+  Object.entries(translations).forEach(([key, { en, zh }]) => {
+    enMessages[key] = en
+    zhMessages[key] = zh
+    zhTWTexts[key] = localZhTW?.[key] ?? zhTWTexts[key] ?? en
+  })
+  lang.en[partKey] = enMessages
+  lang.zh[partKey] = zhMessages
+  lang['zh-TW'][partKey] = isFlow ? { ...enFlow, ...zhTWTexts } : zhTWTexts
 })
 
 // Keep the existing Function namespace backed by shared resources.
@@ -113,13 +110,12 @@ const i18nInstance = createI18n({
   legacy: false,
   messages: lang,
   locale: store.state.lang,
+  fallbackLocale: { 'zh-TW': ['en'], default: ['en'] },
   warnHtmlMessage: false,
 })
 
 export const getLocalMessage = (path: string): string => {
-  const local = i18nInstance.global.locale
-  const messages = i18nInstance.global.messages[local]
-  return get(messages, path)
+  return i18nInstance.global.t(path)
 }
 
 export default i18nInstance

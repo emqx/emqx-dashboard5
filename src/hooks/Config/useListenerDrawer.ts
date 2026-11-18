@@ -260,6 +260,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
     // Handle the custom configs
     if (!props.gatewayName && listenerRecord.value.type !== 'quic') {
       const type = listenerRecord.value.type as 'tcp' | 'ssl' | 'ws' | 'wss'
+      const lowWatermarkRemoved =
+        data.tcp_options?.low_watermark !== undefined &&
+        listenerCustomConfigs.value.tcp_options?.low_watermark === undefined
       const customConfigs = resetCustomConfig(
         cloneDeep(listenerCustomConfigs.value),
         unexposedConfigs[type],
@@ -267,6 +270,9 @@ export default (props: Props, emit: Emit): useListenerDrawerReturns => {
       mergeWith(data, customConfigs, (_value, sourceValue) =>
         Array.isArray(sourceValue) ? cloneDeep(sourceValue) : undefined,
       )
+      if (lowWatermarkRemoved) {
+        data.tcp_options.low_watermark = null
+      }
     }
     if (data.type !== ListenerType.TCP && data.tcp_backend) {
       delete data.tcp_backend

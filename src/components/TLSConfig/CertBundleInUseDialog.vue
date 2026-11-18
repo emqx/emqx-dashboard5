@@ -72,6 +72,7 @@ const moduleToPath: Record<string, string> = {
   cluster_linking: '/cluster-linking',
   schema_registry: '/schema/external',
   listeners: '/listener',
+  dashboard_listeners: '/dashboard-listeners',
   sso: '/sso',
   authorization: '/authorization',
   authentication: '/authentication',
@@ -89,6 +90,7 @@ const labelKeyMap: Record<string, string> = {
   cluster_linking: 'refModuleClusterLinking',
   schema_registry: 'refModuleSchemaRegistry',
   listeners: 'refModuleListener',
+  dashboard_listeners: 'refModuleDashboardListener',
   sso: 'refModuleSSO',
   authorization: 'refModuleAuthorization',
   authentication: 'refModuleAuthentication',
@@ -109,7 +111,7 @@ const getModuleLabel = (module: string, types: string[]): string => {
 const getModule = (path: (string | number)[]) => {
   let m = String(path[0])
   if (m === 'dashboard') {
-    m = String(path[1])
+    m = path[1] === 'listeners' ? 'dashboard_listeners' : String(path[1])
   } else if (m === 'cluster' && path[1] === 'links') {
     m = 'cluster_linking'
   }

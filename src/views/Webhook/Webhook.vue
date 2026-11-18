@@ -14,7 +14,11 @@
           </el-col>
           <el-col v-bind="colProps">
             <div class="flex justify-end">
-              <CreateButton :disabled="isLoading || !$hasPermission('post')" @click="addWebhook" />
+              <NamespaceCreateButton
+                resource="webhook"
+                :disabled="isLoading"
+                @create="addWebhook"
+              />
             </div>
           </el-col>
         </el-row>
@@ -93,9 +97,9 @@
     </template>
     <div v-else class="webhook-placeholder-container">
       <img class="img-placeholder" width="480" :src="placeholderImg" alt="webhook_placeholder" />
-      <el-button type="primary" :disabled="!$hasPermission('post')" @click="addWebhook">
+      <NamespaceCreateButton resource="webhook" @create="addWebhook">
         {{ $t('Base.create') }} Webhook
-      </el-button>
+      </NamespaceCreateButton>
     </div>
   </div>
 </template>
@@ -126,8 +130,8 @@ const { toggleWebhookEnableStatus, deleteLoading, deleteWebhook } = useWebhookIt
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const { getNsParams } = useNsParams()
 
-const addWebhook = () => {
-  router.push({ name: 'webhook-create' })
+const addWebhook = (namespace?: string) => {
+  router.push({ name: 'webhook-create', query: getNsParams(namespace) })
 }
 
 const handleToggleStatus = async (webhook: WebhookItem) => {

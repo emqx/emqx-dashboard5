@@ -373,6 +373,8 @@ const defaultUnexposedConfig = {
 
 const tcpUnexposedOptions = {
   high_watermark: '1MB',
+  // Omit this option to let the backend derive it from high_watermark.
+  low_watermark: undefined,
 }
 
 const sslUnexposedOptions = {
@@ -412,7 +414,10 @@ export const unexposedConfigs = {
   tcp: {
     ...defaultUnexposedConfig,
     parse_unit: 'frame',
-    tcp_options: tcpUnexposedOptions,
+    tcp_options: {
+      ...tcpUnexposedOptions,
+      buffer_retention_strategy: 'packet',
+    },
   },
   ssl: {
     ...defaultUnexposedConfig,

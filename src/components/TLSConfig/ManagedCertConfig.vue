@@ -5,7 +5,7 @@
         <el-select
           v-model="namespace"
           filterable
-          :disabled="!userNamespace"
+          :disabled="globalOnly || !resourceNamespace"
           @change="handleNamespaceChanged"
         >
           <el-option
@@ -51,7 +51,8 @@
     <CreateCertBundleDrawer
       v-model="isCreateDrawerVisible"
       :namespace="selectedNamespace"
-      :global-only="globalOnly || !userNamespace || !isMultiTenancyEnabled"
+      :resource-namespace="resourceNamespace"
+      :global-only="globalOnly || !resourceNamespace || !isMultiTenancyEnabled"
       @submit="handleSubmit"
     />
   </div>
@@ -73,7 +74,7 @@ const props = withDefaults(
     /**
      * If undefined, it is global
      */
-    userNamespace?: string
+    resourceNamespace?: string
     /**
      * not data integration
      */
@@ -130,20 +131,14 @@ const selectedNamespace = computed(() => {
   return namespace.value
 })
 
-const { globalNamespaceOption, getNamespaceOptions: requestNamespaceOptions } =
-  useManagedNamespaceOptions()
-const namespaceOptions = ref<OptionList<NamespaceSelection>>([globalNamespaceOption])
-
-const getNamespaceOptions = async () => {
-  namespaceOptions.value = [globalNamespaceOption]
-  if (isMultiTenancyEnabled.value && props.userNamespace && !props.globalOnly) {
-    const res = await requestNamespaceOptions()
-    if (res.includes(props.userNamespace)) {
-      namespaceOptions.value.push({ label: props.userNamespace, value: props.userNamespace })
-    }
+const { globalNamespaceOption } = useManagedNamespaceOptions()
+const namespaceOptions = computed<OptionList<NamespaceSelection>>(() => {
+  const options: OptionList<NamespaceSelection> = [globalNamespaceOption]
+  if (isMultiTenancyEnabled.value && props.resourceNamespace && !props.globalOnly) {
+    options.push({ label: props.resourceNamespace, value: props.resourceNamespace })
   }
-}
-getNamespaceOptions()
+  return options
+})
 
 const bundleOptions = ref<Array<{ name: string; disabled: boolean }>>([])
 const { getCertBundleList: requestCertBundleList } = useCertBundle()

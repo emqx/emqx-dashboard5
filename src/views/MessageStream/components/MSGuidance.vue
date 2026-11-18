@@ -2,7 +2,7 @@
   <div class="ms-guidance">
     <div class="guidance-content">
       <div class="guidance-text">
-        <h2 class="guidance-title">{{ tl('createFirstMSTitle') }}</h2>
+        <h2 class="guidance-title">{{ tl('createFirstMSTitle') }}<BetaTag /></h2>
         <div class="guidance-description">
           <p>{{ tl('msGuidance') }}</p>
           <template v-if="!enabled">

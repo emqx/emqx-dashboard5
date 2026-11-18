@@ -6,6 +6,7 @@
       :to="item.route"
     >
       {{ item.label }}
+      <BetaTag v-if="item.isBeta" />
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
@@ -19,6 +20,7 @@ import type { RouteLocationRaw } from 'vue-router'
 interface BreadcrumbItem {
   label: string
   route: RouteLocationRaw
+  isBeta: boolean
 }
 
 const route = useRoute()
@@ -111,7 +113,11 @@ const breadcrumbList = computed<Array<BreadcrumbItem>>(() => {
     return []
   }
   const result = uniqueAllMatchRoutes.value.map((route) => {
-    return { label: getBreadcrumbLabel(route), route }
+    return {
+      label: getBreadcrumbLabel(route),
+      route,
+      isBeta: route.name === 'streams' || route.name === 'mqtt-streams',
+    }
   })
   return result
 })

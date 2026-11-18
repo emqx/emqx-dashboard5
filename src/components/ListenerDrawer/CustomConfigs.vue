@@ -19,7 +19,7 @@ import { Listener } from '@/types/listener'
 import { hoconToObject, objectToHocon as sharedObjectToHocon } from '@emqx/shared-ui-utils'
 
 const objectToHocon = (data: any) => {
-  const result = sharedObjectToHocon(data)
+  const result = sharedObjectToHocon(JSON.parse(JSON.stringify(data)))
   if (result === JSON.stringify({})) {
     return ''
   }

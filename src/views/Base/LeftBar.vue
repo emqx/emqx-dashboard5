@@ -52,6 +52,7 @@
             <component v-if="menu.icon" :is="menu.icon" class="menu-icon" />
             <p class="menu-item-title first-level">
               {{ $t(`components.${menu.title}`) }}
+              <BetaTag v-if="menu.path === '/streams'" />
             </p>
           </el-menu-item>
         </template>

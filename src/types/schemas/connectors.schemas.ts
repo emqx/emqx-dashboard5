@@ -243,6 +243,58 @@ export type PutConnectorsId400 = {
 
 export type PutConnectorsId200OneOf = IotdbGetRestapi | IotdbGetThrift
 
+export type PutConnectorsId200 =
+  | BridgeAzureEventHubGetConnector
+  | BridgeCassaGetConnector
+  | BridgeClickhouseGetConnector
+  | BridgeDatalayersGetConnector
+  | BridgeDynamoGetConnector
+  | BridgeGreptimedbGetConnector
+  | BridgeHttpGetConnector
+  | BridgeInfluxdbGetConnector
+  | BridgeKafkaGetConnector
+  | BridgeKinesisGetConnector
+  | BridgeMatrixGetConnector
+  | BridgeMongodbGetConnector
+  | BridgeMysqlGetConnector
+  | BridgeOracleGetConnector
+  | BridgeS3GetConnector
+  | BridgeSqlserverGetConnector
+  | BridgeTablestoreGetConnector
+  | BridgeTimescaleGetConnector
+  | ConfluentGetConnector
+  | ConnectorAlloydbGetConnector
+  | ConnectorAwsTimestreamGetConnector
+  | ConnectorAzureBlobStorageGetConnector
+  | ConnectorAzureEventGridGetConnector
+  | ConnectorBigqueryGetConnector
+  | ConnectorBigtableGetConnector
+  | ConnectorCockroachdbGetConnector
+  | ConnectorCouchbaseGetConnector
+  | ConnectorDiskLogGetConnector
+  | ConnectorDorisGetConnector
+  | ConnectorEmqxTablesGetConnector
+  | ConnectorMqttGetConnector
+  | ConnectorPostgresGetConnector
+  | ConnectorQuasardbGetConnector
+  | ConnectorRedshiftGetConnector
+  | ConnectorS3tablesGetConnector
+  | ConnectorSnowflakeAggregatedGetConnector
+  | ConnectorSnowflakeStreamingGetConnector
+  | ConnectorSyskeeperProxyGet
+  | ElasticsearchGet
+  | GcpPubsubConsumerGetConnector
+  | GcpPubsubProducerGetConnector
+  | KafkaConsumerGetConnector
+  | OpentsConnectorGet
+  | PulsarGet
+  | RabbitmqGet
+  | RedisGetConnector
+  | RocketmqGetConnector
+  | SyskeeperForwarderGet
+  | TdengineConnectorGet
+  | PutConnectorsId200OneOf
+
 export type PutConnectorsIdBodyOneOf = IotdbPutRestapi | IotdbPutThrift
 
 export type PutConnectorsIdBody =
@@ -643,6 +695,7 @@ export interface TdengineConnectorGet {
   pool_size?: number
   resource_opts?: TdengineConnectorConnectorResourceOpts
   server: string
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   status?: TdengineConnectorGetStatus
   status_reason?: string
   tags?: string[]
@@ -1328,6 +1381,7 @@ export interface OpentsConnectorGet {
   pool_size?: number
   resource_opts?: OpentsConnectorConnectorResourceOpts
   server: string
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   status?: OpentsConnectorGetStatus
   status_reason?: string
   summary?: boolean
@@ -1615,25 +1669,6 @@ export const IotdbPutThriftDriver = {
   thrift: 'thrift',
 } as const
 
-export interface IotdbPutThrift {
-  connect_timeout?: string
-  description?: string
-  driver?: IotdbPutThriftDriver
-  enable?: boolean
-  password: string
-  /** @minimum 1 */
-  pool_size?: number
-  protocol_version?: IotdbPutThriftProtocolVersion
-  recv_timeout?: string
-  resource_opts?: IotdbConnectorResourceOpts
-  server: string
-  sql?: IotdbPutThriftSql
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-  username: string
-  zoneId?: string
-}
-
 export type IotdbPutRestapiSql = IotdbSqlDialectTable | IotdbSqlDialectTree
 
 export type IotdbPutRestapiPoolType =
@@ -1664,26 +1699,6 @@ export type IotdbPutRestapiDriver =
 export const IotdbPutRestapiDriver = {
   restapi: 'restapi',
 } as const
-
-export interface IotdbPutRestapi {
-  authentication?: IotdbAuthentication
-  base_url: string
-  connect_timeout?: string
-  description?: string
-  driver?: IotdbPutRestapiDriver
-  enable?: boolean
-  /** @minimum 1 */
-  enable_pipelining?: number
-  iotdb_version?: IotdbPutRestapiIotdbVersion
-  max_inactive?: string
-  /** @minimum 1 */
-  pool_size?: number
-  pool_type?: IotdbPutRestapiPoolType
-  resource_opts?: BridgeHttpConnectorResourceOpts
-  sql?: IotdbPutRestapiSql
-  ssl?: EmqxSslClientOpts
-  tags?: string[]
-}
 
 export type IotdbPostThriftType = (typeof IotdbPostThriftType)[keyof typeof IotdbPostThriftType]
 
@@ -1914,6 +1929,25 @@ export interface IotdbConnectorResourceOpts {
   start_timeout?: string
 }
 
+export interface IotdbPutThrift {
+  connect_timeout?: string
+  description?: string
+  driver?: IotdbPutThriftDriver
+  enable?: boolean
+  password: string
+  /** @minimum 1 */
+  pool_size?: number
+  protocol_version?: IotdbPutThriftProtocolVersion
+  recv_timeout?: string
+  resource_opts?: IotdbConnectorResourceOpts
+  server: string
+  sql?: IotdbPutThriftSql
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  username: string
+  zoneId?: string
+}
+
 export interface IotdbAuthentication {
   password: string
   username: string
@@ -2089,10 +2123,26 @@ export const GcpPubsubConsumerPostConnectorType = {
   gcp_pubsub_consumer: 'gcp_pubsub_consumer',
 } as const
 
-export type GcpPubsubConsumerPostConnectorAuthentication =
-  | GcpPubsubAuthAttachedServiceAccount
-  | GcpPubsubAuthServiceAccountJson
-  | GcpPubsubAuthWif
+export interface GcpPubsubConsumerPostConnector {
+  authentication: GcpPubsubConsumerPostConnectorAuthentication
+  connect_timeout?: string
+  description?: string
+  enable?: boolean
+  max_inactive?: string
+  /** @minimum 0 */
+  max_retries?: number
+  name: string
+  /** @minimum 1 */
+  pipelining?: number
+  /** @minimum 1 */
+  pool_size?: number
+  /** @deprecated */
+  request_timeout?: string
+  resource_opts?: GcpPubsubConsumerConnectorResourceOpts
+  ssl?: EmqxSslClientOpts
+  tags?: string[]
+  type: GcpPubsubConsumerPostConnectorType
+}
 
 export interface GcpPubsubConsumerPostConnector {
   authentication: GcpPubsubConsumerPostConnectorAuthentication
@@ -2182,6 +2232,7 @@ export interface GcpPubsubAuthWifOidcClientCredentials {
   client_secret: string
   endpoint_uri: string
   scope: string
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   type: GcpPubsubAuthWifOidcClientCredentialsType
 }
 
@@ -2231,6 +2282,16 @@ export const GcpPubsubAuthAttachedServiceAccountType = {
 export interface GcpPubsubAuthAttachedServiceAccount {
   type: GcpPubsubAuthAttachedServiceAccountType
 }
+
+export type GcpPubsubConsumerPostConnectorAuthentication =
+  | GcpPubsubAuthAttachedServiceAccount
+  | GcpPubsubAuthServiceAccountJson
+  | GcpPubsubAuthWif
+
+export type GcpPubsubConsumerGetConnectorAuthentication =
+  | GcpPubsubAuthAttachedServiceAccount
+  | GcpPubsubAuthServiceAccountJson
+  | GcpPubsubAuthWif
 
 export type EmqxSslClientOptsVerify =
   (typeof EmqxSslClientOptsVerify)[keyof typeof EmqxSslClientOptsVerify]
@@ -2875,6 +2936,69 @@ export interface ConnectorSnowflakeAggregatedGetConnector {
   tags?: string[]
   type: ConnectorSnowflakeAggregatedGetConnectorType
   username?: string
+}
+
+export type ConnectorSchemaLibClientTlsVerifyPeerVerify =
+  (typeof ConnectorSchemaLibClientTlsVerifyPeerVerify)[keyof typeof ConnectorSchemaLibClientTlsVerifyPeerVerify]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorSchemaLibClientTlsVerifyPeerVerify = {
+  verify_none: 'verify_none',
+  verify_peer: 'verify_peer',
+} as const
+
+export type ConnectorSchemaLibClientTlsVerifyPeerServerNameIndication = 'disable' | string
+
+export type ConnectorSchemaLibClientTlsVerifyPeerPartialChain =
+  (typeof ConnectorSchemaLibClientTlsVerifyPeerPartialChain)[keyof typeof ConnectorSchemaLibClientTlsVerifyPeerPartialChain]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorSchemaLibClientTlsVerifyPeerPartialChain = {
+  false: false,
+  true: true,
+  cacert_from_cacertfile: 'cacert_from_cacertfile',
+  two_cacerts_from_cacertfile: 'two_cacerts_from_cacertfile',
+} as const
+
+export type ConnectorSchemaLibClientTlsVerifyPeerLogLevel =
+  (typeof ConnectorSchemaLibClientTlsVerifyPeerLogLevel)[keyof typeof ConnectorSchemaLibClientTlsVerifyPeerLogLevel]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ConnectorSchemaLibClientTlsVerifyPeerLogLevel = {
+  alert: 'alert',
+  all: 'all',
+  critical: 'critical',
+  debug: 'debug',
+  emergency: 'emergency',
+  error: 'error',
+  info: 'info',
+  none: 'none',
+  notice: 'notice',
+  warning: 'warning',
+} as const
+
+export interface ConnectorSchemaLibClientTlsVerifyPeer {
+  cacertfile?: string
+  /** @deprecated */
+  cacerts?: boolean
+  certfile?: string
+  ciphers?: string[]
+  /** @minimum 0 */
+  depth?: number
+  enable?: boolean
+  hibernate_after?: string
+  keyfile?: string
+  log_level?: ConnectorSchemaLibClientTlsVerifyPeerLogLevel
+  managed_certs?: EmqxManagedCerts
+  middlebox_comp_mode?: boolean
+  partial_chain?: ConnectorSchemaLibClientTlsVerifyPeerPartialChain
+  password?: string
+  reuse_sessions?: boolean
+  secure_renegotiate?: boolean
+  server_name_indication?: ConnectorSchemaLibClientTlsVerifyPeerServerNameIndication
+  verify?: ConnectorSchemaLibClientTlsVerifyPeerVerify
+  verify_peer_ext_key_usage?: string
+  versions?: string[]
 }
 
 export type ConnectorS3tablesS3ClientParamsAccessMethod =
@@ -4100,7 +4224,7 @@ export const ConnectorDatalayersDatalayersParametersDriverType = {
 } as const
 
 export interface ConnectorDatalayersDatalayersParameters {
-  database?: string
+  database: string
   driver_type?: ConnectorDatalayersDatalayersParametersDriverType
   enable_prepared?: boolean
   password?: string
@@ -5233,7 +5357,7 @@ export interface BridgeTablestorePutConnector {
   pool_size?: number
   probe_table_name?: string
   resource_opts?: BridgeTablestoreConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   storage_model_type?: BridgeTablestorePutConnectorStorageModelType
   tags?: string[]
 }
@@ -5301,7 +5425,7 @@ export interface BridgeTablestorePostConnector {
   pool_size?: number
   probe_table_name?: string
   resource_opts?: BridgeTablestoreConnectorResourceOpts
-  ssl?: EmqxSslClientOpts
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   storage_model_type?: BridgeTablestorePostConnectorStorageModelType
   tags?: string[]
   type: BridgeTablestorePostConnectorType
@@ -7008,6 +7132,7 @@ export interface BridgeClickhousePutConnector {
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: BridgeClickhouseConnectorResourceOpts
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   tags?: string[]
   url: string
   username?: string
@@ -7033,6 +7158,7 @@ export interface BridgeClickhousePostConnector {
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: BridgeClickhouseConnectorResourceOpts
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   tags?: string[]
   type: BridgeClickhousePostConnectorType
   url: string
@@ -7081,6 +7207,7 @@ export interface BridgeClickhouseGetConnector {
   /** @minimum 1 */
   pool_size?: number
   resource_opts?: BridgeClickhouseConnectorResourceOpts
+  ssl?: ConnectorSchemaLibClientTlsVerifyPeer
   status?: BridgeClickhouseGetConnectorStatus
   status_reason?: string
   tags?: string[]
