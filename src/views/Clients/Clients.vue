@@ -3,34 +3,20 @@
     <el-form class="search-wrapper" @keyup.enter="handleSearch">
       <el-row :gutter="20">
         <el-col v-bind="colProps">
-          <el-input
+          <ClientSearchInput
             v-model="queryParams.clientid"
+            v-model:search-type="queryParams.clientidSearchType"
             :placeholder="$t('Clients.clientId')"
-            clearable
-            @clear="handleSearch"
-          >
-            <template #prepend>
-              <el-select v-model="queryParams.clientidSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
-              </el-select>
-            </template>
-          </el-input>
+            @search="handleSearch"
+          />
         </el-col>
         <el-col v-bind="colProps">
-          <el-input
+          <ClientSearchInput
             v-model="queryParams.username"
+            v-model:search-type="queryParams.usernameSearchType"
             :placeholder="$t('Clients.username')"
-            clearable
-            @clear="handleSearch"
-          >
-            <template #prepend>
-              <el-select v-model="queryParams.usernameSearchType">
-                <el-option :label="$t('Clients.exactQuery')" :value="SearchType.Exact" />
-                <el-option :label="$t('Clients.fuzzySearch')" :value="SearchType.Fuzzy" />
-              </el-select>
-            </template>
-          </el-input>
+            @search="handleSearch"
+          />
         </el-col>
         <el-col v-bind="colProps">
           <el-input
@@ -217,6 +203,7 @@ import {
 import type { ClientListQueryParams } from './clientListQuery'
 import ClientFieldSelect from './components/ClientFieldSelect.vue'
 import ClientInfoItem from './components/ClientInfoItem.vue'
+import ClientSearchInput from './components/ClientSearchInput.vue'
 
 const { tl, t } = useI18nTl('Clients')
 const { state, commit } = useStore()
@@ -259,7 +246,7 @@ const specialColumnWidth = new Map([
 const getColumnWidth = (column: string) => specialColumnWidth.get(column) || 150
 
 const handleSearch = async () => {
-  params.value = genQueryParams(queryParams.value)
+  params.value = genClientListQueryParams(queryParams.value)
   resetPage()
   loadNodeClients()
 }
@@ -297,10 +284,6 @@ const handleSelectedColumnChanged = (val: Array<string>) => {
   loadNodeClients()
 }
 
-const genQueryParams = (params: Record<string, any>): ClientListQueryParams => {
-  return genClientListQueryParams(params)
-}
-
 const handlePageChange = (no: number) => {
   const isBack = no < page.value
   page.value = no
@@ -313,20 +296,12 @@ const handleSizeChange = (size: number) => {
 }
 
 const handleExactSearchClient = async (
-  params: Record<string, any>,
+  clientId: string,
+  filters: ClientListQueryParams,
 ): Promise<ListDataWithCursor<Client>> => {
-  try {
-    const {
-      clientid,
-
-      ...restParams
-    } = params
-    const data = (await exactSearchClient(clientid)) as unknown as Client
-    const isMatchOther = doesClientMatchClientListQuery(data, restParams)
-    return Promise.resolve({ data: isMatchOther ? [data] : [], meta: {} })
-  } catch (error) {
-    return Promise.reject(error)
-  }
+  const data = (await exactSearchClient(clientId)) as unknown as Client
+  const matches = doesClientMatchClientListQuery(data, filters)
+  return { data: matches ? [data] : [], meta: {} }
 }
 
 const getQueryDataAllParams = () => ({
@@ -335,10 +310,12 @@ const getQueryDataAllParams = () => ({
   fields: getClientFields(),
 })
 
-const getQueryFunc = (params: Record<string, any>): Promise<ListDataWithCursor<Client>> =>
-  params.clientid
-    ? handleExactSearchClient(params)
+const getQueryFunc = (params: ClientListQueryParams): Promise<ListDataWithCursor<Client>> => {
+  const { clientid, ...filters } = params
+  return clientid?.length === 1
+    ? handleExactSearchClient(clientid[0], filters)
     : (listClients(params) as unknown as Promise<ListDataWithCursor<Client>>)
+}
 
 const loadNodeClients = async (isBack = false) => {
   lockTable.value = true
@@ -374,7 +351,12 @@ const getParamsFromQuery = () => {
   setCursor(page.value, pageParams.cursor)
   if (filterParams && Object.keys(filterParams).length > 0) {
     Object.keys(filterParams).forEach((key) => {
-      if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
+      if (['clientid', 'username', 'like_clientid', 'like_username'].includes(key)) {
+        const isFuzzy = key.startsWith('like_')
+        const field = isFuzzy ? key.slice(5) : key
+        queryParams.value[`${field}SearchType`] = isFuzzy ? SearchType.Fuzzy : SearchType.Exact
+        queryParams.value[field] = filterParams[key]
+      } else if (key.indexOf(CONNECTED_AT_SUFFIX) === -1) {
         queryParams.value[key] = filterParams[key]
       } else {
         queryParams.value.connected_at = filterParams[key]
@@ -383,7 +365,7 @@ const getParamsFromQuery = () => {
       }
     })
   }
-  params.value = genQueryParams(queryParams.value)
+  params.value = genClientListQueryParams(queryParams.value)
   if (
     queryParams.value.node ||
     queryParams.value.ip_address ||
@@ -577,6 +559,8 @@ onUnmounted(() => {
     flex-shrink: 0;
   }
   .el-input-group {
+    --el-input-border-radius: var(--el-border-radius-base);
+
     .el-input-group__prepend {
       box-shadow:
         1px 0 0 0 var(--color-border-primary) inset,

@@ -1,15 +1,13 @@
 import { getSSORunning, postSSOLogin } from '@/api/sso'
 import type { SSOLoginResult } from '@/api/sso'
-import {
-  DashboardSsoBackendStatusBackend,
-  DashboardSamlBackend,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { LDAPLoginRequest } from '@/types/sso'
+import { SSOBackend } from '@/types/typeAlias'
 
 export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => string } => {
   const backendsLabelMap: Map<string, string> = new Map([
-    [DashboardSsoBackendStatusBackend.ldap, 'LDAP'],
-    [DashboardSsoBackendStatusBackend.saml, 'SAML 2.0'],
-    [DashboardSsoBackendStatusBackend.oidc, 'OIDC'],
+    [SSOBackend.ldap, 'LDAP'],
+    [SSOBackend.saml, 'SAML 2.0'],
+    [SSOBackend.oidc, 'OIDC'],
   ])
   const getBackendLabel = (backend: string): string => backendsLabelMap.get(backend) || ''
 
@@ -17,12 +15,6 @@ export const useSSOBackendsLabel = (): { getBackendLabel: (backend: string) => s
 }
 
 type LoginBackend = 'local' | 'ldap'
-
-interface LdapLoginCredentials {
-  username: string
-  password: string
-  backend: LoginBackend
-}
 
 interface LdapLoginResult {
   username: string | undefined
@@ -37,25 +29,25 @@ export default function useSSO(): {
   currentLoginBackend: Ref<LoginBackend>
   isSSOLoading: Ref<boolean>
   enabledSSOList: Ref<Array<string>>
-  ldapRecord: LdapLoginCredentials
+  ldapRecord: LDAPLoginRequest
   hasSSOEnabled: ComputedRef<boolean>
   ldapLogin: () => Promise<LdapLoginResult>
   getEnabledSSO: () => Promise<void>
 } {
   const enabledSSOList = ref<Array<string>>([])
   const isSSOLoading = ref(false)
-  const ldapRecord = reactive<LdapLoginCredentials>({
+  const ldapRecord = reactive<LDAPLoginRequest>({
     username: '',
     password: '',
     backend: 'ldap',
   })
   const currentLoginBackend = ref<LoginBackend>('local')
 
-  const samlLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.saml}`
-  const samlBackend = ref(DashboardSamlBackend.saml)
+  const samlLoginUrl = `${API_BASE_URL}/sso/login/${SSOBackend.saml}`
+  const samlBackend = ref(SSOBackend.saml)
 
-  const oidcLoginUrl = `${API_BASE_URL}/sso/login/${DashboardSsoBackendStatusBackend.oidc}`
-  const oidcBackend = ref(DashboardSsoBackendStatusBackend.oidc)
+  const oidcLoginUrl = `${API_BASE_URL}/sso/login/${SSOBackend.oidc}`
+  const oidcBackend = ref(SSOBackend.oidc)
 
   const hasSSOEnabled = computed(() => enabledSSOList.value.length > 0)
 
@@ -70,8 +62,7 @@ export default function useSSO(): {
   const ldapLogin = async (): Promise<LdapLoginResult> => {
     try {
       isSSOLoading.value = true
-      // Type assertion needed because auto-generated types don't match actual API requirements
-      const res = await postSSOLogin('ldap', ldapRecord as any)
+      const res = await postSSOLogin('ldap', ldapRecord)
       const { username } = ldapRecord
       return Promise.resolve({ username, response: res })
     } catch (error) {

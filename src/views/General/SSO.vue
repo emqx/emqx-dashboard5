@@ -31,20 +31,18 @@
 
 <script setup lang="ts">
 import { getSSOList } from '@/api/sso'
-import {
-  DashboardSsoBackendStatus,
-  DashboardSsoBackendStatusBackend,
-} from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { SSOBackendStatus } from '@/types/sso'
+import { SSOBackend } from '@/types/typeAlias'
 
-type SSOItem = DashboardSsoBackendStatus & { isCreated: boolean }
+type SSOItem = SSOBackendStatus & { isCreated: boolean }
 
 const { t, tl } = useI18nTl('General')
 const router = useRouter()
 
-const createdSSOList: Ref<Array<DashboardSsoBackendStatus>> = ref([])
+const createdSSOList: Ref<Array<SSOBackendStatus>> = ref([])
 const isLoading = ref(false)
 
-const SSOBackendList = Object.entries(DashboardSsoBackendStatusBackend).map(([, value]) => value)
+const SSOBackendList = Object.entries(SSOBackend).map(([, value]) => value)
 const SSOList: ComputedRef<Array<SSOItem>> = computed(() => {
   return SSOBackendList.map((backend) => {
     const createdItem = createdSSOList.value.find((item) => item.backend === backend)

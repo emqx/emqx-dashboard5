@@ -1,6 +1,7 @@
 import store from '@/store'
 
 import { createI18n } from 'vue-i18n'
+import type { DefineLocaleMessage } from 'vue-i18n'
 
 import zhLocale from 'element-plus/es/locale/lang/zh-cn'
 import enLocale from 'element-plus/es/locale/lang/en'
@@ -15,7 +16,7 @@ import {
 
 import actionText from '@/schemaText/actionText/index'
 
-const lang: { [key: string]: any } = {
+const lang: Record<'en' | 'zh', DefineLocaleMessage> = {
   en: {
     ...enLocale,
   },
@@ -24,24 +25,22 @@ const lang: { [key: string]: any } = {
   },
 }
 
-// Dynamically import all translation files
-const modules = import.meta.glob('./i18n/*.ts')
+// Load messages before creating i18n so the first render has all translations.
+const modules = import.meta.glob<Record<string, { en: string; zh: string }>>('./i18n/*.ts', {
+  eager: true,
+  import: 'default',
+})
 
-// Process each module
-Object.keys(modules).forEach((path) => {
-  const partKey = path.match(/\/(\w+)\.ts$/)?.[1] // retrieve the filename as partial keys
-  if (partKey) {
-    modules[path]().then((mod) => {
-      const tran = mod.default
-      lang.en[partKey] = lang.en[partKey] || {}
-      lang.zh[partKey] = lang.zh[partKey] || {}
-      Object.keys(tran).forEach((k) => {
-        const { en, zh } = tran[k]
-        lang.en[partKey][k] = en
-        lang.zh[partKey][k] = zh
-      })
-    })
-  }
+Object.entries(modules).forEach(([path, translations]) => {
+  const partKey = path.slice(path.lastIndexOf('/') + 1, -3)
+  const enMessages: Record<string, string> = {}
+  const zhMessages: Record<string, string> = {}
+  Object.entries(translations).forEach(([key, { en, zh }]) => {
+    enMessages[key] = en
+    zhMessages[key] = zh
+  })
+  lang.en[partKey] = enMessages
+  lang.zh[partKey] = zhMessages
 })
 
 lang.en.ConfigSchema = schemaTextEn
@@ -61,9 +60,7 @@ const i18nInstance = createI18n({
 })
 
 export const getLocalMessage = (path: string): string => {
-  const local = i18nInstance.global.locale
-  const messages = i18nInstance.global.messages[local]
-  return get(messages, path)
+  return i18nInstance.global.t(path)
 }
 
 export default i18nInstance

@@ -1,7 +1,12 @@
-import { LoginResponse } from '@/types/typeAlias'
+import type { LoginResponse } from '@/types/typeAlias'
 
 export default (): {
-  updateBaseInfo: (username: string, info: LoginResponse, backend?: string) => void
+  updateBaseInfo: (
+    username: string,
+    info: LoginResponse,
+    backend?: string,
+    mfaEnabled?: boolean,
+  ) => void
 } => {
   const { commit } = useStore()
 
@@ -9,8 +14,9 @@ export default (): {
     username: string,
     { token, role, namespace }: LoginResponse,
     backend?: string,
+    mfaEnabled?: boolean,
   ) => {
-    commit('UPDATE_USER_INFO', { token, username, role, namespace })
+    commit('UPDATE_USER_INFO', { token, username, role, namespace, mfaEnabled })
     if (backend) {
       commit('UPDATE_LOGIN_BACKEND', backend)
     }

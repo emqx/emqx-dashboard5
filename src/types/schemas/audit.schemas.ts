@@ -114,6 +114,8 @@ export const AuditAuditOperationResult = {
   success: 'success',
 } as const
 
+export type AuditAuditOperationDetails = { [key: string]: unknown }
+
 export type AuditAuditHttpMethod = (typeof AuditAuditHttpMethod)[keyof typeof AuditAuditHttpMethod]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -145,6 +147,7 @@ export interface AuditAudit {
   http_request?: AuditHttpRequest
   http_status_code?: number
   node?: string
+  operation_details?: AuditAuditOperationDetails
   operation_id?: string
   operation_result?: AuditAuditOperationResult
   operation_type?: string
