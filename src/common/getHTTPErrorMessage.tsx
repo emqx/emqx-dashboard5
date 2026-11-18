@@ -35,14 +35,15 @@ const getStructuredErrorBody = (data: AxiosResponse['data'], status: number): VN
       return undefined
     }
 
-    const { t, te } = i18n.global as any
+    const { t, te, locale } = i18n.global
     const tl = (key: string) => t(`Base.${key}`)
 
     const { kind, path, matched_type, ...others } = obj
     const sortedObj: EMQXErrorMessage = { ...others }
 
-    const withKindLabel = te('HTTPError.kind_' + kind)
-    const errorKindLabel = withKindLabel ? t('HTTPError.kind_' + kind) : ''
+    const kindKey = `HTTPError.kind_${kind}`
+    const withKindLabel = te(kindKey, locale.value)
+    const errorKindLabel = withKindLabel ? t(kindKey) : ''
     if (withKindLabel) {
       delete sortedObj.kind
     }

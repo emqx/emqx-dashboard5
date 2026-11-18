@@ -32,7 +32,6 @@
       </template>
       <el-input v-model="formData.filter" />
     </el-form-item>
-    <!-- TODO: fix type error -->
     <CommonTLSConfig
       v-if="formData.ssl"
       class="tls-config-form"
@@ -44,11 +43,11 @@
 </template>
 
 <script setup lang="ts">
-import { EmqxDashboardSsoLdapLdap } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { LDAPForm } from '@/types/typeAlias'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<EmqxDashboardSsoLdapLdap>,
+    type: Object as PropType<LDAPForm>,
     default: () => ({}),
   },
   isEdit: {

@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import { FormRules } from '@/types/common'
-import { EmqxDashboardSsoSamlSaml } from '@/types/schemas/dashboardSingleSignOn.schemas'
+import type { SAMLForm } from '@/types/typeAlias'
 import { CopyDocument } from '@element-plus/icons-vue'
 
 const SAML_SSO_PATH = '/api/v5/sso/saml/acs'
@@ -87,7 +87,7 @@ const SAML_SSO_METADATA_PATH = '/api/v5/sso/saml/metadata'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<EmqxDashboardSsoSamlSaml>,
+    type: Object as PropType<SAMLForm>,
     default: () => ({}),
   },
   isEdit: {

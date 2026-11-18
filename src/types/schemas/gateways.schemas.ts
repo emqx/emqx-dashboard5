@@ -100,33 +100,6 @@ export type GetGatewaysParams = {
   status?: GetGatewaysStatus
 }
 
-export type GatewayWebsocketPiggyback =
-  (typeof GatewayWebsocketPiggyback)[keyof typeof GatewayWebsocketPiggyback]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GatewayWebsocketPiggyback = {
-  multiple: 'multiple',
-  single: 'single',
-} as const
-
-export type GatewayWebsocketMaxFrameSize = number | 'infinity'
-
-export interface GatewayWebsocket {
-  allow_origin_absence?: boolean
-  check_origin_enable?: boolean
-  check_origins?: string
-  compress?: boolean
-  deflate_opts?: EmqxDeflateOpts
-  fail_if_no_subprotocol?: boolean
-  idle_timeout?: string
-  max_frame_size?: GatewayWebsocketMaxFrameSize
-  path?: string
-  piggyback?: GatewayWebsocketPiggyback
-  proxy_address_header?: string
-  proxy_port_header?: string
-  supported_subprotocols?: string
-}
-
 export interface GatewayUdpOpts {
   active_n?: number
   buffer?: string
@@ -248,6 +221,33 @@ export interface GatewayProtocol {
   max_control_line?: number
   /** @minimum 0 */
   max_payload_size?: number
+}
+
+export type GatewayNatsWebsocketPiggyback =
+  (typeof GatewayNatsWebsocketPiggyback)[keyof typeof GatewayNatsWebsocketPiggyback]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayNatsWebsocketPiggyback = {
+  multiple: 'multiple',
+  single: 'single',
+} as const
+
+export type GatewayNatsWebsocketMaxFrameSize = number | 'infinity'
+
+export interface GatewayNatsWebsocket {
+  allow_origin_absence?: boolean
+  check_origin_enable?: boolean
+  check_origins?: string
+  compress?: boolean
+  deflate_opts?: EmqxDeflateOpts
+  fail_if_no_subprotocol?: boolean
+  idle_timeout?: string
+  max_frame_size?: GatewayNatsWebsocketMaxFrameSize
+  path?: string
+  piggyback?: GatewayNatsWebsocketPiggyback
+  proxy_address_header?: string
+  proxy_port_header?: string
+  supported_subprotocols?: string
 }
 
 export interface GatewayMqttsnPredefined {
@@ -486,6 +486,33 @@ export interface GatewayAnonymousFalse {
   allow_anonymous: false
   authentication: string
   registry: string
+}
+
+export type GatewayOcppWebsocketPiggyback =
+  (typeof GatewayOcppWebsocketPiggyback)[keyof typeof GatewayOcppWebsocketPiggyback]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GatewayOcppWebsocketPiggyback = {
+  multiple: 'multiple',
+  single: 'single',
+} as const
+
+export type GatewayOcppWebsocketMaxFrameSize = number | 'infinity'
+
+export interface GatewayOcppWebsocket {
+  allow_origin_absence?: boolean
+  check_origin_enable?: boolean
+  check_origins?: string
+  compress?: boolean
+  deflate_opts?: EmqxDeflateOpts
+  fail_if_no_subprotocol?: boolean
+  idle_timeout?: string
+  max_frame_size?: GatewayOcppWebsocketMaxFrameSize
+  path?: string
+  piggyback?: GatewayOcppWebsocketPiggyback
+  proxy_address_header?: string
+  proxy_port_header?: string
+  supported_subprotocols?: string
 }
 
 export type GatewayOcppUpstreamTopicOverrideMapping = {
@@ -819,65 +846,6 @@ export interface EmqxDeflateOpts {
   strategy?: EmqxDeflateOptsStrategy
 }
 
-export type EmqxGatewayApiWssListenerType =
-  (typeof EmqxGatewayApiWssListenerType)[keyof typeof EmqxGatewayApiWssListenerType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiWssListenerType = {
-  wss: 'wss',
-} as const
-
-export type EmqxGatewayApiWssListenerMaxConnections = 'infinity' | number
-
-export interface EmqxGatewayApiWssListener {
-  acceptors?: number
-  access_rules?: string[]
-  bind?: string
-  enable?: boolean
-  enable_authn?: boolean
-  id?: string
-  max_conn_rate?: number
-  max_connections?: EmqxGatewayApiWssListenerMaxConnections
-  mountpoint?: string
-  name?: string
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  running?: boolean
-  ssl_options?: EmqxListenerWssOpts
-  tcp_options?: EmqxTcpOpts
-  type?: EmqxGatewayApiWssListenerType
-  websocket?: GatewayWebsocket
-}
-
-export type EmqxGatewayApiWsListenerType =
-  (typeof EmqxGatewayApiWsListenerType)[keyof typeof EmqxGatewayApiWsListenerType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EmqxGatewayApiWsListenerType = {
-  ws: 'ws',
-} as const
-
-export type EmqxGatewayApiWsListenerMaxConnections = 'infinity' | number
-
-export interface EmqxGatewayApiWsListener {
-  acceptors?: number
-  access_rules?: string[]
-  bind?: string
-  enable?: boolean
-  enable_authn?: boolean
-  id?: string
-  max_conn_rate?: number
-  max_connections?: EmqxGatewayApiWsListenerMaxConnections
-  mountpoint?: string
-  name?: string
-  proxy_protocol?: boolean
-  proxy_protocol_timeout?: string
-  running?: boolean
-  tcp_options?: EmqxTcpOpts
-  type?: EmqxGatewayApiWsListenerType
-  websocket?: GatewayWebsocket
-}
-
 export type EmqxGatewayApiUdpListenerType =
   (typeof EmqxGatewayApiUdpListenerType)[keyof typeof EmqxGatewayApiUdpListenerType]
 
@@ -999,7 +967,9 @@ export const EmqxGatewayApiOcppMessageFormatChecking = {
   all: 'all',
 } as const
 
-export type EmqxGatewayApiOcppListenersItem = EmqxGatewayApiWssListener | EmqxGatewayApiWsListener
+export type EmqxGatewayApiOcppListenersItem =
+  | EmqxGatewayApiOcppWssListener
+  | EmqxGatewayApiOcppWsListener
 
 export interface EmqxGatewayApiOcpp {
   clientinfo_override?: GatewayClientinfoOverride
@@ -1018,6 +988,65 @@ export interface EmqxGatewayApiOcpp {
   upstream?: GatewayOcppUpstream
 }
 
+export type EmqxGatewayApiNatsWssListenerType =
+  (typeof EmqxGatewayApiNatsWssListenerType)[keyof typeof EmqxGatewayApiNatsWssListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiNatsWssListenerType = {
+  wss: 'wss',
+} as const
+
+export type EmqxGatewayApiNatsWssListenerMaxConnections = 'infinity' | number
+
+export interface EmqxGatewayApiNatsWssListener {
+  acceptors?: number
+  access_rules?: string[]
+  bind?: string
+  enable?: boolean
+  enable_authn?: boolean
+  id?: string
+  max_conn_rate?: number
+  max_connections?: EmqxGatewayApiNatsWssListenerMaxConnections
+  mountpoint?: string
+  name?: string
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  running?: boolean
+  ssl_options?: EmqxListenerWssOpts
+  tcp_options?: EmqxTcpOpts
+  type?: EmqxGatewayApiNatsWssListenerType
+  websocket?: GatewayNatsWebsocket
+}
+
+export type EmqxGatewayApiNatsWsListenerType =
+  (typeof EmqxGatewayApiNatsWsListenerType)[keyof typeof EmqxGatewayApiNatsWsListenerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EmqxGatewayApiNatsWsListenerType = {
+  ws: 'ws',
+} as const
+
+export type EmqxGatewayApiNatsWsListenerMaxConnections = 'infinity' | number
+
+export interface EmqxGatewayApiNatsWsListener {
+  acceptors?: number
+  access_rules?: string[]
+  bind?: string
+  enable?: boolean
+  enable_authn?: boolean
+  id?: string
+  max_conn_rate?: number
+  max_connections?: EmqxGatewayApiNatsWsListenerMaxConnections
+  mountpoint?: string
+  name?: string
+  proxy_protocol?: boolean
+  proxy_protocol_timeout?: string
+  running?: boolean
+  tcp_options?: EmqxTcpOpts
+  type?: EmqxGatewayApiNatsWsListenerType
+  websocket?: GatewayNatsWebsocket
+}
+
 export type EmqxGatewayApiNatsName =
   (typeof EmqxGatewayApiNatsName)[keyof typeof EmqxGatewayApiNatsName]
 
@@ -1027,8 +1056,8 @@ export const EmqxGatewayApiNatsName = {
 } as const
 
 export type EmqxGatewayApiNatsListenersItem =
-  | EmqxGatewayApiWssListener
-  | EmqxGatewayApiWsListener
+  | EmqxGatewayApiNatsWssListener
+  | EmqxGatewayApiNatsWsListener
   | EmqxGatewayApiSslListener
   | EmqxGatewayApiTcpListener
 
@@ -1214,7 +1243,7 @@ export type EmqxGatewayApiGatewayNodeStatusNode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmqxGatewayApiGatewayNodeStatusNode = {
-  'emqx@1721704': 'emqx@172.17.0.4',
+  'emqx@1721706': 'emqx@172.17.0.6',
 } as const
 
 export interface EmqxGatewayApiGatewayNodeStatus {

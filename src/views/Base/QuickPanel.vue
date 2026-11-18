@@ -90,7 +90,7 @@ const generateMenuItems = (totalRoutes: Array<RouteRecordRaw>): Array<MenuItem> 
       const path = `${parent?.path ? parent.path : ''}${parent?.path && route.path ? '/' : ''}${
         route.path
       }`
-      const label = getRouteLabel(route)
+      const label = getRouteLabel(route) ?? path
       const { parentLabel, blockTitle } = findPathParentAndBlock(path)
       ret.push({ path, name: route.name, label, parentLabel, blockTitle })
     }

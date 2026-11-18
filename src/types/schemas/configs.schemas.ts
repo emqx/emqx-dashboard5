@@ -1467,6 +1467,7 @@ export interface DashboardDashboard {
   hwmark_expire_time?: string
   listeners?: DashboardListeners
   password_expired_time?: string
+  show_preview_version?: boolean
   sso?: DashboardSso
   swagger_support?: boolean
   token_expired_time?: string

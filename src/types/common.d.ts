@@ -7,6 +7,8 @@ export interface UserInfo {
   role: 'viewer' | 'administrator'
   username: string
   token: string
+  namespace?: string | null
+  mfaEnabled?: boolean
 }
 
 export interface VersionInfo {

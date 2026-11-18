@@ -8,7 +8,7 @@ import {
 } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import getErrorMessage from '@/common/getHTTPErrorMessage'
-import i18n from '@/i18n'
+import { getLocalMessage } from '@/i18n'
 import { toLogin } from '@/router'
 import store from '@/store'
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
@@ -124,7 +124,6 @@ axios.interceptors.response.use(
       setProgressBarDone()
     }
 
-    const t: (key: string) => string = (i18n.global as any).t
     //throttle concurrent responses with unique status code
     if (error.response) {
       if (error.response.data instanceof Blob) {
@@ -141,7 +140,7 @@ axios.interceptors.response.use(
           if (doNotPopupAfterPwdChanged) {
             store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
           } else {
-            ElNotification.error(t('Base.tokenExpiredMsg'))
+            ElNotification.error(getLocalMessage('Base.tokenExpiredMsg'))
           }
           toLogin()
           // reset set, otherwise will not popup error msg
@@ -149,7 +148,7 @@ axios.interceptors.response.use(
           return Promise.reject(error)
         }
         if (isUnauthorizedRole(status, data)) {
-          data.message = t('Base.unauthorizedRole')
+          data.message = getLocalMessage('Base.unauthorizedRole')
         }
         // some special cases
         const handleErrorSelf =
@@ -158,7 +157,7 @@ axios.interceptors.response.use(
           error.config.errorsHandleCustom.includes(status)
         if (!handleErrorSelf) {
           if (data.code === NAME_PWD_ERROR) {
-            ElNotification.error(t('Base.namePwdError'))
+            ElNotification.error(getLocalMessage('Base.namePwdError'))
           } else if (ERROR_CODE_HANDLE_BY_PAGE.includes(data.code)) {
             // do nothing, leave it to the page to do the rest of the processing
           } else {
@@ -177,7 +176,7 @@ axios.interceptors.response.use(
       }
       if (!respSet.has(0)) {
         if (!doNotPopupError) {
-          CustomMessage.error(t('Base.networkError'))
+          CustomMessage.error(getLocalMessage('Base.networkError'))
         }
         respSet.add(0)
       }

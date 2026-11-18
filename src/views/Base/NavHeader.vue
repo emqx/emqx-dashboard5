@@ -103,6 +103,12 @@
                 <span class="font-medium">{{ user.username }}</span>
               </div>
             </el-dropdown-item>
+            <el-dropdown-item v-if="isLocalUser" command="changePassword">
+              {{ $t('General.changePassword') }}
+            </el-dropdown-item>
+            <el-dropdown-item command="mfa">
+              {{ $t('General.mfaSettings') }}
+            </el-dropdown-item>
             <el-dropdown-item divided command="users">
               <Users class="w-4 h-4 mr-2" />
               {{ $t('components.usersManagement') }}
@@ -116,11 +122,16 @@
       </el-dropdown>
     </div>
     <help v-model="showHelp" />
+    <CurrentUserPasswordDialog v-model="showPasswordDialog" :username="user.username" />
+    <UserMFASettingDialog v-model="showMfaDialog" :user="currentAccount" self-service />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { getClusterNodes, loadAlarm } from '@/api/common'
+import { UserMFA } from '@/types/typeAlias'
+import UserMFASettingDialog from '../General/components/UserMFASettingDialog.vue'
+import CurrentUserPasswordDialog from './components/CurrentUserPasswordDialog.vue'
 import Settings from '../Settings/Settings.vue'
 import {
   SquarePen,
@@ -142,6 +153,8 @@ const emit = defineEmits<{
 }>()
 
 const showHelp = ref(false)
+const showPasswordDialog = ref(false)
+const showMfaDialog = ref(false)
 const store = useStore()
 const { t } = useI18n()
 const router = useRouter()
@@ -160,6 +173,15 @@ const clusterDescDisplay = computed(() => {
 })
 const user = computed(() => {
   return store.state.user
+})
+const isLocalUser = computed(() => store.state.loginBackend === 'local')
+const currentAccount = computed(() => {
+  const { username, mfaEnabled } = user.value
+  return {
+    username,
+    backend: store.state.loginBackend,
+    mfa: mfaEnabled === undefined ? undefined : mfaEnabled ? UserMFA.totp : UserMFA.none,
+  }
 })
 const alertText = computed(() => {
   return alertCount.value > 0
@@ -215,6 +237,14 @@ const logout = () => {
 
 const handleDropdownCommand = (command: string) => {
   if (!command) {
+    return
+  }
+  if (command === 'changePassword') {
+    showPasswordDialog.value = true
+    return
+  }
+  if (command === 'mfa') {
+    showMfaDialog.value = true
     return
   }
   if (command === 'logout') {
