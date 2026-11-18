@@ -3316,7 +3316,7 @@ export const ConnectorDatalayersDatalayersParametersDriverType = {
 } as const
 
 export interface ConnectorDatalayersDatalayersParameters {
-  database?: string
+  database: string
   driver_type?: ConnectorDatalayersDatalayersParametersDriverType
   enable_prepared?: boolean
   password?: string

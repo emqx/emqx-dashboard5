@@ -240,7 +240,7 @@ const emit = defineEmits<{
   (e: 'submitted'): void
 }>()
 
-const { t, te } = useI18n()
+const { t, te, locale } = useI18n()
 const store = useStore()
 const isNamespaceUser = computed(() => store.getters.isNamespaceUser)
 const tl = (key: string, collection = 'APIKey') => {
@@ -452,12 +452,12 @@ const handleRoleChanged = () => {
 
 const getScopeLabel = (name: string): string => {
   const key = `APIKey.scopeLabel_${name}`
-  return te(key) ? t(key) : titleCase(name)
+  return te(key, locale.value) ? t(key) : titleCase(name)
 }
 
 const getScopeDesc = (name: string): string => {
   const key = `APIKey.scopeDesc_${name}`
-  return te(key) ? t(key) : name
+  return te(key, locale.value) ? t(key) : name
 }
 
 const todayStartTime = new Date().setHours(0, 0, 0, 0)

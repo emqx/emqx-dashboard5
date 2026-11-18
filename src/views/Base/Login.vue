@@ -158,7 +158,7 @@
             <p class="tip">{{ t('Base.otherMethodsLogin') }}</p>
             <div class="buttons-container vertical-align-center">
               <el-button
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.ldap)"
+                v-if="enabledSSOList.includes(SSOBackend.ldap)"
                 link
                 type="info"
                 @click="currentLoginBackend = 'ldap'"
@@ -167,7 +167,7 @@
               </el-button>
               <!-- for call api by browser -->
               <form
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.saml)"
+                v-if="enabledSSOList.includes(SSOBackend.saml)"
                 :action="samlLoginUrl"
                 method="post"
                 class="form-sso"
@@ -185,7 +185,7 @@
               </form>
               <!-- for call api by browser -->
               <form
-                v-if="enabledSSOList.includes(DashboardSsoBackendStatusBackend.oidc)"
+                v-if="enabledSSOList.includes(SSOBackend.oidc)"
                 :action="oidcLoginUrl"
                 method="post"
                 class="form-sso"
@@ -330,8 +330,8 @@ import { changePassword } from '@/api/function'
 import { postSSOmfaSetupInfo, postSSOmfaSetup, postSSOmfaVerify } from '@/api/sso'
 import { LOGIN_LOCKED, MFA_REQUIRED } from '@/common/customErrorCode'
 import { toLogin } from '@/router'
-import { DashboardSsoBackendStatusBackend } from '@/types/schemas/dashboardSingleSignOn.schemas'
-import { LoginResponse } from '@/types/typeAlias'
+import type { SSOmfaPending } from '@/store'
+import { SSOBackend, type LoginResponse } from '@/types/typeAlias'
 import { ArrowLeft, CopyDocument } from '@element-plus/icons-vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -445,6 +445,7 @@ const FormCom = ref()
 const PwdFormCom = ref()
 
 const loginMethod = ref('')
+const mfaChallengeUsername = ref('')
 const show2FAInput = computed(() => loginMethod.value === 'totp')
 const showTotpSecret = ref(false)
 const totpSecret = ref('')
@@ -460,6 +461,7 @@ const twoFARecord = reactive({ authCode: '' })
 const twoFARules = { authCode: authCodeRule }
 
 const resetMFAData = () => {
+  mfaChallengeUsername.value = ''
   loginMethod.value = ''
   showTotpSecret.value = false
 }
@@ -497,8 +499,8 @@ const checkPasswordChange = () => {
 }
 
 const { updateBaseInfo } = useUpdateBaseInfo()
-const updateStoreInfo = (username: string, data: LoginResponse) =>
-  updateBaseInfo(username, data, currentLoginBackend.value)
+const updateStoreInfo = (username: string, data: LoginResponse, mfaEnabled?: boolean) =>
+  updateBaseInfo(username, data, currentLoginBackend.value, mfaEnabled)
 
 let timerForHideLoginLockedAlert: number | undefined
 const resetTimerForHideLoginLockedAlert = () => {
@@ -526,10 +528,16 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
   const mfa_token = user.mfa_token || undefined
   try {
     const res = await loginApi({ username, password, mfa_token })
+    // A code alone is not proof of MFA: the backend may ignore it when MFA is off.
+    const mfaEnabled = mfa_token
+      ? mfaChallengeUsername.value === username
+        ? true
+        : undefined
+      : false
     resetMFAData()
 
     updatePasswordData(user, res.password_expire_in_seconds)
-    updateStoreInfo(username, res)
+    updateStoreInfo(username, res, mfaEnabled)
 
     checkPasswordChange()
 
@@ -540,6 +548,7 @@ const queryLogin = async (user: { username: string; password: string; mfa_token?
   } catch (error: any) {
     const { code, message } = error?.response?.data || {}
     if (code === MFA_REQUIRED) {
+      mfaChallengeUsername.value = username
       handleMFAMethod(message, username)
     }
     isLoginLocked.value = code === LOGIN_LOCKED
@@ -585,7 +594,7 @@ const submit = async () => {
           if ('action' in response) {
             store.commit('SET_SSO_MFA_PENDING', response)
           } else if (response.token) {
-            updateStoreInfo(username as string, response)
+            updateStoreInfo(username as string, response, false)
             redirectToDashboard()
           }
         })
@@ -652,27 +661,21 @@ const lastSsoPendingKey = ref('')
 
 const isSSOMFARouting = ref(false)
 const submitSSOmfa = async () => {
-  if (!ssoMfaPending.value) return
+  const pending = ssoMfaPending.value
+  if (!pending) return
   isSubmitting.value = true
   try {
-    let res: any
-    if (ssoMfaPending.value.action === 'mfa_setup') {
-      res = await postSSOmfaSetup(
-        ssoMfaPending.value.setup_token,
-        twoFARecord.authCode,
-        ssoMfaPending.value.username,
-        ssoMfaPending.value.backend,
-      )
-    } else {
-      res = await postSSOmfaVerify(
-        ssoMfaPending.value.verify_token,
-        twoFARecord.authCode,
-        ssoMfaPending.value.username,
-        ssoMfaPending.value.backend,
-      )
+    const { username, backend } = pending
+    const res =
+      pending.action === 'mfa_setup'
+        ? await postSSOmfaSetup(pending.setup_token, twoFARecord.authCode, username, backend)
+        : await postSSOmfaVerify(pending.verify_token, twoFARecord.authCode, username, backend)
+    if (!res.token) {
+      ElNotification.error(t('General.userInfoError'))
+      return
     }
     store.commit('SET_SSO_MFA_PENDING', null)
-    updateStoreInfo(res.username, res)
+    updateBaseInfo(res.username ?? username, res, res.backend ?? backend, true)
     isSSOMFARouting.value = true
     resetMFAData()
     redirectToDashboard()
@@ -686,7 +689,7 @@ const submitSSOmfa = async () => {
   }
 }
 
-const applySsoPending = async (pending: any) => {
+const applySsoPending = async (pending: SSOmfaPending | null) => {
   if (!pending) return
   const key =
     pending.action === 'mfa_setup'
