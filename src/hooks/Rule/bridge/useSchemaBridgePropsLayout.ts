@@ -157,6 +157,16 @@ export default (
     fieldStartIndex,
   )
   const propsOrderTypeMap: Record<string, Record<string, number>> = {
+    [BridgeType.NATS]: createOrderObj(
+      getPathArrInParameters([
+        'subject',
+        'delivery_mode',
+        'msg_id_template',
+        'headers',
+        'payload_template',
+      ]),
+      fieldStartIndex,
+    ),
     [BridgeType.Webhook]: {
       ...createOrderObj(
         getPathArrInParameters(['path', 'method', 'headers', 'body']),
@@ -489,6 +499,12 @@ export default (
     string,
     Record<string, string> | ((formData: Record<string, any>) => Record<string, string>)
   > = {
+    [BridgeType.NATS]: (formData) => ({
+      ...(formData.parameters?.delivery_mode === 'jetstream'
+        ? { 'resource_opts.batch_size': 'col-hidden' }
+        : { 'parameters.msg_id_template': 'col-hidden' }),
+      'parameters.payload_template': 'col-need-row',
+    }),
     [BridgeType.MicrosoftSQLServer]: { driver: 'dividing-line-below' },
     [BridgeType.KafkaProducer]: kafkaProducerColClassMap,
     [BridgeType.AzureEventHubs]: kafkaProducerColClassMap,
