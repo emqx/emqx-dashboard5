@@ -169,11 +169,7 @@
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="120">
             <template #default="{ row }">
-              <el-button
-                v-if="getRequestDetails(row).length"
-                size="small"
-                @click="openRequestDetails(row)"
-              >
+              <el-button v-if="getLogDetails(row).length" size="small" @click="openLogDetails(row)">
                 {{ t('Base.detail') }}
               </el-button>
               <span v-else>--</span>
@@ -186,13 +182,13 @@
       </div>
     </template>
     <el-dialog
-      v-model="showRequestDetails"
+      v-model="showLogDetails"
       :title="t('Base.detail')"
       width="500px"
-      class="audit-request-dialog"
+      class="audit-details-dialog"
     >
-      <div class="request-details">
-        <div v-for="detail in requestDetails" :key="detail.label" class="request-detail">
+      <div class="log-details">
+        <div v-for="detail in logDetails" :key="detail.label" class="log-detail">
           <h3>{{ detail.label }}</h3>
           <CodeView
             lang="json"
@@ -327,11 +323,13 @@ const notSupportHTTPFilter = computed(() => {
 const isInitializing = ref(false)
 const isTableLoading = ref(false)
 const tableData: Ref<Array<AuditLogItem>> = ref([])
-const getRequestDetails = ({ http_request }: AuditLogItem) => {
-  return [
+const getLogDetails = ({ http_request, operation_details }: AuditLogItem) => {
+  const details: Array<{ label: string; value: Record<string, unknown> | string | undefined }> = [
     { label: tl('requestBindings'), value: http_request?.bindings },
     { label: tl('requestBody'), value: http_request?.body },
-  ].filter(
+    { label: tl('operationDetails'), value: operation_details },
+  ]
+  return details.filter(
     (detail): detail is { label: string; value: Record<string, unknown> | string } =>
       detail.value != null &&
       (typeof detail.value === 'string'
@@ -339,14 +337,12 @@ const getRequestDetails = ({ http_request }: AuditLogItem) => {
         : Object.keys(detail.value).length > 0),
   )
 }
-const showRequestDetails = ref(false)
+const showLogDetails = ref(false)
 const selectedLog = ref<AuditLogItem>()
-const requestDetails = computed(() =>
-  selectedLog.value ? getRequestDetails(selectedLog.value) : [],
-)
-const openRequestDetails = (row: AuditLogItem) => {
+const logDetails = computed(() => (selectedLog.value ? getLogDetails(selectedLog.value) : []))
+const openLogDetails = (row: AuditLogItem) => {
   selectedLog.value = row
-  showRequestDetails.value = true
+  showLogDetails.value = true
 }
 const { pageMeta, pageParams, setPageMeta } = usePaginationWithHasNext()
 
@@ -538,13 +534,13 @@ watch(
     opacity: 0.8;
   }
 }
-.audit-request-dialog {
+.audit-details-dialog {
   max-width: 90vw;
-  .request-details {
+  .log-details {
     max-height: 60vh;
     overflow: auto;
   }
-  .request-detail + .request-detail {
+  .log-detail + .log-detail {
     margin-top: 24px;
   }
   h3 {
