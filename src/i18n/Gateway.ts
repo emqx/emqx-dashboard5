@@ -115,6 +115,38 @@ export default {
     zh: '最大 Body 长度',
     en: 'Max Body Length',
   },
+  stompMaxTransactions: {
+    zh: '最大并发事务数',
+    en: 'Max Open Transactions',
+  },
+  stompMaxTransactionsDesc: {
+    zh: '单个连接可同时打开的最大事务数。设为 0 时无法开启事务。',
+    en: 'Maximum number of transactions that can be open at once per connection. A value of 0 prevents transactions from opening.',
+  },
+  stompMaxActionsPerTransaction: {
+    zh: '单事务最大缓冲帧数',
+    en: 'Max Buffered Frames per Transaction',
+  },
+  stompMaxActionsPerTransactionDesc: {
+    zh: '单个事务可缓冲的最大帧数。设为 0 时无法缓冲帧。',
+    en: 'Maximum number of frames buffered in a single transaction. A value of 0 prevents frames from being buffered.',
+  },
+  stompMaxRetainedBytes: {
+    zh: '最大缓冲字节数',
+    en: 'Max Buffered Bytes',
+  },
+  stompMaxRetainedBytesDesc: {
+    zh: '单个连接中所有打开的事务合计可缓冲的最大字节数。设为 0 时没有字节缓冲额度。',
+    en: 'Maximum total bytes buffered across all open transactions on a connection. A value of 0 gives the connection no byte budget.',
+  },
+  stompTransactionTimeout: {
+    zh: '事务超时',
+    en: 'Transaction Timeout',
+  },
+  stompTransactionTimeoutDesc: {
+    zh: '事务在提交或中止前可保持打开的最长时间，必须大于零。',
+    en: 'Maximum time a transaction can remain open before it is committed or aborted. Must be greater than zero.',
+  },
   msgQueueLen: {
     zh: '最大消息队列长度',
     en: 'Max Message Queue Length',
