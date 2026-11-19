@@ -7,6 +7,10 @@ export default {
     zh: '请求体',
     en: 'Request Body',
   },
+  operationDetails: {
+    zh: '操作详情',
+    en: 'Operation Details',
+  },
   expireAt: {
     zh: '到期时间',
     en: 'Expire At',
