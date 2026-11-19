@@ -674,6 +674,14 @@ Note: MQTT payloads always use UTF-8 regardless of this setting. Set to <code>gb
     zh: 'NATS PUB/HPUB 消息的 Payload 最大字节数',
     en: 'The maximum number of bytes of Payload allowed per NATS PUB/HPUB message.',
   },
+  maxControlLine: {
+    zh: '最大控制行长度',
+    en: 'Max Control Line Length',
+  },
+  maxControlLineDesc: {
+    zh: 'NATS 协议控制行的最大字节数，不计入行尾的 CRLF。',
+    en: 'The maximum length of a NATS protocol control line in bytes, excluding the trailing CRLF.',
+  },
   tcpBackendDesc: {
     zh: `指示监听器应使用哪个 TCP 后端。
 

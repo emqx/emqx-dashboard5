@@ -50,6 +50,22 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item>
+            <template #label>
+              <FormItemLabel :label="tl('maxControlLine')" :desc="tl('maxControlLineDesc')" />
+            </template>
+            <CustomInputNumber
+              v-model.number="nValue.protocol.max_control_line"
+              :min="1024"
+              :placeholder="String(nValueDefault.protocol.max_control_line)"
+            >
+              <template #suffix>
+                <span>Bytes</span>
+              </template>
+            </CustomInputNumber>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="tl('idleTime')">
             <TimeInputWithUnitSelect
               v-model="nValue.idle_timeout"
@@ -134,6 +150,7 @@ const createDefault = () => ({
   heartbeat_wait_timeout: '5s',
   protocol: {
     max_payload_size: 1048576,
+    max_control_line: 4096,
   },
   mountpoint: '',
   enable_stats: true,
