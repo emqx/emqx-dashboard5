@@ -3,7 +3,8 @@
     <el-row class="block stats-overview" :gutter="16">
       <el-col :span="24">
         <el-card class="stats-grid-card">
-          <div class="stats-grid">
+          <el-empty v-if="metricsForbidden" :description="tl('currentMetricsPermissionDenied')" />
+          <div v-else class="stats-grid">
             <!-- Left: Rate card spanning 2 rows -->
             <div class="stat-card rate-card">
               <div class="rate-item">
@@ -112,6 +113,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadCurrentMetrics } from '@/api/common'
+import { isUnauthorizedRoleError } from '@/common/http'
 import dayjs from 'dayjs'
 import { Activity, Archive, ArrowDown, ArrowUp, Bell, Hash, Link, Share2 } from 'lucide-vue-next'
 import NodesGraphCard from './components/NodesGraphCard.vue'
@@ -158,11 +160,17 @@ const currentMetrics: Ref<CurrentMetrics> = ref({
 // )
 
 // const rateType = ref<'msg' | 'byte'>('msg')
-const { syncPolling } = useSyncPolling()
+const metricsForbidden = ref(false)
+const { needPolling, syncPolling } = useSyncPolling()
 const { tl } = useI18nTl('Dashboard')
 
 const loadData = async () => {
-  const state = await loadCurrentMetrics()
+  const state = await loadCurrentMetrics(true).catch((error: unknown) => {
+    if (isUnauthorizedRoleError(error)) {
+      metricsForbidden.value = true
+      needPolling.value = false
+    }
+  })
   if (!state) {
     return
   }

@@ -1,25 +1,35 @@
-import { compareVersions } from 'compare-versions'
-import { loadNodes } from '@/api/common'
-import { NodeInfo } from '@/types/dashboard'
-import { getClusterNodes } from '@/api/common'
-import type { GetCluster200 } from '@/types/schemas/cluster.schemas'
+import { getClusterNodes, loadNodes } from '@/api/common'
+import { isUnauthorizedRoleError } from '@/common/http'
 import type { VersionInfo } from '@/types/common'
+import type { NodeInfo } from '@/types/dashboard'
+import type { GetCluster200 } from '@/types/schemas/cluster.schemas'
+import { compareVersions } from 'compare-versions'
+
+type NodesStatus = 'idle' | 'loaded' | 'forbidden' | 'failed'
 
 interface UseClusterNodesOptions {
   loadByDefault?: boolean
   hideProgress?: boolean
   timeout?: number
   getVersion?: boolean
+  handleUnauthorizedRole?: boolean
 }
 
 export default function useClusterNodes(
-  { loadByDefault, hideProgress, timeout, getVersion }: UseClusterNodesOptions = {
+  {
+    loadByDefault,
+    hideProgress,
+    timeout,
+    getVersion,
+    handleUnauthorizedRole,
+  }: UseClusterNodesOptions = {
     loadByDefault: true,
     getVersion: false,
   },
 ): {
   clusterName: Ref<string>
   nodes: Ref<Array<NodeInfo>>
+  nodesStatus: Ref<NodesStatus>
   lockTable: Ref<boolean>
   hasMemory: Ref<boolean>
   loadData: () => Promise<void>
@@ -29,6 +39,7 @@ export default function useClusterNodes(
   }
 } {
   const nodes: Ref<Array<NodeInfo>> = ref([])
+  const nodesStatus = ref<NodesStatus>('idle')
   const lockTable: Ref<boolean> = ref(false)
   const hasMemory: Ref<boolean> = ref(true)
   const versionInfo = reactive<VersionInfo>({
@@ -41,26 +52,36 @@ export default function useClusterNodes(
     const versionList = nodes.map((node) => node.version.split('-')[0])
     const uniqueVersions = uniq(versionList)
     versionInfo.isMutiVersion = uniqueVersions.length > 1
-    if (versionInfo.isMutiVersion) {
-      versionInfo.latestVersion = uniqueVersions.reduce((latest, version) => {
-        return compareVersions(version, latest) > 0 ? version : latest
-      })
-    } else {
-      versionInfo.latestVersion = uniqueVersions[0]
+    if (uniqueVersions.length === 0) {
+      versionInfo.latestVersion = ''
+      return
     }
-    versionInfo.latestVersion = `v${versionInfo.latestVersion}`
+    const latestVersion = uniqueVersions.reduce((latest, version) => {
+      return compareVersions(version, latest) > 0 ? version : latest
+    })
+    versionInfo.latestVersion = `v${latestVersion}`
   }
 
   const loadData = async () => {
     try {
       lockTable.value = true
-      nodes.value = (await loadNodes(hideProgress, timeout)) ?? []
+      nodes.value = (await loadNodes(hideProgress, timeout, handleUnauthorizedRole)) ?? []
       hasMemory.value = nodes.value.some((node) => ![0, '0'].includes(node.memory_total))
       if (getVersion) {
         handleVersions(nodes.value)
       }
-    } catch (err) {
-      // ignore err
+      nodesStatus.value = 'loaded'
+    } catch (error) {
+      if (handleUnauthorizedRole && isUnauthorizedRoleError(error)) {
+        nodes.value = []
+        hasMemory.value = false
+        if (getVersion) {
+          handleVersions(nodes.value)
+        }
+        nodesStatus.value = 'forbidden'
+      } else {
+        nodesStatus.value = 'failed'
+      }
     } finally {
       lockTable.value = false
     }
@@ -77,5 +98,5 @@ export default function useClusterNodes(
 
   getClusterName()
 
-  return { nodes, lockTable, hasMemory, loadData, versionInfo, clusterName }
+  return { nodes, nodesStatus, lockTable, hasMemory, loadData, versionInfo, clusterName }
 }

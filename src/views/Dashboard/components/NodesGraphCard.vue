@@ -1,6 +1,6 @@
 <template>
   <div class="graph-wrapper">
-    <div class="graph-entity" ref="graph" v-loading.lock="infoLoading">
+    <div v-if="nodes.length" class="graph-entity">
       <div class="nodes-graph-container">
         <span class="node-count">
           <img src="@/assets/img/node.svg" width="12" height="12" alt="node" />
@@ -10,7 +10,7 @@
           <span v-if="clusterName">&nbsp;-&nbsp;</span>
           {{ $t('Dashboard.node', { n: nodes.length }) }}
         </span>
-        <NodesGraph v-model="currentNodeName" :nodes="nodes" v-if="!infoLoading" />
+        <NodesGraph v-model="currentNodeName" :nodes="nodes" />
       </div>
       <div class="node-detail">
         <div class="node-info" v-if="currentInfo">
@@ -42,7 +42,7 @@
                   </a>
                 </div>
               </div>
-              <div class="info-item">
+              <div v-if="currentInfo.stats" class="info-item">
                 <div class="info-label">{{ tl('currentConnection') }}</div>
                 <div class="info-value">{{ currentInfo.stats['connections.count'] }}</div>
               </div>
@@ -50,7 +50,7 @@
                 <div class="info-label">{{ tl('maxFds') }}</div>
                 <div class="info-value">{{ currentInfo.node['max_fds'] }}</div>
               </div>
-              <div class="info-item">
+              <div v-if="currentInfo.stats" class="info-item">
                 <div class="info-label">{{ tl('Subscription') }}</div>
                 <div class="info-value">{{ currentInfo.stats['subscriptions.count'] }}</div>
               </div>
@@ -75,7 +75,7 @@
                   </el-tooltip>
                 </div>
               </div>
-              <div class="info-item">
+              <div v-if="currentInfo.stats" class="info-item">
                 <div class="info-label">{{ tl('topics') }}</div>
                 <div class="info-value">{{ currentInfo.stats['topics.count'] }}</div>
               </div>
@@ -98,9 +98,15 @@
                 </div>
               </div>
             </div>
+            <p v-if="statsForbidden" class="tip mt-4">{{ tl('nodeStatsPermissionDenied') }}</p>
           </div>
         </div>
       </div>
+    </div>
+    <div v-else v-loading.lock="nodesStatus === 'idle'" class="nodes-placeholder">
+      <el-empty v-if="nodesStatus === 'forbidden'" :description="tl('nodesPermissionDenied')" />
+      <el-empty v-else-if="nodesStatus === 'loaded'" :description="tl('noNodes')" />
+      <el-empty v-else-if="nodesStatus === 'failed'" :description="$t('Base.requestFailed')" />
     </div>
   </div>
 </template>
@@ -113,70 +119,65 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { loadStats } from '@/api/common'
-import { NodeInfo, NodeStatisticalData } from '@/types/dashboard'
+import { isUnauthorizedRoleError } from '@/common/http'
+import type { NodeStatisticalData } from '@/types/dashboard'
 import { Right } from '@element-plus/icons-vue'
 import NodesGraph from './NodesGraph.vue'
-
-type CurrentInfo = { node: NodeInfo; stats: NodeStatisticalData }
 
 const { locale } = useI18n()
 
 const POLLING_INTERVAL = 2000
 
-// const { nodes, loadData: getNodes } = useClusterNodes(false, true, 25000)
 const {
   nodes,
+  nodesStatus,
   loadData: getNodes,
   clusterName,
 } = useClusterNodes({
   loadByDefault: false,
   hideProgress: true,
   timeout: 25000,
+  handleUnauthorizedRole: true,
 })
-/**
- * first time get node data, select the first node
- */
-let isInitialized = false
-const stats: Ref<Array<NodeStatisticalData>> = ref([])
-const graph: Ref<undefined | HTMLElement> = ref(undefined)
+const stats = ref<NodeStatisticalData[]>([])
+const statsForbidden = ref(false)
 const currentNodeName = ref('')
-const infoLoading: Ref<boolean> = ref(true)
+
+watch(nodes, (updatedNodes) => {
+  if (!updatedNodes.some(({ node }) => node === currentNodeName.value)) {
+    currentNodeName.value = updatedNodes[0]?.node ?? ''
+  }
+})
 
 const currentInfo = computed(() => {
-  if (!currentNodeName.value || nodes.value.length === 0 || stats.value.length === 0) {
-    return { node: {}, stats: {} } as CurrentInfo
+  const node = nodes.value.find(({ node }) => node === currentNodeName.value)
+  if (!node) {
+    return undefined
   }
-  return getNodeInfoByName(currentNodeName.value)
+  return { node, stats: stats.value.find(({ node }) => node === currentNodeName.value) }
 })
 
 const { transMsNumToSimpleStr } = useDurationStr()
-const { syncPolling } = useSyncPolling()
+const { needPolling, syncPolling } = useSyncPolling()
 
 const getStats = async () => {
   try {
-    stats.value = await loadStats()
+    stats.value = await loadStats(true)
   } catch (error) {
-    return Promise.reject(error)
+    stats.value = []
+    statsForbidden.value = isUnauthorizedRoleError(error)
   }
-}
-
-const getNodeInfoByName = (nodeName: string) => {
-  const node = nodes.value.find(({ node }) => node === nodeName) || {}
-  const statsItem = stats.value.find(({ node }) => node === nodeName) || {}
-  return { node, stats: statsItem } as CurrentInfo
 }
 
 const { tl } = useI18nTl('Dashboard')
 
 const calcMemoryPercentage = computed(() => {
-  return calcPercentage(
-    currentInfo.value.node['memory_used'],
-    currentInfo.value.node['memory_total'],
-  )
+  const node = currentInfo.value?.node
+  return node ? calcPercentage(node.memory_used, node.memory_total) : 0
 })
 
 const versionReg = /(?<version>\d\.\d+\.\d+)/
-const getVersion = (version: string) => {
+const getVersion = (version?: string) => {
   if (!version) {
     return ''
   }
@@ -190,21 +191,13 @@ const getReleaseNoteLinkByVersion = (version: string) => {
 }
 
 const releaseNoteLink = computed(() =>
-  getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node?.version)),
+  getReleaseNoteLinkByVersion(getVersion(currentInfo.value?.node.version)),
 )
 
 const loadData = async () => {
-  try {
-    await Promise.all([getNodes(), getStats()])
-    if (!isInitialized) {
-      currentNodeName.value = nodes.value[0].node
-      isInitialized = true
-    }
-    infoLoading.value = false
-    return Promise.resolve()
-  } catch (error) {
-    infoLoading.value = false
-    return Promise.reject()
+  await Promise.all([getNodes(), statsForbidden.value ? undefined : getStats()])
+  if (nodesStatus.value === 'forbidden') {
+    needPolling.value = false
   }
 }
 
@@ -227,6 +220,12 @@ syncPolling(loadData, POLLING_INTERVAL)
   display: flex;
   gap: 16px;
   width: 100%;
+}
+
+.nodes-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 450px;
 }
 
 .nodes-graph-container {

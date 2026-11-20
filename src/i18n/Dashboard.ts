@@ -115,6 +115,26 @@ export default {
     zh: '节点信息',
     en: 'Node Information',
   },
+  nodesPermissionDenied: {
+    zh: '节点信息访问受限',
+    en: 'Access to node information is restricted.',
+  },
+  currentMetricsPermissionDenied: {
+    zh: '实时指标访问受限',
+    en: 'Access to real-time metrics is restricted.',
+  },
+  historicalMetricsPermissionDenied: {
+    zh: '历史指标访问受限',
+    en: 'Access to historical metrics is restricted.',
+  },
+  nodeStatsPermissionDenied: {
+    zh: '节点统计访问受限',
+    en: 'Access to node statistics is restricted.',
+  },
+  noNodes: {
+    zh: '暂无节点',
+    en: 'No nodes',
+  },
   nodeStatis: {
     zh: '节点统计',
     en: 'Node Statistics',

@@ -1,5 +1,5 @@
 <template>
-  <span class="emqx-version">
+  <span v-if="versionInfo.latestVersion" class="emqx-version">
     <el-tooltip :disabled="!versionInfo.isMutiVersion" placement="top">
       <template #content>
         <span>{{ $t('Dashboard.multiVersionWarning') }}</span>
@@ -19,6 +19,7 @@ const { versionInfo } = useClusterNodes({
   hideProgress: true,
   timeout: 25000,
   getVersion: true,
+  handleUnauthorizedRole: true,
 })
 const store = useStore()
 watch(
