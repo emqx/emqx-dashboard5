@@ -1,5 +1,6 @@
 <template>
-  <div class="polyline-cards">
+  <el-empty v-if="historyForbidden" :description="tl('historicalMetricsPermissionDenied')" />
+  <div v-else class="polyline-cards">
     <div class="chart-option">
       <el-select class="interval-select" v-model="timeRange">
         <el-option
@@ -132,6 +133,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import PolylineChart from './PolylineChart.vue'
 import { loadChartData, loadMetrics as loadDroppedDetail, resetMonitorData } from '@/api/common'
+import { isUnauthorizedRoleError } from '@/common/http'
 import { ChartType } from '@/types/enum'
 import { ChartDataItem } from '@/types/dashboard'
 import DroppedDetailDialog from './DroppedDetailDialog.vue'
@@ -157,6 +159,7 @@ const { tl } = useI18nTl('Dashboard')
 const timeRange = ref(3600)
 const showFullScreen = ref(false)
 const isLoading = ref(false)
+const historyForbidden = ref(false)
 const fullScreenChart = ref<ChartContainerDOM | null>(null)
 
 const timeRangeOptions = [
@@ -273,7 +276,7 @@ const chartColorList = computed<Record<string, string[]>>(() => {
   }
 })
 
-const { syncPolling } = useSyncPolling()
+const { needPolling, syncPolling } = useSyncPolling()
 
 const addDataToMetricLog = (data: Array<ChartDataItem>) => {
   data.forEach((data: Record<string, any>) => {
@@ -293,15 +296,22 @@ const setMetricLogFromData = (data: Array<ChartDataItem>) => {
 }
 
 const loadChartMetrics = async () => {
+  if (!needPolling.value) {
+    return
+  }
   try {
     isLoading.value = true
     const data = await loadChartData(timeRange.value)
     setMetricLogFromData(data)
-    isLoading.value = false
-    return Promise.resolve()
   } catch (error) {
+    if (isUnauthorizedRoleError(error)) {
+      historyForbidden.value = true
+      needPolling.value = false
+      return
+    }
+    throw error
+  } finally {
     isLoading.value = false
-    return Promise.reject()
   }
 }
 
@@ -312,7 +322,7 @@ const requestMetricsAfterReset = async () => {
   loadChartMetrics()
   const queryMetrics = async () => {
     count++
-    if (count > 5) {
+    if (count > 5 || !needPolling.value) {
       return
     }
     await waitAMoment(4000)
@@ -384,10 +394,11 @@ const loadDropDetailMetrics = async () => {
 
 const loadMetrics = async () => {
   try {
-    await Promise.allSettled([loadChartMetrics(), loadDropDetailMetrics()])
-    return Promise.resolve()
-  } catch (error) {
-    return Promise.reject()
+    await loadChartMetrics()
+  } finally {
+    if (needPolling.value) {
+      await loadDropDetailMetrics()
+    }
   }
 }
 

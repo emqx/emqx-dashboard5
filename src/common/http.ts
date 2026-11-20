@@ -5,7 +5,7 @@ import {
   NAME_PWD_ERROR,
   SCRAM_CHALLENGE_INVALID,
   TOKEN_TIME_OUT,
-  UNAUTHORIZED_ROLE,
+  UNAUTHORIZED_ROLE_RESPONSE,
 } from '@/common/customErrorCode'
 import CustomMessage from '@/common/CustomMessage'
 import getErrorMessage from '@/common/getHTTPErrorMessage'
@@ -87,10 +87,14 @@ axios.interceptors.request.use(async (config: CustomRequestConfig) => {
   return config
 })
 
-const isTokenExpired = (status: number, data: any) =>
-  status === 401 && [BAD_TOKEN, TOKEN_TIME_OUT].includes(data.code)
-const isUnauthorizedRole = (status: number, data: any) =>
-  status === 403 && data.code === UNAUTHORIZED_ROLE
+const isTokenExpired = (status: number, code?: string) =>
+  status === 401 && (code === BAD_TOKEN || code === TOKEN_TIME_OUT)
+const isUnauthorizedRole = (status?: number, code?: string) =>
+  status === UNAUTHORIZED_ROLE_RESPONSE.status && code === UNAUTHORIZED_ROLE_RESPONSE.code
+
+export const isUnauthorizedRoleError = (error: unknown): boolean =>
+  axios.isAxiosError<{ code?: string }>(error) &&
+  isUnauthorizedRole(error.response?.status, error.response?.data?.code)
 
 const readBlobResponse = async (data: Blob) => {
   try {
@@ -134,14 +138,14 @@ axios.interceptors.response.use(
       }
 
       const { data, status } = error.response
+      const code = data?.code
 
       if (
         error.config?.errorsHandleCustomByCode?.some(
           (handled: { status: number; code: string }) =>
-            handled.status === status && handled.code === data.code,
+            handled.status === status && handled.code === code,
         )
       ) {
-        // Intermediate login failures must not notify, redirect, or throttle the final error.
         store.commit('REMOVE_ABORT_CONTROLLER', error.config.controller)
         return Promise.reject(error)
       }
@@ -150,7 +154,7 @@ axios.interceptors.response.use(
         respSet.add(status)
 
         const doNotPopupAfterPwdChanged = status === 401 && store.state.afterCurrentUserPwdChanged
-        if (isTokenExpired(status, data)) {
+        if (isTokenExpired(status, code)) {
           if (doNotPopupAfterPwdChanged) {
             store.commit('SET_AFTER_CURRENT_USER_PWD_CHANGED', false)
           } else {
@@ -161,7 +165,7 @@ axios.interceptors.response.use(
           window.setTimeout(resetRespSet, 1000)
           return Promise.reject(error)
         }
-        if (isUnauthorizedRole(status, data)) {
+        if (isUnauthorizedRole(status, code)) {
           data.message = getLocalMessage('Base.unauthorizedRole')
         }
         // some special cases
@@ -170,9 +174,9 @@ axios.interceptors.response.use(
           Array.isArray(error.config.errorsHandleCustom) &&
           error.config.errorsHandleCustom.includes(status)
         if (!handleErrorSelf) {
-          if (data.code === NAME_PWD_ERROR) {
+          if (code === NAME_PWD_ERROR) {
             ElNotification.error(getLocalMessage('Base.namePwdError'))
-          } else if (ERROR_CODE_HANDLE_BY_PAGE.includes(data.code)) {
+          } else if (ERROR_CODE_HANDLE_BY_PAGE.includes(code)) {
             // do nothing, leave it to the page to do the rest of the processing
           } else {
             HTTPErrorMessage(getErrorMessage(data, status) as VNode)

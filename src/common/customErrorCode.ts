@@ -15,3 +15,5 @@ export const {
 } = PostLoginVerify401Code
 
 export const UNAUTHORIZED_ROLE = 'UNAUTHORIZED_ROLE'
+
+export const UNAUTHORIZED_ROLE_RESPONSE = { status: 403, code: UNAUTHORIZED_ROLE }

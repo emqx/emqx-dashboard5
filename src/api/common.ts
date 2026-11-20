@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { UNAUTHORIZED_ROLE_RESPONSE } from '@/common/customErrorCode'
 import http from '@/common/http'
 import { ListDataWithPagination } from '@/types/common'
 import {
@@ -16,6 +17,8 @@ import {
 } from '@/types/dashboard'
 import { OpenTelemetryWhiteListType } from '@/types/enum'
 import { ClusterInfo } from '@/types/typeAlias'
+
+const handleRoleErrorLocally = { errorsHandleCustomByCode: [UNAUTHORIZED_ROLE_RESPONSE] }
 
 //account
 export function logout(username: string, backend: 'ldap' | 'local' = 'local') {
@@ -55,12 +58,17 @@ export function loadMetrics(
   return http.get('/metrics', { params: { aggregate, node } })
 }
 
-export function loadCurrentMetrics(): Promise<Record<string, number>> {
-  return http.get('/monitor_current', { doNotTriggerProgress: true })
+export function loadCurrentMetrics(
+  handleUnauthorizedRole = false,
+): Promise<Record<string, number>> {
+  return http.get('/monitor_current', {
+    doNotTriggerProgress: true,
+    ...(handleUnauthorizedRole ? handleRoleErrorLocally : {}),
+  })
 }
 
 export function loadChartData(time: number): Promise<Array<ChartDataItem>> {
-  return http.get('/monitor', { params: { latest: time } })
+  return http.get('/monitor', { params: { latest: time }, ...handleRoleErrorLocally })
 }
 
 export function resetMonitorData(): Promise<void> {
@@ -107,16 +115,26 @@ export const updateOpenTelemetrySampleWhiteList = (
 export async function loadNodes(
   doNotTriggerProgress = false,
   timeout = 20000,
+  handleUnauthorizedRole = false,
 ): Promise<Array<NodeInfo>> {
-  return http.get('/nodes', { doNotTriggerProgress, timeout })
+  return http.get('/nodes', {
+    doNotTriggerProgress,
+    timeout,
+    ...(handleUnauthorizedRole ? handleRoleErrorLocally : {}),
+  })
 }
 
 export async function loadNodeDetail(node: string): Promise<NodeInfo> {
   return http.get(`/nodes/${encodeURIComponent(node)}`)
 }
 
-export async function loadStats(): Promise<Array<NodeStatisticalData>> {
-  return http.get('/stats', { doNotTriggerProgress: true })
+export async function loadStats(
+  handleUnauthorizedRole = false,
+): Promise<Array<NodeStatisticalData>> {
+  return http.get('/stats', {
+    doNotTriggerProgress: true,
+    ...(handleUnauthorizedRole ? handleRoleErrorLocally : {}),
+  })
 }
 
 export function loadNodeStats(node: string): Promise<NodeStatisticalData> {
