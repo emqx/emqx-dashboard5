@@ -1,4 +1,4 @@
-import { NUM_REG } from '@/common/constants'
+import { ENCRYPTED_PWD_REG, NUM_REG } from '@/common/constants'
 import { checkNOmitFromObj, createRandomString, stringifyObjSafely } from '@/common/tools'
 import useSSL from '@/hooks/useSSL'
 import { BridgeType } from '@/types/enum'
@@ -123,6 +123,9 @@ export const useConnectorDataHandler = (): {
   const { tl } = useI18nTl('RuleEngine')
   const handleGCPData = (data: any) => {
     if (data.service_account_json && typeof data.service_account_json === 'string') {
+      if (ENCRYPTED_PWD_REG.test(data.service_account_json)) {
+        return data
+      }
       try {
         data.service_account_json = JSON.parse(data.service_account_json)
         return data
