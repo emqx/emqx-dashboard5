@@ -27,6 +27,10 @@ export default {
     zh: 'Disabled',
     en: 'Disabled',
   },
+  unloaded: {
+    zh: '未初始化',
+    en: 'Uninitialized',
+  },
   auth: {
     en: 'Authentication',
     zh: '接入认证',

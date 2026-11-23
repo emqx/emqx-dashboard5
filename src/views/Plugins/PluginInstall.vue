@@ -112,25 +112,26 @@ const handleForbidden = (message: string) => {
     showHtmlError(xss(t('Plugins.pluginInstallForbidden', { code: cmd })))
     return
   }
-  // Unknown 403 variant — surface the backend message verbatim so we never
-  // again silently mis-label a new error class.
+  // Preserve backend details for other forbidden errors.
   CustomMessage.error(message)
 }
 
 const handleInstallError = (error: any) => {
   const { data, status } = error?.response ?? {}
-  const message: string = data?.message ?? ''
+  // Other statuses are already reported by the shared HTTP client.
+  if (status !== 400 && status !== 403) {
+    return
+  }
+  const message = getErrorMessage(data, status)
   if (status === 403 && data?.code === 'FORBIDDEN') {
     handleForbidden(message)
     return
   }
-  // Zip-slip rejection lands here (the backend wraps the reason map and
-  // typically yields a non-403 status). Detect by the marker in the message.
-  if (message && /unsafe_tar_entry_path/.test(message)) {
+  if (/unsafe_tar_entry_path/.test(message)) {
     showHtmlError(xss(tl('pluginInstallUnsafePath')))
     return
   }
-  CustomMessage.error(getErrorMessage(data, status))
+  CustomMessage.error(message)
 }
 
 const submit = async () => {

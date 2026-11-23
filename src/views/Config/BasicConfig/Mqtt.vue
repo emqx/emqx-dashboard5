@@ -69,7 +69,25 @@ export default defineComponent({
     const getSchemaText = (key: string) => t(`ConfigSchema.${key}`)
     const handleSchema = (data: { components: Properties; rules: SchemaRules }) => {
       const { client_attrs_init } = data?.components?.mqtt?.properties || {}
-      const { max_packet_size } = data?.components?.mqtt?.properties || {}
+      const { max_packet_size, max_connect_user_properties } =
+        data?.components?.mqtt?.properties || {}
+      if (max_connect_user_properties?.path) {
+        const path = max_connect_user_properties.path
+        data.rules[path] = [
+          ...(data.rules[path] ?? []),
+          {
+            validator(_rule, value: unknown) {
+              return value === undefined ||
+                value === null ||
+                value === 'infinity' ||
+                (typeof value === 'number' && Number.isInteger(value) && value >= 0)
+                ? true
+                : new Error(t('Rule.formatError'))
+            },
+            trigger: 'change',
+          },
+        ]
+      }
       if (client_attrs_init) {
         if (!client_attrs_init.componentProps) {
           client_attrs_init.componentProps = {}

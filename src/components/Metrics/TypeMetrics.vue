@@ -36,7 +36,7 @@ const props = defineProps<{
   data: Array<TypeMetricDataItem>
   isFlowNode: boolean
   selectedNode: string
-  span?: number
+  span: number
 }>()
 
 const getTypeColSpan = (typeStats: TypeMetricDataItem[]) => {

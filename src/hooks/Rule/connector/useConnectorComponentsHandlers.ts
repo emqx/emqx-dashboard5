@@ -236,6 +236,8 @@ export default (
 
     if (components?.ssl) {
       components.ssl.properties = pick(components.ssl.properties, neededSSLConfig) as Properties
+      // Confluent requires TLS to stay enabled; peer verification remains configurable.
+      components.ssl.componentProps = { disabledBaseConfig: true }
     }
 
     return { components, rules }
