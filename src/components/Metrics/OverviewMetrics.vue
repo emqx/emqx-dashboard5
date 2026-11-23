@@ -128,7 +128,7 @@
           :key="index"
         >
           <!-- Pie Chart Stats -->
-          <el-col v-if="totals && totals[typeMetricsDataChild.name]" :span="isFlowNode ? 24 : 8">
+          <el-col v-if="totals && totals[typeMetricsDataChild.name]" :span="pieChartColSpan">
             <el-card class="metric-pie">
               <el-row>
                 <el-col :span="12" class="pie-base">
@@ -149,6 +149,7 @@
           </el-col>
           <!-- Number Stats -->
           <TypeMetrics
+            :span="typeMetricsColSpan"
             :data="typeMetricsDataChild.stats"
             :is-flow-node="isFlowNode"
             :selected-node="selectedNode"
