@@ -1,4 +1,8 @@
-import { DEFAULT_SSL_VERIFY_VALUE, SSL_VERIFY_VALUE_MAP } from '@/common/constants'
+import {
+  DEFAULT_SSL_VERIFY_VALUE,
+  ENCRYPTED_PWD_REG,
+  SSL_VERIFY_VALUE_MAP,
+} from '@/common/constants'
 import useSpecialRuleForPassword from '@/hooks/Rule/bridge/useSpecialRuleForPassword'
 import { SchemaRules } from '@/hooks/Schema/useSchemaFormRules'
 import useFormRules from '@/hooks/useFormRules'
@@ -268,6 +272,10 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
+            if (props.edit && ENCRYPTED_PWD_REG.test(value)) {
+              resolve(true)
+              return
+            }
             try {
               JSON.parse(value)
               resolve(true)
