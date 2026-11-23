@@ -95,6 +95,10 @@ export default {
     desc: 'If the size is out of the preset value, EMQX will disconnect the current connection',
     label: 'Max Packet Size',
   },
+  max_connect_user_properties: {
+    desc: 'Maximum number of User Property pairs accepted in an MQTT 5 CONNECT packet. CONNECT properties and Will properties are counted separately. EMQX closes the connection if either exceeds the limit. The default is 100. Set to 0 to disallow User Properties or to infinity to remove the limit. Changes apply to new connections.',
+    label: 'Max CONNECT User Properties',
+  },
   max_conn_rate: {
     desc: `Limits how quickly accepts connections, per each node.
 

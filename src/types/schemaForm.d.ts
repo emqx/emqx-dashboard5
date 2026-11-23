@@ -1,4 +1,4 @@
-import { Component as VueComponent } from 'vue'
+import type { Component as VueComponent } from 'vue'
 import { FormRules } from './common'
 
 export type InjectSchema = Ref<any> | undefined

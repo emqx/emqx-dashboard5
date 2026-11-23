@@ -89,7 +89,7 @@ export default (
   const SSL_KEY = 'ssl'
   const filterSSLParams = (components: Properties): Properties => {
     const walk = (com: Properties): Properties => {
-      Object.entries(com).forEach(([key, prop]) => {
+      Object.entries(com).forEach(([, prop]) => {
         if (prop.properties) {
           if (prop.key === SSL_KEY) {
             prop.properties = pick(prop.properties, SSLKeys)
@@ -162,7 +162,7 @@ export default (
               validator(_rules, value, cb) {
                 const allPass =
                   value.length > 0 &&
-                  value.every((item) => {
+                  value.every((item: string | { clientid?: string }) => {
                     if (typeof item === 'string') {
                       return !!item
                     }
@@ -236,7 +236,6 @@ export default (
 
     if (components?.ssl) {
       components.ssl.properties = pick(components.ssl.properties, neededSSLConfig) as Properties
-      components.ssl.componentProps = { hideVerify: true }
     }
 
     return { components, rules }
@@ -260,6 +259,10 @@ export default (
       rules.service_account_json.push({
         validator(rule, value: string): any {
           return new Promise((resolve, reject) => {
+            if (props.edit && ENCRYPTED_PWD_REG.test(value)) {
+              resolve(true)
+              return
+            }
             try {
               JSON.parse(value)
               resolve(true)

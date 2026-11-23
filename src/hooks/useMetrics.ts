@@ -368,6 +368,7 @@ export const useBridgeMetrics = (): {
     { type: MetricType.Green, title: tl('success'), contains: ['success'] },
     { type: MetricType.Blue, title: tl('processing'), contains: ['queuing', 'inflight'] },
     { type: MetricType.Red, title: t('Base.failed'), contains: ['failed'] },
+    { type: MetricType.Yellow, title: tl('lateReply'), contains: ['late_reply'] },
     {
       type: MetricType.Gray,
       title: tl('dropped'),
@@ -385,6 +386,8 @@ export const useBridgeMetrics = (): {
   ]
   const textMap = {
     matched: { label: tl('matched'), desc: tl('bridgeMatchedDesc') },
+    success: { label: tl('success') },
+    late_reply: { label: tl('lateReply'), desc: tl('lateReplyDesc') },
     inflight: { label: tl('sentInflight'), desc: tl('sentInflightDesc') },
     dropped: { label: tl('dropped'), desc: tl('droppedDesc') },
     'dropped.expired': { label: tl('droppedExpired'), desc: tl('droppedExpiredDesc') },

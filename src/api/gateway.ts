@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
+import type { GatewayItem } from '@/types/gateway'
 
 export function getGatewayList() {
   return http.get('/gateways')
@@ -50,7 +51,7 @@ export async function toggleGatewayEnable(name: string, enable: boolean) {
 
 export async function getGateway(name: string) {
   if (!name) return Promise.reject()
-  return http.get('/gateways/' + encodeURIComponent(name))
+  return http.get<GatewayItem, GatewayItem>('/gateways/' + encodeURIComponent(name))
 }
 
 export async function getGatewayClients(name: string, params = {}) {

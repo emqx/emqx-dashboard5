@@ -5,10 +5,16 @@
         <div class="vertical-align-center">
           <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
           <p class="block-title">{{ transGatewayName(gname) }}</p>
-          <el-tag type="info" class="section-status">
-            <span>
-              <i :class="['status', gInfo.status !== 'running' && 'stopped']" />
-              <span>{{ gInfo.status }}</span>
+          <el-tag v-if="statusLabel" type="info" class="section-status">
+            <span class="vertical-align-center">
+              <CheckIcon
+                class="status"
+                size="small"
+                :status="isRunning ? CheckStatus.Check : CheckStatus.Close"
+              />
+              <span class="text-status" :class="isRunning ? 'success' : 'danger'">
+                {{ statusLabel }}
+              </span>
             </span>
           </el-tag>
         </div>
@@ -25,9 +31,9 @@
 
 <script setup lang="ts">
 import { getGateway } from '@/api/gateway'
-import { GatewayName } from '@/types/enum'
+import { CheckStatus, GatewayName, GatewayStatus } from '@/types/enum'
 
-const gInfo = ref<Record<string, any>>({})
+const status = ref<GatewayStatus>()
 const route = useRoute()
 const gname = computed(() => String(route.params.name).toLowerCase() as GatewayName)
 const types = computed(() => {
@@ -38,7 +44,7 @@ const types = computed(() => {
   return comonTypes
 })
 const { transGatewayName } = useTransName()
-const { tl } = useI18nTl('Gateway')
+const { t, tl } = useI18nTl('Gateway')
 const matchedUrl = computed(() => {
   const currentPath = route.path || ''
   return (
@@ -50,12 +56,24 @@ const matchedUrl = computed(() => {
 
 const loadGatewayInfo = async () => {
   try {
-    gInfo.value = await getGateway(gname.value)
+    const gateway = await getGateway(gname.value)
+    status.value = gateway.status
   } catch (error) {
-    gInfo.value = {}
+    status.value = undefined
   }
 }
 loadGatewayInfo()
+
+const isRunning = computed(() => status.value === GatewayStatus.Running)
+const statusLabel = computed(() => {
+  if (isRunning.value) {
+    return t('Dashboard.running')
+  }
+  if (status.value === GatewayStatus.Stopped) {
+    return t('Dashboard.stopped')
+  }
+  return status.value
+})
 </script>
 
 <style lang="scss">
@@ -86,6 +104,9 @@ loadGatewayInfo()
   }
   .el-form {
     margin-bottom: 24px;
+  }
+  .el-icon.check-icon {
+    margin-right: 4px;
   }
 }
 </style>

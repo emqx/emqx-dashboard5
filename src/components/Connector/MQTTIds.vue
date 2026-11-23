@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 import { Delete, Plus } from '@element-plus/icons-vue'
-import {} from 'vue'
 
 interface MQTTIds {
   clientid?: string

@@ -95,6 +95,10 @@ export default {
     desc: '允许的最大 MQTT 报文大小，超出此大小后将断开当前客户端连接。',
     label: '最大报文大小',
   },
+  max_connect_user_properties: {
+    desc: 'MQTT 5 CONNECT 报文中允许携带的用户属性键值对数量上限。CONNECT 属性和遗嘱属性分别计数，任一超限时 EMQX 将关闭连接。默认值为 100。设为 0 表示禁止携带用户属性，设为 infinity 表示取消数量限制。修改后对新建立的连接生效。',
+    label: 'CONNECT 用户属性数量上限',
+  },
   max_conn_rate: {
     desc: `限制每个节点上接受新连接的速率。
 

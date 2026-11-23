@@ -11,6 +11,7 @@
     :rate-metrics="rateData"
     :show-rate="!isSource"
     :node-status-desc="tl('nodeStatusBridgeDesc')"
+    :pie-col-span="pieColSpan"
     @node-change="handleNodeChanged"
     @metrics-change="handleMetricsLoaded"
   >
@@ -146,6 +147,16 @@ const emit = defineEmits(['reconnect'])
 const isFlowNode = inject('isFlowNode', false)
 
 const { t, tl } = useI18nTl('RuleEngine')
+
+const pieColSpan = computed(() => {
+  if (isFlowNode) {
+    return 24
+  }
+  if (props.isSource) {
+    return 8
+  }
+  return 6
+})
 
 const { reconnectActionForNode, getActionMetrics, resetActionMetrics } = useHandleActionItem()
 const { reconnectSourceForNode, getSourceMetrics, resetSourceMetrics } = useHandleSourceItem()
