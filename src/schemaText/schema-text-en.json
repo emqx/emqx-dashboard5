@@ -1241,6 +1241,10 @@
       "desc": "If the size is out of the preset value, EMQX will disconnect the current connection",
       "label": "Max Packet Size"
     },
+    "mqtt_max_connect_user_properties": {
+      "desc": "Maximum number of User Property pairs accepted in a CONNECT packet. The limit applies separately to CONNECT properties and Will properties. EMQX closes the connection if either exceeds the limit. Default: 100. Set to 0 to disallow User Properties, or disable the limit (infinity) to accept any number.",
+      "label": "Max CONNECT User Properties"
+    },
     "common_ssl_opts_schema_reuse_sessions": {
       "desc": "Enable TLS session reuse.",
       "label": "TLS session reuse"
