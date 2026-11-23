@@ -5,15 +5,11 @@
         <div class="vertical-align-center">
           <span class="g-icon" :class="[`g-${gname}`, gname === 'stomp' ? 'img-black' : '']"></span>
           <p class="block-title">{{ transGatewayName(gname) }}</p>
-          <el-tag v-if="statusLabel" type="info" class="section-status">
+          <el-tag v-if="statusInfo" type="info" class="section-status">
             <span class="vertical-align-center">
-              <CheckIcon
-                class="status"
-                size="small"
-                :status="isRunning ? CheckStatus.Check : CheckStatus.Close"
-              />
-              <span class="text-status" :class="isRunning ? 'success' : 'danger'">
-                {{ statusLabel }}
+              <CheckIcon class="status" size="small" :status="statusInfo.icon" />
+              <span class="text-status" :class="statusInfo.className">
+                {{ statusInfo.label }}
               </span>
             </span>
           </el-tag>
@@ -64,15 +60,15 @@ const loadGatewayInfo = async () => {
 }
 loadGatewayInfo()
 
-const isRunning = computed(() => status.value === GatewayStatus.Running)
-const statusLabel = computed(() => {
-  if (isRunning.value) {
-    return t('Dashboard.running')
+const statusInfo = computed(() => {
+  switch (status.value) {
+    case GatewayStatus.Running:
+      return { label: t('Dashboard.running'), icon: CheckStatus.Check, className: 'success' }
+    case GatewayStatus.Stopped:
+      return { label: t('Dashboard.stopped'), icon: CheckStatus.Close, className: 'danger' }
+    case GatewayStatus.Unloaded:
+      return { label: tl('unloaded'), icon: CheckStatus.Disable, className: 'info' }
   }
-  if (status.value === GatewayStatus.Stopped) {
-    return t('Dashboard.stopped')
-  }
-  return status.value
 })
 </script>
 
