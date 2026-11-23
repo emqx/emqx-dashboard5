@@ -15,8 +15,13 @@ import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    doNotTriggerProgress?: boolean
+  }
+}
+
 type CustomRequestConfig = InternalAxiosRequestConfig & {
-  doNotTriggerProgress?: boolean
   errorsHandleCustom?: number[]
   handleTimeoutSelf?: boolean
   controller?: AbortController
