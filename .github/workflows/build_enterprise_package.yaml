@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@11.28.11
       - name: install zip
         run: apt-get update && apt-get install -y zip
       - name: build
