@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { fillEmptyValueToUndefinedField, getAPIPath } from '@/common/tools'
+import { fillEmptyValueToUndefinedField } from '@/common/tools'
 import AdvancedSettingContainer from '@/components/AdvancedSettingContainer.vue'
 import CustomFormItem from '@/components/CustomFormItem.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
@@ -139,7 +139,7 @@ const getLabel = (key: string) => t(`BridgeSchema.common.${key}.label`)
 const getDesc = (key: string) =>
   t(`BridgeSchema.${props.modelValue?.type ?? 'influxdb'}.${key}.desc`)
 
-const { components } = useSchemaForm(getAPIPath(`/schemas/actions`), {
+const { components } = useSchemaForm('/schemas/actions', {
   ref: '#/components/schemas/bridge_influxdb.post_bridge_v2',
 })
 const { getPropItem } = useGetInfoFromComponents(components)
