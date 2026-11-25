@@ -2,3 +2,8 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   vue-demi: true
+
+# The published bundles inline these dependencies, but the manifest points to local directories.
+overrides:
+  '@emqx/shared-ui-utils@0.0.16>@emqx/shared-ui-constants': '-'
+  '@emqx/shared-ui-utils@0.0.16>@emqx/shared-ui-i18n': '-'
