@@ -2390,6 +2390,14 @@
         }
       },
       {
+        "method": "delete",
+        "path": "/queue/:name/messages",
+        "name_label": {
+          "en": "Purge queue messages",
+          "zh": "清理队列消息"
+        }
+      },
+      {
         "method": "put",
         "path": "/queue/:name",
         "name_label": {

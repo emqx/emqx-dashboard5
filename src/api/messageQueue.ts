@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { ListDataWithCursor } from '@/types/common'
-import { MessageQueue } from '@/types/typeAlias'
+import type { MessageQueue, MessageQueueItem, MessageQueueUpdate } from '@/types/typeAlias'
 
 export const getMessageQueues = (
   params?: {
@@ -9,18 +9,18 @@ export const getMessageQueues = (
     limit?: number
   },
   config?: any,
-): Promise<ListDataWithCursor<MessageQueue>> => {
+): Promise<ListDataWithCursor<MessageQueueItem>> => {
   return http.get('/queues', { params, ...config })
 }
 
-export const createMessageQueue = (data: MessageQueue): Promise<MessageQueue> => {
+export const createMessageQueue = (data: MessageQueue): Promise<MessageQueueItem> => {
   return http.post('/queues', data)
 }
 
 export const updateMessageQueue = (
   name: string,
-  data: Omit<MessageQueue, 'name' | 'topic_filter'>,
-): Promise<MessageQueue> => {
+  data: MessageQueueUpdate,
+): Promise<MessageQueueItem> => {
   return http.put(`/queue/${encodeURIComponent(name)}`, data)
 }
 

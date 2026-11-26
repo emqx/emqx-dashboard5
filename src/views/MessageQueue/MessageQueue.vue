@@ -9,6 +9,10 @@
             <Settings class="mr-2" />
             {{ t('Base.setting') }}
           </LinkButton>
+          <RefreshButton
+            :disabled="loading || !$hasPermission('get')"
+            @click="loadMessageQueues(true)"
+          />
           <CreateButton @click="handleCreate" />
         </div>
 
@@ -20,7 +24,12 @@
         >
           <el-table-column prop="name" :label="t('Base.name')">
             <template #default="{ row }">
-              <span>{{ row.name }}</span>
+              <div class="flex flex-wrap items-center gap-1">
+                <span>{{ row.name }}</span>
+                <el-tag v-if="row.deleted_at" size="small" type="info">
+                  {{ t('Base.deleting') }}
+                </el-tag>
+              </div>
             </template>
           </el-table-column>
 
@@ -49,7 +58,10 @@
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="160">
             <template #default="{ row }">
-              <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
+              <TableButton
+                :disabled="row.deleted_at || !$hasPermission('put')"
+                @click="handleEdit(row)"
+              >
                 {{ t('Base.edit') }}
               </TableButton>
               <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
@@ -122,16 +134,18 @@ const loadMQEnabled = async () => {
   }
 }
 
-const loadMessageQueues = async (isBack?: boolean) => {
+const loadMessageQueues = async (resetIfEmpty = false): Promise<void> => {
   try {
     loading.value = true
     const { data = [], meta = {} } = await getMessageQueues(pageParams.value)
+    if (resetIfEmpty && page.value !== 1 && data.length === 0) {
+      ElMessage.warning(t('Clients.pageJumpTip'))
+      page.value = 1
+      await loadMessageQueues()
+      return
+    }
     messageQueues.value = data
     setCursor(page.value + 1, meta.cursor)
-    if (isBack && page.value !== 1 && data.length === 0) {
-      ElMessage.warning(t('Clients.pageJumpTip'))
-      handlePageChange(1)
-    }
   } catch (error) {
     messageQueues.value = []
   } finally {
@@ -165,8 +179,12 @@ const handleEdit = (messageQueue: MessageQueue) => {
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (messageQueue: MessageQueue) => {
   const confirmText = tl('deleteTip', { name: messageQueue.name })
-  await confirmDel(() => deleteMessageQueue(messageQueue.name), confirmText)
-  loadMessageQueues()
+  await confirmDel(
+    () => deleteMessageQueue(messageQueue.name),
+    confirmText,
+    t('Base.deleteRequested'),
+  )
+  await loadMessageQueues(true)
 }
 
 ;(async () => {

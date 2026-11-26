@@ -122,7 +122,7 @@
             </el-tooltip>
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="12">
           <el-form-item prop="limits.on_full">
             <template #label>
               <FormItemLabel :label="tl('fullPolicy')" :desc="tl('fullPolicyDesc')" />
@@ -160,6 +160,7 @@ import {
   MessageQueueDispatchStrategyValue,
   MessageQueueFullPolicy,
   type MessageQueue,
+  type MessageQueueItem,
 } from '@/types/typeAlias'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
@@ -167,7 +168,7 @@ const { t, tl } = useI18nTl('MessageQueue')
 
 interface Props {
   modelValue: boolean
-  queue?: MessageQueue
+  queue?: MessageQueueItem
 }
 
 interface Emits {
@@ -267,7 +268,9 @@ const handleSubmit = async () => {
 
 const handleOpen = () => {
   if (isEdit.value && props.queue) {
-    form.value = cloneDeep(props.queue)
+    const queue = cloneDeep(props.queue)
+    delete queue.deleted_at
+    form.value = queue
     form.value.limits.on_full ??= MessageQueueFullPolicy.evict
     if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
       form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)

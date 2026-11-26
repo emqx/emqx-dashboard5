@@ -1,6 +1,11 @@
 import http from '@/common/http'
 import { CursorParams, ListDataWithCursor } from '@/types/common'
-import { MessageStreamConfig, MessageStreamItem } from '@/types/typeAlias'
+import type {
+  MessageStreamConfig,
+  MessageStreamCreate,
+  MessageStreamItem,
+  MessageStreamUpdate,
+} from '@/types/typeAlias'
 
 export const getMessageStreamsConfig = (): Promise<MessageStreamConfig> => {
   return http.get(`/streams/config`)
@@ -17,7 +22,7 @@ export const getMessageStreamList = (
   return http.get(`/streams`, { params, ...config })
 }
 
-export const postMessageStream = (data: MessageStreamItem): Promise<MessageStreamItem> => {
+export const postMessageStream = (data: MessageStreamCreate): Promise<MessageStreamItem> => {
   return http.post(`/streams`, data)
 }
 
@@ -27,7 +32,7 @@ export const deleteMessageStream = (name: string): Promise<void> => {
 
 export const putMessageStream = (
   name: string,
-  data: Omit<MessageStreamItem, 'name' | 'topic_filter'>,
+  data: MessageStreamUpdate,
 ): Promise<MessageStreamItem> => {
   return http.put(`/stream/${encodeURIComponent(name)}`, data)
 }

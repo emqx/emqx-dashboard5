@@ -9,6 +9,10 @@
             <Settings class="mr-2" />
             {{ t('Base.setting') }}
           </LinkButton>
+          <RefreshButton
+            :disabled="loading || !$hasPermission('get')"
+            @click="loadMessageStreams(true)"
+          />
           <CreateButton @click="handleCreate" />
         </div>
 
@@ -18,7 +22,16 @@
           class="data-table"
           :default-sort="{ prop: 'name', order: 'ascending' }"
         >
-          <el-table-column prop="name" :label="t('Base.name')" />
+          <el-table-column prop="name" :label="t('Base.name')">
+            <template #default="{ row }">
+              <div class="flex flex-wrap items-center gap-1">
+                <span>{{ row.name }}</span>
+                <el-tag v-if="row.deleted_at" size="small" type="info">
+                  {{ t('Base.deleting') }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
 
           <el-table-column prop="topic_filter" :label="t('MessageQueue.topicFilter')">
             <template #default="{ row }">
@@ -42,7 +55,10 @@
           </el-table-column>
           <el-table-column :label="t('Base.operation')" width="160">
             <template #default="{ row }">
-              <TableButton :disabled="!$hasPermission('put')" @click="handleEdit(row)">
+              <TableButton
+                :disabled="row.deleted_at || !$hasPermission('put')"
+                @click="handleEdit(row)"
+              >
                 {{ t('Base.edit') }}
               </TableButton>
               <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
@@ -123,16 +139,18 @@ const loadMSEnabled = async () => {
   }
 }
 
-const loadMessageStreams = async (isBack?: boolean) => {
+const loadMessageStreams = async (resetIfEmpty = false): Promise<void> => {
   try {
     loading.value = true
     const { data = [], meta = {} } = await getMessageStreamList(pageParams.value)
+    if (resetIfEmpty && page.value !== 1 && data.length === 0) {
+      ElMessage.warning(t('Clients.pageJumpTip'))
+      page.value = 1
+      await loadMessageStreams()
+      return
+    }
     messageStreams.value = data
     setCursor(page.value + 1, meta.cursor)
-    if (isBack && page.value !== 1 && data.length === 0) {
-      ElMessage.warning(t('Clients.pageJumpTip'))
-      handlePageChange(1)
-    }
   } catch (error) {
     messageStreams.value = []
   } finally {
@@ -164,8 +182,8 @@ const handleEdit = (stream: MessageStreamItem) => {
 const { confirmDel } = useOperationConfirm()
 const handleDelete = async (stream: MessageStreamItem) => {
   const confirmText = tl('deleteTip', { name: stream.name })
-  await confirmDel(() => deleteMessageStream(stream.name), confirmText)
-  loadMessageStreams()
+  await confirmDel(() => deleteMessageStream(stream.name), confirmText, t('Base.deleteRequested'))
+  await loadMessageStreams(true)
 }
 
 ;(async () => {
