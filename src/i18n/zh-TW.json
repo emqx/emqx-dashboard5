@@ -1966,6 +1966,10 @@
     "mqDisabledTip": "佇列未啟用，請先啟用該功能。",
     "createMQQueue": "建立佇列",
     "limiter": "訊息限制",
+    "fullPolicy": "佇列滿載策略",
+    "fullPolicyDesc": "達到分片容量上限時，淘汰策略會接收新訊息，隨後移除舊訊息；拒絕策略會拒絕超出上限的新訊息。佇列建立後無法更改此策略。",
+    "evictOldMessages": "淘汰舊訊息",
+    "rejectNewMessages": "拒絕新訊息",
     "limitsDisabledTip": "常規佇列訊息限制無法在無限制和有限之間切換"
   },
   "MessageStream": {

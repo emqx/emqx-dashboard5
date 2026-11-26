@@ -152,6 +152,11 @@ export default (
     fieldStartIndex,
   )
 
+  const emqxTablesOrderMap = createOrderObj(
+    getPathArrInParameters(['precision', 'write_syntax', 'field_types']),
+    fieldStartIndex,
+  )
+
   const mqttOrderMap = createOrderObj(
     getPathArrInParameters(['topic', 'qos', 'retain', 'retain_as_published', 'payload']),
     fieldStartIndex,
@@ -268,7 +273,7 @@ export default (
       fieldStartIndex,
     ),
     [BridgeType.GreptimeDB]: greptimeDBOrderMap,
-    [BridgeType.EMQXTables]: greptimeDBOrderMap,
+    [BridgeType.EMQXTables]: emqxTablesOrderMap,
     [BridgeType.SysKeeperForwarder]: createOrderObj(
       getPathArrInParameters(['target_topic', 'target_qos', 'template']),
       fieldStartIndex,
