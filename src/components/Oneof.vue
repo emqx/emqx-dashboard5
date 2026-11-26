@@ -1,8 +1,9 @@
-<!-- ❗️If the form currently using the oneof component contains form validation 
-  and the current field is a required field, please directly place the oneof 
-  component in the form item component or bind to the formItem property. 
+<!--
+  When switching modes in a validated form, Oneof clears the field's validation state.
+  It uses the nearest ElFormItem by default, even when wrapped in another component.
+  Pass formItem to specify a different form item.
 
-  Different from src/components/OneofRefs.vue, this components handles simple oneof
+  Different from src/components/OneofRefs.vue, this component handles simple oneof
   - item of oneof is not an object
   - there are only two options for oneof
 -->
@@ -17,6 +18,7 @@
         v-model="switchProxy"
         :inactive-value="(oneOfInfo as any).valueDisabled"
         :disabled="disabled || switchDisabled"
+        :validate-event="false"
       />
       <span class="tip" v-if="valueProxy === oneOfInfo.valueDisabled">
         {{ disabledLabel || valueProxy }}
@@ -88,7 +90,7 @@
 
 <script setup lang="ts">
 import { Properties, Property } from '@/types/schemaForm'
-import { ElFormItem } from 'element-plus'
+import { formItemContextKey, type ElFormItem } from 'element-plus'
 import CustomInputNumber from './CustomInputNumber.vue'
 import InputWithUnit from './InputWithUnit.vue'
 import TimeInputWithUnitSelect from './TimeInputWithUnitSelect.vue'
@@ -131,6 +133,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+const parentFormItem = inject(formItemContextKey, undefined)
 
 const oneOfInfo: ComputedRef<{ valueDisabled: any; propEnabled: any }> = computed(() => {
   if (!Array.isArray(props.items) || props.items.length !== 2) {
@@ -185,23 +188,14 @@ const isDisabled = computed(() => {
   const { valueDisabled } = oneOfInfo.value
   return valueDisabled !== undefined && valueProxy.value === valueDisabled
 })
-const currentIns = getCurrentInstance()
-/**
- * Hack for prevent the input from turning red due to triggering
- * form validation after setting modelValue to null following enable.
- */
-watch(isDisabled, async (val) => {
-  const formItem = props.formItem || currentIns?.parent?.exposed
-  if (isFunction(formItem?.clearValidate)) {
-    await nextTick()
-    if (!val) {
-      // Waiting for the form input box to render
-      // field expired interval in session conf
-      await nextTick()
-    }
+watch(
+  isDisabled,
+  () => {
+    const formItem = props.formItem ?? parentFormItem
     formItem?.clearValidate()
-  }
-})
+  },
+  { flush: 'post' },
+)
 </script>
 
 <style lang="scss">

@@ -150,11 +150,13 @@ import {
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
 import type {
+  GetQueues200Item,
   MqApiConfigPut,
   MqMessageQueueRegularApiPost,
   MqMessageQueueLastvalueApiPost,
   MqMessageQueueRegularApiPostDispatchStrategy,
   MqMqIndividualLimits,
+  PutQueueNameBody,
 } from './schemas/messageQueue.schemas'
 import type {
   TopicMetrics2CollectionCreate,
@@ -167,11 +169,13 @@ import {
 } from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tlsManagement.schemas'
-import {
-  StreamsStreamRegularApiGet,
+import type {
+  PostStreamsBody,
+  PutStreamNameBody,
   StreamsApiConfigGet,
   StreamsStreamIndividualLimits,
   StreamsStreamLastvalueApiGet,
+  StreamsStreamRegularApiGet,
 } from './schemas/messageStream.schemas'
 import { EmqxListenerWssOptsSessionTickets } from './schemas/listeners.schemas'
 import {
@@ -392,6 +396,8 @@ export const SSLHostnameCheck = EmqxSslClientOptsHostnameCheck
 export type MessageQueueRegular = MqMessageQueueRegularApiPost
 export type MessageQueueLastValue = MqMessageQueueLastvalueApiPost
 export type MessageQueue = MessageQueueRegular | MessageQueueLastValue
+export type MessageQueueItem = GetQueues200Item
+export type MessageQueueUpdate = PutQueueNameBody
 export type MessageQueueDispatchStrategy = MqMessageQueueRegularApiPostDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
 export type MessageQueueConfig = MqApiConfigPut
@@ -418,6 +424,8 @@ export type ManagedCertsServer = EmqxManagedCertsServer
 /* MESSAGE STREAM */
 export type MessageStreamConfig = StreamsApiConfigGet
 export type MessageStreamItem = StreamsStreamRegularApiGet | StreamsStreamLastvalueApiGet
+export type MessageStreamCreate = PostStreamsBody
+export type MessageStreamUpdate = PutStreamNameBody
 export type MessageStreamLimits = StreamsStreamIndividualLimits
 
 /* A2A */

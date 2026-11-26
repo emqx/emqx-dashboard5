@@ -107,6 +107,10 @@ export default {
     zh: '删除',
     en: 'Delete',
   },
+  deleting: {
+    zh: '删除中',
+    en: 'Deleting',
+  },
   stop: {
     zh: '停用',
     en: 'Stop',
@@ -126,6 +130,10 @@ export default {
   deleteSuccess: {
     zh: '删除成功',
     en: 'Deleted Successfully',
+  },
+  deleteRequested: {
+    zh: '已提交删除请求',
+    en: 'Deletion Requested',
   },
   updateSuccess: {
     zh: '更新成功',

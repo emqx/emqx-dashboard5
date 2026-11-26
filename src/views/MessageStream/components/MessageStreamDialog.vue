@@ -134,7 +134,7 @@ import { postMessageStream, putMessageStream } from '@/api/messageStream'
 import { MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
 import useMessageStream from '@/hooks/MessageStream/useMessageStream'
-import { type MessageStreamItem } from '@/types/typeAlias'
+import type { MessageStreamCreate, MessageStreamItem } from '@/types/typeAlias'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
 interface Props {
@@ -160,20 +160,19 @@ const dialogVisible = computed({
 const isEdit = computed(() => !!props.stream)
 const title = computed(() => (isEdit.value ? tl('editMessageStream') : tl('createMessageStream')))
 
-const createEmptyForm = (): MessageStreamItem =>
-  ({
-    name: '',
-    topic_filter: '',
-    data_retention_period: '7d',
-    is_lastvalue: true,
-    key_expression: 'message.from',
-    limits: {
-      max_shard_message_count: 'infinity',
-      max_shard_message_bytes: 'infinity',
-    },
-  }) as MessageStreamItem
+const createEmptyForm = (): MessageStreamCreate => ({
+  name: '',
+  topic_filter: '',
+  data_retention_period: '7d',
+  is_lastvalue: true,
+  key_expression: 'message.from',
+  limits: {
+    max_shard_message_count: 'infinity',
+    max_shard_message_bytes: 'infinity',
+  },
+})
 
-const form = ref<MessageStreamItem>(createEmptyForm())
+const form = ref<MessageStreamCreate>(createEmptyForm())
 
 const formRef = ref<FormInstance>()
 const submitting = ref(false)
@@ -236,7 +235,9 @@ const handleSubmit = async () => {
 
 const handleOpen = () => {
   if (isEdit.value && props.stream) {
-    form.value = cloneDeep(props.stream)
+    const stream = cloneDeep(props.stream)
+    delete stream.deleted_at
+    form.value = stream
     if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
       form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)
     }
