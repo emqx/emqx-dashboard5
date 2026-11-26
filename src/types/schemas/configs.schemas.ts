@@ -1069,6 +1069,8 @@ export interface EmqxMqtt {
    */
   max_topic_levels?: number
   message_expiry_interval?: EmqxMqttMessageExpiryInterval
+  /** @minimum 200 */
+  min_heap_size?: number
   minor_gc_after?: EmqxMqttMinorGcAfter
   mqueue_default_priority?: EmqxMqttMqueueDefaultPriority
   mqueue_priorities?: EmqxMqttMqueuePriorities
@@ -1084,6 +1086,7 @@ export interface EmqxMqtt {
   shared_subscription?: boolean
   shared_subscription_initial_sticky_pick?: EmqxMqttSharedSubscriptionInitialStickyPick
   shared_subscription_strategy?: EmqxMqttSharedSubscriptionStrategy
+  stats_emit_interval?: string
   strict_mode?: boolean
   subscription_message_filter?: EmqxMqttSubscriptionMessageFilter
   upgrade_qos?: boolean

@@ -1,5 +1,6 @@
 export type GetPrometheusTopicMetricsParams = {
   mode?: EmqxPrometheusApiModeParameter
+  ns?: EmqxPrometheusApiNsParameter
 }
 
 export type GetPrometheusStatsParams = {

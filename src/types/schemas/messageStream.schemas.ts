@@ -109,6 +109,8 @@ export type PutStreamName400 = {
 
 export type PutStreamName200 = StreamsStreamLastvalueApiGet | StreamsStreamRegularApiGet
 
+export type PutStreamNameBody = StreamsStreamLastvalueApiPut | StreamsStreamRegularApiPut
+
 export type GetStreamName503Code = (typeof GetStreamName503Code)[keyof typeof GetStreamName503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -130,6 +132,18 @@ export const GetStreamName404Code = {
 
 export type GetStreamName404 = {
   code?: GetStreamName404Code
+  message?: string
+}
+
+export type GetStreamName400Code = (typeof GetStreamName400Code)[keyof typeof GetStreamName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetStreamName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetStreamName400 = {
+  code?: GetStreamName400Code
   message?: string
 }
 
@@ -204,6 +218,8 @@ export const StreamsStreamRegularApiGetIsLastvalue = {
 
 export interface StreamsStreamRegularApiGet {
   data_retention_period?: string
+  /** @minimum 0 */
+  deleted_at?: number
   is_lastvalue: StreamsStreamRegularApiGetIsLastvalue
   key_expression: string
   limits: StreamsStreamIndividualLimits
@@ -225,8 +241,6 @@ export interface StreamsStreamLastvalueApiPut {
   key_expression: string
   limits: StreamsStreamIndividualLimits
 }
-
-export type PutStreamNameBody = StreamsStreamLastvalueApiPut | StreamsStreamRegularApiPut
 
 export type StreamsStreamLastvalueApiPostIsLastvalue =
   (typeof StreamsStreamLastvalueApiPostIsLastvalue)[keyof typeof StreamsStreamLastvalueApiPostIsLastvalue]
@@ -280,6 +294,8 @@ export interface StreamsStreamRegularApiPost {
 
 export interface StreamsStreamLastvalueApiGet {
   data_retention_period?: string
+  /** @minimum 0 */
+  deleted_at?: number
   is_lastvalue: StreamsStreamLastvalueApiGetIsLastvalue
   key_expression: string
   limits: StreamsStreamIndividualLimits
