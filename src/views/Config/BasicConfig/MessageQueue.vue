@@ -137,6 +137,24 @@
                 v-model="queueConfig.auto_create.lastvalue.limits"
                 conf="queue"
               />
+              <el-col :span="21" class="custom-col">
+                <el-form-item prop="auto_create.lastvalue.limits.on_full">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('MessageQueue.fullPolicy')"
+                      :desc="t('MessageQueue.fullPolicyDesc')"
+                    />
+                  </template>
+                  <el-select v-model="queueConfig.auto_create.lastvalue.limits.on_full">
+                    <el-option
+                      v-for="{ value, label } in fullPolicyOptions"
+                      :key="value"
+                      :label="label"
+                      :value="value"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </template>
             <!-- REGULAR CONF -->
             <template v-if="typeof queueConfig.auto_create.regular === 'object'">
@@ -173,6 +191,24 @@
                 v-model="queueConfig.auto_create.regular.limits"
                 conf="queue"
               />
+              <el-col :span="21" class="custom-col">
+                <el-form-item prop="auto_create.regular.limits.on_full">
+                  <template #label>
+                    <FormItemLabel
+                      :label="t('MessageQueue.fullPolicy')"
+                      :desc="t('MessageQueue.fullPolicyDesc')"
+                    />
+                  </template>
+                  <el-select v-model="queueConfig.auto_create.regular.limits.on_full">
+                    <el-option
+                      v-for="{ value, label } in fullPolicyOptions"
+                      :key="value"
+                      :label="label"
+                      :value="value"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </template>
             <el-col :span="24" class="btn-col">
               <el-button
@@ -193,7 +229,11 @@
 
 <script setup lang="ts">
 import { getMessageQueueConfigs, putMessageQueueConfigs } from '@/api/config'
-import { MessageQueueConfig, MessageQueueLimits } from '@/types/typeAlias'
+import {
+  MessageQueueFullPolicy,
+  type MessageQueueConfig,
+  type MessageQueueLimits,
+} from '@/types/typeAlias'
 import MessageQueueStreamLimits from './components/MessageQueueStreamLimits.vue'
 
 const { t, tl } = useI18nTl('BasicConfig')
@@ -205,6 +245,7 @@ let rawData: any = undefined
 
 const createDefaultLimits = (): { limits: MessageQueueLimits } => ({
   limits: {
+    on_full: MessageQueueFullPolicy.evict,
     max_shard_message_bytes: 'infinity',
     max_shard_message_count: 'infinity',
   },
@@ -285,7 +326,12 @@ const createDefaultAutoCreateLastvalue = (): MessageQueueConfig['auto_create']['
   key_expression: 'message.from',
   ...createDefaultLimits(),
 })
-const { dispatchStrategyOptions, descForKeyExpression, getQueueEnabledFromList } = useMessageQueue()
+const {
+  dispatchStrategyOptions,
+  fullPolicyOptions,
+  descForKeyExpression,
+  getQueueEnabledFromList,
+} = useMessageQueue()
 
 const messageQueueForm = ref()
 const { createRequiredRule } = useFormRules()
@@ -300,6 +346,9 @@ const loadData = async () => {
   try {
     configLoading.value = true
     const res = await getMessageQueueConfigs()
+    for (const defaults of Object.values(res.auto_create)) {
+      if (defaults) defaults.limits.on_full ??= MessageQueueFullPolicy.evict
+    }
     if (res.enable === 'auto') {
       res.enable = await getQueueEnabledFromList()
     }

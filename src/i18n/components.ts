@@ -439,11 +439,11 @@ export default {
     zh: '规则引擎安全',
     en: 'Rule Engine Security',
   },
-  'message-queue': {
+  queues: {
     zh: '队列',
     en: 'Queues',
   },
-  'message-stream': {
+  streams: {
     zh: '流',
     en: 'Streams',
   },
