@@ -122,6 +122,21 @@
             </el-tooltip>
           </el-form-item>
         </el-col>
+        <el-col :span="24">
+          <el-form-item prop="limits.on_full">
+            <template #label>
+              <FormItemLabel :label="tl('fullPolicy')" :desc="tl('fullPolicyDesc')" />
+            </template>
+            <el-select v-model="form.limits.on_full" :disabled="isEdit">
+              <el-option
+                v-for="{ value, label } in fullPolicyOptions"
+                :key="value"
+                :label="label"
+                :value="value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -141,7 +156,11 @@ import { createMessageQueue, updateMessageQueue } from '@/api/messageQueue'
 import { MESSAGE_QUEUE_NAME_REG } from '@/common/constants'
 import { transMsNumToDuration } from '@/common/tools'
 import TimeInputWithUnitSelect from '@/components/TimeInputWithUnitSelect.vue'
-import { MessageQueueDispatchStrategyValue, type MessageQueue } from '@/types/typeAlias'
+import {
+  MessageQueueDispatchStrategyValue,
+  MessageQueueFullPolicy,
+  type MessageQueue,
+} from '@/types/typeAlias'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
 const { t, tl } = useI18nTl('MessageQueue')
@@ -175,6 +194,7 @@ const createEmptyForm = (): MessageQueue => ({
   is_lastvalue: true,
   key_expression: 'message.from',
   limits: {
+    on_full: MessageQueueFullPolicy.evict,
     max_shard_message_count: 'infinity',
     max_shard_message_bytes: 'infinity',
   },
@@ -203,7 +223,7 @@ const rules = computed<FormRules>(() => {
   }
 })
 
-const { dispatchStrategyOptions, descForKeyExpression } = useMessageQueue()
+const { dispatchStrategyOptions, fullPolicyOptions, descForKeyExpression } = useMessageQueue()
 
 const resetForm = () => {
   form.value = createEmptyForm()
@@ -248,6 +268,7 @@ const handleSubmit = async () => {
 const handleOpen = () => {
   if (isEdit.value && props.queue) {
     form.value = cloneDeep(props.queue)
+    form.value.limits.on_full ??= MessageQueueFullPolicy.evict
     if (form.value.data_retention_period && typeof form.value.data_retention_period === 'number') {
       form.value.data_retention_period = transMsNumToDuration(form.value.data_retention_period)
     }

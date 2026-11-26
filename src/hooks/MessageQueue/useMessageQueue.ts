@@ -1,5 +1,9 @@
 import { getMessageQueues } from '@/api/messageQueue'
-import { MessageQueueDispatchStrategy, MessageQueueDispatchStrategyValue } from '@/types/typeAlias'
+import {
+  MessageQueueDispatchStrategy,
+  MessageQueueDispatchStrategyValue,
+  MessageQueueFullPolicy,
+} from '@/types/typeAlias'
 
 export const useMessageTemplate = () => {
   const messageTemplate = `<pre>
@@ -65,8 +69,13 @@ const useMessageQueue = () => {
   const getDispatchStrategyLabel = (strategy: MessageQueueDispatchStrategy) => {
     return dispatchStrategyOptions.find((option) => option.value === strategy)?.label
   }
+  const fullPolicyOptions = [
+    { value: MessageQueueFullPolicy.evict, label: tl('evictOldMessages') },
+    { value: MessageQueueFullPolicy.reject, label: tl('rejectNewMessages') },
+  ]
   return {
     dispatchStrategyOptions,
+    fullPolicyOptions,
     getDispatchStrategyLabel,
     descForKeyExpression,
     getQueueEnabledFromList,

@@ -130,12 +130,12 @@ const useMenus = (): {
       children: smartDataHub,
     },
     {
-      title: 'message-queue',
+      title: 'queues',
       icon: Layers,
       path: '/queues',
     },
     {
-      title: 'message-stream',
+      title: 'streams',
       icon: TextAlignCenter,
       path: '/streams',
     },

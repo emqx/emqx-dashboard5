@@ -161,7 +161,10 @@ import type {
   TopicMetrics2CollectionView,
   TopicMetrics2Metrics,
 } from './schemas/mqtt.schemas'
-import { MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue } from './schemas/messageQueue.schemas'
+import {
+  MqMessageQueueRegularApiPostDispatchStrategy as MqMessageQueueDispatchStrategyValue,
+  MqMqIndividualLimitsOnFull,
+} from './schemas/messageQueue.schemas'
 import type { GetTraceNameLog200, GetTraceNameLogParams } from './schemas/trace.schemas'
 import { EmqxMgmtApiCertsBundleOut, EmqxMgmtApiCertsFilesIn } from './schemas/tlsManagement.schemas'
 import {
@@ -393,6 +396,7 @@ export type MessageQueueDispatchStrategy = MqMessageQueueRegularApiPostDispatchS
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
 export type MessageQueueConfig = MqApiConfigPut
 export type MessageQueueLimits = MqMqIndividualLimits
+export const MessageQueueFullPolicy = MqMqIndividualLimitsOnFull
 
 /* LOG TRACE */
 export type GetTraceContentParams = GetTraceNameLogParams

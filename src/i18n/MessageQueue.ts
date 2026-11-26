@@ -111,6 +111,22 @@ The variables can be referenced as follows:
     zh: '消息限制',
     en: 'Limiter',
   },
+  fullPolicy: {
+    zh: '队列满载策略',
+    en: 'Queue Full Policy',
+  },
+  fullPolicyDesc: {
+    zh: '达到分片容量上限时，淘汰策略会接收新消息，随后移除旧消息；拒绝策略会拒绝超出上限的新消息。队列创建后无法更改此策略。',
+    en: 'When a shard reaches its limit, Evict accepts new messages and removes older messages later. Reject refuses new messages that would exceed the limit. The policy is fixed at queue creation.',
+  },
+  evictOldMessages: {
+    zh: '淘汰旧消息',
+    en: 'Evict old messages',
+  },
+  rejectNewMessages: {
+    zh: '拒绝新消息',
+    en: 'Reject new messages',
+  },
   limitsDisabledTip: {
     zh: '常规队列消息限制无法在无限制和有限之间切换',
     en: 'Regular queues cannot be updated from limited to unlimited and vice versa',
