@@ -71,6 +71,49 @@ export type GetQueuesParams = {
   limit?: PublicLimitParameter
 }
 
+export type DeleteQueueNameMessages503Code =
+  (typeof DeleteQueueNameMessages503Code)[keyof typeof DeleteQueueNameMessages503Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueNameMessages503Code = {
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const
+
+export type DeleteQueueNameMessages503 = {
+  code?: DeleteQueueNameMessages503Code
+  message?: string
+}
+
+export type DeleteQueueNameMessages404Code =
+  (typeof DeleteQueueNameMessages404Code)[keyof typeof DeleteQueueNameMessages404Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueNameMessages404Code = {
+  NOT_FOUND: 'NOT_FOUND',
+} as const
+
+export type DeleteQueueNameMessages404 = {
+  code?: DeleteQueueNameMessages404Code
+  message?: string
+}
+
+export type DeleteQueueNameMessages400Code =
+  (typeof DeleteQueueNameMessages400Code)[keyof typeof DeleteQueueNameMessages400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteQueueNameMessages400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type DeleteQueueNameMessages400 = {
+  code?: DeleteQueueNameMessages400Code
+  message?: string
+}
+
+export type DeleteQueueNameMessagesParams = {
+  before?: string | number
+}
+
 export type PutQueueName503Code = (typeof PutQueueName503Code)[keyof typeof PutQueueName503Code]
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -135,6 +178,18 @@ export type GetQueueName404 = {
   message?: string
 }
 
+export type GetQueueName400Code = (typeof GetQueueName400Code)[keyof typeof GetQueueName400Code]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetQueueName400Code = {
+  BAD_REQUEST: 'BAD_REQUEST',
+} as const
+
+export type GetQueueName400 = {
+  code?: GetQueueName400Code
+  message?: string
+}
+
 export type GetQueueName200 = MqMessageQueueLastvalueApiGet | MqMessageQueueRegularApiGet
 
 export type DeleteQueueName503Code =
@@ -180,6 +235,15 @@ export type PublicLimitParameter = number
 
 export type PublicCursorParameter = string
 
+export type MqMqIndividualLimitsOnFull =
+  (typeof MqMqIndividualLimitsOnFull)[keyof typeof MqMqIndividualLimitsOnFull]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MqMqIndividualLimitsOnFull = {
+  evict: 'evict',
+  reject: 'reject',
+} as const
+
 export type MqMqIndividualLimitsMaxShardMessageCount = 'infinity' | number
 
 export type MqMqIndividualLimitsMaxShardMessageBytes = 'infinity' | string
@@ -187,6 +251,7 @@ export type MqMqIndividualLimitsMaxShardMessageBytes = 'infinity' | string
 export interface MqMqIndividualLimits {
   max_shard_message_bytes: MqMqIndividualLimitsMaxShardMessageBytes
   max_shard_message_count: MqMqIndividualLimitsMaxShardMessageCount
+  on_full: MqMqIndividualLimitsOnFull
 }
 
 export type MqMessageQueueRegularApiPostIsLastvalue =
@@ -236,6 +301,8 @@ export const MqMessageQueueRegularApiGetDispatchStrategy = {
 
 export interface MqMessageQueueRegularApiGet {
   data_retention_period?: string
+  /** @minimum 0 */
+  deleted_at?: number
   dispatch_strategy?: MqMessageQueueRegularApiGetDispatchStrategy
   is_lastvalue: MqMessageQueueRegularApiGetIsLastvalue
   limits: MqMqIndividualLimits
@@ -291,6 +358,8 @@ export const MqMessageQueueLastvalueApiGetDispatchStrategy = {
 
 export interface MqMessageQueueLastvalueApiGet {
   data_retention_period?: string
+  /** @minimum 0 */
+  deleted_at?: number
   dispatch_strategy?: MqMessageQueueLastvalueApiGetDispatchStrategy
   is_lastvalue: MqMessageQueueLastvalueApiGetIsLastvalue
   key_expression: string

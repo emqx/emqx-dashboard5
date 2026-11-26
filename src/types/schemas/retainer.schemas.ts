@@ -133,6 +133,8 @@ export interface RetainerRetainer {
   backend?: RetainerMnesiaConfig
   delivery_rate?: string
   enable?: boolean
+  /** @minimum 1 */
+  max_dispatcher_queue_length?: number
   max_payload_size?: string
   max_publish_rate?: string
   msg_clear_interval?: string
