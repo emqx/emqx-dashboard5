@@ -721,7 +721,31 @@ export default (
     return { components, rules }
   }
 
+  const natsHandler: Handler = ({ components, rules }) => {
+    const parameters = components.parameters?.properties
+    if (parameters) {
+      const headerProperties = parameters.headers?.items?.properties
+      const i18nPrefix = getI18nPrefix(BridgeType.NATS)
+      Object.entries(headerProperties ?? {}).forEach(([key, property]) =>
+        setLabelAndDesc(property, `${i18nPrefix}${key}`),
+      )
+      for (const key of ['subject', 'msg_id_template']) {
+        if (parameters[key]) {
+          parameters[key].type = 'string'
+          parameters[key].format = undefined
+          parameters[key].is_template = true
+        }
+      }
+      if (parameters.payload_template) {
+        parameters.payload_template.format = 'sql'
+        setComponentProps(parameters.payload_template, { lang: 'plaintext' })
+      }
+    }
+    return { components, rules }
+  }
+
   const specialBridgeHandlerMap: Record<string, Handler> = {
+    [BridgeType.NATS]: natsHandler,
     [BridgeType.Zerobus]: zerobusHandler,
     [BridgeType.MQTT]: mqttHandler,
     [BridgeType.Webhook]: httpHandler,
