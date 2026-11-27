@@ -743,7 +743,6 @@
 
 /* Message */
 .el-message {
-  align-items: flex-start;
   padding: 16px;
   border-radius: var(--border-radius-small);
   box-shadow: var(--el-notification-shadow);
@@ -758,7 +757,6 @@
     word-break: normal;
   }
   .el-message__closeBtn {
-    transform: translateY(3px);
     color: #343741;
     font-size: 14px;
   }

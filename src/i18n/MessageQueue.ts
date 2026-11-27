@@ -86,6 +86,54 @@ The variables can be referenced as follows:
     zh: '确定删除名为 {name} 的队列吗？',
     en: 'Confirm to delete queue with name {name}?',
   },
+  purgeMessages: {
+    zh: '清理消息',
+    en: 'Purge Messages',
+  },
+  purgeTarget: {
+    zh: '队列：{name}',
+    en: 'Queue: {name}',
+  },
+  purgeScope: {
+    zh: '清理范围',
+    en: 'Purge Scope',
+  },
+  purgeAllMessages: {
+    zh: '全部消息',
+    en: 'All messages',
+  },
+  purgeMessagesBefore: {
+    zh: '指定时间之前的消息',
+    en: 'Messages stored before a specified time',
+  },
+  purgeCutoffTime: {
+    zh: '截止时间',
+    en: 'Cutoff Time',
+  },
+  oneHourAgo: {
+    zh: '1 小时前',
+    en: '1 hour ago',
+  },
+  twentyFourHoursAgo: {
+    zh: '24 小时前',
+    en: '24 hours ago',
+  },
+  threeDaysAgo: {
+    zh: '3 天前',
+    en: '3 days ago',
+  },
+  purgeWarning: {
+    zh: '清理后的消息无法恢复。队列和消费进度会保留，已派发的消息仍可能送达。',
+    en: 'Purged messages cannot be recovered. The queue and its consumer progress are preserved. Messages already dispatched to subscribers may still arrive.',
+  },
+  confirmPurge: {
+    zh: '确认清理',
+    en: 'Confirm Purge',
+  },
+  purgeRequested: {
+    zh: '已提交清理请求',
+    en: 'Purge Request Submitted',
+  },
   // Guidance component
   createFirstMQTitle: {
     zh: '创建您的第一个 EMQX 队列',
