@@ -13,9 +13,17 @@ export default {
     label: '空閒逾時',
     desc: '新連線等待用戶端 CONNECT 封包的最長時間，預設 15 秒。超過此時間仍未收到 CONNECT 封包，連線將斷開。已建立連線的休眠時間由 `hibernate_after` 控制。',
   },
+  stats_emit_interval: {
+    label: '連線統計更新間隔',
+    desc: 'EMQX 更新作用中的 MQTT 連線的通訊端位元組計數、傳送佇列大小和會話統計的間隔，預設 60 秒。封包和訊息計數隨封包收發獨立更新。',
+  },
   hibernate_after: {
     label: '連線休眠等待時間',
     desc: '已建立的 TCP、TLS、WS 和 WSS 連線在無活動後進入休眠的等待時間，預設 5 秒。休眠會觸發垃圾回收並縮小行程堆，以節省記憶體；收到封包、訊息或定時器事件時，連線會喚醒。\n\n設為 `infinity` 可停用休眠。如果用戶端傳送資料的間隔接近此值，建議增大該值，以避免頻繁休眠帶來的垃圾回收開銷。此設定不影響等待 CONNECT 封包的逾時時間。QUIC 監聽器自身的 `hibernate_after` 設定優先。',
+  },
+  min_heap_size: {
+    label: '最小連線堆大小',
+    desc: 'TCP 和 TLS 監聽器上新建 MQTT 連線行程的最小堆大小，以字（word）為單位。最小值為 200，預設值為 610。執行階段會將該值向上取整為支援的堆大小。',
   },
   minor_gc_after: {
     label: '新生代垃圾回收等待時間',
