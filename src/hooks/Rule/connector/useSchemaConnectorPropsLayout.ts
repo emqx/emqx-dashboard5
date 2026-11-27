@@ -116,6 +116,7 @@ export default (
     ...createOrderObj(
       [
         'bootstrap_hosts',
+        'kafka_client_id',
         'authentication',
         'authentication.username',
         'authentication.password',
