@@ -198,7 +198,9 @@ export interface Zone {
 
 export interface Mqtt {
   idle_timeout: string
+  stats_emit_interval?: string
   hibernate_after?: EmqxMqttHibernateAfter
+  min_heap_size?: number
   minor_gc_after?: EmqxMqttMinorGcAfter
   max_packet_size: string
   max_connect_packet_size?: string

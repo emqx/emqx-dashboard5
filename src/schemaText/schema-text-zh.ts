@@ -14,9 +14,17 @@ export default {
     desc: '新连接等待客户端 CONNECT 报文的最长时间，默认 15 秒。超过此时间仍未收到 CONNECT 报文，连接将断开。已建立连接的休眠时间由 `hibernate_after` 控制。',
     label: '空闲超时',
   },
+  stats_emit_interval: {
+    desc: 'EMQX 更新活跃 MQTT 连接的套接字字节计数、发送队列大小和会话统计的间隔，默认 60 秒。报文和消息计数随报文收发独立更新。',
+    label: '连接统计更新间隔',
+  },
   hibernate_after: {
     desc: '已建立的 TCP、TLS、WS、WSS 或 QUIC 连接在无活动后进入休眠的等待时间，默认 5 秒。休眠会触发垃圾回收并缩小进程堆，以节省内存；收到报文、消息或定时器事件时，连接会唤醒。\n\n设为 `infinity` 可禁用休眠。如果客户端发送数据的间隔接近此值，建议增大该值，以避免频繁休眠带来的垃圾回收开销。此配置不影响等待 CONNECT 报文的超时时间。QUIC 连接使用监听器所属 Zone 的 `mqtt.hibernate_after`，QUIC 监听器的 `ssl_options.hibernate_after` 不再生效。',
     label: '连接休眠等待时间',
+  },
+  min_heap_size: {
+    desc: 'TCP 和 TLS 监听器上新建 MQTT 连接进程的最小堆大小，以字（word）为单位。最小值为 200，默认值为 610。运行时会将该值向上取整到支持的堆大小。',
+    label: '最小连接堆大小',
   },
   minor_gc_after: {
     desc: "使用 `socket` 后端的 TCP 连接在进程邮箱无活动后，执行一次新生代垃圾回收（Minor GC）的等待时间。默认为 `infinity`，表示禁用此垃圾回收。设为有限时长时，连接在垃圾回收后开始等待“@:{'ConfigSchema.hibernate_after.label'}”指定的时长。\n\n较短的等待时间可能减少内存使用，但会增加 CPU 开销。此配置不影响使用 `gen_tcp` 后端的连接。",

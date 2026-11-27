@@ -14,9 +14,17 @@ export default {
     desc: 'Maximum time a new connection may wait for the client CONNECT packet. Defaults to 15 seconds. The connection is closed if no CONNECT packet arrives within this time. Hibernation of an established connection is controlled by `hibernate_after`.',
     label: 'Idle Timeout',
   },
+  stats_emit_interval: {
+    desc: 'How often EMQX refreshes the socket byte counters, send queue size, and session statistics of active MQTT connections. Defaults to 60 seconds. Packet and message counters update independently as packets arrive or leave.',
+    label: 'Connection Statistics Update Interval',
+  },
   hibernate_after: {
     desc: "How long an established TCP, TLS, WS, WSS or QUIC connection waits without activity before hibernating. Defaults to 5 seconds. Hibernation runs garbage collection and shrinks the process heap to save memory. The connection wakes up on the next packet, message or timer event.\n\nSet to `infinity` to disable hibernation. Increase this value when client traffic intervals are close to it to avoid the garbage collection overhead of frequent hibernation. This does not affect the timeout for receiving a CONNECT packet. QUIC connections use `mqtt.hibernate_after` of the listener's zone; `ssl_options.hibernate_after` on a QUIC listener has no effect.",
     label: 'Hibernate After',
+  },
+  min_heap_size: {
+    desc: 'Minimum heap size in words for new MQTT connection processes on TCP and TLS listeners. The minimum is 200 words and the default is 610 words. The runtime rounds this value up to a supported heap size.',
+    label: 'Minimum Connection Heap Size',
   },
   minor_gc_after: {
     desc: "How long a TCP connection using the `socket` backend waits without mailbox activity before running a minor garbage collection. Defaults to `infinity`, which disables this collection. For finite values, the connection starts waiting for the timeout specified by “@:{'ConfigSchema.hibernate_after.label'}” after the collection.\n\nA shorter delay may reduce memory usage at the cost of increased CPU usage. This setting does not affect the `gen_tcp` backend.",
