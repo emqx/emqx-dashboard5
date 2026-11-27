@@ -56,13 +56,19 @@
               <span>{{ getIntDurationStr(row.data_retention_period) }}</span>
             </template>
           </el-table-column>
-          <el-table-column :label="t('Base.operation')" width="160">
+          <el-table-column :label="t('Base.operation')" width="280">
             <template #default="{ row }">
               <TableButton
                 :disabled="row.deleted_at || !$hasPermission('put')"
                 @click="handleEdit(row)"
               >
                 {{ t('Base.edit') }}
+              </TableButton>
+              <TableButton
+                :disabled="row.deleted_at || !$hasPermission('delete')"
+                @click="handlePurge(row)"
+              >
+                {{ tl('purgeMessages') }}
               </TableButton>
               <TableButton :disabled="!$hasPermission('delete')" @click="handleDelete(row)">
                 {{ t('Base.delete') }}
@@ -88,6 +94,7 @@
       :queue="currentMessageQueue"
       @submitted="loadMessageQueues"
     />
+    <PurgeQueueMessagesDialog v-model="isPurgeDialogOpen" :queue-name="queueNameToPurge" />
   </div>
 </template>
 
@@ -96,17 +103,18 @@ import { getMessageQueueConfigs } from '@/api/config'
 import { deleteMessageQueue, getMessageQueues } from '@/api/messageQueue'
 import { DEFAULT_PAGE_SIZE_OPT as defaultPageSizeOpt } from '@/common/constants'
 import useMessageQueue from '@/hooks/MessageQueue/useMessageQueue'
-import { MessageQueue } from '@/types/typeAlias'
+import type { MessageQueueItem } from '@/types/typeAlias'
 import { Settings } from 'lucide-vue-next'
 import MessageQueueDialog from './components/MessageQueueDialog.vue'
 import MQGuidance from './components/MQGuidance.vue'
+import PurgeQueueMessagesDialog from './components/PurgeQueueMessagesDialog.vue'
 
 const { t, tl } = useI18nTl('MessageQueue')
 
 const isMQEnabled = ref(true)
 
 const loading = ref(false)
-const messageQueues = ref<MessageQueue[]>([])
+const messageQueues = ref<MessageQueueItem[]>([])
 
 const showPlaceholder = computed(() => !loading.value && (noData.value || !isMQEnabled.value))
 
@@ -114,7 +122,9 @@ const { page, limit, pageParams, hasNext, setCursor } = useCursorPagination()
 const { getIntDurationStr } = useDurationStr()
 
 const isDialogShow = ref(false)
-const currentMessageQueue = ref<MessageQueue | undefined>(undefined)
+const currentMessageQueue = ref<MessageQueueItem>()
+const isPurgeDialogOpen = ref(false)
+const queueNameToPurge = ref('')
 
 const noData = computed(() => messageQueues.value.length === 0 && page.value === 1)
 
@@ -171,13 +181,18 @@ const handleCreate = () => {
   isDialogShow.value = true
 }
 
-const handleEdit = (messageQueue: MessageQueue) => {
+const handleEdit = (messageQueue: MessageQueueItem) => {
   currentMessageQueue.value = messageQueue
   isDialogShow.value = true
 }
 
+const handlePurge = (messageQueue: MessageQueueItem) => {
+  queueNameToPurge.value = messageQueue.name
+  isPurgeDialogOpen.value = true
+}
+
 const { confirmDel } = useOperationConfirm()
-const handleDelete = async (messageQueue: MessageQueue) => {
+const handleDelete = async (messageQueue: MessageQueueItem) => {
   const confirmText = tl('deleteTip', { name: messageQueue.name })
   await confirmDel(
     () => deleteMessageQueue(messageQueue.name),

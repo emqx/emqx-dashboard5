@@ -150,6 +150,7 @@ import {
   AiAnthropicProviderType,
 } from './schemas/aiCompletion.schemas'
 import type {
+  DeleteQueueNameMessagesParams,
   GetQueues200Item,
   MqApiConfigPut,
   MqMessageQueueRegularApiPost,
@@ -398,6 +399,7 @@ export type MessageQueueLastValue = MqMessageQueueLastvalueApiPost
 export type MessageQueue = MessageQueueRegular | MessageQueueLastValue
 export type MessageQueueItem = GetQueues200Item
 export type MessageQueueUpdate = PutQueueNameBody
+export type MessageQueuePurgeParams = DeleteQueueNameMessagesParams
 export type MessageQueueDispatchStrategy = MqMessageQueueRegularApiPostDispatchStrategy
 export const MessageQueueDispatchStrategyValue = MqMessageQueueDispatchStrategyValue
 export type MessageQueueConfig = MqApiConfigPut

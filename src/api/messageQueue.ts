@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import http from '@/common/http'
 import { ListDataWithCursor } from '@/types/common'
-import type { MessageQueue, MessageQueueItem, MessageQueueUpdate } from '@/types/typeAlias'
+import type {
+  MessageQueue,
+  MessageQueueItem,
+  MessageQueuePurgeParams,
+  MessageQueueUpdate,
+} from '@/types/typeAlias'
 
 export const getMessageQueues = (
   params?: {
@@ -26,4 +31,8 @@ export const updateMessageQueue = (
 
 export const deleteMessageQueue = (name: string): Promise<void> => {
   return http.delete(`/queue/${encodeURIComponent(name)}`)
+}
+
+export const purgeMessageQueue = (name: string, params: MessageQueuePurgeParams): Promise<void> => {
+  return http.delete(`/queue/${encodeURIComponent(name)}/messages`, { params })
 }
