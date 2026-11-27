@@ -157,6 +157,17 @@
                 />
               </el-form-item>
             </el-col>
+            <el-col :span="21" class="custom-col">
+              <el-form-item prop="max_dispatcher_queue_length">
+                <template #label>
+                  <FormItemLabel
+                    :label="tl('maxDispatcherQueueLength')"
+                    :desc="tl('maxDispatcherQueueLengthDesc')"
+                  />
+                </template>
+                <CustomInputNumber v-model="retainerConfig.max_dispatcher_queue_length" />
+              </el-form-item>
+            </el-col>
             <!-- <el-col :span="21" class="custom-col">
               <el-form-item prop="dispatch_retry_ttl">
                 <template #label>
@@ -209,6 +220,7 @@ const retainerConfig = ref<Retainer>({
   msg_expiry_interval_override: DISABLED_VALUE,
   allow_never_expire: true,
   delivery_rate: '1000/s',
+  max_dispatcher_queue_length: 50_000,
   max_publish_rate: '1000/s',
   backend: {
     storage_type: 'ram',
@@ -251,6 +263,9 @@ const retainerRules = ref<Record<string, any>>({
     max_retained_messages: validatorRules,
     storage_type: createRequiredRule('Storage', 'select'),
   },
+  max_dispatcher_queue_length: [
+    { required: true, type: 'integer', min: 1, message: t('Auth.positiveIntegerRequired') },
+  ],
   max_payload_size: [...createRequiredRule(tl('maxPayloadSize')), numberRule],
   msg_expiry_interval: [...createRequiredRule(tl('msgExpiryInterval')), numberRule],
   msg_clear_interval: [...createRequiredRule(tl('msgClearInterval')), numberRule],

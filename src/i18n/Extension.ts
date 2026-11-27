@@ -47,6 +47,14 @@ export default {
     zh: '派发保留消息的最大速率',
     en: 'The maximum rate of delivering retained messages',
   },
+  maxDispatcherQueueLength: {
+    zh: '派发队列长度上限',
+    en: 'Dispatcher Queue Length Limit',
+  },
+  maxDispatcherQueueLengthDesc: {
+    zh: '每个派发工作进程中等待处理的保留消息读取请求数上限。队列满时，新的读取请求会被丢弃，对应的订阅不会收到保留消息。',
+    en: 'Maximum number of pending retained-message read requests per dispatcher worker. When the queue is full, new read requests are dropped and the corresponding subscriptions receive no retained messages for those requests.',
+  },
   dispatchRetryTtl: {
     zh: '派发重试 TTL',
     en: 'Dispatch retry TTL',
