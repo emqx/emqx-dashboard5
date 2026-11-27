@@ -1321,6 +1321,8 @@
     "allowNeverExpire": "允許訊息永不過期",
     "deliverRate": "派發速率",
     "deliverRateDesc": "派發保留訊息的最大速率",
+    "maxDispatcherQueueLength": "派發佇列長度上限",
+    "maxDispatcherQueueLengthDesc": "每個派發工作行程中等待處理的保留訊息讀取請求數上限。佇列滿時，新的讀取請求會被丟棄，對應的訂閱不會收到保留訊息。",
     "dispatchRetryTtl": "派發重試 TTL",
     "dispatchRetryTtlDesc": "指定 EMQX 向單個訂閱投遞保留訊息的最長時間。一旦達到時間限制，即使有額外的保留訊息匹配訂閱，投遞過程也將停止。",
     "maxPublishRate": "最大發布速率",
